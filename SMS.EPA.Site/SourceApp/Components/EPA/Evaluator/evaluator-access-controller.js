@@ -14,7 +14,8 @@
         'utilitiesFactory',
         'historyFactory',
         'lockScreenService',
-        'baseUrl'
+        'baseUrl',
+        'currentUserId'
     ];
 
     function evaluatorController(
@@ -27,7 +28,8 @@
         utilitiesFactory,
         historyFactory,
         lockScreenService,
-        baseUrl) {
+        baseUrl,
+        currentUserId) {
         var vm = this;
 
         vm.epaInfos = [];
@@ -37,6 +39,7 @@
         vm.sortBySelfScore = { ascending: false, descending: false };
         vm.filter = {};
         vm.monthlyFilterSelected = false;
+        vm.currentUserId = currentUserId;
 
         function initFilter() {
             var filter = historyFactory.getState();

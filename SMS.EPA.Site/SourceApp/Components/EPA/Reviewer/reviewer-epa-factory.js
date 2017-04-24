@@ -31,8 +31,8 @@
             });
         }
 
-        function getEPAInfoByReviewer(epaId) {
-            return $http.get(baseUrl + 'api/ReviewerEPA/GetEPAInfoByReviewer', { params: { epaId: epaId } });
+        function getEPAInfoByReviewer(epaId, reviewerId) {
+            return $http.get(baseUrl + 'api/ReviewerEPA/GetEPAInfoByReviewer', { params: { epaId: epaId, reviewerId: reviewerId} });
         }
 
         function getGroupByReviewer() {

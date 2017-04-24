@@ -16,7 +16,8 @@
         'notificationFactory',
         'historyFactory',
         'lockScreenService',
-        'baseUrl'
+        'baseUrl',
+        'currentUserId'
     ];
 
     function reviewerController(
@@ -31,7 +32,8 @@
         notificationFactory,
         historyFactory,
         lockScreenService,
-        baseUrl) {
+        baseUrl,
+        currentUserId) {
         var vm = this;
 
         vm.permission = 0;
@@ -45,6 +47,7 @@
         vm.targetTypeEnum = utilitiesFactory.targetType;
         vm.monthlyFilterSelected = false;
         vm.filter = {};
+        vm.currentUserId = currentUserId;
 
         function initFilter() {
             var filter = historyFactory.getState();

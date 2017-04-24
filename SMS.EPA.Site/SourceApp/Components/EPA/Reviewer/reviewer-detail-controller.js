@@ -13,6 +13,7 @@
 
         vm.permission = 0;
         vm.epaId = parseInt($routeParams.id);
+        vm.reviewerId = $routeParams.reviewerId;
         vm.jobGrades = [];
         vm.standardGrades = [];
         vm.policyEnum = utilitiesFactory.policy;
@@ -82,7 +83,7 @@
         };
 
         function getEPAInfoByReviewer() {
-            ReviewerEPAModel.getEPAInfoByReviewer(vm.epaId).then(function () {
+            ReviewerEPAModel.getEPAInfoByReviewer(vm.epaId, vm.reviewerId).then(function () {
                 vm.epaInfo = ReviewerEPAModel.epaInfo;
                 vm.epaInfo.Rowspan = vm.epaInfo.Process.Evaluators.length;
                 vm.epaInfo.Employee.Avatar = baseUrl + vm.epaInfo.Employee.Avatar;

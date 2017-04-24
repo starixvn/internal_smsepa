@@ -67,8 +67,8 @@
             });
         }
 
-        function getEPAInfoByManagement(epaId) {
-            return managementEPAFactory.getEPAInfoByManagement(epaId).success(function (epaInfo) {
+        function getEPAInfoByManagement(epaId, managementId) {
+            return managementEPAFactory.getEPAInfoByManagement(epaId, managementId).success(function (epaInfo) {
                 model.epaInfo = epaInfo;
             }).error(function (response, status) {
                 errorFactory.errorHandle(status);

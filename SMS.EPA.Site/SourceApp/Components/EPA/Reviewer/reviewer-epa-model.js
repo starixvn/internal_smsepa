@@ -73,8 +73,8 @@
             });
         }
 
-        function getEPAInfoByReviewer(epaId) {
-            return reviewerEPAFactory.getEPAInfoByReviewer(epaId).success(function (epaInfo) {
+        function getEPAInfoByReviewer(epaId, reviewerId) {
+            return reviewerEPAFactory.getEPAInfoByReviewer(epaId, reviewerId).success(function (epaInfo) {
                 model.epaInfo = epaInfo;
             }).error(function (response, status) {
                 errorFactory.errorHandle(status);

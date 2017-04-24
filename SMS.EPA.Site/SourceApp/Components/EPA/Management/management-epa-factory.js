@@ -30,8 +30,8 @@
             });
         }
 
-        function getEPAInfoByManagement(epaId) {
-            return $http.get(baseUrl + 'api/ManagementEPA/GetEPAInfoByManagement', { params: { epaId: epaId } });
+        function getEPAInfoByManagement(epaId, managementId) {
+            return $http.get(baseUrl + 'api/ManagementEPA/GetEPAInfoByManagement', { params: { epaId: epaId, managementId: managementId } });
         }
 
         function getGroupByManagement() {

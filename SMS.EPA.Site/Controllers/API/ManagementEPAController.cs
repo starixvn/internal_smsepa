@@ -1,23 +1,23 @@
 ﻿namespace SMS.EPA.Site.Controllers.API
 {
+    using Core.Attribute;
+    using Core.Constants;
+    using Core.Enumerations;
+    using Core.Model;
+    using Criteria;
+    using Model;
+    using Model.Enitites;
+    using Services.Implement;
+    using Services.Interfaces;
     using System.Collections.Generic;
     using System.Net;
     using System.Net.Http;
     using System.Web.Http;
-    using SMS.EPA.Core.Attribute;
-    using SMS.EPA.Core.Constants;
-    using SMS.EPA.Core.Enumerations;
-    using SMS.EPA.Core.Model;
-    using SMS.EPA.Criteria;
-    using SMS.EPA.Model;
-    using SMS.EPA.Model.Enitites;
-    using SMS.EPA.Services.Implement;
-    using SMS.EPA.Services.Interfaces;
 
     public class ManagementEPAController : BaseController
     {
-        private readonly IEmployeeEPAService evaluationService;
-        private readonly IManagementEPAService managementEPAService;
+        private readonly IEmployeeEPAService _evaluationService;
+        private readonly IManagementEPAService _managementEPAService;
 
         public ManagementEPAController()
             : this(null, null)
@@ -28,8 +28,8 @@
             IEmployeeEPAService evaluationService,
             IManagementEPAService managementEPAService)
         {
-            this.evaluationService = evaluationService ?? new EmployeeEPAService();
-            this.managementEPAService = managementEPAService ?? new ManagementEPAService();
+            _evaluationService = evaluationService ?? new EmployeeEPAService();
+            _managementEPAService = managementEPAService ?? new ManagementEPAService();
         }
 
         [HttpGet]
@@ -38,11 +38,11 @@
         {
             var criteria = new GetGroupByEvaluatorOrReviewerOrManagementCriteria()
             {
-                ActorUserId = this.SessionService.EmployeeId,
+                ActorUserId = SessionService.EmployeeId,
                 ProcessId = (int)ProcessType.Management
             };
 
-            return evaluationService.GetGroupByEvaluatorOrReviewerOrManagement(criteria);
+            return _evaluationService.GetGroupByEvaluatorOrReviewerOrManagement(criteria);
         }
 
         [HttpGet]
@@ -53,14 +53,14 @@
         {
             var criteria = new GetMemberByEvaluatorOrReviewerOrManagementCriteria()
             {
-                ActorUserId = this.SessionService.EmployeeId,
+                ActorUserId = SessionService.EmployeeId,
                 ProcessId = (int)ProcessType.Management,
                 GroupId = groupId,
                 IsLocal = isLocal,
                 IsMonthly = false
             };
 
-            return evaluationService.GetMemberByEvaluatorOrReviewerOrManagement(criteria);
+            return _evaluationService.GetMemberByEvaluatorOrReviewerOrManagement(criteria);
         }
 
         [HttpGet]
@@ -73,22 +73,26 @@
         {
             var criteria = new GetEPAByManagementCriteria()
             {
-                ManagementId = this.SessionService.EmployeeId,
+                ManagementId = SessionService.EmployeeId,
                 GroupId = groupId,
                 IsLocal = isLocal,
                 EmployeeIds = employeeIds,
                 StatusProcess = statusProcess
             };
 
-            return managementEPAService.GetEPAByManagement(criteria);
+            return _managementEPAService.GetEPAByManagement(criteria);
         }
 
         [HttpGet]
         [ApiAuthorize(FunctionKey = EPAFunctionKey.Management, Policy = Policy.Read)]
-        public HttpResponseMessage GetEPAInfoByManagement(int epaId)
+        public HttpResponseMessage GetEPAInfoByManagement(int epaId, int? managementId = null)
         {
             EPAModel epaInfo = new EPAModel();
-            int permission = CheckEmployeePermission(epaId);
+
+            var processId = managementId == null ? (int?)ProcessType.Management : null;
+            managementId = managementId ?? SessionService.EmployeeId;
+
+            int permission = CheckEmployeePermission(epaId, managementId.Value, processId);
 
             switch (permission)
             {
@@ -99,10 +103,10 @@
                     var criteria = new GetEPAInfoByManagementCriteria()
                     {
                         EPAId = epaId,
-                        ManagementId = this.SessionService.EmployeeId
+                        ManagementId = SessionService.EmployeeId
                     };
 
-                    epaInfo = managementEPAService.GetEPAInfoByManagement(criteria);
+                    epaInfo = _managementEPAService.GetEPAInfoByManagement(criteria);
 
                     return Request.CreateResponse(HttpStatusCode.OK, epaInfo);
             }
@@ -117,9 +121,9 @@
             if (criteria != null)
             {
                 criteria.ProcessId = (int)ProcessType.Management;
-                criteria.ModifiedBy = this.SessionService.EmployeeId;
+                criteria.ModifiedBy = SessionService.EmployeeId;
 
-                commandResult = managementEPAService.AdjustScoreByManagement(criteria);
+                commandResult = _managementEPAService.AdjustScoreByManagement(criteria);
             }
 
             return commandResult;
@@ -127,20 +131,23 @@
 
         public int GetUserPermissionOnManagement()
         {
-            int permission = this.SessionService.GetPermission(EPAFunctionKey.Management);
+            int permission = SessionService.GetPermission(EPAFunctionKey.Management);
             return permission;
         }
 
-        private int CheckEmployeePermission(int epaId)
+        private int CheckEmployeePermission(
+            int epaId,
+            int actorUserId,
+            int? processId = null)
         {
-            var criteria = new GetEmployeePermissionCriteria()
+            var criteria = new GetEmployeePermissionCriteria
             {
                 EPAId = epaId,
-                ActorUserId = this.SessionService.EmployeeId,
-                ProcessId = (int)ProcessType.Management
+                ActorUserId = actorUserId,
+                ProcessId = processId
             };
 
-            return evaluationService.CheckEmployeePermission(criteria);
+            return _evaluationService.CheckEmployeePermission(criteria);
         }
     }
 }

@@ -1,14 +1,36 @@
-﻿(function (angular) {
+﻿(function(angular) {
     'use strict';
     /* jshint latedef:nofunc */
     /* jshint validthis:true */
 
     angular.module('epaModule').controller('EvaluatorDetailController', evaluatorDetailController);
-    evaluatorDetailController.$inject = ['$timeout', '$translate', '$routeParams', 'EvaluationModel', 'EvaluatorEPAModel', 'SelfEvalutorModel',
-        'CommonModel', 'utilitiesFactory', 'historyFactory', 'lockScreenService', 'baseUrl'];
+    evaluatorDetailController.$inject = [
+        '$timeout',
+        '$translate',
+        '$routeParams',
+        'EvaluationModel',
+        'EvaluatorEPAModel',
+        'SelfEvalutorModel',
+        'CommonModel',
+        'utilitiesFactory',
+        'historyFactory',
+        'lockScreenService',
+        'baseUrl',
+        'currentUserId'
+    ];
 
-    function evaluatorDetailController($timeout, $translate, $routeParams, EvaluationModel, EvaluatorEPAModel, SelfEvalutorModel, CommonModel,
-        utilitiesFactory, historyFactory, lockScreenService, baseUrl) {
+    function evaluatorDetailController($timeout,
+        $translate,
+        $routeParams,
+        EvaluationModel,
+        EvaluatorEPAModel,
+        SelfEvalutorModel,
+        CommonModel,
+        utilitiesFactory,
+        historyFactory,
+        lockScreenService,
+        baseUrl,
+        currentUserId) {
         var vm = this;
 
         vm.permission = 0;
@@ -23,32 +45,33 @@
         vm.ratingTypeEnum = utilitiesFactory.ratingType;
         vm.hasRatingByStar = false;
         vm.showRatingScoreByStar = true;
+        vm.currentUserId = currentUserId;
 
         vm.hoveringLeave = null;
 
-        vm.viewBySelf = function () {
+        vm.viewBySelf = function() {
             return !vm.evaluatorId;
         };
 
-        vm.viewBackButton = function () {
+        vm.viewBackButton = function() {
             return !$routeParams.newTab;
         };
 
-        vm.initCollapseExpandCommentByEmployee = function (epaInfo, kpi) {
-            if (epaInfo.Process.Self.IsEndProcess && (kpi.EvaluationBySelf.Comment && kpi.EvaluationBySelf.Comment.length > 0)) {
+        vm.initCollapseExpandCommentByEmployee = function(epaInfo, kpi) {
+            if (epaInfo.Process.Self.IsEndProcess &&
+                (kpi.EvaluationBySelf.Comment && kpi.EvaluationBySelf.Comment.length > 0)) {
                 kpi.ExpandedCommentByEmployee = true;
-            }
-            else {
+            } else {
                 kpi.ExpandedCommentByEmployee = false;
             }
         };
 
-        vm.getNotificationInputScore = function (kpi) {
+        vm.getNotificationInputScore = function(kpi) {
             var weight = utilitiesFactory.splitNumber(kpi.Weight, 2);
             return EvaluationModel.getNotificationInputScore(0, weight, vm.scoreInputValidMessage);
         };
 
-        vm.inputScore = function (kpi) {
+        vm.inputScore = function(kpi) {
             var weight = utilitiesFactory.splitNumber(kpi.Weight, 2),
                 score = kpi.CurrentEvaluation.Score ? parseFloat(kpi.CurrentEvaluation.Score) : 0;
 
@@ -62,7 +85,7 @@
             SelfEvalutorModel.calculateScore(vm);
         };
 
-        vm.cancelRating = function (kpiGroup, kpi) {
+        vm.cancelRating = function(kpiGroup, kpi) {
             kpi.CurrentEvaluation.Rate = 0;
             kpi.CurrentEvaluation.Score = null;
             $("#star_" + kpi.KPIId).rating('update', kpi.CurrentEvaluation.Rate);
@@ -74,11 +97,11 @@
             SelfEvalutorModel.calculateScore(vm);
         };
 
-        vm.cancel = function () {
+        vm.cancel = function() {
             historyFactory.back();
         };
 
-        vm.save = function (epaInfo) {
+        vm.save = function(epaInfo) {
             if (EvaluatorEPAModel.validateEPA(epaInfo)) {
                 EvaluatorEPAModel.updateEPAScoreByEvaluator(vm);
             } else {
@@ -86,10 +109,11 @@
             }
         };
 
-        vm.generateRatingStar = function () {
-            $timeout(function () {
-                $(".rating-loading").rating();
-            }, 1);
+        vm.generateRatingStar = function() {
+            $timeout(function() {
+                    $(".rating-loading").rating();
+                },
+                1);
         };
 
         function checkStatus(epaInfo) {
@@ -113,25 +137,29 @@
         }
 
         function getEPAInfoByEvaluator() {
-            EvaluatorEPAModel.getEPAInfoByEvaluator(vm.epaId, vm.evaluatorId).then(function () {
+            EvaluatorEPAModel.getEPAInfoByEvaluator(vm.epaId, vm.evaluatorId).then(function() {
                 vm.epaInfo = EvaluatorEPAModel.epaInfo;
                 checkStatus(vm.epaInfo);
 
-                if (vm.epaInfo.RatingType.RatingTypeId === vm.ratingTypeEnum.Star
-                        || vm.epaInfo.RatingType.RatingTypeId === vm.ratingTypeEnum.HalfStar
-                        || (vm.epaInfo.RatingType.RatingTypeId === vm.ratingTypeEnum.Score
-                            && $.grep(vm.epaInfo.KPIGroups, function (e) { return e.NumberKPIOptional > 0; }).length > 0)) {
+                if (vm.epaInfo.RatingType.RatingTypeId === vm.ratingTypeEnum.Star ||
+                    vm.epaInfo.RatingType.RatingTypeId === vm.ratingTypeEnum.HalfStar ||
+                    (vm.epaInfo.RatingType.RatingTypeId === vm.ratingTypeEnum.Score &&
+                        $.grep(vm.epaInfo.KPIGroups, function(e) { return e.NumberKPIOptional > 0; }).length > 0)) {
                     vm.hasRatingByStar = true;
                 }
 
                 vm.epaInfo.Employee.Avatar = baseUrl + vm.epaInfo.Employee.Avatar;
                 vm.epaInfo.Process.Self.TotalScore = utilitiesFactory.parseFloat(vm.epaInfo.Process.Self.TotalScore);
-                vm.epaInfo.Process.CurrentProcess.TotalScore = utilitiesFactory.parseFloat(vm.epaInfo.Process.CurrentProcess.TotalScore);
+                vm.epaInfo.Process.CurrentProcess.TotalScore =
+                    utilitiesFactory.parseFloat(vm.epaInfo.Process.CurrentProcess.TotalScore);
 
                 vm.finalScoreOfSelf = vm.epaInfo.Process.Self.TotalScore + vm.epaInfo.DisciplineScore;
-                vm.finalScoreOfSelf = EvaluationModel.checkScore(vm.finalScoreOfSelf, 0, vm.epaInfo.Process.Self.MaxPerformanceScore);
+                vm.finalScoreOfSelf =
+                    EvaluationModel.checkScore(vm.finalScoreOfSelf, 0, vm.epaInfo.Process.Self.MaxPerformanceScore);
                 vm.finalScore = vm.epaInfo.Process.CurrentProcess.TotalScore + vm.epaInfo.DisciplineScore;
-                vm.finalScore = EvaluationModel.checkScore(vm.finalScore, 0, vm.epaInfo.Process.CurrentProcess.MaxPerformanceScore);
+                vm.finalScore = EvaluationModel.checkScore(vm.finalScore,
+                    0,
+                    vm.epaInfo.Process.CurrentProcess.MaxPerformanceScore);
 
                 if (vm.epaInfo.LastFinalScore.length > 0) {
                     vm.epaInfo.LastFinalScore = utilitiesFactory.parseFloat(vm.epaInfo.LastFinalScore);
@@ -141,9 +169,11 @@
 
                 vm.gradeOfSelf = EvaluationModel.convertScoreToGrade(vm.finalScoreOfSelf, vm.standardGrades);
                 vm.epaInfo.Grade = EvaluationModel.convertScoreToGrade(vm.finalScore, vm.standardGrades);
-                vm.evaluatedDate = vm.epaInfo.Process.CurrentProcess.EvaluateDate ? vm.epaInfo.Process.CurrentProcess.EvaluateDate : null;
+                vm.evaluatedDate = vm.epaInfo.Process.CurrentProcess.EvaluateDate
+                    ? vm.epaInfo.Process.CurrentProcess.EvaluateDate
+                    : null;
 
-                EvaluatorEPAModel.getUserPermissionOnEvaluator().then(function () {
+                EvaluatorEPAModel.getUserPermissionOnEvaluator().then(function() {
                     vm.permission = EvaluatorEPAModel.permission;
 
                     if (vm.permission !== vm.policyEnum.Host) {
@@ -159,15 +189,15 @@
         function initialize() {
             lockScreenService.start();
 
-            $translate('ScoreInputValid').then(function (message) {
+            $translate('ScoreInputValid').then(function(message) {
                 vm.scoreInputValidMessage = message;
             });
 
-            $translate('EvaluateEPAInvalid').then(function (message) {
+            $translate('EvaluateEPAInvalid').then(function(message) {
                 vm.evaluateEPAInvalidMessage = message;
             });
 
-            CommonModel.getStandardGrade().then(function () {
+            CommonModel.getStandardGrade().then(function() {
                 vm.standardGrades = CommonModel.standardGrades;
 
                 getEPAInfoByEvaluator();

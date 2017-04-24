@@ -4,11 +4,36 @@
     /* jshint validthis:true */
 
     angular.module('epaModule').controller('ManagementController', managementController);
-    managementController.$inject = ['$location', '$translate', '$routeParams', 'EvaluationModel', 'ManagementEPAModel', 'ReviewerManagementModel',
-        'CommonModel', 'utilitiesFactory', 'notificationFactory', 'historyFactory', 'lockScreenService', 'baseUrl'];
+    managementController.$inject = [
+        '$location',
+        '$translate',
+        '$routeParams',
+        'EvaluationModel',
+        'ManagementEPAModel',
+        'ReviewerManagementModel',
+        'CommonModel',
+        'utilitiesFactory',
+        'notificationFactory',
+        'historyFactory',
+        'lockScreenService',
+        'baseUrl',
+        'currentUserId'
+    ];
 
-    function managementController($location, $translate, $routeParams, EvaluationModel, ManagementEPAModel, ReviewerManagementModel, CommonModel,
-        utilitiesFactory, notificationFactory, historyFactory, lockScreenService, baseUrl) {
+    function managementController(
+        $location,
+        $translate,
+        $routeParams,
+        EvaluationModel,
+        ManagementEPAModel,
+        ReviewerManagementModel,
+        CommonModel,
+        utilitiesFactory,
+        notificationFactory,
+        historyFactory,
+        lockScreenService,
+        baseUrl,
+        currentUserId) {
         var vm = this;
 
         vm.permission = 0;
@@ -20,6 +45,7 @@
         vm.isEndProcessAll = false;
         vm.policyEnum = utilitiesFactory.policy;
         vm.targetTypeEnum = utilitiesFactory.targetType;
+        vm.currentUserId = currentUserId;
 
         vm.filter = {};
 

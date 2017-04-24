@@ -4,15 +4,36 @@
     /* jshint validthis:true */
 
     angular.module('epaModule').controller('ManagentDetailController', managentDetailController);
-    managentDetailController.$inject = ['$timeout', '$translate', '$routeParams', 'EvaluationModel', 'ManagementEPAModel', 'ReviewerManagementModel',
-        'CommonModel', 'utilitiesFactory', 'historyFactory', 'lockScreenService', 'baseUrl'];
+    managentDetailController.$inject = [
+        '$timeout',
+        '$translate',
+        '$routeParams',
+        'EvaluationModel',
+        'ManagementEPAModel',
+        'ReviewerManagementModel',
+        'CommonModel',
+        'utilitiesFactory',
+        'historyFactory',
+        'lockScreenService',
+        'baseUrl'];
 
-    function managentDetailController($timeout, $translate, $routeParams, EvaluationModel, ManagementEPAModel, ReviewerManagementModel, CommonModel,
-        utilitiesFactory, historyFactory, lockScreenService, baseUrl) {
+    function managentDetailController(
+        $timeout,
+        $translate,
+        $routeParams,
+        EvaluationModel,
+        ManagementEPAModel,
+        ReviewerManagementModel,
+        CommonModel,
+        utilitiesFactory,
+        historyFactory,
+        lockScreenService,
+        baseUrl) {
         var vm = this;
 
         vm.permission = 0;
         vm.epaId = parseInt($routeParams.id);
+        vm.managementId = $routeParams.managementId;
         vm.jobGrades = [];
         vm.standardGrades = [];
         vm.policyEnum = utilitiesFactory.policy;
@@ -76,7 +97,7 @@
         };
 
         function getEPAInfoByManagement() {
-            ManagementEPAModel.getEPAInfoByManagement(vm.epaId).then(function () {
+            ManagementEPAModel.getEPAInfoByManagement(vm.epaId, vm.managementId).then(function () {
                 vm.epaInfo = ManagementEPAModel.epaInfo;
                 vm.epaInfo.Employee.Avatar = baseUrl + vm.epaInfo.Employee.Avatar;
 

@@ -217,7 +217,7 @@
                         <strong class="error-message" ng-bind="epaInfo.Grade"></strong>
                     </td>
                     <td class="text-center">
-                        <a href="{{'/Reviewer/Detail/' + epaInfo.LastEPAId}}" ng-show="epaInfo.LastFinalScore != null"
+                        <a href="{{'/Management/Detail/' + epaInfo.LastEPAId + '?managementId=' + managementCtrl.currentUserId.value}}" ng-show="epaInfo.LastFinalScore != null"
                            ng-bind="epaInfo.LastFinalScore | customScore"></a>
                         <!--<div ng-show="epaInfo.LastFinalScore != null" ng-bind="epaInfo.LastFinalScore | customScore"></div>-->
                         <div ng-show="epaInfo.LastFinalScore == null" ng-bind="'-'"></div>

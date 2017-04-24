@@ -1,23 +1,23 @@
 ﻿namespace SMS.EPA.Site.Controllers.API
 {
+    using Core.Attribute;
+    using Core.Constants;
+    using Core.Enumerations;
+    using Core.Model;
+    using Criteria;
+    using Model;
+    using Model.Enitites;
+    using Services.Implement;
+    using Services.Interfaces;
     using System.Collections.Generic;
     using System.Net;
     using System.Net.Http;
     using System.Web.Http;
-    using SMS.EPA.Core.Attribute;
-    using SMS.EPA.Core.Constants;
-    using SMS.EPA.Core.Enumerations;
-    using SMS.EPA.Core.Model;
-    using SMS.EPA.Criteria;
-    using SMS.EPA.Model;
-    using SMS.EPA.Model.Enitites;
-    using SMS.EPA.Services.Implement;
-    using SMS.EPA.Services.Interfaces;
 
     public class ReviewerEPAController : BaseController
     {
-        private readonly IEmployeeEPAService evaluationService;
-        private readonly IReviewerEPAService reviewerEPAService;
+        private readonly IEmployeeEPAService _evaluationService;
+        private readonly IReviewerEPAService _reviewerEPAService;
 
         public ReviewerEPAController()
             : this(null, null)
@@ -28,8 +28,8 @@
             IEmployeeEPAService evaluationService,
             IReviewerEPAService reviewerEPAService)
         {
-            this.evaluationService = evaluationService ?? new EmployeeEPAService();
-            this.reviewerEPAService = reviewerEPAService ?? new ReviewerEPAService();
+            _evaluationService = evaluationService ?? new EmployeeEPAService();
+            _reviewerEPAService = reviewerEPAService ?? new ReviewerEPAService();
         }
 
         [HttpGet]
@@ -38,11 +38,11 @@
         {
             var criteria = new GetGroupByEvaluatorOrReviewerOrManagementCriteria()
             {
-                ActorUserId = this.SessionService.EmployeeId,
+                ActorUserId = SessionService.EmployeeId,
                 ProcessId = (int)ProcessType.Reviewer
             };
 
-            return evaluationService.GetGroupByEvaluatorOrReviewerOrManagement(criteria);
+            return _evaluationService.GetGroupByEvaluatorOrReviewerOrManagement(criteria);
         }
 
         [HttpGet]
@@ -54,14 +54,14 @@
         {
             var criteria = new GetMemberByEvaluatorOrReviewerOrManagementCriteria()
             {
-                ActorUserId = this.SessionService.EmployeeId,
+                ActorUserId = SessionService.EmployeeId,
                 ProcessId = (int)ProcessType.Reviewer,
                 GroupId = groupId,
                 IsLocal = isLocal,
                 IsMonthly = isMonthly
             };
 
-            return evaluationService.GetMemberByEvaluatorOrReviewerOrManagement(criteria);
+            return _evaluationService.GetMemberByEvaluatorOrReviewerOrManagement(criteria);
         }
 
         [HttpGet]
@@ -75,7 +75,7 @@
         {
             var criteria = new GetEPAByReviewerCriteria()
             {
-                ReviewerId = this.SessionService.EmployeeId,
+                ReviewerId = SessionService.EmployeeId,
                 GroupId = groupId,
                 IsLocal = isLocal,
                 IsMonthly = isMonthly,
@@ -83,15 +83,19 @@
                 StatusProcess = statusProcess
             };
 
-            return reviewerEPAService.GetEPAByReviewer(criteria);
+            return _reviewerEPAService.GetEPAByReviewer(criteria);
         }
 
         [HttpGet]
         [ApiAuthorize(FunctionKey = EPAFunctionKey.Reviewer, Policy = Policy.Read)]
-        public HttpResponseMessage GetEPAInfoByReviewer(int epaId)
+        public HttpResponseMessage GetEPAInfoByReviewer(int epaId, int? reviewerId = null)
         {
             EPAModel epaInfo = new EPAModel();
-            int permission = CheckEmployeePermission(epaId);
+
+            var processId = reviewerId == null ? (int?)ProcessType.Reviewer : null;
+            reviewerId = reviewerId ?? SessionService.EmployeeId;
+
+            int permission = CheckEmployeePermission(epaId, reviewerId.Value, processId);
 
             switch (permission)
             {
@@ -102,10 +106,10 @@
                     var criteria = new GetEPAInfoByReviewerCriteria()
                     {
                         EPAId = epaId,
-                        ReviewerId = this.SessionService.EmployeeId
+                        ReviewerId = SessionService.EmployeeId
                     };
 
-                    epaInfo = reviewerEPAService.GetEPAInfoByReviewer(criteria);
+                    epaInfo = _reviewerEPAService.GetEPAInfoByReviewer(criteria);
 
                     return Request.CreateResponse(HttpStatusCode.OK, epaInfo);
             }
@@ -120,9 +124,9 @@
             if (criteria != null)
             {
                 criteria.ProcessId = (int)ProcessType.Reviewer;
-                criteria.ModifiedBy = this.SessionService.EmployeeId;
+                criteria.ModifiedBy = SessionService.EmployeeId;
 
-                commandResult = reviewerEPAService.AdjustScoreByReviewer(criteria);
+                commandResult = _reviewerEPAService.AdjustScoreByReviewer(criteria);
             }
 
             return commandResult;
@@ -130,20 +134,23 @@
 
         public int GetUserPermissionOnReviewer()
         {
-            int permission = this.SessionService.GetPermission(EPAFunctionKey.Reviewer);
+            int permission = SessionService.GetPermission(EPAFunctionKey.Reviewer);
             return permission;
         }
 
-        private int CheckEmployeePermission(int epaId)
+        private int CheckEmployeePermission(
+            int epaId,
+            int actorUserId,
+            int? processId = null)
         {
-            var criteria = new GetEmployeePermissionCriteria()
+            var criteria = new GetEmployeePermissionCriteria
             {
                 EPAId = epaId,
-                ActorUserId = this.SessionService.EmployeeId,
-                ProcessId = (int)ProcessType.Reviewer
+                ActorUserId = actorUserId,
+                ProcessId = processId
             };
 
-            return evaluationService.CheckEmployeePermission(criteria);
+            return _evaluationService.CheckEmployeePermission(criteria);
         }
     }
 }

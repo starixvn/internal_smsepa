@@ -1,12 +1,28 @@
-﻿(function (angular) {
+﻿(function(angular) {
     'use strict';
     /* jshint latedef:nofunc */
     /* jshint validthis:true */
 
     angular.module('dashboardModule').controller('DashboardController', dashboardController);
-    dashboardController.$inject = ['$location', 'DashboardModel', 'CommonModel', 'utilitiesFactory', 'lockScreenService', 'baseUrl'];
+    dashboardController.$inject =
+    [
+        '$location',
+        'DashboardModel',
+        'CommonModel',
+        'utilitiesFactory',
+        'lockScreenService',
+        'baseUrl',
+        'currentUserId'
+    ];
 
-    function dashboardController($location, DashboardModel, CommonModel, utilitiesFactory, lockScreenService, baseUrl) {
+    function dashboardController(
+        $location,
+        DashboardModel,
+        CommonModel,
+        utilitiesFactory,
+        lockScreenService,
+        baseUrl,
+        currentUserId) {
         var vm = this;
 
         vm.epaStatusEnum = utilitiesFactory.epaStatus;
@@ -21,17 +37,18 @@
         vm.selfEvaluationDetail = selfEvaluationDetail;
         vm.viewEPAResult = viewEPAResult;
         vm.viewOtherViolationDetail = viewOtherViolationDetail;
+        vm.currentUserId = currentUserId;
 
         initialize();
 
         function initialize() {
             lockScreenService.start();
 
-            DashboardModel.getToDoList().then(function () {
+            DashboardModel.getToDoList().then(function() {
                 vm.todoList = DashboardModel.todoList;
             });
 
-            DashboardModel.getDashboard().then(function () {
+            DashboardModel.getDashboard().then(function() {
                 var dashboardInfo = DashboardModel.dashboardInfo;
 
                 vm.employee = dashboardInfo.Employee;
@@ -40,23 +57,33 @@
                 vm.myEPAs = dashboardInfo.MyEpaInfos;
                 vm.monthlyEPAs = dashboardInfo.MonthlyEpaInfos;
 
-                angular.forEach(vm.myEPAs, function (myEPA) {
-                    if (myEPA.Period.IsEndPeriod) {
-                        myEPA.FinalScore = myEPA.FinalScore.length > 0 ? utilitiesFactory.parseFloat(myEPA.FinalScore) : null;
-                    } else {
-                        myEPA.FinalScore = null;
-                        vm.evaluationProcesses.push(myEPA);
-                    }
-                });
+                currentUserId.value = dashboardInfo.Employee.EmployeeId;
 
-                angular.forEach(vm.monthlyEPAs, function (monthlyEPA) {
-                    if (monthlyEPA.Period.IsEndPeriod) {
-                        monthlyEPA.FinalScore = monthlyEPA.FinalScore.length > 0 ? utilitiesFactory.parseFloat(monthlyEPA.FinalScore) : null;
-                    } else {
-                        monthlyEPA.FinalScore = null;
-                        vm.evaluationProcesses.push(monthlyEPA);
-                    }
-                });
+                //$provide.value("currentEmployeeId", dashboardInfo.Employee.EmployeeId)
+
+                angular.forEach(vm.myEPAs,
+                    function(myEPA) {
+                        if (myEPA.Period.IsEndPeriod) {
+                            myEPA.FinalScore = myEPA.FinalScore.length > 0
+                                ? utilitiesFactory.parseFloat(myEPA.FinalScore)
+                                : null;
+                        } else {
+                            myEPA.FinalScore = null;
+                            vm.evaluationProcesses.push(myEPA);
+                        }
+                    });
+
+                angular.forEach(vm.monthlyEPAs,
+                    function(monthlyEPA) {
+                        if (monthlyEPA.Period.IsEndPeriod) {
+                            monthlyEPA.FinalScore = monthlyEPA.FinalScore.length > 0
+                                ? utilitiesFactory.parseFloat(monthlyEPA.FinalScore)
+                                : null;
+                        } else {
+                            monthlyEPA.FinalScore = null;
+                            vm.evaluationProcesses.push(monthlyEPA);
+                        }
+                    });
 
                 lockScreenService.stop();
             });
