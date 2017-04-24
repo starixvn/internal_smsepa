@@ -1,22 +1,22 @@
 ﻿namespace SMS.EPA.Services.UnitTests
 {
-    using System.Collections.Generic;
+    using Core.Services;
+    using Criteria.EPAHistory;
+    using Implement;
+    using Interfaces;
+    using Model;
+    using Model.EPAHistory;
     using NSubstitute;
     using NUnit.Framework;
-    using SMS.EPA.Core.Services;
-    using SMS.EPA.Criteria.EPAHistory;
-    using SMS.EPA.Model;
-    using SMS.EPA.Model.EPAHistory;
-    using SMS.EPA.Repositories;
-    using SMS.EPA.Services.Implement;
-    using SMS.EPA.Services.Interfaces;
+    using Repositories;
+    using System.Collections.Generic;
 
     [TestFixture]
     public class EPAHistoryServiceTests
     {
-        private IEPAHistoryRepository epaHistoryRepository;
-        private IEPAHistoryService epaHistoryService;
-        private ICryptographyService cryptographyService;
+        private IEPAHistoryRepository _epaHistoryRepository;
+        private IEPAHistoryService _epaHistoryService;
+        private ICryptographyService _cryptographyService;
 
         #region GetEPAHistory
 
@@ -24,10 +24,10 @@
         public void GetEPAHistory_AnyArg_ReturnInstanceOfListOfEPAHistoryModel()
         {
             // Arrange
-            epaHistoryService = Substitute.For<IEPAHistoryService>();
+            _epaHistoryService = Substitute.For<IEPAHistoryService>();
 
             // Act
-            var actual = epaHistoryService.GetEPAHistory(Arg.Any<GetEPAHistoryCriteria>());
+            var actual = _epaHistoryService.GetEPAHistory(Arg.Any<GetEPAHistoryCriteria>());
 
             // Assert
             Assert.IsInstanceOf(typeof(IList<EPAHistoryModel>), actual);
@@ -46,7 +46,7 @@
             ArrangeGetEPAHistory(expectedEPAs);
 
             // Act
-            var actual = epaHistoryService.GetEPAHistory(criteria);
+            var actual = _epaHistoryService.GetEPAHistory(criteria);
 
             // Assert
             Assert.AreEqual(expectedEPAs, actual);
@@ -62,7 +62,7 @@
             ArrangeGetEPAHistory(expectedEPAs);
 
             // Act
-            var actual = epaHistoryService.GetEPAHistory(criteria);
+            var actual = _epaHistoryService.GetEPAHistory(criteria);
 
             // Assert
             Assert.AreNotEqual(expectedEPAs, actual);
@@ -76,10 +76,10 @@
         public void GetMonthlyEPAHistory_AnyArg_ReturnInstanceOfListOfEPAHistoryModel()
         {
             // Arrange
-            epaHistoryService = Substitute.For<IEPAHistoryService>();
+            _epaHistoryService = Substitute.For<IEPAHistoryService>();
 
             // Act
-            var actual = epaHistoryService.GetMonthlyEPAHistory(Arg.Any<GetMonthlyEPAHistoryCriteria>());
+            var actual = _epaHistoryService.GetMonthlyEPAHistory(Arg.Any<GetMonthlyEPAHistoryCriteria>());
 
             // Assert
             Assert.IsInstanceOf(typeof(IList<EPAHistoryModel>), actual);
@@ -98,7 +98,7 @@
             ArrangeGetMonthlyEPAHistory(expectedEPAs);
 
             // Act
-            var actual = epaHistoryService.GetMonthlyEPAHistory(criteria);
+            var actual = _epaHistoryService.GetMonthlyEPAHistory(criteria);
 
             // Assert
             Assert.AreEqual(expectedEPAs, actual);
@@ -114,7 +114,7 @@
             ArrangeGetMonthlyEPAHistory(expectedEPAs);
 
             // Act
-            var actual = epaHistoryService.GetMonthlyEPAHistory(criteria);
+            var actual = _epaHistoryService.GetMonthlyEPAHistory(criteria);
 
             // Assert
             Assert.AreNotEqual(expectedEPAs, actual);
@@ -128,10 +128,10 @@
         public void GetAllPeriodIncludeImport_AnyArg_ReturnInstanceOfListOfPeriodModel()
         {
             // Arrange
-            epaHistoryService = Substitute.For<IEPAHistoryService>();
+            _epaHistoryService = Substitute.For<IEPAHistoryService>();
 
             // Act
-            var actual = epaHistoryService.GetAllPeriodIncludeImport(Arg.Any<GetAllPeriodIncludeImportCriteria>());
+            var actual = _epaHistoryService.GetAllPeriodIncludeImport(Arg.Any<GetAllPeriodIncludeImportCriteria>());
 
             // Assert
             Assert.IsInstanceOf(typeof(IList<PeriodModel>), actual);
@@ -171,18 +171,18 @@
 
         private void ArrangeGetEPAHistory(IList<EPAHistoryModel> expectedEPAs = null)
         {
-            epaHistoryRepository = FakeEPAHistoryRepository();
-            cryptographyService = FakeCryptographyService();
-            epaHistoryRepository.GetEPAHistory(Arg.Any<GetEPAHistoryCriteria>()).Returns(expectedEPAs ?? new List<EPAHistoryModel>());
-            epaHistoryService = new EPAHistoryService(epaHistoryRepository, cryptographyService);
+            _epaHistoryRepository = FakeEPAHistoryRepository();
+            _cryptographyService = FakeCryptographyService();
+            _epaHistoryRepository.GetEPAHistory(Arg.Any<GetEPAHistoryCriteria>()).Returns(expectedEPAs ?? new List<EPAHistoryModel>());
+            _epaHistoryService = new EPAHistoryService(_epaHistoryRepository, _cryptographyService);
         }
 
         private void ArrangeGetMonthlyEPAHistory(IList<EPAHistoryModel> expectedEPAs = null)
         {
-            epaHistoryRepository = FakeEPAHistoryRepository();
-            cryptographyService = FakeCryptographyService();
-            epaHistoryRepository.GetMonthlyEPAHistory(Arg.Any<GetMonthlyEPAHistoryCriteria>()).Returns(expectedEPAs ?? new List<EPAHistoryModel>());
-            epaHistoryService = new EPAHistoryService(epaHistoryRepository, cryptographyService);
+            _epaHistoryRepository = FakeEPAHistoryRepository();
+            _cryptographyService = FakeCryptographyService();
+            _epaHistoryRepository.GetMonthlyEPAHistory(Arg.Any<GetMonthlyEPAHistoryCriteria>()).Returns(expectedEPAs ?? new List<EPAHistoryModel>());
+            _epaHistoryService = new EPAHistoryService(_epaHistoryRepository, _cryptographyService);
         }
 
         private EPAHistoryService ArrangeGetAllPeriodIncludeImport(IList<PeriodModel> periods = null)

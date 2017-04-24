@@ -1,20 +1,20 @@
 ﻿namespace SMS.EPA.Services.UnitTests
 {
-    using System.Collections.Generic;
-    using System.Linq;
+    using Core.Model;
+    using Core.Repositories;
+    using Criteria;
+    using Implement;
+    using Model;
     using NSubstitute;
     using NUnit.Framework;
-    using SMS.EPA.Core.Model;
-    using SMS.EPA.Core.Repositories;
-    using SMS.EPA.Criteria;
-    using SMS.EPA.Model;
-    using SMS.EPA.Services.Implement;
+    using System.Collections.Generic;
+    using System.Linq;
 
     [TestFixture]
     public class RoleServiceTests
     {
-        private RoleService roleService;
-        private IBaseRepository baseRepository;
+        private RoleService _roleService;
+        private IBaseRepository _baseRepository;
 
         #region GetFunctionByRoleId
 
@@ -26,7 +26,7 @@
             ArrangeGetFunctionByRoleId();
 
             // Act
-            var actual = roleService.GetFunctionByRoleId(roleId);
+            var actual = _roleService.GetFunctionByRoleId(roleId);
 
             // Assert
             Assert.IsInstanceOf(typeof(IEnumerable<RoleFunctionModel>), actual);
@@ -41,7 +41,7 @@
             ArrangeGetFunctionByRoleId(result);
 
             // Act
-            IEnumerable<RoleFunctionModel> functions = roleService.GetFunctionByRoleId(roleId);
+            IEnumerable<RoleFunctionModel> functions = _roleService.GetFunctionByRoleId(roleId);
 
             // Assert
             Assert.AreEqual(1, functions.Count());
@@ -59,7 +59,7 @@
             ArrangeAssignFunctionToRole();
 
             // Act
-            var actual = roleService.AssignFunctionToRole(new AssignFunctionToRoleCriteria());
+            var actual = _roleService.AssignFunctionToRole(new AssignFunctionToRoleCriteria());
 
             // Assert
             Assert.IsInstanceOf(typeof(CommandResult), actual);
@@ -78,10 +78,10 @@
             ArrangeAssignFunctionToRole();
 
             // Act
-            roleService.AssignFunctionToRole(criteria);
+            _roleService.AssignFunctionToRole(criteria);
 
             // Assert
-            roleService.Repository.Received().Update(Arg.Is<AssignFunctionToRoleCriteria>(x => x.IsValid()));
+            _roleService.Repository.Received().Update(Arg.Is<AssignFunctionToRoleCriteria>(x => x.IsValid()));
         }
 
         #endregion AssignFunctionToRole
@@ -105,16 +105,16 @@
 
         private void ArrangeGetFunctionByRoleId(IEnumerable<RoleFunctionModel> result = null)
         {
-            roleService = Substitute.For<RoleService>();
-            roleService.When(x => x.GetData<RoleFunctionModel>(Arg.Any<GetFunctionByRoleIdCriteria>())).DoNotCallBase();
-            roleService.GetData<RoleFunctionModel>(Arg.Any<GetFunctionByRoleIdCriteria>()).Returns(result ?? new List<RoleFunctionModel>());
+            _roleService = Substitute.For<RoleService>();
+            _roleService.When(x => x.GetData<RoleFunctionModel>(Arg.Any<GetFunctionByRoleIdCriteria>())).DoNotCallBase();
+            _roleService.GetData<RoleFunctionModel>(Arg.Any<GetFunctionByRoleIdCriteria>()).Returns(result ?? new List<RoleFunctionModel>());
         }
 
         private void ArrangeAssignFunctionToRole(CommandResult result = null)
         {
-            baseRepository = FakeBaseRepository();
-            roleService = GetRoleService(baseRepository);
-            roleService.Repository.Update(Arg.Any<AssignFunctionToRoleCriteria>()).Returns(result ?? new CommandResult());
+            _baseRepository = FakeBaseRepository();
+            _roleService = GetRoleService(_baseRepository);
+            _roleService.Repository.Update(Arg.Any<AssignFunctionToRoleCriteria>()).Returns(result ?? new CommandResult());
         }
 
         private IEnumerable<RoleFunctionModel> GetListOfRoleFunctionModelForTest()

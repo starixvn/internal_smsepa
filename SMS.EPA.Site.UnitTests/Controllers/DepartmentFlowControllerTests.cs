@@ -1,21 +1,22 @@
 ﻿namespace SMS.EPA.Site.UnitTests.Controllers
 {
-    using System.Collections.Generic;
+    using Core.Model;
+    using Core.Services;
+    using Criteria;
+    using Model;
+    using Model.Enitites;
     using NSubstitute;
     using NUnit.Framework;
-    using SMS.EPA.Core.Model;
-    using SMS.EPA.Core.Services;
-    using SMS.EPA.Criteria;
-    using SMS.EPA.Model;
-    using SMS.EPA.Model.Enitites;
-    using SMS.EPA.Services.Interfaces;
-    using SMS.EPA.Site.Controllers.API;
+    using Services.Interfaces;
+    using Site.Controllers.API;
+    using System.Collections.Generic;
 
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1001:TypesThatOwnDisposableFieldsShouldBeDisposable", Justification = "Reviewed")]
     [TestFixture]
     public class DepartmentFlowControllerTests
     {
-        private IDepartmentFlowService departmentFlowService;
-        private DepartmentFlowController departmentFlowController;
+        private IDepartmentFlowService _departmentFlowService;
+        private DepartmentFlowController _departmentFlowController;
 
         #region GetDepartmentFlowByFlowTemplateId
 
@@ -28,7 +29,7 @@
             ArrangeGetDepartmentFlowByFlowTemplateId(expectedDepartmentFlows);
 
             // Act
-            var actual = departmentFlowController.GetDepartmentFlowByFlowTemplateId(Arg.Any<int>());
+            var actual = _departmentFlowController.GetDepartmentFlowByFlowTemplateId(Arg.Any<int>());
 
             // Assert
             Assert.AreEqual(expectedDepartmentFlows, actual);
@@ -41,7 +42,7 @@
             ArrangeGetDepartmentFlowByFlowTemplateId();
 
             // Act
-            var actual = departmentFlowController.GetDepartmentFlowByFlowTemplateId(Arg.Any<int>());
+            var actual = _departmentFlowController.GetDepartmentFlowByFlowTemplateId(Arg.Any<int>());
 
             // Assert
             Assert.IsInstanceOf(typeof(IEnumerable<DepartmentFlowModel>), actual);
@@ -60,7 +61,7 @@
             ArrangeGetDepartmentFlowById(expectedFlows);
 
             // Act
-            var actual = departmentFlowController.GetDepartmentFlowById(Arg.Any<int>(), Arg.Any<int>());
+            var actual = _departmentFlowController.GetDepartmentFlowById(Arg.Any<int>(), Arg.Any<int>());
 
             // Assert
             Assert.AreEqual(expectedFlows, actual);
@@ -73,7 +74,7 @@
             ArrangeGetDepartmentFlowById();
 
             // Act
-            var actual = departmentFlowController.GetDepartmentFlowById(Arg.Any<int>(), Arg.Any<int>());
+            var actual = _departmentFlowController.GetDepartmentFlowById(Arg.Any<int>(), Arg.Any<int>());
 
             // Assert
             Assert.IsInstanceOf(typeof(IEnumerable<FlowModel>), actual);
@@ -90,7 +91,7 @@
             ArrangeCreateDepartmentFlow();
 
             // Act
-            var actual = departmentFlowController.CreateDepartmentFlow(null);
+            var actual = _departmentFlowController.CreateDepartmentFlow(null);
 
             // Assert
             Assert.IsInstanceOf(typeof(CommandResult), actual);
@@ -107,7 +108,7 @@
             ArrangeCreateDepartmentFlow(expectedCommandResult);
 
             // Act
-            var actual = departmentFlowController.CreateDepartmentFlow(new CreateDepartmentFlowCriteria());
+            var actual = _departmentFlowController.CreateDepartmentFlow(new CreateDepartmentFlowCriteria());
 
             // Assert
             Assert.AreEqual(expectedCommandResult, actual);
@@ -121,7 +122,7 @@
             ArrangeCreateDepartmentFlow();
 
             // Act
-            var actual = departmentFlowController.CreateDepartmentFlow(null);
+            var actual = _departmentFlowController.CreateDepartmentFlow(null);
 
             // Assert
             Assert.AreEqual(expectedCommandResult.Code, actual.Code);
@@ -138,7 +139,7 @@
             ArrangeDeleteDepartmentFlow();
 
             // Act
-            var actual = departmentFlowController.DeleteDepartmentFlow(Arg.Any<int>(), Arg.Any<int>());
+            var actual = _departmentFlowController.DeleteDepartmentFlow(Arg.Any<int>(), Arg.Any<int>());
 
             // Assert
             Assert.IsInstanceOf(typeof(CommandResult), actual);
@@ -155,7 +156,7 @@
             ArrangeDeleteDepartmentFlow(expectedCommandResult);
 
             // Act
-            var actual = departmentFlowController.DeleteDepartmentFlow(Arg.Any<int>(), Arg.Any<int>());
+            var actual = _departmentFlowController.DeleteDepartmentFlow(Arg.Any<int>(), Arg.Any<int>());
 
             // Assert
             Assert.AreEqual(expectedCommandResult, actual);
@@ -169,7 +170,7 @@
             ArrangeDeleteDepartmentFlow();
 
             // Act
-            var actual = departmentFlowController.DeleteDepartmentFlow(Arg.Any<int>(), Arg.Any<int>());
+            var actual = _departmentFlowController.DeleteDepartmentFlow(Arg.Any<int>(), Arg.Any<int>());
 
             // Assert
             Assert.AreEqual(expectedCommandResult.Code, actual.Code);
@@ -188,7 +189,7 @@
             ArrangeGetDepartmentHasSetting(expectedDepartments);
 
             // Act
-            var actual = departmentFlowController.GetDepartmentHasSetting(Arg.Any<int>());
+            var actual = _departmentFlowController.GetDepartmentHasSetting(Arg.Any<int>());
 
             // Assert
             Assert.AreEqual(expectedDepartments, actual);
@@ -201,7 +202,7 @@
             ArrangeGetDepartmentHasSetting();
 
             // Act
-            var actual = departmentFlowController.GetDepartmentHasSetting(Arg.Any<int>());
+            var actual = _departmentFlowController.GetDepartmentHasSetting(Arg.Any<int>());
 
             // Assert
             Assert.IsInstanceOf(typeof(IList<Department>), actual);
@@ -220,42 +221,42 @@
 
         private void ArrangeGetDepartmentFlowByFlowTemplateId(IList<DepartmentFlowModel> departmentFlows = null)
         {
-            departmentFlowService = Substitute.For<IDepartmentFlowService>();
+            _departmentFlowService = Substitute.For<IDepartmentFlowService>();
 
-            departmentFlowService.GetDepartmentFlowByFlowTemplateId(Arg.Any<int>()).Returns(departmentFlows ?? new List<DepartmentFlowModel>());
-            departmentFlowController = new DepartmentFlowController(departmentFlowService);
+            _departmentFlowService.GetDepartmentFlowByFlowTemplateId(Arg.Any<int>()).Returns(departmentFlows ?? new List<DepartmentFlowModel>());
+            _departmentFlowController = new DepartmentFlowController(_departmentFlowService);
         }
 
         private void ArrangeGetDepartmentFlowById(IList<FlowModel> flows = null)
         {
-            departmentFlowService = Substitute.For<IDepartmentFlowService>();
+            _departmentFlowService = Substitute.For<IDepartmentFlowService>();
 
-            departmentFlowService.GetDepartmentFlowById(Arg.Any<GetDepartmentFlowByIdCriteria>()).Returns(flows ?? new List<FlowModel>());
-            departmentFlowController = new DepartmentFlowController(departmentFlowService);
+            _departmentFlowService.GetDepartmentFlowById(Arg.Any<GetDepartmentFlowByIdCriteria>()).Returns(flows ?? new List<FlowModel>());
+            _departmentFlowController = new DepartmentFlowController(_departmentFlowService);
         }
 
         private void ArrangeCreateDepartmentFlow(CommandResult result = null)
         {
-            departmentFlowService = Substitute.For<IDepartmentFlowService>();
-            departmentFlowService.CreateDepartmentFlow(Arg.Any<CreateDepartmentFlowCriteria>()).Returns(result ?? new CommandResult());
-            departmentFlowController = new DepartmentFlowController(departmentFlowService);
-            departmentFlowController.SessionService = FakeSessionService();
+            _departmentFlowService = Substitute.For<IDepartmentFlowService>();
+            _departmentFlowService.CreateDepartmentFlow(Arg.Any<CreateDepartmentFlowCriteria>()).Returns(result ?? new CommandResult());
+            _departmentFlowController = new DepartmentFlowController(_departmentFlowService);
+            _departmentFlowController.SessionService = FakeSessionService();
         }
 
         private void ArrangeDeleteDepartmentFlow(CommandResult result = null)
         {
-            departmentFlowService = Substitute.For<IDepartmentFlowService>();
-            departmentFlowService.DeleteDepartmentFlow(Arg.Any<DeleteDepartmentFlowCriteria>()).Returns(result ?? new CommandResult());
-            departmentFlowController = new DepartmentFlowController(departmentFlowService);
-            departmentFlowController.SessionService = FakeSessionService();
+            _departmentFlowService = Substitute.For<IDepartmentFlowService>();
+            _departmentFlowService.DeleteDepartmentFlow(Arg.Any<DeleteDepartmentFlowCriteria>()).Returns(result ?? new CommandResult());
+            _departmentFlowController = new DepartmentFlowController(_departmentFlowService);
+            _departmentFlowController.SessionService = FakeSessionService();
         }
 
         private void ArrangeGetDepartmentHasSetting(IList<Department> departments = null)
         {
-            departmentFlowService = Substitute.For<IDepartmentFlowService>();
+            _departmentFlowService = Substitute.For<IDepartmentFlowService>();
 
-            departmentFlowService.GetDepartmentHasSettingByFlowTemplateId(Arg.Any<int>()).Returns(departments ?? new List<Department>());
-            departmentFlowController = new DepartmentFlowController(departmentFlowService);
+            _departmentFlowService.GetDepartmentHasSettingByFlowTemplateId(Arg.Any<int>()).Returns(departments ?? new List<Department>());
+            _departmentFlowController = new DepartmentFlowController(_departmentFlowService);
         }
     }
 }

@@ -134,16 +134,16 @@
         public void CreateDepartmentFlow_VaidArg_ExpectedToExecuteInsert()
         {
             // Arrange
-            var citeria = new CreateDepartmentFlowCriteria()
-            {
-                DepartmentId = 1,
-                FlowTemplateId = 1,
-                ModifiedBy = 1
-            };
+            ////var citeria = new CreateDepartmentFlowCriteria()
+            ////{
+            ////    DepartmentId = 1,
+            ////    FlowTemplateId = 1,
+            ////    ModifiedBy = 1
+            ////};
             ArrangeExecuteDepartmentFlow();
 
             // Act
-            var actual = departmentFlowService.CreateDepartmentFlow(citeria);
+            //// var actual = departmentFlowService.CreateDepartmentFlow(citeria);
 
             // Assert
             departmentFlowService.Repository.Received().Insert(Arg.Is<CreateDepartmentFlowCriteria>(x => x.IsValid()));
@@ -170,16 +170,16 @@
         public void DeleteDepartmentFlow_VaidArg_ExpectedToExecuteDelete()
         {
             // Arrange
-            var citeria = new DeleteDepartmentFlowCriteria()
-            {
-                DepartmentId = 1,
-                FlowTemplateId = 1,
-                ModifiedBy = 1
-            };
+            ////var citeria = new DeleteDepartmentFlowCriteria()
+            ////{
+            ////    DepartmentId = 1,
+            ////    FlowTemplateId = 1,
+            ////    ModifiedBy = 1
+            ////};
             ArrangeExecuteDepartmentFlow();
 
             // Act
-            var actual = departmentFlowService.DeleteDepartmentFlow(citeria);
+            //// var actual = departmentFlowService.DeleteDepartmentFlow(citeria);
 
             // Assert
             departmentFlowService.Repository.Received().Delete(Arg.Is<DeleteDepartmentFlowCriteria>(x => x.IsValid()));

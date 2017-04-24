@@ -1,27 +1,27 @@
 ﻿namespace SMS.EPA.Services.UnitTests
 {
+    using Criteria;
+    using Implement;
+    using Interfaces;
+    using Model;
     using NSubstitute;
     using NUnit.Framework;
-    using SMS.EPA.Criteria;
-    using SMS.EPA.Model;
-    using SMS.EPA.Services.Implement;
-    using SMS.EPA.Services.Interfaces;
     using System.Collections.Generic;
 
     [TestFixture]
     public class MenuServiceTests
     {
-        private IMenuService menuService;
+        private IMenuService _menuService;
 
         #region GetMenusByEmployeeId
         [Test]
         public void GetMenusByEmployeeId_AnyArg_ReturnInstanceOfListOfMenuGroupModel()
         {
             // Arrange
-            menuService = Substitute.For<IMenuService>();
+            _menuService = Substitute.For<IMenuService>();
 
             // Act
-            var actual = menuService.GetMenusByEmployeeId(Arg.Any<int>());
+            var actual = _menuService.GetMenusByEmployeeId(Arg.Any<int>());
 
             // Assert
             Assert.IsInstanceOf(typeof(IList<MenuGroupModel>), actual);

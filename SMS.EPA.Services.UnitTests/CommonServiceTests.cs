@@ -260,12 +260,11 @@
         {
             // Arrange
             var criteria = new GetAllGroupCriteria();
-            var expectedGroups = new List<Group>();
-            expectedGroups.Add(new Group());
-            var commonService = ArrangeGetAllGroup(expectedGroups);
+            var expectedGroups = new List<Group> { new Group() };
+            var localCommonService = ArrangeGetAllGroup(expectedGroups);
 
             // Act
-            var actual = commonService.GetAllGroup(criteria);
+            var actual = localCommonService.GetAllGroup(criteria);
 
             // Assert
             Assert.AreEqual(expectedGroups, actual);
@@ -307,7 +306,7 @@
             ArrangeGetDepartment(departments);
 
             // Act
-            var actual = commonService.GetDepartment(Arg.Any<GetDepartmentCriteria>());
+            //// var actual = commonService.GetDepartment(Arg.Any<GetDepartmentCriteria>());
 
             // Assert
             Assert.AreEqual(expectedDepartment.Departments, departments);
@@ -329,7 +328,7 @@
             ArrangeGetDepartment(departments);
 
             // Act
-            var actual = commonService.GetDepartment(Arg.Any<GetDepartmentCriteria>());
+            //// var actual = commonService.GetDepartment(Arg.Any<GetDepartmentCriteria>());
 
             // Assert
             Assert.AreEqual(expectedDepartment.Departments, departments);
@@ -549,12 +548,11 @@
         public void GetAllJobTitle_VaidArg_ReturnExpectedJobTitles()
         {
             // Arrange
-            var expectedJobTitles = new List<JobTitle>();
-            expectedJobTitles.Add(new JobTitle());
-            var commonService = ArrangeGetAllJobTitle(expectedJobTitles);
+            var expectedJobTitles = new List<JobTitle> { new JobTitle() };
+            var localCommonService = ArrangeGetAllJobTitle(expectedJobTitles);
 
             // Act
-            var actual = commonService.GetAllJobTitle();
+            var actual = localCommonService.GetAllJobTitle();
 
             // Assert
             Assert.AreEqual(expectedJobTitles, actual);
@@ -666,9 +664,9 @@
 
         private CommonService ArrangeGetAllGroup(IEnumerable<Group> groups = null)
         {
-            var commonService = Substitute.For<CommonService>();
-            commonService.GetData<Group>(Arg.Any<GetAllGroupCriteria>()).Returns(groups ?? new List<Group>());
-            return commonService;
+            var localCommonService = Substitute.For<CommonService>();
+            localCommonService.GetData<Group>(Arg.Any<GetAllGroupCriteria>()).Returns(groups ?? new List<Group>());
+            return localCommonService;
         }
 
         private void ArrangeGetDepartment(IList<Department> departments = null)
@@ -716,9 +714,9 @@
 
         private CommonService ArrangeGetAllJobTitle(IEnumerable<JobTitle> jobTitles = null)
         {
-            var commonService = Substitute.For<CommonService>();
-            commonService.GetData<JobTitle>(Arg.Any<GetAllJobTitleCriteria>()).Returns(jobTitles ?? new List<JobTitle>());
-            return commonService;
+            var localCommonService = Substitute.For<CommonService>();
+            localCommonService.GetData<JobTitle>(Arg.Any<GetAllJobTitleCriteria>()).Returns(jobTitles ?? new List<JobTitle>());
+            return localCommonService;
         }
 
         private IEnumerable<JobGradeModel> GetListOfJobGradeForTest()
@@ -742,11 +740,11 @@
 
         private CommonService ArrangeGetJobGrade(IEnumerable<JobGradeModel> result = null)
         {
-            CommonService commonService = Substitute.For<CommonService>();
-            commonService.When(x => x.GetData<JobGradeModel>(Arg.Any<GetJobGradeCriteria>())).DoNotCallBase();
-            commonService.GetData<JobGradeModel>(Arg.Any<GetJobGradeCriteria>()).Returns(result ?? new List<JobGradeModel>());
+            CommonService localCommonService = Substitute.For<CommonService>();
+            localCommonService.When(x => x.GetData<JobGradeModel>(Arg.Any<GetJobGradeCriteria>())).DoNotCallBase();
+            localCommonService.GetData<JobGradeModel>(Arg.Any<GetJobGradeCriteria>()).Returns(result ?? new List<JobGradeModel>());
 
-            return commonService;
+            return localCommonService;
         }
 
         #endregion Helpers

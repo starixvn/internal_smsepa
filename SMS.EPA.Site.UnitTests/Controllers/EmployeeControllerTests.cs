@@ -1,22 +1,22 @@
 ﻿namespace SMS.EPA.Site.UnitTests
 {
-    using System.Collections.Generic;
+    using Core.Model;
+    using Core.Services;
+    using Criteria;
+    using Model.Enitites;
     using NSubstitute;
     using NUnit.Framework;
-    using SMS.EPA.Core.Model;
-    using SMS.EPA.Core.Services;
-    using SMS.EPA.Criteria;
-    using SMS.EPA.Model.Enitites;
-    using SMS.EPA.Services.Interfaces;
-    using SMS.EPA.Site.Controllers.API;
+    using Services.Interfaces;
+    using Site.Controllers.API;
+    using System.Collections.Generic;
 
     [TestFixture]
     public class EmployeeControllerTests
     {
-        private IEmployeeService employeeService;
-        private ISessionService sessionService;
-        private IConfigurationManagerService configurationManager;
-        private EmployeeController employeeController;
+        private IEmployeeService _employeeService;
+        private ISessionService _sessionService;
+        private IConfigurationManagerService _configurationManager;
+        private EmployeeController _employeeController;
 
         #region GetAllEmployee
 
@@ -24,10 +24,10 @@
         public void GetAllEmployee_CheckActionName_ReturnAsExpected()
         {
             // Arrange
-            employeeController = GetEmployeeController();
+            _employeeController = GetEmployeeController();
 
             // Act
-            var actual = employeeController.GetType().GetMethod("GetAllEmployee");
+            var actual = _employeeController.GetType().GetMethod("GetAllEmployee");
 
             // Assert
             Assert.IsNotNull(actual);
@@ -37,12 +37,12 @@
         public void GetAllEmployee_WhenCalled_ReturnInstanceOfListOfEmployeeModel()
         {
             // Arrange
-            employeeService = FakeEmployeeService();
-            employeeService.GetAllEmployee(Arg.Any<GetAllEmployeeCriteria>()).Returns(new List<Employee>());
-            employeeController = GetEmployeeController(employeeService);
+            _employeeService = FakeEmployeeService();
+            _employeeService.GetAllEmployee(Arg.Any<GetAllEmployeeCriteria>()).Returns(new List<Employee>());
+            _employeeController = GetEmployeeController(_employeeService);
 
             // Act
-            var actual = employeeController.GetAllEmployee(Arg.Any<string>(), Arg.Any<int?>(), Arg.Any<bool?>(), Arg.Any<bool?>(), Arg.Any<bool?>(), Arg.Any<bool?>());
+            var actual = _employeeController.GetAllEmployee(Arg.Any<string>(), Arg.Any<int?>(), Arg.Any<bool?>(), Arg.Any<bool?>(), Arg.Any<bool?>(), Arg.Any<bool?>());
 
             // Assert
             Assert.IsInstanceOf(typeof(IEnumerable<Employee>), actual);
@@ -56,10 +56,10 @@
         public void CreateSpecialEmployee_CheckActionName_ReturnAsExpected()
         {
             // Arrange
-            employeeController = GetEmployeeController();
+            _employeeController = GetEmployeeController();
 
             // Act
-            var actual = employeeController.GetType().GetMethod("CreateSpecialEmployee");
+            var actual = _employeeController.GetType().GetMethod("CreateSpecialEmployee");
 
             // Assert
             Assert.IsNotNull(actual);
@@ -69,13 +69,13 @@
         public void CreateSpecialEmployee_WhenCalled_ReturnInstanceOfCommandResult()
         {
             // Arrange
-            employeeService = FakeEmployeeService();
-            sessionService = FakeSessionService();
-            employeeService.CreateSpecialEmployee(Arg.Any<CreateSpecialEmployeeCriteria>()).Returns(new CommandResult());
-            employeeController = GetEmployeeController(employeeService, sessionService);
+            _employeeService = FakeEmployeeService();
+            _sessionService = FakeSessionService();
+            _employeeService.CreateSpecialEmployee(Arg.Any<CreateSpecialEmployeeCriteria>()).Returns(new CommandResult());
+            _employeeController = GetEmployeeController(_employeeService, _sessionService);
 
             // Act
-            var actual = employeeController.CreateSpecialEmployee(Arg.Any<CreateSpecialEmployeeCriteria>());
+            var actual = _employeeController.CreateSpecialEmployee(Arg.Any<CreateSpecialEmployeeCriteria>());
 
             // Assert
             Assert.IsInstanceOf(typeof(CommandResult), actual);
@@ -89,10 +89,10 @@
         public void UpdateSpecialEmployee_CheckActionName_ReturnAsExpected()
         {
             // Arrange
-            employeeController = GetEmployeeController();
+            _employeeController = GetEmployeeController();
 
             // Act
-            var actual = employeeController.GetType().GetMethod("UpdateSpecialEmployee");
+            var actual = _employeeController.GetType().GetMethod("UpdateSpecialEmployee");
 
             // Assert
             Assert.IsNotNull(actual);
@@ -102,13 +102,13 @@
         public void UpdateSpecialEmployee_WhenCalled_ReturnInstanceOfCommandResult()
         {
             // Arrange
-            employeeService = FakeEmployeeService();
-            sessionService = FakeSessionService();
-            employeeService.UpdateSpecialEmployee(Arg.Any<UpdateSpecialEmployeeCriteria>()).Returns(new CommandResult());
-            employeeController = GetEmployeeController(employeeService, sessionService);
+            _employeeService = FakeEmployeeService();
+            _sessionService = FakeSessionService();
+            _employeeService.UpdateSpecialEmployee(Arg.Any<UpdateSpecialEmployeeCriteria>()).Returns(new CommandResult());
+            _employeeController = GetEmployeeController(_employeeService, _sessionService);
 
             // Act
-            var actual = employeeController.UpdateSpecialEmployee(Arg.Any<UpdateSpecialEmployeeCriteria>());
+            var actual = _employeeController.UpdateSpecialEmployee(Arg.Any<UpdateSpecialEmployeeCriteria>());
 
             // Assert
             Assert.IsInstanceOf(typeof(CommandResult), actual);
@@ -122,10 +122,10 @@
         public void AssignRoleToEmployee_CheckActionName_ReturnAsExpected()
         {
             // Arrange
-            employeeController = GetEmployeeController();
+            _employeeController = GetEmployeeController();
 
             // Act
-            var actual = employeeController.GetType().GetMethod("AssignRoleToEmployee");
+            var actual = _employeeController.GetType().GetMethod("AssignRoleToEmployee");
 
             // Assert
             Assert.IsNotNull(actual);
@@ -135,13 +135,13 @@
         public void AssignRoleToEmployee_WhenCalled_ReturnInstanceOfCommandResult()
         {
             // Arrange
-            employeeService = FakeEmployeeService();
-            sessionService = FakeSessionService();
-            employeeService.AssignRoleToEmployee(Arg.Any<AssignRoleToEmployeeCriteria>()).Returns(new CommandResult());
-            employeeController = GetEmployeeController(employeeService, sessionService);
+            _employeeService = FakeEmployeeService();
+            _sessionService = FakeSessionService();
+            _employeeService.AssignRoleToEmployee(Arg.Any<AssignRoleToEmployeeCriteria>()).Returns(new CommandResult());
+            _employeeController = GetEmployeeController(_employeeService, _sessionService);
 
             // Act
-            var actual = employeeController.AssignRoleToEmployee(Arg.Any<AssignRoleToEmployeeCriteria>());
+            var actual = _employeeController.AssignRoleToEmployee(Arg.Any<AssignRoleToEmployeeCriteria>());
 
             // Assert
             Assert.IsInstanceOf(typeof(CommandResult), actual);
@@ -155,10 +155,10 @@
         public void ChangePassword_CheckActionName_ReturnAsExpected()
         {
             // Arrange
-            employeeController = GetEmployeeController();
+            _employeeController = GetEmployeeController();
 
             // Act
-            var actual = employeeController.GetType().GetMethod("ChangePassword");
+            var actual = _employeeController.GetType().GetMethod("ChangePassword");
 
             // Assert
             Assert.IsNotNull(actual);
@@ -168,13 +168,13 @@
         public void ChangePassword_WhenCalled_ReturnInstanceOfCommandResult()
         {
             // Arrange
-            employeeService = FakeEmployeeService();
-            sessionService = FakeSessionService();
-            employeeService.ChangePassword(Arg.Any<ChangePasswordCriteria>()).Returns(new CommandResult());
-            employeeController = GetEmployeeController(employeeService, sessionService);
+            _employeeService = FakeEmployeeService();
+            _sessionService = FakeSessionService();
+            _employeeService.ChangePassword(Arg.Any<ChangePasswordCriteria>()).Returns(new CommandResult());
+            _employeeController = GetEmployeeController(_employeeService, _sessionService);
 
             // Act
-            var actual = employeeController.ChangePassword(Arg.Any<ChangePasswordCriteria>());
+            var actual = _employeeController.ChangePassword(Arg.Any<ChangePasswordCriteria>());
 
             // Assert
             Assert.IsInstanceOf(typeof(CommandResult), actual);
@@ -188,10 +188,10 @@
         public void ResetPassword_CheckActionName_ReturnAsExpected()
         {
             // Arrange
-            employeeController = GetEmployeeController();
+            _employeeController = GetEmployeeController();
 
             // Act
-            var actual = employeeController.GetType().GetMethod("ResetPassword");
+            var actual = _employeeController.GetType().GetMethod("ResetPassword");
 
             // Assert
             Assert.IsNotNull(actual);
@@ -201,15 +201,15 @@
         public void ResetPassword_WhenCalled_ReturnInstanceOfCommandResult()
         {
             // Arrange
-            employeeService = FakeEmployeeService();
-            sessionService = FakeSessionService();
-            configurationManager = FakeConfigurationManagerService();
-            configurationManager.GetAppSetting(Arg.Any<string>()).Returns("123456");
-            employeeService.ResetPassword(Arg.Any<ResetPasswordCriteria>()).Returns(new CommandResult());
-            employeeController = GetEmployeeController(employeeService, sessionService, configurationManager);
+            _employeeService = FakeEmployeeService();
+            _sessionService = FakeSessionService();
+            _configurationManager = FakeConfigurationManagerService();
+            _configurationManager.GetAppSetting(Arg.Any<string>()).Returns("123456");
+            _employeeService.ResetPassword(Arg.Any<ResetPasswordCriteria>()).Returns(new CommandResult());
+            _employeeController = GetEmployeeController(_employeeService, _sessionService, _configurationManager);
 
             // Act
-            var actual = employeeController.ResetPassword(Arg.Any<int>());
+            var actual = _employeeController.ResetPassword(Arg.Any<int>());
 
             // Assert
             Assert.IsInstanceOf(typeof(CommandResult), actual);
@@ -223,10 +223,10 @@
         public void UpdateHasMonthlyEPA_CheckActionName_ReturnAsExpected()
         {
             // Arrange
-            employeeController = GetEmployeeController();
+            _employeeController = GetEmployeeController();
 
             // Act
-            var actual = employeeController.GetType().GetMethod("UpdateHasMonthlyEPA");
+            var actual = _employeeController.GetType().GetMethod("UpdateHasMonthlyEPA");
 
             // Assert
             Assert.IsNotNull(actual);
@@ -236,13 +236,13 @@
         public void UpdateHasMonthlyEPA_WhenCalled_ReturnInstanceOfCommandResult()
         {
             // Arrange
-            employeeService = FakeEmployeeService();
-            sessionService = FakeSessionService();
-            employeeService.UpdateHasMonthlyEPA(Arg.Any<UpdateHasMonthlyEPACriteria>()).Returns(new CommandResult());
-            employeeController = GetEmployeeController(employeeService, sessionService);
+            _employeeService = FakeEmployeeService();
+            _sessionService = FakeSessionService();
+            _employeeService.UpdateHasMonthlyEPA(Arg.Any<UpdateHasMonthlyEPACriteria>()).Returns(new CommandResult());
+            _employeeController = GetEmployeeController(_employeeService, _sessionService);
 
             // Act
-            var actual = employeeController.UpdateHasMonthlyEPA(Arg.Any<UpdateHasMonthlyEPACriteria>());
+            var actual = _employeeController.UpdateHasMonthlyEPA(Arg.Any<UpdateHasMonthlyEPACriteria>());
 
             // Assert
             Assert.IsInstanceOf(typeof(CommandResult), actual);
@@ -274,6 +274,7 @@
             return service;
         }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Reliability", "CA2000:Dispose objects before losing scope", Justification = "Reviewed")]
         private EmployeeController GetEmployeeController(
             IEmployeeService employeeService = null,
             ISessionService sessionService = null,

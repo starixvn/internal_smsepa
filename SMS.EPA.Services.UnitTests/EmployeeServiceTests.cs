@@ -1,24 +1,24 @@
 ﻿namespace SMS.EPA.Services.UnitTests
 {
-    using System.Collections.Generic;
-    using System.Linq;
+    using Core.Enumerations;
+    using Core.Model;
+    using Core.Repositories;
+    using Core.Security;
+    using Criteria;
+    using Implement;
+    using Model.Enitites;
     using NSubstitute;
     using NUnit.Framework;
-    using SMS.EPA.Core.Enumerations;
-    using SMS.EPA.Core.Model;
-    using SMS.EPA.Core.Repositories;
-    using SMS.EPA.Core.Security;
-    using SMS.EPA.Criteria;
-    using SMS.EPA.Model.Enitites;
-    using SMS.EPA.Repositories;
-    using SMS.EPA.Services.Implement;
+    using Repositories;
+    using System.Collections.Generic;
+    using System.Linq;
 
     [TestFixture]
     public class EmployeeServiceTests
     {
-        private IEmployeeRepository employeeRepository;
-        private IBaseRepository baseRepository;
-        private EmployeeService employeeService;
+        private IEmployeeRepository _employeeRepository;
+        private IBaseRepository _baseRepository;
+        private EmployeeService _employeeService;
 
         #region GetAllEmployee
 
@@ -29,7 +29,7 @@
             ArrangeGetAllEmployee();
 
             // Act
-            var actual = employeeService.GetAllEmployee(Arg.Any<GetAllEmployeeCriteria>());
+            var actual = _employeeService.GetAllEmployee(Arg.Any<GetAllEmployeeCriteria>());
 
             // Assert
             Assert.IsInstanceOf(typeof(IEnumerable<Employee>), actual);
@@ -43,10 +43,10 @@
             ArrangeGetAllEmployee();
 
             // Act
-            employeeService.GetAllEmployee(criteria);
+            _employeeService.GetAllEmployee(criteria);
 
             // Assert
-            employeeRepository.Received().GetAllEmployee(Arg.Is<GetAllEmployeeCriteria>(x => x.IsValid()));
+            _employeeRepository.Received().GetAllEmployee(Arg.Is<GetAllEmployeeCriteria>(x => x.IsValid()));
         }
 
         #endregion GetAllEmployee
@@ -65,7 +65,7 @@
             ArrangeGetEmployeeById(expectedEmployee);
 
             // Act
-            var actual = employeeService.GetEmployeeById(employeeId);
+            var actual = _employeeService.GetEmployeeById(employeeId);
 
             // Assert
             Assert.AreEqual(expectedEmployee, actual);
@@ -83,7 +83,7 @@
             ArrangeGetEmployeeById(expectedEmployee);
 
             // Act
-            var actual = employeeService.GetEmployeeById(employeeId);
+            var actual = _employeeService.GetEmployeeById(employeeId);
 
             // Assert
             Assert.AreNotEqual(expectedEmployee, actual);
@@ -128,7 +128,7 @@
             ArrangeGetEmployeeLogin();
 
             // Act
-            var actual = employeeService.GetEmployeeLogin(Arg.Any<GetEmployeeLoginCriteria>());
+            var actual = _employeeService.GetEmployeeLogin(Arg.Any<GetEmployeeLoginCriteria>());
 
             // Assert
             Assert.IsInstanceOf(typeof(UserSession), actual);
@@ -145,10 +145,10 @@
             ArrangeGetEmployeeLogin();
 
             // Act
-            employeeService.GetEmployeeLogin(criteria);
+            _employeeService.GetEmployeeLogin(criteria);
 
             // Assert
-            employeeRepository.Received().GetEmployeeLogin(Arg.Is<GetEmployeeLoginCriteria>(x => x.IsValid()));
+            _employeeRepository.Received().GetEmployeeLogin(Arg.Is<GetEmployeeLoginCriteria>(x => x.IsValid()));
         }
 
         #endregion GetEmployeeLogin
@@ -162,7 +162,7 @@
             ArrangeCreateSpecialEmployee();
 
             // Act
-            var actual = employeeService.CreateSpecialEmployee(new CreateSpecialEmployeeCriteria());
+            var actual = _employeeService.CreateSpecialEmployee(new CreateSpecialEmployeeCriteria());
 
             // Assert
             Assert.IsInstanceOf(typeof(CommandResult), actual);
@@ -184,7 +184,7 @@
             ArrangeCreateSpecialEmployee();
 
             // Act
-            employeeService.CreateSpecialEmployee(criteria);
+            _employeeService.CreateSpecialEmployee(criteria);
 
             // Assert
             Assert.AreNotEqual(plainText, criteria.Password);
@@ -205,10 +205,10 @@
             ArrangeCreateSpecialEmployee();
 
             // Act
-            employeeService.CreateSpecialEmployee(criteria);
+            _employeeService.CreateSpecialEmployee(criteria);
 
             // Assert
-            employeeService.Repository.Received().Insert(Arg.Is<CreateSpecialEmployeeCriteria>(x => x.IsValid()));
+            _employeeService.Repository.Received().Insert(Arg.Is<CreateSpecialEmployeeCriteria>(x => x.IsValid()));
         }
 
         #endregion CreateSpecialEmployee
@@ -222,7 +222,7 @@
             ArrangeUpdateSpecialEmployee();
 
             // Act
-            var actual = employeeService.UpdateSpecialEmployee(new UpdateSpecialEmployeeCriteria());
+            var actual = _employeeService.UpdateSpecialEmployee(new UpdateSpecialEmployeeCriteria());
 
             // Assert
             Assert.IsInstanceOf(typeof(CommandResult), actual);
@@ -243,10 +243,10 @@
             ArrangeUpdateSpecialEmployee();
 
             // Act
-            employeeService.UpdateSpecialEmployee(criteria);
+            _employeeService.UpdateSpecialEmployee(criteria);
 
             // Assert
-            employeeService.Repository.Received().Update(Arg.Is<UpdateSpecialEmployeeCriteria>(x => x.IsValid()));
+            _employeeService.Repository.Received().Update(Arg.Is<UpdateSpecialEmployeeCriteria>(x => x.IsValid()));
         }
 
         #endregion UpdateSpecialEmployee
@@ -260,7 +260,7 @@
             ArrangeChangePassword();
 
             // Act
-            var actual = employeeService.ChangePassword(new ChangePasswordCriteria());
+            var actual = _employeeService.ChangePassword(new ChangePasswordCriteria());
 
             // Assert
             Assert.IsInstanceOf(typeof(CommandResult), actual);
@@ -284,7 +284,7 @@
             ArrangeChangePassword();
 
             // Act
-            employeeService.ChangePassword(criteria);
+            _employeeService.ChangePassword(criteria);
 
             // Assert
             Assert.AreNotEqual(newPassword, criteria.NewPassword);
@@ -309,7 +309,7 @@
             ArrangeChangePassword();
 
             // Act
-            CommandResult result = employeeService.ChangePassword(criteria);
+            CommandResult result = _employeeService.ChangePassword(criteria);
 
             // Assert
             Assert.IsFalse(result.IsSuccessful);
@@ -334,7 +334,7 @@
             ArrangeChangePassword();
 
             // Act
-            CommandResult result = employeeService.ChangePassword(criteria);
+            CommandResult result = _employeeService.ChangePassword(criteria);
 
             // Assert
             Assert.IsFalse(result.IsSuccessful);
@@ -351,7 +351,7 @@
             ArrangeAssignRoleToEmployee();
 
             // Act
-            var actual = employeeService.AssignRoleToEmployee(new AssignRoleToEmployeeCriteria());
+            var actual = _employeeService.AssignRoleToEmployee(new AssignRoleToEmployeeCriteria());
 
             // Assert
             Assert.IsInstanceOf(typeof(CommandResult), actual);
@@ -370,10 +370,10 @@
             ArrangeAssignRoleToEmployee();
 
             // Act
-            employeeService.AssignRoleToEmployee(criteria);
+            _employeeService.AssignRoleToEmployee(criteria);
 
             // Assert
-            employeeService.Repository.Received().Update(Arg.Is<AssignRoleToEmployeeCriteria>(x => x.IsValid()));
+            _employeeService.Repository.Received().Update(Arg.Is<AssignRoleToEmployeeCriteria>(x => x.IsValid()));
         }
 
         #endregion AssignRoleToEmployee
@@ -387,7 +387,7 @@
             ArrangeGetEmployeeByDepartmentId();
 
             // Act
-            var actual = employeeService.GetEmployeeByDepartmentId(Arg.Any<int?>());
+            var actual = _employeeService.GetEmployeeByDepartmentId(Arg.Any<int?>());
 
             // Assert
             Assert.IsInstanceOf(typeof(IEnumerable<Employee>), actual);
@@ -401,10 +401,10 @@
             ArrangeGetEmployeeByDepartmentId();
 
             // Act
-            employeeService.GetEmployeeByDepartmentId(departmentId);
+            _employeeService.GetEmployeeByDepartmentId(departmentId);
 
             // Assert
-            employeeService.Received().GetData<Employee>(Arg.Is<GetEmployeeByDepartmentIdCriteria>(x => x.IsValid()));
+            _employeeService.Received().GetData<Employee>(Arg.Is<GetEmployeeByDepartmentIdCriteria>(x => x.IsValid()));
         }
 
         [Test]
@@ -416,7 +416,7 @@
             ArrangeGetEmployeeByDepartmentId(result);
 
             // Act
-            var actual = employeeService.GetEmployeeByDepartmentId(departmentId);
+            var actual = _employeeService.GetEmployeeByDepartmentId(departmentId);
 
             // Assert
             Assert.IsTrue(actual.SequenceEqual(result.OrderBy(x => x.NickName)));
@@ -434,7 +434,7 @@
             ArrangeGetEmployeeByGroupId();
 
             // Act
-            var actual = employeeService.GetEmployeeByGroupId(groupId);
+            var actual = _employeeService.GetEmployeeByGroupId(groupId);
 
             // Assert
             Assert.IsInstanceOf(typeof(IEnumerable<Employee>), actual);
@@ -448,10 +448,10 @@
             ArrangeGetEmployeeByGroupId();
 
             // Act
-            employeeService.GetEmployeeByGroupId(groupId);
+            _employeeService.GetEmployeeByGroupId(groupId);
 
             // Assert
-            employeeService.Received().GetData<Employee>(Arg.Is<GetEmployeeByGroupIdCriteria>(x => x.IsValid()));
+            _employeeService.Received().GetData<Employee>(Arg.Is<GetEmployeeByGroupIdCriteria>(x => x.IsValid()));
         }
 
         #endregion GetEmployeeByGroupId
@@ -465,7 +465,7 @@
             ArrangeInsertEmployeeIPAddress();
 
             // Act
-            var actual = employeeService.InsertEmployeeIPAddress(new InsertEmployeeIPAddressCriteria());
+            var actual = _employeeService.InsertEmployeeIPAddress(new InsertEmployeeIPAddressCriteria());
 
             // Assert
             Assert.IsInstanceOf(typeof(CommandResult), actual);
@@ -479,10 +479,10 @@
             ArrangeInsertEmployeeIPAddress();
 
             // Act
-            employeeService.InsertEmployeeIPAddress(criteria);
+            _employeeService.InsertEmployeeIPAddress(criteria);
 
             // Assert
-            employeeService.Repository.Received().Insert(Arg.Is<InsertEmployeeIPAddressCriteria>(x => x.IsValid()));
+            _employeeService.Repository.Received().Insert(Arg.Is<InsertEmployeeIPAddressCriteria>(x => x.IsValid()));
         }
 
         #endregion InsertEmployeeIPAddress
@@ -496,7 +496,7 @@
             ArrangeUpdateHasMonthlyEPA();
 
             // Act
-            var actual = employeeService.UpdateHasMonthlyEPA(new UpdateHasMonthlyEPACriteria());
+            var actual = _employeeService.UpdateHasMonthlyEPA(new UpdateHasMonthlyEPACriteria());
 
             // Assert
             Assert.IsInstanceOf(typeof(CommandResult), actual);
@@ -514,10 +514,10 @@
             ArrangeUpdateHasMonthlyEPA();
 
             // Act
-            employeeService.UpdateHasMonthlyEPA(criteria);
+            _employeeService.UpdateHasMonthlyEPA(criteria);
 
             // Assert
-            employeeService.Repository.Received().Update(Arg.Is<UpdateHasMonthlyEPACriteria>(x => x.IsValid()));
+            _employeeService.Repository.Received().Update(Arg.Is<UpdateHasMonthlyEPACriteria>(x => x.IsValid()));
         }
 
         #endregion UpdateHasMonthlyEPA
@@ -531,7 +531,7 @@
             ArrangeResetPassword();
 
             // Act
-            var actual = employeeService.ResetPassword(new ResetPasswordCriteria());
+            var actual = _employeeService.ResetPassword(new ResetPasswordCriteria());
 
             // Assert
             Assert.IsInstanceOf(typeof(CommandResult), actual);
@@ -552,7 +552,7 @@
             ArrangeResetPassword();
 
             // Act
-            employeeService.ResetPassword(criteria);
+            _employeeService.ResetPassword(criteria);
 
             // Assert
             Assert.AreNotEqual(newPassword, criteria.NewPassword);
@@ -607,89 +607,89 @@
 
         private void ArrangeGetEmployeeLogin(UserSession result = null)
         {
-            employeeRepository = FakeEmployeeRepository();
-            employeeRepository.GetEmployeeLogin(Arg.Any<GetEmployeeLoginCriteria>()).Returns(result ?? new UserSession());
-            employeeService = GetEmployeeService(employeeRepository);
+            _employeeRepository = FakeEmployeeRepository();
+            _employeeRepository.GetEmployeeLogin(Arg.Any<GetEmployeeLoginCriteria>()).Returns(result ?? new UserSession());
+            _employeeService = GetEmployeeService(_employeeRepository);
         }
 
         private void ArrangeGetAllEmployee(IEnumerable<Employee> result = null)
         {
-            employeeRepository = FakeEmployeeRepository();
-            employeeRepository.GetAllEmployee(Arg.Any<GetAllEmployeeCriteria>()).Returns(result ?? new List<Employee>());
-            employeeService = GetEmployeeService(employeeRepository);
+            _employeeRepository = FakeEmployeeRepository();
+            _employeeRepository.GetAllEmployee(Arg.Any<GetAllEmployeeCriteria>()).Returns(result ?? new List<Employee>());
+            _employeeService = GetEmployeeService(_employeeRepository);
         }
 
         private void ArrangeGetEmployeeById(Employee result = null)
         {
-            employeeRepository = FakeEmployeeRepository();
-            employeeService = GetEmployeeService(employeeRepository);
-            employeeRepository.GetEmployeeById(Arg.Any<GetEmployeeByIdCriteria>()).Returns(result == null ? new Employee() : result);
+            _employeeRepository = FakeEmployeeRepository();
+            _employeeService = GetEmployeeService(_employeeRepository);
+            _employeeRepository.GetEmployeeById(Arg.Any<GetEmployeeByIdCriteria>()).Returns(result == null ? new Employee() : result);
         }
 
         private void ArrangeCreateSpecialEmployee(CommandResult result = null)
         {
-            baseRepository = FakeBaseRepository();
-            employeeService = GetEmployeeService(null, baseRepository);
-            employeeService.Repository.Insert(Arg.Any<CreateSpecialEmployeeCriteria>()).Returns(result ?? new CommandResult());
+            _baseRepository = FakeBaseRepository();
+            _employeeService = GetEmployeeService(null, _baseRepository);
+            _employeeService.Repository.Insert(Arg.Any<CreateSpecialEmployeeCriteria>()).Returns(result ?? new CommandResult());
         }
 
         private void ArrangeUpdateSpecialEmployee(CommandResult result = null)
         {
-            baseRepository = FakeBaseRepository();
-            employeeService = GetEmployeeService(null, baseRepository);
-            employeeService.Repository.Update(Arg.Any<UpdateSpecialEmployeeCriteria>()).Returns(result ?? new CommandResult());
+            _baseRepository = FakeBaseRepository();
+            _employeeService = GetEmployeeService(null, _baseRepository);
+            _employeeService.Repository.Update(Arg.Any<UpdateSpecialEmployeeCriteria>()).Returns(result ?? new CommandResult());
         }
 
         private void ArrangeChangePassword(CommandResult result = null)
         {
-            baseRepository = FakeBaseRepository();
-            employeeService = Substitute.For<EmployeeService>();
-            employeeService.Repository = baseRepository;
-            employeeService.GetDataEntity<string>(Arg.Any<GetPasswordByEmpIdCriteria>()).Returns(Encryption.ComputeHash(HashProvider.Sha1, "123456"));
-            employeeService.Repository.Update(Arg.Any<ChangePasswordCriteria>()).Returns(result ?? new CommandResult());
+            _baseRepository = FakeBaseRepository();
+            _employeeService = Substitute.For<EmployeeService>();
+            _employeeService.Repository = _baseRepository;
+            _employeeService.GetDataEntity<string>(Arg.Any<GetPasswordByEmpIdCriteria>()).Returns(Encryption.ComputeHash(HashProvider.Sha1, "123456"));
+            _employeeService.Repository.Update(Arg.Any<ChangePasswordCriteria>()).Returns(result ?? new CommandResult());
         }
 
         private void ArrangeResetPassword(CommandResult result = null)
         {
-            baseRepository = FakeBaseRepository();
-            employeeService = Substitute.For<EmployeeService>();
-            employeeService.Repository = baseRepository;
-            employeeService.Repository.Update(Arg.Any<ResetPasswordCriteria>()).Returns(result ?? new CommandResult());
+            _baseRepository = FakeBaseRepository();
+            _employeeService = Substitute.For<EmployeeService>();
+            _employeeService.Repository = _baseRepository;
+            _employeeService.Repository.Update(Arg.Any<ResetPasswordCriteria>()).Returns(result ?? new CommandResult());
         }
 
         private void ArrangeAssignRoleToEmployee(CommandResult result = null)
         {
-            baseRepository = FakeBaseRepository();
-            employeeService = GetEmployeeService(null, baseRepository);
-            employeeService.Repository.Update(Arg.Any<AssignRoleToEmployeeCriteria>()).Returns(result ?? new CommandResult());
+            _baseRepository = FakeBaseRepository();
+            _employeeService = GetEmployeeService(null, _baseRepository);
+            _employeeService.Repository.Update(Arg.Any<AssignRoleToEmployeeCriteria>()).Returns(result ?? new CommandResult());
         }
 
         private void ArrangeGetEmployeeByDepartmentId(IEnumerable<Employee> result = null)
         {
-            employeeService = Substitute.For<EmployeeService>();
-            employeeService.When(x => x.GetData<Employee>(Arg.Any<GetEmployeeByDepartmentIdCriteria>())).DoNotCallBase();
-            employeeService.GetData<Employee>(Arg.Any<GetEmployeeByDepartmentIdCriteria>()).Returns(result ?? new List<Employee>());
+            _employeeService = Substitute.For<EmployeeService>();
+            _employeeService.When(x => x.GetData<Employee>(Arg.Any<GetEmployeeByDepartmentIdCriteria>())).DoNotCallBase();
+            _employeeService.GetData<Employee>(Arg.Any<GetEmployeeByDepartmentIdCriteria>()).Returns(result ?? new List<Employee>());
         }
 
         private void ArrangeGetEmployeeByGroupId(IEnumerable<Employee> result = null)
         {
-            employeeService = Substitute.For<EmployeeService>();
-            employeeService.When(x => x.GetData<Employee>(Arg.Any<GetEmployeeByGroupIdCriteria>())).DoNotCallBase();
-            employeeService.GetData<Employee>(Arg.Any<GetEmployeeByGroupIdCriteria>()).Returns(result ?? new List<Employee>());
+            _employeeService = Substitute.For<EmployeeService>();
+            _employeeService.When(x => x.GetData<Employee>(Arg.Any<GetEmployeeByGroupIdCriteria>())).DoNotCallBase();
+            _employeeService.GetData<Employee>(Arg.Any<GetEmployeeByGroupIdCriteria>()).Returns(result ?? new List<Employee>());
         }
 
         private void ArrangeInsertEmployeeIPAddress(CommandResult result = null)
         {
-            baseRepository = FakeBaseRepository();
-            employeeService = GetEmployeeService(null, baseRepository);
-            employeeService.Repository.Insert(Arg.Any<InsertEmployeeIPAddressCriteria>()).Returns(result ?? new CommandResult());
+            _baseRepository = FakeBaseRepository();
+            _employeeService = GetEmployeeService(null, _baseRepository);
+            _employeeService.Repository.Insert(Arg.Any<InsertEmployeeIPAddressCriteria>()).Returns(result ?? new CommandResult());
         }
 
         private void ArrangeUpdateHasMonthlyEPA(CommandResult result = null)
         {
-            baseRepository = FakeBaseRepository();
-            employeeService = GetEmployeeService(null, baseRepository);
-            employeeService.Repository.Update(Arg.Any<UpdateHasMonthlyEPACriteria>()).Returns(result ?? new CommandResult());
+            _baseRepository = FakeBaseRepository();
+            _employeeService = GetEmployeeService(null, _baseRepository);
+            _employeeService.Repository.Update(Arg.Any<UpdateHasMonthlyEPACriteria>()).Returns(result ?? new CommandResult());
         }
 
         #endregion Helpers

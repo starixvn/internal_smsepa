@@ -1,20 +1,21 @@
 ﻿namespace SMS.EPA.Site.UnitTests.Controllers
 {
-    using System.Collections.Generic;
+    using Core.Model;
+    using Core.Services;
+    using Criteria;
+    using Model;
     using NSubstitute;
     using NUnit.Framework;
-    using SMS.EPA.Core.Model;
-    using SMS.EPA.Core.Services;
-    using SMS.EPA.Criteria;
-    using SMS.EPA.Model;
-    using SMS.EPA.Services.Interfaces;
-    using SMS.EPA.Site.Controllers.API;
+    using Services.Interfaces;
+    using Site.Controllers.API;
+    using System.Collections.Generic;
 
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1001:TypesThatOwnDisposableFieldsShouldBeDisposable", Justification = "Reviewed")]
     [TestFixture]
     public class TargetEmployeeSettingControllerTests
     {
-        private ITargetEmployeeSettingService targetEmployeeSettingService;
-        private TargetEmployeeSettingController targetEmployeeSettingController;
+        private ITargetEmployeeSettingService _targetEmployeeSettingService;
+        private TargetEmployeeSettingController _targetEmployeeSettingController;
 
         #region GetTargetEmployeeSetting
 
@@ -27,7 +28,7 @@
             ArrangeGetTargetEmployeeSetting(expectedTargetEmployees);
 
             // Act
-            var actual = targetEmployeeSettingController.GetTargetEmployeeSetting();
+            var actual = _targetEmployeeSettingController.GetTargetEmployeeSetting();
 
             // Assert
             Assert.AreEqual(expectedTargetEmployees, actual);
@@ -40,7 +41,7 @@
             ArrangeGetTargetEmployeeSetting();
 
             // Act
-            var actual = targetEmployeeSettingController.GetTargetEmployeeSetting();
+            var actual = _targetEmployeeSettingController.GetTargetEmployeeSetting();
 
             // Assert
             Assert.IsInstanceOf(typeof(IEnumerable<TargetEmployeeSetting>), actual);
@@ -59,7 +60,7 @@
             ArrangeGetTargetDepartmentSetting(expectedTargetDepartments);
 
             // Act
-            var actual = targetEmployeeSettingController.GetTargetDepartmentSetting();
+            var actual = _targetEmployeeSettingController.GetTargetDepartmentSetting();
 
             // Assert
             Assert.AreEqual(expectedTargetDepartments, actual);
@@ -72,7 +73,7 @@
             ArrangeGetTargetDepartmentSetting();
 
             // Act
-            var actual = targetEmployeeSettingController.GetTargetEmployeeSetting();
+            var actual = _targetEmployeeSettingController.GetTargetEmployeeSetting();
 
             // Assert
             Assert.IsInstanceOf(typeof(IEnumerable<TargetEmployeeSetting>), actual);
@@ -89,7 +90,7 @@
             ArrangeAssignTargetTemplateToEmployee();
 
             // Act
-            var actual = targetEmployeeSettingController.AssignTargetTemplateToEmployee(Arg.Any<AssignTargetTemplateToEmployeeCriteria>());
+            var actual = _targetEmployeeSettingController.AssignTargetTemplateToEmployee(Arg.Any<AssignTargetTemplateToEmployeeCriteria>());
 
             // Assert
             Assert.IsInstanceOf(typeof(CommandResult), actual);
@@ -106,7 +107,7 @@
             ArrangeAssignTargetTemplateToEmployee(expectedCommandResult);
 
             // Act
-            var actual = targetEmployeeSettingController.AssignTargetTemplateToEmployee(new AssignTargetTemplateToEmployeeCriteria());
+            var actual = _targetEmployeeSettingController.AssignTargetTemplateToEmployee(new AssignTargetTemplateToEmployeeCriteria());
 
             // Assert
             Assert.AreEqual(expectedCommandResult, actual);
@@ -123,7 +124,7 @@
             ArrangeDeleteTargetEmployeeSetting();
 
             // Act
-            var actual = targetEmployeeSettingController.DeleteTargetEmployeeSetting(Arg.Any<int>(), Arg.Any<int>());
+            var actual = _targetEmployeeSettingController.DeleteTargetEmployeeSetting(Arg.Any<int>(), Arg.Any<int>());
 
             // Assert
             Assert.IsInstanceOf(typeof(CommandResult), actual);
@@ -140,7 +141,7 @@
             ArrangeDeleteTargetEmployeeSetting(expectedCommandResult);
 
             // Act
-            var actual = targetEmployeeSettingController.DeleteTargetEmployeeSetting(Arg.Any<int>(), Arg.Any<int>());
+            var actual = _targetEmployeeSettingController.DeleteTargetEmployeeSetting(Arg.Any<int>(), Arg.Any<int>());
 
             // Assert
             Assert.AreEqual(expectedCommandResult, actual);
@@ -157,7 +158,7 @@
             ArrangeAssignTargetTemplateToDepartment();
 
             // Act
-            var actual = targetEmployeeSettingController.AssignTargetTemplateToDepartment(null);
+            var actual = _targetEmployeeSettingController.AssignTargetTemplateToDepartment(null);
 
             // Assert
             Assert.IsInstanceOf(typeof(CommandResult), actual);
@@ -174,7 +175,7 @@
             ArrangeAssignTargetTemplateToDepartment(expectedCommandResult);
 
             // Act
-            var actual = targetEmployeeSettingController.AssignTargetTemplateToDepartment(new TargetSettingAssignModel());
+            var actual = _targetEmployeeSettingController.AssignTargetTemplateToDepartment(new TargetSettingAssignModel());
 
             // Assert
             Assert.AreEqual(expectedCommandResult, actual);
@@ -188,7 +189,7 @@
             ArrangeAssignTargetTemplateToDepartment();
 
             // Act
-            var actual = targetEmployeeSettingController.AssignTargetTemplateToDepartment(null);
+            var actual = _targetEmployeeSettingController.AssignTargetTemplateToDepartment(null);
 
             // Assert
             Assert.AreEqual(expectedCommandResult.Code, actual.Code);
@@ -205,7 +206,7 @@
             ArrangeDeleteTargetDepartmentSetting();
 
             // Act
-            var actual = targetEmployeeSettingController.DeleteTargetDepartmentSetting(Arg.Any<int>(), Arg.Any<int>(), Arg.Any<bool>());
+            var actual = _targetEmployeeSettingController.DeleteTargetDepartmentSetting(Arg.Any<int>(), Arg.Any<int>(), Arg.Any<bool>());
 
             // Assert
             Assert.IsInstanceOf(typeof(CommandResult), actual);
@@ -222,7 +223,7 @@
             ArrangeDeleteTargetDepartmentSetting(expectedCommandResult);
 
             // Act
-            var actual = targetEmployeeSettingController.DeleteTargetDepartmentSetting(Arg.Any<int>(), Arg.Any<int>(), Arg.Any<bool>());
+            var actual = _targetEmployeeSettingController.DeleteTargetDepartmentSetting(Arg.Any<int>(), Arg.Any<int>(), Arg.Any<bool>());
 
             // Assert
             Assert.AreEqual(expectedCommandResult, actual);
@@ -237,11 +238,11 @@
         {
             // Arrange
             var expectedPermission = 2;
-            targetEmployeeSettingController = new TargetEmployeeSettingController();
-            targetEmployeeSettingController.SessionService = FakeSessionService(expectedPermission);
+            _targetEmployeeSettingController = new TargetEmployeeSettingController();
+            _targetEmployeeSettingController.SessionService = FakeSessionService(expectedPermission);
 
             // Act
-            var actual = targetEmployeeSettingController.GetUserPermissionOnTargetEmployeeSetting();
+            var actual = _targetEmployeeSettingController.GetUserPermissionOnTargetEmployeeSetting();
 
             // Assert
             Assert.AreEqual(expectedPermission, actual);
@@ -260,56 +261,56 @@
 
         private void ArrangeGetTargetEmployeeSetting(IList<TargetEmployeeSetting> targetEmployees = null)
         {
-            targetEmployeeSettingService = Substitute.For<ITargetEmployeeSettingService>();
+            _targetEmployeeSettingService = Substitute.For<ITargetEmployeeSettingService>();
 
-            targetEmployeeSettingService.GetTargetEmployeeSetting(Arg.Any<GetAllTargetEmployeeSettingCriteria>())
+            _targetEmployeeSettingService.GetTargetEmployeeSetting(Arg.Any<GetAllTargetEmployeeSettingCriteria>())
                 .Returns(targetEmployees ?? new List<TargetEmployeeSetting>());
-            targetEmployeeSettingController = new TargetEmployeeSettingController(targetEmployeeSettingService);
+            _targetEmployeeSettingController = new TargetEmployeeSettingController(_targetEmployeeSettingService);
         }
 
         private void ArrangeGetTargetDepartmentSetting(IList<TargetDepartmentSetting> targetDepartments = null)
         {
-            targetEmployeeSettingService = Substitute.For<ITargetEmployeeSettingService>();
+            _targetEmployeeSettingService = Substitute.For<ITargetEmployeeSettingService>();
 
-            targetEmployeeSettingService.GetTargetDepartmentSetting(Arg.Any<GetTargetDepartmentSettingCriteria>())
+            _targetEmployeeSettingService.GetTargetDepartmentSetting(Arg.Any<GetTargetDepartmentSettingCriteria>())
                 .Returns(targetDepartments ?? new List<TargetDepartmentSetting>());
-            targetEmployeeSettingController = new TargetEmployeeSettingController(targetEmployeeSettingService);
+            _targetEmployeeSettingController = new TargetEmployeeSettingController(_targetEmployeeSettingService);
         }
 
         private void ArrangeAssignTargetTemplateToEmployee(CommandResult result = null)
         {
-            targetEmployeeSettingService = Substitute.For<ITargetEmployeeSettingService>();
+            _targetEmployeeSettingService = Substitute.For<ITargetEmployeeSettingService>();
 
-            targetEmployeeSettingService.AssignTargetTemplateToEmployee(Arg.Any<AssignTargetTemplateToEmployeeCriteria>()).Returns(result ?? new CommandResult());
-            targetEmployeeSettingController = new TargetEmployeeSettingController(targetEmployeeSettingService);
-            targetEmployeeSettingController.SessionService = FakeSessionService();
+            _targetEmployeeSettingService.AssignTargetTemplateToEmployee(Arg.Any<AssignTargetTemplateToEmployeeCriteria>()).Returns(result ?? new CommandResult());
+            _targetEmployeeSettingController = new TargetEmployeeSettingController(_targetEmployeeSettingService);
+            _targetEmployeeSettingController.SessionService = FakeSessionService();
         }
 
         private void ArrangeDeleteTargetEmployeeSetting(CommandResult result = null)
         {
-            targetEmployeeSettingService = Substitute.For<ITargetEmployeeSettingService>();
+            _targetEmployeeSettingService = Substitute.For<ITargetEmployeeSettingService>();
 
-            targetEmployeeSettingService.DeleteTargetEmployeeSetting(Arg.Any<DeleteTargetEmployeeSettingCriteria>()).Returns(result ?? new CommandResult());
-            targetEmployeeSettingController = new TargetEmployeeSettingController(targetEmployeeSettingService);
-            targetEmployeeSettingController.SessionService = FakeSessionService();
+            _targetEmployeeSettingService.DeleteTargetEmployeeSetting(Arg.Any<DeleteTargetEmployeeSettingCriteria>()).Returns(result ?? new CommandResult());
+            _targetEmployeeSettingController = new TargetEmployeeSettingController(_targetEmployeeSettingService);
+            _targetEmployeeSettingController.SessionService = FakeSessionService();
         }
 
         private void ArrangeAssignTargetTemplateToDepartment(CommandResult result = null)
         {
-            targetEmployeeSettingService = Substitute.For<ITargetEmployeeSettingService>();
+            _targetEmployeeSettingService = Substitute.For<ITargetEmployeeSettingService>();
 
-            targetEmployeeSettingService.AssignTargetTemplateToDepartment(Arg.Any<AssignTargetDepartmentSettingCriteria>()).Returns(result ?? new CommandResult());
-            targetEmployeeSettingController = new TargetEmployeeSettingController(targetEmployeeSettingService);
-            targetEmployeeSettingController.SessionService = FakeSessionService();
+            _targetEmployeeSettingService.AssignTargetTemplateToDepartment(Arg.Any<AssignTargetDepartmentSettingCriteria>()).Returns(result ?? new CommandResult());
+            _targetEmployeeSettingController = new TargetEmployeeSettingController(_targetEmployeeSettingService);
+            _targetEmployeeSettingController.SessionService = FakeSessionService();
         }
 
         private void ArrangeDeleteTargetDepartmentSetting(CommandResult result = null)
         {
-            targetEmployeeSettingService = Substitute.For<ITargetEmployeeSettingService>();
+            _targetEmployeeSettingService = Substitute.For<ITargetEmployeeSettingService>();
 
-            targetEmployeeSettingService.DeleteTargetDepartmentSetting(Arg.Any<DeleteTargetDepartmentSettingCriteria>()).Returns(result ?? new CommandResult());
-            targetEmployeeSettingController = new TargetEmployeeSettingController(targetEmployeeSettingService);
-            targetEmployeeSettingController.SessionService = FakeSessionService();
+            _targetEmployeeSettingService.DeleteTargetDepartmentSetting(Arg.Any<DeleteTargetDepartmentSettingCriteria>()).Returns(result ?? new CommandResult());
+            _targetEmployeeSettingController = new TargetEmployeeSettingController(_targetEmployeeSettingService);
+            _targetEmployeeSettingController.SessionService = FakeSessionService();
         }
     }
 }

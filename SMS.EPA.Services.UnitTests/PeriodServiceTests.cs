@@ -1,28 +1,27 @@
 ﻿namespace SMS.EPA.Services.UnitTests
 {
-    using System.Collections.Generic;
-    using System.Linq;
+    using Core.Enumerations;
+    using Core.Model;
+    using Core.Repositories;
+    using Core.Services;
+    using Criteria;
+    using Implement;
+    using Interfaces;
+    using Model;
     using NSubstitute;
     using NUnit.Framework;
-    using SMS.EPA.Core.Enumerations;
-    using SMS.EPA.Core.Model;
-    using SMS.EPA.Core.Repositories;
-    using SMS.EPA.Core.Services;
-    using SMS.EPA.Criteria;
-    using SMS.EPA.Model;
-    using SMS.EPA.Model.Enitites;
-    using SMS.EPA.Repositories;
-    using SMS.EPA.Services.Implement;
-    using SMS.EPA.Services.Interfaces;
+    using Repositories;
+    using System.Collections.Generic;
+    using System.Linq;
 
     [TestFixture]
     public class PeriodServiceTests
     {
-        private PeriodService periodService;
-        private IBaseRepository baseRepository;
-        private IPeriodRepository periodRepository;
-        private IManualMailService manualMailService;
-        private IConfigurationManagerService configurationManager;
+        private PeriodService _periodService;
+        private IBaseRepository _baseRepository;
+        private IPeriodRepository _periodRepository;
+        private IManualMailService _manualMailService;
+        private IConfigurationManagerService _configurationManager;
 
         #region GetPeriod
 
@@ -33,7 +32,7 @@
             ArrangeGetPeriod();
 
             // Act
-            var actual = periodService.GetPeriod(Arg.Any<GetPeriodCriteria>());
+            var actual = _periodService.GetPeriod(Arg.Any<GetPeriodCriteria>());
 
             // Assert
             Assert.IsInstanceOf(typeof(IEnumerable<PeriodModel>), actual);
@@ -48,7 +47,7 @@
             ArrangeGetPeriod(result);
 
             // Act
-            var actual = periodService.GetPeriod(criteria);
+            var actual = _periodService.GetPeriod(criteria);
 
             // Assert
             Assert.AreEqual(result, actual);
@@ -63,7 +62,7 @@
             ArrangeGetPeriod(result);
 
             // Act
-            var actual = periodService.GetPeriod(criteria);
+            var actual = _periodService.GetPeriod(criteria);
 
             // Assert
             Assert.AreEqual(0, actual.Where(x => x.TargetType == null || x.TargetType.TargetTypeId <= 0).Count());
@@ -78,7 +77,7 @@
             ArrangeGetPeriod(result);
 
             // Act
-            var actual = periodService.GetPeriod(criteria);
+            var actual = _periodService.GetPeriod(criteria);
 
             // Assert
             Assert.IsFalse(actual.Any(x => x.TargetType.TargetTypeId == (int)TargetType.Monthly));
@@ -96,7 +95,7 @@
             ArrangeGetPeriodById();
 
             // Act
-            var actual = periodService.GetPeriodById(periodId);
+            var actual = _periodService.GetPeriodById(periodId);
 
             // Assert
             Assert.IsInstanceOf(typeof(PeriodModel), actual);
@@ -111,7 +110,7 @@
             ArrangeGetPeriodById(result);
 
             // Act
-            var actual = periodService.GetPeriodById(periodId);
+            var actual = _periodService.GetPeriodById(periodId);
 
             // Assert
             Assert.AreEqual(result, actual);
@@ -127,7 +126,7 @@
             ArrangeGetPeriodById(result);
 
             // Act
-            var actual = periodService.GetPeriodById(periodId);
+            var actual = _periodService.GetPeriodById(periodId);
 
             // Assert
             Assert.AreEqual(false, actual.TargetType == null || actual.TargetType.TargetTypeId <= 0);
@@ -142,7 +141,7 @@
             ArrangeGetPeriodById(result);
 
             // Act
-            var actual = periodService.GetPeriodById(periodId);
+            var actual = _periodService.GetPeriodById(periodId);
 
             // Assert
             Assert.IsTrue(actual.TargetType.TargetTypeId != (int)TargetType.Monthly);
@@ -159,7 +158,7 @@
             ArrangeCreatePeriod();
 
             // Act
-            var actual = periodService.CreatePeriod(new CreatePeriodCriteria());
+            var actual = _periodService.CreatePeriod(new CreatePeriodCriteria());
 
             // Assert
             Assert.IsInstanceOf(typeof(CommandResult), actual);
@@ -178,10 +177,10 @@
             ArrangeCreatePeriod();
 
             // Act
-            periodService.CreatePeriod(criteria);
+            _periodService.CreatePeriod(criteria);
 
             // Assert
-            periodService.Repository.Received().Insert(Arg.Is<CreatePeriodCriteria>(x => x.IsValid()));
+            _periodService.Repository.Received().Insert(Arg.Is<CreatePeriodCriteria>(x => x.IsValid()));
         }
 
         #endregion CreatePeriod
@@ -195,7 +194,7 @@
             ArrangeAutoCreateMonthlyPeriod();
 
             // Act
-            var actual = periodService.AutoCreateMonthlyPeriod(new AutoCreateMonthlyPeriodCriteria());
+            var actual = _periodService.AutoCreateMonthlyPeriod(new AutoCreateMonthlyPeriodCriteria());
 
             // Assert
             Assert.IsInstanceOf(typeof(CommandResult), actual);
@@ -212,10 +211,10 @@
             ArrangeAutoCreateMonthlyPeriod();
 
             // Act
-            periodService.AutoCreateMonthlyPeriod(criteria);
+            _periodService.AutoCreateMonthlyPeriod(criteria);
 
             // Assert
-            periodService.Repository.Received().Insert(Arg.Is<AutoCreateMonthlyPeriodCriteria>(x => x.IsValid()));
+            _periodService.Repository.Received().Insert(Arg.Is<AutoCreateMonthlyPeriodCriteria>(x => x.IsValid()));
         }
 
         #endregion AutoCreateMonthlyPeriod
@@ -229,7 +228,7 @@
             ArrangeUpdateBasicInformationPeriod();
 
             // Act
-            var actual = periodService.UpdateBasicInformationPeriod(new UpdateBasicInformationPeriodCriteria());
+            var actual = _periodService.UpdateBasicInformationPeriod(new UpdateBasicInformationPeriodCriteria());
 
             // Assert
             Assert.IsInstanceOf(typeof(CommandResult), actual);
@@ -249,10 +248,10 @@
             ArrangeAutoCreateMonthlyPeriod();
 
             // Act
-            periodService.UpdateBasicInformationPeriod(criteria);
+            _periodService.UpdateBasicInformationPeriod(criteria);
 
             // Assert
-            periodService.Repository.Received().Update(Arg.Is<UpdateBasicInformationPeriodCriteria>(x => x.IsValid()));
+            _periodService.Repository.Received().Update(Arg.Is<UpdateBasicInformationPeriodCriteria>(x => x.IsValid()));
         }
 
         #endregion UpdateBasicInformationPeriod
@@ -266,7 +265,7 @@
             ArrangeUpdateStatusPeriod();
 
             // Act
-            var actual = periodService.UpdateStatusPeriod(new UpdateStatusPeriodCriteria());
+            var actual = _periodService.UpdateStatusPeriod(new UpdateStatusPeriodCriteria());
 
             // Assert
             Assert.IsInstanceOf(typeof(CommandResult), actual);
@@ -284,10 +283,10 @@
             ArrangeUpdateStatusPeriod();
 
             // Act
-            periodService.UpdateStatusPeriod(criteria);
+            _periodService.UpdateStatusPeriod(criteria);
 
             // Assert
-            periodService.Repository.Received().Update(Arg.Is<UpdateStatusPeriodCriteria>(x => x.IsValid()));
+            _periodService.Repository.Received().Update(Arg.Is<UpdateStatusPeriodCriteria>(x => x.IsValid()));
         }
 
         #endregion UpdateStatusPeriod
@@ -301,7 +300,7 @@
             ArrangeGetPeriodEmployeeSettingById();
 
             // Act
-            var actual = periodService.GetPeriodEmployeeSettingById(Arg.Any<GetPeriodEmployeeSettingCriteria>());
+            var actual = _periodService.GetPeriodEmployeeSettingById(Arg.Any<GetPeriodEmployeeSettingCriteria>());
 
             // Assert
             Assert.IsInstanceOf(typeof(IEnumerable<PeriodEmployeeSettingModel>), actual);
@@ -319,7 +318,7 @@
             ArrangeGetPeriodEmployeeSettingById(result);
 
             // Act
-            var actual = periodService.GetPeriodEmployeeSettingById(criteria);
+            var actual = _periodService.GetPeriodEmployeeSettingById(criteria);
 
             // Assert
             Assert.AreEqual(result, actual);
@@ -336,7 +335,7 @@
             ArrangeDeletePeriod();
 
             // Act
-            var actual = periodService.DeletePeriod(new DeletePeriodCriteria());
+            var actual = _periodService.DeletePeriod(new DeletePeriodCriteria());
 
             // Assert
             Assert.IsInstanceOf(typeof(CommandResult), actual);
@@ -354,10 +353,10 @@
             ArrangeDeletePeriod();
 
             // Act
-            periodService.DeletePeriod(criteria);
+            _periodService.DeletePeriod(criteria);
 
             // Assert
-            periodService.Repository.Received().Delete(Arg.Is<DeletePeriodCriteria>(x => x.IsValid()));
+            _periodService.Repository.Received().Delete(Arg.Is<DeletePeriodCriteria>(x => x.IsValid()));
         }
 
         #endregion DeletePeriod
@@ -371,7 +370,7 @@
             ArrangeAddEmployeeToPeriod();
 
             // Act
-            var actual = periodService.AddEmployeeToPeriod(new AddEmployeeToPeriodCriteria());
+            var actual = _periodService.AddEmployeeToPeriod(new AddEmployeeToPeriodCriteria());
 
             // Assert
             Assert.IsInstanceOf(typeof(CommandResult), actual);
@@ -389,10 +388,10 @@
             ArrangeAddEmployeeToPeriod();
 
             // Act
-            periodService.AddEmployeeToPeriod(criteria);
+            _periodService.AddEmployeeToPeriod(criteria);
 
             // Assert
-            periodService.Repository.Received().Update(Arg.Is<AddEmployeeToPeriodCriteria>(x => x.IsValid()));
+            _periodService.Repository.Received().Update(Arg.Is<AddEmployeeToPeriodCriteria>(x => x.IsValid()));
         }
 
         #endregion AddEmployeeToPeriod
@@ -410,7 +409,7 @@
             ArrangeUpdateEmployeeSettingOfPeriod();
 
             // Act
-            var actual = periodService.UpdateEmployeeSettingOfPeriod(criteria);
+            var actual = _periodService.UpdateEmployeeSettingOfPeriod(criteria);
 
             // Assert
             Assert.IsInstanceOf(typeof(CommandResult), actual);
@@ -432,11 +431,11 @@
             ArrangeUpdateEmployeeSettingOfPeriod(commandResult, "false");
 
             // Act
-            var actual = periodService.UpdateEmployeeSettingOfPeriod(criteria);
+            var actual = _periodService.UpdateEmployeeSettingOfPeriod(criteria);
 
             // Assert
             Assert.AreEqual(commandResult.Code, actual.Code);
-            manualMailService.DidNotReceive().SendNotifyMail(Arg.Any<PeriodModel>(), Arg.Any<List<PeriodFlowModel>>());
+            _manualMailService.DidNotReceive().SendNotifyMail(Arg.Any<PeriodModel>(), Arg.Any<List<PeriodFlowModel>>());
         }
 
         [Test]
@@ -455,11 +454,11 @@
             ArrangeUpdateEmployeeSettingOfPeriod(commandResult, "true");
 
             // Act
-            var actual = periodService.UpdateEmployeeSettingOfPeriod(criteria);
+            var actual = _periodService.UpdateEmployeeSettingOfPeriod(criteria);
 
             // Assert
             Assert.AreEqual(commandResult.Code, actual.Code);
-            manualMailService.Received().SendNotifyMail(Arg.Any<PeriodModel>(), Arg.Any<List<PeriodFlowModel>>());
+            _manualMailService.Received().SendNotifyMail(Arg.Any<PeriodModel>(), Arg.Any<List<PeriodFlowModel>>());
         }
 
         [TestCase("true")]
@@ -480,11 +479,11 @@
             ArrangeUpdateEmployeeSettingOfPeriod(commandResult, appSetting);
 
             // Act
-            var actual = periodService.UpdateEmployeeSettingOfPeriod(criteria);
+            var actual = _periodService.UpdateEmployeeSettingOfPeriod(criteria);
 
             // Assert
             Assert.AreEqual(commandResult.Code, actual.Code);
-            manualMailService.DidNotReceive().SendNotifyMail(Arg.Any<PeriodModel>(), Arg.Any<List<PeriodFlowModel>>());
+            _manualMailService.DidNotReceive().SendNotifyMail(Arg.Any<PeriodModel>(), Arg.Any<List<PeriodFlowModel>>());
         }
 
         #endregion UpdateEmployeeSettingOfPeriod
@@ -498,7 +497,7 @@
             ArrangeUpdateIncludeStatusEmployeePeriod();
 
             // Act
-            var actual = periodService.UpdateIncludeStatusEmployeePeriod(new UpdateIncludeStatusEmployeePeriodCriteria());
+            var actual = _periodService.UpdateIncludeStatusEmployeePeriod(new UpdateIncludeStatusEmployeePeriodCriteria());
 
             // Assert
             Assert.IsInstanceOf(typeof(CommandResult), actual);
@@ -517,10 +516,10 @@
             ArrangeUpdateIncludeStatusEmployeePeriod();
 
             // Act
-            periodService.UpdateIncludeStatusEmployeePeriod(criteria);
+            _periodService.UpdateIncludeStatusEmployeePeriod(criteria);
 
             // Assert
-            periodService.Repository.Received().Update(Arg.Is<UpdateIncludeStatusEmployeePeriodCriteria>(x => x.IsValid()));
+            _periodService.Repository.Received().Update(Arg.Is<UpdateIncludeStatusEmployeePeriodCriteria>(x => x.IsValid()));
         }
 
         #endregion UpdateIncludeStatusEmployeePeriod
@@ -534,7 +533,7 @@
             ArrangeGenerateEvaluation();
 
             // Act
-            var actual = periodService.GenerateEvaluation(new AutoGenerateEvaluationCriteria());
+            var actual = _periodService.GenerateEvaluation(new AutoGenerateEvaluationCriteria());
 
             // Assert
             Assert.IsInstanceOf(typeof(CommandResult), actual);
@@ -551,10 +550,10 @@
             ArrangeGenerateEvaluation();
 
             // Act
-            periodService.GenerateEvaluation(criteria);
+            _periodService.GenerateEvaluation(criteria);
 
             // Assert
-            periodService.Repository.Received().Insert(Arg.Is<AutoGenerateEvaluationCriteria>(x => x.IsValid()));
+            _periodService.Repository.Received().Insert(Arg.Is<AutoGenerateEvaluationCriteria>(x => x.IsValid()));
         }
 
         #endregion GenerateEvaluation
@@ -568,7 +567,7 @@
             ArrangeGetEmployeeSettingByPeriodId();
 
             // Act
-            var actual = periodService.GetEmployeeSettingByPeriodId(Arg.Any<GetEmployeeSettingByPeriodIdCriteria>());
+            var actual = _periodService.GetEmployeeSettingByPeriodId(Arg.Any<GetEmployeeSettingByPeriodIdCriteria>());
 
             // Assert
             Assert.IsInstanceOf(typeof(IEnumerable<PeriodFlowModel>), actual);
@@ -586,7 +585,7 @@
             ArrangeGetProcessSettingByPeriodId();
 
             // Act
-            var actual = periodService.GetProcessSettingByPeriodId(periodId);
+            var actual = _periodService.GetProcessSettingByPeriodId(periodId);
 
             // Assert
             Assert.IsInstanceOf(typeof(IEnumerable<FlowModel>), actual);
@@ -601,7 +600,7 @@
             ArrangeGetProcessSettingByPeriodId(result);
 
             // Act
-            var actual = periodService.GetProcessSettingByPeriodId(periodId);
+            var actual = _periodService.GetProcessSettingByPeriodId(periodId);
 
             // Assert
             Assert.AreEqual(result, actual);
@@ -619,7 +618,7 @@
             ArrangeGetEvaluationGlobalSettingByTargetTypeId();
 
             // Act
-            var actual = periodService.GetEvaluationGlobalSettingByTargetTypeId(targetTypeId);
+            var actual = _periodService.GetEvaluationGlobalSettingByTargetTypeId(targetTypeId);
 
             // Assert
             Assert.IsInstanceOf(typeof(IEnumerable<FlowModel>), actual);
@@ -634,7 +633,7 @@
             ArrangeGetEvaluationGlobalSettingByTargetTypeId(result);
 
             // Act
-            var actual = periodService.GetEvaluationGlobalSettingByTargetTypeId(targetTypeId);
+            var actual = _periodService.GetEvaluationGlobalSettingByTargetTypeId(targetTypeId);
 
             // Assert
             Assert.AreEqual(result, actual);
@@ -651,7 +650,7 @@
             ArrangeUpdateProcessSettingPeriod();
 
             // Act
-            var actual = periodService.UpdateProcessSettingPeriod(Arg.Any<UpdateProcessSettingPeriodCriteria>());
+            var actual = _periodService.UpdateProcessSettingPeriod(Arg.Any<UpdateProcessSettingPeriodCriteria>());
 
             // Assert
             Assert.IsInstanceOf(typeof(CommandResult), actual);
@@ -670,10 +669,10 @@
             ArrangeUpdateProcessSettingPeriod();
 
             // Act
-            periodService.UpdateProcessSettingPeriod(criteria);
+            _periodService.UpdateProcessSettingPeriod(criteria);
 
             // Assert
-            periodService.Repository.Received().Update(Arg.Is<UpdateProcessSettingPeriodCriteria>(x => x.IsValid()));
+            _periodService.Repository.Received().Update(Arg.Is<UpdateProcessSettingPeriodCriteria>(x => x.IsValid()));
         }
 
         #endregion UpdateProcessSettingPeriod
@@ -687,7 +686,7 @@
             ArrangeCheckSelfProcessStarted();
 
             // Act
-            var actual = periodService.CheckSelfProcessStarted(Arg.Any<CheckSelfProcessStartedCriteria>());
+            var actual = _periodService.CheckSelfProcessStarted(Arg.Any<CheckSelfProcessStartedCriteria>());
 
             // Assert
             Assert.IsInstanceOf(typeof(bool), actual);
@@ -705,7 +704,7 @@
             ArrangeCheckSelfProcessStarted(true);
 
             // Act
-            var actual = periodService.CheckSelfProcessStarted(criteria);
+            var actual = _periodService.CheckSelfProcessStarted(criteria);
 
             // Assert
             Assert.IsTrue(actual);
@@ -842,111 +841,111 @@
 
         private void ArrangeGetPeriod(IEnumerable<PeriodModel> result = null)
         {
-            periodRepository = FakePeriodRepository();
-            periodRepository.GetPeriod(Arg.Any<GetPeriodCriteria>()).Returns(result ?? new List<PeriodModel>());
-            periodService = GetPeriodService(null, periodRepository);
+            _periodRepository = FakePeriodRepository();
+            _periodRepository.GetPeriod(Arg.Any<GetPeriodCriteria>()).Returns(result ?? new List<PeriodModel>());
+            _periodService = GetPeriodService(null, _periodRepository);
         }
 
         public void ArrangeGetPeriodById(PeriodModel result = null)
         {
-            periodRepository = FakePeriodRepository();
-            periodRepository.GetPeriodById(Arg.Any<GetPeriodByIdCriteria>()).Returns(result ?? new PeriodModel());
-            periodService = GetPeriodService(null, periodRepository);
+            _periodRepository = FakePeriodRepository();
+            _periodRepository.GetPeriodById(Arg.Any<GetPeriodByIdCriteria>()).Returns(result ?? new PeriodModel());
+            _periodService = GetPeriodService(null, _periodRepository);
         }
 
         private void ArrangeCreatePeriod(CommandResult result = null)
         {
-            baseRepository = FakeBaseRepository();
-            periodService = GetPeriodService(baseRepository);
-            periodService.Repository.Insert(Arg.Any<CreatePeriodCriteria>()).Returns(result ?? new CommandResult());
+            _baseRepository = FakeBaseRepository();
+            _periodService = GetPeriodService(_baseRepository);
+            _periodService.Repository.Insert(Arg.Any<CreatePeriodCriteria>()).Returns(result ?? new CommandResult());
         }
 
         private void ArrangeAutoCreateMonthlyPeriod(CommandResult result = null)
         {
-            baseRepository = FakeBaseRepository();
-            periodService = GetPeriodService(baseRepository);
-            periodService.Repository.Insert(Arg.Any<AutoCreateMonthlyPeriodCriteria>()).Returns(result ?? new CommandResult());
+            _baseRepository = FakeBaseRepository();
+            _periodService = GetPeriodService(_baseRepository);
+            _periodService.Repository.Insert(Arg.Any<AutoCreateMonthlyPeriodCriteria>()).Returns(result ?? new CommandResult());
         }
 
         private void ArrangeUpdateBasicInformationPeriod(CommandResult result = null)
         {
-            baseRepository = FakeBaseRepository();
-            periodService = GetPeriodService(baseRepository);
-            periodService.Repository.Update(Arg.Any<UpdateBasicInformationPeriodCriteria>()).Returns(result ?? new CommandResult());
+            _baseRepository = FakeBaseRepository();
+            _periodService = GetPeriodService(_baseRepository);
+            _periodService.Repository.Update(Arg.Any<UpdateBasicInformationPeriodCriteria>()).Returns(result ?? new CommandResult());
         }
 
         private void ArrangeUpdateStatusPeriod(CommandResult result = null)
         {
-            baseRepository = FakeBaseRepository();
-            periodService = GetPeriodService(baseRepository);
-            periodService.Repository.Update(Arg.Any<UpdateStatusPeriodCriteria>()).Returns(result ?? new CommandResult());
+            _baseRepository = FakeBaseRepository();
+            _periodService = GetPeriodService(_baseRepository);
+            _periodService.Repository.Update(Arg.Any<UpdateStatusPeriodCriteria>()).Returns(result ?? new CommandResult());
         }
 
         private void ArrangeDeletePeriod(CommandResult result = null)
         {
-            baseRepository = FakeBaseRepository();
-            periodService = GetPeriodService(baseRepository);
-            periodService.Repository.Delete(Arg.Any<DeletePeriodCriteria>()).Returns(result ?? new CommandResult());
+            _baseRepository = FakeBaseRepository();
+            _periodService = GetPeriodService(_baseRepository);
+            _periodService.Repository.Delete(Arg.Any<DeletePeriodCriteria>()).Returns(result ?? new CommandResult());
         }
 
         private void ArrangeGetPeriodEmployeeSettingById(IEnumerable<PeriodEmployeeSettingModel> result = null)
         {
-            periodRepository = FakePeriodRepository();
-            periodRepository.GetPeriodEmployeeSettingById(Arg.Any<GetPeriodEmployeeSettingCriteria>()).Returns(result ?? new List<PeriodEmployeeSettingModel>());
-            periodService = GetPeriodService(null, periodRepository);
+            _periodRepository = FakePeriodRepository();
+            _periodRepository.GetPeriodEmployeeSettingById(Arg.Any<GetPeriodEmployeeSettingCriteria>()).Returns(result ?? new List<PeriodEmployeeSettingModel>());
+            _periodService = GetPeriodService(null, _periodRepository);
         }
 
         private void ArrangeAddEmployeeToPeriod(CommandResult result = null)
         {
-            baseRepository = FakeBaseRepository();
-            periodService = GetPeriodService(baseRepository);
-            periodService.Repository.Update(Arg.Any<AddEmployeeToPeriodCriteria>()).Returns(result ?? new CommandResult());
+            _baseRepository = FakeBaseRepository();
+            _periodService = GetPeriodService(_baseRepository);
+            _periodService.Repository.Update(Arg.Any<AddEmployeeToPeriodCriteria>()).Returns(result ?? new CommandResult());
         }
 
         private void ArrangeUpdateIncludeStatusEmployeePeriod(CommandResult result = null)
         {
-            baseRepository = FakeBaseRepository();
-            periodService = GetPeriodService(baseRepository);
-            periodService.Repository.Update(Arg.Any<UpdateIncludeStatusEmployeePeriodCriteria>()).Returns(result ?? new CommandResult());
+            _baseRepository = FakeBaseRepository();
+            _periodService = GetPeriodService(_baseRepository);
+            _periodService.Repository.Update(Arg.Any<UpdateIncludeStatusEmployeePeriodCriteria>()).Returns(result ?? new CommandResult());
         }
 
         private void ArrangeGenerateEvaluation(CommandResult result = null)
         {
-            baseRepository = FakeBaseRepository();
-            periodService = GetPeriodService(baseRepository);
-            periodService.Repository.Insert(Arg.Any<AutoGenerateEvaluationCriteria>()).Returns(result ?? new CommandResult());
+            _baseRepository = FakeBaseRepository();
+            _periodService = GetPeriodService(_baseRepository);
+            _periodService.Repository.Insert(Arg.Any<AutoGenerateEvaluationCriteria>()).Returns(result ?? new CommandResult());
         }
 
         private void ArrangeGetEmployeeSettingByPeriodId(IEnumerable<PeriodFlowModel> result = null)
         {
-            periodRepository = FakePeriodRepository();
-            periodRepository.GetEmployeeSettingByPeriodId(Arg.Any<GetEmployeeSettingByPeriodIdCriteria>()).Returns(result ?? new List<PeriodFlowModel>());
-            periodService = GetPeriodService(null, periodRepository);
+            _periodRepository = FakePeriodRepository();
+            _periodRepository.GetEmployeeSettingByPeriodId(Arg.Any<GetEmployeeSettingByPeriodIdCriteria>()).Returns(result ?? new List<PeriodFlowModel>());
+            _periodService = GetPeriodService(null, _periodRepository);
         }
 
         private void ArrangeGetProcessSettingByPeriodId(IEnumerable<FlowModel> result = null)
         {
-            periodService = Substitute.For<PeriodService>();
-            periodService.GetData<FlowModel>(Arg.Any<GetProcessSettingPeriodCriteria>()).Returns(result ?? new List<FlowModel>());
+            _periodService = Substitute.For<PeriodService>();
+            _periodService.GetData<FlowModel>(Arg.Any<GetProcessSettingPeriodCriteria>()).Returns(result ?? new List<FlowModel>());
         }
 
         private void ArrangeGetEvaluationGlobalSettingByTargetTypeId(IEnumerable<FlowModel> result = null)
         {
-            periodService = Substitute.For<PeriodService>();
-            periodService.GetData<FlowModel>(Arg.Any<GetEvaluationGlobalSettingByTargetTypeIdCriteria>()).Returns(result ?? new List<FlowModel>());
+            _periodService = Substitute.For<PeriodService>();
+            _periodService.GetData<FlowModel>(Arg.Any<GetEvaluationGlobalSettingByTargetTypeIdCriteria>()).Returns(result ?? new List<FlowModel>());
         }
 
         private void ArrangeUpdateProcessSettingPeriod(CommandResult result = null)
         {
-            baseRepository = FakeBaseRepository();
-            periodService = GetPeriodService(baseRepository);
-            periodService.Repository.Update(Arg.Any<UpdateProcessSettingPeriodCriteria>()).Returns(result ?? new CommandResult());
+            _baseRepository = FakeBaseRepository();
+            _periodService = GetPeriodService(_baseRepository);
+            _periodService.Repository.Update(Arg.Any<UpdateProcessSettingPeriodCriteria>()).Returns(result ?? new CommandResult());
         }
 
         private void ArrangeCheckSelfProcessStarted(bool result = false)
         {
-            periodService = Substitute.For<PeriodService>();
-            periodService.GetDataEntity<bool>(Arg.Any<CheckSelfProcessStartedCriteria>()).Returns(result);
+            _periodService = Substitute.For<PeriodService>();
+            _periodService.GetDataEntity<bool>(Arg.Any<CheckSelfProcessStartedCriteria>()).Returns(result);
         }
 
         private void ArrangeUpdateEmployeeSettingOfPeriod(CommandResult result = null, string appSetting = null)
@@ -954,16 +953,16 @@
             var period = new PeriodModel();
             var employeeSettings = new List<PeriodFlowModel>();
 
-            baseRepository = FakeBaseRepository();
-            configurationManager = FakeConfigurationManagerService();
-            manualMailService = FakeManualMailService();
-            periodRepository = FakePeriodRepository();
+            _baseRepository = FakeBaseRepository();
+            _configurationManager = FakeConfigurationManagerService();
+            _manualMailService = FakeManualMailService();
+            _periodRepository = FakePeriodRepository();
 
-            periodService = GetPeriodService(baseRepository, periodRepository, manualMailService, configurationManager);
-            periodService.Repository.Update(Arg.Any<UpdateEmployeeSettingOfPeriodCriteria>()).Returns(result ?? new CommandResult());
-            configurationManager.GetAppSetting(Arg.Any<string>()).Returns(appSetting ?? string.Empty);
-            periodRepository.GetPeriodById(Arg.Any<GetPeriodByIdCriteria>()).Returns(period);
-            periodRepository.GetEmployeeSettingByPeriodId(Arg.Any<GetEmployeeSettingByPeriodIdCriteria>()).Returns(employeeSettings);
+            _periodService = GetPeriodService(_baseRepository, _periodRepository, _manualMailService, _configurationManager);
+            _periodService.Repository.Update(Arg.Any<UpdateEmployeeSettingOfPeriodCriteria>()).Returns(result ?? new CommandResult());
+            _configurationManager.GetAppSetting(Arg.Any<string>()).Returns(appSetting ?? string.Empty);
+            _periodRepository.GetPeriodById(Arg.Any<GetPeriodByIdCriteria>()).Returns(period);
+            _periodRepository.GetEmployeeSettingByPeriodId(Arg.Any<GetEmployeeSettingByPeriodIdCriteria>()).Returns(employeeSettings);
         }
 
         #endregion Helpers

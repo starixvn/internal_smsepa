@@ -1,23 +1,22 @@
 ﻿namespace SMS.EPA.Site.UnitTests
 {
-    using System.Collections.Generic;
-    using System.Linq;
+    using Core.Model;
+    using Core.Services;
+    using Criteria;
+    using Model;
     using NSubstitute;
     using NUnit.Framework;
-    using SMS.EPA.Core.Model;
-    using SMS.EPA.Core.Services;
-    using SMS.EPA.Criteria;
-    using SMS.EPA.Model;
-    using SMS.EPA.Model.Enitites;
-    using SMS.EPA.Services.Interfaces;
-    using SMS.EPA.Site.Controllers.API;
+    using Services.Interfaces;
+    using Site.Controllers.API;
+    using System.Collections.Generic;
+    using System.Linq;
 
     [TestFixture]
     public class FlowTemplateControllerTests
     {
-        private IFlowTemplateService flowTemplateService;
-        private ISessionService sessionService;
-        private FlowTemplateController flowTemplateController;
+        private IFlowTemplateService _flowTemplateService;
+        private ISessionService _sessionService;
+        private FlowTemplateController _flowTemplateController;
 
         #region GetFlowTemplate
 
@@ -26,12 +25,12 @@
         {
             // Arrange
             IEnumerable<FlowTemplateModel> result = GetListOfFlowTemplateForTest();
-            flowTemplateService = FakeFlowTemplateService();
-            flowTemplateService.GetFlowTemplate(Arg.Any<GetFlowTemplateCriteria>()).Returns(result);
-            flowTemplateController = GetFlowTemplateController(flowTemplateService);
+            _flowTemplateService = FakeFlowTemplateService();
+            _flowTemplateService.GetFlowTemplate(Arg.Any<GetFlowTemplateCriteria>()).Returns(result);
+            _flowTemplateController = GetFlowTemplateController(_flowTemplateService);
 
             // Act
-            var actual = flowTemplateController.GetFlowTemplate(Arg.Any<int?>(), Arg.Any<bool?>());
+            var actual = _flowTemplateController.GetFlowTemplate(Arg.Any<int?>(), Arg.Any<bool?>());
 
             // Assert
             Assert.IsNotNull(actual);
@@ -48,12 +47,12 @@
             // Arrange
             int flowTemplateId = 1;
             FlowTemplateModel result = GetListOfFlowTemplateForTest().First();
-            flowTemplateService = FakeFlowTemplateService();
-            flowTemplateService.GetFlowTemplateById(flowTemplateId).Returns(result);
-            flowTemplateController = GetFlowTemplateController(flowTemplateService);
+            _flowTemplateService = FakeFlowTemplateService();
+            _flowTemplateService.GetFlowTemplateById(flowTemplateId).Returns(result);
+            _flowTemplateController = GetFlowTemplateController(_flowTemplateService);
 
             // Act
-            var actual = flowTemplateController.GetFlowTemplateById(flowTemplateId);
+            var actual = _flowTemplateController.GetFlowTemplateById(flowTemplateId);
 
             // Assert
             Assert.IsNotNull(actual);
@@ -68,13 +67,13 @@
         public void CreateFlowTemplate_WhenCalled_ReturnInstanceOfCommandResult()
         {
             // Arrange
-            flowTemplateService = FakeFlowTemplateService();
-            sessionService = FakeSessionService();
-            flowTemplateService.CreateFlowTemplate(Arg.Any<CreateFlowTemplateCriteria>()).Returns(new CommandResult());
-            flowTemplateController = GetFlowTemplateController(flowTemplateService, sessionService);
+            _flowTemplateService = FakeFlowTemplateService();
+            _sessionService = FakeSessionService();
+            _flowTemplateService.CreateFlowTemplate(Arg.Any<CreateFlowTemplateCriteria>()).Returns(new CommandResult());
+            _flowTemplateController = GetFlowTemplateController(_flowTemplateService, _sessionService);
 
             // Act
-            var actual = flowTemplateController.CreateFlowTemplate(Arg.Any<CreateFlowTemplateCriteria>());
+            var actual = _flowTemplateController.CreateFlowTemplate(Arg.Any<CreateFlowTemplateCriteria>());
 
             // Assert
             Assert.IsInstanceOf(typeof(CommandResult), actual);
@@ -88,13 +87,13 @@
         public void UpdateFlowTemplate_WhenCalled_ReturnInstanceOfCommandResult()
         {
             // Arrange
-            flowTemplateService = FakeFlowTemplateService();
-            sessionService = FakeSessionService();
-            flowTemplateService.UpdateFlowTemplate(Arg.Any<UpdateFlowTemplateCriteria>()).Returns(new CommandResult());
-            flowTemplateController = GetFlowTemplateController(flowTemplateService, sessionService);
+            _flowTemplateService = FakeFlowTemplateService();
+            _sessionService = FakeSessionService();
+            _flowTemplateService.UpdateFlowTemplate(Arg.Any<UpdateFlowTemplateCriteria>()).Returns(new CommandResult());
+            _flowTemplateController = GetFlowTemplateController(_flowTemplateService, _sessionService);
 
             // Act
-            var actual = flowTemplateController.UpdateFlowTemplate(Arg.Any<UpdateFlowTemplateCriteria>());
+            var actual = _flowTemplateController.UpdateFlowTemplate(Arg.Any<UpdateFlowTemplateCriteria>());
 
             // Assert
             Assert.IsInstanceOf(typeof(CommandResult), actual);
@@ -108,13 +107,13 @@
         public void UpdateStatusFlowTemplate_WhenCalled_ReturnInstanceOfCommandResult()
         {
             // Arrange
-            flowTemplateService = FakeFlowTemplateService();
-            sessionService = FakeSessionService();
-            flowTemplateService.UpdateStatusFlowTemplate(Arg.Any<UpdateStatusFlowTemplateCriteria>()).Returns(new CommandResult());
-            flowTemplateController = GetFlowTemplateController(flowTemplateService, sessionService);
+            _flowTemplateService = FakeFlowTemplateService();
+            _sessionService = FakeSessionService();
+            _flowTemplateService.UpdateStatusFlowTemplate(Arg.Any<UpdateStatusFlowTemplateCriteria>()).Returns(new CommandResult());
+            _flowTemplateController = GetFlowTemplateController(_flowTemplateService, _sessionService);
 
             // Act
-            var actual = flowTemplateController.UpdateStatusFlowTemplate(Arg.Any<UpdateStatusFlowTemplateCriteria>());
+            var actual = _flowTemplateController.UpdateStatusFlowTemplate(Arg.Any<UpdateStatusFlowTemplateCriteria>());
 
             // Assert
             Assert.IsInstanceOf(typeof(CommandResult), actual);
@@ -128,13 +127,13 @@
         public void DeleteFlowTemplate_WhenCalled_ReturnInstanceOfCommandResult()
         {
             // Arrange
-            flowTemplateService = FakeFlowTemplateService();
-            sessionService = FakeSessionService();
-            flowTemplateService.DeleteFlowTemplate(Arg.Any<DeleteFlowTemplateCriteria>()).Returns(new CommandResult());
-            flowTemplateController = GetFlowTemplateController(flowTemplateService, sessionService);
+            _flowTemplateService = FakeFlowTemplateService();
+            _sessionService = FakeSessionService();
+            _flowTemplateService.DeleteFlowTemplate(Arg.Any<DeleteFlowTemplateCriteria>()).Returns(new CommandResult());
+            _flowTemplateController = GetFlowTemplateController(_flowTemplateService, _sessionService);
 
             // Act
-            var actual = flowTemplateController.DeleteFlowTemplate(Arg.Any<int>());
+            var actual = _flowTemplateController.DeleteFlowTemplate(Arg.Any<int>());
 
             // Assert
             Assert.IsInstanceOf(typeof(CommandResult), actual);
@@ -159,6 +158,7 @@
             return service;
         }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Reliability", "CA2000:Dispose objects before losing scope", Justification = "Reviewed")]
         private FlowTemplateController GetFlowTemplateController(
             IFlowTemplateService flowTemplateService,
             ISessionService sessionService = null)

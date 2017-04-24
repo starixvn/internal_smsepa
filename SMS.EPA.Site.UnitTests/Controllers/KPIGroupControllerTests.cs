@@ -1,22 +1,22 @@
 ﻿namespace SMS.EPA.Site.UnitTests
 {
-    using System.Collections.Generic;
-    using System.Linq;
+    using Core.Model;
+    using Core.Services;
+    using Criteria;
+    using Model;
     using NSubstitute;
     using NUnit.Framework;
-    using SMS.EPA.Core.Model;
-    using SMS.EPA.Core.Services;
-    using SMS.EPA.Criteria;
-    using SMS.EPA.Model;
-    using SMS.EPA.Services.Interfaces;
-    using SMS.EPA.Site.Controllers.API;
+    using Services.Interfaces;
+    using Site.Controllers.API;
+    using System.Collections.Generic;
+    using System.Linq;
 
     [TestFixture]
     public class KPIGroupControllerTests
     {
-        private IKPIGroupService kpiGroupService;
-        private ISessionService sessionService;
-        private KPIGroupController kpiGroupController;
+        private IKPIGroupService _kpiGroupService;
+        private ISessionService _sessionService;
+        private KPIGroupController _kpiGroupController;
 
         #region GetKPIGroup
 
@@ -24,10 +24,10 @@
         public void GetKPIGroup_CheckActionName_ReturnAsExpected()
         {
             // Arrange
-            kpiGroupController = GetKPIGroupController();
+            _kpiGroupController = GetKPIGroupController();
 
             // Act
-            var actual = kpiGroupController.GetType().GetMethod("GetKPIGroup");
+            var actual = _kpiGroupController.GetType().GetMethod("GetKPIGroup");
 
             // Assert
             Assert.IsNotNull(actual);
@@ -38,12 +38,12 @@
         {
             // Arrange
             IEnumerable<KPIGroupModel> result = GetListOfKPIGroupForTest();
-            kpiGroupService = FakeKPIGroupService();
-            kpiGroupService.GetKPIGroup(Arg.Any<GetKPIGroupCriteria>()).Returns(result);
-            kpiGroupController = GetKPIGroupController(kpiGroupService);
+            _kpiGroupService = FakeKPIGroupService();
+            _kpiGroupService.GetKPIGroup(Arg.Any<GetKPIGroupCriteria>()).Returns(result);
+            _kpiGroupController = GetKPIGroupController(_kpiGroupService);
 
             // Act
-            var actual = kpiGroupController.GetKPIGroup(Arg.Any<bool?>());
+            var actual = _kpiGroupController.GetKPIGroup(Arg.Any<bool?>());
 
             // Assert
             Assert.IsNotNull(actual);
@@ -58,10 +58,10 @@
         public void GetKPIGroupById_CheckActionName_ReturnAsExpected()
         {
             // Arrange
-            kpiGroupController = GetKPIGroupController();
+            _kpiGroupController = GetKPIGroupController();
 
             // Act
-            var actual = kpiGroupController.GetType().GetMethod("GetKPIGroupById");
+            var actual = _kpiGroupController.GetType().GetMethod("GetKPIGroupById");
 
             // Assert
             Assert.IsNotNull(actual);
@@ -73,12 +73,12 @@
             // Arrange
             int kpiGroupId = 1;
             KPIGroupModel result = GetListOfKPIGroupForTest().First();
-            kpiGroupService = FakeKPIGroupService();
-            kpiGroupService.GetKPIGroupById(kpiGroupId).Returns(result);
-            kpiGroupController = GetKPIGroupController(kpiGroupService);
+            _kpiGroupService = FakeKPIGroupService();
+            _kpiGroupService.GetKPIGroupById(kpiGroupId).Returns(result);
+            _kpiGroupController = GetKPIGroupController(_kpiGroupService);
 
             // Act
-            var actual = kpiGroupController.GetKPIGroupById(kpiGroupId);
+            var actual = _kpiGroupController.GetKPIGroupById(kpiGroupId);
 
             // Assert
             Assert.IsNotNull(actual);
@@ -94,10 +94,10 @@
         public void CreateKPIGroup_CheckActionName_ReturnAsExpected()
         {
             // Arrange
-            kpiGroupController = GetKPIGroupController();
+            _kpiGroupController = GetKPIGroupController();
 
             // Act
-            var actual = kpiGroupController.GetType().GetMethod("CreateKPIGroup");
+            var actual = _kpiGroupController.GetType().GetMethod("CreateKPIGroup");
 
             // Assert
             Assert.IsNotNull(actual);
@@ -107,13 +107,13 @@
         public void CreateKPIGroup_WhenCalled_ReturnInstanceOfCommandResult()
         {
             // Arrange
-            kpiGroupService = FakeKPIGroupService();
-            sessionService = FakeSessionService();
-            kpiGroupService.CreateKPIGroup(Arg.Any<CreateKPIGroupCriteria>()).Returns(new CommandResult());
-            kpiGroupController = GetKPIGroupController(kpiGroupService, sessionService);
+            _kpiGroupService = FakeKPIGroupService();
+            _sessionService = FakeSessionService();
+            _kpiGroupService.CreateKPIGroup(Arg.Any<CreateKPIGroupCriteria>()).Returns(new CommandResult());
+            _kpiGroupController = GetKPIGroupController(_kpiGroupService, _sessionService);
 
             // Act
-            var actual = kpiGroupController.CreateKPIGroup(Arg.Any<CreateKPIGroupCriteria>());
+            var actual = _kpiGroupController.CreateKPIGroup(Arg.Any<CreateKPIGroupCriteria>());
 
             // Assert
             Assert.IsInstanceOf(typeof(CommandResult), actual);
@@ -127,10 +127,10 @@
         public void UpdateKPIGroup_CheckActionName_ReturnAsExpected()
         {
             // Arrange
-            kpiGroupController = GetKPIGroupController();
+            _kpiGroupController = GetKPIGroupController();
 
             // Act
-            var actual = kpiGroupController.GetType().GetMethod("UpdateKPIGroup");
+            var actual = _kpiGroupController.GetType().GetMethod("UpdateKPIGroup");
 
             // Assert
             Assert.IsNotNull(actual);
@@ -140,13 +140,13 @@
         public void UpdateKPIGroup_WhenCalled_ReturnInstanceOfCommandResult()
         {
             // Arrange
-            kpiGroupService = FakeKPIGroupService();
-            sessionService = FakeSessionService();
-            kpiGroupService.UpdateKPIGroup(Arg.Any<UpdateKPIGroupCriteria>()).Returns(new CommandResult());
-            kpiGroupController = GetKPIGroupController(kpiGroupService, sessionService);
+            _kpiGroupService = FakeKPIGroupService();
+            _sessionService = FakeSessionService();
+            _kpiGroupService.UpdateKPIGroup(Arg.Any<UpdateKPIGroupCriteria>()).Returns(new CommandResult());
+            _kpiGroupController = GetKPIGroupController(_kpiGroupService, _sessionService);
 
             // Act
-            var actual = kpiGroupController.UpdateKPIGroup(Arg.Any<UpdateKPIGroupCriteria>());
+            var actual = _kpiGroupController.UpdateKPIGroup(Arg.Any<UpdateKPIGroupCriteria>());
 
             // Assert
             Assert.IsInstanceOf(typeof(CommandResult), actual);
@@ -160,10 +160,10 @@
         public void UpdateStatusKPIGroup_CheckActionName_ReturnAsExpected()
         {
             // Arrange
-            kpiGroupController = GetKPIGroupController();
+            _kpiGroupController = GetKPIGroupController();
 
             // Act
-            var actual = kpiGroupController.GetType().GetMethod("UpdateStatusKPIGroup");
+            var actual = _kpiGroupController.GetType().GetMethod("UpdateStatusKPIGroup");
 
             // Assert
             Assert.IsNotNull(actual);
@@ -173,13 +173,13 @@
         public void UpdateStatusKPIGroup_WhenCalled_ReturnInstanceOfCommandResult()
         {
             // Arrange
-            kpiGroupService = FakeKPIGroupService();
-            sessionService = FakeSessionService();
-            kpiGroupService.UpdateStatusKPIGroup(Arg.Any<UpdateStatusKPIGroupCriteria>()).Returns(new CommandResult());
-            kpiGroupController = GetKPIGroupController(kpiGroupService, sessionService);
+            _kpiGroupService = FakeKPIGroupService();
+            _sessionService = FakeSessionService();
+            _kpiGroupService.UpdateStatusKPIGroup(Arg.Any<UpdateStatusKPIGroupCriteria>()).Returns(new CommandResult());
+            _kpiGroupController = GetKPIGroupController(_kpiGroupService, _sessionService);
 
             // Act
-            var actual = kpiGroupController.UpdateStatusKPIGroup(Arg.Any<UpdateStatusKPIGroupCriteria>());
+            var actual = _kpiGroupController.UpdateStatusKPIGroup(Arg.Any<UpdateStatusKPIGroupCriteria>());
 
             // Assert
             Assert.IsInstanceOf(typeof(CommandResult), actual);
@@ -193,10 +193,10 @@
         public void DeleteKPIGroup_CheckActionName_ReturnAsExpected()
         {
             // Arrange
-            kpiGroupController = GetKPIGroupController();
+            _kpiGroupController = GetKPIGroupController();
 
             // Act
-            var actual = kpiGroupController.GetType().GetMethod("DeleteKPIGroup");
+            var actual = _kpiGroupController.GetType().GetMethod("DeleteKPIGroup");
 
             // Assert
             Assert.IsNotNull(actual);
@@ -206,13 +206,13 @@
         public void DeleteKPIGroup_WhenCalled_ReturnInstanceOfCommandResult()
         {
             // Arrange
-            kpiGroupService = FakeKPIGroupService();
-            sessionService = FakeSessionService();
-            kpiGroupService.DeleteKPIGroup(Arg.Any<DeleteKPIGroupCriteria>()).Returns(new CommandResult());
-            kpiGroupController = GetKPIGroupController(kpiGroupService, sessionService);
+            _kpiGroupService = FakeKPIGroupService();
+            _sessionService = FakeSessionService();
+            _kpiGroupService.DeleteKPIGroup(Arg.Any<DeleteKPIGroupCriteria>()).Returns(new CommandResult());
+            _kpiGroupController = GetKPIGroupController(_kpiGroupService, _sessionService);
 
             // Act
-            var actual = kpiGroupController.DeleteKPIGroup(Arg.Any<int>());
+            var actual = _kpiGroupController.DeleteKPIGroup(Arg.Any<int>());
 
             // Assert
             Assert.IsInstanceOf(typeof(CommandResult), actual);
@@ -237,6 +237,7 @@
             return service;
         }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Reliability", "CA2000:Dispose objects before losing scope", Justification = "Reviewed")]
         private KPIGroupController GetKPIGroupController(
             IKPIGroupService kpiGroupService = null,
             ISessionService sessionService = null)

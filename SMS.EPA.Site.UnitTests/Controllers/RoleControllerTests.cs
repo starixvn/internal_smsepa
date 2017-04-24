@@ -1,21 +1,21 @@
 ﻿namespace SMS.EPA.Site.UnitTests
 {
-    using System.Collections.Generic;
+    using Core.Model;
+    using Core.Services;
+    using Criteria;
+    using Model;
     using NSubstitute;
     using NUnit.Framework;
-    using SMS.EPA.Core.Model;
-    using SMS.EPA.Core.Services;
-    using SMS.EPA.Criteria;
-    using SMS.EPA.Model;
-    using SMS.EPA.Services.Interfaces;
-    using SMS.EPA.Site.Controllers.API;
+    using Services.Interfaces;
+    using Site.Controllers.API;
+    using System.Collections.Generic;
 
     [TestFixture]
     public class RoleControllerTests
     {
-        private IRoleService roleService;
-        private ISessionService sessionService;
-        private RoleController roleController;
+        private IRoleService _roleService;
+        private ISessionService _sessionService;
+        private RoleController _roleController;
 
         #region GetRoleFunctionByRoleId
 
@@ -23,10 +23,10 @@
         public void GetRoleFunctionByRoleId_CheckActionName_ReturnAsExpected()
         {
             // Arrange
-            roleController = GetRoleController();
+            _roleController = GetRoleController();
 
             // Act
-            var actual = roleController.GetType().GetMethod("GetRoleFunctionByRoleId");
+            var actual = _roleController.GetType().GetMethod("GetRoleFunctionByRoleId");
 
             // Assert
             Assert.IsNotNull(actual);
@@ -36,12 +36,12 @@
         public void GetRoleFunctionByRoleId_WhenCalled_ReturnInstanceOfListOfRoleFunctionModel()
         {
             // Arrange
-            roleService = FakeRoleService();
-            roleService.GetFunctionByRoleId(Arg.Any<int>()).Returns(new List<RoleFunctionModel>());
-            roleController = GetRoleController(roleService);
+            _roleService = FakeRoleService();
+            _roleService.GetFunctionByRoleId(Arg.Any<int>()).Returns(new List<RoleFunctionModel>());
+            _roleController = GetRoleController(_roleService);
 
             // Act
-            var actual = roleController.GetRoleFunctionByRoleId(Arg.Any<int>());
+            var actual = _roleController.GetRoleFunctionByRoleId(Arg.Any<int>());
 
             // Assert
             Assert.IsInstanceOf(typeof(IEnumerable<RoleFunctionModel>), actual);
@@ -55,10 +55,10 @@
         public void AssignFunctionToRole_CheckActionName_ReturnAsExpected()
         {
             // Arrange
-            roleController = GetRoleController();
+            _roleController = GetRoleController();
 
             // Act
-            var actual = roleController.GetType().GetMethod("AssignFunctionToRole");
+            var actual = _roleController.GetType().GetMethod("AssignFunctionToRole");
 
             // Assert
             Assert.IsNotNull(actual);
@@ -68,13 +68,13 @@
         public void AssignFunctionToRole_WhenCalled_ReturnInstanceOfCommandResult()
         {
             // Arrange
-            roleService = FakeRoleService();
-            sessionService = FakeSessionService();
-            roleService.AssignFunctionToRole(Arg.Any<AssignFunctionToRoleCriteria>()).Returns(new CommandResult());
-            roleController = GetRoleController(roleService, sessionService);
+            _roleService = FakeRoleService();
+            _sessionService = FakeSessionService();
+            _roleService.AssignFunctionToRole(Arg.Any<AssignFunctionToRoleCriteria>()).Returns(new CommandResult());
+            _roleController = GetRoleController(_roleService, _sessionService);
 
             // Act
-            var actual = roleController.AssignFunctionToRole(Arg.Any<AssignFunctionToRoleCriteria>());
+            var actual = _roleController.AssignFunctionToRole(Arg.Any<AssignFunctionToRoleCriteria>());
 
             // Assert
             Assert.IsInstanceOf(typeof(CommandResult), actual);
@@ -99,6 +99,7 @@
             return service;
         }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Reliability", "CA2000:Dispose objects before losing scope", Justification = "Reviewed")]
         private RoleController GetRoleController(IRoleService roleService = null, ISessionService sessionService = null)
         {
             var controller = new RoleController(roleService);

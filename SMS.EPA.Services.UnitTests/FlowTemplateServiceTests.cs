@@ -1,23 +1,22 @@
 ﻿namespace SMS.EPA.Services.UnitTests
 {
-    using System.Collections.Generic;
-    using System.Linq;
+    using Core.Model;
+    using Core.Repositories;
+    using Criteria;
+    using Implement;
+    using Model;
     using NSubstitute;
     using NUnit.Framework;
-    using SMS.EPA.Core.Model;
-    using SMS.EPA.Core.Repositories;
-    using SMS.EPA.Criteria;
-    using SMS.EPA.Model;
-    using SMS.EPA.Model.Enitites;
-    using SMS.EPA.Repositories;
-    using SMS.EPA.Services.Implement;
+    using Repositories;
+    using System.Collections.Generic;
+    using System.Linq;
 
     [TestFixture]
     public class FlowTemplateServiceTests
     {
-        private FlowTemplateService flowTemplateService;
-        private IFlowTemplateRepository flowTemplateRepository;
-        private IBaseRepository baseRepository;
+        private FlowTemplateService _flowTemplateService;
+        private IFlowTemplateRepository _flowTemplateRepository;
+        private IBaseRepository _baseRepository;
 
         #region GetFlowTemplate
 
@@ -25,10 +24,10 @@
         public void GetFlowTemplate_AnyArg_ReturnInstanceOfListOfFlowTemplateModel()
         {
             // Arrange
-            flowTemplateService = Substitute.For<FlowTemplateService>();
+            _flowTemplateService = Substitute.For<FlowTemplateService>();
 
             // Act
-            var actual = flowTemplateService.GetFlowTemplate(Arg.Any<GetFlowTemplateCriteria>());
+            var actual = _flowTemplateService.GetFlowTemplate(Arg.Any<GetFlowTemplateCriteria>());
 
             // Assert
             Assert.IsInstanceOf(typeof(IEnumerable<FlowTemplateModel>), actual);
@@ -43,7 +42,7 @@
             ArrangeGetFlowTemplate(result);
 
             // Act
-            var actual = flowTemplateService.GetFlowTemplate(criteria);
+            var actual = _flowTemplateService.GetFlowTemplate(criteria);
 
             // Assert
             Assert.AreEqual(result, actual);
@@ -58,7 +57,7 @@
             ArrangeGetFlowTemplate(result);
 
             // Act
-            var actual = flowTemplateService.GetFlowTemplate(criteria);
+            var actual = _flowTemplateService.GetFlowTemplate(criteria);
 
             // Assert
             Assert.AreEqual(0, actual.Where(x => x.TargetType == null || x.TargetType.TargetTypeId <= 0).Count());
@@ -76,7 +75,7 @@
             ArrangeGetFlowTemplateById();
 
             // Act
-            var actual = flowTemplateService.GetFlowTemplateById(flowTemplateId);
+            var actual = _flowTemplateService.GetFlowTemplateById(flowTemplateId);
 
             // Assert
             Assert.IsInstanceOf(typeof(FlowTemplateModel), actual);
@@ -91,7 +90,7 @@
             ArrangeGetFlowTemplateById(result);
 
             // Act
-            var actual = flowTemplateService.GetFlowTemplateById(flowTemplateId);
+            var actual = _flowTemplateService.GetFlowTemplateById(flowTemplateId);
 
             // Assert
             Assert.IsNotNull(actual);
@@ -108,7 +107,7 @@
             ArrangeGetFlowTemplateById(result);
 
             // Act
-            var actual = flowTemplateService.GetFlowTemplateById(flowTemplateId);
+            var actual = _flowTemplateService.GetFlowTemplateById(flowTemplateId);
 
             // Assert
             Assert.IsNotNull(actual);
@@ -126,7 +125,7 @@
             ArrangeCreateFlowTemplate();
 
             // Act
-            var actual = flowTemplateService.CreateFlowTemplate(new CreateFlowTemplateCriteria());
+            var actual = _flowTemplateService.CreateFlowTemplate(new CreateFlowTemplateCriteria());
 
             // Assert
             Assert.IsInstanceOf(typeof(CommandResult), actual);
@@ -145,10 +144,10 @@
             ArrangeCreateFlowTemplate();
 
             // Act
-            flowTemplateService.CreateFlowTemplate(criteria);
+            _flowTemplateService.CreateFlowTemplate(criteria);
 
             // Assert
-            flowTemplateService.Repository.Received().Insert(Arg.Is<CreateFlowTemplateCriteria>(x => x.IsValid()));
+            _flowTemplateService.Repository.Received().Insert(Arg.Is<CreateFlowTemplateCriteria>(x => x.IsValid()));
         }
 
         #endregion CreateFlowTemplate
@@ -162,7 +161,7 @@
             ArrangeUpdateFlowTemplate();
 
             // Act
-            var actual = flowTemplateService.UpdateFlowTemplate(new UpdateFlowTemplateCriteria());
+            var actual = _flowTemplateService.UpdateFlowTemplate(new UpdateFlowTemplateCriteria());
 
             // Assert
             Assert.IsInstanceOf(typeof(CommandResult), actual);
@@ -182,10 +181,10 @@
             ArrangeUpdateFlowTemplate();
 
             // Act
-            flowTemplateService.UpdateFlowTemplate(criteria);
+            _flowTemplateService.UpdateFlowTemplate(criteria);
 
             // Assert
-            flowTemplateService.Repository.Received().Update(Arg.Is<UpdateFlowTemplateCriteria>(x => x.IsValid()));
+            _flowTemplateService.Repository.Received().Update(Arg.Is<UpdateFlowTemplateCriteria>(x => x.IsValid()));
         }
 
         #endregion UpdateFlowTemplate
@@ -199,7 +198,7 @@
             ArrangeUpdateStatusFlowTemplate();
 
             // Act
-            var actual = flowTemplateService.UpdateStatusFlowTemplate(new UpdateStatusFlowTemplateCriteria());
+            var actual = _flowTemplateService.UpdateStatusFlowTemplate(new UpdateStatusFlowTemplateCriteria());
 
             // Assert
             Assert.IsInstanceOf(typeof(CommandResult), actual);
@@ -217,10 +216,10 @@
             ArrangeUpdateStatusFlowTemplate();
 
             // Act
-            flowTemplateService.UpdateStatusFlowTemplate(criteria);
+            _flowTemplateService.UpdateStatusFlowTemplate(criteria);
 
             // Assert
-            flowTemplateService.Repository.Received().Update(Arg.Is<UpdateStatusFlowTemplateCriteria>(x => x.IsValid()));
+            _flowTemplateService.Repository.Received().Update(Arg.Is<UpdateStatusFlowTemplateCriteria>(x => x.IsValid()));
         }
 
         #endregion UpdateStatusFlowTemplate
@@ -234,7 +233,7 @@
             ArrangeDeleteFlowTemplate();
 
             // Act
-            var actual = flowTemplateService.DeleteFlowTemplate(new DeleteFlowTemplateCriteria());
+            var actual = _flowTemplateService.DeleteFlowTemplate(new DeleteFlowTemplateCriteria());
 
             // Assert
             Assert.IsInstanceOf(typeof(CommandResult), actual);
@@ -252,10 +251,10 @@
             ArrangeDeleteFlowTemplate();
 
             // Act
-            flowTemplateService.DeleteFlowTemplate(criteria);
+            _flowTemplateService.DeleteFlowTemplate(criteria);
 
             // Assert
-            flowTemplateService.Repository.Received().Delete(Arg.Is<DeleteFlowTemplateCriteria>(x => x.IsValid()));
+            _flowTemplateService.Repository.Received().Delete(Arg.Is<DeleteFlowTemplateCriteria>(x => x.IsValid()));
         }
 
         #endregion DeleteFlowTemplate
@@ -317,44 +316,44 @@
 
         private void ArrangeGetFlowTemplate(IEnumerable<FlowTemplateModel> result = null)
         {
-            flowTemplateRepository = FakeFlowTemplateRepository();
-            flowTemplateRepository.GetFlowTemplate(Arg.Any<GetFlowTemplateCriteria>()).Returns(result ?? new List<FlowTemplateModel>());
-            flowTemplateService = GetFlowTemplateService(flowTemplateRepository);
+            _flowTemplateRepository = FakeFlowTemplateRepository();
+            _flowTemplateRepository.GetFlowTemplate(Arg.Any<GetFlowTemplateCriteria>()).Returns(result ?? new List<FlowTemplateModel>());
+            _flowTemplateService = GetFlowTemplateService(_flowTemplateRepository);
         }
 
         private void ArrangeGetFlowTemplateById(FlowTemplateModel result = null)
         {
-            flowTemplateRepository = FakeFlowTemplateRepository();
-            flowTemplateRepository.GetFlowTemplateById(Arg.Any<GetFlowTemplateByIdCriteria>()).Returns(result ?? new FlowTemplateModel());
-            flowTemplateService = GetFlowTemplateService(flowTemplateRepository);
+            _flowTemplateRepository = FakeFlowTemplateRepository();
+            _flowTemplateRepository.GetFlowTemplateById(Arg.Any<GetFlowTemplateByIdCriteria>()).Returns(result ?? new FlowTemplateModel());
+            _flowTemplateService = GetFlowTemplateService(_flowTemplateRepository);
         }
 
         private void ArrangeCreateFlowTemplate(CommandResult result = null)
         {
-            baseRepository = FakeBaseRepository();
-            flowTemplateService = GetFlowTemplateService(null, baseRepository);
-            flowTemplateService.Repository.Insert(Arg.Any<CreateFlowTemplateCriteria>()).Returns(result ?? new CommandResult());
+            _baseRepository = FakeBaseRepository();
+            _flowTemplateService = GetFlowTemplateService(null, _baseRepository);
+            _flowTemplateService.Repository.Insert(Arg.Any<CreateFlowTemplateCriteria>()).Returns(result ?? new CommandResult());
         }
 
         private void ArrangeUpdateFlowTemplate(CommandResult result = null)
         {
-            baseRepository = FakeBaseRepository();
-            flowTemplateService = GetFlowTemplateService(null, baseRepository);
-            flowTemplateService.Repository.Update(Arg.Any<UpdateFlowTemplateCriteria>()).Returns(result ?? new CommandResult());
+            _baseRepository = FakeBaseRepository();
+            _flowTemplateService = GetFlowTemplateService(null, _baseRepository);
+            _flowTemplateService.Repository.Update(Arg.Any<UpdateFlowTemplateCriteria>()).Returns(result ?? new CommandResult());
         }
 
         private void ArrangeUpdateStatusFlowTemplate(CommandResult result = null)
         {
-            baseRepository = FakeBaseRepository();
-            flowTemplateService = GetFlowTemplateService(null, baseRepository);
-            flowTemplateService.Repository.Update(Arg.Any<UpdateStatusFlowTemplateCriteria>()).Returns(result ?? new CommandResult());
+            _baseRepository = FakeBaseRepository();
+            _flowTemplateService = GetFlowTemplateService(null, _baseRepository);
+            _flowTemplateService.Repository.Update(Arg.Any<UpdateStatusFlowTemplateCriteria>()).Returns(result ?? new CommandResult());
         }
 
         private void ArrangeDeleteFlowTemplate(CommandResult result = null)
         {
-            baseRepository = FakeBaseRepository();
-            flowTemplateService = GetFlowTemplateService(null, baseRepository);
-            flowTemplateService.Repository.Delete(Arg.Any<DeleteFlowTemplateCriteria>()).Returns(result ?? new CommandResult());
+            _baseRepository = FakeBaseRepository();
+            _flowTemplateService = GetFlowTemplateService(null, _baseRepository);
+            _flowTemplateService.Repository.Delete(Arg.Any<DeleteFlowTemplateCriteria>()).Returns(result ?? new CommandResult());
         }
 
         #endregion Helpers
