@@ -1,19 +1,19 @@
 ﻿namespace SMS.EPA.Site.Controllers.API
 {
+    using Core.Attribute;
+    using Core.Constants;
+    using Core.Enumerations;
+    using Core.Model;
+    using Criteria;
+    using Model;
+    using Services.Implement;
+    using Services.Interfaces;
     using System.Collections.Generic;
     using System.Web.Http;
-    using SMS.EPA.Core.Attribute;
-    using SMS.EPA.Core.Constants;
-    using SMS.EPA.Core.Enumerations;
-    using SMS.EPA.Core.Model;
-    using SMS.EPA.Criteria;
-    using SMS.EPA.Model;
-    using SMS.EPA.Services.Implement;
-    using SMS.EPA.Services.Interfaces;
 
     public class PersonalFlowController : BaseController
     {
-        private readonly IPersonalFlowService personalFlowService;
+        private readonly IPersonalFlowService _personalFlowService;
 
         public PersonalFlowController()
             : this(null)
@@ -22,14 +22,14 @@
 
         public PersonalFlowController(IPersonalFlowService personalFlowService)
         {
-            this.personalFlowService = personalFlowService ?? new PersonalFlowService();
+            _personalFlowService = personalFlowService ?? new PersonalFlowService();
         }
 
         [HttpGet]
         [ApiAuthorize(FunctionKey = EPAFunctionKey.FlowManagement, Policy = Policy.Read)]
         public IEnumerable<PersonalFlowModel> GetPersonalFlowByFlowTemplateId(int flowTemplateId)
         {
-            return personalFlowService.GetPersonalFlowByFlowTemplateId(flowTemplateId);
+            return _personalFlowService.GetPersonalFlowByFlowTemplateId(flowTemplateId);
         }
 
         [HttpGet]
@@ -42,7 +42,7 @@
                 FlowTemplateId = flowTemplateId
             };
 
-            return personalFlowService.GetPersonalFlowById(criteria);
+            return _personalFlowService.GetPersonalFlowById(criteria);
         }
 
         [HttpPost]
@@ -53,9 +53,9 @@
 
             if (criteria != null)
             {
-                criteria.ModifiedBy = this.SessionService.EmployeeId;
+                criteria.ModifiedBy = SessionService.EmployeeId;
 
-                commandResult = personalFlowService.CreatePersonalFlow(criteria);
+                commandResult = _personalFlowService.CreatePersonalFlow(criteria);
             }
 
             return commandResult;
@@ -69,10 +69,10 @@
             {
                 EmployeeId = employeeId,
                 FlowTemplateId = flowTemplateId,
-                ModifiedBy = this.SessionService.EmployeeId
+                ModifiedBy = SessionService.EmployeeId
             };
 
-            return personalFlowService.DeletePersonalFlow(criteria);
+            return _personalFlowService.DeletePersonalFlow(criteria);
         }
 
         [HttpGet]
@@ -91,7 +91,7 @@
                 IsMonthlyPeriod = isMonthlyPeriod
             };
 
-            EmployeeFlowSettingModel result = personalFlowService.GetEmployeeFlowSetting(criteria);
+            EmployeeFlowSettingModel result = _personalFlowService.GetEmployeeFlowSetting(criteria);
             return result;
         }
     }

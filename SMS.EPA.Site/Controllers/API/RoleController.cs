@@ -1,19 +1,19 @@
 ﻿namespace SMS.EPA.Site.Controllers.API
 {
+    using Core.Attribute;
+    using Core.Constants;
+    using Core.Enumerations;
+    using Core.Model;
+    using Criteria;
+    using Model;
+    using Services.Implement;
+    using Services.Interfaces;
     using System.Collections.Generic;
     using System.Web.Http;
-    using SMS.EPA.Core.Attribute;
-    using SMS.EPA.Core.Constants;
-    using SMS.EPA.Core.Enumerations;
-    using SMS.EPA.Core.Model;
-    using SMS.EPA.Criteria;
-    using SMS.EPA.Model;
-    using SMS.EPA.Services.Implement;
-    using SMS.EPA.Services.Interfaces;
 
     public class RoleController : BaseController
     {
-        private IRoleService roleService;
+        private readonly IRoleService _roleService;
 
         public RoleController()
             : this(null)
@@ -22,13 +22,13 @@
 
         public RoleController(IRoleService roleService)
         {
-            this.roleService = roleService ?? new RoleService();
+            _roleService = roleService ?? new RoleService();
         }
 
         [ApiAuthorize(FunctionKey = EPAFunctionKey.RoleManagement, Policy = Policy.Read)]
         public IEnumerable<RoleFunctionModel> GetRoleFunctionByRoleId(int roleId)
         {
-            IEnumerable<RoleFunctionModel> functions = roleService.GetFunctionByRoleId(roleId);
+            IEnumerable<RoleFunctionModel> functions = _roleService.GetFunctionByRoleId(roleId);
             return functions;
         }
 
@@ -38,10 +38,10 @@
         {
             if (criteria != null)
             {
-                criteria.ModifiedBy = this.SessionService.EmployeeId;
+                criteria.ModifiedBy = SessionService.EmployeeId;
             }
 
-            CommandResult commandResult = roleService.AssignFunctionToRole(criteria);
+            CommandResult commandResult = _roleService.AssignFunctionToRole(criteria);
             return commandResult;
         }
     }

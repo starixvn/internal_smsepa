@@ -1,15 +1,14 @@
 ﻿namespace SMS.EPA.Site.Controllers.API
 {
+    using Core.Attribute;
+    using Core.Services;
     using System.Web.Http;
     using System.Web.Security;
-    using SMS.EPA.Core.Attribute;
-    using SMS.EPA.Core.Services;
-    using SMS.EPA.Core.Services.Interfaces;
 
-    [DeflateCompressionAttribute]
+    [DeflateCompression]
     public class BaseController : ApiController
     {
-        private ISessionService sessionService;
+        private ISessionService _sessionService;
 
         public BaseController()
             : this(null)
@@ -18,24 +17,24 @@
 
         public BaseController(ISessionService sessionService)
         {
-            this.sessionService = sessionService ?? new SessionService();
+            _sessionService = sessionService ?? new SessionService();
         }
 
         public ISessionService SessionService
         {
             get
             {
-                if (sessionService == null || sessionService.EmployeeId <= 0)
+                if (_sessionService == null || _sessionService.EmployeeId <= 0)
                 {
                     FormsAuthentication.RedirectToLoginPage();
                 }
 
-                return sessionService;
+                return _sessionService;
             }
 
             set
             {
-                sessionService = value;
+                _sessionService = value;
             }
         }
     }

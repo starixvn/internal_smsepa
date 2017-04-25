@@ -1,19 +1,19 @@
 ﻿namespace SMS.EPA.Site.Controllers.API
 {
+    using Core.Attribute;
+    using Core.Constants;
+    using Core.Enumerations;
+    using Core.Model;
+    using Criteria;
+    using Model;
+    using Services.Implement;
+    using Services.Interfaces;
     using System.Collections.Generic;
     using System.Web.Http;
-    using SMS.EPA.Core.Attribute;
-    using SMS.EPA.Core.Constants;
-    using SMS.EPA.Core.Enumerations;
-    using SMS.EPA.Core.Model;
-    using SMS.EPA.Criteria;
-    using SMS.EPA.Model;
-    using SMS.EPA.Services.Implement;
-    using SMS.EPA.Services.Interfaces;
 
     public class KPIController : BaseController
     {
-        private readonly IKPIService kpiService;
+        private readonly IKPIService _kpiService;
 
         public KPIController()
             : this(null)
@@ -22,7 +22,7 @@
 
         public KPIController(IKPIService kpiService)
         {
-            this.kpiService = kpiService ?? new KPIService();
+            _kpiService = kpiService ?? new KPIService();
         }
 
         [HttpGet]
@@ -39,7 +39,7 @@
                 IsRequiredEvaluate = isRequiredEvaluate
             };
 
-            return kpiService.GetKPI(criteria);
+            return _kpiService.GetKPI(criteria);
         }
 
         [HttpPost]
@@ -48,10 +48,10 @@
         {
             if (criteria != null)
             {
-                criteria.CreatedBy = this.SessionService.EmployeeId;
+                criteria.CreatedBy = SessionService.EmployeeId;
             }
 
-            CommandResult commandResult = kpiService.CreateKPI(criteria);
+            CommandResult commandResult = _kpiService.CreateKPI(criteria);
 
             return commandResult;
         }
@@ -62,10 +62,10 @@
         {
             if (criteria != null)
             {
-                criteria.ModifiedBy = this.SessionService.EmployeeId;
+                criteria.ModifiedBy = SessionService.EmployeeId;
             }
 
-            CommandResult commandResult = kpiService.UpdateKPI(criteria);
+            CommandResult commandResult = _kpiService.UpdateKPI(criteria);
 
             return commandResult;
         }
@@ -76,10 +76,10 @@
         {
             if (criteria != null)
             {
-                criteria.ModifiedBy = this.SessionService.EmployeeId;
+                criteria.ModifiedBy = SessionService.EmployeeId;
             }
 
-            CommandResult commandResult = kpiService.UpdateStatusKPI(criteria);
+            CommandResult commandResult = _kpiService.UpdateStatusKPI(criteria);
 
             return commandResult;
         }
@@ -90,10 +90,10 @@
         {
             if (criteria != null)
             {
-                criteria.ModifiedBy = this.SessionService.EmployeeId;
+                criteria.ModifiedBy = SessionService.EmployeeId;
             }
 
-            CommandResult commandResult = kpiService.UpdateRequiredEvaluateKPI(criteria);
+            CommandResult commandResult = _kpiService.UpdateRequiredEvaluateKPI(criteria);
 
             return commandResult;
         }
@@ -105,17 +105,17 @@
             var criteria = new DeleteKPICriteria
             {
                 KPIId = kpiId,
-                ModifiedBy = this.SessionService.EmployeeId
+                ModifiedBy = SessionService.EmployeeId
             };
 
-            CommandResult commandResult = kpiService.DeleteKPI(criteria);
+            CommandResult commandResult = _kpiService.DeleteKPI(criteria);
 
             return commandResult;
         }
 
         public int GetUserPermissionOnKPI()
         {
-            int permission = this.SessionService.GetPermission(EPAFunctionKey.KPI);
+            int permission = SessionService.GetPermission(EPAFunctionKey.KPI);
             return permission;
         }
     }

@@ -1,22 +1,22 @@
 ﻿namespace SMS.EPA.Site.Controllers.API
 {
+    using Core.Constants;
+    using Core.Enumerations;
+    using Core.Utilities;
+    using Criteria;
+    using Criteria.EPAHistory;
+    using Criteria.TargetType;
+    using Model;
+    using Model.Enitites;
+    using Services.Implement;
+    using Services.Interfaces;
     using System.Collections.Generic;
     using System.Linq;
     using System.Web.Http;
-    using SMS.EPA.Core.Constants;
-    using SMS.EPA.Core.Enumerations;
-    using SMS.EPA.Core.Utilities;
-    using SMS.EPA.Criteria;
-    using SMS.EPA.Criteria.EPAHistory;
-    using SMS.EPA.Criteria.TargetType;
-    using SMS.EPA.Model;
-    using SMS.EPA.Model.Enitites;
-    using SMS.EPA.Services.Implement;
-    using SMS.EPA.Services.Interfaces;
 
     public class CommonController : BaseController
     {
-        private readonly ICommonService commonService;
+        private readonly ICommonService _commonService;
 
         public CommonController()
             : this(null)
@@ -25,7 +25,7 @@
 
         public CommonController(ICommonService commonService)
         {
-            this.commonService = commonService ?? new CommonService();
+            _commonService = commonService ?? new CommonService();
         }
 
         [HttpGet]
@@ -39,7 +39,7 @@
                 ExcludeTargetTypeIds = excludeTargetTypeIds
             };
 
-            return commonService.GetTargetType(criteria);
+            return _commonService.GetTargetType(criteria);
         }
 
         [HttpGet]
@@ -55,7 +55,7 @@
                 IsRequiredEvaluate = isRequiredEvaluate
             };
 
-            return commonService.GetKPI(criteria);
+            return _commonService.GetKPI(criteria);
         }
 
         [HttpGet]
@@ -66,7 +66,7 @@
                 IsActive = isActive
             };
 
-            return commonService.GetKPIGroup(criteria);
+            return _commonService.GetKPIGroup(criteria);
         }
 
         public List<object> GetSystemRoles(bool exceptNone)
@@ -108,28 +108,28 @@
                 GroupId = groupId,
                 IsSpecialUser = isSpecialUser,
                 IsDisabledUser = isDisabledUser,
-                ApproverId = getByApprover == true && this.SessionService != null ? (int?)this.SessionService.EmployeeId : null,
+                ApproverId = getByApprover == true && SessionService != null ? (int?)SessionService.EmployeeId : null,
                 IncludeVerifier = includeVerifier
             };
 
-            return commonService.GetAllEmployee(criteria);
+            return _commonService.GetAllEmployee(criteria);
         }
 
         public IEnumerable<Employee> GetEmployeeByDepartmentId(int? departmentId = null)
         {
-            return commonService.GetEmployeeByDepartmentId(departmentId);
+            return _commonService.GetEmployeeByDepartmentId(departmentId);
         }
 
         [HttpGet]
         public IEnumerable<Employee> GetEmployeeByGroupId(int groupId)
         {
-            return commonService.GetEmployeeByGroupId(groupId);
+            return _commonService.GetEmployeeByGroupId(groupId);
         }
 
         [HttpGet]
         public Employee GetEmployeeById(int employeeId)
         {
-            return commonService.GetEmployeeById(employeeId);
+            return _commonService.GetEmployeeById(employeeId);
         }
 
         [HttpGet]
@@ -137,7 +137,7 @@
         {
             var criteria = new GetAllGroupCriteria();
 
-            return commonService.GetAllGroup(criteria);
+            return _commonService.GetAllGroup(criteria);
         }
 
         [HttpGet]
@@ -149,7 +149,7 @@
                 IsActive = isActive
             };
 
-            return commonService.GetDepartment(criteria);
+            return _commonService.GetDepartment(criteria);
         }
 
         public List<object> GetAllStatus()
@@ -173,13 +173,13 @@
                 IsActive = isActive
             };
 
-            return commonService.GetPeriod(criteria);
+            return _commonService.GetPeriod(criteria);
         }
 
         [HttpGet]
         public IEnumerable<StandardGradeModel> GetStandardGrade()
         {
-            return commonService.GetStandardGrade();
+            return _commonService.GetStandardGrade();
         }
 
         [HttpGet]
@@ -187,7 +187,7 @@
         {
             var criteria = new GetAllPeriodIncludeImportCriteria();
 
-            return commonService.GetAllPeriodIncludeImport(criteria);
+            return _commonService.GetAllPeriodIncludeImport(criteria);
         }
 
         [HttpGet]
@@ -198,7 +198,7 @@
                 EPAId = epaId
             };
 
-            return commonService.GetOtherViolationDetailByEPAId(criteria);
+            return _commonService.GetOtherViolationDetailByEPAId(criteria);
         }
 
         [HttpGet]
@@ -210,30 +210,30 @@
                 IsActive = isActive
             };
 
-            return commonService.GetAllTargetTemplate(criteria);
+            return _commonService.GetAllTargetTemplate(criteria);
         }
 
         [HttpGet]
         public IEnumerable<MenuGroupModel> GetMenusByEmployeeId()
         {
-            return commonService.GetMenusByEmployeeId(this.SessionService.EmployeeId);
+            return _commonService.GetMenusByEmployeeId(SessionService.EmployeeId);
         }
 
         public IEnumerable<JobTitle> GetAllJobTitle()
         {
-            return commonService.GetAllJobTitle();
+            return _commonService.GetAllJobTitle();
         }
 
         public int GetUserPermissionOnFlowManagement()
         {
-            int permission = this.SessionService.GetPermission(EPAFunctionKey.FlowManagement);
+            int permission = SessionService.GetPermission(EPAFunctionKey.FlowManagement);
             return permission;
         }
 
         [HttpGet]
         public IEnumerable<JobGradeModel> GetJobGrade(bool? isActive)
         {
-            return commonService.GetJobGrade(isActive);
+            return _commonService.GetJobGrade(isActive);
         }
     }
 }

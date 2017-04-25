@@ -1,11 +1,5 @@
 ﻿namespace SMS.EPA.Site.Controllers.API
 {
-    using System.Collections.Generic;
-    using System.Globalization;
-    using System.Linq;
-    using System.Net;
-    using System.Net.Http;
-    using System.Web.Http;
     using Core.Attribute;
     using Core.Constants;
     using Core.Enumerations;
@@ -15,6 +9,12 @@
     using Model;
     using Services.Implement;
     using Services.Interfaces;
+    using System.Collections.Generic;
+    using System.Globalization;
+    using System.Linq;
+    using System.Net;
+    using System.Net.Http;
+    using System.Web.Http;
 
     public class UpdateFinalScoreController : BaseController
     {

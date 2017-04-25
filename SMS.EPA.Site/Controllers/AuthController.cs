@@ -1,23 +1,22 @@
 ﻿namespace SMS.EPA.Site.Controllers
 {
-    using System.Web;
+    using Core.Enumerations;
+    using Core.Model;
+    using Core.Security;
+    using Core.Services;
+    using Criteria;
+    using Model.Authentication;
+    using Resources;
+    using Services.Implement;
+    using Services.Interfaces;
     using System.Web.Mvc;
     using System.Web.Security;
-    using SMS.EPA.Core.Enumerations;
-    using SMS.EPA.Core.Model;
-    using SMS.EPA.Core.Security;
-    using SMS.EPA.Core.Services;
-    using SMS.EPA.Criteria;
-    using SMS.EPA.Model.Authentication;
-    using SMS.EPA.Resources;
-    using SMS.EPA.Services.Implement;
-    using SMS.EPA.Services.Interfaces;
 
     public class AuthController : Controller
     {
-        private readonly ISessionService sessionService;
-        private readonly IEmployeeService employeeService;
-        private readonly IConfigurationManagerService configurationManager;
+        private readonly ISessionService _sessionService;
+        private readonly IEmployeeService _employeeService;
+        private readonly IConfigurationManagerService _configurationManager;
 
         public AuthController()
             : this(null, null, null)
@@ -29,9 +28,9 @@
             IEmployeeService employeeService,
             IConfigurationManagerService configurationManager)
         {
-            this.sessionService = sessionService ?? new SessionService();
-            this.employeeService = employeeService ?? new EmployeeService();
-            this.configurationManager = configurationManager ?? new ConfigurationManagerService();
+            _sessionService = sessionService ?? new SessionService();
+            _employeeService = employeeService ?? new EmployeeService();
+            _configurationManager = configurationManager ?? new ConfigurationManagerService();
         }
 
         [HttpGet]
@@ -43,8 +42,12 @@
         [HttpGet]
         public ActionResult Logout()
         {
-            HttpContext.Session.Clear();
-            HttpContext.Session.Abandon();
+            if (HttpContext.Session != null)
+            {
+                HttpContext.Session.Clear();
+                HttpContext.Session.Abandon();
+            }
+
             HttpContext.Response.Cookies.Clear();
             FormsAuthentication.SignOut();
             return RedirectToAction("Login");
@@ -62,7 +65,7 @@
                 {
                     if (user.EmployeeId > 0)
                     {
-                        sessionService.CurrentUser = user;
+                        _sessionService.CurrentUser = user;
                         FormsAuthentication.SetAuthCookie(model.Username, false);
                         GetAndInsertIPAddress(user);
 
@@ -91,7 +94,7 @@
         private bool ValidateEmployee(UserSession user, string password)
         {
             var isValid = false;
-            string defaultPassword = configurationManager.GetAppSetting("DefaultPassword");
+            string defaultPassword = _configurationManager.GetAppSetting("DefaultPassword");
 
             if (!string.IsNullOrWhiteSpace(password) && user != null)
             {
@@ -116,7 +119,7 @@
                 EmployeeId = user.EmployeeId,
                 IPAddress = address
             };
-            employeeService.InsertEmployeeIPAddress(criteria);
+            _employeeService.InsertEmployeeIPAddress(criteria);
         }
 
         private UserSession GetEmployeeLogin(LoginModel model)
@@ -127,14 +130,14 @@
                 Username = model.Username
             };
 
-            UserSession employee = employeeService.GetEmployeeLogin(criteria);
+            UserSession employee = _employeeService.GetEmployeeLogin(criteria);
 
             return employee;
         }
 
         private string GetClientIP()
         {
-            string result = string.Empty;
+            string result;
             string ip = HttpContext.Request.ServerVariables["HTTP_X_FORWARDED_FOR"];
 
             if (!string.IsNullOrEmpty(ip))

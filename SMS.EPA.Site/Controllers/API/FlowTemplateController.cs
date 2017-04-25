@@ -1,19 +1,19 @@
 ﻿namespace SMS.EPA.Site.Controllers.API
 {
+    using Core.Attribute;
+    using Core.Constants;
+    using Core.Enumerations;
+    using Core.Model;
+    using Criteria;
+    using Model;
+    using Services.Implement;
+    using Services.Interfaces;
     using System.Collections.Generic;
     using System.Web.Http;
-    using SMS.EPA.Core.Attribute;
-    using SMS.EPA.Core.Constants;
-    using SMS.EPA.Core.Enumerations;
-    using SMS.EPA.Core.Model;
-    using SMS.EPA.Criteria;
-    using SMS.EPA.Model;
-    using SMS.EPA.Services.Implement;
-    using SMS.EPA.Services.Interfaces;
 
     public class FlowTemplateController : BaseController
     {
-        private readonly IFlowTemplateService flowTemplateService;
+        private readonly IFlowTemplateService _flowTemplateService;
 
         public FlowTemplateController()
             : this(null)
@@ -22,7 +22,7 @@
 
         public FlowTemplateController(IFlowTemplateService flowTemplateService)
         {
-            this.flowTemplateService = flowTemplateService ?? new FlowTemplateService();
+            _flowTemplateService = flowTemplateService ?? new FlowTemplateService();
         }
 
         [HttpGet]
@@ -37,14 +37,14 @@
                 IsActive = isActive
             };
 
-            return flowTemplateService.GetFlowTemplate(criteria);
+            return _flowTemplateService.GetFlowTemplate(criteria);
         }
 
         [HttpGet]
         [ApiAuthorize(FunctionKey = EPAFunctionKey.FlowManagement, Policy = Policy.Read)]
         public FlowTemplateModel GetFlowTemplateById(int flowTemplateId)
         {
-            return flowTemplateService.GetFlowTemplateById(flowTemplateId);
+            return _flowTemplateService.GetFlowTemplateById(flowTemplateId);
         }
 
         [HttpPost]
@@ -53,10 +53,10 @@
         {
             if (criteria != null)
             {
-                criteria.CreatedBy = this.SessionService.EmployeeId;
+                criteria.CreatedBy = SessionService.EmployeeId;
             }
 
-            return flowTemplateService.CreateFlowTemplate(criteria);
+            return _flowTemplateService.CreateFlowTemplate(criteria);
         }
 
         [HttpPut]
@@ -65,10 +65,10 @@
         {
             if (criteria != null)
             {
-                criteria.ModifiedBy = this.SessionService.EmployeeId;
+                criteria.ModifiedBy = SessionService.EmployeeId;
             }
 
-            return flowTemplateService.UpdateFlowTemplate(criteria);
+            return _flowTemplateService.UpdateFlowTemplate(criteria);
         }
 
         [HttpPut]
@@ -77,10 +77,10 @@
         {
             if (criteria != null)
             {
-                criteria.ModifiedBy = this.SessionService.EmployeeId;
+                criteria.ModifiedBy = SessionService.EmployeeId;
             }
 
-            return flowTemplateService.UpdateStatusFlowTemplate(criteria);
+            return _flowTemplateService.UpdateStatusFlowTemplate(criteria);
         }
 
         [HttpDelete]
@@ -90,10 +90,10 @@
             var criteria = new DeleteFlowTemplateCriteria()
             {
                 FlowTemplateId = flowTemplateId,
-                ModifiedBy = this.SessionService.EmployeeId
+                ModifiedBy = SessionService.EmployeeId
             };
 
-            return flowTemplateService.DeleteFlowTemplate(criteria);
+            return _flowTemplateService.DeleteFlowTemplate(criteria);
         }
     }
 }

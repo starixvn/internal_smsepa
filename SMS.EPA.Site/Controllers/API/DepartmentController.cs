@@ -1,17 +1,17 @@
 ﻿namespace SMS.EPA.Site.Controllers.API
 {
+    using Core.Attribute;
+    using Core.Constants;
+    using Core.Enumerations;
+    using Criteria;
+    using Model;
+    using Services.Implement;
+    using Services.Interfaces;
     using System.Web.Http;
-    using SMS.EPA.Core.Attribute;
-    using SMS.EPA.Core.Constants;
-    using SMS.EPA.Core.Enumerations;
-    using SMS.EPA.Criteria;
-    using SMS.EPA.Model;
-    using SMS.EPA.Services.Implement;
-    using SMS.EPA.Services.Interfaces;
 
     public class DepartmentController : BaseController
     {
-        private readonly ICommonService commonService;
+        private readonly ICommonService _commonService;
 
         public DepartmentController()
             : this(null)
@@ -20,7 +20,7 @@
 
         public DepartmentController(ICommonService commonService)
         {
-            this.commonService = commonService ?? new CommonService();
+            _commonService = commonService ?? new CommonService();
         }
 
         [HttpGet]
@@ -35,7 +35,7 @@
                 IsActive = isActive
             };
 
-            return commonService.GetDepartment(criteria);
+            return _commonService.GetDepartment(criteria);
         }
     }
 }

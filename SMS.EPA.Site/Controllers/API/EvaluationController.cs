@@ -1,21 +1,21 @@
 ﻿namespace SMS.EPA.Site.Controllers.API
 {
+    using Core.Enumerations;
+    using Core.Model;
+    using Criteria;
+    using Model;
+    using Services.Implement;
+    using Services.Interfaces;
     using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Net;
     using System.Net.Http;
     using System.Web.Http;
-    using SMS.EPA.Core.Enumerations;
-    using SMS.EPA.Core.Model;
-    using SMS.EPA.Criteria;
-    using SMS.EPA.Model;
-    using SMS.EPA.Services.Implement;
-    using SMS.EPA.Services.Interfaces;
 
     public class EvaluationController : BaseController
     {
-        private readonly IEmployeeEPAService evaluationService;
+        private readonly IEmployeeEPAService _evaluationService;
 
         public EvaluationController()
             : this(null)
@@ -24,7 +24,7 @@
 
         public EvaluationController(IEmployeeEPAService evaluationService)
         {
-            this.evaluationService = evaluationService ?? new EmployeeEPAService();
+            _evaluationService = evaluationService ?? new EmployeeEPAService();
         }
 
         [HttpGet]
@@ -39,7 +39,7 @@
                     return Request.CreateResponse(HttpStatusCode.MethodNotAllowed, epaInfo);
 
                 default:
-                    epaInfo = evaluationService.GetEPAInfoById(epaId);
+                    epaInfo = _evaluationService.GetEPAInfoById(epaId);
 
                     return Request.CreateResponse(HttpStatusCode.OK, epaInfo);
             }
@@ -48,13 +48,13 @@
         [HttpPut]
         public CommandResult ConvertEPA()
         {
-            IEnumerable<EPASummaryImportModel> epaInfos = evaluationService.GetMemberEPASummaryImport();
+            IEnumerable<EPASummaryImportModel> epaInfos = _evaluationService.GetMemberEPASummaryImport();
             var criteria = new UpdateEPASummaryImportCriteria()
             {
                 EpaInfos = epaInfos
             };
 
-            CommandResult result = evaluationService.UpdateEPASummaryImport(criteria);
+            CommandResult result = _evaluationService.UpdateEPASummaryImport(criteria);
             return result;
         }
 
@@ -63,14 +63,14 @@
         {
             HttpResponseMessage response = null;
 
-            if (this.SessionService.CurrentUser.Roles.Select(x => x.RoleId).Contains((int)SystemRole.SystemAdmin))
+            if (SessionService.CurrentUser.Roles.Select(x => x.RoleId).Contains((int)SystemRole.SystemAdmin))
             {
-                EPAModel epaInfo = evaluationService.GetEPAInfoById(epaId);
+                EPAModel epaInfo = _evaluationService.GetEPAInfoById(epaId);
 
                 var resetScoreCriteria = new ResetScoreCriteria()
                 {
                     EPAId = epaInfo.EPAId,
-                    ModifiedBy = this.SessionService.EmployeeId
+                    ModifiedBy = SessionService.EmployeeId
                 };
 
                 CommandResult commandResult;
@@ -81,7 +81,7 @@
                     {
                         resetScoreCriteria.EPAInfo = epaInfo;
 
-                        commandResult = evaluationService.ResetScore(resetScoreCriteria);
+                        commandResult = _evaluationService.ResetScore(resetScoreCriteria);
                         response = Request.CreateResponse(HttpStatusCode.OK, commandResult);
                     }
                 }
@@ -89,7 +89,7 @@
                 {
                     resetScoreCriteria.EPAInfo = epaInfo;
 
-                    commandResult = evaluationService.ResetScore(resetScoreCriteria);
+                    commandResult = _evaluationService.ResetScore(resetScoreCriteria);
                     response = Request.CreateResponse(HttpStatusCode.OK, commandResult);
                 }
             }
@@ -106,10 +106,10 @@
             var criteria = new GetEmployeePermissionCriteria()
             {
                 EPAId = epaId,
-                ActorUserId = this.SessionService.EmployeeId
+                ActorUserId = SessionService.EmployeeId
             };
 
-            return evaluationService.CheckEmployeePermission(criteria);
+            return _evaluationService.CheckEmployeePermission(criteria);
         }
     }
 }

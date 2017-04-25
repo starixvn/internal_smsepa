@@ -1,18 +1,18 @@
 ﻿namespace SMS.EPA.Site.Controllers.API
 {
+    using Core.Attribute;
+    using Core.Constants;
+    using Core.Enumerations;
+    using Criteria;
+    using Model;
+    using Services.Implement;
+    using Services.Interfaces;
     using System;
     using System.Collections.Generic;
-    using SMS.EPA.Core.Attribute;
-    using SMS.EPA.Core.Constants;
-    using SMS.EPA.Core.Enumerations;
-    using SMS.EPA.Criteria;
-    using SMS.EPA.Model;
-    using SMS.EPA.Services.Implement;
-    using SMS.EPA.Services.Interfaces;
 
     public class DisciplineSummaryController : BaseController
     {
-        private readonly IDisciplineService disciplineService;
+        private readonly IDisciplineService _disciplineService;
 
         public DisciplineSummaryController()
             : this(null)
@@ -21,7 +21,7 @@
 
         public DisciplineSummaryController(IDisciplineService disciplineService)
         {
-            this.disciplineService = disciplineService ?? new DisciplineService();
+            _disciplineService = disciplineService ?? new DisciplineService();
         }
 
         [ApiAuthorize(FunctionKey = EPAFunctionKey.DisciplineSummary, Policy = Policy.Read)]
@@ -42,10 +42,10 @@
                 IsLocal = isLocal,
                 EmployeeId = employeeId,
                 ReasonId = reasonId,
-                ApproverId = this.SessionService.EmployeeId,
+                ApproverId = SessionService.EmployeeId,
                 IsShowAll = isShowAll
             };
-            IEnumerable<DisciplineSummaryModel> employeeDisciplines = disciplineService.GetDisciplineSummary(criteria);
+            IEnumerable<DisciplineSummaryModel> employeeDisciplines = _disciplineService.GetDisciplineSummary(criteria);
 
             return employeeDisciplines;
         }
@@ -68,10 +68,10 @@
                 DepartmentId = departmentId,
                 IsLocal = isLocal,
                 ReasonId = reasonId,
-                ApproverId = this.SessionService.EmployeeId,
+                ApproverId = SessionService.EmployeeId,
                 HasIgnored = hasIgnored
             };
-            IEnumerable<DisciplineDetailModel> employeeDisciplines = disciplineService.GetDisciplineDetail(criteria);
+            IEnumerable<DisciplineDetailModel> employeeDisciplines = _disciplineService.GetDisciplineDetail(criteria);
 
             return employeeDisciplines;
         }
@@ -92,7 +92,8 @@
                 IsLocal = isLocal,
                 EmployeeId = employeeId
             };
-            IEnumerable<DisciplineSummaryByPeriodModel> employeeDisciplines = disciplineService.GetDisciplineSummaryByPeriod(criteria);
+            IEnumerable<DisciplineSummaryByPeriodModel> employeeDisciplines =
+                _disciplineService.GetDisciplineSummaryByPeriod(criteria);
 
             return employeeDisciplines;
         }
@@ -111,7 +112,7 @@
                 StartDate = startDate,
                 EndDate = endDate
             };
-            IEnumerable<OtherViolationModel> violations = disciplineService.GetOtherViolations(criteria);
+            IEnumerable<OtherViolationModel> violations = _disciplineService.GetOtherViolations(criteria);
 
             return violations;
         }
@@ -125,14 +126,14 @@
                 IncludeOtherViolate = includeOtherViolate,
                 IsActive = isActive
             };
-            IEnumerable<DisciplineTypeModel> violations = disciplineService.GetDisciplineType(criteria);
+            IEnumerable<DisciplineTypeModel> violations = _disciplineService.GetDisciplineType(criteria);
 
             return violations;
         }
 
         public int GetUserPermissionOnDisciplineSummary()
         {
-            int permission = this.SessionService.GetPermission(EPAFunctionKey.DisciplineSummary);
+            int permission = SessionService.GetPermission(EPAFunctionKey.DisciplineSummary);
             return permission;
         }
     }

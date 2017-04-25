@@ -6,10 +6,7 @@
     {
         public static void RegisterGlobalFilters(GlobalFilterCollection filters)
         {
-            if (filters != null)
-            {
-                filters.Add(new HandleErrorAttribute());
-            }
+            filters?.Add(new HandleErrorAttribute());
         }
     }
 }

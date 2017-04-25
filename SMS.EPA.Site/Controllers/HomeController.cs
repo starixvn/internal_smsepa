@@ -1,13 +1,12 @@
 ﻿namespace SMS.EPA.Site.Controllers
 {
+    using Core.Model;
+    using Core.Services;
     using System.Web.Mvc;
-    using SMS.EPA.Core.Model;
-    using SMS.EPA.Core.Services;
-    using SMS.EPA.Core.Services.Interfaces;
 
     public class HomeController : Controller
     {
-        private ISessionService sessionService;
+        private ISessionService _sessionService;
 
         public HomeController()
             : this(null)
@@ -16,14 +15,14 @@
 
         public HomeController(ISessionService sessionService)
         {
-            this.sessionService = sessionService ?? new SessionService();
+            _sessionService = sessionService ?? new SessionService();
         }
 
         public ActionResult Index()
         {
-            if (sessionService.CurrentUser != null)
+            if (_sessionService.CurrentUser != null)
             {
-                UserSession user = sessionService.CurrentUser;
+                UserSession user = _sessionService.CurrentUser;
                 return View(user);
             }
 

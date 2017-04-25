@@ -1,22 +1,22 @@
 ﻿namespace SMS.EPA.Site.Controllers.API
 {
+    using Core.Attribute;
+    using Core.Constants;
+    using Core.Enumerations;
+    using Core.Model;
+    using Criteria;
+    using Model;
+    using Services.Implement;
+    using Services.Interfaces;
     using System.Collections.Generic;
     using System.Net;
     using System.Net.Http;
     using System.Web.Http;
-    using SMS.EPA.Core.Attribute;
-    using SMS.EPA.Core.Constants;
-    using SMS.EPA.Core.Enumerations;
-    using SMS.EPA.Core.Model;
-    using SMS.EPA.Criteria;
-    using SMS.EPA.Model;
-    using SMS.EPA.Services.Implement;
-    using SMS.EPA.Services.Interfaces;
 
     public class SelfEvaluationController : BaseController
     {
-        private readonly IEmployeeEPAService evaluationService;
-        private readonly ISelfEvaluationService selfEvaluationService;
+        private readonly IEmployeeEPAService _evaluationService;
+        private readonly ISelfEvaluationService _selfEvaluationService;
 
         public SelfEvaluationController()
             : this(null, null)
@@ -27,8 +27,8 @@
             IEmployeeEPAService evaluationService,
             ISelfEvaluationService selfEvaluationService)
         {
-            this.evaluationService = evaluationService ?? new EmployeeEPAService();
-            this.selfEvaluationService = selfEvaluationService ?? new SelfEvaluationService();
+            _evaluationService = evaluationService ?? new EmployeeEPAService();
+            _selfEvaluationService = selfEvaluationService ?? new SelfEvaluationService();
         }
 
         [HttpGet]
@@ -37,10 +37,10 @@
         {
             var criteria = new GetEPAByEmployeeCriteria
             {
-                EmployeeId = this.SessionService.EmployeeId
+                EmployeeId = SessionService.EmployeeId
             };
 
-            return selfEvaluationService.GetEPAByEmployee(criteria);
+            return _selfEvaluationService.GetEPAByEmployee(criteria);
         }
 
         [HttpGet]
@@ -59,10 +59,10 @@
                     var criteria = new GetEPAInfoByEmployeeCriteria()
                     {
                         EPAId = epaId,
-                        EmployeeId = this.SessionService.EmployeeId
+                        EmployeeId = SessionService.EmployeeId
                     };
 
-                    epaInfo = selfEvaluationService.GetEPAInfoByEmployee(criteria);
+                    epaInfo = _selfEvaluationService.GetEPAInfoByEmployee(criteria);
 
                     return Request.CreateResponse(HttpStatusCode.OK, epaInfo);
             }
@@ -77,10 +77,10 @@
             if (criteria != null)
             {
                 criteria.ProcessId = (int)ProcessType.Self;
-                criteria.EvaluatorId = this.SessionService.EmployeeId;
-                criteria.ModifiedBy = this.SessionService.EmployeeId;
+                criteria.EvaluatorId = SessionService.EmployeeId;
+                criteria.ModifiedBy = SessionService.EmployeeId;
 
-                commandResult = selfEvaluationService.UpdateEPAScoreByEmployee(criteria);
+                commandResult = _selfEvaluationService.UpdateEPAScoreByEmployee(criteria);
             }
 
             return commandResult;
@@ -88,7 +88,7 @@
 
         public int GetUserPermissionOnEmployee()
         {
-            int permission = this.SessionService.GetPermission(EPAFunctionKey.Self);
+            int permission = SessionService.GetPermission(EPAFunctionKey.Self);
             return permission;
         }
 
@@ -97,11 +97,11 @@
             var criteria = new GetEmployeePermissionCriteria()
             {
                 EPAId = epaId,
-                ActorUserId = this.SessionService.EmployeeId,
+                ActorUserId = SessionService.EmployeeId,
                 ProcessId = (int)ProcessType.Self
             };
 
-            return evaluationService.CheckEmployeePermission(criteria);
+            return _evaluationService.CheckEmployeePermission(criteria);
         }
     }
 }

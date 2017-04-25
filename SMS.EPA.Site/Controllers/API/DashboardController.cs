@@ -1,18 +1,18 @@
 ﻿namespace SMS.EPA.Site.Controllers.API
 {
+    using Core.Attribute;
+    using Core.Constants;
+    using Core.Enumerations;
+    using Model;
+    using Services.Implement;
+    using Services.Interfaces;
     using System.Web.Http;
-    using SMS.EPA.Core.Attribute;
-    using SMS.EPA.Core.Constants;
-    using SMS.EPA.Core.Enumerations;
-    using SMS.EPA.Model;
-    using SMS.EPA.Services.Implement;
-    using SMS.EPA.Services.Interfaces;
 
     public class DashboardController : BaseController
     {
-        private readonly IEmployeeService employeeService;
-        private readonly IReportService reportService;
-        private readonly IDashboardService dashboardService;
+        private readonly IEmployeeService _employeeService;
+        private readonly IReportService _reportService;
+        private readonly IDashboardService _dashboardService;
 
         public DashboardController() :
             this(null, null, null)
@@ -24,17 +24,17 @@
             IReportService reportService,
             IDashboardService dashboardService)
         {
-            this.employeeService = employeeService ?? new EmployeeService();
-            this.reportService = reportService ?? new ReportService();
-            this.dashboardService = dashboardService ?? new DashboardService();
+            _employeeService = employeeService ?? new EmployeeService();
+            _reportService = reportService ?? new ReportService();
+            _dashboardService = dashboardService ?? new DashboardService();
         }
 
         [HttpGet]
         [ApiAuthorize(FunctionKey = EPAFunctionKey.Home, Policy = Policy.Read)]
         public DashboardModel GetDashboard()
         {
-            DashboardModel dashboard = reportService.GetDashboard(this.SessionService.EmployeeId);
-            dashboard.Employee = employeeService.GetEmployeeById(this.SessionService.EmployeeId);
+            DashboardModel dashboard = _reportService.GetDashboard(SessionService.EmployeeId);
+            dashboard.Employee = _employeeService.GetEmployeeById(SessionService.EmployeeId);
 
             return dashboard;
         }
@@ -43,7 +43,7 @@
         [ApiAuthorize(FunctionKey = EPAFunctionKey.Home, Policy = Policy.Read)]
         public ToDoListViewModel GetToDoList()
         {
-            ToDoListViewModel todoList = dashboardService.GetToDoList(this.SessionService.EmployeeId);
+            ToDoListViewModel todoList = _dashboardService.GetToDoList(SessionService.EmployeeId);
 
             return todoList;
         }

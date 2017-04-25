@@ -1,21 +1,21 @@
 ﻿namespace SMS.EPA.Site.Controllers.API
 {
+    using Core.Attribute;
+    using Core.Constants;
+    using Core.Enumerations;
+    using Core.Model;
+    using Criteria;
+    using Model;
+    using Model.Enitites;
+    using Services.Implement;
+    using Services.Interfaces;
     using System;
     using System.Collections.Generic;
     using System.Web.Http;
-    using SMS.EPA.Core.Attribute;
-    using SMS.EPA.Core.Constants;
-    using SMS.EPA.Core.Enumerations;
-    using SMS.EPA.Core.Model;
-    using SMS.EPA.Criteria;
-    using SMS.EPA.Model;
-    using SMS.EPA.Model.Enitites;
-    using SMS.EPA.Services.Implement;
-    using SMS.EPA.Services.Interfaces;
 
     public class DepartmentFlowController : BaseController
     {
-        private readonly IDepartmentFlowService departmentFlowService;
+        private readonly IDepartmentFlowService _departmentFlowService;
 
         public DepartmentFlowController()
             : this(null)
@@ -24,14 +24,14 @@
 
         public DepartmentFlowController(IDepartmentFlowService departmentFlowService)
         {
-            this.departmentFlowService = departmentFlowService ?? new DepartmentFlowService();
+            _departmentFlowService = departmentFlowService ?? new DepartmentFlowService();
         }
 
         [HttpGet]
         [ApiAuthorize(FunctionKey = EPAFunctionKey.FlowManagement, Policy = Policy.Read)]
         public IEnumerable<DepartmentFlowModel> GetDepartmentFlowByFlowTemplateId(int flowTemplateId)
         {
-            return departmentFlowService.GetDepartmentFlowByFlowTemplateId(flowTemplateId);
+            return _departmentFlowService.GetDepartmentFlowByFlowTemplateId(flowTemplateId);
         }
 
         [HttpGet]
@@ -45,7 +45,7 @@
                 IsGroup = departmentId <= 0
             };
 
-            return departmentFlowService.GetDepartmentFlowById(criteria);
+            return _departmentFlowService.GetDepartmentFlowById(criteria);
         }
 
         [HttpPost]
@@ -57,9 +57,9 @@
             if (criteria != null)
             {
                 criteria.DepartmentId = Math.Abs(criteria.DepartmentId);
-                criteria.ModifiedBy = this.SessionService.EmployeeId;
+                criteria.ModifiedBy = SessionService.EmployeeId;
 
-                commandResult = departmentFlowService.CreateDepartmentFlow(criteria);
+                commandResult = _departmentFlowService.CreateDepartmentFlow(criteria);
             }
 
             return commandResult;
@@ -74,16 +74,16 @@
                 FlowTemplateId = flowTemplateId,
                 DepartmentId = Math.Abs(departmentId),
                 IsGroup = departmentId <= 0,
-                ModifiedBy = this.SessionService.EmployeeId
+                ModifiedBy = SessionService.EmployeeId
             };
 
-            return departmentFlowService.DeleteDepartmentFlow(criteria);
+            return _departmentFlowService.DeleteDepartmentFlow(criteria);
         }
 
         [HttpGet]
         public IList<Department> GetDepartmentHasSetting(int flowTemplateId)
         {
-            return departmentFlowService.GetDepartmentHasSettingByFlowTemplateId(flowTemplateId);
+            return _departmentFlowService.GetDepartmentHasSettingByFlowTemplateId(flowTemplateId);
         }
     }
 }

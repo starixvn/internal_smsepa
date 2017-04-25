@@ -1,20 +1,20 @@
 ﻿namespace SMS.EPA.Site.Controllers.API
 {
+    using Core.Attribute;
+    using Core.Constants;
+    using Core.Enumerations;
+    using Core.Model;
+    using Criteria;
+    using Model;
+    using Services.Implement;
+    using Services.Interfaces;
     using System.Collections.Generic;
     using System.Linq;
     using System.Web.Http;
-    using SMS.EPA.Core.Attribute;
-    using SMS.EPA.Core.Constants;
-    using SMS.EPA.Core.Enumerations;
-    using SMS.EPA.Core.Model;
-    using SMS.EPA.Criteria;
-    using SMS.EPA.Model;
-    using SMS.EPA.Services.Implement;
-    using SMS.EPA.Services.Interfaces;
 
     public class PeriodController : BaseController
     {
-        private readonly IPeriodService periodService;
+        private readonly IPeriodService _periodService;
 
         public PeriodController()
             : this(null)
@@ -23,7 +23,7 @@
 
         public PeriodController(IPeriodService periodService)
         {
-            this.periodService = periodService ?? new PeriodService();
+            _periodService = periodService ?? new PeriodService();
         }
 
         [ApiAuthorize(FunctionKey = EPAFunctionKey.Period, Policy = Policy.Read)]
@@ -35,7 +35,7 @@
                 IsActive = isActive
             };
 
-            IEnumerable<PeriodModel> periods = periodService.GetPeriod(criteria);
+            IEnumerable<PeriodModel> periods = _periodService.GetPeriod(criteria);
             IEnumerable<PeriodModel> probationPeriods = periods.Where(x => x.TargetType.TargetTypeId == (int)TargetType.Probation);
             IEnumerable<PeriodModel> promotionPeriods = periods.Where(
                 x => x.TargetType.TargetTypeId == (int)TargetType.Promotion)
@@ -46,17 +46,17 @@
 
             IEnumerable<PeriodModel> periodList = new List<PeriodModel>();
 
-            if (probationPeriods != null && probationPeriods.Any())
+            if (probationPeriods.Any())
             {
                 periodList = periodList.Concat(probationPeriods);
             }
 
-            if (promotionPeriods != null && promotionPeriods.Any())
+            if (promotionPeriods.Any())
             {
                 periodList = periodList.Concat(promotionPeriods);
             }
 
-            if (semiPeriods != null && semiPeriods.Any())
+            if (semiPeriods.Any())
             {
                 periodList = periodList.Concat(semiPeriods);
             }
@@ -72,8 +72,8 @@
 
             if (criteria != null)
             {
-                criteria.CreatedBy = this.SessionService.EmployeeId;
-                commandResult = periodService.CreatePeriod(criteria);
+                criteria.CreatedBy = SessionService.EmployeeId;
+                commandResult = _periodService.CreatePeriod(criteria);
             }
 
             return commandResult;
@@ -87,8 +87,8 @@
 
             if (criteria != null)
             {
-                criteria.ModifiedBy = this.SessionService.EmployeeId;
-                commandResult = periodService.UpdateBasicInformationPeriod(criteria);
+                criteria.ModifiedBy = SessionService.EmployeeId;
+                commandResult = _periodService.UpdateBasicInformationPeriod(criteria);
             }
 
             return commandResult;
@@ -97,7 +97,7 @@
         [ApiAuthorize(FunctionKey = EPAFunctionKey.Period, Policy = Policy.Read)]
         public PeriodModel GetPeriodById(int periodId)
         {
-            PeriodModel period = periodService.GetPeriodById(periodId);
+            PeriodModel period = _periodService.GetPeriodById(periodId);
 
             return period;
         }
@@ -110,8 +110,8 @@
 
             if (criteria != null)
             {
-                criteria.ModifiedBy = this.SessionService.EmployeeId;
-                commandResult = periodService.UpdateStatusPeriod(criteria);
+                criteria.ModifiedBy = SessionService.EmployeeId;
+                commandResult = _periodService.UpdateStatusPeriod(criteria);
             }
 
             return commandResult;
@@ -124,10 +124,10 @@
             var criteria = new DeletePeriodCriteria
             {
                 PeriodId = periodId,
-                ModifiedBy = this.SessionService.EmployeeId
+                ModifiedBy = SessionService.EmployeeId
             };
 
-            CommandResult commandResult = periodService.DeletePeriod(criteria);
+            CommandResult commandResult = _periodService.DeletePeriod(criteria);
             return commandResult;
         }
 
@@ -154,12 +154,12 @@
                 EPAStatus = epaStatus
             };
 
-            IEnumerable<PeriodEmployeeSettingModel> periodEmployeeSettings = periodService.GetPeriodEmployeeSettingById(criteria);
+            IEnumerable<PeriodEmployeeSettingModel> periodEmployeeSettings = _periodService.GetPeriodEmployeeSettingById(criteria);
 
             if (periodEmployeeSettings.Any())
             {
                 PeriodEmployeeSettingModel periodEmployeeSetting = periodEmployeeSettings.FirstOrDefault(x => x.TargetTemplate != null);
-                int targetTypeId = periodEmployeeSetting != null ? periodEmployeeSetting.TargetTemplate.TargetTypeId : 0;
+                int targetTypeId = periodEmployeeSetting?.TargetTemplate.TargetTypeId ?? 0;
 
                 switch (targetTypeId)
                 {
@@ -186,8 +186,8 @@
 
             if (criteria != null)
             {
-                criteria.ModifiedBy = this.SessionService.EmployeeId;
-                commandResult = periodService.AddEmployeeToPeriod(criteria);
+                criteria.ModifiedBy = SessionService.EmployeeId;
+                commandResult = _periodService.AddEmployeeToPeriod(criteria);
             }
 
             return commandResult;
@@ -201,8 +201,8 @@
 
             if (criteria != null)
             {
-                criteria.ModifiedBy = this.SessionService.EmployeeId;
-                commandResult = periodService.UpdateEmployeeSettingOfPeriod(criteria);
+                criteria.ModifiedBy = SessionService.EmployeeId;
+                commandResult = _periodService.UpdateEmployeeSettingOfPeriod(criteria);
             }
 
             return commandResult;
@@ -216,8 +216,8 @@
 
             if (criteria != null)
             {
-                criteria.ModifiedBy = this.SessionService.EmployeeId;
-                commandResult = periodService.UpdateIncludeStatusEmployeePeriod(criteria);
+                criteria.ModifiedBy = SessionService.EmployeeId;
+                commandResult = _periodService.UpdateIncludeStatusEmployeePeriod(criteria);
             }
 
             return commandResult;
@@ -231,11 +231,11 @@
 
             if (criteria != null)
             {
-                commandResult = periodService.GenerateEvaluation(criteria);
+                commandResult = _periodService.GenerateEvaluation(criteria);
 
                 if (commandResult.IsSuccessful)
                 {
-                    periodService.SendEmailNoticeAtBegin(criteria.PeriodId);
+                    _periodService.SendEmailNoticeAtBegin(criteria.PeriodId);
                 }
             }
 
@@ -245,7 +245,7 @@
         [ApiAuthorize(FunctionKey = EPAFunctionKey.Period, Policy = Policy.Read)]
         public IEnumerable<FlowModel> GetProcessSettingByPeriodId(int periodId)
         {
-            IEnumerable<FlowModel> processSettings = periodService.GetProcessSettingByPeriodId(periodId);
+            IEnumerable<FlowModel> processSettings = _periodService.GetProcessSettingByPeriodId(periodId);
             return processSettings;
         }
 
@@ -257,8 +257,8 @@
 
             if (criteria != null)
             {
-                criteria.ModifiedBy = this.SessionService.EmployeeId;
-                commandResult = periodService.UpdateProcessSettingPeriod(criteria);
+                criteria.ModifiedBy = SessionService.EmployeeId;
+                commandResult = _periodService.UpdateProcessSettingPeriod(criteria);
             }
 
             return commandResult;
@@ -273,13 +273,13 @@
                 EmployeeIds = employeeIds
             };
 
-            bool hasStarted = periodService.CheckSelfProcessStarted(criteria);
+            bool hasStarted = _periodService.CheckSelfProcessStarted(criteria);
             return hasStarted;
         }
 
         public int GetUserPermissionOnPeriod()
         {
-            int permission = this.SessionService.GetPermission(EPAFunctionKey.Period);
+            int permission = SessionService.GetPermission(EPAFunctionKey.Period);
             return permission;
         }
     }

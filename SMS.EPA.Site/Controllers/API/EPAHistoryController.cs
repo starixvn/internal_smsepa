@@ -1,19 +1,19 @@
 ﻿namespace SMS.EPA.Site.Controllers.API
 {
+    using Core.Attribute;
+    using Core.Constants;
+    using Core.Enumerations;
+    using Criteria.EPAHistory;
+    using Model.EPAHistory;
+    using Services.Implement;
+    using Services.Interfaces;
     using System.Collections.Generic;
     using System.Linq;
     using System.Web.Http;
-    using SMS.EPA.Core.Attribute;
-    using SMS.EPA.Core.Constants;
-    using SMS.EPA.Core.Enumerations;
-    using SMS.EPA.Criteria.EPAHistory;
-    using SMS.EPA.Model.EPAHistory;
-    using SMS.EPA.Services.Implement;
-    using SMS.EPA.Services.Interfaces;
 
     public class EPAHistoryController : BaseController
     {
-        private readonly IEPAHistoryService epaHistoryService;
+        private readonly IEPAHistoryService _epaHistoryService;
 
         public EPAHistoryController()
             : this(null)
@@ -22,7 +22,7 @@
 
         public EPAHistoryController(IEPAHistoryService epaHistoryService)
         {
-            this.epaHistoryService = epaHistoryService ?? new EPAHistoryService();
+            _epaHistoryService = epaHistoryService ?? new EPAHistoryService();
         }
 
         [HttpGet]
@@ -36,13 +36,13 @@
             var criteria = new GetEPAHistoryCriteria
             {
                 PeriodId = periodId,
-                EvaluatorId = this.SessionService.EmployeeId,
+                EvaluatorId = SessionService.EmployeeId,
                 DepartmentId = departmentId,
                 IsLocal = isLocal,
                 EmployeeId = employeeId
             };
 
-            IList<EPAHistoryModel> epas = epaHistoryService.GetEPAHistory(criteria);
+            IList<EPAHistoryModel> epas = _epaHistoryService.GetEPAHistory(criteria);
             return epas;
         }
 
@@ -52,18 +52,18 @@
             var criteria = new GetMonthlyEPAHistoryCriteria
             {
                 PeriodId = periodId,
-                EvaluatorId = this.SessionService.EmployeeId,
+                EvaluatorId = SessionService.EmployeeId,
                 EmployeeId = employeeId
             };
 
-            IList<EPAHistoryModel> epas = epaHistoryService.GetMonthlyEPAHistory(criteria);
+            IList<EPAHistoryModel> epas = _epaHistoryService.GetMonthlyEPAHistory(criteria);
             return epas;
         }
 
         [HttpGet]
         public bool HasOnlyEmployeeRole()
         {
-            bool onlyEmployeeRole = this.SessionService.CurrentUser.Roles.All(x => x.RoleId == (int)SystemRole.Employee);
+            bool onlyEmployeeRole = SessionService.CurrentUser.Roles.All(x => x.RoleId == (int)SystemRole.Employee);
             return onlyEmployeeRole;
         }
     }

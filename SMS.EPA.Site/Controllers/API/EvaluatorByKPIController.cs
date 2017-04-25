@@ -1,20 +1,20 @@
 ﻿namespace SMS.EPA.Site.Controllers.API
 {
+    using Core.Attribute;
+    using Core.Constants;
+    using Core.Enumerations;
+    using Core.Model;
+    using Criteria;
+    using Model;
+    using Model.Enitites;
+    using Services.Implement;
+    using Services.Interfaces;
     using System.Collections.Generic;
     using System.Web.Http;
-    using SMS.EPA.Core.Attribute;
-    using SMS.EPA.Core.Constants;
-    using SMS.EPA.Core.Enumerations;
-    using SMS.EPA.Core.Model;
-    using SMS.EPA.Criteria;
-    using SMS.EPA.Model;
-    using SMS.EPA.Model.Enitites;
-    using SMS.EPA.Services.Implement;
-    using SMS.EPA.Services.Interfaces;
 
     public class EvaluatorByKPIController : BaseController
     {
-        private readonly IEvaluatorByKPIService evaluatorByKPIService;
+        private readonly IEvaluatorByKPIService _evaluatorByKPIService;
 
         public EvaluatorByKPIController()
             : this(null)
@@ -23,7 +23,7 @@
 
         public EvaluatorByKPIController(IEvaluatorByKPIService evaluatorByKPIService)
         {
-            this.evaluatorByKPIService = evaluatorByKPIService ?? new EvaluatorByKPIService();
+            _evaluatorByKPIService = evaluatorByKPIService ?? new EvaluatorByKPIService();
         }
 
         [HttpGet]
@@ -32,10 +32,10 @@
         {
             var criteria = new GetPeriodByEvaluatorCriteria()
             {
-                EvaluatorId = this.SessionService.EmployeeId
+                EvaluatorId = SessionService.EmployeeId
             };
 
-            return evaluatorByKPIService.GetPeriodByEvaluator(criteria);
+            return _evaluatorByKPIService.GetPeriodByEvaluator(criteria);
         }
 
         [HttpGet]
@@ -44,11 +44,11 @@
         {
             var criteria = new GetTargetTemplateByEvaluatorCriteria()
             {
-                EvaluatorId = this.SessionService.EmployeeId,
+                EvaluatorId = SessionService.EmployeeId,
                 PeriodId = periodId
             };
 
-            return evaluatorByKPIService.GetTargetTemplateByEvaluator(criteria);
+            return _evaluatorByKPIService.GetTargetTemplateByEvaluator(criteria);
         }
 
         [HttpGet]
@@ -57,10 +57,10 @@
         {
             var criteria = new GetPeriodToViewCriteria()
             {
-                EvaluatorId = this.SessionService.EmployeeId
+                EvaluatorId = SessionService.EmployeeId
             };
 
-            return evaluatorByKPIService.GetPeriodToView(criteria);
+            return _evaluatorByKPIService.GetPeriodToView(criteria);
         }
 
         [HttpGet]
@@ -69,11 +69,11 @@
         {
             var criteria = new GetTargetTemplateToViewCriteria()
             {
-                EvaluatorId = this.SessionService.EmployeeId,
+                EvaluatorId = SessionService.EmployeeId,
                 PeriodId = periodId
             };
 
-            return evaluatorByKPIService.GetTargetTemplateToView(criteria);
+            return _evaluatorByKPIService.GetTargetTemplateToView(criteria);
         }
 
         [HttpGet]
@@ -88,7 +88,7 @@
                 TargetTemplateId = targetTemplateId
             };
 
-            return evaluatorByKPIService.GetEvaluatorsByTargetTemplate(criteria);
+            return _evaluatorByKPIService.GetEvaluatorsByTargetTemplate(criteria);
         }
 
         [HttpGet]
@@ -105,7 +105,7 @@
                 TargetTemplateId = targetTemplateId
             };
 
-            return evaluatorByKPIService.GetKPIToView(criteria);
+            return _evaluatorByKPIService.GetKPIToView(criteria);
         }
 
         [HttpGet]
@@ -124,7 +124,7 @@
                 KPIId = kpiId
             };
 
-            return evaluatorByKPIService.GetEmployeeEPAToView(criteria);
+            return _evaluatorByKPIService.GetEmployeeEPAToView(criteria);
         }
 
         [HttpGet]
@@ -135,12 +135,12 @@
         {
             var criteria = new GetKPIByTargetTemplateCriteria()
             {
-                EvaluatorId = this.SessionService.EmployeeId,
+                EvaluatorId = SessionService.EmployeeId,
                 TargetTemplateId = targetTemplateId,
                 PeriodId = periodId
             };
 
-            return evaluatorByKPIService.GetKPIByTargetTemplate(criteria);
+            return _evaluatorByKPIService.GetKPIByTargetTemplate(criteria);
         }
 
         [HttpGet]
@@ -154,7 +154,7 @@
         {
             var criteria = new GetEmployeeEPAByKPICriteria()
             {
-                EvaluatorId = this.SessionService.EmployeeId,
+                EvaluatorId = SessionService.EmployeeId,
                 PeriodId = periodId,
                 TargetTemplateId = targetTemplateId,
                 KPIId = kpiId,
@@ -162,7 +162,7 @@
                 EmployeeIds = employeeIds
             };
 
-            return evaluatorByKPIService.GetEmployeeEpabyKPI(criteria);
+            return _evaluatorByKPIService.GetEmployeeEpabyKPI(criteria);
         }
 
         [HttpPut]
@@ -171,16 +171,16 @@
         {
             var criteria = new UpdateKPIScoreCriteria()
             {
-                EvaluatorId = this.SessionService.EmployeeId,
+                EvaluatorId = SessionService.EmployeeId,
                 EpaInfos = epaInfos
             };
 
-            return evaluatorByKPIService.UpdateKPIScore(criteria);
+            return _evaluatorByKPIService.UpdateKPIScore(criteria);
         }
 
         public int GetUserPermissionOnRatingByKPI()
         {
-            int permission = this.SessionService.GetPermission(EPAFunctionKey.RatingByKPI);
+            int permission = SessionService.GetPermission(EPAFunctionKey.RatingByKPI);
             return permission;
         }
     }
