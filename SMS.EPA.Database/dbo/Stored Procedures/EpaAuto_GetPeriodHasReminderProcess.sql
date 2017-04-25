@@ -10,8 +10,7 @@ DB: SMSEPA
 Original: 
 
 Revisions:  
-	Param's Explanation:
-	20170419@Hunter.Tran: Check if period is active
+Param's Explanation:
 */
 BEGIN
 	SET NOCOUNT ON;
@@ -27,6 +26,8 @@ BEGIN
 		AND epa.[Status] = 0 -- Open
 		AND pe.TargetTypeId IN (1, 5) -- Probation or Promotion
 		AND pe.IsActive = 1 -- Active
+		--AND ISNULL(pe.EndDate, '') = '' --Probation don't have end date
+		--OR pe.EndDate >= GETDATE() --EndDate is still in the future
 	
 	UNION
 	SELECT DISTINCT period.PeriodId

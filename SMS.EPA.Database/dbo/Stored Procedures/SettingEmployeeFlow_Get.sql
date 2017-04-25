@@ -1,5 +1,4 @@
-﻿
-CREATE PROCEDURE [dbo].[SettingEmployeeFlow_Get] @FlowTemplateId INT
+﻿CREATE PROCEDURE [dbo].[SettingEmployeeFlow_Get] @FlowTemplateId INT
 AS
 /*
 Created: 20150722@Tim.Trinh
@@ -26,6 +25,8 @@ BEGIN
 		LEFT JOIN dbo.[Group] AS gr WITH (NOLOCK) ON emp.GroupId = gr.GroupId
 		INNER JOIN dbo.FlowTemplate AS ft WITH (NOLOCK) ON ef.FlowTemplateId = ft.FlowTemplateId
 		AND ft.FlowTemplateId = @FlowTemplateId
+	WHERE emp.[Enabled] = 1
+		AND ISNULL(emp.IsDeleted, 0) = 0
 
 	SELECT ef.EmployeeId
 		,ef.ProcessId

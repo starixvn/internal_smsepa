@@ -1,5 +1,6 @@
 ﻿
-CREATE PROCEDURE [dbo].[EPASummaryImport_Update] @EPADetailXML NVARCHAR(MAX)
+
+CREATE PROCEDURE [dbo].[EPASummaryImport_Update] @EPADetailXml NVARCHAR(MAX)
 	,@ErrCode INT = 0 OUTPUT
 	,@ErrMsg NVARCHAR(200) = '' OUTPUT
 AS
@@ -11,7 +12,7 @@ Original:
 
 Revisions:  
 Param's Explanation:
- - @EPADetailXML: "<EPA Id='{0}' FinalScore='{1}'></EPA>"
+ - @EPADetailXml: "<EPA Id='{0}' FinalScore='{1}'></EPA>"
 */
 BEGIN
 	SET NOCOUNT ON;
@@ -31,7 +32,7 @@ BEGIN
 
 	BEGIN TRY
 		EXEC sp_xml_preparedocument @DocHandler OUTPUT
-			,@EPADetailXML
+			,@EPADetailXml
 
 		INSERT INTO #EPASummaryImport (
 			[Id]

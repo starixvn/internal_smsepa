@@ -1,4 +1,5 @@
 ﻿
+
 CREATE PROCEDURE [dbo].[EPA_GetLastScore] @EPAIds IntId READONLY
 AS
 /*
@@ -9,6 +10,7 @@ Original:
 
 Revisions:  
 Param's Explanation:
+	20170424@Hunter.Tran: Get last EPAId
 
 */
 BEGIN
@@ -109,6 +111,7 @@ BEGIN
 		AND CAST(lastEPA.PeriodDate AS DATE) = tblData.PeriodDate
 
 	SELECT DISTINCT tbl.EPAId
+		,tbl1.LastEPAId
 		,tbl.EmployeeId
 		,tbl1.Code
 		,tbl1.FinalScore

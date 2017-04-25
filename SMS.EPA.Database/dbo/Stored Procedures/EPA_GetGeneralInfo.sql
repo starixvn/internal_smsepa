@@ -1,5 +1,4 @@
-﻿
-CREATE PROCEDURE [dbo].[EPA_GetGeneralInfo] @TblEPAIds IntId READONLY
+﻿CREATE PROCEDURE [dbo].[EPA_GetGeneralInfo] @TblEPAIds IntId READONLY
 AS
 /*
 Created: 20150827@Tim.Trinh
@@ -9,7 +8,6 @@ Original:
 
 Revisions:  
     20160226@Razor.Nguyen: Monthly
-	20170419@Hunter.Tran: add last EPAId to result
 Param's Explanation:
 
 */
@@ -29,6 +27,7 @@ BEGIN
 
 	CREATE TABLE #LastEPA (
 		EPAId INT
+		,LastEPAId INT
 		,EmployeeId INT
 		,Code NVARCHAR(20)
 		,FinalScore NVARCHAR(100)
@@ -76,7 +75,7 @@ BEGIN
 			WHEN tbl1.NumberOtherViolation > 0 THEN 1
 			ELSE 0 END
 			) AS HasOtherViolation
-		,ls.EPAId AS LastEPAId
+		,ls.LastEPAId AS LastEPAId
 		,ls.FinalScore AS LastFinalScore
 		,epa.HasMonthlyEPA AS HasMonthlyEPA
 		,ls.Grade AS LastGrade

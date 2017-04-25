@@ -1,6 +1,4 @@
-﻿
-/****** Object:  Stored Procedure dbo.EPA_GetEPAToUpdateFinalScore    Script Date: 7/21/2016 2:45:43 PM ******/
-CREATE PROCEDURE [dbo].[EPA_GetEPAToUpdateFinalScore] @PeriodId INT
+﻿CREATE PROCEDURE [dbo].[EPA_GetEPAToUpdateFinalScore] @PeriodId INT
 	,@GroupId INT = NULL
 	,@IsLocal BIT = NULL
 	,@EmployeeId INT = NULL
@@ -57,7 +55,7 @@ BEGIN
 		WHERE CAST(pe.EndDate AS DATE) <= CAST(GETDATE() AS DATE)
 			AND CAST(pc.EndDate AS DATE) < CAST(pe.EndDate AS DATE)
 			AND pe.TargetTypeId IN (2, 3) -- monthly, semi annual
-			AND epa.[Status] IN (0, 1) -- open/closed
+			AND ISNULL(epa.[Status], 0) IN (0, 1) -- open/closed
 			AND pe.IsActive = 1
 			AND pe.PeriodId = @PeriodId
 			AND (

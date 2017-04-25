@@ -1,4 +1,5 @@
 ﻿
+
 CREATE PROCEDURE [dbo].[SettingEmployeeFlow_Delete] @EmployeeId INT
 	,@FlowTemplateId INT
 	,@ModifiedBy INT
@@ -26,7 +27,7 @@ BEGIN
 		,@OldData NVARCHAR(MAX)
 
 	EXEC @OldData = [dbo].[fncGetDataForWriteLog_Flow_EmployeeSetting] @FlowTemplateId = @FlowTemplateId
-		,@EmployeeId = @EmployeeId
+		,@EmployeeIds = @EmployeeId
 
 	BEGIN TRY
 		BEGIN TRANSACTION
@@ -37,7 +38,7 @@ BEGIN
 			AND FlowTemplateId = @FlowTemplateId
 
 		EXEC @Data = [dbo].[fncGetDataForWriteLog_Flow_EmployeeSetting] @FlowTemplateId = @FlowTemplateId
-			,@EmployeeId = @EmployeeId
+			,@EmployeeIds = @EmployeeId
 
 		EXEC [dbo].[LogDetail_Insert] @ActorId = @ModifiedBy
 			,@SpName = 'SettingEmployeeFlow_Delete'

@@ -1,4 +1,5 @@
 ﻿
+
 CREATE PROCEDURE [dbo].[EpaEmployee_Insert] @NickName NVARCHAR(20)
 	,@FullName NVARCHAR(50) = ''
 	,@GroupId INT = ''
@@ -107,6 +108,12 @@ BEGIN
 			,@IsLocal
 			,@Email
 			)
+
+		EXEC [dbo].[EpaEmployee_AssignRoleToEmployee] @EmployeeId = @EmpId
+			,@RoleIds = '6' -- employee
+			,@ModifiedBy = @CreatedBy
+			,@ErrCode = @ErrCode OUTPUT
+			,@ErrMsg = @ErrMsg OUTPUT
 
 		DECLARE @Data NVARCHAR(MAX)
 

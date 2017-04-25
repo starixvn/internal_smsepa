@@ -1,5 +1,4 @@
-﻿
-CREATE PROCEDURE [dbo].[EpaPeriod_UpdateBasicInformation] @PeriodId INT
+﻿CREATE PROCEDURE [dbo].[EpaPeriod_UpdateBasicInformation] @PeriodId INT
 	,@Name NVARCHAR(200) = NULL
 	,@TargetTypeId INT
 	,@StartDate DATE = NULL
@@ -115,7 +114,8 @@ BEGIN
 		BEGIN
 			UPDATE epa
 			SET epa.[Status] = (CASE 
-					WHEN CAST(period.EndDate AS DATE) > CAST(pc.EndDate AS DATE) THEN 0
+					WHEN CAST(period.EndDate AS DATE) > CAST(pc.EndDate AS DATE)
+					AND CAST(period.EndDate AS DATE) > CAST(GETDATE() AS DATE) THEN 0
 					WHEN CAST(period.EndDate AS DATE) < CAST(GETDATE() AS DATE)
 						AND CAST(pc.EndDate AS DATE) < CAST(GETDATE() AS DATE) THEN 1 END
 					)

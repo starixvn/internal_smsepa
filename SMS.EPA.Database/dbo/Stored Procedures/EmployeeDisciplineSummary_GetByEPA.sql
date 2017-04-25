@@ -1,5 +1,4 @@
-﻿
-CREATE PROCEDURE [dbo].[EmployeeDisciplineSummary_GetByEPA] @EPAIds NVARCHAR(MAX)
+﻿CREATE PROCEDURE [dbo].[EmployeeDisciplineSummary_GetByEPA] @EPAIds NVARCHAR(MAX)
 AS
 /*
 Created: 20160915@Tim.Trinh
@@ -63,6 +62,7 @@ BEGIN
 		OR d.UnpaidLeave > 0
 		OR d.WorkingUndertime > 0
 		OR d.UnpaidLeaveAbsent > 0
+		OR d.OtherDisciplines > 0
 
 	SELECT DISTINCT d.EPAId
 		,(CASE srt.ScoreRatingTypeId

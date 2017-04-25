@@ -14,6 +14,9 @@ Original:
 
 Revisions:  
 Param's Explanation:
+
+Edited: 2017-04-13: Hunter.Tran
+Do not add Employees that have [Enable] = 0 or ResignDate not null
 */
 BEGIN
 	SET NOCOUNT ON;
@@ -53,6 +56,7 @@ BEGIN
 	WHERE emp.[Enabled] = 1
 		AND emp.IsDeleted = 0
 		AND PeriodId = @PeriodId
+		AND emp.ResignedDate IS NULL
 
 	CREATE TABLE #DeptFlowAndTargetTemplate (
 		DepartmentId INT

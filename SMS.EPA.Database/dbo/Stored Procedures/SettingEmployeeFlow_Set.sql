@@ -1,7 +1,8 @@
 ﻿
-CREATE PROCEDURE [dbo].[SettingEmployeeFlow_Set] @EmployeeId INT
+
+CREATE PROCEDURE [dbo].[SettingEmployeeFlow_Set] @EmployeeIds NVARCHAR(MAX)
 	,@FlowTemplateId INT
-	,@FlowDetails VARCHAR(MAX)
+	,@FlowDetails NVARCHAR(MAX)
 	,@ModifiedBy INT
 	,@ErrCode INT = 0 OUTPUT
 	,@ErrMsg VARCHAR(200) = '' OUTPUT
@@ -28,7 +29,9 @@ Param's Explanation:
 BEGIN
 	SET NOCOUNT ON
 
-	DECLARE @EmployeeFlows TABLE (
+	DECLARE @EmpIds IntId
+
+	CREATE TABLE #EmployeeFlows (
 		ProcessId INT
 		,EvaluatorId INT
 		,Duration INT
@@ -37,13 +40,20 @@ BEGIN
 		,[Priority] TINYINT
 		)
 
+	IF ISNULL(@EmployeeIds, '') <> ''
+	BEGIN
+		INSERT INTO @EmpIds (Id)
+		SELECT DISTINCT val
+		FROM dbo.fnc_strSplit(@EmployeeIds, ',')
+	END
+
 	BEGIN TRY
 		DECLARE @DocHandler INT
 
 		EXEC sp_xml_preparedocument @DocHandler OUTPUT
 			,@FlowDetails
 
-		INSERT INTO @EmployeeFlows (
+		INSERT INTO #EmployeeFlows (
 			ProcessId
 			,EvaluatorId
 			,[Priority]
@@ -73,15 +83,15 @@ BEGIN
 		,@OldData NVARCHAR(MAX)
 
 	EXEC @OldData = [dbo].[fncGetDataForWriteLog_Flow_EmployeeSetting] @FlowTemplateId = @FlowTemplateId
-		,@EmployeeId = @EmployeeId
+		,@EmployeeIds = @EmployeeIds
 
 	BEGIN TRY
 		BEGIN TRANSACTION
 
-		DELETE
-		FROM dbo.SettingEmployeeFlow
-		WHERE EmployeeId = @EmployeeId
-			AND FlowTemplateId = @FlowTemplateId
+		DELETE fs
+		FROM dbo.SettingEmployeeFlow AS fs
+			INNER JOIN @EmpIds AS emp ON fs.EmployeeId = emp.Id
+		WHERE fs.FlowTemplateId = @FlowTemplateId
 
 		INSERT INTO dbo.SettingEmployeeFlow (
 			EmployeeId
@@ -95,7 +105,7 @@ BEGIN
 			,ModifiedBy
 			,ModifiedDate
 			)
-		SELECT @EmployeeId
+		SELECT emp.Id
 			,ef.ProcessId
 			,ef.EvaluatorId
 			,@FlowTemplateId
@@ -105,10 +115,11 @@ BEGIN
 			,ef.RemindDay
 			,@ModifiedBy
 			,GETDATE()
-		FROM @EmployeeFlows AS ef
+		FROM #EmployeeFlows AS ef
+			INNER JOIN @EmpIds AS emp ON 1 = 1
 
 		EXEC @Data = [dbo].[fncGetDataForWriteLog_Flow_EmployeeSetting] @FlowTemplateId = @FlowTemplateId
-			,@EmployeeId = @EmployeeId
+			,@EmployeeIds = @EmployeeIds
 
 		EXEC [dbo].[LogDetail_Insert] @ActorId = @ModifiedBy
 			,@SpName = 'SettingEmployeeFlow_Set'
@@ -127,4 +138,6 @@ BEGIN
 		SELECT @ErrCode = 1
 			,@ErrMsg = N'Save employee flow setting unsuccessfully.'
 	END CATCH
+
+	DROP TABLE #EmployeeFlows
 END

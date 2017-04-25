@@ -65,6 +65,7 @@
     <Folder Include="dbo\Functions\" />
     <Folder Include="dbo\Stored Procedures\" />
     <Folder Include="dbo\User Defined Types\" />
+    <Folder Include="Security\" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="dbo\Tables\EvaluationGlobalSetting.sql" />
@@ -369,5 +370,32 @@
     <Build Include="dbo\Tables\OrdinalNumbers.sql" />
     <Build Include="dbo\Stored Procedures\Report_GetEmployees.sql" />
     <Build Include="dbo\Stored Procedures\EpaAuto_Probation_InsertPeriod.sql" />
+    <Build Include="dbo\Tables\SearchTMP.sql" />
+    <Build Include="Security\RoleMemberships.sql" />
+    <Build Include="dbo\Stored Procedures\Sync_Shift_GetMaxModifiedDate.sql" />
+    <Build Include="dbo\Stored Procedures\Sync_Shift.sql" />
+    <Build Include="dbo\Stored Procedures\Sync_RequestHistory.sql" />
+    <Build Include="dbo\Stored Procedures\Sync_Request.sql" />
+    <Build Include="dbo\Stored Procedures\Sync_LeaveType.sql" />
+    <Build Include="dbo\Stored Procedures\Sync_EmployeeRequestHistory_GetMaxModifiedDate.sql" />
+    <Build Include="dbo\Stored Procedures\Sync_EmployeeRequest_GetMaxModifiedDate.sql" />
+    <Build Include="dbo\Stored Procedures\Sync_EmployeeCalendar_GetMaxModifiedDate.sql" />
+    <Build Include="dbo\Stored Procedures\Sync_EmployeeAttendance_GetMaxModifiedDate.sql" />
+    <Build Include="dbo\Stored Procedures\Sync_Calendar.sql" />
+    <Build Include="dbo\Stored Procedures\Sync_Attendance.sql" />
+    <Build Include="dbo\Stored Procedures\EpaPeriod_Get_xpre.sql" />
+    <Build Include="dbo\Stored Procedures\EpaAttendanceSummary_IgnoredViolation.sql" />
+    <Build Include="dbo\Stored Procedures\EpaAttendanceSummary_GetByEPA_xpre.sql" />
+    <Build Include="dbo\Stored Procedures\EpaAttendanceSummary_AddOtherViolations.sql" />
+    <Build Include="dbo\Stored Procedures\EPA_UpdateScoreByReviewerOrManagement.sql" />
+    <Build Include="dbo\Stored Procedures\EPA_RatingByKPI_GetKPIToView_xpre.sql" />
+    <Build Include="dbo\Stored Procedures\EPA_RatingByKPI_GetKPIByTargetTemplate_xpre.sql" />
+    <Build Include="dbo\Stored Procedures\EPA_GetLastScore_xpre1.sql" />
+    <Build Include="dbo\Stored Procedures\EPA_GetGeneralInfo_xpre.sql" />
+    <Build Include="dbo\Stored Procedures\EPA_GetEPAToUpdateFinalScore_xtest.sql" />
+    <Build Include="dbo\Stored Procedures\DBA_GrantPermissions.sql">
+      <AnsiNulls>Off</AnsiNulls>
+      <QuotedIdentifier>Off</QuotedIdentifier>
+    </Build>
   </ItemGroup>
 </Project>

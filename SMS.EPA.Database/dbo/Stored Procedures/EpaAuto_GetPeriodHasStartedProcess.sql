@@ -1,13 +1,12 @@
-﻿
-CREATE PROCEDURE [dbo].[EpaAuto_GetPeriodHasStartedProcess] @PeriodId INT = NULL
+﻿CREATE PROCEDURE [dbo].[EpaAuto_GetPeriodHasStartedProcess] @PeriodId INT = NULL
 AS
 /*
 Created: 2015-08-26@Josh.Phan
 Task: Get period has employee that started evaluation.
 DB: SMSEPA
-Original:
+Original: 
 
-Revisions:
+Revisions:  
 	Param's Explanation:
 	20170419@Hunter.Tran: Check if period is active
 */
@@ -17,7 +16,7 @@ BEGIN
 	SELECT DISTINCT pe.PeriodId
 		,pc.ProcessId
 		,pe.TargetTypeId
-		,CASE
+		,CASE 
 			WHEN pe.TargetTypeId = 3 -- semi
 				AND epa.HasMonthlyEPA = 1 THEN 1
 			ELSE 0

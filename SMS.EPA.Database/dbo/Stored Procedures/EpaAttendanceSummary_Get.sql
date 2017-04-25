@@ -1,5 +1,4 @@
-﻿
-CREATE PROCEDURE [dbo].[EpaAttendanceSummary_Get] @StartDate DATE
+﻿CREATE PROCEDURE [dbo].[EpaAttendanceSummary_Get] @StartDate DATE
 	,@EndDate DATE
 	,@ApproverId INT
 	,@DepartmentId INT = NULL
@@ -275,6 +274,7 @@ BEGIN
 				FROM dbo.EmployeeDisciplinePermission AS empDP WITH (NOLOCK)
 				WHERE empDP.OwnerId = @ApproverId
 					AND empDP.EmpId = emp.EmployeeId
+					AND ISNULL(empDP.IsDeleted, 0) = 0
 				)
 			OR EXISTS (
 				SELECT 1
@@ -282,6 +282,7 @@ BEGIN
 				WHERE gr.GroupId = teamDP.TeamId
 					AND teamDP.OwnerId = @ApproverId
 					AND emp.EmployeeId <> @ApproverId
+					AND ISNULL(teamDP.IsDeleted, 0) = 0
 				)
 			OR EXISTS (
 				SELECT 1

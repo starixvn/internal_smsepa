@@ -1,4 +1,5 @@
 ﻿
+
 CREATE PROCEDURE [dbo].[EpaEmployee_GetByGroupId] @GroupId INT
 AS
 /*
@@ -23,7 +24,7 @@ BEGIN
 		,e.HasMonthlyEPA
 	FROM dbo.Employee AS e WITH (NOLOCK)
 	WHERE GroupId = @GroupId
-		AND e.IsDeleted = 0
+		AND ISNULL(e.IsDeleted, 0) = 0
 		AND e.[Enabled] = 1
 	ORDER BY Code
 END

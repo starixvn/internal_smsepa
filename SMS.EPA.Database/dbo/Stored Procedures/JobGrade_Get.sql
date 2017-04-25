@@ -1,5 +1,4 @@
-﻿
-CREATE PROCEDURE JobGrade_Get @IsActive BIT = NULL
+﻿CREATE PROCEDURE [dbo].[JobGrade_Get] @IsActive BIT = NULL
 AS
 /*
 Created: 20161010@Tim.Trinh

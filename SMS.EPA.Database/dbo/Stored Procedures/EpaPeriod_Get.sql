@@ -1,5 +1,4 @@
-﻿
-CREATE PROCEDURE [dbo].[EpaPeriod_Get] @TargetTypeId INT = NULL
+﻿CREATE PROCEDURE [dbo].[EpaPeriod_Get] @TargetTypeId INT = NULL
 	,@IsActive BIT = 1
 AS
 /*
@@ -29,6 +28,9 @@ BEGIN
 		,peFS.EmployeeId
 	FROM dbo.Period AS period WITH (NOLOCK)
 		INNER JOIN dbo.PeriodFlowSetting AS peFS WITH (NOLOCK) ON period.PeriodId = peFS.PeriodId
+		INNER JOIN dbo.Employee AS emp WITH (NOLOCK) ON peFS.EmployeeId = emp.EmployeeId
+		AND emp.IsDeleted = 0
+		AND emp.[Enabled] = 1
 	WHERE NOT EXISTS (
 			SELECT 1
 			FROM dbo.PeriodExcludedEmployee AS peExcluded WITH (NOLOCK)
@@ -50,6 +52,9 @@ BEGIN
 		,peTS.EmployeeId
 	FROM dbo.Period AS period WITH (NOLOCK)
 		INNER JOIN dbo.PeriodTargetSetting AS peTS WITH (NOLOCK) ON period.PeriodId = peTS.PeriodId
+		INNER JOIN dbo.Employee AS emp WITH (NOLOCK) ON peTS.EmployeeId = emp.EmployeeId
+		AND emp.IsDeleted = 0
+		AND emp.[Enabled] = 1
 	WHERE NOT EXISTS (
 			SELECT 1
 			FROM dbo.PeriodFlowSetting AS peFS WITH (NOLOCK)
@@ -83,7 +88,7 @@ BEGIN
 		,peF.TotalEmployees
 		,epa.TotalEmployeesUnfinished
 		,tar.TargetTypeId
-		,tar.NAME
+		,tar.[Name]
 	FROM dbo.Period AS pe WITH (NOLOCK)
 		INNER JOIN dbo.TargetType AS tar WITH (NOLOCK) ON pe.TargetTypeId = tar.TargetTypeId
 		LEFT JOIN (
@@ -93,10 +98,13 @@ BEGIN
 		GROUP BY PeriodId
 		) AS peF ON peF.PeriodId = pe.PeriodId
 		LEFT JOIN (
-		SELECT PeriodId
-			,COUNT(EmployeeId) AS TotalEmployeesUnfinished
-		FROM dbo.EPA WITH (NOLOCK)
-		WHERE [Status] = 0
+		SELECT epa.PeriodId
+			,COUNT(epa.EmployeeId) AS TotalEmployeesUnfinished
+		FROM dbo.EPA AS epa WITH (NOLOCK)
+		INNER JOIN dbo.Employee AS emp WITH (NOLOCK) ON epa.EmployeeId = emp.EmployeeId
+		AND emp.[Enabled] = 1
+		AND emp.IsDeleted = 0
+		WHERE epa.[Status] = 0
 		GROUP BY PeriodId
 		) AS epa ON pe.PeriodId = epa.PeriodId
 	WHERE (

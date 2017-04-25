@@ -1,4 +1,5 @@
 ﻿
+
 CREATE PROCEDURE [dbo].[EpaAuto_Probation_AddEmployeeToPeriod] @PeriodId INT
 	,@EmployeeIds VARCHAR(MAX)
 	,@ErrCode INT = 0 OUTPUT
@@ -12,6 +13,10 @@ Original:
 
 Revisions:  
 Param's Explanation:
+
+Edited: 2017-04-14: Hunter.Tran
+Do not add Employees that have [Enable] = 0 or ResignDate not null
+
 */
 BEGIN
 	SET NOCOUNT ON;
@@ -48,6 +53,25 @@ BEGIN
 	DELETE empId
 	FROM @Employees AS empId
 		INNER JOIN @ExistedEmployeeIds AS existed ON empId.Id = existed.Id
+		
+	--find employee that have resign date and disabled
+	DECLARE @NotQualifiedEmployeeIds IntId
+	
+	INSERT INTO @NotQualifiedEmployeeIds
+	SELECT Employee.EmployeeId
+	FROM Employee
+	WHERE Employee.EmployeeId in (
+		SELECT Id
+		FROM @Employees)
+		AND (
+		Employee.ResignedDate is not null
+		OR
+		Employee.[Enabled] = 0);
+		
+	DELETE FROM @Employees
+	WHERE Id in (
+		SELECT Id
+		FROM @NotQualifiedEmployeeIds)
 
 	-- find employee don't have setting Flow Template / Target Template
 	SELECT @NoneSettingEmployeeIds = COALESCE(@NoneSettingEmployeeIds + ',', '') + CAST(empS.Id AS NVARCHAR)

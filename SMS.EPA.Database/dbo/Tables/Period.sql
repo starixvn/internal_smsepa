@@ -8,13 +8,15 @@
     [AttendanceEndDate]   DATETIME       NULL,
     [IsActive]            BIT            NOT NULL,
     [Description]         NVARCHAR (MAX) NULL,
-    [EvaluationTimes]     INT            NULL,
     [CreatedBy]           INT            NULL,
     [CreatedDate]         DATETIME       NULL,
     [ModifiedBy]          INT            NULL,
     [ModifiedDate]        DATETIME       NULL,
+    [EvaluationTimes]     INT            NULL,
     CONSTRAINT [PK_EvaluationPeriod] PRIMARY KEY CLUSTERED ([PeriodId] ASC)
 );
+
+
 
 
 
