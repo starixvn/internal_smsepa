@@ -17,7 +17,6 @@
             .Use(new OldConnectionStringProvider())
             .UseDefaultDbSettingProvider(
                 resourcePath: "~/",
-                ignoreRedundantParameters: false,
                 enableWatching: true)
             .Run();
 

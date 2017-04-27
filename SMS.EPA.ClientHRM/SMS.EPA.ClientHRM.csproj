@@ -146,6 +146,9 @@
     <Compile Include="Criteria\GetJobTitleCriteria.cs" />
     <Compile Include="Criteria\GetTeamCriteria.cs" />
     <Compile Include="Bootstrap.cs" />
+    <Compile Include="GlobalSuppressions.cs">
+      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
+    </Compile>
     <Compile Include="Model\DisciplineSummary.cs" />
     <Compile Include="Model\Photo.cs" />
     <Compile Include="Model\Department.cs" />

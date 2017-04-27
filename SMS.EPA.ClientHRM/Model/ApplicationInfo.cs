@@ -2,7 +2,7 @@
 {
     public class ApplicationInfo
     {
-        public string GrantType => "password";
+        public string GrantType { get; } = "password";
 
         public string UserName { get; set; }
 

@@ -1,7 +1,7 @@
 ﻿namespace SMS.EPA.ClientHrm
 {
     using Fanex.Logging;
-    using SMS.EPA.ClientHrm.Services;
+    using Services;
     using System;
     using System.ComponentModel;
     using System.Diagnostics.CodeAnalysis;
@@ -11,16 +11,16 @@
     [RunInstaller(true)]
     public partial class WinService : ServiceBase
     {
-        private ISynchronizeService _service;
-        private bool _isWorking = false;
-        private Timer _timer;
+        private readonly ISynchronizeService _service;
+        private bool _isWorking;
+        private readonly Timer _timer;
 
         public WinService(ISynchronizeService service)
         {
             InitializeComponent();
             _service = service;
             _timer = new Timer(ApplicationConfig.Interval);
-            _timer.Elapsed += new ElapsedEventHandler(ExecuteJob);
+            _timer.Elapsed += ExecuteJob;
             _timer.Enabled = false;
         }
 

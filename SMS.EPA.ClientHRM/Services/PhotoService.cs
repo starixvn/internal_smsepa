@@ -27,7 +27,7 @@
             foreach (FileInfo file in files)
             {
                 photos.Add(
-                    new Photo()
+                    new Photo
                     {
                         Code = file.Name,
                         PhotoData = File.ReadAllBytes(file.FullName)
