@@ -58,9 +58,10 @@
 
         private static string ComputeHash(HashProvider hashAlgorithm, string plainText, byte[] salt)
         {
-            plainText = plainText ?? string.Empty;
+            string textToCompute = plainText ?? string.Empty;
+
             //// Convert plain text into a byte array
-            byte[] data = Encoding.UTF8.GetBytes(plainText);
+            byte[] data = Encoding.UTF8.GetBytes(textToCompute);
             int dataLength = data.Length;
 
             //// Random salt
