@@ -61,7 +61,7 @@
             }
         }
 
-        private void HandlePermissionRequest(HttpActionContext actionContext)
+        private static void HandlePermissionRequest(HttpActionContext actionContext)
         {
             var responseMessage = new HttpResponseMessage(HttpStatusCode.MethodNotAllowed);
             actionContext.Response = responseMessage;

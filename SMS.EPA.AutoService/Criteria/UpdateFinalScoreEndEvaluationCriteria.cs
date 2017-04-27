@@ -12,6 +12,16 @@
         [SpParam(SqlParamName = "EPAScores")]
         public string EvaluationScores { get; set; }
 
+        public static string ConvertToXml(int evaluationId, string finalScore, float disciplineScore, string grade)
+        {
+            var epaXmlBuilder = new StringBuilder(Constants.BeginRootTag);
+
+            epaXmlBuilder.AppendFormat(TemplateXml, evaluationId, finalScore, disciplineScore, grade);
+            epaXmlBuilder.Append(Constants.EndRootTag);
+
+            return epaXmlBuilder.ToString();
+        }
+
         public override bool IsValid()
         {
             return !string.IsNullOrWhiteSpace(EvaluationScores);
@@ -20,16 +30,6 @@
         public override string GetSettingKey()
         {
             return "EpaAuto_UpdateFinalScoreEndEvaluation";
-        }
-
-        public string ConvertToXml(int evaluationId, string finalScore, float disciplineScore, string grade)
-        {
-            var epaXmlBuilder = new StringBuilder(Constants.BeginRootTag);
-
-            epaXmlBuilder.AppendFormat(TemplateXml, evaluationId, finalScore, disciplineScore, grade);
-            epaXmlBuilder.Append(Constants.EndRootTag);
-
-            return epaXmlBuilder.ToString();
         }
     }
 }

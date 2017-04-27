@@ -13,7 +13,6 @@
             .Use(new OldConnectionStringProvider())
             .UseDefaultDbSettingProvider(
                 resourcePath: "~/",
-                ignoreRedundantParameters: false,
                 enableWatching: true)
             .Run();
             log4net.Config.XmlConfigurator.Configure();

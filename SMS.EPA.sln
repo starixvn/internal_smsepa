@@ -49,7 +49,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UnitTests", "UnitTests", "{
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SMS.EPA.AutoService", "SMS.EPA.AutoService\SMS.EPA.AutoService.csproj", "{11846569-7D7F-43FE-959B-359878D494E7}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SonarQube", "SonarQube", "{B055E2CA-492F-41D1-98A9-EF86AE52DBAA}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SonarQube", "SonarQube", "{CD341181-C40C-4E09-89B3-099226E7BB9C}"
 	ProjectSection(SolutionItems) = preProject
 		SonarQube\SMS-EPACSharp.ruleset = SonarQube\SMS-EPACSharp.ruleset
 		SonarQube\SolutionBinding.sqconfig = SonarQube\SolutionBinding.sqconfig

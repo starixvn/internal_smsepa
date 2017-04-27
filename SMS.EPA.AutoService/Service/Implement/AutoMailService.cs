@@ -13,20 +13,20 @@
     {
         private readonly IMailService _mailService;
 
-        private string _startDateMailToHumanResources = "Views\\Emails\\StartDateEmailToHR.cshtml";
-        private string _startDateMailToSelf = "Views\\Emails\\StartDateEmailToSelf.cshtml";
-        private string _startDateMailToEvaluator = "Views\\Emails\\StartDateEmailToEvaluator.cshtml";
-        private string _startDateMailToReviewer = "Views\\Emails\\StartDateEmailToReviewer.cshtml";
-        private string _startDateMailToManagement = "Views\\Emails\\StartDateEmailToManagement.cshtml";
+        private readonly string _startDateMailToHumanResources = "Views\\Emails\\StartDateEmailToHR.cshtml";
+        private readonly string _startDateMailToSelf = "Views\\Emails\\StartDateEmailToSelf.cshtml";
+        private readonly string _startDateMailToEvaluator = "Views\\Emails\\StartDateEmailToEvaluator.cshtml";
+        private readonly string _startDateMailToReviewer = "Views\\Emails\\StartDateEmailToReviewer.cshtml";
+        private readonly string _startDateMailToManagement = "Views\\Emails\\StartDateEmailToManagement.cshtml";
 
-        private string _reminderMailToSelf = "Views\\Emails\\RemindDateEmailToSelf.cshtml";
-        private string _reminderMailToEvaluator = "Views\\Emails\\RemindDateEmailToEvaluator.cshtml";
-        private string _reminderMailToReviewer = "Views\\Emails\\RemindDateEmailToReviewer.cshtml";
-        private string _reminderMailToManagement = "Views\\Emails\\RemindDateEmailToManagement.cshtml";
+        private readonly string _reminderMailToSelf = "Views\\Emails\\RemindDateEmailToSelf.cshtml";
+        private readonly string _reminderMailToEvaluator = "Views\\Emails\\RemindDateEmailToEvaluator.cshtml";
+        private readonly string _reminderMailToReviewer = "Views\\Emails\\RemindDateEmailToReviewer.cshtml";
+        private readonly string _reminderMailToManagement = "Views\\Emails\\RemindDateEmailToManagement.cshtml";
 
-        private string _endMailToSelf = "Views\\Emails\\EndEvaluationEmailToSelf.cshtml";
-        private string _endMailToHumanResourcesByEmployee = "Views\\Emails\\EndEvaluationEmailToHRByEmployee.cshtml";
-        private string _endMailToHumanReouscesByPeriod = "Views\\Emails\\EndEvaluationEmailToHRByPeriod.cshtml";
+        private readonly string _endMailToSelf = "Views\\Emails\\EndEvaluationEmailToSelf.cshtml";
+        private readonly string _endMailToHumanResourcesByEmployee = "Views\\Emails\\EndEvaluationEmailToHRByEmployee.cshtml";
+        private readonly string _endMailToHumanReouscesByPeriod = "Views\\Emails\\EndEvaluationEmailToHRByPeriod.cshtml";
 
         public AutoMailService()
             : this(null)
@@ -47,6 +47,7 @@
                 foreach (PeriodFlowModel employeeSetting in employeeSettings.Where(x => x.HasSendMail))
                 {
                     string templateEmailPath;
+
                     switch (employeeSetting.ProcessId)
                     {
                         case (int)ProcessType.HumanResource:
@@ -73,6 +74,8 @@
                             templateEmailPath = Path.Combine(assemblyPath, _startDateMailToManagement);
                             _mailService.SendMailToManagementStartDate(templateEmailPath, employeeSetting, period.Name);
                             break;
+                        default:
+                            continue;
                     }
                 }
             }
@@ -87,6 +90,7 @@
                 foreach (PeriodFlowModel employeeSetting in employeeSettings)
                 {
                     string templateEmailPath;
+
                     switch (employeeSetting.ProcessId)
                     {
                         case (int)ProcessType.Self:
@@ -108,6 +112,8 @@
                             templateEmailPath = Path.Combine(assemblyPath, _reminderMailToManagement);
                             _mailService.SendMailToManagementRemindDate(templateEmailPath, employeeSetting, period.Name);
                             break;
+                        default:
+                            continue;
                     }
                 }
             }
@@ -118,8 +124,8 @@
             float? averagePerformanceScore,
             float disciplineScore)
         {
-            string assemblyPath = AppDomain.CurrentDomain.BaseDirectory,
-                templateEmailPath = Path.Combine(assemblyPath, _endMailToSelf);
+            string assemblyPath = AppDomain.CurrentDomain.BaseDirectory;
+            string templateEmailPath = Path.Combine(assemblyPath, _endMailToSelf);
 
             _mailService.SendMailToSelfEndEvaluation(templateEmailPath, evaluationInfo, averagePerformanceScore, disciplineScore);
         }
@@ -128,8 +134,8 @@
         {
             if (evaluationInfo != null)
             {
-                string assemblyPath = AppDomain.CurrentDomain.BaseDirectory,
-                    templateEmailPath = Path.Combine(assemblyPath, _endMailToHumanResourcesByEmployee);
+                string assemblyPath = AppDomain.CurrentDomain.BaseDirectory;
+                string templateEmailPath = Path.Combine(assemblyPath, _endMailToHumanResourcesByEmployee);
 
                 foreach (EPAProcessModel humanResource in evaluationInfo.Process.HumanResources)
                 {
@@ -142,8 +148,8 @@
         {
             if (employeeSettings != null && employeeSettings.Any() && period != null)
             {
-                string assemblyPath = AppDomain.CurrentDomain.BaseDirectory,
-                    templateEmailPath = Path.Combine(assemblyPath, _endMailToHumanReouscesByPeriod);
+                string assemblyPath = AppDomain.CurrentDomain.BaseDirectory;
+                string templateEmailPath = Path.Combine(assemblyPath, _endMailToHumanReouscesByPeriod);
 
                 foreach (PeriodFlowModel employeeSetting in employeeSettings)
                 {

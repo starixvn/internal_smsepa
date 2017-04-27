@@ -57,6 +57,45 @@
             _promotionService = new PromotionService();
         }
 
+        private static float? GetFinalScoreOfEvalution(EPAModel epaInfo)
+        {
+            float? finalScore = null;
+
+            if (epaInfo.Process.Managements.Any() && epaInfo.Process.AverageScoreByManagements.HasValue)
+            {
+                finalScore = epaInfo.Process.AverageScoreByManagements.Value;
+            }
+            else
+            {
+                if (epaInfo.Process.Reviewers.Any() && epaInfo.Process.AverageScoreByReviewers.HasValue)
+                {
+                    finalScore = epaInfo.Process.AverageScoreByReviewers.Value;
+                }
+            }
+
+            return finalScore;
+        }
+
+        private static float? GetAverageScorePreProcess(EPAModel epaInfo, int processId)
+        {
+            float? averageScore;
+
+            switch (processId)
+            {
+                case (int)ProcessType.Reviewer:
+                    averageScore = epaInfo.Process.AverageScoreByEvaluators;
+                    break;
+                case (int)ProcessType.Management:
+                    averageScore = epaInfo.Process.AverageScoreByReviewers;
+                    break;
+                default:
+                    averageScore = null;
+                    break;
+            }
+
+            return averageScore;
+        }
+
         protected override void OnStart(string[] args)
         {
             Log.Info("Service started at " + DateTime.Now);
@@ -136,7 +175,7 @@
 
         private void UpdateEndProcess(IEnumerable<AutoEmployeePeriodModel> evaluationProcesses)
         {
-            var criteria = new UpdateIsEndProcessCriteria()
+            var criteria = new UpdateIsEndProcessCriteria
             {
                 EvaluationProcesses = evaluationProcesses
             };
@@ -268,9 +307,12 @@
                 {
                     _autoMailService.SendEndEvaluationMailToHumanResourceByEmployee(epaInfo);
                 }
-                else if (epaInfo.IsSemiHasMonthly && !periods.Contains(epaInfo.Period.PeriodId))
+                else
                 {
-                    periods.Add(epaInfo.Period.PeriodId);
+                    if (epaInfo.IsSemiHasMonthly && !periods.Contains(epaInfo.Period.PeriodId))
+                    {
+                        periods.Add(epaInfo.Period.PeriodId);
+                    }
                 }
             }
         }
@@ -331,22 +373,6 @@
             }
         }
 
-        private float? GetFinalScoreOfEvalution(EPAModel epaInfo)
-        {
-            float? finalScore = null;
-
-            if (epaInfo.Process.Managements.Any() && epaInfo.Process.AverageScoreByManagements.HasValue)
-            {
-                finalScore = epaInfo.Process.AverageScoreByManagements.Value;
-            }
-            else if (epaInfo.Process.Reviewers.Any() && epaInfo.Process.AverageScoreByReviewers.HasValue)
-            {
-                finalScore = epaInfo.Process.AverageScoreByReviewers.Value;
-            }
-
-            return finalScore;
-        }
-
         private void EncryptAndUpdateFinalScore(
             float? performanceScore,
             float disciplineScore,
@@ -362,31 +388,18 @@
             string gradeEncrypt = _cryptographyService.Encrypt(grade);
             Log.Info("Result of encrypt grade of EPA " + evaluationId + ": " + gradeEncrypt);
 
-            var criteria = new UpdateFinalScoreEndEvaluationCriteria();
-            criteria.EvaluationScores =
-                criteria.ConvertToXml(evaluationId, finalScoreEncrypt, disciplineScore, gradeEncrypt);
+            var criteria = new UpdateFinalScoreEndEvaluationCriteria
+            {
+                EvaluationScores = UpdateFinalScoreEndEvaluationCriteria.ConvertToXml(
+                    evaluationId,
+                    finalScoreEncrypt,
+                    disciplineScore,
+                    gradeEncrypt)
+            };
 
             CommandResult commandResult = _evaluationService.UpdateFinalScoreEndEvaluation(criteria);
             string messageResult = commandResult.IsSuccessful ? "0" : commandResult.Message;
             Log.Info("Result of update final score and discipline score of EPA " + evaluationId + ": " + messageResult);
-        }
-
-        private float? GetAverageScorePreProcess(EPAModel epaInfo, int processId)
-        {
-            float? averageScore = null;
-
-            switch (processId)
-            {
-                case (int)ProcessType.Reviewer:
-                    averageScore = epaInfo.Process.AverageScoreByEvaluators;
-                    break;
-
-                case (int)ProcessType.Management:
-                    averageScore = epaInfo.Process.AverageScoreByReviewers;
-                    break;
-            }
-
-            return averageScore;
         }
     }
 }

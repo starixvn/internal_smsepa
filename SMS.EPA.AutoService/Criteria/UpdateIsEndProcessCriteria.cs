@@ -26,7 +26,7 @@
             return "EpaAuto_UpdateIsEndProcess";
         }
 
-        private string ConvertEvaluationProcessToXml(IEnumerable<AutoEmployeePeriodModel> evaluationProcesses)
+        private static string ConvertEvaluationProcessToXml(IEnumerable<AutoEmployeePeriodModel> evaluationProcesses)
         {
             var epaProcessXmlBuilder = new StringBuilder(Constants.BeginRootTag);
 

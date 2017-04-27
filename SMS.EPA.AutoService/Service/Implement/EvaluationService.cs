@@ -139,6 +139,8 @@
                 case (int)MailMode.EndPeriod:
                     _autoMailService.SendEndEvaluationMailToHumanResourceByPeriod(period, employeeSettings);
                     break;
+                default:
+                    return;
             }
         }
 

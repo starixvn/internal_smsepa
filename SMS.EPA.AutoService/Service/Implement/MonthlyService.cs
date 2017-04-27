@@ -46,7 +46,7 @@
 
                 if (today.Day.Equals(startDayCreateMonthlyPeriod))
                 {
-                    var criteria = new AutoCreateMonthlyPeriodCriteria()
+                    var criteria = new AutoCreateMonthlyPeriodCriteria
                     {
                         Name = today.AddMonths(1).ToString(Constants.FormatMonthlyPeriodName),
                         StartDate = today,
