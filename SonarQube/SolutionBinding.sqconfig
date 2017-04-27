@@ -1,0 +1,10 @@
+{
+  "ServerUri": "http://10.18.200.213:9000",
+  "ProjectKey": "SMS-EPA",
+  "Profiles": {
+    "CSharp": {
+      "ProfileKey": "cs-sonar-way-37779",
+      "ProfileTimestamp": "2017-04-13T13:05:01+07:00"
+    }
+  }
+}

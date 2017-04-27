@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.40629.0
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Business", "Business", "{829FE15F-60A7-40AF-B3C8-03D0760BC522}"
 EndProject
@@ -48,6 +48,12 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UnitTests", "UnitTests", "{14B58E2B-4A04-421B-ADE5-3E222C3B8706}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SMS.EPA.AutoService", "SMS.EPA.AutoService\SMS.EPA.AutoService.csproj", "{11846569-7D7F-43FE-959B-359878D494E7}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SonarQube", "SonarQube", "{B055E2CA-492F-41D1-98A9-EF86AE52DBAA}"
+	ProjectSection(SolutionItems) = preProject
+		SonarQube\SMS-EPACSharp.ruleset = SonarQube\SMS-EPACSharp.ruleset
+		SonarQube\SolutionBinding.sqconfig = SonarQube\SolutionBinding.sqconfig
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
