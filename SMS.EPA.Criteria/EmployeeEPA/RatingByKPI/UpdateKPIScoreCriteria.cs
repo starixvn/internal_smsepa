@@ -47,13 +47,22 @@
                     {
                         epaDetailXml = GenerateEpaDetailXml(kpi, kpi.AdjustScore, kpi.AdjustRate);
                     }
-                    else if (!string.IsNullOrEmpty(kpi.Score) || kpi.Rate > 0)
+                    else
                     {
-                        epaDetailXml = GenerateEpaDetailXml(kpi, kpi.Score, kpi.Rate);
+                        if (!string.IsNullOrEmpty(kpi.Score) || kpi.Rate > 0)
+                        {
+                            epaDetailXml = GenerateEpaDetailXml(kpi, kpi.Score, kpi.Rate);
+                        }
                     }
 
                     string totalScore = _cryptographyService.Encrypt(epaInfo.TotalScore);
-                    epaXml.AppendFormat(EPAXmlTemplate, epaInfo.EPAId, epaInfo.Employee.EmployeeId, epaInfo.KPIGroup.KPIGroupId, totalScore, epaDetailXml);
+                    epaXml.AppendFormat(
+                        EPAXmlTemplate,
+                        epaInfo.EPAId,
+                        epaInfo.Employee.EmployeeId,
+                        epaInfo.KPIGroup.KPIGroupId,
+                        totalScore,
+                        epaDetailXml);
                 }
             }
 

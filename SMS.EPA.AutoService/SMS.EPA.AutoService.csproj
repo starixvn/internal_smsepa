@@ -75,6 +75,7 @@
   <ItemGroup>
     <Compile Include="..\GlobalSuppressions.cs">
       <Link>GlobalSuppressions.cs</Link>
+      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
     </Compile>
     <Compile Include="AppSetting.cs" />
     <Compile Include="AutoService.cs">

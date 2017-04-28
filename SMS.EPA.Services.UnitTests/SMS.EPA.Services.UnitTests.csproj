@@ -67,6 +67,7 @@
   <ItemGroup>
     <Compile Include="..\GlobalSuppressions.cs">
       <Link>GlobalSuppressions.cs</Link>
+      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
     </Compile>
     <Compile Include="DepartmentFlowServiceTests.cs" />
     <Compile Include="PeriodServiceTests.cs" />

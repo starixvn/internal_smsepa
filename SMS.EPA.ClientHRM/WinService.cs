@@ -12,8 +12,9 @@
     public partial class WinService : ServiceBase
     {
         private readonly ISynchronizeService _service;
-        private bool _isWorking;
         private readonly Timer _timer;
+
+        private bool _isWorking;
 
         public WinService(ISynchronizeService service)
         {

@@ -62,6 +62,7 @@
   <ItemGroup>
     <Compile Include="..\GlobalSuppressions.cs">
       <Link>GlobalSuppressions.cs</Link>
+      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
     </Compile>
     <Compile Include="Dashboard\GetToDoListCriteria.cs" />
     <Compile Include="DisciplineSummary\GetDisciplineSummaryCriteria.cs" />

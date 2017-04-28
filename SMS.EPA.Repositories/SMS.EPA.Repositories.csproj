@@ -61,6 +61,7 @@
   <ItemGroup>
     <Compile Include="..\GlobalSuppressions.cs">
       <Link>GlobalSuppressions.cs</Link>
+      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
     </Compile>
     <Compile Include="Implement\DashboardRepository.cs" />
     <Compile Include="Implement\DisciplineSummaryRepository.cs" />

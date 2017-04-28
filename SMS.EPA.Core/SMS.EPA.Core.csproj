@@ -138,6 +138,7 @@
   <ItemGroup>
     <Compile Include="..\GlobalSuppressions.cs">
       <Link>GlobalSuppressions.cs</Link>
+      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
     </Compile>
     <Compile Include="Attribute\ApiAuthorizeAttribute.cs" />
     <Compile Include="Attribute\DeflateCompressionAttribute.cs" />

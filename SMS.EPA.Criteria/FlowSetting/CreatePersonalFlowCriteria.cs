@@ -38,6 +38,23 @@
             }
         }
 
+        [SpParam(Ignored = true)]
+        public FlowItemModel Evaluators { get; set; }
+
+        [SpParam(Ignored = true)]
+        public FlowItemModel Reviewers { get; set; }
+
+        [SpParam(Ignored = true)]
+        public FlowItemModel Managements { get; set; }
+
+        [SpParam(Ignored = true)]
+        public FlowItemModel HumanResources { get; set; }
+
+        public int ModifiedBy { get; set; }
+
+        [SpParam(Ignored = true)]
+        public FlowItemModel Selfs { get; set; }
+
         private void AppendManagementsProcess(StringBuilder process)
         {
             if (Managements != null && Managements.Employees.Any())
@@ -127,23 +144,6 @@
                     evaluator);
             }
         }
-
-        [SpParam(Ignored = true)]
-        public FlowItemModel Selfs { get; set; }
-
-        [SpParam(Ignored = true)]
-        public FlowItemModel Evaluators { get; set; }
-
-        [SpParam(Ignored = true)]
-        public FlowItemModel Reviewers { get; set; }
-
-        [SpParam(Ignored = true)]
-        public FlowItemModel Managements { get; set; }
-
-        [SpParam(Ignored = true)]
-        public FlowItemModel HumanResources { get; set; }
-
-        public int ModifiedBy { get; set; }
 
         public override bool IsValid()
         {

@@ -7,8 +7,6 @@
 
     public class SynchronizeService : ISynchronizeService
     {
-        private TokenAccess _token = new TokenAccess();
-
         private readonly ITokenService _tokenService;
         private readonly IDepartmentService _departmentService;
         private readonly IEmployeeService _employeeService;
@@ -18,6 +16,8 @@
         private readonly IDisciplineService _disciplineService;
         private readonly IDisciplineSummaryService _disciplineSummaryService;
         private readonly IPhotoService _photoService;
+
+        private TokenAccess _token = new TokenAccess();
 
         public SynchronizeService(
             ITokenService tokenService,
