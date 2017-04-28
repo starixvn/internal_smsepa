@@ -11,8 +11,8 @@
     {
         private const string DisciplineTpl =
             "<Discipline EmpId='{0}' Period='{1}' ChangeShift='{2}' MissingCheckInOut='{3}' LateIn='{4}' EarlyOut='{5}'"
-            + " Absent='{6}' UnpaidLeave='{7}' WorkingUndertime='{8}' UnpaidLeaveAbsent='{9}'"
-            + " OtherDisciplines='{10}' SystemSubtractScore='{11}' ModifiedDate='{12}'></Discipline>";
+            + " Absent='{6}' UnpaidLeave='{7}' UnplannedLeave='{8}' WeekendLeave='{9}' WorkingUndertime='{10}' UnpaidLeaveAbsent='{11}'"
+            + " OtherDisciplines='{12}' SystemSubtractScore='{13}' ModifiedDate='{14}'></Discipline>";
 
         [SpParam(Ignored = true)]
         public IList<DisciplineSummary> Disciplines { get; set; }
@@ -37,6 +37,8 @@
                             discipline.EarlyOut,
                             discipline.Absent,
                             discipline.UnpaidLeave,
+                            discipline.UnplannedLeave,
+                            discipline.WeekendLeave,
                             discipline.WorkingUndertime,
                             discipline.UnpaidLeaveAbsent,
                             discipline.OtherDisciplines,

@@ -22,6 +22,10 @@
 
         public decimal UnpaidLeave { get; set; }
 
+        public decimal UnplannedLeave { get; set; }
+
+        public decimal WeekendLeave { get; set; }
+
         public decimal WorkingUndertime { get; set; }
 
         public decimal UnpaidLeaveAbsent { get; set; }
@@ -34,7 +38,7 @@
         {
             get
             {
-                decimal total = ChangeShift + MissingCheckInOut + LateIn + EarlyOut + Absent + UnpaidLeave + WorkingUndertime + UnpaidLeaveAbsent + OtherDisciplines;
+                decimal total = ChangeShift + MissingCheckInOut + LateIn + EarlyOut + Absent + UnpaidLeave + UnplannedLeave + WeekendLeave + WorkingUndertime + UnpaidLeaveAbsent + OtherDisciplines;
                 return total;
             }
         }
