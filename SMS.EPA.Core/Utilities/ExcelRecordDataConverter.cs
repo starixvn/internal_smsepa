@@ -24,7 +24,5 @@
         {
             return value > 0 ? "1" : string.Empty;
         }
-
-        //ExcelRecordDataConverter.ZeroValueToEmptyStringConverter(ChangeShift.Value)
     }
 }

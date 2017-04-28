@@ -124,6 +124,18 @@
 
         public bool IsSemiHasMonthly => HasMonthlyEPA && Period.TargetTypeId == (int)TargetType.SemiAnnual;
 
+        public bool IsAllowedToEdit
+        {
+            get
+            {
+                var isAllowedToEdit = IsCurrentProcessValid()
+                                      && (!IsSemiHasMonthly || IsProcessValid())
+                                      && IsPeriodAndStatusValid();
+
+                return isAllowedToEdit;
+            }
+        }
+
         private bool IsProcessValid()
         {
             return Process.CurrentProcess.ProcessId != (int)ProcessType.Self
@@ -138,18 +150,6 @@
         private bool IsPeriodAndStatusValid()
         {
             return StatusId != (int)EPAStatus.Closed && !Period.IsEndPeriod;
-        }
-
-        public bool IsAllowedToEdit
-        {
-            get
-            {
-                var isAllowedToEdit = IsCurrentProcessValid()
-                                      && (!IsSemiHasMonthly || IsProcessValid())
-                                      && IsPeriodAndStatusValid();
-
-                return isAllowedToEdit;
-            }
         }
 
         public object ConvertToExcelRecord()
