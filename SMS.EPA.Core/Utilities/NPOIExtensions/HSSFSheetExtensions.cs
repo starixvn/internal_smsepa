@@ -21,66 +21,74 @@
         public static void CopyRow(this ISheet sheet, ISheet sourceSheet, int sourceRowIndex, int rowIndex,
             int firstColumnIndex, int lastColumnIndex)
         {
-            if (sheet != null && sourceSheet != null)
+            if (sheet == null || sourceSheet == null)
             {
-                // Expand the sheet to satisfy the number of needed rows.
-                for (var i = sheet.LastRowNum + 1; i <= rowIndex; i++)
+                return;
+            }
+
+            // Expand the sheet to satisfy the number of needed rows.
+            for (var i = sheet.LastRowNum + 1; i <= rowIndex; i++)
+            {
+                sheet.CreateRow(i);
+            }
+
+            // Get source row that will be copied.
+            var sourceRow = sourceSheet.GetRow(sourceRowIndex);
+            if (sourceRow != null)
+            {
+                // Get the row at a specific index of the current sheet.
+                var newRow = sheet.GetRow(rowIndex);
+                newRow = newRow ?? sheet.CreateRow(rowIndex);
+                newRow.Height = sourceRow.Height;
+
+                // Get the first and last available columns of the copying area.
+                int firstCellNum = Math.Min(sourceRow.FirstCellNum, firstColumnIndex);
+                int lastCellNum = Math.Min(sourceRow.LastCellNum, lastColumnIndex + 1);
+
+                // Loop through each cell of the source row to copy its data to the new row.
+                for (int i = firstCellNum; i < lastCellNum; i++)
                 {
-                    sheet.CreateRow(i);
-                }
+                    // Get the source cell.
+                    var sourceCell = sourceRow.GetCell(i);
 
-                // Get source row that will be copied.
-                var sourceRow = sourceSheet.GetRow(sourceRowIndex);
-                if (sourceRow != null)
-                {
-                    // Get the row at a specific index of the current sheet.
-                    var newRow = sheet.GetRow(rowIndex);
-                    newRow = newRow ?? sheet.CreateRow(rowIndex);
-                    newRow.Height = sourceRow.Height;
-
-                    // Get the first and last available columns of the copying area.
-                    int firstCellNum = Math.Min(sourceRow.FirstCellNum, firstColumnIndex);
-                    int lastCellNum = Math.Min(sourceRow.LastCellNum, lastColumnIndex + 1);
-
-                    // Loop through each cell of the source row to copy its data to the new row.
-                    for (int i = firstCellNum; i < lastCellNum; i++)
+                    // If the source cell is null then jump to next cell
+                    if (sourceCell != null)
                     {
-                        // Get the source cell.
-                        var sourceCell = sourceRow.GetCell(i);
-
-                        // If the source cell is null then jump to next cell
-                        if (sourceCell == null)
-                        {
-                            continue;
-                        }
-
                         // Create a new cell at current sheet, and clone the source cell data and style to it.
                         var newCell = newRow.CreateCell(i);
                         CloneCell(newCell, sourceCell);
 
                         // Copy merged area.
-                        CellRangeAddress sourceRange = null;
-                        for (var j = 0; j < sourceSheet.NumMergedRegions; j++)
-                        {
-                            CellRangeAddress range = sourceSheet.GetMergedRegion(j);
-                            if (range.FirstColumn == sourceCell.ColumnIndex && range.FirstRow == sourceCell.RowIndex)
-                            {
-                                sourceRange = range;
-                                break;
-                            }
-                        }
-
-                        if (sourceRange != null)
-                        {
-                            var newRange = new CellRangeAddress(
-                                newCell.RowIndex,
-                                newCell.RowIndex + sourceRange.LastRow - sourceRange.FirstRow,
-                                newCell.ColumnIndex,
-                                newCell.ColumnIndex + sourceRange.LastColumn - sourceRange.FirstColumn);
-                            sheet.AddMergedRegion(newRange);
-                        }
+                        CopyMergedArea(sheet, sourceSheet, sourceCell, newCell);
                     }
                 }
+            }
+        }
+
+        private static void CopyMergedArea(ISheet sheet, ISheet sourceSheet, ICell sourceCell, ICell newCell)
+        {
+            CellRangeAddress sourceRange = null;
+
+            var index = 0;
+            var isBreak = false;
+            while (index < sourceSheet.NumMergedRegions && !isBreak)
+            {
+                CellRangeAddress range = sourceSheet.GetMergedRegion(index);
+                if (range.FirstColumn == sourceCell.ColumnIndex && range.FirstRow == sourceCell.RowIndex)
+                {
+                    sourceRange = range;
+                    isBreak = true;
+                }
+            }
+
+            if (sourceRange != null)
+            {
+                var newRange = new CellRangeAddress(
+                    newCell.RowIndex,
+                    newCell.RowIndex + sourceRange.LastRow - sourceRange.FirstRow,
+                    newCell.ColumnIndex,
+                    newCell.ColumnIndex + sourceRange.LastColumn - sourceRange.FirstColumn);
+                sheet.AddMergedRegion(newRange);
             }
         }
 
@@ -106,90 +114,113 @@
             }
         }
 
-        [SuppressMessage("StyleCop.CSharp.StylecopPlus.Rules", "SP2101:MethodMustNotContainMoreLinesThan",
-            Justification = "Need to review here.")]
         public static void RemoveColumn(this ISheet sheet, int columnIndex)
         {
-            if (sheet != null)
+            if (sheet == null)
             {
-                bool adjustColumn = true;
-                for (int rowIndex = sheet.FirstRowNum; rowIndex <= sheet.LastRowNum; rowIndex++)
+                return;
+            }
+
+            bool adjustColumn = true;
+
+            for (int rowIndex = sheet.FirstRowNum; rowIndex <= sheet.LastRowNum; rowIndex++)
+            {
+                var row = sheet.GetRow(rowIndex);
+
+                // If no row exists here then skip to next row.
+                if (row == null)
                 {
-                    var row = sheet.GetRow(rowIndex);
-
-                    // If no row exists here then skip to next row.
-                    if (row != null)
-                    {
-                        // Get the last available column of current row.
-                        int lastColumn = row.LastCellNum;
-
-                        if (lastColumn >= columnIndex)
-                        {
-                            for (int currentCol = columnIndex; currentCol < lastColumn; currentCol++)
-                            {
-                                // Remove old cell.
-                                var oldCell = row.GetCell(currentCol);
-                                if (oldCell != null)
-                                {
-                                    row.RemoveCell(oldCell);
-                                }
-
-                                // Move cell.
-                                var nextCell = row.GetCell(currentCol + 1);
-                                if (nextCell != null)
-                                {
-                                    var newCell = row.CreateCell(currentCol, nextCell.CellType);
-                                    if (adjustColumn)
-                                    {
-                                        sheet.SetColumnWidth(newCell.ColumnIndex,
-                                            sheet.GetColumnWidth(nextCell.ColumnIndex));
-                                    }
-
-                                    CloneCell(newCell, nextCell);
-                                }
-                            }
-
-                            // Remove last cell.
-                            var removeCell = row.GetCell(lastColumn);
-                            if (removeCell != null)
-                            {
-                                row.RemoveCell(removeCell);
-                            }
-                        }
-
-                        // Adjust merged region
-                        for (int i = sheet.NumMergedRegions - 1; i >= 0; i--)
-                        {
-                            var mergedRegion = sheet.GetMergedRegion(i);
-
-                            if (rowIndex == mergedRegion.FirstRow)
-                            {
-                                if ((columnIndex == mergedRegion.FirstColumn)
-                                    && (columnIndex == mergedRegion.LastColumn))
-                                {
-                                    sheet.RemoveMergedRegion(i);
-                                }
-                                else if (mergedRegion.FirstColumn > columnIndex)
-                                {
-                                    mergedRegion.FirstColumn = mergedRegion.FirstColumn - 1;
-                                    mergedRegion.LastColumn = mergedRegion.LastColumn - 1;
-                                }
-                                else if (columnIndex <= mergedRegion.LastColumn)
-                                {
-                                    mergedRegion.LastColumn = mergedRegion.LastColumn - 1;
-                                }
-                            }
-                        }
-
-                        adjustColumn = false;
-                    }
+                    continue;
                 }
+
+                // Get the last available column of current row.
+                int lastColumn = row.LastCellNum;
+
+                if (lastColumn >= columnIndex)
+                {
+                    for (int currentCol = columnIndex; currentCol < lastColumn; currentCol++)
+                    {
+                        // Remove old cell.
+                        RemoveOldCell(row, currentCol);
+
+                        // Move cell.
+                        MoveCell(sheet, adjustColumn, row, currentCol);
+                    }
+
+                    // Remove last cell.
+                    RemoveLastCell(row, lastColumn);
+                }
+
+                // Adjust merged region
+                AdjustMergedRegion(sheet, columnIndex, rowIndex);
+
+                adjustColumn = false;
             }
         }
 
-        public static void CloneCell(this ISheet sheet, ICell newCell, ICell sourceCell)
+        private static void RemoveOldCell(IRow row, int currentCol)
         {
-            sheet.CloneCell(newCell, sourceCell);
+            var oldCell = row.GetCell(currentCol);
+            if (oldCell != null)
+            {
+                row.RemoveCell(oldCell);
+            }
+        }
+
+        private static void MoveCell(ISheet sheet, bool adjustColumn, IRow row, int currentCol)
+        {
+            var nextCell = row.GetCell(currentCol + 1);
+            if (nextCell != null)
+            {
+                var newCell = row.CreateCell(currentCol, nextCell.CellType);
+                if (adjustColumn)
+                {
+                    sheet.SetColumnWidth(newCell.ColumnIndex,
+                        sheet.GetColumnWidth(nextCell.ColumnIndex));
+                }
+
+                CloneCell(newCell, nextCell);
+            }
+        }
+
+        private static void RemoveLastCell(IRow row, int lastColumn)
+        {
+            var removeCell = row.GetCell(lastColumn);
+            if (removeCell != null)
+            {
+                row.RemoveCell(removeCell);
+            }
+        }
+
+        private static void AdjustMergedRegion(ISheet sheet, int columnIndex, int rowIndex)
+        {
+            for (int i = sheet.NumMergedRegions - 1; i >= 0; i--)
+            {
+                var mergedRegion = sheet.GetMergedRegion(i);
+
+                if (rowIndex != mergedRegion.FirstRow)
+                {
+                    continue;
+                }
+
+                if (columnIndex != mergedRegion.FirstColumn || columnIndex != mergedRegion.LastColumn)
+                {
+                    if (mergedRegion.FirstColumn <= columnIndex && columnIndex <= mergedRegion.LastColumn)
+                    {
+                        mergedRegion.LastColumn = mergedRegion.LastColumn - 1;
+                    }
+
+                    if(mergedRegion.FirstColumn > columnIndex)
+                    {
+                        mergedRegion.FirstColumn = mergedRegion.FirstColumn - 1;
+                        mergedRegion.LastColumn = mergedRegion.LastColumn - 1;
+                    }
+                }
+                else
+                {
+                    sheet.RemoveMergedRegion(i);
+                }
+            }
         }
 
         public static ICell GetCell(this ISheet sheet, int rowIndex, int colIndex)
@@ -324,7 +355,7 @@
                         break;
 
                     default:
-                        throw new ArgumentOutOfRangeException();
+                        throw new ArgumentException("Argument out of range");
                 }
             }
         }

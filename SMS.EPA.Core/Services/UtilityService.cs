@@ -3,6 +3,7 @@
     using System;
     using System.IO;
     using System.Web;
+    using Constants;
 
     public class UtilityService : IUtilityService
     {
@@ -22,10 +23,10 @@
             double result = number;
 
             var ofDecimals = numberOfDecimals <= 0
-                ? Constants.Constants.NumberOfDecimalDefault
+                ? Constants.NumberOfDecimalDefault
                 : numberOfDecimals;
 
-            if ((number % 1) != 0)
+            if (Math.Abs((number % 1)) > Constants.Tolerance)
             {
                 result = Math.Truncate(number * Math.Pow(10, ofDecimals)) / Math.Pow(10, ofDecimals);
             }
