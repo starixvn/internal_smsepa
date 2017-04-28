@@ -18,14 +18,23 @@
 
         public int ModifiedBy { get; set; }
 
+        private bool IsPasswordValid()
+        {
+            return !string.IsNullOrEmpty(NewPassword)
+                   && !string.IsNullOrEmpty(OldPassword);
+        }
+
+        private bool IsConfirmEqualNewPassword()
+        {
+            return NewPassword.Equals(ConfirmPassword, StringComparison.OrdinalIgnoreCase);
+        }
+
         public override bool IsValid()
         {
             return EmployeeId > 0
-                && !string.IsNullOrWhiteSpace(NewPassword)
-                && !string.IsNullOrWhiteSpace(OldPassword)
-                && !string.IsNullOrWhiteSpace(ConfirmPassword)
-                && NewPassword.Equals(ConfirmPassword, StringComparison.OrdinalIgnoreCase)
-                && ModifiedBy > 0;
+                   && IsPasswordValid()
+                   && IsConfirmEqualNewPassword()
+                   && ModifiedBy > 0;
         }
 
         public override string GetSettingKey()

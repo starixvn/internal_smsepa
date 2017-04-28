@@ -14,6 +14,7 @@
     {
         private const string EPAXmlTemplate = "<EPA EPAId='{0}' EmployeeId='{1}' KPIGroupId='{2}' TotalScore='{3}'>{4}</EPA>";
         private const string EPADetailXmlTemplate = "<EPADetail KPIId ='{0}' Rate='{1}' Score='{2}' IsMaxScore='{3}' Comment='{4}' />";
+        private readonly ICryptographyService _cryptographyService = new CryptographyService();
 
         public int EvaluatorId { get; set; }
 
@@ -30,13 +31,6 @@
         public override bool IsValid()
         {
             return EvaluatorId > 0;
-        }
-
-        private string Encrypt(string plainText)
-        {
-            ICryptographyService cryptographyService = new CryptographyService();
-
-            return cryptographyService.Encrypt(plainText);
         }
 
         private string ConvertToXml(IEnumerable<RatingByKPIModel> epaInfos)
@@ -58,7 +52,7 @@
                         epaDetailXml = GenerateEpaDetailXml(kpi, kpi.Score, kpi.Rate);
                     }
 
-                    string totalScore = Encrypt(epaInfo.TotalScore);
+                    string totalScore = _cryptographyService.Encrypt(epaInfo.TotalScore);
                     epaXml.AppendFormat(EPAXmlTemplate, epaInfo.EPAId, epaInfo.Employee.EmployeeId, epaInfo.KPIGroup.KPIGroupId, totalScore, epaDetailXml);
                 }
             }
@@ -71,8 +65,8 @@
         private StringBuilder GenerateEpaDetailXml(TemporaryKPIModel kpi, string score, float rate)
         {
             string kpiRate = rate > 0 ? rate.ToString(CultureInfo.InvariantCulture) : string.Empty;
-            string cipherScore = Encrypt(score + "_" + kpi.KPIId);
-            string cipherRate = Encrypt(kpiRate);
+            string cipherScore = _cryptographyService.Encrypt(score + "_" + kpi.KPIId);
+            string cipherRate = _cryptographyService.Encrypt(kpiRate);
 
             var epaDetailXml = new StringBuilder();
             epaDetailXml.AppendFormat(EPADetailXmlTemplate, kpi.KPIId, cipherRate, cipherScore, kpi.IsMaxScore, HttpUtility.HtmlEncode(kpi.Comment));

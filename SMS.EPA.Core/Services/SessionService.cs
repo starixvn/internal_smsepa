@@ -1,5 +1,6 @@
 ﻿namespace SMS.EPA.Core.Services
 {
+    using System;
     using Constants;
     using Enumerations;
     using Model;
@@ -41,9 +42,12 @@
             {
                 policy = (int)Policy.Host;
             }
-            else if (HasPermissionOnFunction(functionKey, Policy.Read))
+            else
             {
-                policy = (int)Policy.Read;
+                if (HasPermissionOnFunction(functionKey, Policy.Read))
+                {
+                    policy = (int)Policy.Read;
+                }
             }
 
             return policy;
@@ -66,6 +70,9 @@
 
                     case Policy.Host:
                         return currentFunction.IsHost;
+
+                    default:
+                        throw new ArgumentOutOfRangeException(nameof(policy), policy, null);
                 }
             }
 

@@ -80,6 +80,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\GlobalSuppressions.cs">
+      <Link>GlobalSuppressions.cs</Link>
+    </Compile>
     <Compile Include="Controllers\DepartmentFlowControllerTests.cs" />
     <Compile Include="Controllers\TargetEmployeeSettingControllerTests.cs" />
     <Compile Include="Controllers\DepartmentControllerTests.cs" />

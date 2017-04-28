@@ -73,6 +73,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\GlobalSuppressions.cs">
+      <Link>GlobalSuppressions.cs</Link>
+    </Compile>
     <Compile Include="AppSetting.cs" />
     <Compile Include="AutoService.cs">
       <SubType>Component</SubType>
@@ -94,9 +97,6 @@
     <Compile Include="Criteria\UpdateIsEndProcessCriteria.cs" />
     <Compile Include="Criteria\UpdateTotalScoreOfProcessCriteria.cs" />
     <Compile Include="Criteria\UpdateTotalScoreOfSemiHasMonthlyCriteria.cs" />
-    <Compile Include="GlobalSuppressions.cs">
-      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
-    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="ProjectInstaller.cs">
       <SubType>Component</SubType>

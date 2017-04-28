@@ -15,7 +15,32 @@
 
         public int TargetTemplateId { get; set; }
 
-        public string KPIs => ConvertKPIItemToXml(KPIIds);
+        public string KPIs
+        {
+            get
+            {
+                var kpiXml = new StringBuilder(Constants.BeginRootTag);
+
+                if (KPIIds != null)
+                {
+                    foreach (TargetTemplateKPIModel item in KPIIds)
+                    {
+                        kpiXml.AppendFormat(
+                            KPIXmlTemplate,
+                            item.KPIId,
+                            item.KPIGroupId,
+                            item.IsSpreadKPI,
+                            item.Weight,
+                            item.DisplayOrder,
+                            item.IsRequiredEvaluate,
+                            item.HasComment,
+                            item.IsRequiredComment);
+                    }
+                }
+
+                return kpiXml.Append(Constants.EndRootTag).ToString();
+            }
+        }
 
         public int ModifiedBy { get; set; }
 
@@ -30,30 +55,6 @@
         public override string GetSettingKey()
         {
             return "TargetTemplate_Update";
-        }
-
-        private string ConvertKPIItemToXml(List<TargetTemplateKPIModel> kpiItems)
-        {
-            var kpiXml = new StringBuilder(Constants.BeginRootTag);
-
-            if (kpiItems != null)
-            {
-                foreach (TargetTemplateKPIModel item in kpiItems)
-                {
-                    kpiXml.AppendFormat(
-                        KPIXmlTemplate,
-                        item.KPIId,
-                        item.KPIGroupId,
-                        item.IsSpreadKPI,
-                        item.Weight,
-                        item.DisplayOrder,
-                        item.IsRequiredEvaluate,
-                        item.HasComment,
-                        item.IsRequiredComment);
-                }
-            }
-
-            return kpiXml.Append(Constants.EndRootTag).ToString();
         }
     }
 }

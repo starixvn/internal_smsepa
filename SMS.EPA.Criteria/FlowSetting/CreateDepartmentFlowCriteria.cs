@@ -26,76 +26,106 @@
             get
             {
                 var process = new StringBuilder(Constants.BeginRootTag);
-                int duration;
-                int remindDay;
-                bool hasSendMail;
 
-                if (HumanResources != null && HumanResources.Employees.Any())
-                {
-                    var evaluator = new StringBuilder();
-                    for (int i = 0; i < HumanResources.Employees.Count; i++)
-                    {
-                        evaluator.AppendFormat(EvaluatorXmlTemplate, HumanResources.Employees[i].EmployeeId, i + 1);
-                    }
-
-                    duration = HumanResources.Duration;
-                    hasSendMail = HumanResources.HasSendMail;
-                    remindDay = HumanResources.RemindDay;
-                    process.AppendFormat(ProcessXmlTemplate, (int)ProcessType.HumanResource, duration, hasSendMail, remindDay, evaluator);
-                }
-
-                if (Selfs != null)
-                {
-                    var evaluator = new StringBuilder();
-                    evaluator.AppendFormat(EvaluatorXmlTemplate, -1, 1);
-                    process.AppendFormat(ProcessXmlTemplate, (int)ProcessType.Self, Selfs.Duration, Selfs.HasSendMail, Selfs.RemindDay, evaluator);
-                }
-
-                if (Evaluators != null && Evaluators.Employees.Any())
-                {
-                    var evaluator = new StringBuilder();
-                    for (int i = 0; i < Evaluators.Employees.Count; i++)
-                    {
-                        evaluator.AppendFormat(EvaluatorXmlTemplate, Evaluators.Employees[i].EmployeeId, i + 1);
-                    }
-
-                    duration = Evaluators.Duration;
-                    hasSendMail = Evaluators.HasSendMail;
-                    remindDay = Evaluators.RemindDay;
-                    process.AppendFormat(ProcessXmlTemplate, (int)ProcessType.Evaluator, duration, hasSendMail, remindDay, evaluator);
-                }
-
-                if (Reviewers != null && Reviewers.Employees.Any())
-                {
-                    var evaluator = new StringBuilder();
-                    for (int i = 0; i < Reviewers.Employees.Count; i++)
-                    {
-                        evaluator.AppendFormat(EvaluatorXmlTemplate, Reviewers.Employees[i].EmployeeId, i + 1);
-                    }
-
-                    duration = Reviewers.Duration;
-                    hasSendMail = Reviewers.HasSendMail;
-                    remindDay = Reviewers.RemindDay;
-                    process.AppendFormat(ProcessXmlTemplate, (int)ProcessType.Reviewer, duration, hasSendMail, remindDay, evaluator);
-                }
-
-                if (Managements != null && Managements.Employees.Any())
-                {
-                    var evaluator = new StringBuilder();
-                    for (int i = 0; i < Managements.Employees.Count; i++)
-                    {
-                        evaluator.AppendFormat(EvaluatorXmlTemplate, Managements.Employees[i].EmployeeId, i + 1);
-                    }
-
-                    duration = Managements.Duration;
-                    hasSendMail = Managements.HasSendMail;
-                    remindDay = Managements.RemindDay;
-                    process.AppendFormat(ProcessXmlTemplate, (int)ProcessType.Management, duration, hasSendMail, remindDay, evaluator);
-                }
+                AppendHumanResourcesProcess(process);
+                AppendSelfProcess(process);
+                AppendEvaluatorsProcess(process);
+                AppendReviewersProcess(process);
+                AppendManagementsProcess(process);
 
                 process.Append(Constants.EndRootTag);
 
                 return process.ToString();
+            }
+        }
+
+        private void AppendManagementsProcess(StringBuilder process)
+        {
+            if (Managements != null && Managements.Employees.Any())
+            {
+                var evaluator = new StringBuilder();
+                for (int i = 0; i < Managements.Employees.Count; i++)
+                {
+                    evaluator.AppendFormat(EvaluatorXmlTemplate, Managements.Employees[i].EmployeeId, i + 1);
+                }
+
+                process.AppendFormat(
+                    ProcessXmlTemplate,
+                    (int)ProcessType.Management,
+                    Managements.Duration,
+                    Managements.HasSendMail,
+                    Managements.RemindDay,
+                    evaluator);
+            }
+        }
+
+        private void AppendReviewersProcess(StringBuilder process)
+        {
+            if (Reviewers != null && Reviewers.Employees.Any())
+            {
+                var evaluator = new StringBuilder();
+                for (int i = 0; i < Reviewers.Employees.Count; i++)
+                {
+                    evaluator.AppendFormat(EvaluatorXmlTemplate, Reviewers.Employees[i].EmployeeId, i + 1);
+                }
+
+                process.AppendFormat(
+                    ProcessXmlTemplate,
+                    (int)ProcessType.Reviewer,
+                    Reviewers.Duration,
+                    Reviewers.HasSendMail,
+                    Reviewers.RemindDay,
+                    evaluator);
+            }
+        }
+
+        private void AppendEvaluatorsProcess(StringBuilder process)
+        {
+            if (Evaluators != null && Evaluators.Employees.Any())
+            {
+                var evaluator = new StringBuilder();
+                for (int i = 0; i < Evaluators.Employees.Count; i++)
+                {
+                    evaluator.AppendFormat(EvaluatorXmlTemplate, Evaluators.Employees[i].EmployeeId, i + 1);
+                }
+
+                process.AppendFormat(
+                    ProcessXmlTemplate,
+                    (int)ProcessType.Evaluator,
+                    Evaluators.Duration,
+                    Evaluators.HasSendMail,
+                    Evaluators.RemindDay,
+                    evaluator);
+            }
+        }
+
+        private void AppendSelfProcess(StringBuilder process)
+        {
+            if (Selfs != null)
+            {
+                var evaluator = new StringBuilder();
+                evaluator.AppendFormat(EvaluatorXmlTemplate, -1, 1);
+                process.AppendFormat(ProcessXmlTemplate, (int)ProcessType.Self, Selfs.Duration, Selfs.HasSendMail, Selfs.RemindDay, evaluator);
+            }
+        }
+
+        private void AppendHumanResourcesProcess(StringBuilder process)
+        {
+            if (HumanResources != null && HumanResources.Employees.Any())
+            {
+                var evaluator = new StringBuilder();
+                for (int i = 0; i < HumanResources.Employees.Count; i++)
+                {
+                    evaluator.AppendFormat(EvaluatorXmlTemplate, HumanResources.Employees[i].EmployeeId, i + 1);
+                }
+
+                process.AppendFormat(
+                    ProcessXmlTemplate,
+                    (int)ProcessType.HumanResource,
+                    HumanResources.Duration,
+                    HumanResources.HasSendMail,
+                    HumanResources.RemindDay,
+                    evaluator);
             }
         }
 

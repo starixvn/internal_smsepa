@@ -30,21 +30,9 @@
         [JsonProperty(".expires")]
         public string Expires { get; set; }
 
-        public DateTime GeneratedDate
-        {
-            get
-            {
-                return DateTime.ParseExact(Issued, "ddd, dd MMM yyyy HH:mm:ss 'GMT'", CultureInfo.InvariantCulture);
-            }
-        }
+        public DateTime GeneratedDate => DateTime.ParseExact(Issued, "ddd, dd MMM yyyy HH:mm:ss 'GMT'", CultureInfo.InvariantCulture);
 
-        public DateTime ExpireDate
-        {
-            get
-            {
-                return DateTime.ParseExact(Expires, "ddd, dd MMM yyyy HH:mm:ss 'GMT'", CultureInfo.InvariantCulture);
-            }
-        }
+        public DateTime ExpireDate => DateTime.ParseExact(Expires, "ddd, dd MMM yyyy HH:mm:ss 'GMT'", CultureInfo.InvariantCulture);
 
         public bool IsValid()
         {

@@ -16,8 +16,8 @@
         [SpParam(Ignored = true)]
         public string Username { get; set; }
 
-        public string DomainUsername => Username.Contains("sms") 
-            ? Username 
+        public string DomainUsername => Username.Contains("sms")
+            ? Username
             : $"sms\\{Username}";
 
         public string Password { get; set; }
@@ -32,12 +32,27 @@
 
         public override bool IsValid()
         {
-            return !string.IsNullOrWhiteSpace(NickName)
-                && !string.IsNullOrEmpty(FullName)
-                && !string.IsNullOrWhiteSpace(Username)
-                && !string.IsNullOrWhiteSpace(Password)
-                && Username.IndexOf(' ') == -1
-                && CreatedBy > 0;
+            if (!string.IsNullOrWhiteSpace(NickName))
+            {
+                return false;
+            }
+
+            if (Username.Contains(" ") || string.IsNullOrWhiteSpace(Username))
+            {
+                return false;
+            }
+
+            if (string.IsNullOrWhiteSpace(FullName))
+            {
+                return false;
+            }
+
+            if (string.IsNullOrWhiteSpace(Password))
+            {
+                return false;
+            }
+
+            return CreatedBy > 0;
         }
 
         public override string GetSettingKey()
