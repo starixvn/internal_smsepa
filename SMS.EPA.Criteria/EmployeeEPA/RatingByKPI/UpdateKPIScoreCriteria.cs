@@ -33,27 +33,24 @@
             return EvaluatorId > 0;
         }
 
+        private static bool IsKPINotNullAndRatePossitive(TemporaryKPIModel kpi)
+        {
+            return !string.IsNullOrEmpty(kpi.Score) || kpi.Rate > 0;
+        }
+
         private string ConvertToXml(IEnumerable<RatingByKPIModel> epaInfos)
         {
             var epaXml = new StringBuilder(Constants.BeginRootTag);
 
             foreach (RatingByKPIModel epaInfo in epaInfos)
             {
-                var epaDetailXml = new StringBuilder();
-
                 foreach (TemporaryKPIModel kpi in epaInfo.KPIGroup.KPIs)
                 {
-                    if (!string.IsNullOrEmpty(kpi.AdjustScore) || kpi.AdjustRate > 0)
-                    {
-                        epaDetailXml = GenerateEpaDetailXml(kpi, kpi.AdjustScore, kpi.AdjustRate);
-                    }
-                    else
-                    {
-                        if (!string.IsNullOrEmpty(kpi.Score) || kpi.Rate > 0)
-                        {
-                            epaDetailXml = GenerateEpaDetailXml(kpi, kpi.Score, kpi.Rate);
-                        }
-                    }
+                    var epaDetailXml = string.IsNullOrEmpty(kpi.AdjustScore)
+                                                 && (kpi.AdjustRate <= 0)
+                                                 && IsKPINotNullAndRatePossitive(kpi)
+                        ? GenerateEpaDetailXml(kpi, kpi.Score, kpi.Rate)
+                        : GenerateEpaDetailXml(kpi, kpi.AdjustScore, kpi.AdjustRate);
 
                     string totalScore = _cryptographyService.Encrypt(epaInfo.TotalScore);
                     epaXml.AppendFormat(

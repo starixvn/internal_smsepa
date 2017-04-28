@@ -16,13 +16,17 @@
 
         public int CreatedBy { get; set; }
 
+        private bool IsRatingValid()
+        {
+            return RatingTypeId > 0 && ScoreRatingTypeId > 0;
+        }
+
         public override bool IsValid()
         {
             return !string.IsNullOrEmpty(Name)
-                && CreatedBy > 0
-                && TargetTypeId > 0
-                && ScoreRatingTypeId > 0
-                && RatingTypeId > 0;
+                   && CreatedBy > 0
+                   && TargetTypeId > 0
+                   && IsRatingValid();
         }
 
         public override string GetSettingKey()

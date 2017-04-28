@@ -20,14 +20,22 @@
 
         public int RatingTypeId { get; set; }
 
+        private bool IsRatingValid()
+        {
+            return RatingTypeId > 0 && ScoreRatingTypeId > 0;
+        }
+
+        private bool IsTargetValid()
+        {
+            return TargetTemplateId > 0 && TargetTypeId > 0;
+        }
+
         public override bool IsValid()
         {
-            return TargetTemplateId > 0
-                && !string.IsNullOrEmpty(Name)
-                && TargetTypeId > 0
-                && ScoreRatingTypeId > 0
-                && RatingTypeId > 0
-                && ModifiedBy > 0;
+            return !string.IsNullOrEmpty(Name)
+                   && IsTargetValid()
+                   && IsRatingValid()
+                   && ModifiedBy > 0;
         }
 
         public override string GetSettingKey()

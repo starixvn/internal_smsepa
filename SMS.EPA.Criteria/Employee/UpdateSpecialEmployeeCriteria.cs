@@ -30,13 +30,21 @@
 
         public int ModifiedBy { get; set; }
 
+        private bool IsUserNameValid()
+        {
+            return !string.IsNullOrWhiteSpace(Username) && !Username.Contains(" ");
+        }
+
+        private bool IsNameValid()
+        {
+            return !string.IsNullOrWhiteSpace(NickName) && !string.IsNullOrEmpty(FullName);
+        }
+
         public override bool IsValid()
         {
             return EmployeeId > 0
-                   && !string.IsNullOrWhiteSpace(NickName)
-                   && !string.IsNullOrEmpty(FullName)
-                   && !string.IsNullOrWhiteSpace(Username)
-                   && Username.IndexOf(' ') == -1
+                   && IsNameValid()
+                   && IsUserNameValid()
                    && ModifiedBy > 0;
         }
 
