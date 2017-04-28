@@ -4,6 +4,7 @@
     using System.Collections.Generic;
     using System.Linq;
     using Core.Constants;
+    using Core.Utilities;
     using Enitites;
     using Report;
 
@@ -102,38 +103,39 @@
 
         public string EmployeeComment { get; set; }
 
-        public string WorkDateToString => WorkDate.ToString("ddd, dd MMM, yyyy");
-
         public bool IsWeekend => WorkDate.DayOfWeek == DayOfWeek.Saturday || WorkDate.DayOfWeek == DayOfWeek.Sunday;
 
         public object ConvertToExcelRecord()
         {
+            string section = Employee.Group != null ? Employee.Group.GroupName : string.Empty;
+            string jobTitle = Employee.JobTitle != null ? Employee.JobTitle.JobTitleName : string.Empty;
+
             var record = new
             {
                 Shift = Employee.Code,
                 Nick = Employee.NickName,
-                FullName = Employee.FullName,
-                Section = Employee.Group != null ? Employee.Group.GroupName : string.Empty,
-                JobTitle = Employee.JobTitle != null ? Employee.JobTitle.JobTitleName : string.Empty,
+                Employee.FullName,
+                Section = section,
+                JobTitle = jobTitle,
                 JoinedDate = Employee.JoinedDate.ToString(Constants.DateFormat),
-                Category = Employee.Category,
-                Date = WorkDateToString,
+                Employee.Category,
+                Date = WorkDate.ToString("ddd, dd MMM, yyyy"),
                 Code = ShiftName,
-                CheckIn = CheckIn?.ToString(Constants.TimeFormat) ?? string.Empty,
-                CheckOut = CheckOut?.ToString(Constants.TimeFormat) ?? string.Empty,
-                TotalHours = !string.IsNullOrEmpty(TotalHours) ? TotalHours : string.Empty,
-                MissingCheckInOut = MissingCheckInOut.Value > 0 ? MissingCheckInOut.Value.ToString() : string.Empty,
-                WorkingUnderTime = WorkingUnderTime.Value > 0 ? "1" : string.Empty,
-                LateIn = !string.IsNullOrEmpty(NumberOfMinutesLateIn) ? NumberOfMinutesLateIn : string.Empty,
-                EarlyOut = !string.IsNullOrEmpty(NumberOfMinutesEarlyOut) ? NumberOfMinutesEarlyOut : string.Empty,
-                Absent = Absent.Value > 0 ? Absent.Value.ToString() : string.Empty,
-                UnpaidLeave = UnpaidLeave.Value > 0 ? UnpaidLeave.Value.ToString() : string.Empty,
-                UnpaidLeaveAbsent = UnpaidLeaveAbsent.Value > 0 ? UnpaidLeaveAbsent.Value.ToString() : string.Empty,
-                ChangeShift = ChangeShift.Value > 0 ? ChangeShift.Value.ToString() : string.Empty,
+                CheckIn = ExcelRecordDataConverter.NullabeDateTimeToStringConverter(CheckIn),
+                CheckOut = ExcelRecordDataConverter.NullabeDateTimeToStringConverter(CheckOut),
+                TotalHours = ExcelRecordDataConverter.NullToEmptyStringConverter(TotalHours),
+                MissingCheckInOut = ExcelRecordDataConverter.ZeroValueToEmptyStringConverter(MissingCheckInOut.Value),
+                WorkingUnderTime = ExcelRecordDataConverter.ValueToOneStringConverter(WorkingUnderTime.Value),
+                LateIn = ExcelRecordDataConverter.NullToEmptyStringConverter(NumberOfMinutesLateIn),
+                EarlyOut = ExcelRecordDataConverter.NullToEmptyStringConverter(NumberOfMinutesEarlyOut),
+                Absent = ExcelRecordDataConverter.ZeroValueToEmptyStringConverter(Absent.Value),
+                UnpaidLeave = ExcelRecordDataConverter.ZeroValueToEmptyStringConverter(UnpaidLeave.Value),
+                UnpaidLeaveAbsent = ExcelRecordDataConverter.ZeroValueToEmptyStringConverter(UnpaidLeaveAbsent.Value),
+                ChangeShift = ExcelRecordDataConverter.ZeroValueToEmptyStringConverter(ChangeShift.Value),
                 SystemSubtractScore = SystemSubtractScore > 0 ? -SystemSubtractScore : 0,
                 ApproverSubtractScore = ApproverSubtractScore > 0 ? -ApproverSubtractScore : 0,
-                ApproverComment = ApproverComment,
-                EmployeeComment = EmployeeComment
+                ApproverComment,
+                EmployeeComment
             };
 
             return record;

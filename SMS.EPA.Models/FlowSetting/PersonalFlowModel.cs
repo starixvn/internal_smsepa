@@ -33,7 +33,7 @@
 
         public IList<ProcessFlowModel> Managements { get; set; }
 
-        private string GetEvaluator(IList<ProcessFlowModel> evaluators)
+        private static string GetEvaluator(IList<ProcessFlowModel> evaluators)
         {
             IEnumerable<string> nickNames =
                 evaluators.Select(x => x.FullName + (!string.IsNullOrEmpty(x.NickName)
@@ -49,9 +49,9 @@
             var record = new
             {
                 Count = 0,
-                Code = Code,
-                FullName = FullName,
-                NickName = NickName,
+                Code,
+                FullName,
+                NickName,
                 Section = Group != null ? Group.GroupName : string.Empty,
                 HumanResource = GetEvaluator(HumanResources),
                 Evaluator = GetEvaluator(Evaluators),

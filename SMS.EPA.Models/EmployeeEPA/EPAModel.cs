@@ -40,7 +40,7 @@
 
         public bool HasMonthlyEPA { get; set; }
 
-        public int MaxFinalScore => Constants.MaxFinalScore;
+        public int MaxFinalScore { get; } = Constants.MaxFinalScore;
 
         public string Grade { get; set; }
 
@@ -84,7 +84,7 @@
             {
                 if (LastProcesses.Count > 0)
                 {
-                    return Process.CalculateAverageScore(LastProcesses);
+                    return EvaluationProcessModel.CalculateAverageScore(LastProcesses);
                 }
 
                 return null;
@@ -124,16 +124,29 @@
 
         public bool IsSemiHasMonthly => HasMonthlyEPA && Period.TargetTypeId == (int)TargetType.SemiAnnual;
 
+        private bool IsProcessValid()
+        {
+            return Process.CurrentProcess.ProcessId != (int)ProcessType.Self
+                   && Process.CurrentProcess.ProcessId != (int)ProcessType.Evaluator;
+        }
+
+        private bool IsCurrentProcessValid()
+        {
+            return Process.CurrentProcess != null && !Process.CurrentProcess.IsEndProcess;
+        }
+
+        private bool IsPeriodAndStatusValid()
+        {
+            return StatusId != (int)EPAStatus.Closed && !Period.IsEndPeriod;
+        }
+
         public bool IsAllowedToEdit
         {
             get
             {
-                bool isAllowedToEdit = !(Process.CurrentProcess == null
-                    || Process.CurrentProcess.IsEndProcess
-                    || (IsSemiHasMonthly
-                        && (Process.CurrentProcess.ProcessId == (int)ProcessType.Self || Process.CurrentProcess.ProcessId == (int)ProcessType.Evaluator))
-                    || StatusId == (int)EPAStatus.Closed
-                    || Period.IsEndPeriod);
+                var isAllowedToEdit = IsCurrentProcessValid()
+                                      && (!IsSemiHasMonthly || IsProcessValid())
+                                      && IsPeriodAndStatusValid();
 
                 return isAllowedToEdit;
             }
@@ -144,12 +157,12 @@
             var record = new
             {
                 Count = 0,
-                Code = Employee.Code,
+                Employee.Code,
                 Nick = Employee.NickName,
-                FullName = Employee.FullName,
+                Employee.FullName,
                 Section = Employee.GroupName,
                 JobTitle = Employee.JobTitleName,
-                OldFinalScore = OldFinalScore,
+                OldFinalScore,
                 NewFinalScore = FinalScore
             };
 

@@ -47,7 +47,7 @@
             && TargetTemplate != null
             && TargetTemplate.TargetTypeId == (int)TargetType.SemiAnnual;
 
-        private string GetEvaluator(IList<PeriodFlowModel> evaluators)
+        private static string GetEvaluator(IList<PeriodFlowModel> evaluators)
         {
             IEnumerable<string> nickNames = evaluators
                 .Where(x => !string.IsNullOrEmpty(x.EvaluatorInfo.NickName))
@@ -69,12 +69,12 @@
                 Section = Employee.Group != null
                     ? Employee.Group.GroupName
                     : string.Empty,
-                Code = Employee.Code,
-                FullName = Employee.FullName,
-                NickName = Employee.NickName,
+                Employee.Code,
+                Employee.FullName,
+                Employee.NickName,
                 JobTitle = Employee.JobTitle.JobTitleName,
                 JoinedDate = Employee.JoinedDate.ToString(Constants.DateFormat),
-                Category = Employee.Category,
+                Employee.Category,
                 Evaluator = GetEvaluator(Evaluators),
                 Reviewer = GetEvaluator(Reviewers),
                 Management = GetEvaluator(Managements),

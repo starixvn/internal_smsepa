@@ -72,15 +72,15 @@
             var record = new
             {
                 Count = 0,
-                Code = Code,
-                Username = Username,
-                FullName = FullName,
-                NickName = NickName,
+                Code,
+                Username,
+                FullName,
+                NickName,
                 Section = Group != null ? Group.GroupName : string.Empty,
                 JobTitle = JobTitle.JobTitleName,
-                Category = Category,
+                Category,
                 JoinedDate = JoinedDate.ToString(Constants.DateFormat),
-                Email = Email,
+                Email,
                 Roles = string.Join(", ", Roles.Select(x => x.RoleCode))
             };
 

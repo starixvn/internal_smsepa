@@ -64,6 +64,8 @@
                         }
 
                         break;
+                    default:
+                        throw new ArgumentOutOfRangeException();
                 }
             }
 

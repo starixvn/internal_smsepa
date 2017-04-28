@@ -54,22 +54,22 @@
                 Section = Employee.Group != null
                     ? Employee.Group.GroupName
                     : string.Empty,
-                Code = Employee.Code,
+                Employee.Code,
                 Nick = Employee.NickName,
-                FullName = Employee.FullName,
+                Employee.FullName,
                 JobTitle = Employee.JobTitle != null
                     ? Employee.JobTitle.JobTitleName
                     : string.Empty,
                 JoinedDate = Employee.JoinedDate.ToString(Constants.DateFormat),
-                Category = Employee.Category,
-                MissingCheckInOut = MissingCheckInOut,
-                WorkingUnderTime = WorkingUnderTime,
-                LateIn = LateIn,
-                EarlyOut = EarlyOut,
-                Absent = Absent,
-                UnpaidLeave = UnpaidLeave,
-                UnpaidLeaveAbsent = UnpaidLeaveAbsent,
-                ChangeShift = ChangeShift,
+                Employee.Category,
+                MissingCheckInOut,
+                WorkingUnderTime,
+                LateIn,
+                EarlyOut,
+                Absent,
+                UnpaidLeave,
+                UnpaidLeaveAbsent,
+                ChangeShift,
                 OtherViolation = (decimal)otherViolations,
                 SystemSubtractScore = (decimal)systemSubtractScore,
                 ApproverSubtractScore = (decimal)approverSubtractScore

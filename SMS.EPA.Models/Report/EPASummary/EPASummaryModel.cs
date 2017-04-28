@@ -16,6 +16,6 @@
 
         public IList<EPASummaryEmployeeModel> EPAInfos { get; set; }
 
-        public int MaxFinalScore => Constants.MaxFinalScore;
+        public int MaxFinalScore { get; } = Constants.MaxFinalScore;
     }
 }

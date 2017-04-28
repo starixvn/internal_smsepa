@@ -1,6 +1,6 @@
 ﻿namespace SMS.EPA.Model.Report
 {
-    public abstract class EPAReportConditionalFilename
+    public class EPAReportConditionalFilename
     {
         public PeriodModel Period { get; set; }
 

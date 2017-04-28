@@ -25,22 +25,22 @@
         {
             get
             {
-                float maxPerformanceScore = 0;
-
                 if (Managements.Any())
                 {
-                    maxPerformanceScore = Managements.First().MaxTotalScore;
-                }
-                else if (Reviewers.Any())
-                {
-                    maxPerformanceScore = Reviewers.First().MaxTotalScore;
-                }
-                else if (Evaluators.Any())
-                {
-                    maxPerformanceScore = Evaluators.First().MaxTotalScore;
+                    return Managements.First().MaxTotalScore;
                 }
 
-                return maxPerformanceScore;
+                if (Reviewers.Any())
+                {
+                    return Reviewers.First().MaxTotalScore;
+                }
+
+                if (Evaluators.Any())
+                {
+                    return Evaluators.First().MaxTotalScore;
+                }
+
+                return 0;
             }
         }
 
@@ -48,18 +48,17 @@
         {
             get
             {
-                float? performanceScore = AverageScoreByEvaluators;
-
                 if (Managements.Any())
                 {
-                    performanceScore = AverageScoreByManagements;
-                }
-                else if (Reviewers.Any())
-                {
-                    performanceScore = AverageScoreByReviewers;
+                    return AverageScoreByManagements;
                 }
 
-                return performanceScore;
+                if (Reviewers.Any())
+                {
+                    return AverageScoreByReviewers;
+                }
+
+                return AverageScoreByEvaluators;
             }
         }
 
@@ -75,7 +74,7 @@
 
         public IList<EPAProcessModel> Managements { get; set; }
 
-        public float? CalculateAverageScore(IList<EPAProcessModel> processes)
+        public static float? CalculateAverageScore(IList<EPAProcessModel> processes)
         {
             float average = 0;
             int count = 0;

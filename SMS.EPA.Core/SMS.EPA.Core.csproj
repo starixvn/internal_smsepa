@@ -178,6 +178,7 @@
     <Compile Include="Services\SessionService.cs" />
     <Compile Include="Services\UtilityService.cs" />
     <Compile Include="Utilities\Enumerations.cs" />
+    <Compile Include="Utilities\ExcelRecordDataConverter.cs" />
     <Compile Include="Utilities\ExcelTemplateWriter.cs" />
     <Compile Include="Utilities\NPOIExtensions\HSSFCellExtensions.cs" />
     <Compile Include="Utilities\NPOIExtensions\HSSFCellRangeAddressExtensions.cs" />
