@@ -160,13 +160,11 @@
 
             if (standardGrades != null && standardGrades.Any())
             {
-                foreach (StandardGrade gradeEnum in standardGrades
-                    .Where(x => x.LeftScore <= score && x.RightScore >= score)
-                    .Select(x => (StandardGrade)x.GradeId))
-                {
-                    grade = Enumerations.GetDescription(gradeEnum);
-                    break;
-                }
+                var standardGrade =
+                    standardGrades
+                        .Where(x => x.LeftScore <= score && x.RightScore >= score)
+                        .Select(x => (StandardGrade)x.GradeId).FirstOrDefault();
+                return Enumerations.GetDescription(standardGrade);
             }
 
             return grade;
@@ -200,7 +198,7 @@
 
         public IList<EPAModel> GetMonthlyEPAOfSemi(string epaIds)
         {
-            var criteria = new GetMonthlyEPAOfSemiCriteria()
+            var criteria = new GetMonthlyEPAOfSemiCriteria
             {
                 EPAIds = epaIds
             };
@@ -363,6 +361,9 @@
                 case (int)ProcessType.Management:
                     epaInfo.Process.CurrentProcess.MaxPerformanceScore = epaInfo.ScoreRatingType.Management;
                     break;
+
+                default:
+                    throw new ArgumentException();
             }
 
             epaInfo.Process.Self.MaxPerformanceScore = epaInfo.ScoreRatingType.SelfEvaluated;
@@ -412,51 +413,64 @@
             switch (epaInfo.Process.CurrentProcess.ProcessId)
             {
                 case (int)ProcessType.Reviewer:
-                    if (epaInfo.IsSemiHasMonthly)
-                    {
-                        score = -epaInfo.MonthlyEPA.AverageReviewerScoreConverted ?? 0;
-                        epaInfo.Process.CurrentProcess.MaxSubtractScore = score;
-                        maxAdditionScore = epaInfo.Process.CurrentProcess.MaxTotalScore + score;
-                    }
-                    else
-                    {
-                        score = -epaInfo.Process.AverageScoreByEvaluators ?? 0;
-                        epaInfo.Process.CurrentProcess.MaxSubtractScore = score;
-                        maxAdditionScore = epaInfo.Process.CurrentProcess.MaxTotalScore + score;
-                    }
-
-                    epaInfo.Process.CurrentProcess.MaxAdditionScore = maxAdditionScore;
+                    CalculateEpaInfoForReviewer(epaInfo, out maxAdditionScore, out score);
                     break;
 
                 case (int)ProcessType.Management:
-                    if (epaInfo.Process.Reviewers.Any())
-                    {
-                        score = -epaInfo.Process.AverageScoreByReviewers ?? 0;
-                        epaInfo.Process.CurrentProcess.MaxSubtractScore = score;
-                        maxAdditionScore = epaInfo.Process.CurrentProcess.MaxTotalScore + score;
-                    }
-                    else
-                    {
-                        if (epaInfo.IsSemiHasMonthly)
-                        {
-                            score = -epaInfo.MonthlyEPA.AverageEvaluatorScoreConverted ?? 0;
-                            epaInfo.Process.CurrentProcess.MaxSubtractScore = score;
-                            maxAdditionScore = epaInfo.Process.CurrentProcess.MaxTotalScore + score;
-                        }
-                        else
-                        {
-                            score = -epaInfo.Process.AverageScoreByEvaluators ?? 0;
-                            epaInfo.Process.CurrentProcess.MaxSubtractScore = score;
-                            maxAdditionScore = epaInfo.Process.CurrentProcess.MaxTotalScore + score;
-                        }
-                    }
-
-                    epaInfo.Process.CurrentProcess.MaxAdditionScore = maxAdditionScore;
+                    CalculateEpaInfoForManagement(epaInfo, out maxAdditionScore, out score);
                     break;
+
+                default:
+                    throw new ArgumentException();
             }
         }
 
-        private void FillContentRow(IList<EPAModel> epaInfos, ref ExcelTemplateWriter writer)
+        private static void CalculateEpaInfoForManagement(EPAModel epaInfo, out float maxAdditionScore, out float score)
+        {
+            if (epaInfo.Process.Reviewers.Any())
+            {
+                score = -epaInfo.Process.AverageScoreByReviewers ?? 0;
+                epaInfo.Process.CurrentProcess.MaxSubtractScore = score;
+                maxAdditionScore = epaInfo.Process.CurrentProcess.MaxTotalScore + score;
+            }
+            else
+            {
+                if (epaInfo.IsSemiHasMonthly)
+                {
+                    score = -epaInfo.MonthlyEPA.AverageEvaluatorScoreConverted ?? 0;
+                    epaInfo.Process.CurrentProcess.MaxSubtractScore = score;
+                    maxAdditionScore = epaInfo.Process.CurrentProcess.MaxTotalScore + score;
+                }
+                else
+                {
+                    score = -epaInfo.Process.AverageScoreByEvaluators ?? 0;
+                    epaInfo.Process.CurrentProcess.MaxSubtractScore = score;
+                    maxAdditionScore = epaInfo.Process.CurrentProcess.MaxTotalScore + score;
+                }
+            }
+
+            epaInfo.Process.CurrentProcess.MaxAdditionScore = maxAdditionScore;
+        }
+
+        private static void CalculateEpaInfoForReviewer(EPAModel epaInfo, out float maxAdditionScore, out float score)
+        {
+            if (epaInfo.IsSemiHasMonthly)
+            {
+                score = -epaInfo.MonthlyEPA.AverageReviewerScoreConverted ?? 0;
+                epaInfo.Process.CurrentProcess.MaxSubtractScore = score;
+                maxAdditionScore = epaInfo.Process.CurrentProcess.MaxTotalScore + score;
+            }
+            else
+            {
+                score = -epaInfo.Process.AverageScoreByEvaluators ?? 0;
+                epaInfo.Process.CurrentProcess.MaxSubtractScore = score;
+                maxAdditionScore = epaInfo.Process.CurrentProcess.MaxTotalScore + score;
+            }
+
+            epaInfo.Process.CurrentProcess.MaxAdditionScore = maxAdditionScore;
+        }
+
+        private static void FillContentRow(IList<EPAModel> epaInfos, ref ExcelTemplateWriter writer)
         {
             int rowIndex = 1;
 
@@ -466,23 +480,23 @@
             }
         }
 
-        private void FillRow(EPAModel epaInfo, ref ExcelTemplateWriter writer, ref int rowIndex)
+        private static void FillRow(EPAModel epaInfo, ref ExcelTemplateWriter writer, ref int rowIndex)
         {
             object record = CreateRecord(epaInfo, ref rowIndex);
             writer.WriteRow(3, record);
         }
 
-        private object CreateRecord(EPAModel epaInfo, ref int rowIndex)
+        private static object CreateRecord(EPAModel epaInfo, ref int rowIndex)
         {
             var record = new
             {
                 Count = rowIndex,
-                Code = epaInfo.Employee.Code,
+                epaInfo.Employee.Code,
                 Nick = epaInfo.Employee.NickName,
-                FullName = epaInfo.Employee.FullName,
+                epaInfo.Employee.FullName,
                 Section = epaInfo.Employee.GroupName,
                 JobTitle = epaInfo.Employee.JobTitleName,
-                OldFinalScore = epaInfo.OldFinalScore,
+                epaInfo.OldFinalScore,
                 NewFinalScore = epaInfo.FinalScore
             };
             rowIndex++;

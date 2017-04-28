@@ -16,8 +16,10 @@
             }
         }
 
-        [SuppressMessage("StyleCop.CSharp.StylecopPlus.Rules", "SP2101:MethodMustNotContainMoreLinesThan", Justification = "Need to review here.")]
-        public static void CopyRow(this ISheet sheet, ISheet sourceSheet, int sourceRowIndex, int rowIndex, int firstColumnIndex, int lastColumnIndex)
+        [SuppressMessage("StyleCop.CSharp.StylecopPlus.Rules", "SP2101:MethodMustNotContainMoreLinesThan",
+            Justification = "Need to review here.")]
+        public static void CopyRow(this ISheet sheet, ISheet sourceSheet, int sourceRowIndex, int rowIndex,
+            int firstColumnIndex, int lastColumnIndex)
         {
             if (sheet != null && sourceSheet != null)
             {
@@ -104,7 +106,8 @@
             }
         }
 
-        [SuppressMessage("StyleCop.CSharp.StylecopPlus.Rules", "SP2101:MethodMustNotContainMoreLinesThan", Justification = "Need to review here.")]
+        [SuppressMessage("StyleCop.CSharp.StylecopPlus.Rules", "SP2101:MethodMustNotContainMoreLinesThan",
+            Justification = "Need to review here.")]
         public static void RemoveColumn(this ISheet sheet, int columnIndex)
         {
             if (sheet != null)
@@ -138,7 +141,8 @@
                                     var newCell = row.CreateCell(currentCol, nextCell.CellType);
                                     if (adjustColumn)
                                     {
-                                        sheet.SetColumnWidth(newCell.ColumnIndex, sheet.GetColumnWidth(nextCell.ColumnIndex));
+                                        sheet.SetColumnWidth(newCell.ColumnIndex,
+                                            sheet.GetColumnWidth(nextCell.ColumnIndex));
                                     }
 
                                     CloneCell(newCell, nextCell);
@@ -236,7 +240,8 @@
             return cell;
         }
 
-        public static ICell CreateCell(this ISheet sheet, int rowIndex, int colIndex, int rowSpan, int colSpan, ICellStyle cellStyle)
+        public static ICell CreateCell(this ISheet sheet, int rowIndex, int colIndex, int rowSpan, int colSpan,
+            ICellStyle cellStyle)
         {
             ICell cell = sheet.CreateCell(rowIndex, colIndex, rowSpan, colSpan);
             cell.CellStyle = cellStyle;
@@ -259,7 +264,8 @@
             return cell;
         }
 
-        [SuppressMessage("StyleCop.CSharp.StylecopPlus.Rules", "SP2101:MethodMustNotContainMoreLinesThan", Justification = "Need to review here.")]
+        [SuppressMessage("StyleCop.CSharp.StylecopPlus.Rules", "SP2101:MethodMustNotContainMoreLinesThan",
+            Justification = "Need to review here.")]
         private static void CloneCell(ICell newCell, ICell sourceCell)
         {
             if (sourceCell != null)
@@ -284,34 +290,41 @@
                 switch (sourceCell.CellType)
                 {
                     case CellType.Boolean:
-                        {
-                            newCell.SetCellValue(sourceCell.BooleanCellValue);
-                            break;
-                        }
+                    {
+                        newCell.SetCellValue(sourceCell.BooleanCellValue);
+                        break;
+                    }
 
                     case CellType.Numeric:
-                        {
-                            newCell.SetCellValue(sourceCell.NumericCellValue);
-                            break;
-                        }
+                    {
+                        newCell.SetCellValue(sourceCell.NumericCellValue);
+                        break;
+                    }
 
                     case CellType.String:
-                        {
-                            newCell.SetCellValue(sourceCell.StringCellValue);
-                            break;
-                        }
+                    {
+                        newCell.SetCellValue(sourceCell.StringCellValue);
+                        break;
+                    }
 
                     case CellType.Error:
-                        {
-                            newCell.SetCellValue(sourceCell.ErrorCellValue);
-                            break;
-                        }
+                    {
+                        newCell.SetCellValue(sourceCell.ErrorCellValue);
+                        break;
+                    }
 
                     case CellType.Formula:
-                        {
-                            newCell.CellFormula = sourceCell.CellFormula;
-                            break;
-                        }
+                    {
+                        newCell.CellFormula = sourceCell.CellFormula;
+                        break;
+                    }
+
+                    case CellType.Unknown:
+                    case CellType.Blank:
+                        break;
+
+                    default:
+                        throw new ArgumentOutOfRangeException();
                 }
             }
         }

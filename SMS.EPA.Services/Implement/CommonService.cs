@@ -106,7 +106,7 @@
             return departmentInfo;
         }
 
-        public Department GetRootDepartment(IList<Department> departments)
+        private static Department GetRootDepartment(IList<Department> departments)
         {
             Department treeList = null;
             if (departments != null && departments.Any())

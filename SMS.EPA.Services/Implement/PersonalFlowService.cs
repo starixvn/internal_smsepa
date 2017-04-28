@@ -82,7 +82,7 @@
             if (criteria != null && criteria.IsValid())
             {
                 IEnumerable<EvaluatorInfoViewModel> data = GetData<EvaluatorInfoViewModel>(criteria).OrderBy(i => i.NickName);
-                result.DefaultFlowSettings = data.Where(x => x.IsExistsSetting == false);
+                result.DefaultFlowSettings = data.Where(x => !x.IsExistsSetting);
                 result.PersonalFlowSettings = data.Where(x => x.IsExistsSetting);
             }
 

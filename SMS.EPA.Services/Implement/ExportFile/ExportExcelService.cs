@@ -29,7 +29,7 @@
 
         public ISheet Sheet { get; set; }
 
-        public int TitleRowIndex { get; set; } = 0;
+        public int TitleRowIndex { get; set; }
 
         public int HeaderRowIndex { get; set; } = 1;
 
@@ -115,34 +115,38 @@
             foreach (IExcelRecord data in datas)
             {
                 IRow row = Sheet.CreateRow(rowId);
-
-                var objectData = data.ConvertToExcelRecord();
-                PropertyInfo[] infos = objectData.GetType().GetProperties();
-
-                for (int index = 0; index < TotalColumns; index++)
-                {
-                    ICell cell = row.CreateCell(index);
-
-                    var value = infos[index].GetValue(objectData, null);
-
-                    cell.SetCellValue(value);
-
-                    if (index == 0 && firstColumnAutoIncrement)
-                    {
-                        cell.SetCellValue(rowNumber);
-                    }
-
-                    foreach (ConditionalCellStyle conditionalCellStyle in ConditionalCellStyles)
-                    {
-                        if (index == conditionalCellStyle.ColumnIndex && conditionalCellStyle.Condition(value))
-                        {
-                            cell.CellStyle = ColumnsStyles[conditionalCellStyle.StyleIndex];
-                        }
-                    }
-                }
+                WriteEachColumn(firstColumnAutoIncrement, rowNumber, data, row);
 
                 rowId++;
                 rowNumber++;
+            }
+        }
+
+        private void WriteEachColumn(bool firstColumnAutoIncrement, int rowNumber, IExcelRecord data, IRow row)
+        {
+            var objectData = data.ConvertToExcelRecord();
+            PropertyInfo[] infos = objectData.GetType().GetProperties();
+
+            for (int index = 0; index < TotalColumns; index++)
+            {
+                ICell cell = row.CreateCell(index);
+
+                var value = infos[index].GetValue(objectData, null);
+
+                cell.SetCellValue(value);
+
+                if (index == 0 && firstColumnAutoIncrement)
+                {
+                    cell.SetCellValue(rowNumber);
+                }
+
+                foreach (ConditionalCellStyle conditionalCellStyle in ConditionalCellStyles)
+                {
+                    if (index == conditionalCellStyle.ColumnIndex && conditionalCellStyle.Condition(value))
+                    {
+                        cell.CellStyle = ColumnsStyles[conditionalCellStyle.StyleIndex];
+                    }
+                }
             }
         }
 

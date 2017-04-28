@@ -210,7 +210,7 @@
             return commandResult;
         }
 
-        public void SendEmailNoticeAtBegin(int? periodId = null)
+        public void SendEmailNoticeAtBegin(int? periodId)
         {
             IEnumerable<AutoEmployeePeriodModel> startedProcess = GetPeriodHasStartedProcess(periodId);
 
@@ -232,7 +232,7 @@
             return employeeSettings;
         }
 
-        public IEnumerable<AutoEmployeePeriodModel> GetPeriodHasStartedProcess(int? periodId)
+        public IEnumerable<AutoEmployeePeriodModel> GetPeriodHasStartedProcess(int? periodId = null)
         {
             var criteria = new GetPeriodHasStartedProcessCriteria
             {
@@ -319,6 +319,14 @@
                 case MailMode.NotifyChange:
                     _manualMailService.SendNotifyMail(period, employeeSettings);
                     break;
+
+                case MailMode.None:
+                case MailMode.Reminder:
+                case MailMode.EndPeriod:
+                    break;
+
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(mailMode), mailMode, null);
             }
         }
 

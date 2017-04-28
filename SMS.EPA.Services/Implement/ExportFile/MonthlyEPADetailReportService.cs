@@ -43,12 +43,11 @@
             WriteContentTable();
             _sheet.CreateFreezePane(0, 3);
 
-            using (var output = new MemoryStream())
-            {
-                _workbook.Write(output);
+            // TODO: may cause memory leak. Need test
+            var output = new MemoryStream();
+            _workbook.Write(output);
 
-                return output;
-            }
+            return output;
         }
 
         public void Render(EPADetailModel epaDetail)
@@ -131,7 +130,7 @@
             {
                 var currentColumn = 0;
 
-                var bodyStyle = _currentRow % 2 == 0 ? evenStyleCenter : oddStyleCenter;
+                var bodyStyle = ApplyEvenOddBodyStyle(evenStyleCenter, oddStyleCenter);
 
                 IRow row = _sheet.CreateRow(_currentRow);
                 dynamic score = CalculateScore(epaInfo);
@@ -146,21 +145,21 @@
                 cell.SetCellValue(epaInfo.Employee.Code);
                 SetColumnWidth(currentColumn++, 10);
 
-                bodyStyle = _currentRow % 2 == 0 ? evenStyleLeft : oddStyleLeft;
-
+                bodyStyle = ApplyEvenOddBodyStyle(evenStyleLeft, oddStyleLeft);
+                
                 cell = row.CreateCell(currentColumn);
                 cell.CellStyle = bodyStyle;
                 cell.SetCellValue(epaInfo.Employee.FullName);
                 SetColumnWidth(currentColumn++, 20);
 
-                bodyStyle = _currentRow % 2 == 0 ? evenStyleCenter : oddStyleCenter;
+                bodyStyle = ApplyEvenOddBodyStyle(evenStyleCenter, oddStyleCenter);
 
                 cell = row.CreateCell(currentColumn);
                 cell.CellStyle = bodyStyle;
                 cell.SetCellValue(epaInfo.Employee.NickName);
                 SetColumnWidth(currentColumn++, 12);
 
-                bodyStyle = _currentRow % 2 == 0 ? evenStyleLeft : oddStyleLeft;
+                bodyStyle = ApplyEvenOddBodyStyle(evenStyleLeft, oddStyleLeft);
 
                 cell = row.CreateCell(currentColumn);
                 cell.CellStyle = bodyStyle;
@@ -177,7 +176,7 @@
                 cell.SetCellValue(epaInfo.Employee.JobTitleName);
                 SetColumnWidth(currentColumn++, 25);
 
-                bodyStyle = _currentRow % 2 == 0 ? evenStyleCenter : oddStyleCenter;
+                bodyStyle = ApplyEvenOddBodyStyle(evenStyleCenter, oddStyleCenter);
 
                 cell = row.CreateCell(currentColumn);
                 cell.CellStyle = bodyStyle;
@@ -186,7 +185,7 @@
 
                 if (!epaInfo.Process.Self.IsEndProcess)
                 {
-                    bodyStyle = _currentRow % 2 == 0 ? evenRedStyle : oddRedStyle;
+                    bodyStyle = ApplyEvenOddBodyStyle(evenRedStyle, oddRedStyle);
                 }
 
                 cell = row.CreateCell(currentColumn++);
@@ -195,7 +194,7 @@
 
                 if (!epaInfo.Process.Evaluators.First().IsEndProcess)
                 {
-                    bodyStyle = _currentRow % 2 == 0 ? evenRedStyle : oddRedStyle;
+                    bodyStyle = ApplyEvenOddBodyStyle(evenRedStyle, oddRedStyle);
                 }
 
                 cell = row.CreateCell(currentColumn++);
@@ -204,14 +203,14 @@
 
                 if (!epaInfo.Process.Reviewers.First().IsEndProcess)
                 {
-                    bodyStyle = _currentRow % 2 == 0 ? evenRedStyle : oddRedStyle;
+                    bodyStyle = ApplyEvenOddBodyStyle(evenRedStyle, oddRedStyle);
                 }
 
                 cell = row.CreateCell(currentColumn++);
                 cell.CellStyle = bodyStyle;
                 cell.SetCellValue(GetScoreByPhaseSelected(EpaDetail.PhaseSelecteds, score.ReviewerScore, (int)ProcessType.Reviewer));
 
-                bodyStyle = _currentRow % 2 == 0 ? evenStyleCenter : oddStyleCenter;
+                bodyStyle = ApplyEvenOddBodyStyle(evenStyleCenter, oddStyleCenter);
 
                 cell = row.CreateCell(currentColumn++);
                 cell.CellStyle = bodyStyle;
@@ -225,7 +224,12 @@
             }
         }
 
-        private string GetScoreByPhaseSelected(
+        private ICellStyle ApplyEvenOddBodyStyle(ICellStyle evenStyle, ICellStyle oddStyle)
+        {
+            return _currentRow % 2 == 0 ? evenStyle : oddStyle;
+        }
+
+        private static string GetScoreByPhaseSelected(
             IEnumerable<EvaluationPhaseModel> phaseSelecteds,
             string score,
             int phaseId)
@@ -235,7 +239,7 @@
 
         [SuppressMessage("StyleCop.CSharp.StylecopPlus.Rules", "SP2101:MethodMustNotContainMoreLinesThan", Justification = "Reviewed. Suppression is OK here.")]
         [SuppressMessage("Microsoft.Maintainability", "CA1502:AvoidExcessiveComplexity", Justification = "Reviewed. Suppression is OK here.")]
-        private dynamic CalculateScore(EPAModel epaInfo)
+        private static dynamic CalculateScore(EPAModel epaInfo)
         {
             string disciplineScore = string.Empty;
             string selfScore = string.Empty;
@@ -246,40 +250,9 @@
 
             if (epaInfo.EPAId > 0)
             {
-                switch (epaInfo.Process.Self.StatusEndProcess)
-                {
-                    case (int)ProcessStatusType.InProgress:
-                        float? score = !string.IsNullOrEmpty(epaInfo.Process.Self.TotalScore) ? float.Parse(epaInfo.Process.Self.TotalScore) : 0;
-                        selfScore = Math.Round(score.Value, 2).ToString(CultureInfo.InvariantCulture);
-                        break;
-
-                    case (int)ProcessStatusType.Closed:
-                        selfScore = !string.IsNullOrEmpty(epaInfo.Process.Self.TotalScore)
-                            ? Math.Round(float.Parse(epaInfo.Process.Self.TotalScore), 2).ToString(CultureInfo.InvariantCulture) : Lang.NotAvailable;
-                        break;
-                }
-
-                switch (epaInfo.Process.Evaluators.First().StatusEndProcess)
-                {
-                    case (int)ProcessStatusType.InProgress:
-                        evaluatorScore = epaInfo.Process.AverageScoreByEvaluators?.ToString() ?? "0";
-                        break;
-
-                    case (int)ProcessStatusType.Closed:
-                        evaluatorScore = epaInfo.Process.AverageScoreByEvaluators?.ToString() ?? Lang.NotAvailable;
-                        break;
-                }
-
-                switch (epaInfo.Process.Reviewers.First().StatusEndProcess)
-                {
-                    case (int)ProcessStatusType.InProgress:
-                        reviewerScore = epaInfo.Process.AverageScoreByReviewers?.ToString() ?? "0";
-                        break;
-
-                    case (int)ProcessStatusType.Closed:
-                        reviewerScore = epaInfo.Process.AverageScoreByReviewers?.ToString() ?? Lang.NotAvailable;
-                        break;
-                }
+                selfScore = GetSelfScore(epaInfo);
+                evaluatorScore = GetEvaluatorScore(epaInfo);
+                reviewerScore = GetReviewerScore(epaInfo);
             }
 
             if (epaInfo.Period.IsEndPeriod)
@@ -310,6 +283,60 @@
                 FinalScore = finalScore,
                 Grade = grade
             };
+        }
+
+        private static string GetReviewerScore(EPAModel epaInfo)
+        {
+            string reviewerScore = string.Empty;
+
+            if (epaInfo.Process.Reviewers.First().StatusEndProcess == (int)ProcessStatusType.InProgress)
+            {
+                reviewerScore = epaInfo.Process.AverageScoreByReviewers?.ToString() ?? "0";
+            }
+
+            if (epaInfo.Process.Reviewers.First().StatusEndProcess == (int)ProcessStatusType.Closed)
+            {
+                reviewerScore = epaInfo.Process.AverageScoreByReviewers?.ToString() ?? Lang.NotAvailable;
+            }
+
+            return reviewerScore;
+        }
+
+        private static string GetEvaluatorScore(EPAModel epaInfo)
+        {
+            string evaluatorScore = string.Empty;
+
+            if (epaInfo.Process.Evaluators.First().StatusEndProcess == (int)ProcessStatusType.InProgress)
+            {
+                evaluatorScore = epaInfo.Process.AverageScoreByEvaluators?.ToString() ?? "0";
+            }
+
+            if (epaInfo.Process.Evaluators.First().StatusEndProcess == (int)ProcessStatusType.Closed)
+            {
+                evaluatorScore = epaInfo.Process.AverageScoreByEvaluators?.ToString() ?? Lang.NotAvailable;
+            }
+
+            return evaluatorScore;
+        }
+
+        private static string GetSelfScore(EPAModel epaInfo)
+        {
+            string selfScore = string.Empty;
+
+            if (epaInfo.Process.Self.StatusEndProcess == (int)ProcessStatusType.InProgress)
+            {
+                float? score = !string.IsNullOrEmpty(epaInfo.Process.Self.TotalScore) ? float.Parse(epaInfo.Process.Self.TotalScore) : 0;
+                selfScore = Math.Round(score.Value, 2).ToString(CultureInfo.InvariantCulture);
+            }
+
+            if (epaInfo.Process.Self.StatusEndProcess == (int)ProcessStatusType.Closed)
+            {
+                selfScore = !string.IsNullOrEmpty(epaInfo.Process.Self.TotalScore)
+                    ? Math.Round(float.Parse(epaInfo.Process.Self.TotalScore), 2).ToString(CultureInfo.InvariantCulture)
+                    : Lang.NotAvailable;
+            }
+
+            return selfScore;
         }
 
         private ICellStyle CreateOddStyleCenter()
@@ -354,7 +381,7 @@
             return evenStyle;
         }
 
-        private IList<string> CreateColumnsName()
+        private static IList<string> CreateColumnsName()
         {
             return new List<string>
             {

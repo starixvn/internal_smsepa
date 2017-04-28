@@ -1,5 +1,6 @@
 ﻿namespace SMS.EPA.Services.Implement
 {
+    using System;
     using Core.Enumerations;
     using Interfaces;
     using Model;
@@ -11,12 +12,12 @@
     {
         private readonly IMailService _mailService;
 
-        private string _startDateMailToHumanResources = "~/Views/Emails/StartDateEmailToHR.cshtml";
-        private string _startDateMailToSelf = "~/Views/Emails/StartDateEmailToSelf.cshtml";
-        private string _startDateMailToEvaluator = "~/Views/Emails/StartDateEmailToEvaluator.cshtml";
-        private string _startDateMailToReviewer = "~/Views/Emails/StartDateEmailToReviewer.cshtml";
-        private string _startDateMailToManagement = "~/Views/Emails/StartDateEmailToManagement.cshtml";
-        private string _mailNotifyChangeSetting = "~/Views/Emails/EmailNotifyChangeSetting.cshtml";
+        private const string StartDateMailToHumanResources = "~/Views/Emails/StartDateEmailToHR.cshtml";
+        private const string StartDateMailToSelf = "~/Views/Emails/StartDateEmailToSelf.cshtml";
+        private const string StartDateMailToEvaluator = "~/Views/Emails/StartDateEmailToEvaluator.cshtml";
+        private const string StartDateMailToReviewer = "~/Views/Emails/StartDateEmailToReviewer.cshtml";
+        private const string StartDateMailToManagement = "~/Views/Emails/StartDateEmailToManagement.cshtml";
+        private const string MailNotifyChangeSetting = "~/Views/Emails/EmailNotifyChangeSetting.cshtml";
 
         public ManualMailService()
             : this(null)
@@ -35,35 +36,36 @@
                 foreach (PeriodFlowModel employeeSetting in employeeSettings)
                 {
                     string templateEmailPath;
+
                     switch (employeeSetting.ProcessId)
                     {
                         case (int)ProcessType.HumanResource:
-                            templateEmailPath = GetFullPath(_startDateMailToHumanResources);
+                            templateEmailPath = GetFullPath(StartDateMailToHumanResources);
                             _mailService.SendMailToHrStartDate(templateEmailPath, employeeSetting, period.Name);
                             break;
 
                         case (int)ProcessType.Self:
-                            templateEmailPath = GetFullPath(_startDateMailToSelf);
+                            templateEmailPath = GetFullPath(StartDateMailToSelf);
                             _mailService.SendMailToSelfStartDate(templateEmailPath, employeeSetting, period.Name);
                             break;
 
                         case (int)ProcessType.Evaluator:
-                            templateEmailPath = GetFullPath(_startDateMailToEvaluator);
+                            templateEmailPath = GetFullPath(StartDateMailToEvaluator);
                             _mailService.SendMailToEvaluatorStartDate(templateEmailPath, employeeSetting, period.Name);
-
                             break;
 
                         case (int)ProcessType.Reviewer:
-                            templateEmailPath = GetFullPath(_startDateMailToReviewer);
+                            templateEmailPath = GetFullPath(StartDateMailToReviewer);
                             _mailService.SendMailToReviewerStartDate(templateEmailPath, employeeSetting, period.Name);
-
                             break;
 
                         case (int)ProcessType.Management:
-                            templateEmailPath = GetFullPath(_startDateMailToManagement);
+                            templateEmailPath = GetFullPath(StartDateMailToManagement);
                             _mailService.SendMailToManagementStartDate(templateEmailPath, employeeSetting, period.Name);
-
                             break;
+
+                        default:
+                            throw new ArgumentException();
                     }
                 }
             }
@@ -73,7 +75,7 @@
         {
             if (employeeSettings != null && employeeSettings.Any() && period != null)
             {
-                string templateEmailPath = GetFullPath(_mailNotifyChangeSetting);
+                string templateEmailPath = GetFullPath(MailNotifyChangeSetting);
 
                 foreach (PeriodFlowModel employeeSetting in employeeSettings)
                 {
@@ -82,7 +84,7 @@
             }
         }
 
-        private string GetFullPath(string path)
+        private static string GetFullPath(string path)
         {
             string fullPath = string.Empty;
             if (!string.IsNullOrWhiteSpace(path) && HttpContext.Current != null)

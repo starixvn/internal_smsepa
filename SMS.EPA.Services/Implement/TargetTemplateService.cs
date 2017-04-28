@@ -179,7 +179,7 @@
             return ratingTypes;
         }
 
-        private IEnumerable<TargetTemplateKPIGroupModel> GroupKPI(IEnumerable<KPIModel> kpiList)
+        private static IEnumerable<TargetTemplateKPIGroupModel> GroupKPI(IEnumerable<KPIModel> kpiList)
         {
             return kpiList.GroupBy(x => x.KPIGroups.First().KPIGroupId).Select(x => new TargetTemplateKPIGroupModel
                                             {
@@ -192,7 +192,7 @@
                                             });
         }
 
-        private bool CheckGroupSelected(List<KPIModel> listKPI)
+        private static bool CheckGroupSelected(List<KPIModel> listKPI)
         {
             bool allSelected = true;
             listKPI.ForEach(x =>
@@ -206,7 +206,7 @@
             return allSelected;
         }
 
-        private IEnumerable<KPIModel> CheckKPISelected(List<KPIModel> listKPI)
+        private static IEnumerable<KPIModel> CheckKPISelected(List<KPIModel> listKPI)
         {
             listKPI.ForEach(x =>
             {

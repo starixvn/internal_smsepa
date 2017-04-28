@@ -11,3 +11,8 @@
     "Sonar Code Smell",
     "S100:Methods and properties should be named in camel case",
     Justification = "<Pending>")]
+
+[assembly: System.Diagnostics.CodeAnalysis.SuppressMessage(
+    "Sonar Code Smell",
+    "S1541:Methods and properties should not be too complex",
+    Justification = "<Pending>")]
