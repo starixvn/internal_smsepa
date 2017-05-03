@@ -32,7 +32,6 @@
                 .Use(new OldConnectionStringProvider())
                 .UseDefaultDbSettingProvider(
                     resourcePath: "~/App_Data",
-                    ignoreRedundantParameters: false,
                     enableWatching: true)
                 .Run();
             }

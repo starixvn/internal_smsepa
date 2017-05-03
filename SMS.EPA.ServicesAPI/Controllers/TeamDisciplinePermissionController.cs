@@ -33,7 +33,7 @@
 
         public IHttpActionResult Update(TeamDisciplinePermission[] disciplines)
         {
-            var criteria = new UpdateTeamDisciplinePermissionCriteria()
+            var criteria = new UpdateTeamDisciplinePermissionCriteria
             {
                 EmployeeDisciplines = disciplines
             };

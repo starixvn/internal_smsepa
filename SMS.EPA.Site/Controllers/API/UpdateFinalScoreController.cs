@@ -26,7 +26,8 @@
         {
         }
 
-        public UpdateFinalScoreController(IEmployeeEPAService evaluationService, ICryptographyService cryptographyService)
+        public UpdateFinalScoreController(IEmployeeEPAService evaluationService,
+            ICryptographyService cryptographyService)
         {
             _evaluationService = evaluationService ?? new EmployeeEPAService();
             _cryptographyService = cryptographyService ?? new CryptographyService();
@@ -89,11 +90,17 @@
 
             foreach (EPAModel epaInfo in epaInfos)
             {
-                float? averagePerformanceScore = GetFinalScoreOfEPA(epaInfo),
-                    finalScore = averagePerformanceScore.HasValue ? (averagePerformanceScore.Value + epaInfo.DisciplineScore) : (float?)null;
+                float? averagePerformanceScore = GetFinalScoreOfEPA(epaInfo);
+                float? finalScore = averagePerformanceScore.HasValue
+                        ? (averagePerformanceScore.Value + epaInfo.DisciplineScore)
+                        : (float?)null;
 
-                epaInfo.FinalScore = finalScore.HasValue ? _cryptographyService.Encrypt(finalScore.Value.ToString(CultureInfo.InvariantCulture)) : string.Empty;
-                string grade = finalScore.HasValue ? _evaluationService.ConvertScoreToGrade(finalScore.Value, standardGrades) : string.Empty;
+                epaInfo.FinalScore = finalScore.HasValue
+                    ? _cryptographyService.Encrypt(finalScore.Value.ToString(CultureInfo.InvariantCulture))
+                    : string.Empty;
+                string grade = finalScore.HasValue
+                    ? _evaluationService.ConvertScoreToGrade(finalScore.Value, standardGrades)
+                    : string.Empty;
                 epaInfo.Grade = !string.IsNullOrEmpty(grade) ? _cryptographyService.Encrypt(grade) : string.Empty;
             }
 
@@ -109,7 +116,7 @@
             return response;
         }
 
-        private float? GetFinalScoreOfEPA(EPAModel epaInfo)
+        private static float? GetFinalScoreOfEPA(EPAModel epaInfo)
         {
             float? finalScore = null;
 
@@ -117,9 +124,12 @@
             {
                 finalScore = epaInfo.Process.AverageScoreByManagements.Value;
             }
-            else if (epaInfo.Process.Reviewers.Any() && epaInfo.Process.AverageScoreByReviewers.HasValue)
+            else
             {
-                finalScore = epaInfo.Process.AverageScoreByReviewers.Value;
+                if (epaInfo.Process.Reviewers.Any() && epaInfo.Process.AverageScoreByReviewers.HasValue)
+                {
+                    finalScore = epaInfo.Process.AverageScoreByReviewers.Value;
+                }
             }
 
             return finalScore;

@@ -31,7 +31,7 @@
             int? targetTypeId = null,
             bool? isActive = null)
         {
-            var criteria = new GetFlowTemplateCriteria()
+            var criteria = new GetFlowTemplateCriteria
             {
                 TargetTypeId = targetTypeId,
                 IsActive = isActive
@@ -87,7 +87,7 @@
         [ApiAuthorize(FunctionKey = EPAFunctionKey.FlowManagement, Policy = Policy.Host)]
         public CommandResult DeleteFlowTemplate(int flowTemplateId)
         {
-            var criteria = new DeleteFlowTemplateCriteria()
+            var criteria = new DeleteFlowTemplateCriteria
             {
                 FlowTemplateId = flowTemplateId,
                 ModifiedBy = SessionService.EmployeeId

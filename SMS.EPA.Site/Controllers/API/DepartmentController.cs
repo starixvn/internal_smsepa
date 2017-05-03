@@ -29,7 +29,7 @@
             int? parentId = null,
             bool? isActive = null)
         {
-            var criteria = new GetDepartmentCriteria()
+            var criteria = new GetDepartmentCriteria
             {
                 ParentId = parentId,
                 IsActive = isActive

@@ -36,7 +36,7 @@
         [ApiAuthorize(FunctionKey = EPAFunctionKey.Management, Policy = Policy.Read)]
         public IEnumerable<Group> GetGroupByManagement()
         {
-            var criteria = new GetGroupByEvaluatorOrReviewerOrManagementCriteria()
+            var criteria = new GetGroupByEvaluatorOrReviewerOrManagementCriteria
             {
                 ActorUserId = SessionService.EmployeeId,
                 ProcessId = (int)ProcessType.Management
@@ -51,7 +51,7 @@
             int? groupId = null,
             bool? isLocal = null)
         {
-            var criteria = new GetMemberByEvaluatorOrReviewerOrManagementCriteria()
+            var criteria = new GetMemberByEvaluatorOrReviewerOrManagementCriteria
             {
                 ActorUserId = SessionService.EmployeeId,
                 ProcessId = (int)ProcessType.Management,
@@ -71,7 +71,7 @@
             string employeeIds = null,
             bool? statusProcess = null)
         {
-            var criteria = new GetEPAByManagementCriteria()
+            var criteria = new GetEPAByManagementCriteria
             {
                 ManagementId = SessionService.EmployeeId,
                 GroupId = groupId,
@@ -100,7 +100,7 @@
                     return Request.CreateResponse(HttpStatusCode.MethodNotAllowed, epaInfo);
 
                 default:
-                    var criteria = new GetEPAInfoByManagementCriteria()
+                    var criteria = new GetEPAInfoByManagementCriteria
                     {
                         EPAId = epaId,
                         ManagementId = SessionService.EmployeeId

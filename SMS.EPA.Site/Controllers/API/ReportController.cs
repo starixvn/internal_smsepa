@@ -41,7 +41,7 @@
             string sortColumnName = null,
             string sortDirection = null)
         {
-            var criteria = new GetEPASummaryCriteria()
+            var criteria = new GetEPASummaryCriteria
             {
                 ActorId = SessionService.EmployeeId,
                 EmployeeId = employeeId,
@@ -68,7 +68,7 @@
             string sortColumnName = null,
             string sortDirection = null)
         {
-            var criteria = new GetEPADetailCriteria()
+            var criteria = new GetEPADetailCriteria
             {
                 ActorId = SessionService.EmployeeId,
                 EmployeeId = employeeId,
@@ -84,17 +84,10 @@
 
             if (string.IsNullOrEmpty(sortColumnName) && epaInfos.EpaInfos.Any())
             {
-                switch (epaInfos.EpaInfos.First().Period.TargetTypeId)
-                {
-                    case (int)TargetType.Probation:
-                        epaInfos.EpaInfos = epaInfos.EpaInfos.OrderByDescending(x => x.Employee.Code);
-                        break;
-
-                    default:
-                        epaInfos.EpaInfos = epaInfos.EpaInfos.OrderBy(x => x.Employee.GroupCode)
-                            .ThenBy(x => x.Employee.Code);
-                        break;
-                }
+                epaInfos.EpaInfos = epaInfos.EpaInfos.First().Period.TargetTypeId == (int)TargetType.Probation
+                    ? epaInfos.EpaInfos.OrderByDescending(x => x.Employee.Code)
+                    : epaInfos.EpaInfos.OrderBy(x => x.Employee.GroupCode)
+                        .ThenBy(x => x.Employee.Code);
             }
 
             return Request.CreateResponse(HttpStatusCode.OK, epaInfos);
@@ -109,7 +102,7 @@
             string sortColumnName = null,
             string sortDirection = null)
         {
-            var criteria = new GetMonthlyEPADetailCriteria()
+            var criteria = new GetMonthlyEPADetailCriteria
             {
                 EmployeeId = SessionService.EmployeeId,
                 PeriodId = periodId,
@@ -133,7 +126,7 @@
             string sortColumnName = null,
             string sortDirection = null)
         {
-            var criteria = new GetMonthlyEPASummaryCriteria()
+            var criteria = new GetMonthlyEPASummaryCriteria
             {
                 EmployeeId = SessionService.EmployeeId,
                 PeriodIds = periodIds,

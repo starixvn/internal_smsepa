@@ -42,7 +42,7 @@
 
          public IHttpActionResult Update(Discipline[] disciplines)
          {
-             var criteria = new UpdateDisciplineCriteria()
+             var criteria = new UpdateDisciplineCriteria
              {
                  Disciplines = disciplines
              };

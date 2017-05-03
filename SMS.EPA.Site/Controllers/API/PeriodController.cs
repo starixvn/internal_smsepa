@@ -1,5 +1,6 @@
 ﻿namespace SMS.EPA.Site.Controllers.API
 {
+    using System;
     using Core.Attribute;
     using Core.Constants;
     using Core.Enumerations;
@@ -172,6 +173,9 @@
                     case (int)TargetType.SemiAnnual:
                         periodEmployeeSettings = periodEmployeeSettings.OrderBy(x => x.Employee.Group.GroupCode).ThenBy(x => x.Employee.NickName);
                         break;
+
+                    default:
+                        throw new ArgumentException("type not in case");
                 }
             }
 

@@ -23,7 +23,7 @@
 
         public IHttpActionResult Update(JobTitle[] titles)
         {
-            var criteria = new UpdateJobTitleCriteria()
+            var criteria = new UpdateJobTitleCriteria
             {
                 JobTitles = titles
             };

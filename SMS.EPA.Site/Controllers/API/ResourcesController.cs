@@ -11,17 +11,7 @@
     {
         public string Get(string lang)
         {
-            ResourceManager resourceManager;
-            switch (lang)
-            {
-                case "en":
-                    resourceManager = new ResourceManager(typeof(Lang)) { IgnoreCase = true };
-                    break;
-
-                default:
-                    resourceManager = new ResourceManager(typeof(Lang)) { IgnoreCase = true };
-                    break;
-            }
+            var resourceManager = new ResourceManager(typeof(Lang)) { IgnoreCase = true };
 
             ResourceSet resourceSet = resourceManager.GetResourceSet(CultureInfo.CurrentUICulture, true, true);
             var dictionary = resourceSet.Cast<DictionaryEntry>();

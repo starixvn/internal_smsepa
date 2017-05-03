@@ -50,22 +50,20 @@
             EPAModel epaInfo = new EPAModel();
             int permission = CheckEmployeePermission(epaId);
 
-            switch (permission)
+            if (permission == (int)Policy.None)
             {
-                case (int)Policy.None:
-                    return Request.CreateResponse(HttpStatusCode.MethodNotAllowed, epaInfo);
-
-                default:
-                    var criteria = new GetEPAInfoByEmployeeCriteria()
-                    {
-                        EPAId = epaId,
-                        EmployeeId = SessionService.EmployeeId
-                    };
-
-                    epaInfo = _selfEvaluationService.GetEPAInfoByEmployee(criteria);
-
-                    return Request.CreateResponse(HttpStatusCode.OK, epaInfo);
+                return Request.CreateResponse(HttpStatusCode.MethodNotAllowed, epaInfo);
             }
+
+            var criteria = new GetEPAInfoByEmployeeCriteria
+            {
+                EPAId = epaId,
+                EmployeeId = SessionService.EmployeeId
+            };
+
+            epaInfo = _selfEvaluationService.GetEPAInfoByEmployee(criteria);
+
+            return Request.CreateResponse(HttpStatusCode.OK, epaInfo);
         }
 
         [HttpPut]
@@ -94,7 +92,7 @@
 
         private int CheckEmployeePermission(int epaId)
         {
-            var criteria = new GetEmployeePermissionCriteria()
+            var criteria = new GetEmployeePermissionCriteria
             {
                 EPAId = epaId,
                 ActorUserId = SessionService.EmployeeId,

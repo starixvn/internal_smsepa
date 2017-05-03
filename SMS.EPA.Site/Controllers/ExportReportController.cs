@@ -103,7 +103,7 @@
             return File(output.ToArray(), "application/vnd.ms-excel", fileName);
         }
 
-        private string GetEPASummaryReportFilename(EPASummaryModel epaSummary)
+        private static string GetEPASummaryReportFilename(EPASummaryModel epaSummary)
         {
             string fileName = $"{Lang.EPASummaryReportName}.xls";
 
@@ -138,16 +138,10 @@
 
             if (string.IsNullOrEmpty(criteria.SortColumnName) && epaDetail.EpaInfos.Any())
             {
-                switch (epaDetail.EpaInfos.First().Period.TargetTypeId)
-                {
-                    case (int)TargetType.Probation:
-                        epaDetail.EpaInfos = epaDetail.EpaInfos.OrderByDescending(x => x.Employee.Code);
-                        break;
-
-                    default:
-                        epaDetail.EpaInfos = epaDetail.EpaInfos.OrderBy(x => x.Employee.GroupCode).ThenBy(x => x.Employee.Code);
-                        break;
-                }
+                epaDetail.EpaInfos = epaDetail.EpaInfos.First().Period.TargetTypeId == (int)TargetType.Probation
+                    ? epaDetail.EpaInfos.OrderByDescending(x => x.Employee.Code)
+                    : epaDetail.EpaInfos.OrderBy(x => x.Employee.GroupCode)
+                        .ThenBy(x => x.Employee.Code);
             }
 
             _epaDetailReportService.Render(epaDetail);
@@ -165,7 +159,7 @@
             return new EmptyResult();
         }
 
-        private string GetDisciplineSummaryReportTitle(GetDisciplineSummaryCriteria criteria)
+        private static string GetDisciplineSummaryReportTitle(GetDisciplineSummaryCriteria criteria)
         {
             string reportTitle;
             string startDate = criteria.StartDate.ToString(Constants.DateFormat);
@@ -210,7 +204,7 @@
             return new EmptyResult();
         }
 
-        private string GetDisciplineDetailReportTitle(GetDisciplineDetailCriteria criteria)
+        private static string GetDisciplineDetailReportTitle(GetDisciplineDetailCriteria criteria)
         {
             string reportTitle;
             string startDate = criteria.StartDate.ToString(Constants.DateFormat);
@@ -257,7 +251,7 @@
             return new EmptyResult();
         }
 
-        private string GetDisciplineSummaryByPeriodReportTitle(GetDisciplineSummaryByPeriodCriteria criteria)
+        private static string GetDisciplineSummaryByPeriodReportTitle(GetDisciplineSummaryByPeriodCriteria criteria)
         {
             string reportTitle;
 

@@ -34,7 +34,7 @@
 
          public IHttpActionResult Update(DisciplineSummary[] disciplines)
          {
-             var criteria = new UpdateDisciplineSummaryCriteria()
+             var criteria = new UpdateDisciplineSummaryCriteria
              {
                  Disciplines = disciplines
              };

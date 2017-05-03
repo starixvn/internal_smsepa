@@ -36,7 +36,7 @@
         [ApiAuthorize(FunctionKey = EPAFunctionKey.FlowManagement, Policy = Policy.Read)]
         public IEnumerable<FlowModel> GetPersonalFlowById(int employeeId, int flowTemplateId)
         {
-            var criteria = new GetPersonalFlowByIdCriteria()
+            var criteria = new GetPersonalFlowByIdCriteria
             {
                 EmployeeId = employeeId,
                 FlowTemplateId = flowTemplateId
@@ -65,7 +65,7 @@
         [ApiAuthorize(FunctionKey = EPAFunctionKey.FlowManagement, Policy = Policy.Host)]
         public CommandResult DeletePersonalFlow(int employeeId, int flowTemplateId)
         {
-            var criteria = new DeletePersonalFlowCriteria()
+            var criteria = new DeletePersonalFlowCriteria
             {
                 EmployeeId = employeeId,
                 FlowTemplateId = flowTemplateId,
@@ -83,7 +83,7 @@
             int? groupId = null,
             bool? isMonthlyPeriod = null)
         {
-            var criteria = new GetEmployeeFlowSettingCriteria()
+            var criteria = new GetEmployeeFlowSettingCriteria
             {
                 FlowTemplateId = flowTemplateId,
                 DepartmentId = departmentId,

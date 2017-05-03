@@ -49,7 +49,7 @@
         public CommandResult ConvertEPA()
         {
             IEnumerable<EPASummaryImportModel> epaInfos = _evaluationService.GetMemberEPASummaryImport();
-            var criteria = new UpdateEPASummaryImportCriteria()
+            var criteria = new UpdateEPASummaryImportCriteria
             {
                 EpaInfos = epaInfos
             };
@@ -67,7 +67,7 @@
             {
                 EPAModel epaInfo = _evaluationService.GetEPAInfoById(epaId);
 
-                var resetScoreCriteria = new ResetScoreCriteria()
+                var resetScoreCriteria = new ResetScoreCriteria
                 {
                     EPAId = epaInfo.EPAId,
                     ModifiedBy = SessionService.EmployeeId
@@ -103,7 +103,7 @@
 
         private int CheckEmployeePermission(int epaId)
         {
-            var criteria = new GetEmployeePermissionCriteria()
+            var criteria = new GetEmployeePermissionCriteria
             {
                 EPAId = epaId,
                 ActorUserId = SessionService.EmployeeId

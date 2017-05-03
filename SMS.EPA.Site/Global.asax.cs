@@ -17,7 +17,7 @@
         private const string WebApiPrefix = "api";
         private static readonly string WebApiExecutionPath = $"~/{WebApiPrefix}";
 
-        protected void Application_Start()
+        protected static void Application_Start()
         {
             AreaRegistration.RegisterAllAreas();
 
@@ -30,12 +30,11 @@
             .Use(new OldConnectionStringProvider())
             .UseDefaultDbSettingProvider(
                 resourcePath: "~/App_Data",
-                ignoreRedundantParameters: false,
                 enableWatching: true)
             .Run();
         }
 
-        protected void Application_PostAuthorizeRequest()
+        protected static void Application_PostAuthorizeRequest()
         {
             if (IsWebApiRequest())
             {

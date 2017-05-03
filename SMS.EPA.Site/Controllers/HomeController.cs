@@ -6,7 +6,7 @@
 
     public class HomeController : Controller
     {
-        private ISessionService _sessionService;
+        private readonly ISessionService _sessionService;
 
         public HomeController()
             : this(null)

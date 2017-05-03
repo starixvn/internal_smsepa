@@ -30,7 +30,7 @@
         [ApiAuthorize(FunctionKey = EPAFunctionKey.RatingByKPI, Policy = Policy.Read)]
         public IEnumerable<EPAPeriodModel> GetPeriodByEvaluator()
         {
-            var criteria = new GetPeriodByEvaluatorCriteria()
+            var criteria = new GetPeriodByEvaluatorCriteria
             {
                 EvaluatorId = SessionService.EmployeeId
             };
@@ -42,7 +42,7 @@
         [ApiAuthorize(FunctionKey = EPAFunctionKey.RatingByKPI, Policy = Policy.Read)]
         public IEnumerable<TargetTemplate> GetTargetTemplateByEvaluator(int periodId)
         {
-            var criteria = new GetTargetTemplateByEvaluatorCriteria()
+            var criteria = new GetTargetTemplateByEvaluatorCriteria
             {
                 EvaluatorId = SessionService.EmployeeId,
                 PeriodId = periodId
@@ -55,7 +55,7 @@
         [ApiAuthorize(FunctionKey = EPAFunctionKey.RatingByKPI, Policy = Policy.Read)]
         public IEnumerable<EPAPeriodModel> GetPeriodToView()
         {
-            var criteria = new GetPeriodToViewCriteria()
+            var criteria = new GetPeriodToViewCriteria
             {
                 EvaluatorId = SessionService.EmployeeId
             };
@@ -67,7 +67,7 @@
         [ApiAuthorize(FunctionKey = EPAFunctionKey.EPAByKPI, Policy = Policy.Read)]
         public IEnumerable<TargetTemplate> GetTargetTemplateToView(int periodId)
         {
-            var criteria = new GetTargetTemplateToViewCriteria()
+            var criteria = new GetTargetTemplateToViewCriteria
             {
                 EvaluatorId = SessionService.EmployeeId,
                 PeriodId = periodId
@@ -82,7 +82,7 @@
             int periodId,
             int targetTemplateId)
         {
-            var criteria = new GetEvaluatorsByTargetTemplateCriteria()
+            var criteria = new GetEvaluatorsByTargetTemplateCriteria
             {
                 PeriodId = periodId,
                 TargetTemplateId = targetTemplateId
@@ -98,7 +98,7 @@
             int targetTemplateId,
             int evaluatorId)
         {
-            var criteria = new GetKPIToViewCriteria()
+            var criteria = new GetKPIToViewCriteria
             {
                 EvaluatorId = evaluatorId,
                 PeriodId = periodId,
@@ -116,7 +116,7 @@
             int kpiId,
             int evaluatorId)
         {
-            var criteria = new GetEmployeeEPAToViewCriteria()
+            var criteria = new GetEmployeeEPAToViewCriteria
             {
                 EvaluatorId = evaluatorId,
                 PeriodId = periodId,
@@ -133,7 +133,7 @@
             int periodId,
             int targetTemplateId)
         {
-            var criteria = new GetKPIByTargetTemplateCriteria()
+            var criteria = new GetKPIByTargetTemplateCriteria
             {
                 EvaluatorId = SessionService.EmployeeId,
                 TargetTemplateId = targetTemplateId,
@@ -152,7 +152,7 @@
             int? groupId = null,
             string employeeIds = null)
         {
-            var criteria = new GetEmployeeEPAByKPICriteria()
+            var criteria = new GetEmployeeEPAByKPICriteria
             {
                 EvaluatorId = SessionService.EmployeeId,
                 PeriodId = periodId,
@@ -169,7 +169,7 @@
         [ApiAuthorize(FunctionKey = EPAFunctionKey.RatingByKPI, Policy = Policy.Host)]
         public CommandResult UpdateKPIScore(IEnumerable<RatingByKPIModel> epaInfos)
         {
-            var criteria = new UpdateKPIScoreCriteria()
+            var criteria = new UpdateKPIScoreCriteria
             {
                 EvaluatorId = SessionService.EmployeeId,
                 EpaInfos = epaInfos

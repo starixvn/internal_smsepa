@@ -33,7 +33,7 @@
 
         public IHttpActionResult Update(Team[] teams)
         {
-            var criteria = new UpdateTeamCriteria()
+            var criteria = new UpdateTeamCriteria
             {
                 Teams = teams
             };

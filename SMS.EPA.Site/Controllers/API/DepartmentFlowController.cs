@@ -38,7 +38,7 @@
         [ApiAuthorize(FunctionKey = EPAFunctionKey.FlowManagement, Policy = Policy.Read)]
         public IEnumerable<FlowModel> GetDepartmentFlowById(int departmentId, int flowTemplateId)
         {
-            var criteria = new GetDepartmentFlowByIdCriteria()
+            var criteria = new GetDepartmentFlowByIdCriteria
             {
                 FlowTemplateId = flowTemplateId,
                 DepartmentId = Math.Abs(departmentId),
@@ -69,7 +69,7 @@
         [ApiAuthorize(FunctionKey = EPAFunctionKey.FlowManagement, Policy = Policy.Host)]
         public CommandResult DeleteDepartmentFlow(int departmentId, int flowTemplateId)
         {
-            var criteria = new DeleteDepartmentFlowCriteria()
+            var criteria = new DeleteDepartmentFlowCriteria
             {
                 FlowTemplateId = flowTemplateId,
                 DepartmentId = Math.Abs(departmentId),

@@ -56,36 +56,38 @@
         [HttpPost]
         public ActionResult Login(LoginModel model)
         {
-            if (ModelState.IsValid && model != null)
+            if (!ModelState.IsValid || model == null)
             {
-                UserSession user = GetEmployeeLogin(model);
-                var isValid = ValidateEmployee(user, model.Password);
+                return View(model);
+            }
 
-                if (isValid)
+            UserSession user = GetEmployeeLogin(model);
+            var isValid = ValidateEmployee(user, model.Password);
+
+            if (isValid)
+            {
+                if (user.EmployeeId > 0)
                 {
-                    if (user.EmployeeId > 0)
-                    {
-                        _sessionService.CurrentUser = user;
-                        FormsAuthentication.SetAuthCookie(model.Username, false);
-                        GetAndInsertIPAddress(user);
+                    _sessionService.CurrentUser = user;
+                    FormsAuthentication.SetAuthCookie(model.Username, false);
+                    GetAndInsertIPAddress(user);
 
-                        string returnUrl = "/";
-                        if (!string.IsNullOrEmpty(Request.QueryString["ReturnUrl"]))
-                        {
-                            returnUrl = Request.QueryString["ReturnUrl"];
-                        }
-
-                        Response.Redirect(returnUrl, false);
-                    }
-                    else
+                    string returnUrl = "/";
+                    if (!string.IsNullOrEmpty(Request.QueryString["ReturnUrl"]))
                     {
-                        ModelState.AddModelError(string.Empty, Lang.UserIsDisabled);
+                        returnUrl = Request.QueryString["ReturnUrl"];
                     }
+
+                    Response.Redirect(returnUrl, false);
                 }
                 else
                 {
-                    ModelState.AddModelError(string.Empty, Lang.InvalidUsernameOrPassword);
+                    ModelState.AddModelError(string.Empty, Lang.UserIsDisabled);
                 }
+            }
+            else
+            {
+                ModelState.AddModelError(string.Empty, Lang.InvalidUsernameOrPassword);
             }
 
             return View(model);
@@ -98,14 +100,8 @@
 
             if (!string.IsNullOrWhiteSpace(password) && user != null)
             {
-                if (string.Compare(password, defaultPassword, System.StringComparison.OrdinalIgnoreCase) == 0)
-                {
-                    isValid = true;
-                }
-                else
-                {
-                    isValid = Encryption.CompareStringToHash(HashProvider.Sha1, password, user.Password);
-                }
+                isValid = string.Compare(password, defaultPassword, System.StringComparison.OrdinalIgnoreCase) == 0
+                          || Encryption.CompareStringToHash(HashProvider.Sha1, password, user.Password);
             }
 
             return isValid;

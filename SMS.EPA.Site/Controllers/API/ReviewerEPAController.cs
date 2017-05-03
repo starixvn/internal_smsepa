@@ -36,7 +36,7 @@
         [ApiAuthorize(FunctionKey = EPAFunctionKey.Reviewer, Policy = Policy.Read)]
         public IEnumerable<Group> GetGroupByReviewer()
         {
-            var criteria = new GetGroupByEvaluatorOrReviewerOrManagementCriteria()
+            var criteria = new GetGroupByEvaluatorOrReviewerOrManagementCriteria
             {
                 ActorUserId = SessionService.EmployeeId,
                 ProcessId = (int)ProcessType.Reviewer
@@ -52,7 +52,7 @@
             bool? isLocal = null,
             bool? isMonthly = null)
         {
-            var criteria = new GetMemberByEvaluatorOrReviewerOrManagementCriteria()
+            var criteria = new GetMemberByEvaluatorOrReviewerOrManagementCriteria
             {
                 ActorUserId = SessionService.EmployeeId,
                 ProcessId = (int)ProcessType.Reviewer,
@@ -73,7 +73,7 @@
             string employeeIds = null,
             bool? statusProcess = null)
         {
-            var criteria = new GetEPAByReviewerCriteria()
+            var criteria = new GetEPAByReviewerCriteria
             {
                 ReviewerId = SessionService.EmployeeId,
                 GroupId = groupId,
@@ -103,7 +103,7 @@
                     return Request.CreateResponse(HttpStatusCode.MethodNotAllowed, epaInfo);
 
                 default:
-                    var criteria = new GetEPAInfoByReviewerCriteria()
+                    var criteria = new GetEPAInfoByReviewerCriteria
                     {
                         EPAId = epaId,
                         ReviewerId = SessionService.EmployeeId
