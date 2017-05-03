@@ -16,3 +16,10 @@
     "Sonar Code Smell",
     "S1541:Methods and properties should not be too complex",
     Justification = "<Pending>")]
+
+[assembly: System.Diagnostics.CodeAnalysis.SuppressMessage(
+    "Sonar Code Smell",
+    "S2342:Enumeration types should comply with a naming convention",
+    Justification = "<Pending>",
+    Scope = "type",
+    Target = "~T:SMS.EPA.Core.Enumerations.EPAStatus")]

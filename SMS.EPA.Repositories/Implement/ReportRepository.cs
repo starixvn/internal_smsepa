@@ -1,5 +1,6 @@
 ﻿namespace SMS.EPA.Repositories
 {
+    using System;
     using Core.Enumerations;
     using Core.Services;
     using Fanex.Data;
@@ -144,7 +145,7 @@
             return epaSummary;
         }
 
-        private void GroupPeriodByEmployee(IEnumerable<EPASummaryEmployeeModel> epaSummaries, IList<EPASummaryPeriodModel> periods)
+        private static void GroupPeriodByEmployee(IEnumerable<EPASummaryEmployeeModel> epaSummaries, IList<EPASummaryPeriodModel> periods)
         {
             foreach (EPASummaryEmployeeModel epaSummary in epaSummaries)
             {
@@ -155,7 +156,7 @@
             }
         }
 
-        private void GroupEPAProcessByEPA(IEnumerable<EPAModel> epaInfos, IEnumerable<EPAProcessModel> processes)
+        private static void GroupEPAProcessByEPA(IEnumerable<EPAModel> epaInfos, IEnumerable<EPAProcessModel> processes)
         {
             foreach (EPAModel epaInfo in epaInfos)
             {
@@ -178,6 +179,9 @@
                         case (int)ProcessType.Management:
                             epaInfo.Process.Managements.Add(process);
                             break;
+
+                        default:
+                            throw new ArgumentException("type not in case");
                     }
                 }
             }

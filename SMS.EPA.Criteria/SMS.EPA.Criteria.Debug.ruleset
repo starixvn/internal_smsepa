@@ -2,7 +2,4 @@
 <RuleSet Name="SonarQube - Nexus / SMS EPA Sonar way" ToolsVersion="14.0">
   <Include Path="..\sonarqube\sms-epacsharp.ruleset" Action="Default" />
   <Include Path="fanexrules.ruleset" Action="Default" />
-  <Rules AnalyzerId="SonarAnalyzer.CSharp" RuleNamespace="SonarAnalyzer.CSharp">
-    <Rule Id="S100" Action="None" />
-  </Rules>
 </RuleSet>

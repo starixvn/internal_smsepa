@@ -65,7 +65,7 @@
                             break;
 
                         default:
-                            throw new ArgumentException();
+                            throw new ArgumentException("type not in case");
                     }
                 }
             }

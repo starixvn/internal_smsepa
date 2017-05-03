@@ -1,5 +1,6 @@
 ﻿namespace SMS.EPA.Repositories
 {
+    using System;
     using Core.Enumerations;
     using Fanex.Data;
     using Fanex.Data.Repository;
@@ -94,58 +95,56 @@
             }
         }
 
-        private void GetFlowSetting(
+        private static void GetFlowSetting(
             IEnumerable<PeriodFlowSettingModel> flowSettings,
             PeriodEmployeeSettingModel employeeSetting)
         {
             if (flowSettings != null)
             {
                 var setting = employeeSetting;
+
                 IEnumerable<PeriodFlowSettingModel> employeeFlowSettings =
                     flowSettings.Where(x => x.PeriodId == setting.PeriodId &&
                                             x.EmployeeId == setting.Employee.EmployeeId);
 
                 foreach (PeriodFlowSettingModel employeeFlowSetting in employeeFlowSettings)
                 {
-                    employeeSetting = GetEvaluators(employeeFlowSetting, employeeSetting);
+                    GetEvaluators(employeeFlowSetting, employeeSetting);
                 }
             }
         }
 
-        private PeriodEmployeeSettingModel GetEvaluators(PeriodFlowSettingModel flowSetting, PeriodEmployeeSettingModel employeeSetting)
+        private static void GetEvaluators(PeriodFlowSettingModel flowSetting, PeriodEmployeeSettingModel employeeSetting)
         {
+            PeriodFlowModel periodFlowModel = CreateEvaluator(flowSetting);
             switch (flowSetting.ProcessId)
             {
                 case (int)ProcessType.HumanResource:
-                    PeriodFlowModel humanResources = CreateEvaluator(flowSetting);
-                    employeeSetting.HumanResources.Add(humanResources);
+                    employeeSetting.HumanResources.Add(periodFlowModel);
                     break;
 
                 case (int)ProcessType.Self:
-                    PeriodFlowModel selfEvaluator = CreateEvaluator(flowSetting);
-                    employeeSetting.SelfEvaluators.Add(selfEvaluator);
+                    employeeSetting.SelfEvaluators.Add(periodFlowModel);
                     break;
 
                 case (int)ProcessType.Evaluator:
-                    PeriodFlowModel evaluator = CreateEvaluator(flowSetting);
-                    employeeSetting.Evaluators.Add(evaluator);
+                    employeeSetting.Evaluators.Add(periodFlowModel);
                     break;
 
                 case (int)ProcessType.Reviewer:
-                    PeriodFlowModel reviewer = CreateEvaluator(flowSetting);
-                    employeeSetting.Reviewers.Add(reviewer);
+                    employeeSetting.Reviewers.Add(periodFlowModel);
                     break;
 
                 case (int)ProcessType.Management:
-                    PeriodFlowModel management = CreateEvaluator(flowSetting);
-                    employeeSetting.Managements.Add(management);
+                    employeeSetting.Managements.Add(periodFlowModel);
                     break;
-            }
 
-            return employeeSetting;
+                default:
+                    throw new ArgumentException("type not in case");
+            }
         }
 
-        private PeriodFlowModel CreateEvaluator(PeriodFlowSettingModel rawFlowSetting)
+        private static PeriodFlowModel CreateEvaluator(PeriodFlowSettingModel rawFlowSetting)
         {
             var evaluator = new PeriodFlowModel
             {

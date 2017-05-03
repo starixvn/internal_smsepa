@@ -1,5 +1,6 @@
 ﻿namespace SMS.EPA.Repositories
 {
+    using System;
     using Core.Enumerations;
     using Core.Services;
     using Fanex.Data;
@@ -386,7 +387,7 @@
 
         #endregion Rating By KPI
 
-        private void GroupEPAProcessByEPA(EPAModel epaInfo, IEnumerable<EPAProcessModel> processes)
+        private static void GroupEPAProcessByEPA(EPAModel epaInfo, IEnumerable<EPAProcessModel> processes)
         {
             foreach (EPAProcessModel process in processes.Where(x => x.EPAId.Equals(epaInfo.EPAId)))
             {
@@ -411,11 +412,14 @@
                     case (int)ProcessType.Management:
                         epaInfo.Process.Managements.Add(process);
                         break;
+
+                    default:
+                        throw new ArgumentException("type not in case");
                 }
             }
         }
 
-        private void GroupEPAProcessByEPA(IEnumerable<EPAModel> epaInfos, IEnumerable<EPAProcessModel> processes)
+        private static void GroupEPAProcessByEPA(IEnumerable<EPAModel> epaInfos, IEnumerable<EPAProcessModel> processes)
         {
             foreach (EPAModel epaInfo in epaInfos)
             {
@@ -426,7 +430,7 @@
             }
         }
 
-        private void GroupKPIByKPIGroup(IList<EPAKpiGroupModel> kpiGroups, IEnumerable<EPAKpiModel> kpis)
+        private static void GroupKPIByKPIGroup(IList<EPAKpiGroupModel> kpiGroups, IEnumerable<EPAKpiModel> kpis)
         {
             foreach (EPAKpiGroupModel kpiGroup in kpiGroups)
             {
@@ -438,7 +442,7 @@
             }
         }
 
-        private void GroupEvaluationOnEachKPI(IEnumerable<EPAKpiModel> kpis, IEnumerable<EvaluationModel> evaluations)
+        private static void GroupEvaluationOnEachKPI(IEnumerable<EPAKpiModel> kpis, IEnumerable<EvaluationModel> evaluations)
         {
             foreach (EPAKpiModel kpi in kpis)
             {
@@ -454,12 +458,15 @@
                         case (int)ProcessType.Evaluator:
                             kpi.EvaluationByEvaluators.Add(evaluation);
                             break;
+
+                        default:
+                            throw new ArgumentException("type not in case");
                     }
                 }
             }
         }
 
-        private void GroupKPIByEPA(IEnumerable<RatingByKPIModel> epaInfos, IEnumerable<TemporaryKPIModel> kpis)
+        private static void GroupKPIByEPA(IEnumerable<RatingByKPIModel> epaInfos, IEnumerable<TemporaryKPIModel> kpis)
         {
             foreach (RatingByKPIModel epaInfo in epaInfos)
             {
@@ -471,7 +478,7 @@
             }
         }
 
-        private void GroupKPIBySelf(IEnumerable<RatingByKPIModel> epaInfos, IEnumerable<TemporaryKPIModel> kpis)
+        private static void GroupKPIBySelf(IEnumerable<RatingByKPIModel> epaInfos, IEnumerable<TemporaryKPIModel> kpis)
         {
             foreach (RatingByKPIModel epaInfo in epaInfos)
             {

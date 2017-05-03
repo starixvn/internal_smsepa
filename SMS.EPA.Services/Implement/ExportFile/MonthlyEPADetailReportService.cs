@@ -28,7 +28,7 @@
 
         public EPADetailModel EpaDetail { get; set; }
 
-        public MemoryStream Export(EPADetailModel epaDetail)
+        public void Export(EPADetailModel epaDetail)
         {
             EpaDetail = epaDetail;
             _workbook = new HSSFWorkbook();
@@ -43,11 +43,10 @@
             WriteContentTable();
             _sheet.CreateFreezePane(0, 3);
 
-            // TODO: may cause memory leak. Need test
-            var output = new MemoryStream();
-            _workbook.Write(output);
-
-            return output;
+            using (var output = new MemoryStream())
+            {
+                _workbook.Write(output);
+            }
         }
 
         public void Render(EPADetailModel epaDetail)

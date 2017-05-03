@@ -1,5 +1,6 @@
 ﻿namespace SMS.EPA.Repositories
 {
+    using System;
     using Core.Enumerations;
     using Fanex.Data;
     using Fanex.Data.Repository;
@@ -72,38 +73,43 @@
             return flows;
         }
 
-        private void GroupProcessFlowByDepartment(IEnumerable<DepartmentFlowModel> flows, IEnumerable<ProcessFlowModel> processes)
+        private static void GroupProcessFlowByDepartment(IEnumerable<DepartmentFlowModel> flows, IEnumerable<ProcessFlowModel> processes)
         {
-            if (flows != null && processes != null)
+            if (flows == null || processes == null)
             {
-                foreach (DepartmentFlowModel flow in flows)
+                return;
+            }
+
+            foreach (DepartmentFlowModel flow in flows)
+            {
+                foreach (ProcessFlowModel process in processes.Where(x => x.DepartmentId.Equals(flow.DepartmentId)))
                 {
-                    foreach (ProcessFlowModel process in processes.Where(x => x.DepartmentId.Equals(flow.DepartmentId)))
+                    switch (process.ProcessId)
                     {
-                        switch (process.ProcessId)
-                        {
-                            case (int)ProcessType.HumanResource:
-                                flow.HumanResources.Add(process);
-                                break;
+                        case (int)ProcessType.HumanResource:
+                            flow.HumanResources.Add(process);
+                            break;
 
-                            case (int)ProcessType.Evaluator:
-                                flow.Evaluators.Add(process);
-                                break;
+                        case (int)ProcessType.Evaluator:
+                            flow.Evaluators.Add(process);
+                            break;
 
-                            case (int)ProcessType.Reviewer:
-                                flow.Reviewers.Add(process);
-                                break;
+                        case (int)ProcessType.Reviewer:
+                            flow.Reviewers.Add(process);
+                            break;
 
-                            case (int)ProcessType.Management:
-                                flow.Managements.Add(process);
-                                break;
-                        }
+                        case (int)ProcessType.Management:
+                            flow.Managements.Add(process);
+                            break;
+
+                        default:
+                            throw new ArgumentException("type not in case");
                     }
                 }
             }
         }
 
-        private void GroupProcessFlowByEmployee(IEnumerable<PersonalFlowModel> flows, IEnumerable<ProcessFlowModel> processes)
+        private static void GroupProcessFlowByEmployee(IEnumerable<PersonalFlowModel> flows, IEnumerable<ProcessFlowModel> processes)
         {
             foreach (PersonalFlowModel flow in flows)
             {
@@ -126,6 +132,9 @@
                         case (int)ProcessType.Management:
                             flow.Managements.Add(process);
                             break;
+
+                        default:
+                            throw new ArgumentException("type not in case");
                     }
                 }
             }

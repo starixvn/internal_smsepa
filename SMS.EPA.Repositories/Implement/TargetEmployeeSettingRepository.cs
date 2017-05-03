@@ -45,7 +45,7 @@
             }
         }
 
-        private IList<TargetEmployeeSetting> MappingTargetTemplateEmployee(
+        private static IList<TargetEmployeeSetting> MappingTargetTemplateEmployee(
             IEnumerable<Employee> employees,
             IEnumerable<TargetTemplateEmployee> targetTemplateEmployees)
         {
@@ -56,7 +56,7 @@
                 IList<TargetTemplateEmployee> tempTargetTemplateEmployees = targetTemplateEmployees
                     .Where(t => t.EmployeeId == employee.EmployeeId)
                     .ToList();
-                targetEmployees.Add(new TargetEmployeeSetting()
+                targetEmployees.Add(new TargetEmployeeSetting
                 {
                     Employee = employee,
                     TargetTemplates = tempTargetTemplateEmployees
@@ -66,7 +66,7 @@
             return targetEmployees;
         }
 
-        private IList<TargetDepartmentSetting> MappingTargetTemplateDepartment(
+        private static IList<TargetDepartmentSetting> MappingTargetTemplateDepartment(
             IEnumerable<Department> departments,
             IEnumerable<TargetTemplateDepartment> targetTemplateDepartments)
         {
@@ -77,7 +77,7 @@
                 IList<TargetTemplateDepartment> tempTargetTemplateDepartments = targetTemplateDepartments.Where(
                         t => t.DepartmentId == department.DepartmentId && t.IsGroup == department.IsGroup)
                     .ToList();
-                targetDepartments.Add(new TargetDepartmentSetting()
+                targetDepartments.Add(new TargetDepartmentSetting
                 {
                     Department = department,
                     TargetTemplates = tempTargetTemplateDepartments

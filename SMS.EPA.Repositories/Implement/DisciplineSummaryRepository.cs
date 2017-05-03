@@ -61,15 +61,15 @@
 
         [SuppressMessage("StyleCop.CSharp.StylecopPlus.Rules", "SP2101:MethodMustNotContainMoreLinesThan", Justification = "Reviewed. Suppression is OK here.")]
         [SuppressMessage("Microsoft.Maintainability", "CA1502:AvoidExcessiveComplexity", Justification = "Reviewed. Suppression is OK here.")]
-        private IEnumerable<DisciplineDetailModel> MappingObjectForAttendanceDetail(IEnumerable<dynamic> violationDetails)
+        private static IEnumerable<DisciplineDetailModel> MappingObjectForAttendanceDetail(IEnumerable<dynamic> violationDetails)
         {
             return violationDetails.Select(violation =>
             {
                 double totalHours = violation.TotalHours;
-                int lateIn = violation.LateIn,
-                    earlyOut = violation.EarlyOut;
-                DateTime? checkIn = violation.CheckIn,
-                    checkOut = violation.CheckOut;
+                int lateIn = violation.LateIn;
+                int earlyOut = violation.EarlyOut;
+                DateTime? checkIn = violation.CheckIn;
+                DateTime? checkOut = violation.CheckOut;
                 return new DisciplineDetailModel
                 {
                     WorkDate = violation.WorkDate,
@@ -113,7 +113,7 @@
             });
         }
 
-        private ViolationModel GetChangeShift(dynamic violation)
+        private static ViolationModel GetChangeShift(dynamic violation)
         {
             return new ViolationModel
             {
@@ -124,7 +124,7 @@
             };
         }
 
-        private ViolationModel GetMissingCheckInOut(dynamic violation)
+        private static ViolationModel GetMissingCheckInOut(dynamic violation)
         {
             return new ViolationModel
             {
@@ -135,7 +135,7 @@
             };
         }
 
-        private ViolationModel GetLateIn(dynamic violation)
+        private static ViolationModel GetLateIn(dynamic violation)
         {
             return new ViolationModel
             {
@@ -146,7 +146,7 @@
             };
         }
 
-        private ViolationModel GetEarlyOut(dynamic violation)
+        private static ViolationModel GetEarlyOut(dynamic violation)
         {
             return new ViolationModel
             {
@@ -157,7 +157,7 @@
             };
         }
 
-        private ViolationModel GetAbsent(dynamic violation)
+        private static ViolationModel GetAbsent(dynamic violation)
         {
             return new ViolationModel
             {
@@ -168,7 +168,7 @@
             };
         }
 
-        private ViolationModel GetUnpaidLeave(dynamic violation)
+        private static ViolationModel GetUnpaidLeave(dynamic violation)
         {
             return new ViolationModel
             {
@@ -179,7 +179,7 @@
             };
         }
 
-        private ViolationModel GetWorkingUnderTime(dynamic violation)
+        private static ViolationModel GetWorkingUnderTime(dynamic violation)
         {
             return new ViolationModel
             {
@@ -190,7 +190,7 @@
             };
         }
 
-        private ViolationModel GetUnpaidLeaveAbsent(dynamic violation)
+        private static ViolationModel GetUnpaidLeaveAbsent(dynamic violation)
         {
             return new ViolationModel
             {
@@ -201,7 +201,7 @@
             };
         }
 
-        private string ConvertNumberToTime(double number)
+        private static string ConvertNumberToTime(double number)
         {
             string time = string.Empty;
 
