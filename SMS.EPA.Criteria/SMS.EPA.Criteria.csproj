@@ -105,6 +105,7 @@
     </Compile>
     <Compile Include="EPAHistory\GetMonthlyEPAHistoryCriteria.cs" />
     <Compile Include="EPAHistory\GetEPAHistoryCriteria.cs" />
+    <Compile Include="FlowSetting\CreateFlowCriteriaBase.cs" />
     <Compile Include="FlowSetting\GetDepartmentFlowByFlowTemplateIdCriteria.cs" />
     <Compile Include="FlowSetting\GetDepartmentSectionHasSettingCriteria.cs" />
     <Compile Include="FlowSetting\GetPersonalFlowByFlowTemplateIdCriteria.cs" />

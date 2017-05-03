@@ -340,51 +340,6 @@
             return epaInfos;
         }
 
-        public IEnumerable<RatingByKPIModel> GetEmployeeEPAToView(ICriteria criteria)
-        {
-            IEnumerable<RatingByKPIModel> epaInfos;
-            using (var db = new ObjectDb(criteria.GetSettingKey()))
-            {
-                using (GridReaderWrapper multi = db.QueryMultiple(criteria.GetSpParams()))
-                {
-                    epaInfos = multi
-                        .Read<RatingByKPIModel, EPAEmployeeModel, RatingTypeModel, TemporaryKPIGroupModel, RatingByKPIModel>(
-                            (epaInfo, employee, type, kgr) =>
-                            {
-                                epaInfo.Employee = employee;
-                                epaInfo.RatingType = type;
-                                epaInfo.KPIGroup = kgr;
-                                return epaInfo;
-                            },
-                            "EmployeeId, RatingTypeId, KPIGroupId");
-
-                    IEnumerable<TemporaryKPIModel> kpis = multi
-                        .Read<TemporaryKPIModel, TemporaryKPIGroupModel, TemporaryKPIModel>(
-                            (kpi, kgr) =>
-                            {
-                                kpi.KPIGroup = kgr;
-                                return kpi;
-                            },
-                            "KPIGroupId");
-
-                    IEnumerable<TemporaryKPIModel> kpisBySelf =
-                        multi.Read<TemporaryKPIModel, TemporaryKPIGroupModel, TemporaryKPIModel>(
-                            (kpi, kgr) =>
-                            {
-                                kpi.KPIGroup = kgr;
-                                return kpi;
-                            },
-                            "KPIGroupId");
-
-                    GroupKPIByEPA(epaInfos, kpis);
-                    GroupKPIBySelf(epaInfos, kpisBySelf);
-                    DecryptAllScore(epaInfos);
-                }
-            }
-
-            return epaInfos;
-        }
-
         #endregion Rating By KPI
 
         private static void GroupEPAProcessByEPA(EPAModel epaInfo, IEnumerable<EPAProcessModel> processes)

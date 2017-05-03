@@ -18,8 +18,6 @@
 
         IEnumerable<RatingByKPIModel> GetEmployeeEPAByKPI(ICriteria criteria);
 
-        IEnumerable<RatingByKPIModel> GetEmployeeEPAToView(ICriteria criteria);
-
         DashboardModel GetDashboard(ICriteria criteria);
 
         IList<EPAModel> GetEPAToUpdateFinalScore(ICriteria criteria);

@@ -101,7 +101,7 @@
 
             if (criteria != null && criteria.IsValid())
             {
-                epas = _evaluationRepository.GetEmployeeEPAToView(criteria);
+                epas = _evaluationRepository.GetEmployeeEPAByKPI(criteria);
             }
 
             return epas;
