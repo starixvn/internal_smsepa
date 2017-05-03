@@ -93,26 +93,24 @@
             EPAModel epaInfo = new EPAModel();
 
             var processId = reviewerId == null ? (int?)ProcessType.Reviewer : null;
-            reviewerId = reviewerId ?? SessionService.EmployeeId;
+            var sessionServiceEmployeeId = reviewerId ?? SessionService.EmployeeId;
 
-            int permission = CheckEmployeePermission(epaId, reviewerId.Value, processId);
+            int permission = CheckEmployeePermission(epaId, sessionServiceEmployeeId, processId);
 
-            switch (permission)
+            if (permission == (int)Policy.None)
             {
-                case (int)Policy.None:
-                    return Request.CreateResponse(HttpStatusCode.MethodNotAllowed, epaInfo);
-
-                default:
-                    var criteria = new GetEPAInfoByReviewerCriteria
-                    {
-                        EPAId = epaId,
-                        ReviewerId = SessionService.EmployeeId
-                    };
-
-                    epaInfo = _reviewerEPAService.GetEPAInfoByReviewer(criteria);
-
-                    return Request.CreateResponse(HttpStatusCode.OK, epaInfo);
+                return Request.CreateResponse(HttpStatusCode.MethodNotAllowed, epaInfo);
             }
+
+            var criteria = new GetEPAInfoByReviewerCriteria
+            {
+                EPAId = epaId,
+                ReviewerId = SessionService.EmployeeId
+            };
+
+            epaInfo = _reviewerEPAService.GetEPAInfoByReviewer(criteria);
+
+            return Request.CreateResponse(HttpStatusCode.OK, epaInfo);
         }
 
         [HttpPut]

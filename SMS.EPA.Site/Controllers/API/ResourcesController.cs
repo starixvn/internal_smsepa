@@ -9,7 +9,7 @@
 
     public class ResourcesController : ApiController
     {
-        public string Get(string lang)
+        public string Get()
         {
             var resourceManager = new ResourceManager(typeof(Lang)) { IgnoreCase = true };
 

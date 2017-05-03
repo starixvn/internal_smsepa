@@ -90,26 +90,24 @@
             EPAModel epaInfo = new EPAModel();
 
             var processId = managementId == null ? (int?)ProcessType.Management : null;
-            managementId = managementId ?? SessionService.EmployeeId;
+            var sessionServiceEmployeeId = managementId ?? SessionService.EmployeeId;
 
-            int permission = CheckEmployeePermission(epaId, managementId.Value, processId);
+            int permission = CheckEmployeePermission(epaId, sessionServiceEmployeeId, processId);
 
-            switch (permission)
+            if (permission == (int)Policy.None)
             {
-                case (int)Policy.None:
-                    return Request.CreateResponse(HttpStatusCode.MethodNotAllowed, epaInfo);
-
-                default:
-                    var criteria = new GetEPAInfoByManagementCriteria
-                    {
-                        EPAId = epaId,
-                        ManagementId = SessionService.EmployeeId
-                    };
-
-                    epaInfo = _managementEPAService.GetEPAInfoByManagement(criteria);
-
-                    return Request.CreateResponse(HttpStatusCode.OK, epaInfo);
+                return Request.CreateResponse(HttpStatusCode.MethodNotAllowed, epaInfo);
             }
+
+            var criteria = new GetEPAInfoByManagementCriteria
+            {
+                EPAId = epaId,
+                ManagementId = SessionService.EmployeeId
+            };
+
+            epaInfo = _managementEPAService.GetEPAInfoByManagement(criteria);
+
+            return Request.CreateResponse(HttpStatusCode.OK, epaInfo);
         }
 
         [HttpPut]

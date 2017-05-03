@@ -33,16 +33,14 @@
             EPAModel epaInfo = new EPAModel();
             int permission = CheckEmployeePermission(epaId);
 
-            switch (permission)
+            if (permission == (int)Policy.None)
             {
-                case (int)Policy.None:
-                    return Request.CreateResponse(HttpStatusCode.MethodNotAllowed, epaInfo);
-
-                default:
-                    epaInfo = _evaluationService.GetEPAInfoById(epaId);
-
-                    return Request.CreateResponse(HttpStatusCode.OK, epaInfo);
+                return Request.CreateResponse(HttpStatusCode.MethodNotAllowed, epaInfo);
             }
+
+            epaInfo = _evaluationService.GetEPAInfoById(epaId);
+
+            return Request.CreateResponse(HttpStatusCode.OK, epaInfo);
         }
 
         [HttpPut]
