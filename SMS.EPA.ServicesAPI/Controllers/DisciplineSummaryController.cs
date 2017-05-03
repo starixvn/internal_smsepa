@@ -3,16 +3,16 @@
     using Core.Model;
     using Criteria.DisciplineSummary;
     using Criteria.EmployeeDiscipline;
-    using Model;
     using Services;
     using System;
     using System.Net;
     using System.Web.Http;
+    using EPA.Model;
 
     [Authorize]
     public class DisciplineSummaryController : ApiController
     {
-         private readonly IServiceAPI _service;
+        private readonly IServiceAPI _service;
 
         public DisciplineSummaryController() : this(null)
         {
@@ -24,24 +24,24 @@
         }
 
         public IHttpActionResult GetLastModifiedDate()
-         {
-             var criteria = new GetLastModifiedDateForDisciplineSummaryCriteria();
+        {
+            var criteria = new GetLastModifiedDateForDisciplineSummaryCriteria();
 
-             DateTime fromDate = _service.GetLastModifiedDate(criteria);
+            DateTime fromDate = _service.GetLastModifiedDate(criteria);
 
-             return Ok(fromDate);
-         }
+            return Ok(fromDate);
+        }
 
-         public IHttpActionResult Update(DisciplineSummary[] disciplines)
-         {
-             var criteria = new UpdateDisciplineSummaryCriteria
-             {
-                 Disciplines = disciplines
-             };
+        public IHttpActionResult Update(DisciplineSummary[] disciplines)
+        {
+            var criteria = new UpdateDisciplineSummaryCriteria
+            {
+                Disciplines = disciplines
+            };
 
-             CommandResult result = _service.Update(criteria);
+            CommandResult result = _service.Update(criteria);
 
-             return result.IsSuccessful ? StatusCode(HttpStatusCode.OK) : StatusCode(HttpStatusCode.NotModified);
-         }
+            return result.IsSuccessful ? StatusCode(HttpStatusCode.OK) : StatusCode(HttpStatusCode.NotModified);
+        }
     }
 }

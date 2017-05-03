@@ -23,3 +23,17 @@
     Justification = "<Pending>",
     Scope = "type",
     Target = "~T:SMS.EPA.Core.Enumerations.EPAStatus")]
+
+[assembly: System.Diagnostics.CodeAnalysis.SuppressMessage(
+    "Sonar Code Smell",
+    "S2325:Methods and properties that don't access instance data should be static",
+    Justification = "Required for app to work",
+    Scope = "member",
+    Target = "~M:SMS.EPA.Site.WebApiApplication.Application_Start")]
+
+[assembly: System.Diagnostics.CodeAnalysis.SuppressMessage(
+    "Sonar Code Smell",
+    "S2325:Methods and properties that don't access instance data should be static",
+    Justification = "Required for app to work",
+    Scope = "member",
+    Target = "~M:SMS.EPA.Site.WebApiApplication.Application_PostAuthorizeRequest")]

@@ -78,4 +78,17 @@
             return record;
         }
     }
+
+    public class DisciplineSummary : DisciplineSummaryModel
+    {
+        public int EmployeeId { get; set; }
+
+        public DateTime Period { get; set; }
+
+        public decimal WorkingUndertime { get; set; }
+
+        public decimal OtherDisciplines { get; set; }
+
+        public DateTime? ModifiedDate { get; set; }
+    }
 }

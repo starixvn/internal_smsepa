@@ -17,7 +17,7 @@
         private const string WebApiPrefix = "api";
         private static readonly string WebApiExecutionPath = $"~/{WebApiPrefix}";
 
-        protected static void Application_Start()
+        protected void Application_Start()
         {
             AreaRegistration.RegisterAllAreas();
 
@@ -34,7 +34,7 @@
             .Run();
         }
 
-        protected static void Application_PostAuthorizeRequest()
+        protected void Application_PostAuthorizeRequest()
         {
             if (IsWebApiRequest())
             {
