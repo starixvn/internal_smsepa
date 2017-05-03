@@ -32,7 +32,7 @@
 
         private readonly IReportService _reportService;
         private readonly IEPADetailReportService _epaDetailReportService;
-        private readonly IMonthlyEPADetailReportService _monthlyEPADetailReportService;
+        private readonly IEPADetailReportService _monthlyEPADetailReportService;
         private readonly IDisciplineService _disciplineService;
         private readonly IEmployeeEPAService _employeeEPAService;
         private readonly IExportExcelService _exportExcelService;
@@ -50,7 +50,7 @@
         public ExportReportController(
             IReportService reportService,
             IEPADetailReportService epaDetailReportService,
-            IMonthlyEPADetailReportService monthlyEPADetailReportService,
+            IEPADetailReportService monthlyEPADetailReportService,
             IDisciplineService disciplineService,
             IEmployeeEPAService employeeEPAService,
             IExportExcelService exportExcelService,
