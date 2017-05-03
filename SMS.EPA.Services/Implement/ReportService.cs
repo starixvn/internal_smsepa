@@ -190,8 +190,9 @@
             cell.CellStyle.VerticalAlignment = VerticalAlignment.Center;
             cell.CellStyle.SetFont(font);
 
-            sheet.AddMergedRegion(new CellRangeAddress(0, 0, 0,
-                titleHeaders.Count + (epaSummary.PeriodSelecteds.Count * 2) - 1));
+            int lastColumn = titleHeaders.Count + (epaSummary.PeriodSelecteds.Count * 2) - 1;
+
+            sheet.AddMergedRegion(new CellRangeAddress(0, 0, 0, lastColumn));
 
             RenderHeaderEPASummaryReport(epaSummary.PeriodSelecteds, ref workbook, ref sheet, titleHeaders);
             RenderContentRowEPASummaryReport(epaSummary, ref workbook, ref sheet);
@@ -246,7 +247,10 @@
                 cell.CellStyle = cellStyle;
                 cell.SetCellValue(periodSelecteds[i].Name);
 
-                sheet.AddMergedRegion(new CellRangeAddress(2, 2, titleHeaders.Count + (2 * i),
+                sheet.AddMergedRegion(new CellRangeAddress(
+                    2,
+                    2,
+                    titleHeaders.Count + (2 * i),
                     titleHeaders.Count + ((2 * i) + 1)));
             }
 
@@ -354,45 +358,38 @@
             cellBody.CellStyle = bodyStyle;
             cellBody.SetCellValue(rowIndex - 3);
             SetColumnWidth(ref sheet, 0, 5);
-
             cellBody = row.CreateCell(1);
             cellBody.CellStyle = bodyStyle;
             cellBody.SetCellValue(epaInfo.Code);
             SetColumnWidth(ref sheet, 1, 10);
 
             bodyStyle = rowIndex % 2 == 0 ? bodyStyle4 : bodyStyle3;
-
             cellBody = row.CreateCell(2);
             cellBody.CellStyle = bodyStyle;
             cellBody.SetCellValue(epaInfo.FullName);
             SetColumnWidth(ref sheet, 2, 20);
 
             bodyStyle = rowIndex % 2 == 0 ? bodyStyle2 : bodyStyle1;
-
             cellBody = row.CreateCell(3);
             cellBody.CellStyle = bodyStyle;
             cellBody.SetCellValue(epaInfo.NickName);
             SetColumnWidth(ref sheet, 3, 12);
 
             bodyStyle = rowIndex % 2 == 0 ? bodyStyle4 : bodyStyle3;
-
             cellBody = row.CreateCell(4);
             cellBody.CellStyle = bodyStyle;
             cellBody.SetCellValue(epaInfo.Category);
             SetColumnWidth(ref sheet, 4, 12);
-
             cellBody = row.CreateCell(5);
             cellBody.CellStyle = bodyStyle;
             cellBody.SetCellValue(epaInfo.Group.GroupName);
             SetColumnWidth(ref sheet, 5, 16);
-
             cellBody = row.CreateCell(6);
             cellBody.CellStyle = bodyStyle;
             cellBody.SetCellValue(epaInfo.JobTitle.JobTitleName);
             SetColumnWidth(ref sheet, 6, 25);
 
             bodyStyle = rowIndex % 2 == 0 ? bodyStyle2 : bodyStyle1;
-
             cellBody = row.CreateCell(7);
             cellBody.CellStyle = bodyStyle;
             cellBody.SetCellValue(epaInfo.JoinedDate.ToString(Constants.DateFormat));
@@ -400,8 +397,12 @@
             return sheet;
         }
 
-        private static void CreateBodyStyles(HSSFWorkbook workbook, out ICellStyle bodyStyle1,
-            out ICellStyle bodyStyle2, out ICellStyle bodyStyle3, out ICellStyle bodyStyle4)
+        private static void CreateBodyStyles(
+            HSSFWorkbook workbook,
+            out ICellStyle bodyStyle1,
+            out ICellStyle bodyStyle2,
+            out ICellStyle bodyStyle3,
+            out ICellStyle bodyStyle4)
         {
             bodyStyle1 = workbook.CreateCellStyle();
             bodyStyle1.Alignment = HorizontalAlignment.Center;

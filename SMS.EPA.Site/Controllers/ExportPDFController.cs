@@ -533,7 +533,8 @@
                 if (index < epaInfo.Process.Evaluators.Count)
                 {
                     EPAProcessModel evaluator = epaInfo.Process.Evaluators[index];
-                    cell = new PdfPCell(new Phrase(epaInfo.Process.Evaluators[index].EvaluatorInfo.NickName,
+                    cell = new PdfPCell(new Phrase(
+                        epaInfo.Process.Evaluators[index].EvaluatorInfo.NickName,
                         _normalFont))
                     {
                         BorderColor = _borderColor,
@@ -542,8 +543,10 @@
                     table.AddCell(cell);
 
                     totalScore =
-                            evaluator.IsEndProcess
-                            ? (string.IsNullOrEmpty(evaluator.TotalScore) ? Lang.NotAvailable : evaluator.TotalScore + " / " + epaInfo.ScoreRatingType.Evaluator)
+                        evaluator.IsEndProcess
+                            ? (string.IsNullOrEmpty(evaluator.TotalScore)
+                                ? Lang.NotAvailable
+                                : $"{evaluator.TotalScore} / {epaInfo.ScoreRatingType.Evaluator}")
                             : Lang.Pending;
 
                     cell = new PdfPCell(new Phrase(totalScore, _normalFont))
@@ -818,12 +821,16 @@
                     };
                     detail.AddCell(cell);
 
-                    cell = new PdfPCell(new Phrase(epaInfo.Process.Self.IsEndProcess ? self.Comment : Lang.Pending,
+                    cell = new PdfPCell(new Phrase(
+                        epaInfo.Process.Self.IsEndProcess
+                            ? self.Comment
+                            : Lang.Pending,
                         _normalFont))
                     {
                         Rowspan = rowspan,
                         BorderColor = _borderColor
                     };
+
                     detail.AddCell(cell);
 
                     foreach (EvaluationModel evaluator in kpiGroup.KPIs[index].EvaluationByEvaluators)
@@ -849,7 +856,11 @@
 
                         cell = new PdfPCell(new Phrase(
                             epaInfo.Process.Evaluators.First().IsEndProcess ? evaluator.Comment : Lang.Pending,
-                            _normalFont)) { BorderColor = _borderColor };
+                            _normalFont))
+                        {
+                            BorderColor = _borderColor
+                        };
+
                         detail.AddCell(cell);
                     }
                 }
@@ -1271,7 +1282,8 @@
             table.AddCell(cell);
 
             totalScore = epaInfo.MonthlyEPA.AverageSelfScoreConverted.ToString();
-            cell = new PdfPCell(new Phrase(totalScore + " / " + epaInfo.ScoreRatingType.SelfEvaluated,
+            cell = new PdfPCell(new Phrase(
+                $"{totalScore} / {epaInfo.ScoreRatingType.SelfEvaluated}",
                 _normalFont))
             {
                 BorderColor = _borderColor,
@@ -1349,7 +1361,8 @@
             if (!epaInfo.IsSemiHasMonthly)
             {
                 EPAProcessModel self = epaInfo.Process.Self;
-                cell = new PdfPCell(new Phrase(self.EvaluatorInfo.FullName + " (" + self.EvaluatorInfo.NickName + ")",
+                cell = new PdfPCell(new Phrase(
+                    $"{self.EvaluatorInfo.FullName} ({self.EvaluatorInfo.NickName})",
                     _normalFont))
                 {
                     BorderColor = _borderColor,
@@ -1386,10 +1399,12 @@
                     cell = new PdfPCell(new Phrase(
                         evaluator.IsEndProcess
                             ? evaluator.Comment
-                            : Lang.Pending, _normalFont))
+                            : Lang.Pending,
+                        _normalFont))
                     {
                         BorderColor = _borderColor
                     };
+
                     table.AddCell(cell);
                 }
             }
@@ -1413,13 +1428,15 @@
                 };
                 table.AddCell(cell);
 
-                cell = new PdfPCell(new Phrase(reviewer.IsEndProcess
+                cell = new PdfPCell(new Phrase(
+                    reviewer.IsEndProcess
                         ? reviewer.Comment
                         : Lang.Pending,
                     _normalFont))
                 {
                     BorderColor = _borderColor
                 };
+
                 table.AddCell(cell);
             }
 

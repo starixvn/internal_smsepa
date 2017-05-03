@@ -22,13 +22,13 @@
         {
             double result = number;
 
-            var ofDecimals = numberOfDecimals <= 0
+            var decimals = numberOfDecimals <= 0
                 ? Constants.NumberOfDecimalDefault
                 : numberOfDecimals;
 
-            if (Math.Abs((number % 1)) > Constants.Tolerance)
+            if (Math.Abs(number % 1) > Constants.Tolerance)
             {
-                result = Math.Truncate(number * Math.Pow(10, ofDecimals)) / Math.Pow(10, ofDecimals);
+                result = Math.Truncate(number * Math.Pow(10, decimals)) / Math.Pow(10, decimals);
             }
 
             return result;

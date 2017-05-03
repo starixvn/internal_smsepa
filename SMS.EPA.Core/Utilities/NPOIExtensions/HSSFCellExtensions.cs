@@ -6,59 +6,63 @@
 
     public static class HSSFCellExtensions
     {
-#pragma warning disable S3776 // Cognitive Complexity of methods should not be too high
         public static void SetCellValue(this ICell cell, object value)
-#pragma warning restore S3776 // Cognitive Complexity of methods should not be too high
         {
             if (cell != null)
             {
-                if (value == null)
+                InferCellValue(cell, value);
+            }
+        }
+
+#pragma warning disable S3776 // Cognitive Complexity of methods should not be too high
+        private static void InferCellValue(ICell cell, object value)
+#pragma warning restore S3776 // Cognitive Complexity of methods should not be too high
+        {
+            if (value == null)
+            {
+                cell.SetCellValue(string.Empty);
+            }
+            else
+            {
+                var valueString = value.ToString();
+
+                if (TrySetIntCell(cell, valueString))
                 {
-                    cell.SetCellValue(string.Empty);
+                    return;
                 }
-                else
+
+                if (TrySetLongCell(cell, valueString))
                 {
-                    string valueString = value.ToString();
-
-                    if (TrySetIntCell(cell, valueString))
-                    {
-                        return;
-                    }
-
-                    if (TrySetLongCell(cell, valueString))
-                    {
-                        return;
-                    }
-
-                    if (TrySetDoubleCell(cell, valueString))
-                    {
-                        return;
-                    }
-
-                    if (TrySetDecimalCell(cell, valueString))
-                    {
-                        return;
-                    }
-
-
-                    if (TrySetBoolCell(cell, valueString))
-                    {
-                        return;
-                    }
-
-                    if (TrySetDateTimeCell(cell, valueString))
-                    {
-                        return;
-                    }
-
-                    var textString = value as IRichTextString;
-                    if (textString != null)
-                    {
-                        cell.SetCellValue(textString);
-                    }
-
-                    cell.SetCellValue(valueString);
+                    return;
                 }
+
+                if (TrySetDoubleCell(cell, valueString))
+                {
+                    return;
+                }
+
+                if (TrySetDecimalCell(cell, valueString))
+                {
+                    return;
+                }
+
+                if (TrySetBoolCell(cell, valueString))
+                {
+                    return;
+                }
+
+                if (TrySetDateTimeCell(cell, valueString))
+                {
+                    return;
+                }
+
+                var textString = value as IRichTextString;
+                if (textString != null)
+                {
+                    cell.SetCellValue(textString);
+                }
+
+                cell.SetCellValue(valueString);
             }
         }
 
@@ -70,6 +74,7 @@
                 cell.SetCellValue(dateTimeValue);
                 return true;
             }
+
             return false;
         }
 
@@ -81,6 +86,7 @@
                 cell.SetCellValue(boolValue);
                 return true;
             }
+
             return false;
         }
 
@@ -92,6 +98,7 @@
                 cell.SetCellValue(decimalValue);
                 return true;
             }
+
             return false;
         }
 
@@ -103,6 +110,7 @@
                 cell.SetCellValue(doubleValue);
                 return true;
             }
+
             return false;
         }
 
@@ -114,6 +122,7 @@
                 cell.SetCellValue(longValue);
                 return true;
             }
+
             return false;
         }
 
@@ -150,8 +159,7 @@
 
         public static void CopyFrom(this ICell cell, ICell sourceCell)
         {
-            // Copy merged cells.
-
+            // Copy merged cells
             if (cell != null && sourceCell != null)
             {
                 int index = 0;

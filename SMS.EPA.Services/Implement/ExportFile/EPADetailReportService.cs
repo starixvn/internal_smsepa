@@ -61,13 +61,190 @@
             response.Clear();
             response.ContentType = "application/vnd.ms-excel";
 
-            response.AddHeader(
-                "Content-Disposition",
-                string.IsNullOrEmpty(epaDetail.EpaYear) || string.IsNullOrEmpty(epaDetail.EpaEvaluationPeriod)
-                    ? $"attachment; filename={Lang.EPADetailReportName}.xls"
-                    : $"attachment; filename={epaDetail.EpaYear}_{epaDetail.EpaEvaluationPeriod}_{Lang.EPADetailReportName}.xls");
+            var contentDisposition = string.IsNullOrEmpty(epaDetail.EpaYear)
+                                     || string.IsNullOrEmpty(epaDetail.EpaEvaluationPeriod)
+                ? $"attachment; filename={Lang.EPADetailReportName}.xls"
+                : $"attachment; filename={epaDetail.EpaYear}_{epaDetail.EpaEvaluationPeriod}_{Lang.EPADetailReportName}.xls";
+
+            response.AddHeader("Content-Disposition", contentDisposition);
 
             _workbook.Write(response.OutputStream);
+        }
+
+        private static IList<string> CreateColumnsName()
+        {
+            return new List<string>
+            {
+                Lang.SymbolCount,
+                Lang.Code,
+                Lang.FullName,
+                Lang.NickName,
+                Lang.Category,
+                Lang.Section,
+                Lang.JobTitle,
+                Lang.GroupDate,
+                Lang.TargetType,
+                Lang.SelfScore,
+                Lang.EvaluationScore,
+                Lang.ReviewerScore,
+                Lang.ManagementScore,
+                Lang.DisciplineScore,
+                Lang.FinalScore,
+                Lang.Grade
+            };
+        }
+
+        private static string GetSelfScore(EPAModel epaInfo)
+        {
+            string selfScore = string.Empty;
+
+            if (epaInfo.Process.Self.StatusEndProcess == (int)ProcessStatusType.InProgress)
+            {
+                float? score = !string.IsNullOrEmpty(epaInfo.Process.Self.TotalScore)
+                    ? float.Parse(epaInfo.Process.Self.TotalScore)
+                    : 0;
+                selfScore = Math.Round(score.Value, 2).ToString(CultureInfo.InvariantCulture);
+            }
+
+            if (epaInfo.Process.Self.StatusEndProcess == (int)ProcessStatusType.Closed)
+            {
+                selfScore = !string.IsNullOrEmpty(epaInfo.Process.Self.TotalScore)
+                    ? Math.Round(float.Parse(epaInfo.Process.Self.TotalScore), 2)
+                        .ToString(CultureInfo.InvariantCulture)
+                    : Lang.NotAvailable;
+            }
+
+            return selfScore;
+        }
+
+        private static string GetEvaluatorScore(EPAModel epaInfo)
+        {
+            string evaluatorScore = string.Empty;
+
+            if (epaInfo.Process.Evaluators.First().StatusEndProcess == (int)ProcessStatusType.InProgress)
+            {
+                evaluatorScore = epaInfo.Process.AverageScoreByEvaluators?.ToString() ?? "0";
+            }
+
+            if (epaInfo.Process.Evaluators.First().StatusEndProcess == (int)ProcessStatusType.Closed)
+            {
+                evaluatorScore = epaInfo.Process.AverageScoreByEvaluators?.ToString() ?? Lang.NotAvailable;
+            }
+
+            return evaluatorScore;
+        }
+
+        private static string GetReviewerScore(EPAModel epaInfo)
+        {
+            string reviewerScore = string.Empty;
+
+            if (epaInfo.Process.Reviewers.First().StatusEndProcess == (int)ProcessStatusType.InProgress)
+            {
+                reviewerScore = epaInfo.Process.AverageScoreByReviewers?.ToString() ?? "0";
+            }
+
+            if (epaInfo.Process.Reviewers.First().StatusEndProcess == (int)ProcessStatusType.Closed)
+            {
+                reviewerScore = epaInfo.Process.AverageScoreByReviewers?.ToString() ?? Lang.NotAvailable;
+            }
+
+            return reviewerScore;
+        }
+
+        private static string GetManagementScore(EPAModel epaInfo)
+        {
+            string managementScore = string.Empty;
+
+            if (epaInfo.Process.Managements.Any())
+            {
+                if (epaInfo.Process.Reviewers.First().StatusEndProcess == (int)ProcessStatusType.InProgress)
+                {
+                    managementScore = epaInfo.Process.AverageScoreByManagements?.ToString() ?? "0";
+                }
+
+                if (epaInfo.Process.Reviewers.First().StatusEndProcess == (int)ProcessStatusType.Closed)
+                {
+                    managementScore = epaInfo.Process.AverageScoreByManagements?.ToString() ??
+                                      Lang.NotAvailable;
+                }
+            }
+
+            return managementScore;
+        }
+
+        [SuppressMessage("StyleCop.CSharp.StylecopPlus.Rules", "SP2101:MethodMustNotContainMoreLinesThan",
+            Justification = "Reviewed. Suppression is OK here.")]
+        [SuppressMessage("Microsoft.Maintainability", "CA1502:AvoidExcessiveComplexity", Justification =
+            "Reviewed. Suppression is OK here.")]
+        private static dynamic CalculateScore(EPAModel epaInfo)
+        {
+            string selfScore = string.Empty;
+            string evaluatorScore = string.Empty;
+            string reviewerScore = string.Empty;
+            string managementScore = string.Empty;
+            string finalScore;
+            string grade;
+
+            var disciplineScore = epaInfo.HasDisciplineScore
+                ? (epaInfo.DisciplineScore < 0
+                    ? "0"
+                    : epaInfo.DisciplineScore.ToString(CultureInfo.InvariantCulture))
+                : (Math.Abs(epaInfo.DisciplineScore) > Constants.Tolerance
+                    ? epaInfo.DisciplineScore.ToString(CultureInfo.InvariantCulture)
+                    : "-");
+
+            if (epaInfo.EPAId > 0)
+            {
+                selfScore = GetSelfScore(epaInfo);
+                evaluatorScore = GetEvaluatorScore(epaInfo);
+                reviewerScore = GetReviewerScore(epaInfo);
+                managementScore = GetManagementScore(epaInfo);
+
+                if (epaInfo.IsSemiHasMonthly)
+                {
+                    selfScore = epaInfo.MonthlyEPA.AverageSelfScoreConverted?.ToString() ?? Lang.NotAvailable;
+
+                    evaluatorScore = epaInfo.MonthlyEPA.AverageEvaluatorScoreConverted?.ToString() ?? Lang.NotAvailable;
+                }
+            }
+
+            if (epaInfo.Period.IsEndPeriod)
+            {
+                if (string.IsNullOrEmpty(epaInfo.FinalScore))
+                {
+                    finalScore = Lang.NotAvailable;
+                    grade = Lang.NotAvailable;
+                }
+                else
+                {
+                    finalScore = Math.Round(float.Parse(epaInfo.FinalScore), 2).ToString(CultureInfo.InvariantCulture);
+                    grade = epaInfo.Grade;
+                }
+            }
+            else
+            {
+                finalScore = Lang.Pending;
+                grade = Lang.Pending;
+            }
+
+            return new
+            {
+                SelfScore = selfScore,
+                EvaluatorScore = evaluatorScore,
+                ReviewerScore = reviewerScore,
+                ManagementScore = managementScore,
+                DisciplineScore = disciplineScore,
+                FinalScore = finalScore,
+                Grade = grade
+            };
+        }
+
+        private static string GetScoreByPhaseSelected(
+            IEnumerable<EvaluationPhaseModel> phaseSelecteds,
+            string score,
+            int phaseId)
+        {
+            return phaseSelecteds.Count(x => x.PhaseId == phaseId).Equals(1) ? score : "-";
         }
 
         private void WriteTitleSheet()
@@ -212,7 +389,9 @@
 
                 cell = row.CreateCell(currentColumn++);
                 cell.CellStyle = bodyStyle;
-                cell.SetCellValue(GetScoreByPhaseSelected(EpaDetail.PhaseSelecteds, score.SelfScore,
+                cell.SetCellValue(GetScoreByPhaseSelected(
+                    EpaDetail.PhaseSelecteds,
+                    score.SelfScore,
                     (int)ProcessType.Self));
 
                 if (!epaInfo.Process.Evaluators.First().IsEndProcess)
@@ -222,7 +401,9 @@
 
                 cell = row.CreateCell(currentColumn++);
                 cell.CellStyle = bodyStyle;
-                cell.SetCellValue(GetScoreByPhaseSelected(EpaDetail.PhaseSelecteds, score.EvaluatorScore,
+                cell.SetCellValue(GetScoreByPhaseSelected(
+                    EpaDetail.PhaseSelecteds,
+                    score.EvaluatorScore,
                     (int)ProcessType.Evaluator));
 
                 if (!epaInfo.Process.Reviewers.First().IsEndProcess)
@@ -232,7 +413,9 @@
 
                 cell = row.CreateCell(currentColumn++);
                 cell.CellStyle = bodyStyle;
-                cell.SetCellValue(GetScoreByPhaseSelected(EpaDetail.PhaseSelecteds, score.ReviewerScore,
+                cell.SetCellValue(GetScoreByPhaseSelected(
+                    EpaDetail.PhaseSelecteds,
+                    score.ReviewerScore,
                     (int)ProcessType.Reviewer));
 
                 if (epaInfo.Process.Managements.Any() && !epaInfo.Process.Managements.First().IsEndProcess)
@@ -268,159 +451,6 @@
         private ICellStyle ApplyEvenOddBodyStyle(ICellStyle evenStyle, ICellStyle oddStyle)
         {
             return _currentRow % 2 == 0 ? evenStyle : oddStyle;
-        }
-
-        private static string GetScoreByPhaseSelected(
-            IEnumerable<EvaluationPhaseModel> phaseSelecteds,
-            string score,
-            int phaseId)
-        {
-            return phaseSelecteds.Count(x => x.PhaseId == phaseId).Equals(1) ? score : "-";
-        }
-
-        [SuppressMessage("StyleCop.CSharp.StylecopPlus.Rules", "SP2101:MethodMustNotContainMoreLinesThan",
-            Justification = "Reviewed. Suppression is OK here.")]
-        [SuppressMessage("Microsoft.Maintainability", "CA1502:AvoidExcessiveComplexity", Justification =
-            "Reviewed. Suppression is OK here.")]
-        private static dynamic CalculateScore(EPAModel epaInfo)
-        {
-            string selfScore = string.Empty;
-            string evaluatorScore = string.Empty;
-            string reviewerScore = string.Empty;
-            string managementScore = string.Empty;
-            string finalScore;
-            string grade;
-
-            var disciplineScore = epaInfo.HasDisciplineScore
-                ? (epaInfo.DisciplineScore < 0
-                    ? "0"
-                    : epaInfo.DisciplineScore.ToString(CultureInfo.InvariantCulture))
-                : (Math.Abs(epaInfo.DisciplineScore) > Constants.Tolerance
-                    ? epaInfo.DisciplineScore.ToString(CultureInfo.InvariantCulture)
-                    : "-");
-
-            if (epaInfo.EPAId > 0)
-            {
-                selfScore = GetSelfScore(epaInfo);
-                evaluatorScore = GetEvaluatorScore(epaInfo);
-                reviewerScore = GetReviewerScore(epaInfo);
-                managementScore = GetManagementScore(epaInfo);
-
-                if (epaInfo.IsSemiHasMonthly)
-                {
-                    selfScore = epaInfo.MonthlyEPA.AverageSelfScoreConverted?.ToString() ?? Lang.NotAvailable;
-
-                    evaluatorScore = epaInfo.MonthlyEPA.AverageEvaluatorScoreConverted?.ToString() ?? Lang.NotAvailable;
-                }
-            }
-
-            if (epaInfo.Period.IsEndPeriod)
-            {
-                if (string.IsNullOrEmpty(epaInfo.FinalScore))
-                {
-                    finalScore = Lang.NotAvailable;
-                    grade = Lang.NotAvailable;
-                }
-                else
-                {
-                    finalScore = Math.Round(float.Parse(epaInfo.FinalScore), 2).ToString(CultureInfo.InvariantCulture);
-                    grade = epaInfo.Grade;
-                }
-            }
-            else
-            {
-                finalScore = Lang.Pending;
-                grade = Lang.Pending;
-            }
-
-            return new
-            {
-                SelfScore = selfScore,
-                EvaluatorScore = evaluatorScore,
-                ReviewerScore = reviewerScore,
-                ManagementScore = managementScore,
-                DisciplineScore = disciplineScore,
-                FinalScore = finalScore,
-                Grade = grade
-            };
-        }
-
-        private static string GetManagementScore(EPAModel epaInfo)
-        {
-            string managementScore = string.Empty;
-
-            if (epaInfo.Process.Managements.Any())
-            {
-                if (epaInfo.Process.Reviewers.First().StatusEndProcess == (int)ProcessStatusType.InProgress)
-                {
-                    managementScore = epaInfo.Process.AverageScoreByManagements?.ToString() ?? "0";
-                }
-
-                if (epaInfo.Process.Reviewers.First().StatusEndProcess == (int)ProcessStatusType.Closed)
-                {
-                    managementScore = epaInfo.Process.AverageScoreByManagements?.ToString() ??
-                                      Lang.NotAvailable;
-                }
-            }
-
-            return managementScore;
-        }
-
-        private static string GetReviewerScore(EPAModel epaInfo)
-        {
-            string reviewerScore = string.Empty;
-
-            if (epaInfo.Process.Reviewers.First().StatusEndProcess == (int)ProcessStatusType.InProgress)
-            {
-                reviewerScore = epaInfo.Process.AverageScoreByReviewers?.ToString() ?? "0";
-            }
-
-            if (epaInfo.Process.Reviewers.First().StatusEndProcess == (int)ProcessStatusType.Closed)
-            {
-                reviewerScore = epaInfo.Process.AverageScoreByReviewers?.ToString() ?? Lang.NotAvailable;
-            }
-
-            return reviewerScore;
-        }
-
-        private static string GetEvaluatorScore(EPAModel epaInfo)
-        {
-            string evaluatorScore = string.Empty;
-
-            if (epaInfo.Process.Evaluators.First().StatusEndProcess == (int)ProcessStatusType.InProgress)
-            {
-                evaluatorScore = epaInfo.Process.AverageScoreByEvaluators?.ToString() ?? "0";
-            }
-
-            if (epaInfo.Process.Evaluators.First().StatusEndProcess == (int)ProcessStatusType.Closed)
-            {
-                evaluatorScore = epaInfo.Process.AverageScoreByEvaluators?.ToString() ?? Lang.NotAvailable;
-            }
-
-            return evaluatorScore;
-        }
-
-        private static string GetSelfScore(EPAModel epaInfo)
-        {
-            string selfScore = string.Empty;
-
-            if (epaInfo.Process.Self.StatusEndProcess == (int)ProcessStatusType.InProgress)
-            {
-                float? score = !string.IsNullOrEmpty(epaInfo.Process.Self.TotalScore)
-                    ? float.Parse(epaInfo.Process.Self.TotalScore)
-                    : 0;
-                selfScore = Math.Round(score.Value, 2).ToString(CultureInfo.InvariantCulture);
-            }
-
-            if (epaInfo.Process.Self.StatusEndProcess == (int)ProcessStatusType.Closed)
-            {
-                selfScore = !string.IsNullOrEmpty(epaInfo.Process.Self.TotalScore)
-                    ? Math.Round(float.Parse(epaInfo.Process.Self.TotalScore), 2)
-                        .ToString(CultureInfo.InvariantCulture)
-                    : Lang.NotAvailable;
-            }
-
-            return selfScore;
         }
 
         private ICellStyle CreateOddStyleCenter()
@@ -463,29 +493,6 @@
             evenStyle.FillBackgroundColor = HSSFColor.LightCornflowerBlue.Index;
 
             return evenStyle;
-        }
-
-        private static IList<string> CreateColumnsName()
-        {
-            return new List<string>
-            {
-                Lang.SymbolCount,
-                Lang.Code,
-                Lang.FullName,
-                Lang.NickName,
-                Lang.Category,
-                Lang.Section,
-                Lang.JobTitle,
-                Lang.GroupDate,
-                Lang.TargetType,
-                Lang.SelfScore,
-                Lang.EvaluationScore,
-                Lang.ReviewerScore,
-                Lang.ManagementScore,
-                Lang.DisciplineScore,
-                Lang.FinalScore,
-                Lang.Grade
-            };
         }
 
         private void SetColumnWidth(int columnIndex, int width)

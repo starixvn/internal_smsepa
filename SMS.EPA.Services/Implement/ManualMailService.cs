@@ -10,14 +10,14 @@
 
     public class ManualMailService : IManualMailService
     {
-        private readonly IMailService _mailService;
-
         private const string StartDateMailToHumanResources = "~/Views/Emails/StartDateEmailToHR.cshtml";
         private const string StartDateMailToSelf = "~/Views/Emails/StartDateEmailToSelf.cshtml";
         private const string StartDateMailToEvaluator = "~/Views/Emails/StartDateEmailToEvaluator.cshtml";
         private const string StartDateMailToReviewer = "~/Views/Emails/StartDateEmailToReviewer.cshtml";
         private const string StartDateMailToManagement = "~/Views/Emails/StartDateEmailToManagement.cshtml";
         private const string MailNotifyChangeSetting = "~/Views/Emails/EmailNotifyChangeSetting.cshtml";
+
+        private readonly IMailService _mailService;
 
         public ManualMailService()
             : this(null)

@@ -18,8 +18,13 @@
 
         [SuppressMessage("StyleCop.CSharp.StylecopPlus.Rules", "SP2101:MethodMustNotContainMoreLinesThan",
             Justification = "Need to review here.")]
-        public static void CopyRow(this ISheet sheet, ISheet sourceSheet, int sourceRowIndex, int rowIndex,
-            int firstColumnIndex, int lastColumnIndex)
+        public static void CopyRow(
+            this ISheet sheet,
+            ISheet sourceSheet,
+            int sourceRowIndex,
+            int rowIndex,
+            int firstColumnIndex,
+            int lastColumnIndex)
         {
             if (sheet == null || sourceSheet == null)
             {
@@ -175,8 +180,7 @@
                 var newCell = row.CreateCell(currentCol, nextCell.CellType);
                 if (adjustColumn)
                 {
-                    sheet.SetColumnWidth(newCell.ColumnIndex,
-                        sheet.GetColumnWidth(nextCell.ColumnIndex));
+                    sheet.SetColumnWidth(newCell.ColumnIndex, sheet.GetColumnWidth(nextCell.ColumnIndex));
                 }
 
                 CloneCell(newCell, nextCell);
@@ -210,7 +214,7 @@
                         mergedRegion.LastColumn = mergedRegion.LastColumn - 1;
                     }
 
-                    if(mergedRegion.FirstColumn > columnIndex)
+                    if (mergedRegion.FirstColumn > columnIndex)
                     {
                         mergedRegion.FirstColumn = mergedRegion.FirstColumn - 1;
                         mergedRegion.LastColumn = mergedRegion.LastColumn - 1;
@@ -271,7 +275,12 @@
             return cell;
         }
 
-        public static ICell CreateCell(this ISheet sheet, int rowIndex, int colIndex, int rowSpan, int colSpan,
+        public static ICell CreateCell(
+            this ISheet sheet,
+            int rowIndex,
+            int colIndex,
+            int rowSpan,
+            int colSpan,
             ICellStyle cellStyle)
         {
             ICell cell = sheet.CreateCell(rowIndex, colIndex, rowSpan, colSpan);

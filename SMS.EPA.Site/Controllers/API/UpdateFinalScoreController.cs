@@ -26,7 +26,8 @@
         {
         }
 
-        public UpdateFinalScoreController(IEmployeeEPAService evaluationService,
+        public UpdateFinalScoreController(
+            IEmployeeEPAService evaluationService,
             ICryptographyService cryptographyService)
         {
             _evaluationService = evaluationService ?? new EmployeeEPAService();
