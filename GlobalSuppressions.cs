@@ -37,3 +37,10 @@
     Justification = "Required for app to work",
     Scope = "member",
     Target = "~M:SMS.EPA.Site.WebApiApplication.Application_PostAuthorizeRequest")]
+
+[assembly: System.Diagnostics.CodeAnalysis.SuppressMessage(
+    "Sonar Code Smell",
+    "S104:Files should not have too many lines of code",
+    Justification = "Reviewed",
+    Scope = "namespace",
+    Target = "~N:SMS.EPA.Site.Controllers")]
