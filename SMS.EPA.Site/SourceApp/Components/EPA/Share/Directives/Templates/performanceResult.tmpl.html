@@ -154,14 +154,22 @@
                     </span>
                     <span ng-show="performanceResultCtrl.epaInfo.FinalScore.length === 0" data-translate="NotAvailable"></span>
                 </strong>
-                <strong ng-show="!performanceResultCtrl.epaInfo.Period.IsEndPeriod" data-translate="Pending"></strong>
+                <!--<strong ng-show="!performanceResultCtrl.epaInfo.Period.IsEndPeriod" data-translate="Pending"></strong>-->
+                <strong ng-show="!performanceResultCtrl.epaInfo.Period.IsEndPeriod">
+                    <span ng-show="performanceResultCtrl.epaInfo.FinalScore.length > 0" class="red">{{performanceResultCtrl.epaInfo.FinalScore | customScore}} / {{performanceResultCtrl.epaInfo.MaxFinalScore | customScore}}</span>
+                    <span ng-show="performanceResultCtrl.epaInfo.FinalScore.length === 0" data-translate="NotAvailable"></span>
+                </strong>
             </td>
             <td rowspan="{{performanceResultCtrl.epaInfo.Rowspan}}" class="text-center" ng-show="$first && !performanceResultCtrl.epaInfo.IsMonthly">
                 <strong ng-show="performanceResultCtrl.epaInfo.Period.IsEndPeriod">
                     <span ng-show="performanceResultCtrl.epaInfo.Grade" ng-bind="performanceResultCtrl.epaInfo.Grade"></span>
                     <span ng-show="!performanceResultCtrl.epaInfo.Grade" data-translate="NotAvailable"></span>
                 </strong>
-                <strong ng-show="!performanceResultCtrl.epaInfo.Period.IsEndPeriod" data-translate="Pending"></strong>
+                <!--<strong ng-show="!performanceResultCtrl.epaInfo.Period.IsEndPeriod" data-translate="Pending"></strong>-->
+                <strong ng-show="!performanceResultCtrl.epaInfo.Period.IsEndPeriod">
+                    <span ng-show="performanceResultCtrl.epaInfo.Grade" ng-bind="performanceResultCtrl.epaInfo.Grade" class="red"></span>
+                    <span ng-show="!performanceResultCtrl.epaInfo.Grade" data-translate="NotAvailable"></span>
+                </strong>
             </td>
         </tr>
     </tbody>
