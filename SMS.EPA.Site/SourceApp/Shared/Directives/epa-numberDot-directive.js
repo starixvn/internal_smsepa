@@ -13,6 +13,8 @@
                     if (inputValue) {
                         var digits = inputValue.replace(/[^\d+\.?\d+$]/, '');
 
+                        digits = digits.replace(/^[\s+0]+/, "");
+
                         if (digits !== inputValue) {
                             ctrl.$setViewValue(digits);
                             ctrl.$render();
