@@ -241,6 +241,7 @@
     <Compile Include="Criteria\EmployeeDiscipline\GetLastModifiedDateForDisciplineCriteria.cs" />
     <Compile Include="Criteria\EmployeeDiscipline\UpdateDisciplineCriteria.cs" />
     <Compile Include="Criteria\JobTitle\UpdateJobTitleCriteria.cs" />
+    <Compile Include="Model\DisciplineSummary.cs" />
     <Compile Include="Model\Photo.cs" />
     <Compile Include="Model\TeamDisciplinePermission.cs" />
     <Compile Include="Model\EmployeeDisciplinePermission.cs" />

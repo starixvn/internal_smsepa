@@ -3,11 +3,11 @@
     using Core.Model;
     using Criteria.DisciplineSummary;
     using Criteria.EmployeeDiscipline;
+    using Model;
     using Services;
     using System;
     using System.Net;
     using System.Web.Http;
-    using EPA.Model;
 
     [Authorize]
     public class DisciplineSummaryController : ApiController
