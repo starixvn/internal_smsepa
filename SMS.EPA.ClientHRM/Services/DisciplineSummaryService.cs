@@ -1,6 +1,7 @@
 ﻿namespace SMS.EPA.ClientHrm.Services
 {
     using Criteria;
+    using EPA.Model;
     using Fanex.Data.Repository;
     using Model;
     using System;

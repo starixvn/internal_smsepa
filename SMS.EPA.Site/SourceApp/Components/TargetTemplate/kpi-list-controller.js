@@ -200,6 +200,10 @@
                 vm.totalWeightLessThanMaxWeightWarningMessage = message;
             });
 
+            $translate('TotalWeightWarning').then(function (message) {
+                vm.totalWeightWarningMessage = message;
+            });
+
             getKPIOfTargetTemplate(vm.targetTemplateId);
         }
 
