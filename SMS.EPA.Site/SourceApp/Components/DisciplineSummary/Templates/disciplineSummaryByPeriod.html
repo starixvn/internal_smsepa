@@ -52,7 +52,7 @@
     <table class="row table table-bordered table-striped">
         <thead>
             <tr class="header-table">
-                <th colspan="11">
+                <th colspan="13">
                     <input class="btnExcel pull-right" export-discipline-summary-by-period-report
                            ng-click="disciplineSummaryByPeriodCtrl.exportReport(disciplineSummaryByPeriodCtrl.filter)"
                            type="button" title="Export to Excel">
@@ -68,6 +68,8 @@
                 <th>Missing check in/out</th>
                 <th>Tardiness</th>
                 <th>Unpaid leave</th>
+                <th>Unplanned Leave</th>
+                <th>Weekend Leave</th>
                 <th>Undertime</th>
                 <th>Misconduction</th>
                 <th data-translate="Disciplinary"></th>
@@ -95,6 +97,14 @@
                     <span ng-show="discipline.UnpaidLeave == 0">{{discipline.UnpaidLeave | number: 1}}</span>
                 </td>
                 <td class="text-right">
+                    <span class="red" ng-show="discipline.UnplannedLeave > 0">-{{discipline.UnplannedLeave | number: 1}}</span>
+                    <span ng-show="discipline.UnplannedLeave == 0">{{discipline.UnplannedLeave | number: 1}}</span>
+                </td>
+                <td class="text-right">
+                    <span class="red" ng-show="discipline.WeekendLeave > 0">-{{discipline.WeekendLeave | number: 1}}</span>
+                    <span ng-show="discipline.WeekendLeave == 0">{{discipline.WeekendLeave | number: 1}}</span>
+                </td>
+                <td class="text-right">
                     <span class="red" ng-show="discipline.WorkingUndertime > 0">-{{discipline.WorkingUndertime | number: 1}}</span>
                     <span ng-show="discipline.WorkingUndertime == 0">{{discipline.WorkingUndertime | number: 1}}</span>
                 </td>
@@ -108,12 +118,12 @@
                 </td>
             </tr>
             <tr ng-show="disciplineSummaryByPeriodCtrl.filteredItems.length == 0">
-                <td class="empty-result" colspan="11" data-translate="EmptyResult"></td>
+                <td class="empty-result" colspan="13" data-translate="EmptyResult"></td>
             </tr>
         </tbody>
         <tfoot>
             <tr>
-                <td colspan="11" class="paging">
+                <td colspan="13" class="paging">
                     <span data-translate="Show"></span>
                     <select class="dropdown-entry form-control" ng-model="disciplineSummaryByPeriodCtrl.pageSize"
                             ng-options="entry for entry in disciplineSummaryByPeriodCtrl.entries"></select>
