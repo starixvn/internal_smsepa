@@ -172,6 +172,11 @@
             Sheet.CreateFreezePane(0, ContentRowStartIndex);
         }
 
+        private void CopyTitleStyleFromTemplate()
+        {
+            TitleStyle = Sheet.GetRow(TitleRowIndex).GetCell(0).CellStyle;
+        }
+
         public void Export(IEnumerable<IExcelRecord> datas, bool firstColumnAutoIncrement = false)
         {
             var dataList = datas as IList<IExcelRecord> ?? datas.ToList();
@@ -210,6 +215,7 @@
 
             if (rewriteTitle)
             {
+                CopyTitleStyleFromTemplate();
                 WriteTitle();
             }
 
