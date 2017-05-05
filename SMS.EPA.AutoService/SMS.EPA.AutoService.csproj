@@ -111,6 +111,7 @@
       <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
     </Compile>
     <Compile Include="Service\Implement\MonthlyService.cs" />
+    <Compile Include="Service\Implement\PeriodicService.cs" />
     <Compile Include="Service\Implement\ProbationService.cs" />
     <Compile Include="Service\Implement\PromotionService.cs" />
     <Compile Include="Service\Implement\SemiAnnualService.cs" />

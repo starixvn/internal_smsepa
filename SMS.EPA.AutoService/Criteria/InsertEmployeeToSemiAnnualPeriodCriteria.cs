@@ -6,6 +6,14 @@
     {
         public int PeriodId { get; set; }
 
+        public InsertEmployeeToSemiAnnualPeriodCriteria(int periodId = 0)
+        {
+            if (periodId > 0)
+            {
+                PeriodId = periodId;
+            }
+        }
+
         public override bool IsValid()
         {
             return PeriodId > 0;
