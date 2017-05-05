@@ -1,5 +1,6 @@
 ﻿namespace SMS.EPA.Site.Controllers
 {
+    using System;
     using iTextSharp.text;
     using iTextSharp.text.pdf;
     using Model;
@@ -11,6 +12,7 @@
     using System.Linq;
     using System.Web;
     using System.Web.Mvc;
+    using Core.Enumerations;
 
     [SuppressMessage("StyleCop.CSharp.StylecopPlus.Rules",
         "SP2101:MethodMustNotContainMoreLinesThan",
@@ -27,6 +29,7 @@
         private Color _borderColor;
         private Font _defaultFont;
         private Font _normalFont;
+        private Font _redFont;
 
         public ExportPdfController()
             : this(null)
@@ -46,8 +49,26 @@
             string fileName = $"{epaInfo.Employee.Code}_{epaInfo.Employee.NickName}.pdf";
 
             FontFactory.Register(Server.MapPath("~/content/fonts/ARIALUNI.TTF"), "ARIALUNI");
-            _normalFont = FontFactory.GetFont("ARIALUNI", BaseFont.IDENTITY_H, BaseFont.NOT_EMBEDDED, FontSize, Font.NORMAL, _defaultColor);
-            _boldFont = FontFactory.GetFont("ARIALUNI", BaseFont.IDENTITY_H, BaseFont.NOT_EMBEDDED, FontSize, Font.BOLD, _defaultColor);
+            _normalFont = FontFactory.GetFont(
+                "ARIALUNI",
+                BaseFont.IDENTITY_H,
+                BaseFont.NOT_EMBEDDED,
+                FontSize,
+                Font.NORMAL,
+                _defaultColor);
+            _redFont = FontFactory.GetFont(
+                "ARIALUNI",
+                BaseFont.IDENTITY_H,
+                BaseFont.NOT_EMBEDDED,
+                FontSize,
+                Font.NORMAL,
+                _redColor);
+            _boldFont = FontFactory.GetFont(
+                "ARIALUNI",
+                BaseFont.IDENTITY_H,
+                BaseFont.NOT_EMBEDDED,
+                FontSize, Font.BOLD,
+                _defaultColor);
 
             Document document = new Document(PageSize.A4, 0, 0, 30f, 30f);
             PdfWriter.GetInstance(document, Response.OutputStream);
@@ -167,7 +188,7 @@
                 TotalWidth = TotalWidth,
                 LockedWidth = true
             };
-            
+
             var border = new Color(System.Drawing.ColorTranslator.FromHtml("#ddd"));
 
             PdfPCell cell = new PdfPCell(new Phrase(Lang.GeneralInfo, _defaultFont))
@@ -380,7 +401,7 @@
             };
             detail.SetWidths(widths);
             detail.DefaultCell.BorderColor = _borderColor;
-            
+
             var backgroundColor = new Color(System.Drawing.ColorTranslator.FromHtml("#ebe4d4"));
 
             foreach (EPAKpiGroupModel kpiGroup in epaInfo.KPIGroups)
@@ -501,7 +522,8 @@
                         phrase.Add(new Chunk(" (" + kpiGroup.KPIs[index].WeightToDisplay + " pts)", _boldFont));
                     }
 
-                    Font font1 = FontFactory.GetFont("ARIALUNI", BaseFont.IDENTITY_H, BaseFont.NOT_EMBEDDED, 9, Font.NORMAL, _redColor);
+                    Font font1 = FontFactory.GetFont("ARIALUNI", BaseFont.IDENTITY_H, BaseFont.NOT_EMBEDDED, 9,
+                        Font.NORMAL, _redColor);
                     if (kpiGroup.KPIs[index].IsRequiredEvaluate)
                     {
                         phrase.Add(new Chunk(" (*)", font1));
@@ -550,8 +572,10 @@
 
                         score =
                             epaInfo.Process.Evaluators.First().IsEndProcess
-                            ? (string.IsNullOrEmpty(evaluator.Score) ? Lang.NotAvailable : evaluator.ScoreToDisplay + " pts")
-                            : Lang.Pending;
+                                ? (string.IsNullOrEmpty(evaluator.Score)
+                                    ? Lang.NotAvailable
+                                    : evaluator.ScoreToDisplay + " pts")
+                                : Lang.Pending;
                         cell = new PdfPCell(new Phrase(score, _normalFont))
                         {
                             BorderColor = _borderColor,
@@ -578,7 +602,7 @@
         private PdfPTable RenderPerformanceDetailForSemiHasMonthly(EPAModel epaInfo)
         {
             string totalScore;
-            
+
             var backgroundColor = new Color(System.Drawing.ColorTranslator.FromHtml("#ebe4d4"));
 
             PdfPTable table = new PdfPTable(4)
@@ -755,7 +779,7 @@
         private PdfPTable RenderPerformanceResult(EPAModel epaInfo)
         {
             var totalCol = !epaInfo.Process.Managements.Any() ? 8 : 10;
-            
+
             var backgroundColor = new Color(System.Drawing.ColorTranslator.FromHtml("#ebe4d4"));
 
             PdfPTable table = new PdfPTable(totalCol)
@@ -765,6 +789,7 @@
             };
             table.DefaultCell.BorderColor = _borderColor;
 
+            // Header rows
             PdfPCell cell = new PdfPCell(new Phrase(Lang.PerformanceResult.ToUpperInvariant(), _defaultFont))
             {
                 FixedHeight = 20,
@@ -908,24 +933,12 @@
             }
 
             EPAProcessModel self = epaInfo.Process.Self;
-            var totalScore = self.IsEndProcess
-                ? (string.IsNullOrEmpty(self.TotalScore) ? Lang.NotAvailable : self.TotalScore + " / " + epaInfo.ScoreRatingType.SelfEvaluated)
-                : Lang.Pending;
-
-            cell = new PdfPCell(new Phrase(totalScore, _normalFont))
-            {
-                Rowspan = epaInfo.Rowspan,
-                BorderColor = _borderColor,
-                HorizontalAlignment = Element.ALIGN_CENTER,
-                VerticalAlignment = Element.ALIGN_MIDDLE
-            };
-            table.AddCell(cell);
+            AddCellToTableFromEPAProcessModel(epaInfo, table, self);
 
             for (int index = 0; index < epaInfo.Rowspan; index++)
             {
                 if (index < epaInfo.Process.Evaluators.Count)
                 {
-                    EPAProcessModel evaluator = epaInfo.Process.Evaluators[index];
                     cell = new PdfPCell(new Phrase(
                         epaInfo.Process.Evaluators[index].EvaluatorInfo.NickName,
                         _normalFont))
@@ -935,20 +948,22 @@
                     };
                     table.AddCell(cell);
 
-                    totalScore =
-                        evaluator.IsEndProcess
-                            ? (string.IsNullOrEmpty(evaluator.TotalScore)
-                                ? Lang.NotAvailable
-                                : $"{evaluator.TotalScore} / {epaInfo.ScoreRatingType.Evaluator}")
-                            : Lang.Pending;
+                    EPAProcessModel evaluator = epaInfo.Process.Evaluators[index];
+                    //totalScore =
+                    //    evaluator.IsEndProcess
+                    //        ? (string.IsNullOrEmpty(evaluator.TotalScore)
+                    //            ? Lang.NotAvailable
+                    //            : $"{evaluator.TotalScore} / {epaInfo.ScoreRatingType.Evaluator}")
+                    //        : Lang.Pending;
 
-                    cell = new PdfPCell(new Phrase(totalScore, _normalFont))
-                    {
-                        BorderColor = _borderColor,
-                        HorizontalAlignment = Element.ALIGN_CENTER,
-                        VerticalAlignment = Element.ALIGN_MIDDLE
-                    };
-                    table.AddCell(cell);
+                    //cell = new PdfPCell(new Phrase(totalScore, _normalFont))
+                    //{
+                    //    BorderColor = _borderColor,
+                    //    HorizontalAlignment = Element.ALIGN_CENTER,
+                    //    VerticalAlignment = Element.ALIGN_MIDDLE
+                    //};
+                    //table.AddCell(cell);
+                    AddCellToTableFromEPAProcessModel(epaInfo, table, evaluator);
                 }
                 else
                 {
@@ -966,17 +981,20 @@
                     };
                     table.AddCell(cell);
 
-                    totalScore =
-                            reviewer.IsEndProcess
-                            ? (string.IsNullOrEmpty(reviewer.TotalScore) ? Lang.NotAvailable : reviewer.TotalScore + " / " + epaInfo.ScoreRatingType.Reviewer)
-                            : Lang.Pending;
-                    cell = new PdfPCell(new Phrase(totalScore, _normalFont))
-                    {
-                        BorderColor = _borderColor,
-                        HorizontalAlignment = Element.ALIGN_CENTER,
-                        VerticalAlignment = Element.ALIGN_MIDDLE
-                    };
-                    table.AddCell(cell);
+                    //totalScore =
+                    //    reviewer.IsEndProcess
+                    //        ? (string.IsNullOrEmpty(reviewer.TotalScore)
+                    //            ? Lang.NotAvailable
+                    //            : reviewer.TotalScore + " / " + epaInfo.ScoreRatingType.Reviewer)
+                    //        : Lang.Pending;
+                    //cell = new PdfPCell(new Phrase(totalScore, _normalFont))
+                    //{
+                    //    BorderColor = _borderColor,
+                    //    HorizontalAlignment = Element.ALIGN_CENTER,
+                    //    VerticalAlignment = Element.ALIGN_MIDDLE
+                    //};
+                    //table.AddCell(cell);
+                    AddCellToTableFromEPAProcessModel(epaInfo, table, reviewer);
                 }
                 else
                 {
@@ -996,17 +1014,20 @@
                         };
                         table.AddCell(cell);
 
-                        totalScore =
-                            management.IsEndProcess
-                            ? (string.IsNullOrEmpty(management.TotalScore) ? Lang.NotAvailable : management.TotalScore + " / " + epaInfo.ScoreRatingType.Management)
-                            : Lang.Pending;
-                        cell = new PdfPCell(new Phrase(totalScore, _normalFont))
-                        {
-                            BorderColor = _borderColor,
-                            HorizontalAlignment = Element.ALIGN_CENTER,
-                            VerticalAlignment = Element.ALIGN_MIDDLE
-                        };
-                        table.AddCell(cell);
+                        //totalScore =
+                        //    management.IsEndProcess
+                        //        ? (string.IsNullOrEmpty(management.TotalScore)
+                        //            ? Lang.NotAvailable
+                        //            : management.TotalScore + " / " + epaInfo.ScoreRatingType.Management)
+                        //        : Lang.Pending;
+                        //cell = new PdfPCell(new Phrase(totalScore, _normalFont))
+                        //{
+                        //    BorderColor = _borderColor,
+                        //    HorizontalAlignment = Element.ALIGN_CENTER,
+                        //    VerticalAlignment = Element.ALIGN_MIDDLE
+                        //};
+                        //table.AddCell(cell);
+                        AddCellToTableFromEPAProcessModel(epaInfo, table, management);
                     }
                     else
                     {
@@ -1017,7 +1038,10 @@
 
                 if (index == 0)
                 {
-                    var disciplineScore = epaInfo.HasDisciplineScore ? epaInfo.DisciplineScore.ToString(CultureInfo.InvariantCulture) + " / " + epaInfo.MaxDisciplineScore : "-";
+                    var disciplineScore = epaInfo.HasDisciplineScore
+                        ? epaInfo.DisciplineScore.ToString(CultureInfo.InvariantCulture) + " / " +
+                          epaInfo.MaxDisciplineScore
+                        : "-";
                     cell = new PdfPCell(new Phrase(disciplineScore, _normalFont))
                     {
                         Rowspan = epaInfo.Rowspan,
@@ -1027,26 +1051,31 @@
                     };
                     table.AddCell(cell);
 
-                    string finalScore =
-                        epaInfo.Period.IsEndPeriod
-                        ? (string.IsNullOrEmpty(epaInfo.FinalScore) ? Lang.NotAvailable : epaInfo.FinalScore + " / " + epaInfo.MaxFinalScore)
-                        : Lang.Pending;
-                    cell = new PdfPCell(new Phrase(finalScore, _normalFont))
+                    string finalScore = string.IsNullOrEmpty(epaInfo.FinalScore)
+                        ? Lang.NotAvailable
+                        : epaInfo.FinalScore + " / " + epaInfo.MaxFinalScore;
+
+                    Font selectedFont = epaInfo.Period.IsEndPeriod ? _normalFont : _redFont;
+
+                    cell = new PdfPCell
                     {
                         Rowspan = epaInfo.Rowspan,
                         BorderColor = _borderColor,
                         HorizontalAlignment = Element.ALIGN_CENTER,
-                        VerticalAlignment = Element.ALIGN_MIDDLE
+                        VerticalAlignment = Element.ALIGN_MIDDLE,
+                        Phrase = new Phrase(finalScore, selectedFont)
                     };
                     table.AddCell(cell);
 
-                    string grade = epaInfo.Period.IsEndPeriod ? (string.IsNullOrEmpty(epaInfo.Grade) ? Lang.NotAvailable : epaInfo.Grade) : Lang.Pending;
-                    cell = new PdfPCell(new Phrase(grade, _normalFont))
+                    string grade = string.IsNullOrEmpty(epaInfo.Grade) ? Lang.NotAvailable : epaInfo.Grade;
+
+                    cell = new PdfPCell
                     {
                         Rowspan = epaInfo.Rowspan,
                         BorderColor = _borderColor,
                         HorizontalAlignment = Element.ALIGN_CENTER,
-                        VerticalAlignment = Element.ALIGN_MIDDLE
+                        VerticalAlignment = Element.ALIGN_MIDDLE,
+                        Phrase = new Phrase(grade, selectedFont)
                     };
                     table.AddCell(cell);
                 }
@@ -1055,10 +1084,63 @@
             return table;
         }
 
+        private void AddCellToTableFromEPAProcessModel(EPAModel epaInfo, PdfPTable table, EPAProcessModel process)
+        {
+            var score = GetScoreFromEPAProcessModel(epaInfo, process);
+            var cell = CreateCellFromEPAProcessModel(epaInfo, process, score);
+            table.AddCell(cell);
+        }
+
+        private PdfPCell CreateCellFromEPAProcessModel(EPAModel epaInfo, EPAProcessModel process, string totalScore)
+        {
+            Font selectedFont = process.IsEndProcess ? _normalFont : _redFont;
+
+            var cell = new PdfPCell
+            {
+                Rowspan = epaInfo.Rowspan,
+                BorderColor = _borderColor,
+                HorizontalAlignment = Element.ALIGN_CENTER,
+                VerticalAlignment = Element.ALIGN_MIDDLE,
+                Phrase = new Phrase(totalScore, selectedFont)
+            };
+
+            return cell;
+        }
+
+        private static string GetScoreFromEPAProcessModel(EPAModel epaInfo, EPAProcessModel process)
+        {
+            float maxScore;
+            switch (process.ProcessId)
+            {
+                case (int)ProcessType.Self:
+                    maxScore = epaInfo.ScoreRatingType.SelfEvaluated;
+                    break;
+
+                case (int)ProcessType.Evaluator:
+                    maxScore = epaInfo.ScoreRatingType.Evaluator;
+                    break;
+
+                case (int)ProcessType.Reviewer:
+                    maxScore = epaInfo.ScoreRatingType.Reviewer;
+                    break;
+
+                case (int)ProcessType.Management:
+                    maxScore = epaInfo.ScoreRatingType.Management;
+                    break;
+
+                default:
+                    throw new ArgumentException("type not in case");
+            }
+
+            return string.IsNullOrEmpty(process.TotalScore)
+                ? Lang.NotAvailable
+                : process.TotalScore + " / " + maxScore;
+        }
+
         private PdfPTable RenderPerformanceResultForSemiHasMonthly(EPAModel epaInfo)
         {
             var totalCol = !epaInfo.Process.Managements.Any() ? 7 : 9;
-            
+
             var backgroundColor = new Color(System.Drawing.ColorTranslator.FromHtml("#ebe4d4"));
 
             PdfPTable table = new PdfPTable(totalCol)
@@ -1196,7 +1278,8 @@
                 table.AddCell(cell);
             }
 
-            var totalScore = epaInfo.MonthlyEPA.AverageSelfScoreConverted.ToString() + " / " + epaInfo.ScoreRatingType.SelfEvaluated;
+            var totalScore = epaInfo.MonthlyEPA.AverageSelfScoreConverted.ToString() + " / " +
+                             epaInfo.ScoreRatingType.SelfEvaluated;
             cell = new PdfPCell(new Phrase(totalScore, _normalFont))
             {
                 Rowspan = epaInfo.Rowspan,
@@ -1207,7 +1290,8 @@
 
             table.AddCell(cell);
 
-            totalScore = epaInfo.MonthlyEPA.AverageEvaluatorScoreConverted.ToString() + " / " + epaInfo.ScoreRatingType.Evaluator;
+            totalScore = epaInfo.MonthlyEPA.AverageEvaluatorScoreConverted.ToString() + " / " +
+                         epaInfo.ScoreRatingType.Evaluator;
             cell = new PdfPCell(new Phrase(totalScore, _normalFont))
             {
                 BorderColor = _borderColor,
@@ -1231,8 +1315,10 @@
 
                     totalScore =
                         reviewer.IsEndProcess
-                        ? (string.IsNullOrEmpty(reviewer.TotalScore) ? Lang.NotAvailable : reviewer.TotalScore + " / " + epaInfo.ScoreRatingType.Reviewer)
-                        : Lang.Pending;
+                            ? (string.IsNullOrEmpty(reviewer.TotalScore)
+                                ? Lang.NotAvailable
+                                : reviewer.TotalScore + " / " + epaInfo.ScoreRatingType.Reviewer)
+                            : Lang.Pending;
                     cell = new PdfPCell(new Phrase(totalScore, _normalFont))
                     {
                         BorderColor = _borderColor,
@@ -1261,8 +1347,10 @@
 
                         totalScore =
                             management.IsEndProcess
-                            ? (string.IsNullOrEmpty(management.TotalScore) ? Lang.NotAvailable : management.TotalScore + " / " + epaInfo.ScoreRatingType.Management)
-                            : Lang.Pending;
+                                ? (string.IsNullOrEmpty(management.TotalScore)
+                                    ? Lang.NotAvailable
+                                    : management.TotalScore + " / " + epaInfo.ScoreRatingType.Management)
+                                : Lang.Pending;
                         cell = new PdfPCell(new Phrase(totalScore, _normalFont))
                         {
                             BorderColor = _borderColor,
@@ -1280,7 +1368,9 @@
 
                 if (index == 0)
                 {
-                    var disciplineScore = epaInfo.HasDisciplineScore ? epaInfo.DisciplineScore + " / " + epaInfo.MaxDisciplineScore : "-";
+                    var disciplineScore = epaInfo.HasDisciplineScore
+                        ? epaInfo.DisciplineScore + " / " + epaInfo.MaxDisciplineScore
+                        : "-";
                     cell = new PdfPCell(new Phrase(disciplineScore, _normalFont))
                     {
                         Rowspan = epaInfo.Rowspan,
@@ -1292,8 +1382,10 @@
 
                     string finalScore =
                         epaInfo.Period.IsEndPeriod
-                        ? (string.IsNullOrEmpty(epaInfo.FinalScore) ? Lang.NotAvailable : epaInfo.FinalScore + " / " + epaInfo.MaxFinalScore)
-                        : Lang.Pending;
+                            ? (string.IsNullOrEmpty(epaInfo.FinalScore)
+                                ? Lang.NotAvailable
+                                : epaInfo.FinalScore + " / " + epaInfo.MaxFinalScore)
+                            : Lang.Pending;
                     cell = new PdfPCell(new Phrase(finalScore, _normalFont))
                     {
                         Rowspan = epaInfo.Rowspan,
@@ -1303,7 +1395,9 @@
                     };
                     table.AddCell(cell);
 
-                    string grade = epaInfo.Period.IsEndPeriod ? (string.IsNullOrEmpty(epaInfo.Grade) ? Lang.NotAvailable : epaInfo.Grade) : Lang.Pending;
+                    string grade = epaInfo.Period.IsEndPeriod
+                        ? (string.IsNullOrEmpty(epaInfo.Grade) ? Lang.NotAvailable : epaInfo.Grade)
+                        : Lang.Pending;
                     cell = new PdfPCell(new Phrase(grade, _normalFont))
                     {
                         Rowspan = epaInfo.Rowspan,
@@ -1486,7 +1580,9 @@
             };
             table.AddCell(cell);
 
-            string jobGrade = epaInfo.Recommendation.JobGrade != null ? Lang.JobGrade + ": " + epaInfo.Recommendation.JobGrade.Name : Lang.JobGrade;
+            string jobGrade = epaInfo.Recommendation.JobGrade != null
+                ? Lang.JobGrade + ": " + epaInfo.Recommendation.JobGrade.Name
+                : Lang.JobGrade;
             cell = new PdfPCell(new Phrase(jobGrade, _normalFont))
             {
                 VerticalAlignment = Element.ALIGN_MIDDLE,
@@ -1548,7 +1644,9 @@
                 };
                 table.AddCell(cell);
 
-                cell = new PdfPCell(new Phrase(self.IsEndProcess ? self.Comment : Lang.Pending, _normalFont))
+                Font selectedFont = self.IsEndProcess ? _normalFont : _redFont;
+
+                cell = new PdfPCell(new Phrase(self.Comment, selectedFont))
                 {
                     BorderColor = _borderColor
                 };
@@ -1574,11 +1672,9 @@
                     };
                     table.AddCell(cell);
 
-                    cell = new PdfPCell(new Phrase(
-                        evaluator.IsEndProcess
-                            ? evaluator.Comment
-                            : Lang.Pending,
-                        _normalFont))
+                    selectedFont = evaluator.IsEndProcess ? _normalFont : _redFont;
+
+                    cell = new PdfPCell(new Phrase(evaluator.Comment, selectedFont))
                     {
                         BorderColor = _borderColor
                     };
@@ -1606,11 +1702,9 @@
                 };
                 table.AddCell(cell);
 
-                cell = new PdfPCell(new Phrase(
-                    reviewer.IsEndProcess
-                        ? reviewer.Comment
-                        : Lang.Pending,
-                    _normalFont))
+                Font selectedFont = reviewer.IsEndProcess ? _normalFont : _redFont;
+
+                cell = new PdfPCell(new Phrase(reviewer.Comment, selectedFont))
                 {
                     BorderColor = _borderColor
                 };
@@ -1640,11 +1734,9 @@
                     };
                     table.AddCell(cell);
 
-                    cell = new PdfPCell(new Phrase(
-                        management.IsEndProcess
-                            ? management.Comment
-                            : Lang.Pending,
-                        _normalFont))
+                    Font selectedFont = management.IsEndProcess ? _normalFont : _redFont;
+
+                    cell = new PdfPCell(new Phrase(management.Comment, selectedFont))
                     {
                         BorderColor = _borderColor
                     };
@@ -1662,7 +1754,8 @@
                 TotalWidth = TotalWidth,
                 LockedWidth = true
             };
-            Font font = FontFactory.GetFont("ARIALUNI", BaseFont.IDENTITY_H, BaseFont.NOT_EMBEDDED, 10, Font.BOLD, _defaultColor);
+            Font font = FontFactory.GetFont("ARIALUNI", BaseFont.IDENTITY_H, BaseFont.NOT_EMBEDDED, 10, Font.BOLD,
+                _defaultColor);
             PdfPCell cell = new PdfPCell(new Phrase(Lang.EPATilte + " - " + periodName, font))
             {
                 FixedHeight = 30,
@@ -1681,7 +1774,13 @@
         private void SetDefaultStyles()
         {
             _borderColor = new Color(System.Drawing.ColorTranslator.FromHtml("#cec5c2"));
-            _defaultFont = FontFactory.GetFont("ARIALUNI", BaseFont.IDENTITY_H, BaseFont.NOT_EMBEDDED, 9, Font.NORMAL, _whiteColor);
+            _defaultFont = FontFactory.GetFont(
+                "ARIALUNI",
+                BaseFont.IDENTITY_H,
+                BaseFont.NOT_EMBEDDED,
+                9,
+                Font.NORMAL,
+                _whiteColor);
         }
     }
 }
