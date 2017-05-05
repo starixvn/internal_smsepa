@@ -36,3 +36,6 @@ packages/
 SMS.EPA.Site/ExportPDFFolder/*
 *.dbmdl
 *.pubxml
+
+# Visual Studio 2015 cache/options directory
+.vs/
