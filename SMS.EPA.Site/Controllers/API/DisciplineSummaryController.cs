@@ -9,6 +9,7 @@
     using Services.Interfaces;
     using System;
     using System.Collections.Generic;
+    using Model.Discipline;
 
     public class DisciplineSummaryController : BaseController
     {

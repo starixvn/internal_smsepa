@@ -3,7 +3,7 @@
     using Core.Model;
     using Criteria.DisciplineSummary;
     using Criteria.EmployeeDiscipline;
-    using Model;
+    using EPA.Model.API;
     using Services;
     using System;
     using System.Net;

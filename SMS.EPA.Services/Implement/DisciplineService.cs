@@ -4,6 +4,7 @@
     using Criteria;
     using Interfaces;
     using Model;
+    using Model.Discipline;
     using Repositories;
     using System.Collections.Generic;
     using System.Linq;

@@ -1,6 +1,6 @@
 ﻿namespace SMS.EPA.ClientHrm.Services
 {
-    using EPA.Model;
+    using EPA.Model.API;
     using Model;
     using System;
     using System.Collections.Generic;
@@ -166,12 +166,12 @@
 
             if (_token.IsValid())
             {
-                DateTime lastModifiedDate = _disciplineSummaryService.GetLastModifiedDate(_token);
-                IEnumerable<DisciplineSummary> violations = _disciplineSummaryService.GetDisciplineSummary(lastModifiedDate);
-                if (violations.Any())
-                {
-                    _disciplineSummaryService.Update(violations, _token);
-                }
+                //DateTime lastModifiedDate = _disciplineSummaryService.GetLastModifiedDate(_token);
+                //IEnumerable<DisciplineSummaryAPI> violations = _disciplineSummaryService.GetDisciplineSummary(lastModifiedDate);
+                //if (violations.Any())
+                //{
+                //    _disciplineSummaryService.Update(violations, _token);
+                //}
             }
         }
 

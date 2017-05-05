@@ -1,11 +1,12 @@
-﻿namespace SMS.EPA.ServicesAPI.Model
+﻿namespace SMS.EPA.Model.Discipline
 {
     using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Text;
 
-    public class DisciplineSummary
+    public class DisciplineSummaryBase
     {
-        public int EmployeeId { get; set; }
-
         public DateTime Period { get; set; }
 
         public decimal MissingCheckInOut { get; set; }
@@ -31,6 +32,10 @@
         public decimal OtherDisciplines { get; set; }
 
         public decimal SystemSubtractScore { get; set; }
+
+        public decimal ApproverIgnoredScore { get; set; }
+
+        public decimal ApproverSubtractScore { get; set; }
 
         public DateTime? ModifiedDate { get; set; }
     }

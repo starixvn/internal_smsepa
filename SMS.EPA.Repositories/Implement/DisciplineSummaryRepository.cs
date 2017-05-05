@@ -3,6 +3,7 @@
     using Fanex.Data;
     using Fanex.Data.Repository;
     using Model;
+    using Model.Discipline;
     using Model.Enitites;
     using System;
     using System.Collections.Generic;

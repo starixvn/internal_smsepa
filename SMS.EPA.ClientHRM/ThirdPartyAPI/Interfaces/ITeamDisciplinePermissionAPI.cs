@@ -1,8 +1,9 @@
 ﻿namespace SMS.EPA.ClientHrm.ThirdPartyAPI
 {
+    using Core.Model;
+    using Model;
     using System;
     using System.Collections.Generic;
-    using Model;
 
     public interface ITeamSupervisorAPI
     {

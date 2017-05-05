@@ -3,6 +3,7 @@
     using System.Collections.Generic;
     using Criteria;
     using Model;
+    using Model.Discipline;
 
     public interface IDisciplineService
     {

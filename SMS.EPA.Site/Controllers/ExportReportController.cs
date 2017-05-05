@@ -10,6 +10,7 @@
     using Criteria;
     using Criteria.Report;
     using Model;
+    using Model.Discipline;
     using Model.Enitites;
     using Resources;
     using Services.Implement;

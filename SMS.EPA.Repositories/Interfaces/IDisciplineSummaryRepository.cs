@@ -2,6 +2,7 @@
 {
     using Fanex.Data.Repository;
     using Model;
+    using Model.Discipline;
     using System.Collections.Generic;
 
     public interface IDisciplineSummaryRepository
