@@ -38,7 +38,8 @@
         {
             get
             {
-                decimal total = ChangeShift + MissingCheckInOut + LateIn + EarlyOut + Absent + UnpaidLeave + UnplannedLeave + WeekendLeave + WorkingUndertime + UnpaidLeaveAbsent + OtherDisciplines;
+                decimal total = ChangeShift + MissingCheckInOut + LateIn + EarlyOut + Absent + UnpaidLeave +
+                                UnplannedLeave + WeekendLeave + WorkingUndertime + UnpaidLeaveAbsent + OtherDisciplines;
                 return total;
             }
         }

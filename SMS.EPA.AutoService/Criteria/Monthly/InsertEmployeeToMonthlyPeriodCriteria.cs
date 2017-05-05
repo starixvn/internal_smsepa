@@ -4,8 +4,6 @@
 
     public class InsertEmployeeToMonthlyPeriodCriteria : CriteriaBase
     {
-        public int PeriodId { get; set; }
-
         public InsertEmployeeToMonthlyPeriodCriteria(int periodId = 0)
         {
             if (periodId > 0)
@@ -14,14 +12,16 @@
             }
         }
 
-        public override bool IsValid()
-        {
-            return PeriodId > 0;
-        }
+        public int PeriodId { get; set; }
 
         public override string GetSettingKey()
         {
             return "EpaAuto_Monthly_AddEmployeeToPeriod";
+        }
+
+        public override bool IsValid()
+        {
+            return PeriodId > 0;
         }
     }
 }

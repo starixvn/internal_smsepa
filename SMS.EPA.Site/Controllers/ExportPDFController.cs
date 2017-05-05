@@ -17,18 +17,16 @@
         Justification = "Reviewed. Suppression is OK here.")]
     public class ExportPdfController : Controller
     {
-        private const float TotalWidth = 590;
         private const int FontSize = 8;
-
+        private const float TotalWidth = 590;
         private readonly Color _defaultColor = new Color(System.Drawing.ColorTranslator.FromHtml("#333"));
+        private readonly IEmployeeEPAService _employeeEPAService;
         private readonly Color _redColor = new Color(System.Drawing.ColorTranslator.FromHtml("#df1501"));
         private readonly Color _whiteColor = new Color(System.Drawing.ColorTranslator.FromHtml("#fff"));
-        private readonly IEmployeeEPAService _employeeEPAService;
-
-        private Font _normalFont;
         private Font _boldFont;
         private Color _borderColor;
         private Font _defaultFont;
+        private Font _normalFont;
 
         public ExportPdfController()
             : this(null)
@@ -40,12 +38,6 @@
             _employeeEPAService = employeeEPAService ?? new EmployeeEPAService();
 
             SetDefaultStyles();
-        }
-
-        private void SetDefaultStyles()
-        {
-            _borderColor = new Color(System.Drawing.ColorTranslator.FromHtml("#cec5c2"));
-            _defaultFont = FontFactory.GetFont("ARIALUNI", BaseFont.IDENTITY_H, BaseFont.NOT_EMBEDDED, 9, Font.NORMAL, _whiteColor);
         }
 
         public void ExportPdf(int epaId)
@@ -116,25 +108,16 @@
             Response.End();
         }
 
-        private PdfPTable RenderTitle(string periodName)
+        private static PdfPTable CreateNewDefaultPdfPTable(float[] widths, Color borderColor)
         {
-            PdfPTable table = new PdfPTable(1)
+            PdfPTable table = new PdfPTable(2)
             {
                 TotalWidth = TotalWidth,
                 LockedWidth = true
             };
-            Font font = FontFactory.GetFont("ARIALUNI", BaseFont.IDENTITY_H, BaseFont.NOT_EMBEDDED, 10, Font.BOLD, _defaultColor);
-            PdfPCell cell = new PdfPCell(new Phrase(Lang.EPATilte + " - " + periodName, font))
-            {
-                FixedHeight = 30,
-                HorizontalAlignment = Element.ALIGN_CENTER,
-                VerticalAlignment = Element.ALIGN_MIDDLE,
-                BackgroundColor = new Color(System.Drawing.ColorTranslator.FromHtml("#ebe4d4")),
-                Border = 0,
-                PaddingLeft = 12f,
-                PaddingRight = 12f
-            };
-            table.AddCell(cell);
+
+            table.SetWidths(widths);
+            table.DefaultCell.BorderColor = borderColor;
 
             return table;
         }
@@ -150,6 +133,28 @@
             if (System.IO.File.Exists(Server.MapPath("~/avatars/" + codeWithExtension)))
             {
                 path = Server.MapPath("~/avatars/" + codeWithExtension);
+            }
+
+            return path;
+        }
+
+        private string GetCheckbox(bool value)
+        {
+            string path = Server.MapPath("~/content/site/images/checkbox_no.png");
+            if (value)
+            {
+                path = Server.MapPath("~/content/site/images/checkbox_yes.png");
+            }
+
+            return path;
+        }
+
+        private string GetRadioButton(bool value)
+        {
+            string path = Server.MapPath("~/content/site/images/radiobutton_no.png");
+            if (value)
+            {
+                path = Server.MapPath("~/content/site/images/radiobutton_yes.png");
             }
 
             return path;
@@ -359,6 +364,388 @@
                 BorderWidthLeft = 0,
                 BorderWidthBottom = 1,
                 PaddingBottom = 5
+            };
+            table.AddCell(cell);
+
+            return table;
+        }
+
+        private PdfPTable RenderPerformanceDetail(EPAModel epaInfo)
+        {
+            float[] widths = { 20, 190, 40, 120, 60, 40, 120 };
+            PdfPTable detail = new PdfPTable(7)
+            {
+                TotalWidth = TotalWidth,
+                LockedWidth = true
+            };
+            detail.SetWidths(widths);
+            detail.DefaultCell.BorderColor = _borderColor;
+            
+            var backgroundColor = new Color(System.Drawing.ColorTranslator.FromHtml("#ebe4d4"));
+
+            foreach (EPAKpiGroupModel kpiGroup in epaInfo.KPIGroups)
+            {
+                PdfPCell cell =
+                    new PdfPCell(new Phrase(kpiGroup.Name + " (" + kpiGroup.Weight + " pts)", _defaultFont))
+                    {
+                        Colspan = 7,
+                        MinimumHeight = 20,
+                        PaddingLeft = 5,
+                        PaddingRight = 5,
+                        VerticalAlignment = Element.ALIGN_MIDDLE,
+                        BackgroundColor = new Color(System.Drawing.ColorTranslator.FromHtml("#8b8f9e")),
+                        Border = 0
+                    };
+                detail.AddCell(cell);
+
+                cell = new PdfPCell(new Phrase(Lang.SymbolCount, _normalFont))
+                {
+                    Rowspan = 2,
+                    BackgroundColor = backgroundColor,
+                    BorderColor = _borderColor,
+                    HorizontalAlignment = Element.ALIGN_CENTER,
+                    VerticalAlignment = Element.ALIGN_MIDDLE
+                };
+                detail.AddCell(cell);
+
+                cell = new PdfPCell(new Phrase(Lang.KPI, _normalFont))
+                {
+                    Rowspan = 2,
+                    BackgroundColor = backgroundColor,
+                    BorderColor = _borderColor,
+                    HorizontalAlignment = Element.ALIGN_CENTER,
+                    VerticalAlignment = Element.ALIGN_MIDDLE
+                };
+                detail.AddCell(cell);
+
+                cell = new PdfPCell(new Phrase(Lang.Employee, _normalFont))
+                {
+                    Colspan = 2,
+                    BackgroundColor = backgroundColor,
+                    BorderColor = _borderColor,
+                    HorizontalAlignment = Element.ALIGN_CENTER,
+                    VerticalAlignment = Element.ALIGN_MIDDLE
+                };
+                detail.AddCell(cell);
+
+                cell = new PdfPCell(new Phrase(Lang.Evaluator, _normalFont))
+                {
+                    Colspan = 3,
+                    BackgroundColor = backgroundColor,
+                    BorderColor = _borderColor,
+                    HorizontalAlignment = Element.ALIGN_CENTER,
+                    VerticalAlignment = Element.ALIGN_MIDDLE
+                };
+                detail.AddCell(cell);
+
+                cell = new PdfPCell(new Phrase(Lang.Score, _normalFont))
+                {
+                    BackgroundColor = backgroundColor,
+                    BorderColor = _borderColor,
+                    HorizontalAlignment = Element.ALIGN_CENTER,
+                    VerticalAlignment = Element.ALIGN_MIDDLE
+                };
+                detail.AddCell(cell);
+
+                cell = new PdfPCell(new Phrase(Lang.Comment, _normalFont))
+                {
+                    BackgroundColor = backgroundColor,
+                    BorderColor = _borderColor,
+                    HorizontalAlignment = Element.ALIGN_CENTER,
+                    VerticalAlignment = Element.ALIGN_MIDDLE
+                };
+                detail.AddCell(cell);
+
+                cell = new PdfPCell(new Phrase(Lang.NickName, _normalFont))
+                {
+                    BackgroundColor = backgroundColor,
+                    BorderColor = _borderColor,
+                    HorizontalAlignment = Element.ALIGN_CENTER,
+                    VerticalAlignment = Element.ALIGN_MIDDLE
+                };
+                detail.AddCell(cell);
+
+                cell = new PdfPCell(new Phrase(Lang.Score, _normalFont))
+                {
+                    BackgroundColor = backgroundColor,
+                    BorderColor = _borderColor,
+                    HorizontalAlignment = Element.ALIGN_CENTER,
+                    VerticalAlignment = Element.ALIGN_MIDDLE
+                };
+                detail.AddCell(cell);
+
+                cell = new PdfPCell(new Phrase(Lang.Comment, _normalFont))
+                {
+                    BackgroundColor = backgroundColor,
+                    BorderColor = _borderColor,
+                    HorizontalAlignment = Element.ALIGN_CENTER,
+                    VerticalAlignment = Element.ALIGN_MIDDLE
+                };
+                detail.AddCell(cell);
+
+                int rowspan = epaInfo.Process.Evaluators.Count;
+                for (int index = 0; index < kpiGroup.KPIs.Count; index++)
+                {
+                    cell = new PdfPCell(new Phrase((index + 1).ToString(), _normalFont))
+                    {
+                        Rowspan = rowspan,
+                        BorderColor = _borderColor,
+                        HorizontalAlignment = Element.ALIGN_CENTER,
+                        VerticalAlignment = Element.ALIGN_MIDDLE
+                    };
+                    detail.AddCell(cell);
+
+                    Phrase phrase = new Phrase { new Chunk(kpiGroup.KPIs[index].Name, _normalFont) };
+                    if (kpiGroup.NumberKPIOptional == 0)
+                    {
+                        phrase.Add(new Chunk(" (" + kpiGroup.KPIs[index].WeightToDisplay + " pts)", _boldFont));
+                    }
+
+                    Font font1 = FontFactory.GetFont("ARIALUNI", BaseFont.IDENTITY_H, BaseFont.NOT_EMBEDDED, 9, Font.NORMAL, _redColor);
+                    if (kpiGroup.KPIs[index].IsRequiredEvaluate)
+                    {
+                        phrase.Add(new Chunk(" (*)", font1));
+                    }
+
+                    cell = new PdfPCell(phrase)
+                    {
+                        Rowspan = rowspan,
+                        BorderColor = _borderColor
+                    };
+                    detail.AddCell(cell);
+
+                    EvaluationModel self = kpiGroup.KPIs[index].EvaluationBySelf;
+                    var score = epaInfo.Process.Self.IsEndProcess
+                        ? (string.IsNullOrEmpty(self.Score) ? Lang.NotAvailable : self.ScoreToDisplay + " pts")
+                        : Lang.Pending;
+                    cell = new PdfPCell(new Phrase(score, _normalFont))
+                    {
+                        Rowspan = rowspan,
+                        BorderColor = _borderColor,
+                        HorizontalAlignment = Element.ALIGN_CENTER,
+                        VerticalAlignment = Element.ALIGN_MIDDLE
+                    };
+                    detail.AddCell(cell);
+
+                    cell = new PdfPCell(new Phrase(
+                        epaInfo.Process.Self.IsEndProcess
+                            ? self.Comment
+                            : Lang.Pending,
+                        _normalFont))
+                    {
+                        Rowspan = rowspan,
+                        BorderColor = _borderColor
+                    };
+
+                    detail.AddCell(cell);
+
+                    foreach (EvaluationModel evaluator in kpiGroup.KPIs[index].EvaluationByEvaluators)
+                    {
+                        cell = new PdfPCell(new Phrase(evaluator.NickName, _normalFont))
+                        {
+                            BorderColor = _borderColor,
+                            VerticalAlignment = Element.ALIGN_MIDDLE
+                        };
+                        detail.AddCell(cell);
+
+                        score =
+                            epaInfo.Process.Evaluators.First().IsEndProcess
+                            ? (string.IsNullOrEmpty(evaluator.Score) ? Lang.NotAvailable : evaluator.ScoreToDisplay + " pts")
+                            : Lang.Pending;
+                        cell = new PdfPCell(new Phrase(score, _normalFont))
+                        {
+                            BorderColor = _borderColor,
+                            HorizontalAlignment = Element.ALIGN_CENTER,
+                            VerticalAlignment = Element.ALIGN_MIDDLE
+                        };
+                        detail.AddCell(cell);
+
+                        cell = new PdfPCell(new Phrase(
+                            epaInfo.Process.Evaluators.First().IsEndProcess ? evaluator.Comment : Lang.Pending,
+                            _normalFont))
+                        {
+                            BorderColor = _borderColor
+                        };
+
+                        detail.AddCell(cell);
+                    }
+                }
+            }
+
+            return detail;
+        }
+
+        private PdfPTable RenderPerformanceDetailForSemiHasMonthly(EPAModel epaInfo)
+        {
+            string totalScore;
+            
+            var backgroundColor = new Color(System.Drawing.ColorTranslator.FromHtml("#ebe4d4"));
+
+            PdfPTable table = new PdfPTable(4)
+            {
+                TotalWidth = TotalWidth,
+                LockedWidth = true
+            };
+            table.DefaultCell.BorderColor = _borderColor;
+
+            PdfPCell cell = new PdfPCell(new Phrase(Lang.MonthlyEPA, _defaultFont))
+            {
+                MinimumHeight = 20,
+                PaddingLeft = 5,
+                PaddingRight = 5,
+                Colspan = 4,
+                VerticalAlignment = Element.ALIGN_MIDDLE,
+                BackgroundColor = new Color(System.Drawing.ColorTranslator.FromHtml("#8b8f9e")),
+                Border = 0
+            };
+            table.AddCell(cell);
+
+            cell = new PdfPCell(new Phrase(Lang.SymbolCount, _normalFont))
+            {
+                BackgroundColor = backgroundColor,
+                BorderColor = _borderColor,
+                HorizontalAlignment = Element.ALIGN_CENTER,
+                VerticalAlignment = Element.ALIGN_MIDDLE
+            };
+            table.AddCell(cell);
+
+            cell = new PdfPCell(new Phrase(Lang.EmployeeScore, _normalFont))
+            {
+                BackgroundColor = backgroundColor,
+                BorderColor = _borderColor,
+                HorizontalAlignment = Element.ALIGN_CENTER,
+                VerticalAlignment = Element.ALIGN_MIDDLE
+            };
+            table.AddCell(cell);
+
+            cell = new PdfPCell(new Phrase(Lang.EvaluatorScore, _normalFont))
+            {
+                BackgroundColor = backgroundColor,
+                BorderColor = _borderColor,
+                HorizontalAlignment = Element.ALIGN_CENTER,
+                VerticalAlignment = Element.ALIGN_MIDDLE
+            };
+            table.AddCell(cell);
+
+            cell = new PdfPCell(new Phrase(Lang.ReviewerScore, _normalFont))
+            {
+                BackgroundColor = backgroundColor,
+                BorderColor = _borderColor,
+                HorizontalAlignment = Element.ALIGN_CENTER,
+                VerticalAlignment = Element.ALIGN_MIDDLE
+            };
+            table.AddCell(cell);
+
+            foreach (EPAModel monthly in epaInfo.MonthlyEPA.MonthlyEPAs)
+            {
+                cell = new PdfPCell(new Phrase(monthly.Period.Name, _normalFont))
+                {
+                    BorderColor = _borderColor,
+                    HorizontalAlignment = Element.ALIGN_CENTER,
+                    VerticalAlignment = Element.ALIGN_MIDDLE
+                };
+                table.AddCell(cell);
+
+                totalScore = monthly.Process.Self.TotalScore.Length > 0 ? monthly.Process.Self.TotalScore : "0";
+                cell = new PdfPCell(new Phrase(totalScore, _normalFont))
+                {
+                    BorderColor = _borderColor,
+                    HorizontalAlignment = Element.ALIGN_CENTER,
+                    VerticalAlignment = Element.ALIGN_MIDDLE
+                };
+                table.AddCell(cell);
+
+                cell = new PdfPCell(new Phrase(monthly.Process.AverageScoreByEvaluators.ToString(), _normalFont))
+                {
+                    BorderColor = _borderColor,
+                    HorizontalAlignment = Element.ALIGN_CENTER,
+                    VerticalAlignment = Element.ALIGN_MIDDLE
+                };
+                table.AddCell(cell);
+
+                cell = new PdfPCell(new Phrase(monthly.Process.AverageScoreByReviewers.ToString(), _normalFont))
+                {
+                    BorderColor = _borderColor,
+                    HorizontalAlignment = Element.ALIGN_CENTER,
+                    VerticalAlignment = Element.ALIGN_MIDDLE
+                };
+                table.AddCell(cell);
+            }
+
+            cell = new PdfPCell(new Phrase(Lang.MonthlyAverage, _normalFont))
+            {
+                BorderColor = _borderColor,
+                HorizontalAlignment = Element.ALIGN_RIGHT,
+                VerticalAlignment = Element.ALIGN_MIDDLE
+            };
+            table.AddCell(cell);
+
+            totalScore = epaInfo.MonthlyEPA.AverageSelfScore.ToString();
+            cell = new PdfPCell(new Phrase(
+                totalScore + " / " + epaInfo.MonthlyEPA.MonthlyEPAs.First().ScoreRatingType.SelfEvaluated,
+                _normalFont))
+            {
+                BorderColor = _borderColor,
+                HorizontalAlignment = Element.ALIGN_CENTER,
+                VerticalAlignment = Element.ALIGN_MIDDLE
+            };
+            table.AddCell(cell);
+
+            totalScore = epaInfo.MonthlyEPA.AverageEvaluatorScores.ToString();
+            cell = new PdfPCell(new Phrase(
+                totalScore + " / " + epaInfo.MonthlyEPA.MonthlyEPAs.First().ScoreRatingType.Evaluator,
+                _normalFont))
+            {
+                BorderColor = _borderColor,
+                HorizontalAlignment = Element.ALIGN_CENTER,
+                VerticalAlignment = Element.ALIGN_MIDDLE
+            };
+            table.AddCell(cell);
+
+            totalScore = epaInfo.MonthlyEPA.AverageReviewerScores.ToString();
+            cell = new PdfPCell(new Phrase(
+                totalScore + " / " + epaInfo.MonthlyEPA.MonthlyEPAs.First().ScoreRatingType.Reviewer, _normalFont))
+            {
+                BorderColor = _borderColor,
+                HorizontalAlignment = Element.ALIGN_CENTER,
+                VerticalAlignment = Element.ALIGN_MIDDLE
+            };
+            table.AddCell(cell);
+
+            cell = new PdfPCell(new Phrase(Lang.SemiAverage, _normalFont))
+            {
+                BorderColor = _borderColor,
+                HorizontalAlignment = Element.ALIGN_RIGHT,
+                VerticalAlignment = Element.ALIGN_MIDDLE
+            };
+            table.AddCell(cell);
+
+            totalScore = epaInfo.MonthlyEPA.AverageSelfScoreConverted.ToString();
+            cell = new PdfPCell(new Phrase(
+                $"{totalScore} / {epaInfo.ScoreRatingType.SelfEvaluated}",
+                _normalFont))
+            {
+                BorderColor = _borderColor,
+                HorizontalAlignment = Element.ALIGN_CENTER,
+                VerticalAlignment = Element.ALIGN_MIDDLE
+            };
+            table.AddCell(cell);
+
+            totalScore = epaInfo.MonthlyEPA.AverageEvaluatorScoreConverted.ToString();
+            cell = new PdfPCell(new Phrase(totalScore + " / " + epaInfo.ScoreRatingType.Evaluator, _normalFont))
+            {
+                BorderColor = _borderColor,
+                HorizontalAlignment = Element.ALIGN_CENTER,
+                VerticalAlignment = Element.ALIGN_MIDDLE
+            };
+            table.AddCell(cell);
+
+            totalScore = epaInfo.MonthlyEPA.AverageReviewerScoreConverted.ToString();
+            cell = new PdfPCell(new Phrase(totalScore + " / " + epaInfo.ScoreRatingType.Reviewer, _normalFont))
+            {
+                BorderColor = _borderColor,
+                HorizontalAlignment = Element.ALIGN_CENTER,
+                VerticalAlignment = Element.ALIGN_MIDDLE
             };
             table.AddCell(cell);
 
@@ -668,211 +1055,6 @@
             return table;
         }
 
-        private PdfPTable RenderPerformanceDetail(EPAModel epaInfo)
-        {
-            float[] widths = { 20, 190, 40, 120, 60, 40, 120 };
-            PdfPTable detail = new PdfPTable(7)
-            {
-                TotalWidth = TotalWidth,
-                LockedWidth = true
-            };
-            detail.SetWidths(widths);
-            detail.DefaultCell.BorderColor = _borderColor;
-            
-            var backgroundColor = new Color(System.Drawing.ColorTranslator.FromHtml("#ebe4d4"));
-
-            foreach (EPAKpiGroupModel kpiGroup in epaInfo.KPIGroups)
-            {
-                PdfPCell cell =
-                    new PdfPCell(new Phrase(kpiGroup.Name + " (" + kpiGroup.Weight + " pts)", _defaultFont))
-                    {
-                        Colspan = 7,
-                        MinimumHeight = 20,
-                        PaddingLeft = 5,
-                        PaddingRight = 5,
-                        VerticalAlignment = Element.ALIGN_MIDDLE,
-                        BackgroundColor = new Color(System.Drawing.ColorTranslator.FromHtml("#8b8f9e")),
-                        Border = 0
-                    };
-                detail.AddCell(cell);
-
-                cell = new PdfPCell(new Phrase(Lang.SymbolCount, _normalFont))
-                {
-                    Rowspan = 2,
-                    BackgroundColor = backgroundColor,
-                    BorderColor = _borderColor,
-                    HorizontalAlignment = Element.ALIGN_CENTER,
-                    VerticalAlignment = Element.ALIGN_MIDDLE
-                };
-                detail.AddCell(cell);
-
-                cell = new PdfPCell(new Phrase(Lang.KPI, _normalFont))
-                {
-                    Rowspan = 2,
-                    BackgroundColor = backgroundColor,
-                    BorderColor = _borderColor,
-                    HorizontalAlignment = Element.ALIGN_CENTER,
-                    VerticalAlignment = Element.ALIGN_MIDDLE
-                };
-                detail.AddCell(cell);
-
-                cell = new PdfPCell(new Phrase(Lang.Employee, _normalFont))
-                {
-                    Colspan = 2,
-                    BackgroundColor = backgroundColor,
-                    BorderColor = _borderColor,
-                    HorizontalAlignment = Element.ALIGN_CENTER,
-                    VerticalAlignment = Element.ALIGN_MIDDLE
-                };
-                detail.AddCell(cell);
-
-                cell = new PdfPCell(new Phrase(Lang.Evaluator, _normalFont))
-                {
-                    Colspan = 3,
-                    BackgroundColor = backgroundColor,
-                    BorderColor = _borderColor,
-                    HorizontalAlignment = Element.ALIGN_CENTER,
-                    VerticalAlignment = Element.ALIGN_MIDDLE
-                };
-                detail.AddCell(cell);
-
-                cell = new PdfPCell(new Phrase(Lang.Score, _normalFont))
-                {
-                    BackgroundColor = backgroundColor,
-                    BorderColor = _borderColor,
-                    HorizontalAlignment = Element.ALIGN_CENTER,
-                    VerticalAlignment = Element.ALIGN_MIDDLE
-                };
-                detail.AddCell(cell);
-
-                cell = new PdfPCell(new Phrase(Lang.Comment, _normalFont))
-                {
-                    BackgroundColor = backgroundColor,
-                    BorderColor = _borderColor,
-                    HorizontalAlignment = Element.ALIGN_CENTER,
-                    VerticalAlignment = Element.ALIGN_MIDDLE
-                };
-                detail.AddCell(cell);
-
-                cell = new PdfPCell(new Phrase(Lang.NickName, _normalFont))
-                {
-                    BackgroundColor = backgroundColor,
-                    BorderColor = _borderColor,
-                    HorizontalAlignment = Element.ALIGN_CENTER,
-                    VerticalAlignment = Element.ALIGN_MIDDLE
-                };
-                detail.AddCell(cell);
-
-                cell = new PdfPCell(new Phrase(Lang.Score, _normalFont))
-                {
-                    BackgroundColor = backgroundColor,
-                    BorderColor = _borderColor,
-                    HorizontalAlignment = Element.ALIGN_CENTER,
-                    VerticalAlignment = Element.ALIGN_MIDDLE
-                };
-                detail.AddCell(cell);
-
-                cell = new PdfPCell(new Phrase(Lang.Comment, _normalFont))
-                {
-                    BackgroundColor = backgroundColor,
-                    BorderColor = _borderColor,
-                    HorizontalAlignment = Element.ALIGN_CENTER,
-                    VerticalAlignment = Element.ALIGN_MIDDLE
-                };
-                detail.AddCell(cell);
-
-                int rowspan = epaInfo.Process.Evaluators.Count;
-                for (int index = 0; index < kpiGroup.KPIs.Count; index++)
-                {
-                    cell = new PdfPCell(new Phrase((index + 1).ToString(), _normalFont))
-                    {
-                        Rowspan = rowspan,
-                        BorderColor = _borderColor,
-                        HorizontalAlignment = Element.ALIGN_CENTER,
-                        VerticalAlignment = Element.ALIGN_MIDDLE
-                    };
-                    detail.AddCell(cell);
-
-                    Phrase phrase = new Phrase { new Chunk(kpiGroup.KPIs[index].Name, _normalFont) };
-                    if (kpiGroup.NumberKPIOptional == 0)
-                    {
-                        phrase.Add(new Chunk(" (" + kpiGroup.KPIs[index].WeightToDisplay + " pts)", _boldFont));
-                    }
-
-                    Font font1 = FontFactory.GetFont("ARIALUNI", BaseFont.IDENTITY_H, BaseFont.NOT_EMBEDDED, 9, Font.NORMAL, _redColor);
-                    if (kpiGroup.KPIs[index].IsRequiredEvaluate)
-                    {
-                        phrase.Add(new Chunk(" (*)", font1));
-                    }
-
-                    cell = new PdfPCell(phrase)
-                    {
-                        Rowspan = rowspan,
-                        BorderColor = _borderColor
-                    };
-                    detail.AddCell(cell);
-
-                    EvaluationModel self = kpiGroup.KPIs[index].EvaluationBySelf;
-                    var score = epaInfo.Process.Self.IsEndProcess
-                        ? (string.IsNullOrEmpty(self.Score) ? Lang.NotAvailable : self.ScoreToDisplay + " pts")
-                        : Lang.Pending;
-                    cell = new PdfPCell(new Phrase(score, _normalFont))
-                    {
-                        Rowspan = rowspan,
-                        BorderColor = _borderColor,
-                        HorizontalAlignment = Element.ALIGN_CENTER,
-                        VerticalAlignment = Element.ALIGN_MIDDLE
-                    };
-                    detail.AddCell(cell);
-
-                    cell = new PdfPCell(new Phrase(
-                        epaInfo.Process.Self.IsEndProcess
-                            ? self.Comment
-                            : Lang.Pending,
-                        _normalFont))
-                    {
-                        Rowspan = rowspan,
-                        BorderColor = _borderColor
-                    };
-
-                    detail.AddCell(cell);
-
-                    foreach (EvaluationModel evaluator in kpiGroup.KPIs[index].EvaluationByEvaluators)
-                    {
-                        cell = new PdfPCell(new Phrase(evaluator.NickName, _normalFont))
-                        {
-                            BorderColor = _borderColor,
-                            VerticalAlignment = Element.ALIGN_MIDDLE
-                        };
-                        detail.AddCell(cell);
-
-                        score =
-                            epaInfo.Process.Evaluators.First().IsEndProcess
-                            ? (string.IsNullOrEmpty(evaluator.Score) ? Lang.NotAvailable : evaluator.ScoreToDisplay + " pts")
-                            : Lang.Pending;
-                        cell = new PdfPCell(new Phrase(score, _normalFont))
-                        {
-                            BorderColor = _borderColor,
-                            HorizontalAlignment = Element.ALIGN_CENTER,
-                            VerticalAlignment = Element.ALIGN_MIDDLE
-                        };
-                        detail.AddCell(cell);
-
-                        cell = new PdfPCell(new Phrase(
-                            epaInfo.Process.Evaluators.First().IsEndProcess ? evaluator.Comment : Lang.Pending,
-                            _normalFont))
-                        {
-                            BorderColor = _borderColor
-                        };
-
-                        detail.AddCell(cell);
-                    }
-                }
-            }
-
-            return detail;
-        }
-
         private PdfPTable RenderPerformanceResultForSemiHasMonthly(EPAModel epaInfo)
         {
             var totalCol = !epaInfo.Process.Managements.Any() ? 7 : 9;
@@ -1136,178 +1318,183 @@
             return table;
         }
 
-        private PdfPTable RenderPerformanceDetailForSemiHasMonthly(EPAModel epaInfo)
+        private PdfPTable RenderRecommendationForProbationAndPromotion(EPAModel epaInfo)
         {
-            string totalScore;
-            
-            var backgroundColor = new Color(System.Drawing.ColorTranslator.FromHtml("#ebe4d4"));
+            PdfPTable table = CreateNewDefaultPdfPTable(new float[] { 10, 580 }, _borderColor);
+            table.DefaultCell.Border = 0;
 
-            PdfPTable table = new PdfPTable(4)
+            PdfPCell cell = new PdfPCell(new Phrase(Lang.Recommendation, _defaultFont))
             {
-                TotalWidth = TotalWidth,
-                LockedWidth = true
-            };
-            table.DefaultCell.BorderColor = _borderColor;
-
-            PdfPCell cell = new PdfPCell(new Phrase(Lang.MonthlyEPA, _defaultFont))
-            {
-                MinimumHeight = 20,
+                FixedHeight = 20,
                 PaddingLeft = 5,
                 PaddingRight = 5,
-                Colspan = 4,
+                Colspan = 2,
                 VerticalAlignment = Element.ALIGN_MIDDLE,
                 BackgroundColor = new Color(System.Drawing.ColorTranslator.FromHtml("#8b8f9e")),
                 Border = 0
             };
             table.AddCell(cell);
 
-            cell = new PdfPCell(new Phrase(Lang.SymbolCount, _normalFont))
+            string imagePath = GetRadioButton(epaInfo.Recommendation.PassedProbation);
+            Image img = Image.GetInstance(imagePath);
+            img.ScaleToFit(8, 8);
+            cell = new PdfPCell(img, false)
             {
-                BackgroundColor = backgroundColor,
+                PaddingTop = 3,
+                PaddingLeft = 2,
                 BorderColor = _borderColor,
-                HorizontalAlignment = Element.ALIGN_CENTER,
-                VerticalAlignment = Element.ALIGN_MIDDLE
+                BorderWidthTop = 0,
+                BorderWidthRight = 0,
+                BorderWidthBottom = 0
             };
             table.AddCell(cell);
 
-            cell = new PdfPCell(new Phrase(Lang.EmployeeScore, _normalFont))
+            cell = new PdfPCell(new Phrase(Lang.PassProbation, _normalFont))
             {
-                BackgroundColor = backgroundColor,
+                VerticalAlignment = Element.ALIGN_MIDDLE,
                 BorderColor = _borderColor,
-                HorizontalAlignment = Element.ALIGN_CENTER,
-                VerticalAlignment = Element.ALIGN_MIDDLE
+                BorderWidthTop = 0,
+                BorderWidthLeft = 0,
+                BorderWidthBottom = 0
             };
             table.AddCell(cell);
 
-            cell = new PdfPCell(new Phrase(Lang.EvaluatorScore, _normalFont))
+            imagePath = GetRadioButton(epaInfo.Recommendation.ExtendedProbation);
+            img = Image.GetInstance(imagePath);
+            img.ScaleToFit(8, 8);
+            cell = new PdfPCell(img, false)
             {
-                BackgroundColor = backgroundColor,
+                PaddingTop = 3,
+                PaddingLeft = 2,
                 BorderColor = _borderColor,
-                HorizontalAlignment = Element.ALIGN_CENTER,
-                VerticalAlignment = Element.ALIGN_MIDDLE
+                BorderWidthTop = 0,
+                BorderWidthRight = 0,
+                BorderWidthBottom = 0
             };
             table.AddCell(cell);
 
-            cell = new PdfPCell(new Phrase(Lang.ReviewerScore, _normalFont))
+            cell = new PdfPCell(new Phrase(Lang.ExtendProbation, _normalFont))
             {
-                BackgroundColor = backgroundColor,
+                VerticalAlignment = Element.ALIGN_MIDDLE,
                 BorderColor = _borderColor,
-                HorizontalAlignment = Element.ALIGN_CENTER,
-                VerticalAlignment = Element.ALIGN_MIDDLE
+                BorderWidthTop = 0,
+                BorderWidthLeft = 0,
+                BorderWidthBottom = 0
             };
             table.AddCell(cell);
 
-            foreach (EPAModel monthly in epaInfo.MonthlyEPA.MonthlyEPAs)
+            imagePath = GetRadioButton(epaInfo.Recommendation.FailedProbation);
+            img = Image.GetInstance(imagePath);
+            img.ScaleToFit(8, 8);
+            cell = new PdfPCell(img, false)
             {
-                cell = new PdfPCell(new Phrase(monthly.Period.Name, _normalFont))
-                {
-                    BorderColor = _borderColor,
-                    HorizontalAlignment = Element.ALIGN_CENTER,
-                    VerticalAlignment = Element.ALIGN_MIDDLE
-                };
-                table.AddCell(cell);
-
-                totalScore = monthly.Process.Self.TotalScore.Length > 0 ? monthly.Process.Self.TotalScore : "0";
-                cell = new PdfPCell(new Phrase(totalScore, _normalFont))
-                {
-                    BorderColor = _borderColor,
-                    HorizontalAlignment = Element.ALIGN_CENTER,
-                    VerticalAlignment = Element.ALIGN_MIDDLE
-                };
-                table.AddCell(cell);
-
-                cell = new PdfPCell(new Phrase(monthly.Process.AverageScoreByEvaluators.ToString(), _normalFont))
-                {
-                    BorderColor = _borderColor,
-                    HorizontalAlignment = Element.ALIGN_CENTER,
-                    VerticalAlignment = Element.ALIGN_MIDDLE
-                };
-                table.AddCell(cell);
-
-                cell = new PdfPCell(new Phrase(monthly.Process.AverageScoreByReviewers.ToString(), _normalFont))
-                {
-                    BorderColor = _borderColor,
-                    HorizontalAlignment = Element.ALIGN_CENTER,
-                    VerticalAlignment = Element.ALIGN_MIDDLE
-                };
-                table.AddCell(cell);
-            }
-
-            cell = new PdfPCell(new Phrase(Lang.MonthlyAverage, _normalFont))
-            {
+                PaddingTop = 3,
+                PaddingLeft = 2,
                 BorderColor = _borderColor,
-                HorizontalAlignment = Element.ALIGN_RIGHT,
-                VerticalAlignment = Element.ALIGN_MIDDLE
+                BorderWidthTop = 0,
+                BorderWidthRight = 0
             };
             table.AddCell(cell);
 
-            totalScore = epaInfo.MonthlyEPA.AverageSelfScore.ToString();
-            cell = new PdfPCell(new Phrase(
-                totalScore + " / " + epaInfo.MonthlyEPA.MonthlyEPAs.First().ScoreRatingType.SelfEvaluated,
-                _normalFont))
+            cell = new PdfPCell(new Phrase(Lang.FailProbation, _normalFont))
             {
+                VerticalAlignment = Element.ALIGN_MIDDLE,
                 BorderColor = _borderColor,
-                HorizontalAlignment = Element.ALIGN_CENTER,
-                VerticalAlignment = Element.ALIGN_MIDDLE
+                BorderWidthTop = 0,
+                BorderWidthLeft = 0
             };
             table.AddCell(cell);
 
-            totalScore = epaInfo.MonthlyEPA.AverageEvaluatorScores.ToString();
-            cell = new PdfPCell(new Phrase(
-                totalScore + " / " + epaInfo.MonthlyEPA.MonthlyEPAs.First().ScoreRatingType.Evaluator,
-                _normalFont))
+            return table;
+        }
+
+        private PdfPTable RenderRecommendationForSemi(EPAModel epaInfo)
+        {
+            PdfPTable table = CreateNewDefaultPdfPTable(new float[] { 10, 580 }, _borderColor);
+            table.DefaultCell.Border = 0;
+
+            PdfPCell cell = new PdfPCell(new Phrase(Lang.Recommendation, _defaultFont))
             {
-                BorderColor = _borderColor,
-                HorizontalAlignment = Element.ALIGN_CENTER,
-                VerticalAlignment = Element.ALIGN_MIDDLE
+                FixedHeight = 20,
+                PaddingLeft = 5,
+                PaddingRight = 5,
+                Colspan = 2,
+                VerticalAlignment = Element.ALIGN_MIDDLE,
+                BackgroundColor = new Color(System.Drawing.ColorTranslator.FromHtml("#8b8f9e")),
+                Border = 0
             };
             table.AddCell(cell);
 
-            totalScore = epaInfo.MonthlyEPA.AverageReviewerScores.ToString();
-            cell = new PdfPCell(new Phrase(
-                totalScore + " / " + epaInfo.MonthlyEPA.MonthlyEPAs.First().ScoreRatingType.Reviewer, _normalFont))
+            string imagePath = GetCheckbox(epaInfo.Recommendation.Promoted);
+            Image img = Image.GetInstance(imagePath);
+            img.ScaleToFit(8, 8);
+            cell = new PdfPCell(img, false)
             {
+                PaddingTop = 3,
+                PaddingLeft = 2,
                 BorderColor = _borderColor,
-                HorizontalAlignment = Element.ALIGN_CENTER,
-                VerticalAlignment = Element.ALIGN_MIDDLE
+                BorderWidthTop = 0,
+                BorderWidthRight = 0,
+                BorderWidthBottom = 0
             };
             table.AddCell(cell);
 
-            cell = new PdfPCell(new Phrase(Lang.SemiAverage, _normalFont))
+            cell = new PdfPCell(new Phrase(Lang.Promotion, _normalFont))
             {
+                VerticalAlignment = Element.ALIGN_MIDDLE,
                 BorderColor = _borderColor,
-                HorizontalAlignment = Element.ALIGN_RIGHT,
-                VerticalAlignment = Element.ALIGN_MIDDLE
+                BorderWidthTop = 0,
+                BorderWidthLeft = 0,
+                BorderWidthBottom = 0
             };
             table.AddCell(cell);
 
-            totalScore = epaInfo.MonthlyEPA.AverageSelfScoreConverted.ToString();
-            cell = new PdfPCell(new Phrase(
-                $"{totalScore} / {epaInfo.ScoreRatingType.SelfEvaluated}",
-                _normalFont))
+            imagePath = GetCheckbox(epaInfo.Recommendation.PayIncreased);
+            img = Image.GetInstance(imagePath);
+            img.ScaleToFit(8, 8);
+            cell = new PdfPCell(img, false)
             {
+                PaddingTop = 3,
+                PaddingLeft = 2,
                 BorderColor = _borderColor,
-                HorizontalAlignment = Element.ALIGN_CENTER,
-                VerticalAlignment = Element.ALIGN_MIDDLE
+                BorderWidthTop = 0,
+                BorderWidthRight = 0,
+                BorderWidthBottom = 0
             };
             table.AddCell(cell);
 
-            totalScore = epaInfo.MonthlyEPA.AverageEvaluatorScoreConverted.ToString();
-            cell = new PdfPCell(new Phrase(totalScore + " / " + epaInfo.ScoreRatingType.Evaluator, _normalFont))
+            cell = new PdfPCell(new Phrase(Lang.AnnualIncrement, _normalFont))
             {
+                VerticalAlignment = Element.ALIGN_MIDDLE,
                 BorderColor = _borderColor,
-                HorizontalAlignment = Element.ALIGN_CENTER,
-                VerticalAlignment = Element.ALIGN_MIDDLE
+                BorderWidthTop = 0,
+                BorderWidthLeft = 0,
+                BorderWidthBottom = 0
             };
             table.AddCell(cell);
 
-            totalScore = epaInfo.MonthlyEPA.AverageReviewerScoreConverted.ToString();
-            cell = new PdfPCell(new Phrase(totalScore + " / " + epaInfo.ScoreRatingType.Reviewer, _normalFont))
+            imagePath = GetCheckbox(epaInfo.Recommendation.JobGradeIncreased);
+            img = Image.GetInstance(imagePath);
+            img.ScaleToFit(8, 8);
+            cell = new PdfPCell(img, false)
             {
+                PaddingTop = 3,
+                PaddingLeft = 2,
                 BorderColor = _borderColor,
-                HorizontalAlignment = Element.ALIGN_CENTER,
-                VerticalAlignment = Element.ALIGN_MIDDLE
+                BorderWidthTop = 0,
+                BorderWidthRight = 0
             };
+            table.AddCell(cell);
+
+            string jobGrade = epaInfo.Recommendation.JobGrade != null ? Lang.JobGrade + ": " + epaInfo.Recommendation.JobGrade.Name : Lang.JobGrade;
+            cell = new PdfPCell(new Phrase(jobGrade, _normalFont))
+            {
+                VerticalAlignment = Element.ALIGN_MIDDLE,
+                BorderColor = _borderColor
+            };
+            cell.BorderColor = _borderColor;
+            cell.BorderWidthTop = 0;
+            cell.BorderWidthLeft = 0;
             table.AddCell(cell);
 
             return table;
@@ -1468,222 +1655,33 @@
             return table;
         }
 
-        private static PdfPTable CreateNewDefaultPdfPTable(float[] widths, Color borderColor)
+        private PdfPTable RenderTitle(string periodName)
         {
-            PdfPTable table = new PdfPTable(2)
+            PdfPTable table = new PdfPTable(1)
             {
                 TotalWidth = TotalWidth,
                 LockedWidth = true
             };
-
-            table.SetWidths(widths);
-            table.DefaultCell.BorderColor = borderColor;
-
-            return table;
-        }
-
-        private PdfPTable RenderRecommendationForSemi(EPAModel epaInfo)
-        {
-            PdfPTable table = CreateNewDefaultPdfPTable(new float[] { 10, 580 }, _borderColor);
-            table.DefaultCell.Border = 0;
-
-            PdfPCell cell = new PdfPCell(new Phrase(Lang.Recommendation, _defaultFont))
+            Font font = FontFactory.GetFont("ARIALUNI", BaseFont.IDENTITY_H, BaseFont.NOT_EMBEDDED, 10, Font.BOLD, _defaultColor);
+            PdfPCell cell = new PdfPCell(new Phrase(Lang.EPATilte + " - " + periodName, font))
             {
-                FixedHeight = 20,
-                PaddingLeft = 5,
-                PaddingRight = 5,
-                Colspan = 2,
+                FixedHeight = 30,
+                HorizontalAlignment = Element.ALIGN_CENTER,
                 VerticalAlignment = Element.ALIGN_MIDDLE,
-                BackgroundColor = new Color(System.Drawing.ColorTranslator.FromHtml("#8b8f9e")),
-                Border = 0
-            };
-            table.AddCell(cell);
-
-            string imagePath = GetCheckbox(epaInfo.Recommendation.Promoted);
-            Image img = Image.GetInstance(imagePath);
-            img.ScaleToFit(8, 8);
-            cell = new PdfPCell(img, false)
-            {
-                PaddingTop = 3,
-                PaddingLeft = 2,
-                BorderColor = _borderColor,
-                BorderWidthTop = 0,
-                BorderWidthRight = 0,
-                BorderWidthBottom = 0
-            };
-            table.AddCell(cell);
-
-            cell = new PdfPCell(new Phrase(Lang.Promotion, _normalFont))
-            {
-                VerticalAlignment = Element.ALIGN_MIDDLE,
-                BorderColor = _borderColor,
-                BorderWidthTop = 0,
-                BorderWidthLeft = 0,
-                BorderWidthBottom = 0
-            };
-            table.AddCell(cell);
-
-            imagePath = GetCheckbox(epaInfo.Recommendation.PayIncreased);
-            img = Image.GetInstance(imagePath);
-            img.ScaleToFit(8, 8);
-            cell = new PdfPCell(img, false)
-            {
-                PaddingTop = 3,
-                PaddingLeft = 2,
-                BorderColor = _borderColor,
-                BorderWidthTop = 0,
-                BorderWidthRight = 0,
-                BorderWidthBottom = 0
-            };
-            table.AddCell(cell);
-
-            cell = new PdfPCell(new Phrase(Lang.AnnualIncrement, _normalFont))
-            {
-                VerticalAlignment = Element.ALIGN_MIDDLE,
-                BorderColor = _borderColor,
-                BorderWidthTop = 0,
-                BorderWidthLeft = 0,
-                BorderWidthBottom = 0
-            };
-            table.AddCell(cell);
-
-            imagePath = GetCheckbox(epaInfo.Recommendation.JobGradeIncreased);
-            img = Image.GetInstance(imagePath);
-            img.ScaleToFit(8, 8);
-            cell = new PdfPCell(img, false)
-            {
-                PaddingTop = 3,
-                PaddingLeft = 2,
-                BorderColor = _borderColor,
-                BorderWidthTop = 0,
-                BorderWidthRight = 0
-            };
-            table.AddCell(cell);
-
-            string jobGrade = epaInfo.Recommendation.JobGrade != null ? Lang.JobGrade + ": " + epaInfo.Recommendation.JobGrade.Name : Lang.JobGrade;
-            cell = new PdfPCell(new Phrase(jobGrade, _normalFont))
-            {
-                VerticalAlignment = Element.ALIGN_MIDDLE,
-                BorderColor = _borderColor
-            };
-            cell.BorderColor = _borderColor;
-            cell.BorderWidthTop = 0;
-            cell.BorderWidthLeft = 0;
-            table.AddCell(cell);
-
-            return table;
-        }
-
-        private PdfPTable RenderRecommendationForProbationAndPromotion(EPAModel epaInfo)
-        {
-            PdfPTable table = CreateNewDefaultPdfPTable(new float[] { 10, 580 }, _borderColor);
-            table.DefaultCell.Border = 0;
-
-            PdfPCell cell = new PdfPCell(new Phrase(Lang.Recommendation, _defaultFont))
-            {
-                FixedHeight = 20,
-                PaddingLeft = 5,
-                PaddingRight = 5,
-                Colspan = 2,
-                VerticalAlignment = Element.ALIGN_MIDDLE,
-                BackgroundColor = new Color(System.Drawing.ColorTranslator.FromHtml("#8b8f9e")),
-                Border = 0
-            };
-            table.AddCell(cell);
-
-            string imagePath = GetRadioButton(epaInfo.Recommendation.PassedProbation);
-            Image img = Image.GetInstance(imagePath);
-            img.ScaleToFit(8, 8);
-            cell = new PdfPCell(img, false)
-            {
-                PaddingTop = 3,
-                PaddingLeft = 2,
-                BorderColor = _borderColor,
-                BorderWidthTop = 0,
-                BorderWidthRight = 0,
-                BorderWidthBottom = 0
-            };
-            table.AddCell(cell);
-
-            cell = new PdfPCell(new Phrase(Lang.PassProbation, _normalFont))
-            {
-                VerticalAlignment = Element.ALIGN_MIDDLE,
-                BorderColor = _borderColor,
-                BorderWidthTop = 0,
-                BorderWidthLeft = 0,
-                BorderWidthBottom = 0
-            };
-            table.AddCell(cell);
-
-            imagePath = GetRadioButton(epaInfo.Recommendation.ExtendedProbation);
-            img = Image.GetInstance(imagePath);
-            img.ScaleToFit(8, 8);
-            cell = new PdfPCell(img, false)
-            {
-                PaddingTop = 3,
-                PaddingLeft = 2,
-                BorderColor = _borderColor,
-                BorderWidthTop = 0,
-                BorderWidthRight = 0,
-                BorderWidthBottom = 0
-            };
-            table.AddCell(cell);
-
-            cell = new PdfPCell(new Phrase(Lang.ExtendProbation, _normalFont))
-            {
-                VerticalAlignment = Element.ALIGN_MIDDLE,
-                BorderColor = _borderColor,
-                BorderWidthTop = 0,
-                BorderWidthLeft = 0,
-                BorderWidthBottom = 0
-            };
-            table.AddCell(cell);
-
-            imagePath = GetRadioButton(epaInfo.Recommendation.FailedProbation);
-            img = Image.GetInstance(imagePath);
-            img.ScaleToFit(8, 8);
-            cell = new PdfPCell(img, false)
-            {
-                PaddingTop = 3,
-                PaddingLeft = 2,
-                BorderColor = _borderColor,
-                BorderWidthTop = 0,
-                BorderWidthRight = 0
-            };
-            table.AddCell(cell);
-
-            cell = new PdfPCell(new Phrase(Lang.FailProbation, _normalFont))
-            {
-                VerticalAlignment = Element.ALIGN_MIDDLE,
-                BorderColor = _borderColor,
-                BorderWidthTop = 0,
-                BorderWidthLeft = 0
+                BackgroundColor = new Color(System.Drawing.ColorTranslator.FromHtml("#ebe4d4")),
+                Border = 0,
+                PaddingLeft = 12f,
+                PaddingRight = 12f
             };
             table.AddCell(cell);
 
             return table;
         }
 
-        private string GetRadioButton(bool value)
+        private void SetDefaultStyles()
         {
-            string path = Server.MapPath("~/content/site/images/radiobutton_no.png");
-            if (value)
-            {
-                path = Server.MapPath("~/content/site/images/radiobutton_yes.png");
-            }
-
-            return path;
-        }
-
-        private string GetCheckbox(bool value)
-        {
-            string path = Server.MapPath("~/content/site/images/checkbox_no.png");
-            if (value)
-            {
-                path = Server.MapPath("~/content/site/images/checkbox_yes.png");
-            }
-
-            return path;
+            _borderColor = new Color(System.Drawing.ColorTranslator.FromHtml("#cec5c2"));
+            _defaultFont = FontFactory.GetFont("ARIALUNI", BaseFont.IDENTITY_H, BaseFont.NOT_EMBEDDED, 9, Font.NORMAL, _whiteColor);
         }
     }
 }
