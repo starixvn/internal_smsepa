@@ -1,4 +1,4 @@
-﻿(function(angular) {
+(function(angular) {
     'use strict';
     /* jshint latedef:nofunc */
 
@@ -138,35 +138,36 @@
 
                         angular.forEach(gridData.PeriodSelecteds,
                             function(periodSelected) {
-                                var colFinalScore,
-                                    colGrade,
-                                    index = epaInfo.Periods.map(function(e) { return e.PeriodId; })
-                                        .indexOf(periodSelected.PeriodId);
+                                var index = epaInfo.Periods.map(function(e) { return e.PeriodId; })
+                                    .indexOf(periodSelected.PeriodId);
+
+                                var finalScore;
+                                var grade;
+                                var cssClass = "";
 
                                 if (index !== -1) {
-                                    var finalScore = '',
-                                        grade = '';
-
-                                    if (epaInfo.Periods[index].IsEndPeriod) {
-                                        if (epaInfo.Periods[index].FinalScore.length > 0) {
-                                            finalScore = utilitiesFactory.parseFloat(epaInfo.Periods[index].FinalScore);
-                                            grade = epaInfo.Periods[index].Grade;
-                                        } else {
-                                            finalScore = status.NotAvailable;
-                                            grade = status.NotAvailable;
-                                        }
+                                    // Calculate Final Score and Grade
+                                    if (epaInfo.Periods[index].FinalScore.length > 0) {
+                                        finalScore = utilitiesFactory.parseFloat(epaInfo.Periods[index].FinalScore);
+                                        grade = epaInfo.Periods[index].Grade;
                                     } else {
-                                        finalScore = status.Pending;
-                                        grade = status.Pending;
+                                        finalScore = status.NotAvailable;
+                                        grade = status.NotAvailable;
                                     }
 
-                                    colFinalScore = { Name: "FinalScore" + periodSelected.PeriodId, Value: finalScore };
-                                    colGrade = { Name: "Grade" + periodSelected.PeriodId, Value: grade };
+                                    if (!epaInfo.Periods[index].IsEndPeriod) {
+                                        cssClass = "red";
+                                    }
                                 } else {
-                                    colFinalScore = { Name: "FinalScore" + periodSelected.PeriodId, Value: "-" };
-                                    colGrade = { Name: "Grade" + periodSelected.PeriodId, Value: "-" };
+                                    finalScore = "-";
+                                    grade = "-";
                                 }
 
+                                // Set data for colFinalScore and colGrade
+                                var colFinalScore = { Name: "FinalScore" + periodSelected.PeriodId, Value: finalScore, CssClass: cssClass };
+                                var colGrade = { Name: "Grade" + periodSelected.PeriodId, Value: grade, CssClass: cssClass };
+
+                                // Display to user
                                 currentRow.Columns.push(colFinalScore);
                                 currentRow.Columns.push(colGrade);
                             });

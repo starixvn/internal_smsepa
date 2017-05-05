@@ -156,10 +156,9 @@
                         <div ng-switch-default data-translate="Pending"></div>
                     </td>
                     <td class="text-center" ng-switch="epaInfo.Process.Reviewers[0].IsEndProcess">
-                        <div ng-switch-when="true">
-                            {{epaInfo.Process.AverageScoreByReviewers | customScore}} / {{epaInfo.ScoreRatingType.Reviewer | customScore}}
-                        </div>
-                        <div ng-switch-default data-translate="Pending"></div>
+                        <div ng-switch-when="true">{{epaInfo.Process.AverageScoreByReviewers | customScore}} / {{epaInfo.ScoreRatingType.Reviewer | customScore}}</div>
+                        <!--<div ng-switch-default data-translate="Pending"></div>-->
+                        <div ng-switch-default class="red">{{epaInfo.Process.AverageScoreByReviewers | customScore}} / {{epaInfo.ScoreRatingType.Reviewer | customScore}}</div>
                     </td>
                     <td class="text-center">
                         <input type="text" maxlength="7" class="form-control text-center epa-input-score"
@@ -210,9 +209,7 @@
                                ng-if="!epaInfo.HasOtherViolation" ng-attr-title='Misconduction: {{epaInfo.OtherDisciplines}}'></a>
                         </div>
                     </td>
-                    <td class="text-center">
-                        {{epaInfo.FinalScore | customScore}} / {{epaInfo.Process.CurrentProcess.MaxPerformanceScore | customScore}}
-                    </td>
+                    <td class="text-center">{{epaInfo.FinalScore | customScore}} / {{epaInfo.Process.CurrentProcess.MaxPerformanceScore | customScore}}</td>
                     <td class="text-center">
                         <strong class="error-message" ng-bind="epaInfo.Grade"></strong>
                     </td>
