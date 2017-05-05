@@ -28,6 +28,7 @@
         private Font _normalFont;
         private Font _boldFont;
         private Color _borderColor;
+        private Font _defaultFont;
 
         public ExportPdfController()
             : this(null)
@@ -37,6 +38,14 @@
         public ExportPdfController(IEmployeeEPAService employeeEPAService)
         {
             _employeeEPAService = employeeEPAService ?? new EmployeeEPAService();
+
+            SetDefaultStyles();
+        }
+
+        private void SetDefaultStyles()
+        {
+            _borderColor = new Color(System.Drawing.ColorTranslator.FromHtml("#cec5c2"));
+            _defaultFont = FontFactory.GetFont("ARIALUNI", BaseFont.IDENTITY_H, BaseFont.NOT_EMBEDDED, 9, Font.NORMAL, _whiteColor);
         }
 
         public void ExportPdf(int epaId)
@@ -153,11 +162,10 @@
                 TotalWidth = TotalWidth,
                 LockedWidth = true
             };
+            
+            var border = new Color(System.Drawing.ColorTranslator.FromHtml("#ddd"));
 
-            Font font = FontFactory.GetFont("ARIALUNI", BaseFont.IDENTITY_H, BaseFont.NOT_EMBEDDED, 9, Font.NORMAL, _whiteColor);
-            _borderColor = new Color(System.Drawing.ColorTranslator.FromHtml("#ddd"));
-
-            PdfPCell cell = new PdfPCell(new Phrase(Lang.GeneralInfo, font))
+            PdfPCell cell = new PdfPCell(new Phrase(Lang.GeneralInfo, _defaultFont))
             {
                 FixedHeight = 20,
                 PaddingLeft = 5,
@@ -177,7 +185,7 @@
             {
                 VerticalAlignment = Element.ALIGN_MIDDLE,
                 Rowspan = 4,
-                BorderColor = _borderColor,
+                BorderColor = border,
                 BorderWidthTop = 0,
                 BorderWidthRight = 0,
                 BorderWidthLeft = 1,
@@ -188,7 +196,7 @@
             cell = new PdfPCell(new Phrase(Lang.EmployeeCode, _normalFont))
             {
                 VerticalAlignment = Element.ALIGN_MIDDLE,
-                BorderColor = _borderColor,
+                BorderColor = border,
                 BorderWidthTop = 0,
                 BorderWidthRight = 0,
                 BorderWidthLeft = 0,
@@ -200,7 +208,7 @@
             cell = new PdfPCell(new Phrase(employeeInfo.Code, _normalFont))
             {
                 VerticalAlignment = Element.ALIGN_MIDDLE,
-                BorderColor = _borderColor,
+                BorderColor = border,
                 BorderWidthTop = 0,
                 BorderWidthRight = 0,
                 BorderWidthLeft = 0,
@@ -212,7 +220,7 @@
             cell = new PdfPCell(new Phrase(Lang.NickName, _normalFont))
             {
                 VerticalAlignment = Element.ALIGN_MIDDLE,
-                BorderColor = _borderColor,
+                BorderColor = border,
                 BorderWidthTop = 0,
                 BorderWidthRight = 0,
                 BorderWidthLeft = 0,
@@ -224,7 +232,7 @@
             cell = new PdfPCell(new Phrase(employeeInfo.NickName, _normalFont))
             {
                 VerticalAlignment = Element.ALIGN_MIDDLE,
-                BorderColor = _borderColor,
+                BorderColor = border,
                 BorderWidthTop = 0,
                 BorderWidthRight = 1,
                 BorderWidthLeft = 0,
@@ -236,7 +244,7 @@
             cell = new PdfPCell(new Phrase(Lang.FullName, _normalFont))
             {
                 VerticalAlignment = Element.ALIGN_MIDDLE,
-                BorderColor = _borderColor,
+                BorderColor = border,
                 BorderWidthTop = 0,
                 BorderWidthRight = 0,
                 BorderWidthLeft = 0,
@@ -248,7 +256,7 @@
             cell = new PdfPCell(new Phrase(employeeInfo.FullName, _normalFont))
             {
                 VerticalAlignment = Element.ALIGN_MIDDLE,
-                BorderColor = _borderColor,
+                BorderColor = border,
                 BorderWidthTop = 0,
                 BorderWidthRight = 0,
                 BorderWidthLeft = 0,
@@ -260,7 +268,7 @@
             cell = new PdfPCell(new Phrase(Lang.JobTitle, _normalFont))
             {
                 VerticalAlignment = Element.ALIGN_MIDDLE,
-                BorderColor = _borderColor,
+                BorderColor = border,
                 BorderWidthTop = 0,
                 BorderWidthRight = 0,
                 BorderWidthLeft = 0,
@@ -272,7 +280,7 @@
             cell = new PdfPCell(new Phrase(employeeInfo.JobTitleName, _normalFont))
             {
                 VerticalAlignment = Element.ALIGN_MIDDLE,
-                BorderColor = _borderColor,
+                BorderColor = border,
                 BorderWidthTop = 0,
                 BorderWidthRight = 1,
                 BorderWidthLeft = 0,
@@ -284,7 +292,7 @@
             cell = new PdfPCell(new Phrase(Lang.Department, _normalFont))
             {
                 VerticalAlignment = Element.ALIGN_MIDDLE,
-                BorderColor = _borderColor,
+                BorderColor = border,
                 BorderWidthTop = 0,
                 BorderWidthRight = 0,
                 BorderWidthLeft = 0,
@@ -296,7 +304,7 @@
             cell = new PdfPCell(new Phrase(employeeInfo.DepartmentName, _normalFont))
             {
                 VerticalAlignment = Element.ALIGN_MIDDLE,
-                BorderColor = _borderColor,
+                BorderColor = border,
                 BorderWidthTop = 0,
                 BorderWidthRight = 0,
                 BorderWidthLeft = 0,
@@ -308,7 +316,7 @@
             cell = new PdfPCell(new Phrase(Lang.Section, _normalFont))
             {
                 VerticalAlignment = Element.ALIGN_MIDDLE,
-                BorderColor = _borderColor,
+                BorderColor = border,
                 BorderWidthTop = 0,
                 BorderWidthRight = 0,
                 BorderWidthLeft = 0,
@@ -320,7 +328,7 @@
             cell = new PdfPCell(new Phrase(employeeInfo.GroupName, _normalFont))
             {
                 VerticalAlignment = Element.ALIGN_MIDDLE,
-                BorderColor = _borderColor,
+                BorderColor = border,
                 BorderWidthTop = 0,
                 BorderWidthRight = 1,
                 BorderWidthLeft = 0,
@@ -332,7 +340,7 @@
             cell = new PdfPCell(new Phrase(Lang.GroupDate, _normalFont))
             {
                 VerticalAlignment = Element.ALIGN_TOP,
-                BorderColor = _borderColor,
+                BorderColor = border,
                 BorderWidthTop = 0,
                 BorderWidthRight = 0,
                 BorderWidthLeft = 0,
@@ -345,7 +353,7 @@
             {
                 Colspan = 3,
                 VerticalAlignment = Element.ALIGN_TOP,
-                BorderColor = _borderColor,
+                BorderColor = border,
                 BorderWidthTop = 0,
                 BorderWidthRight = 1,
                 BorderWidthLeft = 0,
@@ -360,9 +368,7 @@
         private PdfPTable RenderPerformanceResult(EPAModel epaInfo)
         {
             var totalCol = !epaInfo.Process.Managements.Any() ? 8 : 10;
-
-            Font font = FontFactory.GetFont("ARIALUNI", BaseFont.IDENTITY_H, BaseFont.NOT_EMBEDDED, 9, Font.NORMAL, _whiteColor);
-            _borderColor = new Color(System.Drawing.ColorTranslator.FromHtml("#cec5c2"));
+            
             var backgroundColor = new Color(System.Drawing.ColorTranslator.FromHtml("#ebe4d4"));
 
             PdfPTable table = new PdfPTable(totalCol)
@@ -372,7 +378,7 @@
             };
             table.DefaultCell.BorderColor = _borderColor;
 
-            PdfPCell cell = new PdfPCell(new Phrase(Lang.PerformanceResult.ToUpperInvariant(), font))
+            PdfPCell cell = new PdfPCell(new Phrase(Lang.PerformanceResult.ToUpperInvariant(), _defaultFont))
             {
                 FixedHeight = 20,
                 PaddingLeft = 5,
@@ -672,15 +678,13 @@
             };
             detail.SetWidths(widths);
             detail.DefaultCell.BorderColor = _borderColor;
-
-            Font font = FontFactory.GetFont("ARIALUNI", BaseFont.IDENTITY_H, BaseFont.NOT_EMBEDDED, 9, Font.NORMAL, _whiteColor);
-            _borderColor = new Color(System.Drawing.ColorTranslator.FromHtml("#cec5c2"));
+            
             var backgroundColor = new Color(System.Drawing.ColorTranslator.FromHtml("#ebe4d4"));
 
             foreach (EPAKpiGroupModel kpiGroup in epaInfo.KPIGroups)
             {
                 PdfPCell cell =
-                    new PdfPCell(new Phrase(kpiGroup.Name + " (" + kpiGroup.Weight + " pts)", font))
+                    new PdfPCell(new Phrase(kpiGroup.Name + " (" + kpiGroup.Weight + " pts)", _defaultFont))
                     {
                         Colspan = 7,
                         MinimumHeight = 20,
@@ -872,9 +876,7 @@
         private PdfPTable RenderPerformanceResultForSemiHasMonthly(EPAModel epaInfo)
         {
             var totalCol = !epaInfo.Process.Managements.Any() ? 7 : 9;
-
-            Font font = FontFactory.GetFont("ARIALUNI", BaseFont.IDENTITY_H, BaseFont.NOT_EMBEDDED, 9, Font.NORMAL, _whiteColor);
-            _borderColor = new Color(System.Drawing.ColorTranslator.FromHtml("#cec5c2"));
+            
             var backgroundColor = new Color(System.Drawing.ColorTranslator.FromHtml("#ebe4d4"));
 
             PdfPTable table = new PdfPTable(totalCol)
@@ -885,7 +887,7 @@
             table.DefaultCell.BorderColor = _borderColor;
 
             PdfPCell cell =
-                new PdfPCell(new Phrase(Lang.PerformanceResult.ToUpperInvariant(), font))
+                new PdfPCell(new Phrase(Lang.PerformanceResult.ToUpperInvariant(), _defaultFont))
                 {
                     FixedHeight = 20,
                     PaddingLeft = 5,
@@ -1137,9 +1139,7 @@
         private PdfPTable RenderPerformanceDetailForSemiHasMonthly(EPAModel epaInfo)
         {
             string totalScore;
-
-            Font font = FontFactory.GetFont("ARIALUNI", BaseFont.IDENTITY_H, BaseFont.NOT_EMBEDDED, 9, Font.NORMAL, _whiteColor);
-            _borderColor = new Color(System.Drawing.ColorTranslator.FromHtml("#cec5c2"));
+            
             var backgroundColor = new Color(System.Drawing.ColorTranslator.FromHtml("#ebe4d4"));
 
             PdfPTable table = new PdfPTable(4)
@@ -1149,7 +1149,7 @@
             };
             table.DefaultCell.BorderColor = _borderColor;
 
-            PdfPCell cell = new PdfPCell(new Phrase(Lang.MonthlyEPA, font))
+            PdfPCell cell = new PdfPCell(new Phrase(Lang.MonthlyEPA, _defaultFont))
             {
                 MinimumHeight = 20,
                 PaddingLeft = 5,
@@ -1315,20 +1315,11 @@
 
         private PdfPTable RenderSummaryComment(EPAModel epaInfo)
         {
-            Font font = FontFactory.GetFont("ARIALUNI", BaseFont.IDENTITY_H, BaseFont.NOT_EMBEDDED, 9, Font.NORMAL, _whiteColor);
-            _borderColor = new Color(System.Drawing.ColorTranslator.FromHtml("#cec5c2"));
             var backgroundColor = new Color(System.Drawing.ColorTranslator.FromHtml("#ebe4d4"));
 
-            float[] widths = { 140, 450 };
-            PdfPTable table = new PdfPTable(2)
-            {
-                TotalWidth = TotalWidth,
-                LockedWidth = true
-            };
-            table.SetWidths(widths);
-            table.DefaultCell.BorderColor = _borderColor;
+            PdfPTable table = CreateNewDefaultPdfPTable(new float[] { 140, 450 }, _borderColor);
 
-            PdfPCell cell = new PdfPCell(new Phrase(Lang.SummaryComment, font))
+            PdfPCell cell = new PdfPCell(new Phrase(Lang.SummaryComment, _defaultFont))
             {
                 FixedHeight = 20,
                 PaddingLeft = 5,
@@ -1477,21 +1468,26 @@
             return table;
         }
 
-        private PdfPTable RenderRecommendationForSemi(EPAModel epaInfo)
+        private static PdfPTable CreateNewDefaultPdfPTable(float[] widths, Color borderColor)
         {
-            Font font = FontFactory.GetFont("ARIALUNI", BaseFont.IDENTITY_H, BaseFont.NOT_EMBEDDED, 9, Font.NORMAL, _whiteColor);
-            _borderColor = new Color(System.Drawing.ColorTranslator.FromHtml("#cec5c2"));
-            float[] widths = { 10, 580 };
-
             PdfPTable table = new PdfPTable(2)
             {
                 TotalWidth = TotalWidth,
                 LockedWidth = true
             };
+
             table.SetWidths(widths);
+            table.DefaultCell.BorderColor = borderColor;
+
+            return table;
+        }
+
+        private PdfPTable RenderRecommendationForSemi(EPAModel epaInfo)
+        {
+            PdfPTable table = CreateNewDefaultPdfPTable(new float[] { 10, 580 }, _borderColor);
             table.DefaultCell.Border = 0;
 
-            PdfPCell cell = new PdfPCell(new Phrase(Lang.Recommendation, font))
+            PdfPCell cell = new PdfPCell(new Phrase(Lang.Recommendation, _defaultFont))
             {
                 FixedHeight = 20,
                 PaddingLeft = 5,
@@ -1580,19 +1576,10 @@
 
         private PdfPTable RenderRecommendationForProbationAndPromotion(EPAModel epaInfo)
         {
-            Font font = FontFactory.GetFont("ARIALUNI", BaseFont.IDENTITY_H, BaseFont.NOT_EMBEDDED, 9, Font.NORMAL, _whiteColor);
-            _borderColor = new Color(System.Drawing.ColorTranslator.FromHtml("#cec5c2"));
-            float[] widths = { 10, 580 };
-
-            PdfPTable table = new PdfPTable(2)
-            {
-                TotalWidth = TotalWidth,
-                LockedWidth = true
-            };
-            table.SetWidths(widths);
+            PdfPTable table = CreateNewDefaultPdfPTable(new float[] { 10, 580 }, _borderColor);
             table.DefaultCell.Border = 0;
 
-            PdfPCell cell = new PdfPCell(new Phrase(Lang.Recommendation, font))
+            PdfPCell cell = new PdfPCell(new Phrase(Lang.Recommendation, _defaultFont))
             {
                 FixedHeight = 20,
                 PaddingLeft = 5,
