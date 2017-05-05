@@ -115,6 +115,7 @@
     <Compile Include="Service\Implement\ProbationService.cs" />
     <Compile Include="Service\Implement\PromotionService.cs" />
     <Compile Include="Service\Implement\SemiAnnualService.cs" />
+    <Compile Include="Service\Implement\StaticPeriodService.cs" />
     <Compile Include="Service\Interfaces\IAutoMailService.cs" />
     <Compile Include="Service\Interfaces\IEvaluationService.cs" />
     <Compile Include="Service\Interfaces\IMonthlyService.cs" />
