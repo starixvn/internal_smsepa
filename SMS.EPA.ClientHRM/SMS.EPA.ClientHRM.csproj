@@ -157,9 +157,9 @@
     <Compile Include="ProjectInstaller.Designer.cs">
       <DependentUpon>ProjectInstaller.cs</DependentUpon>
     </Compile>
-    <Compile Include="Properties\AssemblyInfo.cs" >
-	<SonarQubeExclude>true</SonarQubeExclude>
-	</Compile>
+    <Compile Include="Properties\AssemblyInfo.cs">
+      <SonarQubeExclude>true</SonarQubeExclude>
+    </Compile>
     <Compile Include="Model\ApplicationInfo.cs" />
     <Compile Include="Services\DisciplineSummaryService.cs" />
     <Compile Include="Services\Interfaces\IDisciplineSummaryService.cs" />
