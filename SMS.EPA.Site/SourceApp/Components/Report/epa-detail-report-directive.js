@@ -3,13 +3,16 @@
     /* jshint latedef:nofunc */
 
     angular.module("reportModule").directive("gridEpaDetailReport", gridEpaDetailReport);
-    gridEpaDetailReport.$inject = ["$window", "$timeout", "utilitiesFactory", "baseUrl"];
+    gridEpaDetailReport.$inject = ["$window", "$timeout", "utilitiesFactory", "EvaluationModel", "CommonModel", "baseUrl"];
 
-    function gridEpaDetailReport($window, $timeout, utilitiesFactory, baseUrl) {
+    function gridEpaDetailReport($window, $timeout, utilitiesFactory, EvaluationModel, CommonModel, baseUrl) {
         var status = {
-            NotAvailable: "N/A",
-            Pending: "Pending"
+            NotAvailable: "N/A"
         };
+
+        CommonModel.getStandardGrade();
+
+        var standardGrades = CommonModel.standardGrades;
 
         function generateColumnHeaders(scope) {
             var sortCode = scope.sortColumnName === "Code" ? scope.sortDirection : "",
@@ -203,14 +206,49 @@
 
             debugger;
 
-            if (epaInfo.FinalScore.length > 0) {
-                result.FinalScore = utilitiesFactory.parseFloat(epaInfo.FinalScore);
-                result.Grade = epaInfo.Grade;
+            var tempDisciplineScore = 0;
+            if (result.DisciplineScore !== "-") {
+                tempDisciplineScore = result.DisciplineScore;
+            }
+
+            if (result.SelfScore !== status.NotAvailable) {
+                result.FinalScore = result.SelfScore + tempDisciplineScore;
+            }
+
+            if (result.EvaluatorScore !== status.NotAvailable) {
+                result.FinalScore = result.EvaluatorScore + tempDisciplineScore;
+            }
+
+            if (result.ReviewerScore !== status.NotAvailable) {
+                result.FinalScore = result.ReviewerScore + tempDisciplineScore;
+            }
+
+            if (result.ManagementScore !== status.NotAvailable) {
+                result.FinalScore = result.ManagementScore + tempDisciplineScore;
+            }
+
+            // Get Standard grades if empty
+            if (standardGrades.length === 0) {
+                CommonModel.getStandardGrade();
+                standardGrades = CommonModel.standardGrades;
+            }
+
+            if (result.FinalScore !== "") {
+                result.Grade = EvaluationModel.convertScoreToGrade(result.FinalScore, standardGrades);
             } else {
                 // Set default lowest value
                 result.FinalScore = status.NotAvailable;
                 result.Grade = status.NotAvailable;
             }
+
+            //if (epaInfo.FinalScore.length > 0) {
+            //    result.FinalScore = utilitiesFactory.parseFloat(epaInfo.FinalScore);
+            //    result.Grade = epaInfo.Grade;
+            //} else {
+            //    // Set default lowest value
+            //    result.FinalScore = status.NotAvailable;
+            //    result.Grade = status.NotAvailable;
+            //}
 
             return result;
         }
