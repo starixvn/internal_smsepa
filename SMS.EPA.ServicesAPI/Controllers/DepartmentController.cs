@@ -2,7 +2,7 @@
 {
     using Core.Model;
     using Criteria.Department;
-    using Model;
+    using EPA.Model.API;
     using Services;
     using System;
     using System.Net;

@@ -31,28 +31,28 @@
 
         public Employee Employee { get; set; }
 
-        public ViolationModel MissingCheckInOut { get; set; }
+        public DisciplineModel MissingCheckInOut { get; set; }
 
-        public ViolationModel WorkingUnderTime { get; set; }
+        public DisciplineModel WorkingUnderTime { get; set; }
 
-        public ViolationModel LateIn { get; set; }
+        public DisciplineModel LateIn { get; set; }
 
-        public ViolationModel EarlyOut { get; set; }
+        public DisciplineModel EarlyOut { get; set; }
 
-        public ViolationModel Absent { get; set; }
+        public DisciplineModel Absent { get; set; }
 
-        public ViolationModel UnpaidLeaveAbsent { get; set; }
+        public DisciplineModel UnpaidLeaveAbsent { get; set; }
 
-        public ViolationModel UnpaidLeave { get; set; }
+        public DisciplineModel UnpaidLeave { get; set; }
 
-        public ViolationModel ChangeShift { get; set; }
+        public DisciplineModel ChangeShift { get; set; }
 
         public decimal SystemSubtractScore
         {
             get
             {
                 decimal score = 0;
-                var violations = new List<ViolationModel>
+                var violations = new List<DisciplineModel>
                 {
                     MissingCheckInOut,
                     LateIn,
@@ -64,7 +64,7 @@
                     ChangeShift
                 };
 
-                foreach (ViolationModel violation in violations.Where(violation => violation != null))
+                foreach (DisciplineModel violation in violations.Where(violation => violation != null))
                 {
                     score += violation.Value * violation.Score;
                 }
@@ -78,7 +78,7 @@
             get
             {
                 decimal score = 0;
-                var violations = new List<ViolationModel>
+                var violations = new List<DisciplineModel>
                 {
                     MissingCheckInOut,
                     LateIn,
@@ -90,7 +90,7 @@
                     ChangeShift
                 };
 
-                foreach (ViolationModel violation in violations.Where(violation => violation != null))
+                foreach (DisciplineModel violation in violations.Where(violation => violation != null))
                 {
                     score += !violation.HasIgnored ? (violation.Value * violation.Score) : 0;
                 }

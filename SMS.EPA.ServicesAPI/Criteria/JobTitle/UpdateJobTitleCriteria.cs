@@ -6,7 +6,7 @@
     using System.Web;
     using Fanex.Data;
     using Fanex.Data.Repository;
-    using Model;
+    using Model.API;
 
     public class UpdateJobTitleCriteria : CriteriaBase
     {

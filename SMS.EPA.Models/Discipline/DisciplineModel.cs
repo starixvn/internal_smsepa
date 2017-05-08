@@ -3,9 +3,9 @@
     using System;
 
     [Serializable]
-    public class ViolationModel
+    public class DisciplineModel
     {
-        public int ViolationId { get; set; }
+        public int DisciplineId { get; set; }
 
         public decimal Score { get; set; }
 

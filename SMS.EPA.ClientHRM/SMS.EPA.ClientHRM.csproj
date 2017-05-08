@@ -150,14 +150,6 @@
     <Compile Include="Criteria\GetJobTitleCriteria.cs" />
     <Compile Include="Criteria\GetTeamCriteria.cs" />
     <Compile Include="Bootstrap.cs" />
-    <Compile Include="Model\Photo.cs" />
-    <Compile Include="Model\Department.cs" />
-    <Compile Include="Model\Employee.cs" />
-    <Compile Include="Model\Discipline.cs" />
-    <Compile Include="Model\EmployeeDisciplinePermission.cs" />
-    <Compile Include="Model\JobTitle.cs" />
-    <Compile Include="Model\Team.cs" />
-    <Compile Include="Model\GroupDisciplinePermission.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="ProjectInstaller.cs">
       <SubType>Component</SubType>

@@ -2,6 +2,7 @@
 {
     using Core.Model;
     using Criteria;
+    using EPA.Model.API;
     using Fanex.Data.Repository;
     using Model;
     using System.Collections.Generic;

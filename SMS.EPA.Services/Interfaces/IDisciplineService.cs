@@ -9,7 +9,7 @@
     {
         IEnumerable<DisciplineSummaryModel> GetDisciplineSummary(GetDisciplineSummaryCriteria criteria);
 
-        IEnumerable<OtherViolationModel> GetOtherViolations(GetOtherViolationsByEmployeeIdCriteria criteria);
+        IEnumerable<OtherDisciplineModel> GetOtherViolations(GetOtherViolationsByEmployeeIdCriteria criteria);
 
         IEnumerable<DisciplineTypeModel> GetDisciplineType(GetDisciplineTypeCriteria criteria);
 

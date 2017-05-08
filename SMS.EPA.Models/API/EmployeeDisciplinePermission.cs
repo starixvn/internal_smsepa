@@ -1,10 +1,10 @@
-﻿namespace SMS.EPA.ServicesAPI.Model
+﻿namespace SMS.EPA.Model.API
 {
     using System;
 
-    public class TeamDisciplinePermission
+    public class EmployeeDisciplinePermission
     {
-        public int TeamId { get; set; }
+        public int EmployeeId { get; set; }
 
         public int OwnerId { get; set; }
 

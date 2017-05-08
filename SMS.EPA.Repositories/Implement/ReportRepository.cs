@@ -115,36 +115,6 @@
             return epaDetail;
         }
 
-        public EPASummaryModel GetMonthlyEPASummary(ICriteria criteria)
-        {
-            EPASummaryModel epaSummary = new EPASummaryModel();
-
-            using (var db = new ObjectDb(criteria.GetSettingKey()))
-            {
-                using (GridReaderWrapper multi = db.QueryMultiple(criteria.GetSpParams()))
-                {
-                    epaSummary.PeriodSelecteds = multi.Read<PeriodModel>().ToList();
-
-                    epaSummary.EPAInfos = multi.Read<EPASummaryEmployeeModel, Group, JobTitle, EPASummaryEmployeeModel>(
-                        (res, gr, job) =>
-                        {
-                            res.Group = gr;
-                            res.JobTitle = job;
-
-                            return res;
-                        },
-                        "GroupId, JobTitleId").ToList();
-
-                    IList<EPASummaryPeriodModel> periods = multi.Read<EPASummaryPeriodModel>().ToList();
-
-                    GroupPeriodByEmployee(epaSummary.EPAInfos, periods);
-                    DecodeFinalScoreAndGrade(epaSummary.EPAInfos);
-                }
-            }
-
-            return epaSummary;
-        }
-
         private static void GroupPeriodByEmployee(IEnumerable<EPASummaryEmployeeModel> epaSummaries, IList<EPASummaryPeriodModel> periods)
         {
             foreach (EPASummaryEmployeeModel epaSummary in epaSummaries)

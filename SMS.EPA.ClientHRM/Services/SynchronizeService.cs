@@ -136,7 +136,7 @@
             if (_token.IsValid())
             {
                 DateTime fromDate = _supervisorService.GetLastModifiedDateForGroup(_token);
-                IEnumerable<GroupDisciplinePermission> groups = _supervisorService.GetGroups(fromDate);
+                IEnumerable<TeamDisciplinePermission> groups = _supervisorService.GetGroups(fromDate);
                 if (groups.Any())
                 {
                     _supervisorService.UpdateGroups(groups, _token);
@@ -152,10 +152,10 @@
             {
                 DateTime fromDate = _disciplineService.GetFromDateDiscipline(_token);
                 DateTime lastModifiedDate = _disciplineService.GetLastModifiedDate(_token);
-                IEnumerable<Discipline> violations = _disciplineService.GetDiscipline(fromDate, lastModifiedDate);
-                if (violations.Any())
+                IEnumerable<Discipline> disciplines = _disciplineService.GetDiscipline(fromDate, lastModifiedDate);
+                if (disciplines.Any())
                 {
-                    _disciplineService.Update(violations, _token);
+                    _disciplineService.Update(disciplines, _token);
                 }
             }
         }
@@ -166,12 +166,12 @@
 
             if (_token.IsValid())
             {
-                //DateTime lastModifiedDate = _disciplineSummaryService.GetLastModifiedDate(_token);
-                //IEnumerable<DisciplineSummaryAPI> violations = _disciplineSummaryService.GetDisciplineSummary(lastModifiedDate);
-                //if (violations.Any())
-                //{
-                //    _disciplineSummaryService.Update(violations, _token);
-                //}
+                DateTime lastModifiedDate = _disciplineSummaryService.GetLastModifiedDate(_token);
+                IEnumerable<DisciplineSummary> violations = _disciplineSummaryService.GetDisciplineSummary(lastModifiedDate);
+                if (violations.Any())
+                {
+                    _disciplineSummaryService.Update(violations, _token);
+                }
             }
         }
 

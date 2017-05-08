@@ -100,7 +100,7 @@
         }
 
         [ApiAuthorize(FunctionKey = EPAFunctionKey.DisciplineSummary, Policy = Policy.Read)]
-        public IEnumerable<OtherViolationModel> GetOtherViolations(
+        public IEnumerable<OtherDisciplineModel> GetOtherViolations(
             int employeeId,
             DateTime startDate,
             DateTime endDate,
@@ -113,7 +113,7 @@
                 StartDate = startDate,
                 EndDate = endDate
             };
-            IEnumerable<OtherViolationModel> violations = _disciplineService.GetOtherViolations(criteria);
+            IEnumerable<OtherDisciplineModel> violations = _disciplineService.GetOtherViolations(criteria);
 
             return violations;
         }

@@ -10,6 +10,8 @@
     {
         public Employee Employee { get; set; }
 
+        public DateTime Period { get; set; }
+
         public int Permission { get; set; }
 
         public object ConvertToExcelRecord()

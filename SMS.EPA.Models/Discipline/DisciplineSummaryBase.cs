@@ -7,7 +7,7 @@
 
     public class DisciplineSummaryBase
     {
-        public DateTime Period { get; set; }
+        protected decimal approverSubtractScore;
 
         public decimal MissingCheckInOut { get; set; }
 
@@ -35,7 +35,7 @@
 
         public decimal ApproverIgnoredScore { get; set; }
 
-        public decimal ApproverSubtractScore { get; set; }
+        public virtual decimal ApproverSubtractScore { get; set; }
 
         public DateTime? ModifiedDate { get; set; }
     }

@@ -1,11 +1,11 @@
 ﻿namespace SMS.EPA.ServicesAPI.Criteria.EmployeeDisciplinePermission
 {
+    using Fanex.Data;
+    using Fanex.Data.Repository;
+    using Model.API;
     using System.Collections.Generic;
     using System.Linq;
     using System.Text;
-    using Fanex.Data;
-    using Fanex.Data.Repository;
-    using Model;
 
     public class UpdateEmployeeSupervisorCriteria : CriteriaBase
     {

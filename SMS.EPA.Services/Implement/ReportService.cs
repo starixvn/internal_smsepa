@@ -143,7 +143,7 @@
 
             if (criteria != null && criteria.IsValid())
             {
-                result = _reportRepository.GetMonthlyEPASummary(criteria);
+                result = _reportRepository.GetEPASummary(criteria);
             }
 
             return result;

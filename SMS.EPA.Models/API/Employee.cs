@@ -1,4 +1,4 @@
-﻿namespace SMS.EPA.ServicesAPI.Model
+﻿namespace SMS.EPA.Model.API
 {
     using System;
 

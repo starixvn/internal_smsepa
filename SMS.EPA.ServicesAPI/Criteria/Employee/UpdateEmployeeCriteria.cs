@@ -10,6 +10,7 @@
     using System.Linq;
     using System.Text;
     using System.Web;
+    using EPA.Model.API;
 
     public class UpdateEmployeeCriteria : CriteriaBase
     {
