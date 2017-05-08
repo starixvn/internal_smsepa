@@ -7,6 +7,7 @@
     using System.Web;
     using Fanex.Data;
     using Fanex.Data.Repository;
+    using EPA.Model.API;
 
     public class UpdateDepartmentCriteria : CriteriaBase
     {
@@ -14,7 +15,7 @@
             + " Name='{2}' ParentId='{3}' ManagerId='{4}' DepartmentLevel='{5}' IsActive='{6}' ModifiedDate='{7}'></Department>";
 
         [SpParam(Ignored = true)]
-        public IList<Model.Department> Departments { get; set; }
+        public IList<Department> Departments { get; set; }
 
         public string DepartmentXml
         {
@@ -22,7 +23,7 @@
             {
                 var value = new StringBuilder("<ROOT>");
 
-                foreach (Model.Department department in Departments)
+                foreach (Department department in Departments)
                 {
                     value.AppendFormat(
                         DepartmentTpl,

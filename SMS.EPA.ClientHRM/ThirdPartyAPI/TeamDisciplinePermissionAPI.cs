@@ -1,6 +1,7 @@
 ﻿namespace SMS.EPA.ClientHrm.ThirdPartyAPI
 {
     using Core.Model;
+    using EPA.Model.API;
     using Model;
     using System;
     using System.Collections.Generic;
@@ -22,7 +23,7 @@
             }
         }
 
-        public CommandResult Update(IEnumerable<GroupDisciplinePermission> groupSupervisors, TokenAccess token)
+        public CommandResult Update(IEnumerable<TeamDisciplinePermission> groupSupervisors, TokenAccess token)
         {
             using (var client = new HttpClient())
             {

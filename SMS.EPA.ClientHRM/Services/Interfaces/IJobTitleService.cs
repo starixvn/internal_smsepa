@@ -1,6 +1,7 @@
 ﻿namespace SMS.EPA.ClientHrm.Services
 {
     using Core.Model;
+    using EPA.Model.API;
     using Model;
     using System.Collections.Generic;
 

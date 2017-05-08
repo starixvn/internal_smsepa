@@ -1,16 +1,12 @@
-﻿namespace SMS.EPA.ServicesAPI.Model
+﻿namespace SMS.EPA.Model.API
 {
     using System;
-    using System.Diagnostics.CodeAnalysis;
 
     public class Discipline
     {
         public int EmployeeId { get; set; }
 
         public DateTime WorkDate { get; set; }
-
-        [SuppressMessage("Microsoft.Naming", "CA1721:PropertyNamesShouldNotMatchGetMethods", Justification = "OK")]
-        public int Type { get; set; }
 
         public string ShiftName { get; set; }
 
@@ -23,6 +19,8 @@
         public int? LateIn { get; set; }
 
         public int? EarlyOut { get; set; }
+
+        public int Type { get; set; }
 
         public decimal DisciplineScore { get; set; }
 
@@ -64,6 +62,6 @@
 
         public DateTime? ModifiedDate { get; set; }
 
-        public bool IsDeleted { get; set; }
+        public bool? IsDeleted { get; set; }
     }
 }

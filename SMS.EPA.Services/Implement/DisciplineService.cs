@@ -36,13 +36,13 @@
             return employeeDisciplines;
         }
 
-        public IEnumerable<OtherViolationModel> GetOtherViolations(GetOtherViolationsByEmployeeIdCriteria criteria)
+        public IEnumerable<OtherDisciplineModel> GetOtherViolations(GetOtherViolationsByEmployeeIdCriteria criteria)
         {
-            IEnumerable<OtherViolationModel> violations = new List<OtherViolationModel>();
+            IEnumerable<OtherDisciplineModel> violations = new List<OtherDisciplineModel>();
 
             if (criteria != null && criteria.IsValid())
             {
-                violations = GetData<OtherViolationModel>(criteria);
+                violations = GetData<OtherDisciplineModel>(criteria);
             }
 
             return violations;

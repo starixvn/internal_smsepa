@@ -114,88 +114,88 @@
             });
         }
 
-        private static ViolationModel GetChangeShift(dynamic violation)
+        private static DisciplineModel GetChangeShift(dynamic violation)
         {
-            return new ViolationModel
+            return new DisciplineModel
             {
-                ViolationId = violation.ChangeShiftId,
+                DisciplineId = violation.ChangeShiftId,
                 Value = violation.ChangeShiftValue,
                 Score = violation.ChangeShiftScore,
                 HasIgnored = violation.ChangeShiftHasIgnored
             };
         }
 
-        private static ViolationModel GetMissingCheckInOut(dynamic violation)
+        private static DisciplineModel GetMissingCheckInOut(dynamic violation)
         {
-            return new ViolationModel
+            return new DisciplineModel
             {
-                ViolationId = violation.MissingCheckInOutId,
+                DisciplineId = violation.MissingCheckInOutId,
                 Value = violation.MissingCheckInOutValue,
                 Score = violation.MissingCheckInOutScore,
                 HasIgnored = violation.MissingCheckInOutHasIgnored
             };
         }
 
-        private static ViolationModel GetLateIn(dynamic violation)
+        private static DisciplineModel GetLateIn(dynamic violation)
         {
-            return new ViolationModel
+            return new DisciplineModel
             {
-                ViolationId = violation.LateInId,
+                DisciplineId = violation.LateInId,
                 Value = violation.LateInValue,
                 Score = violation.LateInScore,
                 HasIgnored = violation.LateInHasIgnored
             };
         }
 
-        private static ViolationModel GetEarlyOut(dynamic violation)
+        private static DisciplineModel GetEarlyOut(dynamic violation)
         {
-            return new ViolationModel
+            return new DisciplineModel
             {
-                ViolationId = violation.EarlyOutId,
+                DisciplineId = violation.EarlyOutId,
                 Value = violation.EarlyOutValue,
                 Score = violation.EarlyOutScore,
                 HasIgnored = violation.EarlyOutHasIgnored
             };
         }
 
-        private static ViolationModel GetAbsent(dynamic violation)
+        private static DisciplineModel GetAbsent(dynamic violation)
         {
-            return new ViolationModel
+            return new DisciplineModel
             {
-                ViolationId = violation.AbsentId,
+                DisciplineId = violation.AbsentId,
                 Value = violation.AbsentValue,
                 Score = violation.AbsentScore,
                 HasIgnored = violation.AbsentHasIgnored
             };
         }
 
-        private static ViolationModel GetUnpaidLeave(dynamic violation)
+        private static DisciplineModel GetUnpaidLeave(dynamic violation)
         {
-            return new ViolationModel
+            return new DisciplineModel
             {
-                ViolationId = violation.UnpaidLeaveId,
+                DisciplineId = violation.UnpaidLeaveId,
                 Value = violation.UnpaidLeaveValue,
                 Score = violation.UnpaidLeaveScore,
                 HasIgnored = violation.UnpaidLeaveHasIgnored
             };
         }
 
-        private static ViolationModel GetWorkingUnderTime(dynamic violation)
+        private static DisciplineModel GetWorkingUnderTime(dynamic violation)
         {
-            return new ViolationModel
+            return new DisciplineModel
             {
-                ViolationId = violation.TotalHoursId,
+                DisciplineId = violation.TotalHoursId,
                 Value = violation.TotalHoursValue,
                 Score = violation.TotalHoursScore,
                 HasIgnored = violation.TotalHoursHasIgnored
             };
         }
 
-        private static ViolationModel GetUnpaidLeaveAbsent(dynamic violation)
+        private static DisciplineModel GetUnpaidLeaveAbsent(dynamic violation)
         {
-            return new ViolationModel
+            return new DisciplineModel
             {
-                ViolationId = violation.UnpaidLeaveAbsentId,
+                DisciplineId = violation.UnpaidLeaveAbsentId,
                 Value = violation.UnpaidLeaveAbsentValue,
                 Score = violation.UnpaidLeaveAbsentScore,
                 HasIgnored = violation.UnpaidLeaveAbsentHasIgnored

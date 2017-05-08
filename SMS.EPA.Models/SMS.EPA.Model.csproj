@@ -47,14 +47,22 @@
       <Link>GlobalSuppressions.cs</Link>
       <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
     </Compile>
+    <Compile Include="API\Department.cs" />
+    <Compile Include="API\Discipline.cs" />
     <Compile Include="API\DisciplineSummary.cs" />
+    <Compile Include="API\Employee.cs" />
+    <Compile Include="API\EmployeeDisciplinePermission.cs" />
+    <Compile Include="API\JobTitle.cs" />
+    <Compile Include="API\Photo.cs" />
+    <Compile Include="API\Team.cs" />
+    <Compile Include="API\TeamDisciplinePermission.cs" />
     <Compile Include="Department\DepartmentViewModel.cs" />
     <Compile Include="Discipline\DisciplineDetailModel.cs" />
     <Compile Include="Discipline\DisciplineSummaryBase.cs" />
     <Compile Include="Discipline\DisciplineSummaryModel.cs" />
-    <Compile Include="Discipline\OtherViolationModel.cs" />
+    <Compile Include="Discipline\OtherDisciplineModel.cs" />
     <Compile Include="Discipline\DisciplineTypeModel.cs" />
-    <Compile Include="Discipline\ViolationModel.cs">
+    <Compile Include="Discipline\DisciplineModel.cs">
       <ExcludeFromStyleCop>False</ExcludeFromStyleCop>
     </Compile>
     <Compile Include="Authentication\LoginModel.cs" />

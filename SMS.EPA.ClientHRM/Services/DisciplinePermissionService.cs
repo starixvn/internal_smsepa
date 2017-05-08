@@ -7,6 +7,7 @@
     using System;
     using System.Collections.Generic;
     using ThirdPartyAPI;
+    using EPA.Model.API;
 
     public class DisciplinePermissionService : ISupervisorService
     {
@@ -32,10 +33,10 @@
             return employeeSupervisors;
         }
 
-        public IEnumerable<GroupDisciplinePermission> GetGroups(DateTime fromDate)
+        public IEnumerable<TeamDisciplinePermission> GetGroups(DateTime fromDate)
         {
             var criteria = new GetGroupDisciplinePermissionCriteria { FromDate = fromDate };
-            IEnumerable<GroupDisciplinePermission> groupSupervisors = _dynamicRepository.Fetch<GroupDisciplinePermission>(criteria);
+            IEnumerable<TeamDisciplinePermission> groupSupervisors = _dynamicRepository.Fetch<TeamDisciplinePermission>(criteria);
 
             return groupSupervisors;
         }
@@ -45,7 +46,7 @@
             return _employeeSupervisorApi.Update(employees, token);
         }
 
-        public CommandResult UpdateGroups(IEnumerable<GroupDisciplinePermission> groups, TokenAccess token)
+        public CommandResult UpdateGroups(IEnumerable<TeamDisciplinePermission> groups, TokenAccess token)
         {
             return _teamSupervisorApi.Update(groups, token);
         }

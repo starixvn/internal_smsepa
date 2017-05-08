@@ -2,7 +2,7 @@
 {
     using Core.Model;
     using Criteria.TeamDisciplinePermission;
-    using Model;
+    using Model.API;
     using Services;
     using System;
     using System.Net;

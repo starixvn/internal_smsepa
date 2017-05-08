@@ -2,7 +2,7 @@
 {
     using Core.Model;
     using Criteria.JobTitle;
-    using Model;
+    using EPA.Model.API;
     using Services;
     using System.Net;
     using System.Web.Http;

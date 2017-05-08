@@ -1,40 +1,16 @@
-﻿namespace SMS.EPA.Model
+﻿namespace SMS.EPA.Model.Discipline
 {
     using Core.Constants;
     using Enitites;
     using Report;
 
-    public class DisciplineSummaryByPeriodModel : IExcelRecord
+    public class DisciplineSummaryByPeriodModel : DisciplineSummaryBase, IExcelRecord
     {
         public Employee Employee { get; set; }
 
         public PeriodModel Period { get; set; }
 
-        public decimal ChangeShift { get; set; }
-
-        public decimal MissingCheckInOut { get; set; }
-
-        public decimal LateIn { get; set; }
-
-        public decimal EarlyOut { get; set; }
-
-        public decimal Absent { get; set; }
-
-        public decimal UnpaidLeave { get; set; }
-
-        public decimal UnplannedLeave { get; set; }
-
-        public decimal WeekendLeave { get; set; }
-
-        public decimal WorkingUndertime { get; set; }
-
-        public decimal UnpaidLeaveAbsent { get; set; }
-
-        public decimal OtherDisciplines { get; set; }
-
-        public decimal SystemSubtractScore { get; set; }
-
-        public decimal ApproverSubtractScore
+        public override decimal ApproverSubtractScore
         {
             get
             {
