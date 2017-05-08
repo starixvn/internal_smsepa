@@ -218,6 +218,11 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+	<Compile Include="AssemblyInfo.cs">
+		<!-- Exclude the file from analysis -->
+		<SonarQubeExclude>true</SonarQubeExclude>
+	</Compile>
+
     <Compile Include="..\GlobalSuppressions.cs">
       <Link>GlobalSuppressions.cs</Link>
       <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
