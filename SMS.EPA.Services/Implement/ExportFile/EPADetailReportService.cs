@@ -8,7 +8,6 @@
     using Resources;
     using System;
     using System.Collections.Generic;
-    using System.Diagnostics.CodeAnalysis;
     using System.Globalization;
     using System.Linq;
     using System.Web;
@@ -62,14 +61,6 @@
             Workbook.Write(response.OutputStream);
         }
 
-        [SuppressMessage(
-            "StyleCop.CSharp.StylecopPlus.Rules",
-            "SP2101:MethodMustNotContainMoreLinesThan",
-            Justification = "Reviewed. Suppression is OK here.")]
-        [SuppressMessage(
-            "Microsoft.Maintainability",
-            "CA1502:AvoidExcessiveComplexity",
-            Justification = "Reviewed. Suppression is OK here.")]
         public override void WriteContentTable()
         {
             CreateDefaultStyles();
@@ -124,14 +115,6 @@
             }
         }
 
-        [SuppressMessage(
-            "StyleCop.CSharp.StylecopPlus.Rules",
-            "SP2101:MethodMustNotContainMoreLinesThan",
-            Justification = "Reviewed. Suppression is OK here.")]
-        [SuppressMessage(
-            "Microsoft.Maintainability",
-            "CA1502:AvoidExcessiveComplexity",
-            Justification = "Reviewed. Suppression is OK here.")]
         protected override dynamic CalculateScore(EPAModel epaInfo)
         {
             string selfScore = string.Empty;
