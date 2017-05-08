@@ -10,9 +10,6 @@
 
     public abstract class BaseActorEPAService : BaseService
     {
-        protected readonly IEmployeeEPARepository EvaluationRepository;
-        protected readonly IEmployeeEPAService EvaluationService;
-
         protected BaseActorEPAService()
             : this(null, null)
         {
@@ -25,6 +22,10 @@
             EvaluationRepository = evaluationRepository ?? new EmployeeEPARepository();
             EvaluationService = evaluationService ?? new EmployeeEPAService();
         }
+
+        protected IEmployeeEPARepository EvaluationRepository { get; }
+
+        protected IEmployeeEPAService EvaluationService { get; }
 
         public IEnumerable<EPAModel> GetEPAByActor(ICriteria criteria)
         {
