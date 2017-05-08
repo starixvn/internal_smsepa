@@ -59,6 +59,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+  <Compile Include="Properties\AssemblyInfo.cs">
+		<!-- Exclude the file from analysis -->
+		<SonarQubeExclude>true</SonarQubeExclude>
+	</Compile>
     <Compile Include="..\GlobalSuppressions.cs">
       <Link>GlobalSuppressions.cs</Link>
       <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
@@ -89,7 +93,6 @@
     <Compile Include="Interfaces\IReportRepository.cs" />
     <Compile Include="Interfaces\ITargetEmployeeSettingRepository.cs" />
     <Compile Include="Interfaces\ITargetTemplateRepository.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <CodeAnalysisDictionary Include="FxCopDictionary.xml" />

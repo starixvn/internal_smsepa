@@ -215,6 +215,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+  <Compile Include="Properties\AssemblyInfo.cs">
+		<!-- Exclude the file from analysis -->
+		<SonarQubeExclude>true</SonarQubeExclude>
+	</Compile>
     <Compile Include="..\GlobalSuppressions.cs">
       <Link>GlobalSuppressions.cs</Link>
       <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
@@ -257,7 +261,6 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_Data\SpNames.xml" />
