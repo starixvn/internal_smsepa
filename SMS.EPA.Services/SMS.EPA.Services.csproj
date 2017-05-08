@@ -96,6 +96,7 @@
       <Link>GlobalSuppressions.cs</Link>
       <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
     </Compile>
+    <Compile Include="Implement\BaseActorEPAService.cs" />
     <Compile Include="Implement\DashboardService.cs" />
     <Compile Include="Implement\DisciplineService.cs" />
     <Compile Include="Implement\CommonService.cs" />

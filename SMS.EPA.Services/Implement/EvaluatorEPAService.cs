@@ -1,61 +1,46 @@
 ﻿namespace SMS.EPA.Services.Implement
 {
     using Core.Model;
-    using Core.Services;
     using Criteria;
     using Interfaces;
     using Model;
-    using Repositories;
     using System.Collections.Generic;
     using System.Linq;
+    using Fanex.Data.Repository;
 
-    public class EvaluatorEPAService : BaseService, IEvaluatorEPAService
+    public class EvaluatorEPAService : BaseActorEPAService, IEvaluatorEPAService
     {
-        private readonly IEmployeeEPARepository _evaluationRepository;
-        private readonly IEmployeeEPAService _evaluationService;
-
         public EvaluatorEPAService()
-            : this(null, null)
+            : base(null, null)
         {
-        }
-
-        public EvaluatorEPAService(
-            IEmployeeEPARepository evaluationRepository,
-            IEmployeeEPAService evaluationService)
-        {
-            _evaluationRepository = evaluationRepository ?? new EmployeeEPARepository();
-            _evaluationService = evaluationService ?? new EmployeeEPAService();
         }
 
         public IEnumerable<EPAModel> GetEPAByEvaluator(GetEPAByEvaluatorCriteria criteria)
         {
-            IEnumerable<EPAModel> epaInfos = new List<EPAModel>();
+            return GetEPAByActor(criteria);
+        }
 
-            if (criteria != null && criteria.IsValid())
+        protected override void UpdateEPAInfos(
+            ICriteria criteria,
+            IEnumerable<EPAModel> epaInfos,
+            IList<EPAModel> monthlyEPAs)
+        {
+            GetEPAByEvaluatorCriteria getEPAByEvaluatorCriteria = criteria as GetEPAByEvaluatorCriteria;
+
+            foreach (EPAModel epaInfo in epaInfos)
             {
-                epaInfos = _evaluationRepository.GetEPA(criteria);
-
-                IList<EPAModel> monthlyEPAs = new List<EPAModel>();
-                string epaIds = string.Join(",", epaInfos.Where(x => x.IsSemiHasMonthly).Select(x => x.EPAId));
-
-                if (!string.IsNullOrEmpty(epaIds))
-                {
-                    monthlyEPAs = _evaluationService.GetMonthlyEPAOfSemi(epaIds);
-                }
-
-                foreach (EPAModel epaInfo in epaInfos)
+                if (getEPAByEvaluatorCriteria != null)
                 {
                     epaInfo.Process.CurrentProcess =
-                        _evaluationService.CloneEPAProcess(
+                        EvaluationService.CloneEPAProcess(
                             epaInfo.Process.Evaluators.FirstOrDefault(
-                                x => x.EvaluatorInfo.EmployeeId == criteria.EvaluatorId));
-                    _evaluationService.SetMaxPerformanceScore(epaInfo);
-                    _evaluationService.GroupMonthlyEPABySemi(epaInfo, monthlyEPAs);
-                    _evaluationService.ConvertAverageMonthlyScore(epaInfo.MonthlyEPA, epaInfo.ScoreRatingType);
+                                x => x.EvaluatorInfo.EmployeeId == getEPAByEvaluatorCriteria.EvaluatorId));
                 }
-            }
 
-            return epaInfos;
+                EvaluationService.SetMaxPerformanceScore(epaInfo);
+                EvaluationService.GroupMonthlyEPABySemi(epaInfo, monthlyEPAs);
+                EvaluationService.ConvertAverageMonthlyScore(epaInfo.MonthlyEPA, epaInfo.ScoreRatingType);
+            }
         }
 
         public EPAModel GetEPAInfoByEvaluator(GetEPAInfoByEvaluatorCriteria criteria)
@@ -64,11 +49,13 @@
 
             if (criteria != null && criteria.IsValid())
             {
-                epaInfo = _evaluationRepository.GetEPAInfo(criteria);
+                epaInfo = EvaluationRepository.GetEPAInfo(criteria);
                 epaInfo.Process.CurrentProcess =
-                    _evaluationService.CloneEPAProcess(epaInfo.Process.Evaluators.FirstOrDefault(x => x.EvaluatorInfo.EmployeeId == criteria.EvaluatorId));
-                _evaluationService.SetMaxPerformanceScore(epaInfo);
-                _evaluationService.SpreadKPIScore(epaInfo.KPIGroups);
+                    EvaluationService.CloneEPAProcess(
+                        epaInfo.Process.Evaluators.FirstOrDefault(
+                            x => x.EvaluatorInfo.EmployeeId == criteria.EvaluatorId));
+                EvaluationService.SetMaxPerformanceScore(epaInfo);
+                EvaluationService.SpreadKPIScore(epaInfo.KPIGroups);
 
                 foreach (EPAKpiModel kpi in epaInfo.KPIGroups.SelectMany(x => x.KPIs))
                 {
@@ -77,8 +64,8 @@
 
                 if (epaInfo.IsSemiHasMonthly)
                 {
-                    epaInfo.MonthlyEPA.MonthlyEPAs = _evaluationService.GetMonthlyEPAOfSemi(epaInfo.EPAId.ToString());
-                    _evaluationService.ConvertAverageMonthlyScore(epaInfo.MonthlyEPA, epaInfo.ScoreRatingType);
+                    epaInfo.MonthlyEPA.MonthlyEPAs = EvaluationService.GetMonthlyEPAOfSemi(epaInfo.EPAId.ToString());
+                    EvaluationService.ConvertAverageMonthlyScore(epaInfo.MonthlyEPA, epaInfo.ScoreRatingType);
                 }
             }
 
