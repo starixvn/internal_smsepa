@@ -33,10 +33,12 @@
         }
 
         function convertScoreToGrade(performanceScore, disciplineScore, hasDisciplineScore, maxPerformanceScore, standardGrades) {
-            var performanceScore = utilitiesFactory.parseFloat(finalScore),
-                disciplineScore = utilitiesFactory.parseFloat(disciplineScore),
-                finalScore = checkScore(performanceScore + disciplineScore, 0, maxPerformanceScore),
-                performanceGrade, disciplineGrade, finalGrade;
+            performanceScore = utilitiesFactory.parseFloat(performanceScore);
+            disciplineScore = utilitiesFactory.parseFloat(disciplineScore);
+            var finalScore = checkScore(performanceScore + disciplineScore, 0, maxPerformanceScore);
+            var performanceGrade;
+            var disciplineGrade;
+            var finalGrade;
 
             var gradeType = {
                 Discipline: 1,
@@ -48,15 +50,15 @@
 
             if (hasDisciplineScore) {
                 angular.forEach(standardGrades, function (standardGrade) {
-                    if (standardGrade.Type = gradeType.Discipline && performanceScore >= standardGrade.LeftScore && performanceScore <= standardGrade.RightScore) {
+                    if (standardGrade.Type === gradeType.Discipline && performanceScore >= standardGrade.LeftScore && performanceScore <= standardGrade.RightScore) {
                         disciplineGrade = standardGrade.Code.toUpperCase();
                     }
 
-                    if (standardGrade.Type = gradeType.Performance && performanceScore >= standardGrade.LeftScore && performanceScore <= standardGrade.RightScore) {
+                    if (standardGrade.Type === gradeType.Performance && performanceScore >= standardGrade.LeftScore && performanceScore <= standardGrade.RightScore) {
                         performanceGrade = standardGrade.Code.toUpperCase();
                     }
 
-                    if (standardGrade.Type = gradeType.Final && finalScore >= standardGrade.LeftScore && finalScore <= standardGrade.RightScore) {
+                    if (standardGrade.Type === gradeType.Final && finalScore >= standardGrade.LeftScore && finalScore <= standardGrade.RightScore) {
                         finalGrade = standardGrade.Code.toUpperCase();
                     }
                 });
@@ -66,7 +68,7 @@
                 }
             } else {
                 angular.forEach(standardGrades, function (standardGrade) {
-                    if (standardGrade.Type = gradeType.Final && finalScore >= standardGrade.LeftScore && finalScore <= standardGrade.RightScore) {
+                    if (standardGrade.Type === gradeType.Final && finalScore >= standardGrade.LeftScore && finalScore <= standardGrade.RightScore) {
                         finalGrade = standardGrade.Code.toUpperCase();
                     }
                 });

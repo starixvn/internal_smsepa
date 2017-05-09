@@ -1035,11 +1035,7 @@
                 finalScore = epaInfo.Process.AverageScoreByManagements.Value + disciplineScore;
             }
 
-            float epaFinalScore = float.Parse(epaInfo.FinalScore);
-
-            return finalScore.ToString(CultureInfo.InvariantCulture) != epaInfo.FinalScore
-                ? finalScore
-                : epaFinalScore;
+            return epaInfo.StatusId == 0 ? finalScore : float.Parse(epaInfo.FinalScore);
         }
 
         private PdfPTable RenderPerformanceResultForSemiHasMonthly(EPAModel epaInfo)

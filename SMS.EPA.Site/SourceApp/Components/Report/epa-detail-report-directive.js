@@ -234,7 +234,12 @@
             }
 
             if (result.FinalScore !== "") {
-                result.Grade = EvaluationModel.convertScoreToGrade(result.FinalScore, standardGrades);
+                result.Grade = EvaluationModel.convertScoreToGrade(
+                    result.FinalScore - tempDisciplineScore,
+                    tempDisciplineScore,
+                    epaInfo.HasDisciplineScore,
+                    epaInfo.MaxFinalScore - epaInfo.MaxDisciplineScore,
+                    standardGrades);
             } else {
                 // Set default lowest value
                 result.FinalScore = status.NotAvailable;
