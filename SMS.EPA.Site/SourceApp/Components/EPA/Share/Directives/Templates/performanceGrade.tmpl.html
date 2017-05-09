@@ -1,10 +1,22 @@
 ﻿<div>&ensp;</div>
 <table class="table table-bordered table-standard-grade">
     <tbody>
+        <!--<tr>
+            <td data-translate="DisciplinaryGuideline"></td>
+            <td ng-repeat="disciplineGrade in performanceGradeCtrl.disciplineGrades">
+                {{disciplineGrade.Code}}. {{disciplineGrade.Name}}: {{disciplineGrade.LeftScore | customScore}} ~ {{disciplineGrade.RightScore | customScore}}
+            </td>
+        </tr>
         <tr>
-            <td data-translate="PerformanceGradingScale"></td>
-            <td ng-repeat="standardGrade in performanceGradeCtrl.standardGrades">
-                {{standardGrade.Code}}. {{standardGrade.Name}}: {{standardGrade.LeftScore | customScore}} ~ {{standardGrade.RightScore | customScore}}
+            <td data-translate="PerformanceGuideline"></td>
+            <td ng-repeat="performanceGrade in performanceGradeCtrl.performanceGrades">
+                {{performanceGrade.Code}}. {{performanceGrade.Name}}: {{performanceGrade.LeftScore | customScore}} ~ {{performanceGrade.RightScore | customScore}}
+            </td>
+        </tr>-->
+        <tr>
+            <td data-translate="EPAResultGuideline"></td>
+            <td ng-repeat="finalGrade in performanceGradeCtrl.finalGrades">
+                {{finalGrade.Code}}. {{finalGrade.Name}}: {{finalGrade.LeftScore | customScore}} ~ {{finalGrade.RightScore | customScore}}
             </td>
         </tr>
     </tbody>

@@ -10,58 +10,58 @@
         </tr>
     </thead>
     <tbody>
-        <tr ng-repeat="myEPA in dashboardCtrl.myEPAs">
+        <tr ng-repeat="epaInfo in dashboardCtrl.myEPAs">
             <td class="text-center" ng-bind="$index + 1"></td>
-            <td ng-bind="myEPA.Period.Name"></td>
+            <td ng-bind="epaInfo.Period.Name"></td>
             <td class="text-center">
-                <div ng-show="myEPA.EPAId > 0 && myEPA.Period.IsEndPeriod">
-                    <span ng-show="myEPA.Process.PerformanceScore || myEPA.Process.PerformanceScore == 0">
-                        {{myEPA.Process.PerformanceScore | customScore}} / {{myEPA.Process.MaxPerformanceScore | customScore}}
+                <div ng-show="epaInfo.EPAId > 0 && epaInfo.IsClosed">
+                    <span ng-show="epaInfo.Process.PerformanceScore || epaInfo.Process.PerformanceScore == 0">
+                        {{epaInfo.Process.PerformanceScore | customScore}} / {{epaInfo.Process.MaxPerformanceScore | customScore}}
                     </span>
-                    <span ng-show="!myEPA.Process.PerformanceScore && myEPA.Process.PerformanceScore != 0" data-translate="NotAvailable"></span>
+                    <span ng-show="!epaInfo.Process.PerformanceScore && epaInfo.Process.PerformanceScore != 0" data-translate="NotAvailable"></span>
                 </div>
-                <div ng-show="myEPA.EPAId > 0 && !myEPA.Period.IsEndPeriod" data-translate="Pending"></div>
-                <div ng-show="myEPA.EPAId < 0" ng-bind="'-'"></div>
+                <div ng-show="epaInfo.EPAId > 0 && !epaInfo.IsClosed" data-translate="Pending"></div>
+                <div ng-show="epaInfo.EPAId < 0" ng-bind="'-'"></div>
             </td>
             <td class="text-center">
                 <div class="col-percent-50">
-                    <div ng-show="myEPA.EPAId > 0 && myEPA.Period.IsEndPeriod">
-                        <div ng-show="myEPA.HasDisciplineScore">
-                            <span ng-class="myEPA.DisciplineScore < 0 ? 'red' : ''"
-                                  ng-bind="myEPA.DisciplineScore | customScore"></span> / <span ng-bind="myEPA.MaxDisciplineScore | customScore"></span>
+                    <div ng-show="epaInfo.EPAId > 0 && epaInfo.IsClosed">
+                        <div ng-show="epaInfo.HasDisciplineScore">
+                            <span ng-class="epaInfo.DisciplineScore < 0 ? 'red' : ''"
+                                  ng-bind="epaInfo.DisciplineScore | customScore"></span> / <span ng-bind="epaInfo.MaxDisciplineScore | customScore"></span>
                         </div>
-                        <div ng-show="!myEPA.HasDisciplineScore">
-                            <span ng-show="myEPA.DisciplineScore"
-                                  ng-class="myEPA.DisciplineScore < 0 ? 'red' : ''"
-                                  ng-bind="myEPA.DisciplineScore | customScore"></span>
-                            <span ng-show="!myEPA.DisciplineScore" ng-bind="'-'"></span>
+                        <div ng-show="!epaInfo.HasDisciplineScore">
+                            <span ng-show="epaInfo.DisciplineScore"
+                                  ng-class="epaInfo.DisciplineScore < 0 ? 'red' : ''"
+                                  ng-bind="epaInfo.DisciplineScore | customScore"></span>
+                            <span ng-show="!epaInfo.DisciplineScore" ng-bind="'-'"></span>
                         </div>
                     </div>
-                    <div ng-show="myEPA.EPAId > 0 && !myEPA.Period.IsEndPeriod" data-translate="Pending"></div>
-                    <div ng-show="myEPA.EPAId < 0" ng-bind="'-'"></div>
+                    <div ng-show="epaInfo.EPAId > 0 && !epaInfo.IsClosed" data-translate="Pending"></div>
+                    <div ng-show="epaInfo.EPAId < 0" ng-bind="'-'"></div>
                 </div>
-                <div class="col-percent-40" ng-if="myEPA.EPAId > 0 && myEPA.Period.IsEndPeriod && myEPA.OtherDisciplines > 0">
-                    <a class="glyphicon icon-alert" href="" ng-click="dashboardCtrl.viewOtherViolationDetail(myEPA)"
-                       ng-if="myEPA.HasOtherViolation" ng-attr-title='{{"ViewOtherViolation" | translate}}'></a>
+                <div class="col-percent-40" ng-if="epaInfo.EPAId > 0 && epaInfo.IsClosed && epaInfo.OtherDisciplines > 0">
+                    <a class="glyphicon icon-alert" href="" ng-click="dashboardCtrl.viewOtherViolationDetail(epaInfo)"
+                       ng-if="epaInfo.HasOtherViolation" ng-attr-title='{{"ViewOtherViolation" | translate}}'></a>
                     <a class="glyphicon icon-alert" href=""
-                       ng-if="!myEPA.HasOtherViolation" ng-attr-title='Misconduction case: {{myEPA.OtherDisciplines}}'></a>
+                       ng-if="!epaInfo.HasOtherViolation" ng-attr-title='Misconduction case: {{epaInfo.OtherDisciplines}}'></a>
                 </div>
             </td>
             <td class="text-center">
-                <div ng-show="myEPA.Period.IsEndPeriod">
-                    <span ng-show="myEPA.FinalScore || myEPA.FinalScore == 0">
-                        {{myEPA.FinalScore | customScore}} / {{myEPA.MaxFinalScore | customScore}}
+                <div ng-show="epaInfo.IsClosed">
+                    <span ng-show="epaInfo.FinalScore || epaInfo.FinalScore == 0">
+                        {{epaInfo.FinalScore | customScore}} / {{epaInfo.MaxFinalScore | customScore}}
                     </span>
-                    <span ng-show="!myEPA.FinalScore && myEPA.FinalScore != 0" data-translate="NotAvailable"></span>
+                    <span ng-show="!epaInfo.FinalScore && epaInfo.FinalScore != 0" data-translate="NotAvailable"></span>
                 </div>
-                <div ng-show="!myEPA.Period.IsEndPeriod" data-translate="Pending"></div>
+                <div ng-show="!epaInfo.IsClosed" data-translate="Pending"></div>
             </td>
             <td class="text-center col-action">
-                <a class="glyphicon glyphicon-edit icon-edit" href="" ng-click="dashboardCtrl.selfEvaluationDetail(myEPA)"
-                   ng-if="myEPA.EPAId > 0 && (myEPA.IsAllowedToEdit || !myEPA.IsEndProcessBySelf)"
+                <a class="glyphicon glyphicon-edit icon-edit" href="" ng-click="dashboardCtrl.selfEvaluationDetail(epaInfo)"
+                   ng-if="epaInfo.EPAId > 0 && (epaInfo.IsAllowedToEdit || !epaInfo.IsEndProcessBySelf)"
                    ng-attr-title='{{"EvaluateNow" | translate}}'></a>
-                <a class="glyphicon icon-view" href="" ng-click="dashboardCtrl.viewEPAResult(myEPA)"
-                   ng-if="myEPA.EPAId > 0 && !(myEPA.IsAllowedToEdit || !myEPA.IsEndProcessBySelf)"
+                <a class="glyphicon icon-view" href="" ng-click="dashboardCtrl.viewEPAResult(epaInfo)"
+                   ng-if="epaInfo.EPAId > 0 && !(epaInfo.IsAllowedToEdit || !epaInfo.IsEndProcessBySelf)"
                    ng-attr-title='{{"ViewEPAResult" | translate}}'></a>
             </td>
         </tr>

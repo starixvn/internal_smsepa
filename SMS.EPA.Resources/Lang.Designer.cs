@@ -727,6 +727,15 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Disciplinary guideline.
+        /// </summary>
+        public static string DisciplinaryGuideline {
+            get {
+                return ResourceManager.GetString("DisciplinaryGuideline", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Discipline End Date.
         /// </summary>
         public static string DisciplineEndDate {
@@ -1155,6 +1164,15 @@ namespace SMS.EPA.Resources {
         public static string EPAResult {
             get {
                 return ResourceManager.GetString("EPAResult", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to EPA result guideline.
+        /// </summary>
+        public static string EPAResultGuideline {
+            get {
+                return ResourceManager.GetString("EPAResultGuideline", resourceCulture);
             }
         }
         
@@ -2482,11 +2500,11 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Performance Grading Scale.
+        ///   Looks up a localized string similar to Performance guideline.
         /// </summary>
-        public static string PerformanceGradingScale {
+        public static string PerformanceGuideline {
             get {
-                return ResourceManager.GetString("PerformanceGradingScale", resourceCulture);
+                return ResourceManager.GetString("PerformanceGuideline", resourceCulture);
             }
         }
         

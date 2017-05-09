@@ -15,6 +15,11 @@
                 var vm = this;
 
                 vm.statusTypes = utilitiesFactory.statusEndProcess;
+                vm.monthlyEPA = {};
+
+                if (vm.epaInfo) {
+                    vm.monthlyEPA = vm.epaInfo.MonthlyEPA;
+                }
             },
             controllerAs: 'monthlyResultCtrl',
             bindToController: true,

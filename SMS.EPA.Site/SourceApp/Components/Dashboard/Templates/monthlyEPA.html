@@ -9,34 +9,34 @@
         </tr>
     </thead>
     <tbody>
-        <tr ng-repeat="monthlyEPA in dashboardCtrl.monthlyEPAs">
+        <tr ng-repeat="epaInfo in dashboardCtrl.monthlyEPAs">
             <td class="text-center" ng-bind="$index + 1"></td>
-            <td ng-bind="monthlyEPA.Period.Name"></td>
+            <td ng-bind="epaInfo.Period.Name"></td>
             <td class="text-center">
-                <div ng-show="monthlyEPA.EPAId > 0 && monthlyEPA.Period.IsEndPeriod">
-                    <span ng-show="monthlyEPA.Process.PerformanceScore || monthlyEPA.Process.PerformanceScore == 0">
-                        {{monthlyEPA.Process.PerformanceScore | customScore}} / {{monthlyEPA.Process.MaxPerformanceScore | customScore}}
+                <div ng-show="epaInfo.EPAId > 0 && epaInfo.IsClosed">
+                    <span ng-show="epaInfo.Process.PerformanceScore || epaInfo.Process.PerformanceScore == 0">
+                        {{epaInfo.Process.PerformanceScore | customScore}} / {{epaInfo.Process.MaxPerformanceScore | customScore}}
                     </span>
-                    <span ng-show="!monthlyEPA.Process.PerformanceScore && monthlyEPA.Process.PerformanceScore != 0" data-translate="NotAvailable"></span>
+                    <span ng-show="!epaInfo.Process.PerformanceScore && epaInfo.Process.PerformanceScore != 0" data-translate="NotAvailable"></span>
                 </div>
-                <div ng-show="monthlyEPA.EPAId > 0 && !monthlyEPA.Period.IsEndPeriod" data-translate="Pending"></div>
-                <div ng-show="monthlyEPA.EPAId < 0" ng-bind="'-'"></div>
+                <div ng-show="epaInfo.EPAId > 0 && !epaInfo.IsClosed" data-translate="Pending"></div>
+                <div ng-show="epaInfo.EPAId < 0" ng-bind="'-'"></div>
             </td>
             <td class="text-center">
-                <div ng-show="monthlyEPA.Period.IsEndPeriod">
-                    <span ng-show="monthlyEPA.FinalScore || monthlyEPA.FinalScore == 0">
-                        {{monthlyEPA.FinalScore | customScore}} / {{monthlyEPA.MaxFinalScore | customScore}}
+                <div ng-show="epaInfo.IsClosed">
+                    <span ng-show="epaInfo.FinalScore || epaInfo.FinalScore == 0">
+                        {{epaInfo.FinalScore | customScore}} / {{epaInfo.MaxFinalScore | customScore}}
                     </span>
-                    <span ng-show="!monthlyEPA.FinalScore && monthlyEPA.FinalScore != 0" data-translate="NotAvailable"></span>
+                    <span ng-show="!epaInfo.FinalScore && epaInfo.FinalScore != 0" data-translate="NotAvailable"></span>
                 </div>
-                <div ng-show="!monthlyEPA.Period.IsEndPeriod" data-translate="Pending"></div>
+                <div ng-show="!epaInfo.IsClosed" data-translate="Pending"></div>
             </td>
             <td class="text-center col-action">
                 <a class="glyphicon glyphicon-edit icon-edit" href="" ng-click="dashboardCtrl.selfEvaluationDetail(monthlyEPA)"
-                   ng-if="monthlyEPA.EPAId > 0 && (monthlyEPA.IsAllowedToEdit || !monthlyEPA.IsEndProcessBySelf)"
+                   ng-if="epaInfo.EPAId > 0 && (epaInfo.IsAllowedToEdit || !epaInfo.IsEndProcessBySelf)"
                    ng-attr-title='{{"EvaluateNow" | translate}}'></a>
                 <a class="glyphicon icon-view" href="" ng-click="dashboardCtrl.viewEPAResult(monthlyEPA)"
-                   ng-if="monthlyEPA.EPAId > 0 && !(monthlyEPA.IsAllowedToEdit || !monthlyEPA.IsEndProcessBySelf)"
+                   ng-if="epaInfo.EPAId > 0 && !(epaInfo.IsAllowedToEdit || !epaInfo.IsEndProcessBySelf)"
                    ng-attr-title='{{"ViewEPAResult" | translate}}'></a>
             </td>
         </tr>

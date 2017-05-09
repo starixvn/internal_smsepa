@@ -915,7 +915,7 @@
 
                 float finalScore = CalculateFinalScore(epaInfo);
 
-                Font selectedFont = epaInfo.Period.IsEndPeriod ? _normalFont : _redFont;
+                    Font selectedFont = epaInfo.IsClosed ? _normalFont : _redFont;
 
                 cell = new PdfPCell
                 {
@@ -1285,11 +1285,8 @@
                     };
                     table.AddCell(cell);
 
-                    string finalScore =
-                        epaInfo.Period.IsEndPeriod
-                            ? (string.IsNullOrEmpty(epaInfo.FinalScore)
-                                ? Lang.NotAvailable
-                                : epaInfo.FinalScore + " / " + epaInfo.MaxFinalScore)
+                    string finalScore = epaInfo.IsClosed
+                            ? (string.IsNullOrEmpty(epaInfo.FinalScore) ? Lang.NotAvailable : epaInfo.FinalScore + " / " + epaInfo.MaxFinalScore)
                             : Lang.Pending;
                     cell = new PdfPCell(new Phrase(finalScore, _normalFont))
                     {
@@ -1300,7 +1297,7 @@
                     };
                     table.AddCell(cell);
 
-                    string grade = epaInfo.Period.IsEndPeriod
+                    string grade = epaInfo.IsClosed
                         ? (string.IsNullOrEmpty(epaInfo.Grade) ? Lang.NotAvailable : epaInfo.Grade)
                         : Lang.Pending;
                     cell = new PdfPCell(new Phrase(grade, _normalFont))

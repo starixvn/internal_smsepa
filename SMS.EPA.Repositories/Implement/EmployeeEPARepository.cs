@@ -12,7 +12,7 @@
 
     public class EmployeeEPARepository : IEmployeeEPARepository
     {
-        private readonly ICryptographyService _cryptographyService;
+        private readonly ICryptographyService cryptographyService;
 
         public EmployeeEPARepository()
             : this(null)
@@ -21,7 +21,7 @@
 
         public EmployeeEPARepository(ICryptographyService cryptographyService)
         {
-            _cryptographyService = cryptographyService ?? new CryptographyService();
+            this.cryptographyService = cryptographyService ?? new CryptographyService();
         }
 
         public IEnumerable<EPAModel> GetEPA(ICriteria criteria)
@@ -66,16 +66,14 @@
             }
         }
 
-        [SuppressMessage("StyleCop.CSharp.StylecopPlus.Rules", "SP2101:MethodMustNotContainMoreLinesThan",
-            Justification = "Need to review here.")]
+        [SuppressMessage("StyleCop.CSharp.StylecopPlus.Rules", "SP2101:MethodMustNotContainMoreLinesThan", Justification = "Need to review here.")]
         public EPAModel GetEPAInfo(ICriteria criteria)
         {
             using (var db = new ObjectDb(criteria.GetSettingKey()))
             {
                 using (GridReaderWrapper multi = db.QueryMultiple(criteria.GetSpParams()))
                 {
-                    var epaInfo = multi
-                        .Read<EPAModel, EPAEmployeeModel, RatingTypeModel, EPAPeriodModel, ScoreRatingTypeModel, EPAModel>(
+                    var epaInfo = multi.Read<EPAModel, EPAEmployeeModel, RatingTypeModel, EPAPeriodModel, ScoreRatingTypeModel, EPAModel>(
                             (info, employee, ratingType, period, scoreRatingType) =>
                             {
                                 info.Employee = employee;
@@ -84,22 +82,18 @@
                                 info.Period = period;
 
                                 return info;
-                            },
-                            "EmployeeId, RatingTypeId, PeriodId, ScoreRatingTypeId")
-                        .FirstOrDefault();
+                            }, "EmployeeId, RatingTypeId, PeriodId, ScoreRatingTypeId").FirstOrDefault();
 
                     if (epaInfo != null)
                     {
-                        IEnumerable<EPAProcessModel> processes =
-                            multi.Read<EPAProcessModel, EPAEmployeeModel, EPAEmployeeModel, EPAProcessModel>(
+                        IEnumerable<EPAProcessModel> processes = multi.Read<EPAProcessModel, EPAEmployeeModel, EPAEmployeeModel, EPAProcessModel>(
                                 (process, evaluator, modifiedBy) =>
                                 {
                                     process.EvaluatorInfo = evaluator;
                                     process.ModifiedBy = modifiedBy;
 
                                     return process;
-                                },
-                                "EvaluatorId, ModifiedById");
+                                }, "EvaluatorId, ModifiedById");
 
                         epaInfo.KPIGroups = multi.Read<EPAKpiGroupModel>().ToList();
 
@@ -256,8 +250,7 @@
                             return recommendation;
                         },
                         "JobGradeId",
-                        criteria.GetSpParams())
-                    .FirstOrDefault();
+                        criteria.GetSpParams()).FirstOrDefault();
             }
         }
 
@@ -389,8 +382,8 @@
         {
             foreach (EPAKpiGroupModel kpiGroup in kpiGroups)
             {
-                foreach (EPAKpiModel kpi in kpis.Where(
-                    x => x.EPAId.Equals(kpiGroup.EPAId) && x.KPIGroupId.Equals(kpiGroup.KPIGroupId)))
+                IEnumerable<EPAKpiModel> tempkpis = kpis.Where(x => x.EPAId.Equals(kpiGroup.EPAId) && x.KPIGroupId.Equals(kpiGroup.KPIGroupId));
+                foreach (EPAKpiModel kpi in tempkpis)
                 {
                     kpiGroup.KPIs.Add(kpi);
                 }
@@ -401,8 +394,8 @@
         {
             foreach (EPAKpiModel kpi in kpis)
             {
-                foreach (EvaluationModel evaluation in evaluations.Where(
-                    x => x.EPAId.Equals(kpi.EPAId) && x.KPIId.Equals(kpi.KPIId)))
+                IEnumerable<EvaluationModel> tempEvaluations = evaluations.Where(x => x.EPAId.Equals(kpi.EPAId) && x.KPIId.Equals(kpi.KPIId));
+                foreach (EvaluationModel evaluation in tempEvaluations)
                 {
                     switch (evaluation.ProcessId)
                     {
@@ -425,8 +418,9 @@
         {
             foreach (RatingByKPIModel epaInfo in epaInfos)
             {
-                foreach (TemporaryKPIModel kpi in kpis.Where(
-                    x => x.EPAId.Equals(epaInfo.EPAId) && x.KPIGroup.KPIGroupId.Equals(epaInfo.KPIGroup.KPIGroupId)))
+                IEnumerable<TemporaryKPIModel> tempkpis = 
+                    kpis.Where(x => x.EPAId.Equals(epaInfo.EPAId) && x.KPIGroup.KPIGroupId.Equals(epaInfo.KPIGroup.KPIGroupId));
+                foreach (TemporaryKPIModel kpi in tempkpis)
                 {
                     epaInfo.KPIGroup.KPIs.Add(kpi);
                 }
@@ -437,8 +431,9 @@
         {
             foreach (RatingByKPIModel epaInfo in epaInfos)
             {
-                foreach (TemporaryKPIModel kpi in kpis.Where(
-                    x => x.EPAId.Equals(epaInfo.EPAId) && x.KPIGroup.KPIGroupId.Equals(epaInfo.KPIGroup.KPIGroupId)))
+                IEnumerable<TemporaryKPIModel> tempkpis =
+                    kpis.Where(x => x.EPAId.Equals(epaInfo.EPAId) && x.KPIGroup.KPIGroupId.Equals(epaInfo.KPIGroup.KPIGroupId));
+                foreach (TemporaryKPIModel kpi in tempkpis)
                 {
                     epaInfo.KPIGroup.KPIsBySelf.Add(kpi);
                 }
@@ -447,11 +442,11 @@
 
         private void DecryptAllScore(EPAModel epaInfo)
         {
-            epaInfo.LastFinalScore = _cryptographyService.Decrypt(epaInfo.LastFinalScore);
-            epaInfo.LastGrade = _cryptographyService.Decrypt(epaInfo.LastGrade);
-            epaInfo.FinalScore = _cryptographyService.Decrypt(epaInfo.FinalScore);
-            epaInfo.Grade = _cryptographyService.Decrypt(epaInfo.Grade);
-            epaInfo.OldFinalScore = _cryptographyService.Decrypt(epaInfo.OldFinalScore);
+            epaInfo.LastFinalScore = cryptographyService.Decrypt(epaInfo.LastFinalScore);
+            epaInfo.LastGrade = cryptographyService.Decrypt(epaInfo.LastGrade);
+            epaInfo.FinalScore = cryptographyService.Decrypt(epaInfo.FinalScore);
+            epaInfo.Grade = cryptographyService.Decrypt(epaInfo.Grade);
+            epaInfo.OldFinalScore = cryptographyService.Decrypt(epaInfo.OldFinalScore);
             DecryptTotalScore(epaInfo.Process.Self);
             DecryptTotalScore(epaInfo.Process.Evaluators);
             DecryptTotalScore(epaInfo.Process.Reviewers);
@@ -469,7 +464,7 @@
         {
             foreach (RatingByKPIModel epaInfo in epaInfos)
             {
-                epaInfo.TotalScore = _cryptographyService.Decrypt(epaInfo.TotalScore);
+                epaInfo.TotalScore = cryptographyService.Decrypt(epaInfo.TotalScore);
 
                 foreach (TemporaryKPIModel kpi in epaInfo.KPIGroup.KPIs)
                 {
@@ -477,10 +472,10 @@
 
                     if (!string.IsNullOrEmpty(kpi.RateEncrypt))
                     {
-                        rate = float.Parse(_cryptographyService.Decrypt(kpi.RateEncrypt));
+                        rate = float.Parse(cryptographyService.Decrypt(kpi.RateEncrypt));
                     }
 
-                    kpi.Score = _cryptographyService.Decrypt(kpi.Score).Replace("_" + kpi.KPIId, string.Empty);
+                    kpi.Score = cryptographyService.Decrypt(kpi.Score).Replace("_" + kpi.KPIId, string.Empty);
                     kpi.Rate = rate;
                 }
 
@@ -490,10 +485,10 @@
 
                     if (!string.IsNullOrEmpty(kpi.RateEncrypt))
                     {
-                        rate = float.Parse(_cryptographyService.Decrypt(kpi.RateEncrypt));
+                        rate = float.Parse(cryptographyService.Decrypt(kpi.RateEncrypt));
                     }
 
-                    kpi.Score = _cryptographyService.Decrypt(kpi.Score).Replace("_" + kpi.KPIId, string.Empty);
+                    kpi.Score = cryptographyService.Decrypt(kpi.Score).Replace("_" + kpi.KPIId, string.Empty);
                     kpi.Rate = rate;
                 }
             }
@@ -503,8 +498,8 @@
         {
             if (process != null)
             {
-                process.TotalScore = _cryptographyService.Decrypt(process.TotalScore);
-                process.AdjustScore = _cryptographyService.Decrypt(process.AdjustScore);
+                process.TotalScore = cryptographyService.Decrypt(process.TotalScore);
+                process.AdjustScore = cryptographyService.Decrypt(process.AdjustScore);
             }
         }
 
@@ -524,10 +519,10 @@
 
                 if (!string.IsNullOrEmpty(evaluation.RateEncrypt))
                 {
-                    rate = float.Parse(_cryptographyService.Decrypt(evaluation.RateEncrypt));
+                    rate = float.Parse(cryptographyService.Decrypt(evaluation.RateEncrypt));
                 }
 
-                evaluation.Score = _cryptographyService.Decrypt(evaluation.Score)
+                evaluation.Score = cryptographyService.Decrypt(evaluation.Score)
                     .Replace("_" + evaluation.KPIId, string.Empty);
                 evaluation.Rate = rate;
             }

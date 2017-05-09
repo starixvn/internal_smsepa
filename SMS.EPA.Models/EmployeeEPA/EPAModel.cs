@@ -16,6 +16,7 @@
             Process = new EvaluationProcessModel();
             Period = new EPAPeriodModel();
             Employee = new EPAEmployeeModel();
+            RatingType = new RatingTypeModel();
         }
 
         public int EPAId { get; set; }
@@ -124,13 +125,15 @@
 
         public bool IsSemiHasMonthly => HasMonthlyEPA && Period.TargetTypeId == (int)TargetType.SemiAnnual;
 
+        public bool IsClosed => StatusId == (int)EPAStatus.Closed;
+
         public bool IsAllowedToEdit
         {
             get
             {
                 var isAllowedToEdit = IsCurrentProcessValid()
                                       && (!IsSemiHasMonthly || IsProcessValid())
-                                      && IsPeriodAndStatusValid();
+                                      && StatusId == (int)EPAStatus.Open;
 
                 return isAllowedToEdit;
             }
@@ -145,11 +148,6 @@
         private bool IsCurrentProcessValid()
         {
             return Process.CurrentProcess != null && !Process.CurrentProcess.IsEndProcess;
-        }
-
-        private bool IsPeriodAndStatusValid()
-        {
-            return StatusId != (int)EPAStatus.Closed && !Period.IsEndPeriod;
         }
 
         public object ConvertToExcelRecord()

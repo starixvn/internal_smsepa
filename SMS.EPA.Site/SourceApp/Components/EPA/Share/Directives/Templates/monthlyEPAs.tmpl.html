@@ -8,64 +8,64 @@
         </tr>
     </thead>
     <tbody>
-        <tr ng-repeat="monthly in monthlyResultCtrl.epaInfo.MonthlyEPA.MonthlyEPAs" class="text-center">
+        <tr ng-repeat="monthly in monthlyResultCtrl.monthlyEPA.MonthlyEPAs" class="text-center">
             <td class="text-center" ng-bind="monthly.Period.Name"></td>
             <td>
-                <span ng-show="monthly.Period.IsEndPeriod">
+                <span ng-show="monthly.IsClosed">
                     <span ng-show="monthly.Process.Self.TotalScore" ng-bind="monthly.Process.Self.TotalScore | customScore"></span>
                     <span ng-show="!monthly.Process.Self.TotalScore">0</span>
                 </span>
-                <span ng-show="!monthly.Period.IsEndPeriod" data-translate="Pending"></span>
+                <span ng-show="!monthly.IsClosed" data-translate="Pending"></span>
             </td>
             <td>
-                <span ng-show="monthly.Period.IsEndPeriod" ng-bind="monthly.Process.AverageScoreByEvaluators | customScore"></span>
-                <span ng-show="!monthly.Period.IsEndPeriod" data-translate="Pending"></span>
+                <span ng-show="monthly.IsClosed" ng-bind="monthly.Process.AverageScoreByEvaluators | customScore"></span>
+                <span ng-show="!monthly.IsClosed" data-translate="Pending"></span>
             </td>
             <td>
-                <span ng-show="monthly.Period.IsEndPeriod" ng-bind="monthly.Process.AverageScoreByReviewers | customScore"></span>
-                <span ng-show="!monthly.Period.IsEndPeriod" data-translate="Pending"></span>
+                <span ng-show="monthly.IsClosed" ng-bind="monthly.Process.AverageScoreByReviewers | customScore"></span>
+                <span ng-show="!monthly.IsClosed" data-translate="Pending"></span>
             </td>
         </tr>
         <tr>
             <td class="text-right"><strong data-translate="MonthlyAverage"></strong></td>
             <td class="text-center">
-                {{monthlyResultCtrl.epaInfo.MonthlyEPA.AverageSelfScore | customScore}}
-                <span ng-show="monthlyResultCtrl.epaInfo.MonthlyEPA.MonthlyEPAs && monthlyResultCtrl.epaInfo.MonthlyEPA.MonthlyEPAs.length > 0">
-                    / {{monthlyResultCtrl.epaInfo.MonthlyEPA.MonthlyEPAs[0].ScoreRatingType.SelfEvaluated | customScore}}
+                {{monthlyResultCtrl.monthlyEPA.AverageSelfScore | customScore}}
+                <span ng-show="monthlyResultCtrl.monthlyEPA.MonthlyEPAs && monthlyResultCtrl.monthlyEPA.MonthlyEPAs.length > 0">
+                    / {{monthlyResultCtrl.monthlyEPA.MonthlyEPAs[0].ScoreRatingType.SelfEvaluated | customScore}}
                 </span>
             </td>
             <td class="text-center">
-                {{monthlyResultCtrl.epaInfo.MonthlyEPA.AverageEvaluatorScores | customScore}}
-                <span ng-show="monthlyResultCtrl.epaInfo.MonthlyEPA.MonthlyEPAs && monthlyResultCtrl.epaInfo.MonthlyEPA.MonthlyEPAs.length > 0">
-                    / {{monthlyResultCtrl.epaInfo.MonthlyEPA.MonthlyEPAs[0].ScoreRatingType.Evaluator | customScore}}
+                {{monthlyResultCtrl.monthlyEPA.AverageEvaluatorScores | customScore}}
+                <span ng-show="monthlyResultCtrl.monthlyEPA.MonthlyEPAs && monthlyResultCtrl.monthlyEPA.MonthlyEPAs.length > 0">
+                    / {{monthlyResultCtrl.monthlyEPA.MonthlyEPAs[0].ScoreRatingType.Evaluator | customScore}}
                 </span>
             </td>
             <td class="text-center">
-                {{monthlyResultCtrl.epaInfo.MonthlyEPA.AverageReviewerScores | customScore}}
-                <span ng-show="monthlyResultCtrl.epaInfo.MonthlyEPA.MonthlyEPAs && monthlyResultCtrl.epaInfo.MonthlyEPA.MonthlyEPAs.length > 0">
-                    / {{monthlyResultCtrl.epaInfo.MonthlyEPA.MonthlyEPAs[0].ScoreRatingType.Reviewer | customScore}}
+                {{monthlyResultCtrl.monthlyEPA.AverageReviewerScores | customScore}}
+                <span ng-show="monthlyResultCtrl.monthlyEPA.MonthlyEPAs && monthlyResultCtrl.monthlyEPA.MonthlyEPAs.length > 0">
+                    / {{monthlyResultCtrl.monthlyEPA.MonthlyEPAs[0].ScoreRatingType.Reviewer | customScore}}
                 </span>
             </td>
         </tr>
         <tr>
             <td class="text-right"><strong data-translate="SemiAverage"></strong></td>
             <td class="text-center">
-                {{monthlyResultCtrl.epaInfo.MonthlyEPA.AverageSelfScoreConverted | customScore}}
-                <span ng-show="monthlyResultCtrl.epaInfo.MonthlyEPA.MonthlyEPAs && monthlyResultCtrl.epaInfo.MonthlyEPA.MonthlyEPAs.length > 0">
+                {{monthlyResultCtrl.monthlyEPA.AverageSelfScoreConverted | customScore}}
+                <span ng-show="monthlyResultCtrl.monthlyEPA.MonthlyEPAs && monthlyResultCtrl.monthlyEPA.MonthlyEPAs.length > 0">
                     / {{monthlyResultCtrl.epaInfo.ScoreRatingType.SelfEvaluated | customScore}}
                 </span>
             </td>
             <td class="text-center">
-                {{monthlyResultCtrl.epaInfo.MonthlyEPA.AverageEvaluatorScoreConverted | customScore}}
-                <span ng-show="monthlyResultCtrl.epaInfo.MonthlyEPA.MonthlyEPAs && monthlyResultCtrl.epaInfo.MonthlyEPA.MonthlyEPAs.length > 0">
+                {{monthlyResultCtrl.monthlyEPA.AverageEvaluatorScoreConverted | customScore}}
+                <span ng-show="monthlyResultCtrl.monthlyEPA.MonthlyEPAs && monthlyResultCtrl.monthlyEPA.MonthlyEPAs.length > 0">
                     / {{monthlyResultCtrl.epaInfo.ScoreRatingType.Evaluator | customScore}}
                 </span>
             </td>
             <td class="text-center">
                 <div ng-show="monthlyResultCtrl.epaInfo.Process.Reviewers[0].StatusEndProcess == monthlyResultCtrl.statusTypes.EndProcess
                             || monthlyResultCtrl.epaInfo.Process.Reviewers[0].StatusEndProcess == monthlyResultCtrl.statusTypes.InProgress">
-                    {{monthlyResultCtrl.epaInfo.MonthlyEPA.AverageReviewerScoreConverted | customScore}}
-                    <span ng-show="monthlyResultCtrl.epaInfo.MonthlyEPA.MonthlyEPAs && monthlyResultCtrl.epaInfo.MonthlyEPA.MonthlyEPAs.length > 0">
+                    {{monthlyResultCtrl.monthlyEPA.AverageReviewerScoreConverted | customScore}}
+                    <span ng-show="monthlyResultCtrl.monthlyEPA.MonthlyEPAs && monthlyResultCtrl.monthlyEPA.MonthlyEPAs.length > 0">
                         / {{monthlyResultCtrl.epaInfo.ScoreRatingType.Reviewer | customScore}}
                     </span>
                 </div>

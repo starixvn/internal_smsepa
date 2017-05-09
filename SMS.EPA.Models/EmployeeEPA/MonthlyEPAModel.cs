@@ -33,7 +33,7 @@
             int count = 0;
             float? result = null;
 
-            var finishedMonthlyEPAs = MonthlyEPAs.Where(x => x.Period.IsEndPeriod);
+            var finishedMonthlyEPAs = MonthlyEPAs.Where(x => x.IsClosed);
             foreach (EPAModel monthlyEPA in finishedMonthlyEPAs)
             {
                 switch (processType)
@@ -64,6 +64,7 @@
                         }
 
                         break;
+
                     default:
                         throw new ArgumentOutOfRangeException();
                 }

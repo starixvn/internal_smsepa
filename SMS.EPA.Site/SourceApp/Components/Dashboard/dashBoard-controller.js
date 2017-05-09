@@ -1,4 +1,4 @@
-﻿(function(angular) {
+﻿(function (angular) {
     'use strict';
     /* jshint latedef:nofunc */
     /* jshint validthis:true */
@@ -44,11 +44,11 @@
         function initialize() {
             lockScreenService.start();
 
-            DashboardModel.getToDoList().then(function() {
+            DashboardModel.getToDoList().then(function () {
                 vm.todoList = DashboardModel.todoList;
             });
 
-            DashboardModel.getDashboard().then(function() {
+            DashboardModel.getDashboard().then(function () {
                 var dashboardInfo = DashboardModel.dashboardInfo;
 
                 vm.employee = dashboardInfo.Employee;
@@ -56,34 +56,25 @@
                 vm.evaluationProcesses = [];
                 vm.myEPAs = dashboardInfo.MyEpaInfos;
                 vm.monthlyEPAs = dashboardInfo.MonthlyEpaInfos;
-
                 currentUserId.value = dashboardInfo.Employee.EmployeeId;
 
-                //$provide.value("currentEmployeeId", dashboardInfo.Employee.EmployeeId)
+                angular.forEach(vm.myEPAs, function (myEPA) {
+                    if (myEPA.IsClosed) {
+                        myEPA.FinalScore = myEPA.FinalScore.length > 0 ? utilitiesFactory.parseFloat(myEPA.FinalScore) : null;
+                    } else {
+                        myEPA.FinalScore = null;
+                        vm.evaluationProcesses.push(myEPA);
+                    }
+                });
 
-                angular.forEach(vm.myEPAs,
-                    function(myEPA) {
-                        if (myEPA.Period.IsEndPeriod) {
-                            myEPA.FinalScore = myEPA.FinalScore.length > 0
-                                ? utilitiesFactory.parseFloat(myEPA.FinalScore)
-                                : null;
-                        } else {
-                            myEPA.FinalScore = null;
-                            vm.evaluationProcesses.push(myEPA);
-                        }
-                    });
-
-                angular.forEach(vm.monthlyEPAs,
-                    function(monthlyEPA) {
-                        if (monthlyEPA.Period.IsEndPeriod) {
-                            monthlyEPA.FinalScore = monthlyEPA.FinalScore.length > 0
-                                ? utilitiesFactory.parseFloat(monthlyEPA.FinalScore)
-                                : null;
-                        } else {
-                            monthlyEPA.FinalScore = null;
-                            vm.evaluationProcesses.push(monthlyEPA);
-                        }
-                    });
+                angular.forEach(vm.monthlyEPAs, function (monthlyEPA) {
+                    if (monthlyEPA.IsClosed) {
+                        monthlyEPA.FinalScore = monthlyEPA.FinalScore.length > 0 ? utilitiesFactory.parseFloat(monthlyEPA.FinalScore) : null;
+                    } else {
+                        monthlyEPA.FinalScore = null;
+                        vm.evaluationProcesses.push(monthlyEPA);
+                    }
+                });
 
                 lockScreenService.stop();
             });

@@ -1341,9 +1341,6 @@
   <data name="Unfinished" xml:space="preserve">
     <value>Unfinished</value>
   </data>
-  <data name="PerformanceGradingScale" xml:space="preserve">
-    <value>Performance Grading Scale</value>
-  </data>
   <data name="Employee" xml:space="preserve">
     <value>Employee</value>
   </data>
@@ -1412,5 +1409,14 @@
   </data>
   <data name="InternalServerError" xml:space="preserve">
     <value>Sorry for the inconvenience! Please contact Admin to supported!</value>
+  </data>
+  <data name="DisciplinaryGuideline" xml:space="preserve">
+    <value>Disciplinary guideline</value>
+  </data>
+  <data name="EPAResultGuideline" xml:space="preserve">
+    <value>EPA result guideline</value>
+  </data>
+  <data name="PerformanceGuideline" xml:space="preserve">
+    <value>Performance guideline</value>
   </data>
 </root>

@@ -53,9 +53,6 @@
                 {
                     epaInfo.Recommendation = GetRecommendationByEPAId(epaInfo.EPAId);
                 }
-
-                float performanceScore = epaInfo.FinalScore.Length > 0 ? float.Parse(epaInfo.FinalScore) - epaInfo.DisciplineScore : 0;
-                epaInfo.Grade = ConvertScoreToGrade(performanceScore, epaInfo.DisciplineScore, epaInfo.HasDisciplineScore);
             }
 
             return epaInfo;
