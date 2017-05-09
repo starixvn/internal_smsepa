@@ -1,32 +1,35 @@
 ﻿namespace SMS.EPA.Services.Implement
 {
-    using System;
     using Core.Enumerations;
+    using Core.Services;
     using Interfaces;
     using Model;
+    using System;
     using System.Collections.Generic;
+    using System.IO;
     using System.Linq;
-    using System.Web;
 
     public class ManualMailService : IManualMailService
     {
-        private const string StartDateMailToHumanResources = "~/Views/Emails/StartDateEmailToHR.cshtml";
-        private const string StartDateMailToSelf = "~/Views/Emails/StartDateEmailToSelf.cshtml";
-        private const string StartDateMailToEvaluator = "~/Views/Emails/StartDateEmailToEvaluator.cshtml";
-        private const string StartDateMailToReviewer = "~/Views/Emails/StartDateEmailToReviewer.cshtml";
-        private const string StartDateMailToManagement = "~/Views/Emails/StartDateEmailToManagement.cshtml";
-        private const string MailNotifyChangeSetting = "~/Views/Emails/EmailNotifyChangeSetting.cshtml";
+        private const string StartDateMailToHumanResources = "StartDateEmailToHR.cshtml";
+        private const string StartDateMailToSelf = "StartDateEmailToSelf.cshtml";
+        private const string StartDateMailToEvaluator = "StartDateEmailToEvaluator.cshtml";
+        private const string StartDateMailToReviewer = "StartDateEmailToReviewer.cshtml";
+        private const string StartDateMailToManagement = "StartDateEmailToManagement.cshtml";
+        private const string MailNotifyChangeSetting = "EmailNotifyChangeSetting.cshtml";
 
-        private readonly IMailService _mailService;
+        private readonly IMailService mailService;
+        private readonly IConfigurationManagerService configurationManager;
 
         public ManualMailService()
-            : this(null)
+            : this(null, null)
         {
         }
 
-        public ManualMailService(IMailService mailService)
+        public ManualMailService(IMailService mailService, IConfigurationManagerService configurationManager)
         {
-            _mailService = mailService ?? new MailService();
+            this.mailService = mailService ?? new MailService();
+            this.configurationManager = configurationManager ?? new ConfigurationManagerService();
         }
 
         public void SendStartMail(PeriodModel period, IEnumerable<PeriodFlowModel> employeeSettings)
@@ -40,28 +43,28 @@
                     switch (employeeSetting.ProcessId)
                     {
                         case (int)ProcessType.HumanResource:
-                            templateEmailPath = GetFullPath(StartDateMailToHumanResources);
-                            _mailService.SendMailToHrStartDate(templateEmailPath, employeeSetting, period.Name);
+                            templateEmailPath = GetEmailPath(StartDateMailToHumanResources);
+                            mailService.SendMailToHrStartDate(templateEmailPath, employeeSetting, period.Name);
                             break;
 
                         case (int)ProcessType.Self:
-                            templateEmailPath = GetFullPath(StartDateMailToSelf);
-                            _mailService.SendMailToSelfStartDate(templateEmailPath, employeeSetting, period.Name);
+                            templateEmailPath = GetEmailPath(StartDateMailToSelf);
+                            mailService.SendMailToSelfStartDate(templateEmailPath, employeeSetting, period.Name);
                             break;
 
                         case (int)ProcessType.Evaluator:
-                            templateEmailPath = GetFullPath(StartDateMailToEvaluator);
-                            _mailService.SendMailToEvaluatorStartDate(templateEmailPath, employeeSetting, period.Name);
+                            templateEmailPath = GetEmailPath(StartDateMailToEvaluator);
+                            mailService.SendMailToEvaluatorStartDate(templateEmailPath, employeeSetting, period.Name);
                             break;
 
                         case (int)ProcessType.Reviewer:
-                            templateEmailPath = GetFullPath(StartDateMailToReviewer);
-                            _mailService.SendMailToReviewerStartDate(templateEmailPath, employeeSetting, period.Name);
+                            templateEmailPath = GetEmailPath(StartDateMailToReviewer);
+                            mailService.SendMailToReviewerStartDate(templateEmailPath, employeeSetting, period.Name);
                             break;
 
                         case (int)ProcessType.Management:
-                            templateEmailPath = GetFullPath(StartDateMailToManagement);
-                            _mailService.SendMailToManagementStartDate(templateEmailPath, employeeSetting, period.Name);
+                            templateEmailPath = GetEmailPath(StartDateMailToManagement);
+                            mailService.SendMailToManagementStartDate(templateEmailPath, employeeSetting, period.Name);
                             break;
 
                         default:
@@ -75,24 +78,21 @@
         {
             if (employeeSettings != null && employeeSettings.Any() && period != null)
             {
-                string templateEmailPath = GetFullPath(MailNotifyChangeSetting);
+                string templateEmailPath = GetEmailPath(MailNotifyChangeSetting);
 
                 foreach (PeriodFlowModel employeeSetting in employeeSettings)
                 {
-                    _mailService.SendMailToNotifyChangeSetting(templateEmailPath, employeeSetting, period.Name);
+                    mailService.SendMailToNotifyChangeSetting(templateEmailPath, employeeSetting, period.Name);
                 }
             }
         }
 
-        private static string GetFullPath(string path)
+        private string GetEmailPath(string fileName)
         {
-            string fullPath = string.Empty;
-            if (!string.IsNullOrWhiteSpace(path) && HttpContext.Current != null)
-            {
-                fullPath = HttpContext.Current.Server.MapPath(path);
-            }
+            string assemblyPath = AppDomain.CurrentDomain.BaseDirectory;
+            string emailPath = Path.Combine(assemblyPath, configurationManager.GetAppSetting("RelativeEmailPath") + fileName);
 
-            return fullPath;
+            return emailPath;
         }
     }
 }

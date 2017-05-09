@@ -1,12 +1,13 @@
 ﻿namespace SMS.EPA.Services.UnitTests
 {
-    using System.Collections.Generic;
+    using Core.Services;
     using NSubstitute;
     using NUnit.Framework;
     using SMS.EPA.Core.Enumerations;
     using SMS.EPA.Model;
     using SMS.EPA.Services.Implement;
     using SMS.EPA.Services.Interfaces;
+    using System.Collections.Generic;
 
     [TestFixture]
     public class ManualMailServiceTests
@@ -125,7 +126,8 @@
         private void ArrangeEmail()
         {
             mailService = Substitute.For<IMailService>();
-            manualMailService = new ManualMailService(mailService);
+            IConfigurationManagerService configurationManager = Substitute.For<IConfigurationManagerService>();
+            manualMailService = new ManualMailService(mailService, configurationManager);
         }
     }
 }

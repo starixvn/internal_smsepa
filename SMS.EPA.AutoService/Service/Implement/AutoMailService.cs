@@ -11,22 +11,22 @@
 
     public class AutoMailService : IAutoMailService
     {
-        private readonly IMailService _mailService;
+        private readonly IMailService mailService;
 
-        private readonly string _startDateMailToHumanResources = "Views\\Emails\\StartDateEmailToHR.cshtml";
-        private readonly string _startDateMailToSelf = "Views\\Emails\\StartDateEmailToSelf.cshtml";
-        private readonly string _startDateMailToEvaluator = "Views\\Emails\\StartDateEmailToEvaluator.cshtml";
-        private readonly string _startDateMailToReviewer = "Views\\Emails\\StartDateEmailToReviewer.cshtml";
-        private readonly string _startDateMailToManagement = "Views\\Emails\\StartDateEmailToManagement.cshtml";
+        private readonly string _startDateMailToHumanResources = "StartDateEmailToHR.cshtml";
+        private readonly string _startDateMailToSelf = "StartDateEmailToSelf.cshtml";
+        private readonly string _startDateMailToEvaluator = "StartDateEmailToEvaluator.cshtml";
+        private readonly string _startDateMailToReviewer = "StartDateEmailToReviewer.cshtml";
+        private readonly string _startDateMailToManagement = "StartDateEmailToManagement.cshtml";
 
-        private readonly string _reminderMailToSelf = "Views\\Emails\\RemindDateEmailToSelf.cshtml";
-        private readonly string _reminderMailToEvaluator = "Views\\Emails\\RemindDateEmailToEvaluator.cshtml";
-        private readonly string _reminderMailToReviewer = "Views\\Emails\\RemindDateEmailToReviewer.cshtml";
-        private readonly string _reminderMailToManagement = "Views\\Emails\\RemindDateEmailToManagement.cshtml";
+        private readonly string _reminderMailToSelf = "RemindDateEmailToSelf.cshtml";
+        private readonly string _reminderMailToEvaluator = "RemindDateEmailToEvaluator.cshtml";
+        private readonly string _reminderMailToReviewer = "RemindDateEmailToReviewer.cshtml";
+        private readonly string _reminderMailToManagement = "RemindDateEmailToManagement.cshtml";
 
-        private readonly string _endMailToSelf = "Views\\Emails\\EndEvaluationEmailToSelf.cshtml";
-        private readonly string _endMailToHumanResourcesByEmployee = "Views\\Emails\\EndEvaluationEmailToHRByEmployee.cshtml";
-        private readonly string _endMailToHumanReouscesByPeriod = "Views\\Emails\\EndEvaluationEmailToHRByPeriod.cshtml";
+        private readonly string _endMailToSelf = "EndEvaluationEmailToSelf.cshtml";
+        private readonly string _endMailToHumanResourcesByEmployee = "EndEvaluationEmailToHRByEmployee.cshtml";
+        private readonly string _endMailToHumanReouscesByPeriod = "EndEvaluationEmailToHRByPeriod.cshtml";
 
         public AutoMailService()
             : this(null)
@@ -35,15 +35,13 @@
 
         public AutoMailService(IMailService mailService)
         {
-            _mailService = mailService ?? new MailService();
+            this.mailService = mailService ?? new MailService();
         }
 
         public void SendStartMail(PeriodModel period, IEnumerable<PeriodFlowModel> employeeSettings)
         {
             if (employeeSettings != null && employeeSettings.Any() && period != null)
             {
-                string assemblyPath = AppDomain.CurrentDomain.BaseDirectory;
-
                 foreach (PeriodFlowModel employeeSetting in employeeSettings.Where(x => x.HasSendMail))
                 {
                     string templateEmailPath;
@@ -51,29 +49,30 @@
                     switch (employeeSetting.ProcessId)
                     {
                         case (int)ProcessType.HumanResource:
-                            templateEmailPath = Path.Combine(assemblyPath, _startDateMailToHumanResources);
-                            _mailService.SendMailToHrStartDate(templateEmailPath, employeeSetting, period.Name);
+                            templateEmailPath = GetEmailPath(_startDateMailToHumanResources);
+                            mailService.SendMailToHrStartDate(templateEmailPath, employeeSetting, period.Name);
                             break;
 
                         case (int)ProcessType.Self:
-                            templateEmailPath = Path.Combine(assemblyPath, _startDateMailToSelf);
-                            _mailService.SendMailToSelfStartDate(templateEmailPath, employeeSetting, period.Name);
+                            templateEmailPath = GetEmailPath(_startDateMailToSelf);
+                            mailService.SendMailToSelfStartDate(templateEmailPath, employeeSetting, period.Name);
                             break;
 
                         case (int)ProcessType.Evaluator:
-                            templateEmailPath = Path.Combine(assemblyPath, _startDateMailToEvaluator);
-                            _mailService.SendMailToEvaluatorStartDate(templateEmailPath, employeeSetting, period.Name);
+                            templateEmailPath = GetEmailPath(_startDateMailToEvaluator);
+                            mailService.SendMailToEvaluatorStartDate(templateEmailPath, employeeSetting, period.Name);
                             break;
 
                         case (int)ProcessType.Reviewer:
-                            templateEmailPath = Path.Combine(assemblyPath, _startDateMailToReviewer);
-                            _mailService.SendMailToReviewerStartDate(templateEmailPath, employeeSetting, period.Name);
+                            templateEmailPath = GetEmailPath(_startDateMailToReviewer);
+                            mailService.SendMailToReviewerStartDate(templateEmailPath, employeeSetting, period.Name);
                             break;
 
                         case (int)ProcessType.Management:
-                            templateEmailPath = Path.Combine(assemblyPath, _startDateMailToManagement);
-                            _mailService.SendMailToManagementStartDate(templateEmailPath, employeeSetting, period.Name);
+                            templateEmailPath = GetEmailPath(_startDateMailToManagement);
+                            mailService.SendMailToManagementStartDate(templateEmailPath, employeeSetting, period.Name);
                             break;
+
                         default:
                             continue;
                     }
@@ -85,8 +84,6 @@
         {
             if (employeeSettings != null && employeeSettings.Any() && period != null)
             {
-                string assemblyPath = AppDomain.CurrentDomain.BaseDirectory;
-
                 foreach (PeriodFlowModel employeeSetting in employeeSettings)
                 {
                     string templateEmailPath;
@@ -94,24 +91,25 @@
                     switch (employeeSetting.ProcessId)
                     {
                         case (int)ProcessType.Self:
-                            templateEmailPath = Path.Combine(assemblyPath, _reminderMailToSelf);
-                            _mailService.SendMailToSelfRemindDate(templateEmailPath, employeeSetting, period.Name);
+                            templateEmailPath = GetEmailPath(_reminderMailToSelf);
+                            mailService.SendMailToSelfRemindDate(templateEmailPath, employeeSetting, period.Name);
                             break;
 
                         case (int)ProcessType.Evaluator:
-                            templateEmailPath = Path.Combine(assemblyPath, _reminderMailToEvaluator);
-                            _mailService.SendMailToEvaluatorRemindDate(templateEmailPath, employeeSetting, period.Name);
+                            templateEmailPath = GetEmailPath(_reminderMailToEvaluator);
+                            mailService.SendMailToEvaluatorRemindDate(templateEmailPath, employeeSetting, period.Name);
                             break;
 
                         case (int)ProcessType.Reviewer:
-                            templateEmailPath = Path.Combine(assemblyPath, _reminderMailToReviewer);
-                            _mailService.SendMailToReviewerRemindDate(templateEmailPath, employeeSetting, period.Name);
+                            templateEmailPath = GetEmailPath(_reminderMailToReviewer);
+                            mailService.SendMailToReviewerRemindDate(templateEmailPath, employeeSetting, period.Name);
                             break;
 
                         case (int)ProcessType.Management:
-                            templateEmailPath = Path.Combine(assemblyPath, _reminderMailToManagement);
-                            _mailService.SendMailToManagementRemindDate(templateEmailPath, employeeSetting, period.Name);
+                            templateEmailPath = GetEmailPath(_reminderMailToManagement);
+                            mailService.SendMailToManagementRemindDate(templateEmailPath, employeeSetting, period.Name);
                             break;
+
                         default:
                             continue;
                     }
@@ -124,10 +122,9 @@
             float? averagePerformanceScore,
             float disciplineScore)
         {
-            string assemblyPath = AppDomain.CurrentDomain.BaseDirectory;
-            string templateEmailPath = Path.Combine(assemblyPath, _endMailToSelf);
+            string templateEmailPath = GetEmailPath(_endMailToSelf);
 
-            _mailService.SendMailToSelfEndEvaluation(templateEmailPath, evaluationInfo, averagePerformanceScore, disciplineScore);
+            mailService.SendMailToSelfEndEvaluation(templateEmailPath, evaluationInfo, averagePerformanceScore, disciplineScore);
         }
 
         public void SendEndEvaluationMailToHumanResourceByEmployee(EPAModel evaluationInfo)
@@ -139,7 +136,7 @@
 
                 foreach (EPAProcessModel humanResource in evaluationInfo.Process.HumanResources)
                 {
-                    _mailService.SendMailEndToHumanResourcesByEmployee(templateEmailPath, evaluationInfo, humanResource);
+                    mailService.SendMailEndToHumanResourcesByEmployee(templateEmailPath, evaluationInfo, humanResource);
                 }
             }
         }
@@ -153,9 +150,16 @@
 
                 foreach (PeriodFlowModel employeeSetting in employeeSettings)
                 {
-                    _mailService.SendMailEndToHumanResourceByPeriod(templateEmailPath, employeeSetting, period.Name);
+                    mailService.SendMailEndToHumanResourceByPeriod(templateEmailPath, employeeSetting, period.Name);
                 }
             }
+        }
+
+        private static string GetEmailPath(string fileName)
+        {
+            string assemblyPath = AppDomain.CurrentDomain.BaseDirectory;
+            string templateEmailPath = Path.Combine(assemblyPath, AppSetting.RelativeEmailPath + fileName);
+            return templateEmailPath;
         }
     }
 }
