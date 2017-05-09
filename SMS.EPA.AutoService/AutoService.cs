@@ -1,5 +1,6 @@
 ﻿namespace SMS.EPA.AutoService
 {
+    using Core.Constants;
     using Core.Enumerations;
     using Core.Model;
     using Core.Services;
@@ -367,6 +368,8 @@
             string grade)
         {
             float? finalScore = performanceScore + disciplineScore;
+            finalScore = finalScore.HasValue ? (finalScore.Value > Constants.MaxFinalScore ? Constants.MaxFinalScore : finalScore.Value) : finalScore;
+
             string finalScoreEncrypt = finalScore.HasValue
                 ? cryptographyService.Encrypt(finalScore.Value.ToString(CultureInfo.InvariantCulture))
                 : string.Empty;

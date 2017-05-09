@@ -93,6 +93,7 @@
             {
                 float? performanceScore = GetPerformanceScoreOfEPA(epaInfo);
                 float? finalScore = performanceScore.HasValue ? (performanceScore.Value + epaInfo.DisciplineScore) : (float?)null;
+                finalScore = finalScore.HasValue ? (finalScore.Value > Constants.MaxFinalScore ? Constants.MaxFinalScore : finalScore.Value) : finalScore;
 
                 epaInfo.FinalScore = finalScore.HasValue
                     ? cryptographyService.Encrypt(finalScore.Value.ToString(CultureInfo.InvariantCulture))
