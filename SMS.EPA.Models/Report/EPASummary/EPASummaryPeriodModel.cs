@@ -1,5 +1,8 @@
 ﻿namespace SMS.EPA.Model
 {
+    using System.Collections.Generic;
+    using Report.EPASummary;
+
     public class EPASummaryPeriodModel
     {
         public int PeriodId { get; set; }
@@ -19,5 +22,7 @@
         public bool IsEndPeriod { get; set; }
 
         public int StatusId { get; set; }
+
+        public IList<EPASummaryDetailScoreModel> DetailScores { get; set; } = new List<EPASummaryDetailScoreModel>();
     }
 }

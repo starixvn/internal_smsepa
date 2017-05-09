@@ -13,5 +13,18 @@
         public string TotalScore { get; set; }
 
         public string AdjustScore { get; set; }
+
+        public float FloatTotalScore
+        {
+            get
+            {
+                float totalScore = 0;
+                if (string.IsNullOrEmpty(TotalScore))
+                {
+                    float.TryParse(TotalScore, out totalScore);
+                }
+                return totalScore;
+            }
+        }
     }
 }

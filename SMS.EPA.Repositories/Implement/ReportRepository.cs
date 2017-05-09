@@ -1,16 +1,16 @@
 ﻿namespace SMS.EPA.Repositories
 {
-    using System;
     using Core.Enumerations;
     using Core.Services;
     using Fanex.Data;
     using Fanex.Data.Repository;
     using Model;
     using Model.Enitites;
+    using Model.Report.EPASummary;
+    using System;
     using System.Collections.Generic;
     using System.Globalization;
     using System.Linq;
-    using Model.Report.EPASummary;
 
     public class ReportRepository : IReportRepository
     {
@@ -50,15 +50,29 @@
 
                     IList<EPASummaryDetailScoreModel> detailScores = multi.Read<EPASummaryDetailScoreModel>().ToList();
 
+                    DecodeDetailScores(detailScores);
+                    AddDetailScoresToPeriods(periods, detailScores);
                     GroupPeriodByEmployee(epaSummary.EPAInfos, periods);
                     DecodeFinalScoreAndGrade(epaSummary.EPAInfos);
-                    DecodeDetailScores(detailScores);
-
-                    CalculateFinalScoreAndGradeForSummaryReport(detailScores, periods);
                 }
             }
 
             return epaSummary;
+        }
+
+        private static void AddDetailScoresToPeriods(IList<EPASummaryPeriodModel> periods, IList<EPASummaryDetailScoreModel> detailScores)
+        {
+            foreach (EPASummaryPeriodModel summaryPeriodModel in periods)
+            {
+                var scoresOfPeriod =
+                    detailScores.Where(x => x.EmployeeId == summaryPeriodModel.EmployeeId &&
+                                            x.PeriodId == summaryPeriodModel.PeriodId);
+
+                foreach (EPASummaryDetailScoreModel detailScoreModel in scoresOfPeriod)
+                {
+                    summaryPeriodModel.DetailScores.Add(detailScoreModel);
+                }
+            }
         }
 
         public EPADetailModel GetEPADetail(ICriteria criteria)

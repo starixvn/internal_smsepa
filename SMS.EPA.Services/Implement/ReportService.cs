@@ -72,10 +72,30 @@
             {
                 foreach (var epaInfoPeriod in epaInfo.Periods)
                 {
-                    float finalScore;
-                    if(float.TryParse(epaInfoPeriod.FinalScore, out finalScore))
+                    if (epaInfoPeriod.StatusId == 0)
                     {
-                        //epaInfoPeriod.Grade = _employeeEPAService.ConvertScoreToGrade(finalScore, standardGrades);
+                        // Recalculate final score and grade
+
+                        // Get the max EPAProcessId
+                        var maxEPAProcesId = epaInfoPeriod.DetailScores.Max(x => x.ProcessId);
+
+                        var lastPhaseScores = epaInfoPeriod.DetailScores
+                            .Where(x => x.ProcessId == maxEPAProcesId && !string.IsNullOrEmpty(x.TotalScore))
+                            .Select(x => x.FloatTotalScore);
+
+                        var lastPhasePerformanceScore = lastPhaseScores.Average();
+
+                        var tempDisciplineScore = epaInfoPeriod.HasDisciplineScore
+                            ? epaInfoPeriod.DisciplineScore
+                            : 0;
+
+                        epaInfoPeriod.FinalScore =
+                            (lastPhasePerformanceScore + tempDisciplineScore).ToString(CultureInfo.InvariantCulture);
+
+                        epaInfoPeriod.Grade = _employeeEPAService.ConvertScoreToGrade(
+                            lastPhasePerformanceScore,
+                            tempDisciplineScore,
+                            epaInfoPeriod.HasDisciplineScore);
                     }
                 }
             }
