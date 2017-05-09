@@ -14,7 +14,8 @@
     using System.Web.Mvc;
     using Core.Enumerations;
 
-    [SuppressMessage("StyleCop.CSharp.StylecopPlus.Rules",
+    [SuppressMessage(
+        "StyleCop.CSharp.StylecopPlus.Rules",
         "SP2101:MethodMustNotContainMoreLinesThan",
         Justification = "Reviewed. Suppression is OK here.")]
     public class ExportPdfController : Controller
@@ -23,6 +24,7 @@
         private const float TotalWidth = 590;
         private readonly Color _defaultColor = new Color(System.Drawing.ColorTranslator.FromHtml("#333"));
         private readonly IEmployeeEPAService _employeeEPAService;
+        private readonly ICommonService _commonService;
         private readonly Color _redColor = new Color(System.Drawing.ColorTranslator.FromHtml("#df1501"));
         private readonly Color _whiteColor = new Color(System.Drawing.ColorTranslator.FromHtml("#fff"));
         private Font _boldFont;
@@ -32,13 +34,14 @@
         private Font _redFont;
 
         public ExportPdfController()
-            : this(null)
+            : this(null, null)
         {
         }
 
-        public ExportPdfController(IEmployeeEPAService employeeEPAService)
+        public ExportPdfController(IEmployeeEPAService employeeEPAService, ICommonService commonService)
         {
             _employeeEPAService = employeeEPAService ?? new EmployeeEPAService();
+            _commonService = commonService ?? new CommonService();
 
             SetDefaultStyles();
         }
@@ -425,7 +428,7 @@
 
                 AddCenterAlignedCell(detail, Lang.Employee, backgroundColor, 2);
 
-                AddCenterAlignedCell(detail, Lang.Evaluator, backgroundColor, 2);
+                AddCenterAlignedCell(detail, Lang.Evaluator, backgroundColor, 3);
 
                 AddCenterAlignedCell(detail, Lang.Score, backgroundColor);
 
@@ -901,49 +904,58 @@
                     }
                 }
 
-                if (index == 0)
+                if (index != 0)
                 {
-                    var disciplineScore = epaInfo.HasDisciplineScore
-                        ? epaInfo.DisciplineScore.ToString(CultureInfo.InvariantCulture) + " / " +
-                          epaInfo.MaxDisciplineScore
-                        : "-";
-                    cell = new PdfPCell(new Phrase(disciplineScore, _normalFont))
-                    {
-                        Rowspan = epaInfo.Rowspan,
-                        BorderColor = _borderColor,
-                        HorizontalAlignment = Element.ALIGN_CENTER,
-                        VerticalAlignment = Element.ALIGN_MIDDLE
-                    };
-                    table.AddCell(cell);
-
-                    string finalScore = string.IsNullOrEmpty(epaInfo.FinalScore)
-                        ? Lang.NotAvailable
-                        : epaInfo.FinalScore + " / " + epaInfo.MaxFinalScore;
-
-                    Font selectedFont = epaInfo.Period.IsEndPeriod ? _normalFont : _redFont;
-
-                    cell = new PdfPCell
-                    {
-                        Rowspan = epaInfo.Rowspan,
-                        BorderColor = _borderColor,
-                        HorizontalAlignment = Element.ALIGN_CENTER,
-                        VerticalAlignment = Element.ALIGN_MIDDLE,
-                        Phrase = new Phrase(finalScore, selectedFont)
-                    };
-                    table.AddCell(cell);
-
-                    string grade = string.IsNullOrEmpty(epaInfo.Grade) ? Lang.NotAvailable : epaInfo.Grade;
-
-                    cell = new PdfPCell
-                    {
-                        Rowspan = epaInfo.Rowspan,
-                        BorderColor = _borderColor,
-                        HorizontalAlignment = Element.ALIGN_CENTER,
-                        VerticalAlignment = Element.ALIGN_MIDDLE,
-                        Phrase = new Phrase(grade, selectedFont)
-                    };
-                    table.AddCell(cell);
+                    continue;
                 }
+
+                var disciplineScore = epaInfo.HasDisciplineScore
+                    ? epaInfo.DisciplineScore.ToString(CultureInfo.InvariantCulture) + " / " +
+                      epaInfo.MaxDisciplineScore
+                    : "-";
+                cell = new PdfPCell(new Phrase(disciplineScore, _normalFont))
+                {
+                    Rowspan = epaInfo.Rowspan,
+                    BorderColor = _borderColor,
+                    HorizontalAlignment = Element.ALIGN_CENTER,
+                    VerticalAlignment = Element.ALIGN_MIDDLE
+                };
+                table.AddCell(cell);
+
+                float finalScore = CalculateFinalScore(epaInfo);
+
+                Font selectedFont = epaInfo.Period.IsEndPeriod ? _normalFont : _redFont;
+
+                cell = new PdfPCell
+                {
+                    Rowspan = epaInfo.Rowspan,
+                    BorderColor = _borderColor,
+                    HorizontalAlignment = Element.ALIGN_CENTER,
+                    VerticalAlignment = Element.ALIGN_MIDDLE,
+                    Phrase = new Phrase(finalScore.ToString(CultureInfo.InvariantCulture), selectedFont)
+                };
+                table.AddCell(cell);
+
+                var standardGrades = _commonService.GetStandardGrade().ToList();
+
+                string tempGrade = Lang.NotAvailable;
+                foreach (StandardGradeModel standardGrade in standardGrades)
+                {
+                    if (standardGrade.LeftScore <= finalScore && finalScore < standardGrade.RightScore)
+                    {
+                        tempGrade = standardGrade.Code;
+                    }
+                }
+
+                cell = new PdfPCell
+                {
+                    Rowspan = epaInfo.Rowspan,
+                    BorderColor = _borderColor,
+                    HorizontalAlignment = Element.ALIGN_CENTER,
+                    VerticalAlignment = Element.ALIGN_MIDDLE,
+                    Phrase = new Phrase(tempGrade, selectedFont)
+                };
+                table.AddCell(cell);
             }
 
             return table;
@@ -1000,6 +1012,43 @@
             return string.IsNullOrEmpty(process.TotalScore)
                 ? Lang.NotAvailable
                 : process.TotalScore + " / " + maxScore;
+        }
+
+        private static float CalculateFinalScore(EPAModel epaInfo)
+        {
+            // Discipline Score
+            float disciplineScore = 0;
+            if (epaInfo.HasDisciplineScore)
+            {
+                disciplineScore = epaInfo.DisciplineScore;
+            }
+
+            // Self
+            var finalScore = float.Parse(epaInfo.Process.Self.TotalScore) + disciplineScore;
+
+            // Evaluator
+            if (epaInfo.Process.Evaluators.Any() && epaInfo.Process.AverageScoreByEvaluators != null)
+            {
+                finalScore = epaInfo.Process.AverageScoreByEvaluators.Value + disciplineScore;
+            }
+
+            // Reviewer
+            if (epaInfo.Process.Reviewers.Any() && epaInfo.Process.AverageScoreByReviewers != null)
+            {
+                finalScore = epaInfo.Process.AverageScoreByReviewers.Value + disciplineScore;
+            }
+
+            // Management
+            if (epaInfo.Process.Managements.Any() && epaInfo.Process.AverageScoreByManagements != null)
+            {
+                finalScore = epaInfo.Process.AverageScoreByManagements.Value + disciplineScore;
+            }
+
+            float epaFinalScore = float.Parse(epaInfo.FinalScore);
+
+            return finalScore.ToString(CultureInfo.InvariantCulture) != epaInfo.FinalScore
+                ? finalScore
+                : epaFinalScore;
         }
 
         private PdfPTable RenderPerformanceResultForSemiHasMonthly(EPAModel epaInfo)
