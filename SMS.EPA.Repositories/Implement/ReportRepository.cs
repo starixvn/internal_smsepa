@@ -8,7 +8,9 @@
     using Model;
     using Model.Enitites;
     using System.Collections.Generic;
+    using System.Globalization;
     using System.Linq;
+    using Model.Report.EPASummary;
 
     public class ReportRepository : IReportRepository
     {
@@ -46,8 +48,13 @@
 
                     IList<EPASummaryPeriodModel> periods = multi.Read<EPASummaryPeriodModel>().ToList();
 
+                    IList<EPASummaryDetailScoreModel> detailScores = multi.Read<EPASummaryDetailScoreModel>().ToList();
+
                     GroupPeriodByEmployee(epaSummary.EPAInfos, periods);
                     DecodeFinalScoreAndGrade(epaSummary.EPAInfos);
+                    DecodeDetailScores(detailScores);
+
+                    CalculateFinalScoreAndGradeForSummaryReport(detailScores, periods);
                 }
             }
 
@@ -64,16 +71,17 @@
                 {
                     epaDetail.PhaseSelecteds = multi.Read<EvaluationPhaseModel>();
 
-                    epaDetail.EpaInfos = multi.Read<EPAModel, EPAEmployeeModel, EPAPeriodModel, ScoreRatingTypeModel, EPAModel>(
-                    (info, employee, period, scoreRatingType) =>
-                    {
-                        info.Employee = employee;
-                        info.Period = period;
-                        info.ScoreRatingType = scoreRatingType;
+                    epaDetail.EpaInfos = multi
+                        .Read<EPAModel, EPAEmployeeModel, EPAPeriodModel, ScoreRatingTypeModel, EPAModel>(
+                            (info, employee, period, scoreRatingType) =>
+                            {
+                                info.Employee = employee;
+                                info.Period = period;
+                                info.ScoreRatingType = scoreRatingType;
 
-                        return info;
-                    },
-                    "EmployeeId, PeriodId, ScoreRatingTypeId");
+                                return info;
+                            },
+                            "EmployeeId, PeriodId, ScoreRatingTypeId");
 
                     IEnumerable<EPAProcessModel> processes = multi.Read<EPAProcessModel>();
 
@@ -96,14 +104,14 @@
                     epaDetail.PhaseSelecteds = multi.Read<EvaluationPhaseModel>();
 
                     epaDetail.EpaInfos = multi.Read<EPAModel, EPAEmployeeModel, EPAPeriodModel, EPAModel>(
-                    (info, employee, period) =>
-                    {
-                        info.Employee = employee;
-                        info.Period = period;
+                        (info, employee, period) =>
+                        {
+                            info.Employee = employee;
+                            info.Period = period;
 
-                        return info;
-                    },
-                    "EmployeeId, PeriodId");
+                            return info;
+                        },
+                        "EmployeeId, PeriodId");
 
                     IEnumerable<EPAProcessModel> processes = multi.Read<EPAProcessModel>();
 
@@ -115,7 +123,8 @@
             return epaDetail;
         }
 
-        private static void GroupPeriodByEmployee(IEnumerable<EPASummaryEmployeeModel> epaSummaries, IList<EPASummaryPeriodModel> periods)
+        private static void GroupPeriodByEmployee(IEnumerable<EPASummaryEmployeeModel> epaSummaries,
+            IList<EPASummaryPeriodModel> periods)
         {
             foreach (EPASummaryEmployeeModel epaSummary in epaSummaries)
             {
@@ -193,6 +202,47 @@
             foreach (EPAProcessModel process in processes)
             {
                 DecodeTotalScore(process);
+            }
+        }
+
+        private void DecodeDetailScores(IList<EPASummaryDetailScoreModel> detailScores)
+        {
+            foreach (EPASummaryDetailScoreModel detailScore in detailScores)
+            {
+                detailScore.AdjustScore = _cryptographyService.Decrypt(detailScore.AdjustScore);
+                detailScore.TotalScore = _cryptographyService.Decrypt(detailScore.TotalScore);
+            }
+        }
+
+        private static void CalculateFinalScoreAndGradeForSummaryReport(
+            IList<EPASummaryDetailScoreModel> detailScores,
+            IList<EPASummaryPeriodModel> periods)
+        {
+            foreach (EPASummaryPeriodModel summaryPeriodModel in periods)
+            {
+                var tempDisciplineScore = summaryPeriodModel.HasDisciplineScore
+                    ? summaryPeriodModel.DisciplineScore
+                    : 0;
+                var detailScoreGroups = detailScores.Where(x => x.EmployeeId == summaryPeriodModel.EmployeeId
+                                                                && x.PeriodId == summaryPeriodModel.PeriodId);
+
+                float tempFinalScore = 0;
+
+                for (int i = 2; i <= 5; i++)
+                {
+                    var finalScore = detailScoreGroups.First(x => x.ProcessId == i).TotalScore;
+
+                    if (!string.IsNullOrEmpty(finalScore) && float.TryParse(finalScore, out tempFinalScore))
+                    {
+                        tempFinalScore = tempFinalScore + tempDisciplineScore;
+                    }
+                }
+
+                if (summaryPeriodModel.FinalScore != tempFinalScore.ToString(CultureInfo.InvariantCulture) &&
+                    summaryPeriodModel.StatusId != 1)
+                {
+                    summaryPeriodModel.FinalScore = tempFinalScore.ToString(CultureInfo.InvariantCulture);
+                }
             }
         }
     }

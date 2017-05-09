@@ -68,6 +68,21 @@
                 result = _reportRepository.GetEPASummary(criteria);
             }
 
+            var standardGrades = _employeeEPAService.GetStandardGrade();
+
+            foreach (var epaInfo in result.EPAInfos)
+            {
+                foreach (var epaInfoPeriod in epaInfo.Periods)
+                {
+                    float finalScore;
+                    if(float.TryParse(epaInfoPeriod.FinalScore, out finalScore))
+                    {
+                        epaInfoPeriod.Grade =
+                            _employeeEPAService.ConvertScoreToGrade(finalScore, standardGrades);
+                    }
+                }
+            }
+
             return result;
         }
 

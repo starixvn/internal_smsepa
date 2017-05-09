@@ -43,10 +43,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-  <Compile Include="Properties\AssemblyInfo.cs">
-		<!-- Exclude the file from analysis -->
-		<SonarQubeExclude>true</SonarQubeExclude>
-	</Compile>
+    <Compile Include="Properties\AssemblyInfo.cs">
+      <!-- Exclude the file from analysis -->
+      <SonarQubeExclude>true</SonarQubeExclude>
+    </Compile>
     <Compile Include="..\GlobalSuppressions.cs">
       <Link>GlobalSuppressions.cs</Link>
       <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
@@ -123,6 +123,7 @@
     <Compile Include="Report\EPADetail\EPADetailModel.cs" />
     <Compile Include="Report\EPADetail\EvaluationPhaseModel.cs" />
     <Compile Include="Report\EPAReportConditionalFilename.cs" />
+    <Compile Include="Report\EPASummary\EPASummaryDetailScoreModel.cs" />
     <Compile Include="Report\EPASummary\EPASummaryEmployeeModel.cs" />
     <Compile Include="Report\EPASummary\EPASummaryModel.cs" />
     <Compile Include="Report\EPASummary\EPASummaryPeriodModel.cs" />
