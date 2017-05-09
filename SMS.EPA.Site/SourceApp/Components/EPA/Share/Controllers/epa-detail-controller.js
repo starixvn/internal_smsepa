@@ -46,7 +46,14 @@
                 vm.epaInfo.Employee.Avatar = baseUrl + vm.epaInfo.Employee.Avatar;
 
                 if (vm.epaInfo.Period.IsEndPeriod && vm.epaInfo.FinalScore.length > 0) {
-                    vm.epaInfo.Grade = EvaluationModel.convertScoreToGrade(vm.epaInfo.FinalScore, vm.standardGrades);
+                    var performanceScore = vm.epaInfo.Process.PerformanceScore;
+
+                    vm.epaInfo.Grade = EvaluationModel.convertScoreToGrade(
+                        performanceScore,
+                        vm.epaInfo.DisciplineScore,
+                        vm.epaInfo.HasDisciplineScore,
+                        100,
+                        vm.standardGrades);
                 }
 
                 if (vm.epaInfo.Recommendation && vm.epaInfo.Recommendation.JobGrade && vm.epaInfo.Recommendation.JobGrade.JobGradeId) {

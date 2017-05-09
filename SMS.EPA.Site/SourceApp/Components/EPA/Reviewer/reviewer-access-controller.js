@@ -1,4 +1,4 @@
-﻿(function(angular) {
+﻿(function (angular) {
     'use strict';
     /* jshint latedef:nofunc */
     /* jshint validthis:true */
@@ -63,46 +63,46 @@
                 };
         }
 
-        vm.getMember = function() {
+        vm.getMember = function () {
             ReviewerEPAModel.getMemberByReviewer(vm.filter.groupId, vm.filter.isLocal, vm.filter.isMonthly).then(
-                function() {
+                function () {
                     vm.members = ReviewerEPAModel.members;
                     utilitiesFactory.setSelectedItem(vm.members, "EmployeeId", vm.filter.employeeIds);
                 });
         };
 
-        vm.selectedCls = function(field) {
+        vm.selectedCls = function (field) {
             var cssClass = '';
 
             switch (field) {
-            case 'SelfScore':
-                if (vm.sortBy.selfScore.ascending) {
-                    cssClass = 'sorting-asc';
-                } else if (vm.sortBy.selfScore.descending) {
-                    cssClass = 'sorting-desc';
-                }
-                break;
-            case 'EvaluatorScore':
-                if (vm.sortBy.evaluatorScore.ascending) {
-                    cssClass = 'sorting-asc';
-                } else if (vm.sortBy.evaluatorScore.descending) {
-                    cssClass = 'sorting-desc';
-                }
-                break;
-            case 'DisciplineScore':
-                if (vm.sortBy.disciplineScore.ascending) {
-                    cssClass = 'sorting-asc';
-                } else if (vm.sortBy.disciplineScore.descending) {
-                    cssClass = 'sorting-desc';
-                }
-                break;
-            case 'TotalScore':
-                if (vm.sortBy.totalScore.ascending) {
-                    cssClass = 'sorting-asc';
-                } else if (vm.sortBy.totalScore.descending) {
-                    cssClass = 'sorting-desc';
-                }
-                break;
+                case 'SelfScore':
+                    if (vm.sortBy.selfScore.ascending) {
+                        cssClass = 'sorting-asc';
+                    } else if (vm.sortBy.selfScore.descending) {
+                        cssClass = 'sorting-desc';
+                    }
+                    break;
+                case 'EvaluatorScore':
+                    if (vm.sortBy.evaluatorScore.ascending) {
+                        cssClass = 'sorting-asc';
+                    } else if (vm.sortBy.evaluatorScore.descending) {
+                        cssClass = 'sorting-desc';
+                    }
+                    break;
+                case 'DisciplineScore':
+                    if (vm.sortBy.disciplineScore.ascending) {
+                        cssClass = 'sorting-asc';
+                    } else if (vm.sortBy.disciplineScore.descending) {
+                        cssClass = 'sorting-desc';
+                    }
+                    break;
+                case 'TotalScore':
+                    if (vm.sortBy.totalScore.ascending) {
+                        cssClass = 'sorting-asc';
+                    } else if (vm.sortBy.totalScore.descending) {
+                        cssClass = 'sorting-desc';
+                    }
+                    break;
             }
 
             return cssClass;
@@ -167,68 +167,68 @@
             return epaInfo1.FinalScore - epaInfo2.FinalScore;
         }
 
-        vm.changeSorting = function(field) {
+        vm.changeSorting = function (field) {
             switch (field) {
-            case 'SelfScore':
-                vm.sortBy.evaluatorScore = { ascending: false, descending: false };
-                vm.sortBy.disciplineScore = { ascending: false, descending: false };
-                vm.sortBy.totalScore = { ascending: false, descending: false };
+                case 'SelfScore':
+                    vm.sortBy.evaluatorScore = { ascending: false, descending: false };
+                    vm.sortBy.disciplineScore = { ascending: false, descending: false };
+                    vm.sortBy.totalScore = { ascending: false, descending: false };
 
-                if (!vm.sortBy.selfScore.ascending) {
-                    vm.sortBy.selfScore = { ascending: true, descending: false };
-                    vm.epaInfos.sort(sortBySelfScore);
-                } else {
-                    vm.sortBy.selfScore = { ascending: false, descending: true };
-                    vm.epaInfos.reverse();
-                }
-                break;
-            case 'EvaluatorScore':
-                vm.sortBy.selfScore = { ascending: false, descending: false };
-                vm.sortBy.disciplineScore = { ascending: false, descending: false };
-                vm.sortBy.totalScore = { ascending: false, descending: false };
+                    if (!vm.sortBy.selfScore.ascending) {
+                        vm.sortBy.selfScore = { ascending: true, descending: false };
+                        vm.epaInfos.sort(sortBySelfScore);
+                    } else {
+                        vm.sortBy.selfScore = { ascending: false, descending: true };
+                        vm.epaInfos.reverse();
+                    }
+                    break;
+                case 'EvaluatorScore':
+                    vm.sortBy.selfScore = { ascending: false, descending: false };
+                    vm.sortBy.disciplineScore = { ascending: false, descending: false };
+                    vm.sortBy.totalScore = { ascending: false, descending: false };
 
-                if (!vm.sortBy.evaluatorScore.ascending) {
-                    vm.sortBy.evaluatorScore = { ascending: true, descending: false };
-                    vm.epaInfos.sort(sortByEvaluatorScore);
-                } else {
-                    vm.sortBy.evaluatorScore = { ascending: false, descending: true };
-                    vm.epaInfos.reverse();
-                }
-                break;
-            case 'DisciplineScore':
-                vm.sortBy.selfScore = { ascending: false, descending: false };
-                vm.sortBy.evaluatorScore = { ascending: false, descending: false };
-                vm.sortBy.totalScore = { ascending: false, descending: false };
+                    if (!vm.sortBy.evaluatorScore.ascending) {
+                        vm.sortBy.evaluatorScore = { ascending: true, descending: false };
+                        vm.epaInfos.sort(sortByEvaluatorScore);
+                    } else {
+                        vm.sortBy.evaluatorScore = { ascending: false, descending: true };
+                        vm.epaInfos.reverse();
+                    }
+                    break;
+                case 'DisciplineScore':
+                    vm.sortBy.selfScore = { ascending: false, descending: false };
+                    vm.sortBy.evaluatorScore = { ascending: false, descending: false };
+                    vm.sortBy.totalScore = { ascending: false, descending: false };
 
-                if (!vm.sortBy.disciplineScore.ascending) {
-                    vm.sortBy.disciplineScore = { ascending: true, descending: false };
-                    vm.epaInfos.sort(sortByDisciplineScore);
-                } else {
-                    vm.sortBy.disciplineScore = { ascending: false, descending: true };
-                    vm.epaInfos.reverse();
-                }
-                break;
-            case 'TotalScore':
-                vm.sortBy.selfScore = { ascending: false, descending: false };
-                vm.sortBy.evaluatorScore = { ascending: false, descending: false };
-                vm.sortBy.disciplineScore = { ascending: false, descending: false };
+                    if (!vm.sortBy.disciplineScore.ascending) {
+                        vm.sortBy.disciplineScore = { ascending: true, descending: false };
+                        vm.epaInfos.sort(sortByDisciplineScore);
+                    } else {
+                        vm.sortBy.disciplineScore = { ascending: false, descending: true };
+                        vm.epaInfos.reverse();
+                    }
+                    break;
+                case 'TotalScore':
+                    vm.sortBy.selfScore = { ascending: false, descending: false };
+                    vm.sortBy.evaluatorScore = { ascending: false, descending: false };
+                    vm.sortBy.disciplineScore = { ascending: false, descending: false };
 
-                if (!vm.sortBy.totalScore.ascending) {
-                    vm.sortBy.totalScore = { ascending: true, descending: false };
-                    vm.epaInfos.sort(sortByTotalScore);
-                } else {
-                    vm.sortBy.totalScore = { ascending: false, descending: true };
-                    vm.epaInfos.reverse();
-                }
-                break;
+                    if (!vm.sortBy.totalScore.ascending) {
+                        vm.sortBy.totalScore = { ascending: true, descending: false };
+                        vm.epaInfos.sort(sortByTotalScore);
+                    } else {
+                        vm.sortBy.totalScore = { ascending: false, descending: true };
+                        vm.epaInfos.reverse();
+                    }
+                    break;
             }
         };
 
-        vm.viewEPADetail = function(epaInfo) {
+        vm.viewEPADetail = function (epaInfo) {
             if (ReviewerManagementModel.checkAdjustScoreChanged(vm.epaInfos)) {
-                ReviewerManagementModel.openPopupRemindSaveChange(vm).then(function() {
+                ReviewerManagementModel.openPopupRemindSaveChange(vm).then(function () {
                     $location.url(baseUrl + 'Reviewer/Detail/' + epaInfo.EPAId);
-                })['finally'](function() {
+                })['finally'](function () {
                     vm.modalInstance = '';
                 });
             } else {
@@ -236,76 +236,79 @@
             }
         };
 
-        vm.viewEPAResult = function(epaInfo) {
+        vm.viewEPAResult = function (epaInfo) {
             $location.url(baseUrl + 'EPA/Detail/' + epaInfo.EPAId);
         };
 
-        vm.viewOtherViolationDetail = function(epaInfo) {
+        vm.viewOtherViolationDetail = function (epaInfo) {
             CommonModel.openPopupViewOtherViolationDetail(epaInfo.EPAId);
         };
 
-        vm.checkAll = function(selectedAll) {
-            angular.forEach(vm.epaInfos,
-                function(epaInfo) {
-                    if (!epaInfo.Process.CurrentProcess.IsEndProcess && (epaInfo.IsSemiAnnual || epaInfo.IsMonthly)) {
-                        epaInfo.Selected = selectedAll;
-                    } else {
-                        epaInfo.Selected = false;
-                    }
-                });
+        vm.checkAll = function (selectedAll) {
+            angular.forEach(vm.epaInfos, function (epaInfo) {
+                if (!epaInfo.Process.CurrentProcess.IsEndProcess && (epaInfo.IsSemiAnnual || epaInfo.IsMonthly)) {
+                    epaInfo.Selected = selectedAll;
+                } else {
+                    epaInfo.Selected = false;
+                }
+            });
         };
 
-        vm.getNotificationInputScore = function(epaInfo) {
+        vm.getNotificationInputScore = function (epaInfo) {
             var maxSubtractScore = epaInfo.Process.CurrentProcess.MaxSubtractScore,
                 maxAdditionScore = epaInfo.Process.CurrentProcess.MaxAdditionScore;
 
-            return EvaluationModel.getNotificationInputScore(maxSubtractScore,
-                maxAdditionScore,
-                vm.scoreInputValidMessage);
+            return EvaluationModel.getNotificationInputScore(maxSubtractScore, maxAdditionScore, vm.scoreInputValidMessage);
         };
 
-        vm.inputScore = function(epaInfo) {
+        vm.inputScore = function (epaInfo) {
             var maxSubtractScore = epaInfo.Process.CurrentProcess.MaxSubtractScore,
                 maxAdditionScore = epaInfo.Process.CurrentProcess.MaxAdditionScore,
                 addjustScore = epaInfo.Process.CurrentProcess.AdjustScore;
 
-            if (!EvaluationModel.validateScoreInput(addjustScore,
-                maxSubtractScore,
-                maxAdditionScore,
-                vm.scoreInputValidMessage)) {
+            if (!EvaluationModel.validateScoreInput(addjustScore, maxSubtractScore, maxAdditionScore, vm.scoreInputValidMessage)) {
                 epaInfo.Process.CurrentProcess.AdjustScore = null;
             }
 
             ReviewerManagementModel.calculateScore(epaInfo, true);
-            epaInfo.Grade = EvaluationModel.convertScoreToGrade(epaInfo.FinalScore, vm.standardGrades);
+            epaInfo.Grade = EvaluationModel.convertScoreToGrade(
+                epaInfo.Process.CurrentProcess.TotalScore,
+                epaInfo.DisciplineScore,
+                epaInfo.HasDisciplineScore,
+                epaInfo.Process.CurrentProcess.MaxPerformanceScore,
+                vm.standardGrades);
         };
 
-        vm.adjustScore = function() {
+        vm.adjustScore = function () {
             var epaInfos = ReviewerManagementModel.getEPASelected(vm.epaInfos);
 
             if (epaInfos.length === 0) {
                 notificationFactory.error("SelectEmployeeBeforeAdjustScoreWarning");
             } else {
-                ReviewerManagementModel.openPopupAdjustScore(vm, epaInfos, true).then(function(adjust) {
+                ReviewerManagementModel.openPopupAdjustScore(vm, epaInfos, true).then(function (adjust) {
                     ReviewerManagementModel.calculateAdjustScoreMultiple(epaInfos, adjust, true);
-                    angular.forEach(epaInfos,
-                        function(epaInfo) {
-                            epaInfo.Grade = EvaluationModel.convertScoreToGrade(epaInfo.FinalScore, vm.standardGrades);
-                        });
-                })['finally'](function() {
+                    angular.forEach(epaInfos, function (epaInfo) {
+                        epaInfo.Grade = EvaluationModel.convertScoreToGrade(
+                            epaInfo.Process.CurrentProcess.TotalScore,
+                            epaInfo.DisciplineScore,
+                            epaInfo.HasDisciplineScore,
+                            epaInfo.Process.CurrentProcess.MaxPerformanceScore,
+                            vm.standardGrades);
+                    });
+                })['finally'](function () {
                     vm.modalInstance = null;
                 });
             }
         };
 
-        vm.saveAdjustScore = function() {
+        vm.saveAdjustScore = function () {
             var epaInfos = ReviewerManagementModel.getEPASelected(vm.epaInfos);
 
             if (epaInfos.length === 0) {
                 notificationFactory.error("SelectEmployeeBeforeSaveWarning");
             } else {
                 ReviewerManagementModel.calculateAdjustScore(epaInfos, true);
-                ReviewerEPAModel.adjustScoreByReviewer(vm, epaInfos)['finally'](function() {
+                ReviewerEPAModel.adjustScoreByReviewer(vm, epaInfos)['finally'](function () {
                     getEPAByReviewer(vm.filter.groupId,
                         vm.filter.isLocal,
                         vm.filter.isMonthly,
@@ -316,26 +319,28 @@
             }
         };
 
-        vm.updateComment = function(epaInfo, comment, isEdit) {
+        vm.updateComment = function (epaInfo, comment, isEdit) {
             ReviewerManagementModel.openPopupUpdateComment(vm, epaInfo, comment, isEdit, true).then(
-                function(commentUpdate) {
-                    var index = vm.epaInfos.map(function(e) { return e.EPAId; }).indexOf(epaInfo.EPAId);
+                function (commentUpdate) {
+                    var index = vm.epaInfos.map(function (e) { return e.EPAId; }).indexOf(epaInfo.EPAId);
 
                     if (index !== -1) {
-                        vm.epaInfos[index].Process.CurrentProcess.TotalScore =
-                            vm.epaInfos[index].Process.CurrentProcess.TotalScoreOriginal;
-                        vm.epaInfos[index].Process.CurrentProcess.AdjustScore =
-                            vm.epaInfos[index].Process.CurrentProcess.AdjustScoreOriginal;
+                        vm.epaInfos[index].Process.CurrentProcess.TotalScore = vm.epaInfos[index].Process.CurrentProcess.TotalScoreOriginal;
+                        vm.epaInfos[index].Process.CurrentProcess.AdjustScore = vm.epaInfos[index].Process.CurrentProcess.AdjustScoreOriginal;
                         vm.epaInfos[index].Process.CurrentProcess.Comment = commentUpdate;
                         vm.epaInfos[index].Process.CurrentProcess.Evaluated = true;
 
                         ReviewerManagementModel.calculateScore(vm.epaInfos[index], true);
-                        vm.epaInfos[index].Grade =
-                            EvaluationModel.convertScoreToGrade(vm.epaInfos[index].FinalScore, vm.standardGrades);
+                        vm.epaInfos[index].Grade = EvaluationModel.convertScoreToGrade(
+                            vm.epaInfos[index].Process.CurrentProcess.TotalScore,
+                            vm.epaInfos[index].DisciplineScore,
+                            vm.epaInfos[index].HasDisciplineScore,
+                            vm.epaInfos[index].Process.CurrentProcess.MaxPerformanceScore,
+                            vm.standardGrades);
                     }
-                })['finally'](function() {
-                vm.modalInstance = null;
-            });
+                })['finally'](function () {
+                    vm.modalInstance = null;
+                });
         };
 
         function getEPAByReviewer(groupId, isLocal, isMonthly, employeeIds, selectedEmployees, statusProcess) {
@@ -343,30 +348,30 @@
             vm.isEndProcessAll = false;
             resetSorting();
 
-            ReviewerEPAModel.getEPAByReviewer(groupId, isLocal, isMonthly, employeeIds, statusProcess).then(function() {
+            ReviewerEPAModel.getEPAByReviewer(groupId, isLocal, isMonthly, employeeIds, statusProcess).then(function () {
                 vm.epaInfos = ReviewerEPAModel.epaInfos;
 
                 var averageScore = 0, countEndProcess = 0;
                 angular.forEach(vm.epaInfos,
-                    function(epaInfo) {
+                    function (epaInfo) {
                         if (epaInfo.IsSemiHasMonthly && !epaInfo.Process.CurrentProcess.TotalScore) {
-                            epaInfo.Process.CurrentProcess.TotalScore =
-                                epaInfo.MonthlyEPA.AverageReviewerScoreConverted;
+                            epaInfo.Process.CurrentProcess.TotalScore = epaInfo.MonthlyEPA.AverageReviewerScoreConverted;
                         } else if (!epaInfo.IsSemiHasMonthly) {
-                            if (epaInfo.Process.Evaluators[0].IsEndProcess &&
-                                !epaInfo.Process.CurrentProcess.TotalScore) {
+                            if (epaInfo.Process.Evaluators[0].IsEndProcess && !epaInfo.Process.CurrentProcess.TotalScore) {
                                 epaInfo.Process.CurrentProcess.TotalScore = epaInfo.Process.AverageScoreByEvaluators;
                             }
                         }
 
                         epaInfo.Process.Self.TotalScore = utilitiesFactory.parseFloat(epaInfo.Process.Self.TotalScore);
-                        epaInfo.Process.CurrentProcess.TotalScore =
-                            utilitiesFactory.parseFloat(epaInfo.Process.CurrentProcess.TotalScore);
+                        epaInfo.Process.CurrentProcess.TotalScore = utilitiesFactory.parseFloat(epaInfo.Process.CurrentProcess.TotalScore);
                         epaInfo.FinalScore = epaInfo.Process.CurrentProcess.TotalScore + epaInfo.DisciplineScore;
-                        epaInfo.FinalScore = EvaluationModel.checkScore(epaInfo.FinalScore,
-                            0,
-                            epaInfo.Process.CurrentProcess.MaxPerformanceScore);
-                        epaInfo.Grade = EvaluationModel.convertScoreToGrade(epaInfo.FinalScore, vm.standardGrades);
+                        epaInfo.FinalScore = EvaluationModel.checkScore(epaInfo.FinalScore, 0, epaInfo.Process.CurrentProcess.MaxPerformanceScore);
+                        epaInfo.Grade = EvaluationModel.convertScoreToGrade(
+                            epaInfo.Process.CurrentProcess.TotalScore,
+                            epaInfo.DisciplineScore,
+                            epaInfo.HasDisciplineScore,
+                            epaInfo.Process.CurrentProcess.MaxPerformanceScore,
+                            vm.standardGrades);
 
                         if (epaInfo.LastFinalScore.length > 0) {
                             epaInfo.LastFinalScore = utilitiesFactory.parseFloat(epaInfo.LastFinalScore);
@@ -374,8 +379,7 @@
                             epaInfo.LastFinalScore = null;
                         }
 
-                        if (epaInfo.Process.CurrentProcess.IsEndProcess ||
-                            !(epaInfo.IsSemiAnnual || epaInfo.IsMonthly)) {
+                        if (epaInfo.Process.CurrentProcess.IsEndProcess || !(epaInfo.IsSemiAnnual || epaInfo.IsMonthly)) {
                             countEndProcess += 1;
                         }
                         averageScore += epaInfo.Process.AverageScoreByEvaluators;
@@ -403,7 +407,7 @@
             historyFactory.saveState(vm.filter);
         }
 
-        vm.query = function(filter) {
+        vm.query = function (filter) {
             filter.employeeIds = utilitiesFactory.getSelectedData(vm.members, 'EmployeeId');
             getEPAByReviewer(filter.groupId,
                 filter.isLocal,
@@ -417,25 +421,25 @@
             vm.filter = initFilter();
             resetSorting();
 
-            $translate('ScoreInputValid').then(function(message) {
+            $translate('ScoreInputValid').then(function (message) {
                 vm.scoreInputValidMessage = message;
             });
 
-            $translate('AdjustScoreInvalid').then(function(message) {
+            $translate('AdjustScoreInvalid').then(function (message) {
                 vm.adjustScoreInvalidMessage = message;
             });
 
-            ReviewerEPAModel.getUserPermissionOnReviewer().then(function() {
+            ReviewerEPAModel.getUserPermissionOnReviewer().then(function () {
                 vm.permission = ReviewerEPAModel.permission;
             });
 
-            ReviewerEPAModel.getGroupByReviewer().then(function() {
+            ReviewerEPAModel.getGroupByReviewer().then(function () {
                 vm.groupOptions = ReviewerEPAModel.groups;
             });
 
             vm.getMember();
 
-            CommonModel.getStandardGrade().then(function() {
+            CommonModel.getStandardGrade().then(function () {
                 vm.standardGrades = CommonModel.standardGrades;
 
                 getEPAByReviewer(vm.filter.groupId,

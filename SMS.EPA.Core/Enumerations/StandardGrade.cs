@@ -13,12 +13,12 @@
         Good = 2,
 
         [Description("C")]
-        Standard = 3,
+        Average = 3,
 
         [Description("D")]
-        UnderPerformance = 4,
+        BellowAverage = 4,
 
         [Description("E")]
-        Fail = 5
+        Poor = 5
     }
 }

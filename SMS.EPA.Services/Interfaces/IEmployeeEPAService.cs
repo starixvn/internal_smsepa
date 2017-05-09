@@ -1,10 +1,10 @@
 ﻿namespace SMS.EPA.Services.Interfaces
 {
-    using System.Collections.Generic;
     using Core.Model;
     using Criteria;
     using Model;
     using Model.Enitites;
+    using System.Collections.Generic;
 
     public interface IEmployeeEPAService
     {
@@ -24,7 +24,7 @@
 
         CommandResult UpdateEPASummaryImport(UpdateEPASummaryImportCriteria criteria);
 
-        string ConvertScoreToGrade(float score, IEnumerable<StandardGradeModel> standardGrades);
+        string ConvertScoreToGrade(float performanceScore, float disciplineScore, bool hasDisciplineScore);
 
         int CheckEmployeePermission(GetEmployeePermissionCriteria criteria);
 

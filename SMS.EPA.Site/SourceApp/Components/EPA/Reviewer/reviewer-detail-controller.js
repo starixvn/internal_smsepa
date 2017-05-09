@@ -77,9 +77,7 @@
         };
 
         vm.generateRatingStar = function () {
-            $timeout(function () {
-                $(".rating-loading").rating();
-            }, 1);
+            $timeout(function () { $(".rating-loading").rating(); }, 1);
         };
 
         function getEPAInfoByReviewer() {
@@ -115,7 +113,12 @@
                 vm.finalScore = vm.epaInfo.Process.CurrentProcess.TotalScore + vm.epaInfo.DisciplineScore;
                 vm.finalScore = EvaluationModel.checkScore(vm.finalScore, 0, vm.epaInfo.Process.CurrentProcess.MaxPerformanceScore);
 
-                vm.epaInfo.Grade = EvaluationModel.convertScoreToGrade(vm.finalScore, vm.standardGrades);
+                vm.epaInfo.Grade = EvaluationModel.convertScoreToGrade(
+                    vm.epaInfo.Process.CurrentProcess.TotalScore,
+                    vm.epaInfo.DisciplineScore,
+                    vm.epaInfo.HasDisciplineScore,
+                    vm.epaInfo.Process.CurrentProcess.MaxPerformanceScore,
+                    vm.standardGrades);
                 vm.evaluatedDate = vm.epaInfo.Process.CurrentProcess.EvaluateDate ? vm.epaInfo.Process.CurrentProcess.EvaluateDate : null;
 
                 if (vm.epaInfo.Recommendation && vm.epaInfo.Recommendation.JobGrade && vm.epaInfo.Recommendation.JobGrade.JobGradeId) {

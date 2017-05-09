@@ -1,10 +1,10 @@
 ﻿namespace SMS.EPA.Model
 {
-    using System.Collections.Generic;
-    using System.Linq;
     using Core.Constants;
     using Core.Enumerations;
     using Report;
+    using System.Collections.Generic;
+    using System.Linq;
 
     public class EPAModel : IExcelRecord
     {

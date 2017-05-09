@@ -75,7 +75,12 @@
                     vm.epaInfo.LastFinalScore = null;
                 }
 
-                vm.epaInfo.Grade = EvaluationModel.convertScoreToGrade(vm.finalScore, vm.standardGrades);
+                vm.epaInfo.Grade = EvaluationModel.convertScoreToGrade(
+                    vm.epaInfo.Process.CurrentProcess.TotalScore,
+                    vm.epaInfo.DisciplineScore,
+                    vm.epaInfo.HasDisciplineScore,
+                    vm.epaInfo.Process.CurrentProcess.MaxPerformanceScore,
+                    vm.standardGrades);
                 vm.evaluatedDate = vm.epaInfo.Process.CurrentProcess.EvaluateDate ? vm.epaInfo.Process.CurrentProcess.EvaluateDate : null;
 
                 SelfEvalutionModel.getUserPermissionOnEmployee().then(function () {

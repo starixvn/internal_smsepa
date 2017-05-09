@@ -294,7 +294,12 @@
             }
 
             ReviewerManagementModel.calculateScore(epaInfo, false);
-            epaInfo.Grade = EvaluationModel.convertScoreToGrade(epaInfo.FinalScore, vm.standardGrades);
+            epaInfo.Grade = EvaluationModel.convertScoreToGrade(
+                epaInfo.Process.CurrentProcess.TotalScore,
+                epaInfo.DisciplineScore,
+                epaInfo.HasDisciplineScore,
+                epaInfo.Process.CurrentProcess.MaxPerformanceScore,
+                vm.standardGrades);
         };
 
         vm.adjustScore = function () {
@@ -306,7 +311,12 @@
                 ReviewerManagementModel.openPopupAdjustScore(vm, epaInfos, false).then(function (adjust) {
                     ReviewerManagementModel.calculateAdjustScoreMultiple(epaInfos, adjust, false);
                     angular.forEach(epaInfos, function (epaInfo) {
-                        epaInfo.Grade = EvaluationModel.convertScoreToGrade(epaInfo.FinalScore, vm.standardGrades);
+                        epaInfo.Grade = EvaluationModel.convertScoreToGrade(
+                            epaInfo.Process.CurrentProcess.TotalScore,
+                            epaInfo.DisciplineScore,
+                            epaInfo.HasDisciplineScore,
+                            epaInfo.Process.CurrentProcess.MaxPerformanceScore,
+                            vm.standardGrades);
                     });
                 })['finally'](function () {
                     vm.modalInstance = null;
@@ -338,7 +348,12 @@
                     vm.epaInfos[index].Process.CurrentProcess.Evaluated = true;
 
                     ReviewerManagementModel.calculateScore(vm.epaInfos[index], false);
-                    vm.epaInfos[index].Grade = EvaluationModel.convertScoreToGrade(vm.epaInfos[index].FinalScore, vm.standardGrades);
+                    vm.epaInfos[index].Grade = EvaluationModel.convertScoreToGrade(
+                        vm.epaInfos[index].Process.CurrentProcess.TotalScore,
+                        vm.epaInfos[index].DisciplineScore,
+                        vm.epaInfos[index].HasDisciplineScore,
+                        vm.epaInfos[index].Process.CurrentProcess.MaxPerformanceScore,
+                        vm.standardGrades);
                 }
             })['finally'](function () {
                 vm.modalInstance = null;
@@ -363,7 +378,12 @@
                     epaInfo.Process.CurrentProcess.TotalScore = utilitiesFactory.parseFloat(epaInfo.Process.CurrentProcess.TotalScore);
                     epaInfo.FinalScore = epaInfo.Process.CurrentProcess.TotalScore + epaInfo.DisciplineScore;
                     epaInfo.FinalScore = EvaluationModel.checkScore(epaInfo.FinalScore, 0, epaInfo.Process.CurrentProcess.MaxPerformanceScore);
-                    epaInfo.Grade = EvaluationModel.convertScoreToGrade(epaInfo.FinalScore, vm.standardGrades);
+                    epaInfo.Grade = EvaluationModel.convertScoreToGrade(
+                        epaInfo.Process.CurrentProcess.TotalScore,
+                        epaInfo.DisciplineScore,
+                        epaInfo.HasDisciplineScore,
+                        epaInfo.Process.CurrentProcess.MaxPerformanceScore,
+                        vm.standardGrades);
 
                     if (epaInfo.LastFinalScore.length > 0) {
                         epaInfo.LastFinalScore = utilitiesFactory.parseFloat(epaInfo.LastFinalScore);

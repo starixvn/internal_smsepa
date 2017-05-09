@@ -18,7 +18,7 @@
 
     public class EmployeeEPAService : BaseService, IEmployeeEPAService
     {
-        private readonly IEmployeeEPARepository _employeeEPARepository;
+        private readonly IEmployeeEPARepository employeeEPARepository;
 
         public EmployeeEPAService()
             : this(null)
@@ -27,7 +27,7 @@
 
         public EmployeeEPAService(IEmployeeEPARepository employeeEPARepository)
         {
-            _employeeEPARepository = employeeEPARepository ?? new EmployeeEPARepository();
+            this.employeeEPARepository = employeeEPARepository ?? new EmployeeEPARepository();
         }
 
         public EPAModel GetEPAInfoById(int epaId)
@@ -40,7 +40,7 @@
 
             if (criteria.IsValid())
             {
-                epaInfo = _employeeEPARepository.GetEPAInfo(criteria);
+                epaInfo = employeeEPARepository.GetEPAInfo(criteria);
                 SpreadKPIScore(epaInfo.KPIGroups);
 
                 if (epaInfo.IsSemiHasMonthly)
@@ -54,9 +54,8 @@
                     epaInfo.Recommendation = GetRecommendationByEPAId(epaInfo.EPAId);
                 }
 
-                IEnumerable<StandardGradeModel> standardGrades = GetStandardGrade();
-                float finalScore = epaInfo.FinalScore.Length > 0 ? float.Parse(epaInfo.FinalScore) : 0;
-                epaInfo.Grade = ConvertScoreToGrade(finalScore, standardGrades);
+                float performanceScore = epaInfo.FinalScore.Length > 0 ? float.Parse(epaInfo.FinalScore) - epaInfo.DisciplineScore : 0;
+                epaInfo.Grade = ConvertScoreToGrade(performanceScore, epaInfo.DisciplineScore, epaInfo.HasDisciplineScore);
             }
 
             return epaInfo;
@@ -68,7 +67,7 @@
 
             if (criteria != null && criteria.IsValid())
             {
-                epaInfos = _employeeEPARepository.GetEPAEndEvaluationPeriod(criteria);
+                epaInfos = employeeEPARepository.GetEPAEndEvaluationPeriod(criteria);
             }
 
             return epaInfos;
@@ -84,7 +83,7 @@
 
             if (criteria.IsValid())
             {
-                recommendation = _employeeEPARepository.GetRecommendationById(criteria);
+                recommendation = employeeEPARepository.GetRecommendationById(criteria);
             }
 
             return recommendation;
@@ -154,17 +153,35 @@
             return commandResult;
         }
 
-        public string ConvertScoreToGrade(float score, IEnumerable<StandardGradeModel> standardGrades)
+        public string ConvertScoreToGrade(float performanceScore, float disciplineScore, bool hasDisciplineScore)
         {
             string grade = string.Empty;
+            float finalScore = performanceScore + disciplineScore;
+            IEnumerable<StandardGradeModel> standardGrades = GetStandardGrade();
 
-            if (standardGrades != null && standardGrades.Any())
+            if (hasDisciplineScore)
             {
-                var standardGrade =
-                    standardGrades
-                        .Where(x => x.LeftScore <= score && x.RightScore >= score)
-                        .Select(x => (StandardGrade)x.GradeId).FirstOrDefault();
-                return Enumerations.GetDescription(standardGrade);
+                StandardGradeModel performanceGrade = standardGrades
+                    .FirstOrDefault(x => x.Type == (int)GradeType.Performance && x.LeftScore <= performanceScore && x.RightScore >= performanceScore);
+
+                StandardGradeModel disciplineGrade = standardGrades
+                    .FirstOrDefault(x => x.Type == (int)GradeType.Discipline && x.LeftScore <= disciplineScore && x.RightScore >= disciplineScore);
+
+                StandardGradeModel finalGrade = standardGrades
+                    .FirstOrDefault(x => x.Type == (int)GradeType.Final && x.LeftScore <= finalScore && x.RightScore >= finalScore);
+
+                grade = (performanceGrade.GradeId < (int)StandardGrade.Average || disciplineGrade.GradeId < (int)StandardGrade.Average)
+                    ? (string.Compare(performanceGrade.Code, disciplineGrade.Code, StringComparison.OrdinalIgnoreCase) > 0
+                        ? performanceGrade.Code
+                        : disciplineGrade.Code)
+                    : finalGrade.Code;
+            }
+            else
+            {
+                StandardGradeModel finalGrade = standardGrades
+                    .FirstOrDefault(x => x.Type == (int)GradeType.Final && x.LeftScore <= finalScore && x.RightScore >= finalScore);
+
+                grade = finalGrade.Code;
             }
 
             return grade;
@@ -203,7 +220,7 @@
                 EPAIds = epaIds
             };
 
-            IList<EPAModel> monthlyEPAs = _employeeEPARepository.GetEPA(criteria).ToList();
+            IList<EPAModel> monthlyEPAs = employeeEPARepository.GetEPA(criteria).ToList();
 
             return monthlyEPAs;
         }
@@ -250,7 +267,7 @@
 
             if (criteria != null && criteria.IsValid())
             {
-                epaInfos = _employeeEPARepository.GetEPAToUpdateFinalScore(criteria);
+                epaInfos = employeeEPARepository.GetEPAToUpdateFinalScore(criteria);
             }
 
             return epaInfos;

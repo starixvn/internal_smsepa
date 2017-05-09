@@ -1,18 +1,18 @@
 ﻿namespace SMS.EPA.Site.Controllers
 {
-    using System;
+    using Core.Enumerations;
     using iTextSharp.text;
     using iTextSharp.text.pdf;
     using Model;
     using Resources;
     using Services.Implement;
     using Services.Interfaces;
+    using System;
     using System.Diagnostics.CodeAnalysis;
     using System.Globalization;
     using System.Linq;
     using System.Web;
     using System.Web.Mvc;
-    using Core.Enumerations;
 
     [SuppressMessage(
         "StyleCop.CSharp.StylecopPlus.Rules",

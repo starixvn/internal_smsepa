@@ -32,17 +32,47 @@
             return result;
         }
 
-        function convertScoreToGrade(finalScore, standardGrades) {
-            var score = utilitiesFactory.parseFloat(finalScore),
-                grade;
+        function convertScoreToGrade(performanceScore, disciplineScore, hasDisciplineScore, maxPerformanceScore, standardGrades) {
+            var performanceScore = utilitiesFactory.parseFloat(finalScore),
+                disciplineScore = utilitiesFactory.parseFloat(disciplineScore),
+                finalScore = checkScore(performanceScore + disciplineScore, 0, maxPerformanceScore),
+                performanceGrade, disciplineGrade, finalGrade;
 
-            angular.forEach(standardGrades, function (standardGrade) {
-                if (score >= standardGrade.LeftScore && score <= standardGrade.RightScore) {
-                    grade = standardGrade.Code;
+            var gradeType = {
+                Discipline: 1,
+                Performance: 2,
+                Final: 3
+            };
+
+            var belowAverage = 'D';
+
+            if (hasDisciplineScore) {
+                angular.forEach(standardGrades, function (standardGrade) {
+                    if (standardGrade.Type = gradeType.Discipline && performanceScore >= standardGrade.LeftScore && performanceScore <= standardGrade.RightScore) {
+                        disciplineGrade = standardGrade.Code.toUpperCase();
+                    }
+
+                    if (standardGrade.Type = gradeType.Performance && performanceScore >= standardGrade.LeftScore && performanceScore <= standardGrade.RightScore) {
+                        performanceGrade = standardGrade.Code.toUpperCase();
+                    }
+
+                    if (standardGrade.Type = gradeType.Final && finalScore >= standardGrade.LeftScore && finalScore <= standardGrade.RightScore) {
+                        finalGrade = standardGrade.Code.toUpperCase();
+                    }
+                });
+
+                if (disciplineGrade.localeCompare(belowAverage) >= 0 || performanceGrade.localeCompare(belowAverage) >= 0) {
+                    finalGrade = disciplineGrade.localeCompare(performanceGrade) >= 0 ? disciplineGrade : performanceGrade;
                 }
-            });
+            } else {
+                angular.forEach(standardGrades, function (standardGrade) {
+                    if (standardGrade.Type = gradeType.Final && finalScore >= standardGrade.LeftScore && finalScore <= standardGrade.RightScore) {
+                        finalGrade = standardGrade.Code.toUpperCase();
+                    }
+                });
+            }
 
-            return grade;
+            return finalGrade;
         }
 
         function getEPAInfoById(epaId) {
