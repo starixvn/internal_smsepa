@@ -45,9 +45,16 @@
                 vm.epaInfo = EvaluationModel.epaInfo;
                 vm.epaInfo.Employee.Avatar = baseUrl + vm.epaInfo.Employee.Avatar;
 
-                if (vm.epaInfo.IsClosed && vm.epaInfo.FinalScore.length > 0) {
-                    var performanceScore = vm.epaInfo.Process.PerformanceScore;
-                }
+                debugger;
+
+                vm.epaInfo.FinalScore = (vm.epaInfo.Process.PerformanceScore + vm.epaInfo.DisciplineScore).toString();
+
+                vm.epaInfo.Grade = EvaluationModel.convertScoreToGrade(
+                    vm.epaInfo.Process.PerformanceScore,
+                    vm.epaInfo.DisciplineScore,
+                    vm.epaInfo.HasDisciplineScore,
+                    vm.epaInfo.MaxFinalScore - vm.epaInfo.MaxDisciplineScore,
+                    vm.standardGrades);
 
                 if (vm.epaInfo.Recommendation && vm.epaInfo.Recommendation.JobGrade && vm.epaInfo.Recommendation.JobGrade.JobGradeId) {
                     var index = vm.jobGrades.map(function (e) { return e.JobGradeId; }).indexOf(vm.epaInfo.Recommendation.JobGrade.JobGradeId);

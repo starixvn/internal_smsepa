@@ -50,7 +50,7 @@
 
             if (hasDisciplineScore) {
                 angular.forEach(standardGrades, function (standardGrade) {
-                    if (standardGrade.Type === gradeType.Discipline && performanceScore >= standardGrade.LeftScore && performanceScore <= standardGrade.RightScore) {
+                    if (standardGrade.Type === gradeType.Discipline && disciplineScore >= standardGrade.LeftScore && disciplineScore <= standardGrade.RightScore) {
                         disciplineGrade = standardGrade.Code.toUpperCase();
                     }
 
