@@ -7,8 +7,7 @@
 
     function gridEpaSummaryReport($timeout, utilitiesFactory) {
         var status = {
-            NotAvailable: 'N/A',
-            Pending: 'Pending'
+            NotAvailable: 'N/A'
         };
 
         function generateGroupHeaders(periodSelecteds) {
@@ -155,7 +154,9 @@
                                         grade = status.NotAvailable;
                                     }
 
-                                    if (!epaInfo.Periods[index].IsEndPeriod) {
+                                    debugger;
+
+                                    if (epaInfo.Periods[index].StatusId === 0) {
                                         cssClass = "red";
                                     }
                                 } else {
