@@ -23,9 +23,9 @@
     public class ReportService : BaseService, IReportService
     {
         private const int ExcelColumnWidth = 256;
-        private readonly IReportRepository _reportRepository;
-        private readonly IEmployeeEPARepository _employeeEPARepository;
-        private readonly IEmployeeEPAService _employeeEPAService;
+        private readonly IReportRepository reportRepository;
+        private readonly IEmployeeEPARepository employeeEPARepository;
+        private readonly IEmployeeEPAService employeeEPAService;
 
         public ReportService() : this(null, null, null)
         {
@@ -36,9 +36,9 @@
             IEmployeeEPARepository employeeEPARepository,
             IEmployeeEPAService employeeEPAService)
         {
-            _reportRepository = reportRepository ?? new ReportRepository();
-            _employeeEPARepository = employeeEPARepository ?? new EmployeeEPARepository();
-            _employeeEPAService = employeeEPAService ?? new EmployeeEPAService();
+            this.reportRepository = reportRepository ?? new ReportRepository();
+            this.employeeEPARepository = employeeEPARepository ?? new EmployeeEPARepository();
+            this.employeeEPAService = employeeEPAService ?? new EmployeeEPAService();
         }
 
         public DashboardModel GetDashboard(int employeeId)
@@ -51,7 +51,7 @@
 
             if (criteria.IsValid())
             {
-                result = _employeeEPARepository.GetDashboard(criteria);
+                result = employeeEPARepository.GetDashboard(criteria);
                 result.MonthlyEpaInfos = result.MyEpaInfos.Where(x => x.Period.TargetTypeId == (int)TargetType.Monthly);
                 result.MyEpaInfos = result.MyEpaInfos.Where(x => x.Period.TargetTypeId != (int)TargetType.Monthly);
             }
@@ -62,10 +62,11 @@
         public EPASummaryModel GetEPASummaryReport(GetEPASummaryCriteria criteria)
         {
             EPASummaryModel result = new EPASummaryModel();
+            IEnumerable<StandardGradeModel> standardGrades = employeeEPAService.GetStandardGrade();
 
             if (criteria != null && criteria.IsValid())
             {
-                result = _reportRepository.GetEPASummary(criteria);
+                result = reportRepository.GetEPASummary(criteria);
             }
 
             foreach (var epaInfo in result.EPAInfos)
@@ -92,10 +93,11 @@
                         epaInfoPeriod.FinalScore =
                             (lastPhasePerformanceScore + tempDisciplineScore).ToString(CultureInfo.InvariantCulture);
 
-                        epaInfoPeriod.Grade = _employeeEPAService.ConvertScoreToGrade(
+                        epaInfoPeriod.Grade = employeeEPAService.ConvertScoreToGrade(
                             lastPhasePerformanceScore,
                             tempDisciplineScore,
-                            epaInfoPeriod.HasDisciplineScore);
+                            epaInfoPeriod.HasDisciplineScore,
+                            standardGrades);
                     }
                 }
             }
@@ -114,20 +116,20 @@
 
             if (criteria != null && criteria.IsValid())
             {
-                result = _reportRepository.GetEPADetail(criteria);
+                result = reportRepository.GetEPADetail(criteria);
 
                 IList<EPAModel> monthlyEPAs = new List<EPAModel>();
                 string epaIds = string.Join(",", result.EpaInfos.Where(x => x.IsSemiHasMonthly).Select(x => x.EPAId));
 
                 if (!string.IsNullOrEmpty(epaIds))
                 {
-                    monthlyEPAs = _employeeEPAService.GetMonthlyEPAOfSemi(epaIds);
+                    monthlyEPAs = employeeEPAService.GetMonthlyEPAOfSemi(epaIds);
                 }
 
                 foreach (EPAModel epaInfo in result.EpaInfos)
                 {
-                    _employeeEPAService.GroupMonthlyEPABySemi(epaInfo, monthlyEPAs);
-                    _employeeEPAService.ConvertAverageMonthlyScore(epaInfo.MonthlyEPA, epaInfo.ScoreRatingType);
+                    employeeEPAService.GroupMonthlyEPABySemi(epaInfo, monthlyEPAs);
+                    employeeEPAService.ConvertAverageMonthlyScore(epaInfo.MonthlyEPA, epaInfo.ScoreRatingType);
                 }
             }
 
@@ -163,7 +165,7 @@
 
             if (criteria != null && criteria.IsValid())
             {
-                result = _reportRepository.GetMonthlyEPADetail(criteria);
+                result = reportRepository.GetMonthlyEPADetail(criteria);
             }
 
             return result;
@@ -175,7 +177,7 @@
 
             if (criteria != null && criteria.IsValid())
             {
-                result = _reportRepository.GetEPASummary(criteria);
+                result = reportRepository.GetEPASummary(criteria);
             }
 
             return result;

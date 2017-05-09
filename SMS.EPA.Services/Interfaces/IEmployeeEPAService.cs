@@ -24,7 +24,7 @@
 
         CommandResult UpdateEPASummaryImport(UpdateEPASummaryImportCriteria criteria);
 
-        string ConvertScoreToGrade(float performanceScore, float disciplineScore, bool hasDisciplineScore);
+        string ConvertScoreToGrade(float performanceScore, float disciplineScore, bool hasDisciplineScore, IEnumerable<StandardGradeModel> standardGrades);
 
         int CheckEmployeePermission(GetEmployeePermissionCriteria criteria);
 

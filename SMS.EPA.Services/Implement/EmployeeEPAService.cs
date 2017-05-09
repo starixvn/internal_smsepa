@@ -150,11 +150,14 @@
             return commandResult;
         }
 
-        public string ConvertScoreToGrade(float performanceScore, float disciplineScore, bool hasDisciplineScore)
+        public string ConvertScoreToGrade(
+            float performanceScore,
+            float disciplineScore,
+            bool hasDisciplineScore,
+            IEnumerable<StandardGradeModel> standardGrades)
         {
             string grade = string.Empty;
             float finalScore = performanceScore + disciplineScore;
-            IEnumerable<StandardGradeModel> standardGrades = GetStandardGrade();
 
             if (hasDisciplineScore)
             {

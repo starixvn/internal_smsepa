@@ -87,6 +87,8 @@
         [ApiAuthorize(FunctionKey = EPAFunctionKey.UpdateFinalScore, Policy = Policy.Host)]
         public HttpResponseMessage UpdateFinalScore(List<EPAModel> epaInfos)
         {
+            IEnumerable<StandardGradeModel> standardGrades = evaluationService.GetStandardGrade();
+
             foreach (EPAModel epaInfo in epaInfos)
             {
                 float? performanceScore = GetPerformanceScoreOfEPA(epaInfo);
@@ -96,7 +98,7 @@
                     ? cryptographyService.Encrypt(finalScore.Value.ToString(CultureInfo.InvariantCulture))
                     : string.Empty;
                 string grade = performanceScore.HasValue
-                    ? evaluationService.ConvertScoreToGrade(performanceScore.Value, epaInfo.DisciplineScore, epaInfo.HasDisciplineScore)
+                    ? evaluationService.ConvertScoreToGrade(performanceScore.Value, epaInfo.DisciplineScore, epaInfo.HasDisciplineScore, standardGrades)
                     : string.Empty;
                 epaInfo.Grade = !string.IsNullOrEmpty(grade) ? cryptographyService.Encrypt(grade) : string.Empty;
             }
