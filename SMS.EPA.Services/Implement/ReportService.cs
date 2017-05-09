@@ -282,7 +282,9 @@
             }
         }
 
-        [SuppressMessage("StyleCop.CSharp.StylecopPlus.Rules", "SP2101:MethodMustNotContainMoreLinesThan",
+        [SuppressMessage(
+            "StyleCop.CSharp.StylecopPlus.Rules",
+            "SP2101:MethodMustNotContainMoreLinesThan",
             Justification = "Reviewed. Suppression is OK here.")]
         private static void RenderContentRowEPASummaryReport(
             EPASummaryModel epaSummary,
@@ -296,7 +298,12 @@
             ICellStyle bodyStyle3;
             ICellStyle bodyStyle4;
 
-            CreateBodyStyles(workbook, out bodyStyle1, out bodyStyle2, out bodyStyle3, out bodyStyle4);
+            CreateBodyStyles(
+                workbook,
+                out bodyStyle1,
+                out bodyStyle2,
+                out bodyStyle3,
+                out bodyStyle4);
 
             foreach (var epaInfo in epaSummary.EPAInfos)
             {
@@ -327,15 +334,22 @@
                         string finalScore = GetFinalScoreString(period);
                         string grade = GetGradeString(period);
 
-                        cellBody = row.CreateCell(8 + (2 * i));
-                        cellBody.CellStyle = bodyStyle;
-                        cellBody.SetCellValue(finalScore);
-                        SetColumnWidth(ref sheet, 8 + (2 * i), 14);
+                        IFont redFont = workbook.CreateFont();
+                        redFont.Color = HSSFColor.Red.Index;
 
-                        cellBody = row.CreateCell(8 + ((2 * i) + 1));
-                        cellBody.CellStyle = bodyStyle;
-                        cellBody.SetCellValue(grade);
-                        SetColumnWidth(ref sheet, 8 + ((2 * i) + 1), 10);
+                        ICellStyle newStyle = workbook.CreateCellStyle();
+                        newStyle.CloneStyleFrom(bodyStyle);
+
+                        GenerateFinalScoreAndGradeCell(
+                            ref sheet,
+                            newStyle,
+                            row,
+                            i,
+                            finalScore,
+                            grade,
+                            period != null && period.StatusId == 1
+                                ? null
+                                : redFont);
                     }
                     else
                     {
@@ -355,6 +369,34 @@
             }
         }
 
+        private static void GenerateFinalScoreAndGradeCell(
+            ref ISheet sheet,
+            ICellStyle bodyStyle,
+            IRow row,
+            int i,
+            string finalScore,
+            string grade,
+            IFont redFont = null)
+        {
+            ICell cellBody = row.CreateCell(8 + (2 * i));
+            cellBody.CellStyle = bodyStyle;
+            if (redFont != null)
+            {
+                cellBody.CellStyle.SetFont(redFont);
+            }
+            cellBody.SetCellValue(finalScore);
+            SetColumnWidth(ref sheet, 8 + (2 * i), 14);
+
+            cellBody = row.CreateCell(8 + ((2 * i) + 1));
+            cellBody.CellStyle = bodyStyle;
+            if (redFont != null)
+            {
+                cellBody.CellStyle.SetFont(redFont);
+            }
+            cellBody.SetCellValue(grade);
+            SetColumnWidth(ref sheet, 8 + ((2 * i) + 1), 10);
+        }
+
         private static ISheet CreateCommonCells(
             ISheet sheet,
             int rowIndex,
@@ -369,10 +411,12 @@
         {
             bodyStyle = rowIndex % 2 == 0 ? bodyStyle2 : bodyStyle1;
             row = sheet.CreateRow(rowIndex);
+
             cellBody = row.CreateCell(0);
             cellBody.CellStyle = bodyStyle;
             cellBody.SetCellValue(rowIndex - 3);
             SetColumnWidth(ref sheet, 0, 5);
+
             cellBody = row.CreateCell(1);
             cellBody.CellStyle = bodyStyle;
             cellBody.SetCellValue(epaInfo.Code);
@@ -395,10 +439,12 @@
             cellBody.CellStyle = bodyStyle;
             cellBody.SetCellValue(epaInfo.Category);
             SetColumnWidth(ref sheet, 4, 12);
+
             cellBody = row.CreateCell(5);
             cellBody.CellStyle = bodyStyle;
             cellBody.SetCellValue(epaInfo.Group.GroupName);
             SetColumnWidth(ref sheet, 5, 16);
+
             cellBody = row.CreateCell(6);
             cellBody.CellStyle = bodyStyle;
             cellBody.SetCellValue(epaInfo.JobTitle.JobTitleName);
@@ -440,7 +486,7 @@
             bodyStyle4.FillBackgroundColor = HSSFColor.LightCornflowerBlue.Index;
         }
 
-        private static string GetFinalScoreString(EPASummaryPeriodModel period)
+        private static string GetGradeString(EPASummaryPeriodModel period)
         {
             var grade = period != null && period.IsEndPeriod.Equals(true)
                 ? (string.IsNullOrEmpty(period.FinalScore)
@@ -451,7 +497,7 @@
             return grade;
         }
 
-        private static string GetGradeString(EPASummaryPeriodModel period)
+        private static string GetFinalScoreString(EPASummaryPeriodModel period)
         {
             var finalScore = period != null && period.IsEndPeriod.Equals(true)
                 ? (string.IsNullOrEmpty(period.FinalScore)

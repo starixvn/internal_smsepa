@@ -443,15 +443,6 @@
                 int rowspan = epaInfo.Process.Evaluators.Count;
                 for (int index = 0; index < kpiGroup.KPIs.Count; index++)
                 {
-                    //cell = new PdfPCell(new Phrase((index + 1).ToString(), _normalFont))
-                    //{
-                    //    Rowspan = rowspan,
-                    //    BorderColor = _borderColor,
-                    //    HorizontalAlignment = Element.ALIGN_CENTER,
-                    //    VerticalAlignment = Element.ALIGN_MIDDLE
-                    //};
-                    //detail.AddCell(cell);
-
                     AddCenterAlignedCell(detail, (index + 1).ToString(), rowspan: rowspan);
 
                     Phrase phrase = new Phrase { new Chunk(kpiGroup.KPIs[index].Name, _normalFont) };
