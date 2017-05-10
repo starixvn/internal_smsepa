@@ -9,7 +9,6 @@
     using Model.Report.EPASummary;
     using System;
     using System.Collections.Generic;
-    using System.Globalization;
     using System.Linq;
 
     public class ReportRepository : IReportRepository
@@ -225,38 +224,6 @@
             {
                 detailScore.AdjustScore = _cryptographyService.Decrypt(detailScore.AdjustScore);
                 detailScore.TotalScore = _cryptographyService.Decrypt(detailScore.TotalScore);
-            }
-        }
-
-        private static void CalculateFinalScoreAndGradeForSummaryReport(
-            IList<EPASummaryDetailScoreModel> detailScores,
-            IList<EPASummaryPeriodModel> periods)
-        {
-            foreach (EPASummaryPeriodModel summaryPeriodModel in periods)
-            {
-                var tempDisciplineScore = summaryPeriodModel.HasDisciplineScore
-                    ? summaryPeriodModel.DisciplineScore
-                    : 0;
-                var detailScoreGroups = detailScores.Where(x => x.EmployeeId == summaryPeriodModel.EmployeeId
-                                                                && x.PeriodId == summaryPeriodModel.PeriodId);
-
-                float tempFinalScore = 0;
-
-                for (int i = 2; i <= 5; i++)
-                {
-                    var finalScore = detailScoreGroups.First(x => x.ProcessId == i).TotalScore;
-
-                    if (!string.IsNullOrEmpty(finalScore) && float.TryParse(finalScore, out tempFinalScore))
-                    {
-                        tempFinalScore = tempFinalScore + tempDisciplineScore;
-                    }
-                }
-
-                if (summaryPeriodModel.FinalScore != tempFinalScore.ToString(CultureInfo.InvariantCulture) &&
-                    summaryPeriodModel.StatusId != 1)
-                {
-                    summaryPeriodModel.FinalScore = tempFinalScore.ToString(CultureInfo.InvariantCulture);
-                }
             }
         }
     }
