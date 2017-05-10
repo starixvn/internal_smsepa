@@ -36,22 +36,26 @@
             {
                 EPAId = epaId
             };
-            EPAModel epaInfo = new EPAModel();
+            var epaInfo = new EPAModel();
 
             if (criteria.IsValid())
             {
                 epaInfo = employeeEPARepository.GetEPAInfo(criteria);
-                SpreadKPIScore(epaInfo.KPIGroups);
 
-                if (epaInfo.IsSemiHasMonthly)
+                if (epaInfo != null)
                 {
-                    epaInfo.MonthlyEPA.MonthlyEPAs = GetMonthlyEPAOfSemi(epaInfo.EPAId.ToString());
-                    ConvertAverageMonthlyScore(epaInfo.MonthlyEPA, epaInfo.ScoreRatingType);
-                }
+                    SpreadKPIScore(epaInfo.KPIGroups);
 
-                if (epaInfo.IsProbation || epaInfo.IsPromotion || epaInfo.IsSemiAnnual)
-                {
-                    epaInfo.Recommendation = GetRecommendationByEPAId(epaInfo.EPAId);
+                    if (epaInfo.IsSemiHasMonthly)
+                    {
+                        epaInfo.MonthlyEPA.MonthlyEPAs = GetMonthlyEPAOfSemi(epaInfo.EPAId.ToString());
+                        ConvertAverageMonthlyScore(epaInfo.MonthlyEPA, epaInfo.ScoreRatingType);
+                    }
+
+                    if (epaInfo.IsProbation || epaInfo.IsPromotion || epaInfo.IsSemiAnnual)
+                    {
+                        epaInfo.Recommendation = GetRecommendationByEPAId(epaInfo.EPAId);
+                    }
                 }
             }
 
