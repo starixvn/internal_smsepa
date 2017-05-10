@@ -14,7 +14,7 @@
             controller: function () {
                 var vm = this;
 
-                vm.statusTypes = utilitiesFactory.statusEndProcess;
+                vm.statusTypes = utilitiesFactory.processStatus;
                 vm.monthlyEPA = {};
 
                 if (vm.epaInfo) {

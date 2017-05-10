@@ -166,12 +166,12 @@
 
             if (epaInfo.Process.Managements.Any())
             {
-                if (epaInfo.Process.Reviewers.First().StatusEndProcess == (int)ProcessStatusType.InProgress)
+                if (epaInfo.Process.Reviewers.First().StatusId == (int)ProcessStatusType.InProgress)
                 {
                     managementScore = epaInfo.Process.AverageScoreByManagements?.ToString() ?? "0";
                 }
 
-                if (epaInfo.Process.Reviewers.First().StatusEndProcess == (int)ProcessStatusType.Closed)
+                if (epaInfo.Process.Reviewers.First().StatusId == (int)ProcessStatusType.Closed)
                 {
                     managementScore = epaInfo.Process.AverageScoreByManagements?.ToString() ??
                                       Lang.NotAvailable;

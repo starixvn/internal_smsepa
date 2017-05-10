@@ -27,11 +27,6 @@
                 Read: 1,
                 Host: 2
             },
-            processStatusType = {
-                Open: 1,
-                InProgress: 2,
-                Closed: 3
-            },
             processType = {
                 HumanResource: 1,
                 Self: 2,
@@ -44,10 +39,10 @@
                 Score: 2,
                 HalfStar: 3
             },
-            statusEndProcess = {
-                InProgress: 0,
-                EndProcess: 1,
-                Open: 2
+            processStatus = {
+                Open: 1,
+                InProgress: 2,
+                Closed: 3
             },
             targetType = {
                 Probation: 1,
@@ -71,7 +66,6 @@
             openPopupStartDate: openPopupStartDate,
             pageOption: pageOption,
             policy: policy,
-            processStatusType: processStatusType,
             processType: processType,
             ratingType: ratingType,
             readLess: readLess,
@@ -79,7 +73,7 @@
             searchOnPage: searchOnPage,
             setSelectedItem: setSelectedItem,
             splitNumber: splitNumber,
-            statusEndProcess: statusEndProcess,
+            processStatus: processStatus,
             targetType: targetType
         };
 

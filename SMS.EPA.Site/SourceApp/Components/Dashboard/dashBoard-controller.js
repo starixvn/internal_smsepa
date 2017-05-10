@@ -26,7 +26,7 @@
         var vm = this;
 
         vm.epaStatusEnum = utilitiesFactory.epaStatus;
-        vm.statusEndProcessEnum = utilitiesFactory.statusEndProcess;
+        vm.processStatus = utilitiesFactory.processStatus;
         vm.targetTypeEnum = utilitiesFactory.targetType;
         vm.todoList = {};
 
@@ -80,10 +80,10 @@
             });
         }
 
-        function getClassProgress(statusEndProcess) {
-            if (statusEndProcess === vm.statusEndProcessEnum.InProgress) {
+        function getClassProgress(processStatus) {
+            if (processStatus === vm.processStatus.InProgress) {
                 return 'in-process';
-            } else if (statusEndProcess === vm.statusEndProcessEnum.EndProcess) {
+            } else if (processStatus === vm.processStatus.Closed) {
                 return 'end-process';
             } else {
                 return 'open';

@@ -62,14 +62,14 @@
                 </span>
             </td>
             <td class="text-center">
-                <div ng-show="monthlyResultCtrl.epaInfo.Process.Reviewers[0].StatusEndProcess == monthlyResultCtrl.statusTypes.EndProcess
-                            || monthlyResultCtrl.epaInfo.Process.Reviewers[0].StatusEndProcess == monthlyResultCtrl.statusTypes.InProgress">
+                <div ng-show="monthlyResultCtrl.epaInfo.Process.Reviewers[0].StatusId === monthlyResultCtrl.statusTypes.EndProcess
+                            || monthlyResultCtrl.epaInfo.Process.Reviewers[0].StatusId === monthlyResultCtrl.statusTypes.InProgress">
                     {{monthlyResultCtrl.monthlyEPA.AverageReviewerScoreConverted | customScore}}
                     <span ng-show="monthlyResultCtrl.monthlyEPA.MonthlyEPAs && monthlyResultCtrl.monthlyEPA.MonthlyEPAs.length > 0">
                         / {{monthlyResultCtrl.epaInfo.ScoreRatingType.Reviewer | customScore}}
                     </span>
                 </div>
-                <div ng-show="monthlyResultCtrl.epaInfo.Process.Reviewers[0].StatusEndProcess == monthlyResultCtrl.statusTypes.Open"
+                <div ng-show="monthlyResultCtrl.epaInfo.Process.Reviewers[0].StatusId === monthlyResultCtrl.statusTypes.Open"
                      data-translate="Pending"></div>
             </td>
         </tr>

@@ -1,20 +1,20 @@
 ﻿namespace SMS.EPA.Services.Implement.ExportFile
 {
-    using System;
+    using Core.Constants;
     using Core.Enumerations;
+    using Interfaces;
     using Model;
     using NPOI.HSSF.UserModel;
     using NPOI.HSSF.Util;
     using NPOI.SS.UserModel;
     using NPOI.SS.Util;
     using Resources;
+    using System;
     using System.Collections.Generic;
     using System.Diagnostics.CodeAnalysis;
     using System.Globalization;
     using System.IO;
     using System.Linq;
-    using Core.Constants;
-    using Interfaces;
 
     public abstract class EPADetailReportServiceBase : IEPADetailReportService
     {
@@ -79,12 +79,12 @@
         {
             string evaluatorScore = string.Empty;
 
-            if (epaInfo.Process.Evaluators.First().StatusEndProcess == (int)ProcessStatusType.InProgress)
+            if (epaInfo.Process.Evaluators.First().StatusId == (int)ProcessStatusType.InProgress)
             {
                 evaluatorScore = epaInfo.Process.AverageScoreByEvaluators?.ToString() ?? "0";
             }
 
-            if (epaInfo.Process.Evaluators.First().StatusEndProcess == (int)ProcessStatusType.Closed)
+            if (epaInfo.Process.Evaluators.First().StatusId == (int)ProcessStatusType.Closed)
             {
                 evaluatorScore = epaInfo.Process.AverageScoreByEvaluators?.ToString() ?? Lang.NotAvailable;
             }
@@ -116,12 +116,12 @@
         {
             string reviewerScore = string.Empty;
 
-            if (epaInfo.Process.Reviewers.First().StatusEndProcess == (int)ProcessStatusType.InProgress)
+            if (epaInfo.Process.Reviewers.First().StatusId == (int)ProcessStatusType.InProgress)
             {
                 reviewerScore = epaInfo.Process.AverageScoreByReviewers?.ToString() ?? "0";
             }
 
-            if (epaInfo.Process.Reviewers.First().StatusEndProcess == (int)ProcessStatusType.Closed)
+            if (epaInfo.Process.Reviewers.First().StatusId == (int)ProcessStatusType.Closed)
             {
                 reviewerScore = epaInfo.Process.AverageScoreByReviewers?.ToString() ?? Lang.NotAvailable;
             }
@@ -141,7 +141,7 @@
         {
             string selfScore = string.Empty;
 
-            if (epaInfo.Process.Self.StatusEndProcess == (int)ProcessStatusType.InProgress)
+            if (epaInfo.Process.Self.StatusId == (int)ProcessStatusType.InProgress)
             {
                 float? score = !string.IsNullOrEmpty(epaInfo.Process.Self.TotalScore)
                     ? float.Parse(epaInfo.Process.Self.TotalScore)
@@ -149,7 +149,7 @@
                 selfScore = Math.Round(score.Value, 2).ToString(CultureInfo.InvariantCulture);
             }
 
-            if (epaInfo.Process.Self.StatusEndProcess == (int)ProcessStatusType.Closed)
+            if (epaInfo.Process.Self.StatusId == (int)ProcessStatusType.Closed)
             {
                 selfScore = !string.IsNullOrEmpty(epaInfo.Process.Self.TotalScore)
                     ? Math.Round(float.Parse(epaInfo.Process.Self.TotalScore), 2)

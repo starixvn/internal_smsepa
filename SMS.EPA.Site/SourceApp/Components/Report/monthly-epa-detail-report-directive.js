@@ -50,34 +50,34 @@
             };
 
             if (epaInfo.EPAId > 0) {
-                switch (epaInfo.Process.Self.StatusEndProcess) {
-                    case utilitiesFactory.processStatusType.InProgress:
+                switch (epaInfo.Process.Self.StatusId) {
+                    case utilitiesFactory.processStatus.InProgress:
                         result.SelfScore = epaInfo.Process.Self.TotalScore.length > 0
                             ? utilitiesFactory.parseFloat(epaInfo.Process.Self.TotalScore) : 0;
                         break;
-                    case utilitiesFactory.processStatusType.Closed:
+                    case utilitiesFactory.processStatus.Closed:
                         result.SelfScore = epaInfo.Process.Self.TotalScore.length > 0
                             ? utilitiesFactory.parseFloat(epaInfo.Process.Self.TotalScore) : status.NotAvailable;
                         break;
                 }
 
-                switch (epaInfo.Process.Evaluators[0].StatusEndProcess) {
-                    case utilitiesFactory.processStatusType.InProgress:
+                switch (epaInfo.Process.Evaluators[0].StatusId) {
+                    case utilitiesFactory.processStatus.InProgress:
                         result.EvaluatorScore = epaInfo.Process.AverageScoreByEvaluators !== null
                             ? epaInfo.Process.AverageScoreByEvaluators : 0;
                         break;
-                    case utilitiesFactory.processStatusType.Closed:
+                    case utilitiesFactory.processStatus.Closed:
                         result.EvaluatorScore = epaInfo.Process.AverageScoreByEvaluators !== null
                             ? epaInfo.Process.AverageScoreByEvaluators : status.NotAvailable;
                         break;
                 }
 
-                switch (epaInfo.Process.Reviewers[0].StatusEndProcess) {
-                    case utilitiesFactory.processStatusType.InProgress:
+                switch (epaInfo.Process.Reviewers[0].StatusId) {
+                    case utilitiesFactory.processStatus.InProgress:
                         result.ReviewerScore = epaInfo.Process.AverageScoreByReviewers !== null
                             ? epaInfo.Process.AverageScoreByReviewers : 0;
                         break;
-                    case utilitiesFactory.processStatusType.Closed:
+                    case utilitiesFactory.processStatus.Closed:
                         result.ReviewerScore = epaInfo.Process.AverageScoreByReviewers !== null ?
                             epaInfo.Process.AverageScoreByReviewers : status.NotAvailable;
                         break;

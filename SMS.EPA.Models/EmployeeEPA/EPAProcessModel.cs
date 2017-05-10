@@ -18,7 +18,7 @@
 
         public DateTime EndDate { get; set; }
 
-        public int StatusEndProcess { get; set; }
+        public int StatusId { get; set; }
 
         public bool IsEndProcess => DateTime.Compare(EndDate.Date, DateTime.Now.Date) < 0;
 
