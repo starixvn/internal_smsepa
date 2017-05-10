@@ -1,4 +1,4 @@
-﻿(function (angular) {
+(function (angular) {
     'use strict';
     /* jshint latedef:nofunc */
     /* jshint validthis:true */
@@ -47,6 +47,8 @@
 
                 debugger;
 
+                if(vm.epaInfo.Process.PerformanceScore !== null) {
+
                 vm.epaInfo.FinalScore = (vm.epaInfo.Process.PerformanceScore + vm.epaInfo.DisciplineScore).toString();
 
                 vm.epaInfo.Grade = EvaluationModel.convertScoreToGrade(
@@ -55,6 +57,7 @@
                     vm.epaInfo.HasDisciplineScore,
                     vm.epaInfo.MaxFinalScore - vm.epaInfo.MaxDisciplineScore,
                     vm.standardGrades);
+                }
 
                 if (vm.epaInfo.Recommendation && vm.epaInfo.Recommendation.JobGrade && vm.epaInfo.Recommendation.JobGrade.JobGradeId) {
                     var index = vm.jobGrades.map(function (e) { return e.JobGradeId; }).indexOf(vm.epaInfo.Recommendation.JobGrade.JobGradeId);
