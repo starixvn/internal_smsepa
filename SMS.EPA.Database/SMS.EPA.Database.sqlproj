@@ -370,7 +370,6 @@
     <Build Include="dbo\Tables\OrdinalNumbers.sql" />
     <Build Include="dbo\Stored Procedures\Report_GetEmployees.sql" />
     <Build Include="dbo\Stored Procedures\EpaAuto_Probation_InsertPeriod.sql" />
-    <Build Include="dbo\Tables\SearchTMP.sql" />
     <Build Include="Security\RoleMemberships.sql" />
     <Build Include="dbo\Stored Procedures\Sync_Shift_GetMaxModifiedDate.sql" />
     <Build Include="dbo\Stored Procedures\Sync_Shift.sql" />

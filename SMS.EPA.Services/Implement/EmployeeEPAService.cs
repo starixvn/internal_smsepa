@@ -18,7 +18,7 @@
 
     public class EmployeeEPAService : BaseService, IEmployeeEPAService
     {
-        private readonly IEmployeeEPARepository employeeEPARepository;
+        private readonly IEmployeeEPARepository _employeeEPARepository;
 
         public EmployeeEPAService()
             : this(null)
@@ -27,7 +27,7 @@
 
         public EmployeeEPAService(IEmployeeEPARepository employeeEPARepository)
         {
-            this.employeeEPARepository = employeeEPARepository ?? new EmployeeEPARepository();
+            _employeeEPARepository = employeeEPARepository ?? new EmployeeEPARepository();
         }
 
         public EPAModel GetEPAInfoById(int epaId)
@@ -36,11 +36,12 @@
             {
                 EPAId = epaId
             };
+
             var epaInfo = new EPAModel();
 
             if (criteria.IsValid())
             {
-                epaInfo = employeeEPARepository.GetEPAInfo(criteria);
+                epaInfo = _employeeEPARepository.GetEPAInfo(criteria);
 
                 if (epaInfo != null)
                 {
@@ -68,7 +69,7 @@
 
             if (criteria != null && criteria.IsValid())
             {
-                epaInfos = employeeEPARepository.GetEPAEndEvaluationPeriod(criteria);
+                epaInfos = _employeeEPARepository.GetEPAEndEvaluationPeriod(criteria);
             }
 
             return epaInfos;
@@ -84,7 +85,7 @@
 
             if (criteria.IsValid())
             {
-                recommendation = employeeEPARepository.GetRecommendationById(criteria);
+                recommendation = _employeeEPARepository.GetRecommendationById(criteria);
             }
 
             return recommendation;
@@ -163,29 +164,40 @@
             string grade = string.Empty;
             float finalScore = performanceScore + disciplineScore;
 
+            StandardGradeModel finalGrade = standardGrades
+                .FirstOrDefault(x => x.Type == (int)GradeType.Final && x.LeftScore <= finalScore &&
+                                     x.RightScore >= finalScore);
+
+            if (finalGrade != null)
+            {
+                grade = finalGrade.Code;
+            }
+
             if (hasDisciplineScore)
             {
                 StandardGradeModel performanceGrade = standardGrades
-                    .FirstOrDefault(x => x.Type == (int)GradeType.Performance && x.LeftScore <= performanceScore && x.RightScore >= performanceScore);
+                    .FirstOrDefault(x => x.Type == (int)GradeType.Performance && x.LeftScore <= performanceScore &&
+                                         x.RightScore >= performanceScore);
 
                 StandardGradeModel disciplineGrade = standardGrades
-                    .FirstOrDefault(x => x.Type == (int)GradeType.Discipline && x.LeftScore <= disciplineScore && x.RightScore >= disciplineScore);
+                    .FirstOrDefault(x => x.Type == (int)GradeType.Discipline && x.LeftScore <= disciplineScore &&
+                                         x.RightScore >= disciplineScore);
 
-                StandardGradeModel finalGrade = standardGrades
-                    .FirstOrDefault(x => x.Type == (int)GradeType.Final && x.LeftScore <= finalScore && x.RightScore >= finalScore);
+                if (performanceGrade == null || disciplineGrade == null)
+                {
+                    return string.Empty;
+                }
 
-                grade = (performanceGrade.GradeId < (int)StandardGrade.Average || disciplineGrade.GradeId < (int)StandardGrade.Average)
-                    ? (string.Compare(performanceGrade.Code, disciplineGrade.Code, StringComparison.OrdinalIgnoreCase) > 0
+                if (performanceGrade.GradeId < (int)StandardGrade.Average ||
+                    disciplineGrade.GradeId < (int)StandardGrade.Average)
+                {
+                    grade = string.Compare(
+                                performanceGrade.Code,
+                                disciplineGrade.Code,
+                                StringComparison.OrdinalIgnoreCase) > 0
                         ? performanceGrade.Code
-                        : disciplineGrade.Code)
-                    : finalGrade.Code;
-            }
-            else
-            {
-                StandardGradeModel finalGrade = standardGrades
-                    .FirstOrDefault(x => x.Type == (int)GradeType.Final && x.LeftScore <= finalScore && x.RightScore >= finalScore);
-
-                grade = finalGrade.Code;
+                        : disciplineGrade.Code;
+                }
             }
 
             return grade;
@@ -224,7 +236,7 @@
                 EPAIds = epaIds
             };
 
-            IList<EPAModel> monthlyEPAs = employeeEPARepository.GetEPA(criteria).ToList();
+            IList<EPAModel> monthlyEPAs = _employeeEPARepository.GetEPA(criteria).ToList();
 
             return monthlyEPAs;
         }
@@ -271,7 +283,7 @@
 
             if (criteria != null && criteria.IsValid())
             {
-                epaInfos = employeeEPARepository.GetEPAToUpdateFinalScore(criteria);
+                epaInfos = _employeeEPARepository.GetEPAToUpdateFinalScore(criteria);
             }
 
             return epaInfos;

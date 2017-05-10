@@ -41,26 +41,30 @@
         };
 
         function getEPAInfoById() {
-            EvaluationModel.getEPAInfoById(vm.epaId).then(function () {
+            EvaluationModel.getEPAInfoById(vm.epaId).then(function() {
                 vm.epaInfo = EvaluationModel.epaInfo;
                 vm.epaInfo.Employee.Avatar = baseUrl + vm.epaInfo.Employee.Avatar;
 
                 debugger;
 
-                if(vm.epaInfo.Process.PerformanceScore !== null) {
+                if (vm.epaInfo.Process.PerformanceScore !== null) {
 
-                vm.epaInfo.FinalScore = (vm.epaInfo.Process.PerformanceScore + vm.epaInfo.DisciplineScore).toString();
+                    vm.epaInfo.FinalScore =
+                        (vm.epaInfo.Process.PerformanceScore + vm.epaInfo.DisciplineScore).toString();
 
-                vm.epaInfo.Grade = EvaluationModel.convertScoreToGrade(
-                    vm.epaInfo.Process.PerformanceScore,
-                    vm.epaInfo.DisciplineScore,
-                    vm.epaInfo.HasDisciplineScore,
-                    vm.epaInfo.MaxFinalScore - vm.epaInfo.MaxDisciplineScore,
-                    vm.standardGrades);
+                    vm.epaInfo.Grade = EvaluationModel.convertScoreToGrade(
+                        vm.epaInfo.Process.PerformanceScore,
+                        vm.epaInfo.DisciplineScore,
+                        vm.epaInfo.HasDisciplineScore,
+                        vm.epaInfo.MaxFinalScore - vm.epaInfo.MaxDisciplineScore,
+                        vm.standardGrades);
                 }
 
-                if (vm.epaInfo.Recommendation && vm.epaInfo.Recommendation.JobGrade && vm.epaInfo.Recommendation.JobGrade.JobGradeId) {
-                    var index = vm.jobGrades.map(function (e) { return e.JobGradeId; }).indexOf(vm.epaInfo.Recommendation.JobGrade.JobGradeId);
+                if (vm.epaInfo.Recommendation &&
+                    vm.epaInfo.Recommendation.JobGrade &&
+                    vm.epaInfo.Recommendation.JobGrade.JobGradeId) {
+                    var index = vm.jobGrades.map(function(e) { return e.JobGradeId; })
+                        .indexOf(vm.epaInfo.Recommendation.JobGrade.JobGradeId);
 
                     if (index === -1) {
                         vm.jobGrades.push(vm.epaInfo.Recommendation.JobGrade);

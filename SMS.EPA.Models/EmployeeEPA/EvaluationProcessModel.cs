@@ -48,12 +48,12 @@
         {
             get
             {
-                if (Managements.Any())
+                if (Managements.Any() && AverageScoreByManagements != null)
                 {
                     return AverageScoreByManagements;
                 }
 
-                if (Reviewers.Any())
+                if (Reviewers.Any() && AverageScoreByReviewers != null)
                 {
                     return AverageScoreByReviewers;
                 }

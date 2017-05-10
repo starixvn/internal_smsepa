@@ -161,17 +161,15 @@
                 <span ng-show="performanceResultCtrl.process.Managements[$index].TotalScore.length > 0">
                     {{performanceResultCtrl.process.Managements[$index].TotalScore | customScore}} / {{performanceResultCtrl.process.Managements[$index].MaxTotalScore | customScore}}
                 </span>
-                <span data-translate="NotAvailable" ng-show="performanceResultCtrl.process.Managements[$index].TotalScore.length === 0">
-                </span>
+                <span data-translate="NotAvailable" ng-show="performanceResultCtrl.process.Managements[$index].TotalScore.length === 0"></span>
             </div>
             <!--<div data-translate="Pending"
                      ng-show="performanceResultCtrl.process.Managements[$index] && !performanceResultCtrl.process.Managements[$index].IsEndProcess"></div>-->
-            <div ng-show="performanceResultCtrl.process.Managements[$index] && !performanceResultCtrl.process.Managements[$index].IsEndProcess">
-                <span ng-show="performanceResultCtrl.process.Managements[$index] && !performanceResultCtrl.process.Managements[$index].IsEndProcess" class="red">
-                    {{performanceResultCtrl.process.Managements[$index].TotalScore | customScore}} / {{performanceResultCtrl.process.Managements[$index].MaxTotalScore | customScore}}
-                </span>
-                <span data-translate="NotAvailable" ng-show="performanceResultCtrl.process.Managements[$index].TotalScore.length === 0">
-                </span>
+            <div ng-show="performanceResultCtrl.process.Managements[$index]
+                        && !performanceResultCtrl.process.Managements[$index].IsEndProcess">
+                <span ng-show="performanceResultCtrl.process.Managements[$index].TotalScore.length > 0"
+                      class="red">{{performanceResultCtrl.process.Managements[$index].TotalScore | customScore}} / {{performanceResultCtrl.process.Managements[$index].MaxTotalScore | customScore}}</span>
+                <span data-translate="NotAvailable" ng-show="performanceResultCtrl.process.Managements[$index].TotalScore.length === 0"></span>
             </div>
         </td>
         <td class="text-center col-comment" ng-show="performanceResultCtrl.process.Managements.length > 0">
