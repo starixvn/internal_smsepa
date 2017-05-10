@@ -1,5 +1,4 @@
-﻿
-CREATE PROCEDURE [dbo].[EPA_GetProcess] @EPAIds IntId READONLY
+﻿CREATE PROCEDURE [dbo].[EPA_GetProcess] @EPAIds IntId READONLY
 AS
 /*
 Created: 20150827@Tim.Trinh
@@ -13,9 +12,7 @@ Param's Explanation:
 BEGIN
 	SET NOCOUNT ON;
 
-	DECLARE @ToDay DATE
-
-	SET @ToDay = CAST(GETDATE() AS DATE)
+	DECLARE @ToDay DATE = CAST(GETDATE() AS DATE)
 
 	SELECT DISTINCT epa.EPAId
 		,pc.ProcessId
@@ -29,7 +26,7 @@ BEGIN
 			WHEN @ToDay BETWEEN CAST(pc.StartDate AS DATE)
 					AND CAST(pc.EndDate AS DATE) THEN 0
 			WHEN CAST(pc.EndDate AS DATE) < @ToDay THEN 1 END
-			) AS StatusEndProcess -- 0: in progress; 1: end process; 2: pending
+			) AS StatusId -- 1:Open; 2:In Progress; 3:Closed
 		,pc.IsEndProcess
 		,pc.EvaluateDate
 		,pc.[Priority]

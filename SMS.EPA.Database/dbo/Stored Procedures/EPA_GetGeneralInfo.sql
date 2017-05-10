@@ -1,4 +1,5 @@
-﻿CREATE PROCEDURE [dbo].[EPA_GetGeneralInfo] @TblEPAIds IntId READONLY
+﻿
+CREATE PROCEDURE [dbo].[EPA_GetGeneralInfo] @TblEPAIds IntId READONLY
 AS
 /*
 Created: 20150827@Tim.Trinh
@@ -18,14 +19,14 @@ BEGIN
 		,@RequiredCommentOnMaxScore BIT
 		,@ToDay DATE
 
-	CREATE TABLE #DisciplineScores (
+	CREATE TABLE #tblDisciplineScores (
 		EPAId INT
 		,SystemDisciplineScore FLOAT
 		,ApproverSubtractScore FLOAT
 		,OtherDisciplines FLOAT
 		)
 
-	CREATE TABLE #LastEPA (
+	CREATE TABLE #tblLastEPA (
 		EPAId INT
 		,LastEPAId INT
 		,EmployeeId INT
@@ -33,6 +34,16 @@ BEGIN
 		,FinalScore NVARCHAR(100)
 		,Grade NVARCHAR(100)
 		,DisciplineScore FLOAT
+		)
+
+	CREATE TABLE #tblOtherViolation (
+		EPAId INT
+		,NumberOtherViolation INT
+		)
+
+	CREATE TABLE #tblEPAStatus (
+		EPAId INT
+		,StatusId TINYINT
 		)
 
 	SET @ToDay = CAST(GETDATE() AS DATE)
@@ -45,20 +56,91 @@ BEGIN
 	SELECT @EPAIds = COALESCE(@EPAIds + ',', '') + CAST(Id AS NVARCHAR)
 	FROM @TblEPAIds
 
-	INSERT INTO #DisciplineScores
+	INSERT INTO #tblDisciplineScores (
+		EPAId
+		,SystemDisciplineScore
+		,ApproverSubtractScore
+		,OtherDisciplines
+		)
 	EXECUTE dbo.EmployeeDisciplineSummary_GetByEPA @EPAIds
 
-	INSERT INTO #LastEPA
+	INSERT INTO #tblLastEPA (
+		EPAId
+		,LastEPAId
+		,EmployeeId
+		,Code
+		,FinalScore
+		,Grade
+		,DisciplineScore
+		)
 	EXECUTE dbo.EPA_GetLastScore @TblEPAIds
 
+	INSERT INTO #tblOtherViolation (
+		EPAId
+		,NumberOtherViolation
+		)
+	SELECT epa.EPAId
+		,COUNT(1) AS NumberOtherViolation
+	FROM dbo.EPA AS epa WITH (NOLOCK)
+		INNER JOIN @TblEPAIds AS epat ON epa.EPAId = epat.Id
+		INNER JOIN dbo.Period AS period WITH (NOLOCK) ON epa.PeriodId = period.PeriodId
+		AND period.IsActive = 1
+		INNER JOIN dbo.EmployeeDiscipline AS dis WITH (NOLOCK) ON epa.EmployeeId = dis.EmpId
+		AND CAST(dis.WorkDate AS DATE) BETWEEN CAST(period.AttendanceStartDate AS DATE)
+			AND CAST(period.AttendanceEndDate AS DATE)
+		INNER JOIN dbo.DisciplineType AS dtype WITH (NOLOCK) ON dis.DisciplineTypeId = dtype.DisciplineTypeId
+		AND dtype.DisciplineTypeId < 0
+	GROUP BY epa.EPAId
+
+	INSERT INTO #tblEPAStatus (
+		EPAId
+		,StatusId
+		)
+	SELECT epa.EPAId
+		,(CASE 
+			WHEN tt.TargetTypeId IN (2, 3) THEN (CASE 
+					WHEN CAST(pc.EndDate AS DATE) >= CAST(period.EndDate AS DATE) THEN (CASE 
+							WHEN CAST(pc.EndDate AS DATE) < @ToDay THEN 1
+							ELSE 0 END
+							)
+					ELSE (CASE 
+							WHEN CAST(period.EndDate AS DATE) <= @ToDay THEN 1
+							ELSE 0 END
+							) END
+					)
+			ELSE (CASE 
+					WHEN CAST(pc.EndDate AS DATE) < @ToDay THEN 1
+					ELSE 0 END
+					) END
+			)
+	FROM dbo.EPA AS epa WITH (NOLOCK)
+		INNER JOIN @TblEPAIds AS epaId ON epa.EPAId = epaId.Id
+		INNER JOIN (
+		SELECT pc.EPAId
+			,MAX(pc.EndDate) AS EndDate
+		FROM dbo.EPAProcess AS pc WITH (NOLOCK)
+			INNER JOIN @TblEPAIds AS epaId1 ON pc.EPAId = epaId1.Id
+		GROUP BY pc.EPAId
+		) AS pc ON epa.EPAId = pc.EPAId
+		INNER JOIN dbo.Period AS period WITH (NOLOCK) ON epa.PeriodId = period.PeriodId
+		AND period.IsActive = 1
+		INNER JOIN dbo.TargetType AS tt WITH (NOLOCK) ON period.TargetTypeId = tt.TargetTypeId
+
 	SELECT DISTINCT epa.EPAId
-		,epa.FinalScore
+		,(CASE 
+			WHEN tblstatus.StatusId = 1 THEN epa.FinalScore
+			ELSE NULL END
+			) AS FinalScore
+		,(CASE 
+			WHEN tblstatus.StatusId = 1 THEN epa.Grade
+			ELSE NULL END
+			) AS Grade
 		,(CASE srt.ScoreRatingTypeId
 			WHEN 1 THEN 1
 			ELSE 0 END
 			) AS HasDisciplineScore
 		,(CASE 
-			WHEN epa.[Status] = 1 THEN epa.DisciplineScore
+			WHEN tblstatus.StatusId = 1 THEN epa.DisciplineScore
 			ELSE (CASE 
 					WHEN ds.ApproverSubtractScore IS NULL
 						OR ds.ApproverSubtractScore < 0 THEN 0
@@ -90,7 +172,7 @@ BEGIN
 			ELSE 0 END
 			) AS HasMaxScoreOnKPI
 		,@RequiredCommentOnMaxScore AS RequiredCommentOnMaxScore
-		,epa.[Status] AS StatusId
+		,tblstatus.StatusId
 		,emp.EmployeeId
 		,emp.Code
 		,emp.NickName
@@ -117,25 +199,6 @@ BEGIN
 					END
 			ELSE CAST(pc.EndDate AS DATE) END
 			) AS EndDate
-		,(CASE 
-			WHEN tt.TargetTypeId IN (2, 3) THEN (CASE 
-					WHEN CAST(pc.EndDate AS DATE) >= CAST(period.EndDate AS DATE) THEN (CASE 
-							WHEN CAST(pc.EndDate AS DATE) < @ToDay
-								AND epa.[Status] = 1 THEN 1
-							ELSE 0 END
-							)
-					ELSE (CASE 
-							WHEN CAST(period.EndDate AS DATE) <= @ToDay
-								AND epa.[Status] = 1 THEN 1
-							ELSE 0 END
-							) END
-					)
-			ELSE (CASE 
-					WHEN CAST(pc.EndDate AS DATE) < @ToDay
-						AND epa.[Status] = 1 THEN 1
-					ELSE 0 END
-					) END
-			) AS IsEndPeriod
 		,tt.TargetTypeId
 		,tt.[Name] AS TargetTypeName
 		,srt.ScoreRatingTypeId
@@ -166,27 +229,19 @@ BEGIN
 		INNER JOIN dbo.[Lookup] AS lk WITH (NOLOCK) ON lkd.LookupId = lk.Id
 		AND lk.Id = 8 -- rating type
 		INNER JOIN dbo.TargetType AS tt WITH (NOLOCK) ON period.TargetTypeId = tt.TargetTypeId
-		LEFT JOIN #DisciplineScores AS ds ON epa.EPAId = ds.EPAId
-		LEFT JOIN #LastEPA AS ls ON epa.EPAId = ls.EPAId
+		INNER JOIN #tblEPAStatus AS tblstatus WITH (NOLOCK) ON epa.EPAId = tblstatus.EPAId
+		LEFT JOIN #tblDisciplineScores AS ds ON epa.EPAId = ds.EPAId
+		LEFT JOIN #tblLastEPA AS ls ON epa.EPAId = ls.EPAId
 		AND emp.Code = ls.Code
-		LEFT JOIN (
-		SELECT epa1.EPAId
-			,COUNT(*) AS NumberOtherViolation
-		FROM dbo.EPA AS epa1 WITH (NOLOCK)
-			INNER JOIN @TblEPAIds AS epat1 ON epa1.EPAId = epat1.Id
-			INNER JOIN dbo.Period AS period1 WITH (NOLOCK) ON epa1.PeriodId = period1.PeriodId
-			AND period1.IsActive = 1
-			INNER JOIN dbo.EmployeeDiscipline AS dis WITH (NOLOCK) ON epa1.EmployeeId = dis.EmpId
-			AND CAST(dis.WorkDate AS DATE) BETWEEN CAST(period1.AttendanceStartDate AS DATE)
-				AND CAST(period1.AttendanceEndDate AS DATE)
-			INNER JOIN dbo.DisciplineType AS dtype WITH (NOLOCK) ON dis.DisciplineTypeId = dtype.DisciplineTypeId
-			AND dtype.DisciplineTypeId < 0
-		GROUP BY epa1.EPAId
-		) AS tbl1 ON epa.EPAId = tbl1.EPAId
+		LEFT JOIN #tblOtherViolation AS tbl1 ON epa.EPAId = tbl1.EPAId
 	ORDER BY emp.NickName
 		,emp.Code
 
-	DROP TABLE #DisciplineScores
+	DROP TABLE #tblDisciplineScores
 
-	DROP TABLE #LastEPA
+	DROP TABLE #tblLastEPA
+
+	DROP TABLE #tblOtherViolation
+
+	DROP TABLE #tblEPAStatus
 END

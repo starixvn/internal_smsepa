@@ -29,14 +29,14 @@ BEGIN
 
 	CREATE TABLE #EPAs (
 		EPAId INT
-		,Code NVARCHAR(10)
+		,Code NVARCHAR(20)
 		,GroupName NVARCHAR(150)
 		,EndDate DATE
 		)
 
 	CREATE TABLE #Employees (
 		EmployeeId INT
-		,Code NVARCHAR(10)
+		,Code NVARCHAR(20)
 		,GroupName NVARCHAR(150)
 		)
 
@@ -430,7 +430,7 @@ BEGIN
 			WHEN @Today BETWEEN CAST(pc.StartDate AS DATE)
 					AND CAST(pc.EndDate AS DATE) THEN 2
 			WHEN @Today > CAST(pc.EndDate AS DATE) THEN 3 END
-			) AS StatusEndProcess -- 1:Open; 2:In Progress; 3:Closed
+			) AS StatusId -- 1:Open; 2:In Progress; 3:Closed
 		,emp.EmployeeId AS EvaluatorId
 		,emp.Code
 		,emp.NickName

@@ -13,8 +13,9 @@ Original:
 Revisions:  
 Param's Explanation:
 
-Edited: 20170418@Hunter.Tran
-Reformat, change GroupId to IntId User define table
+Edited: 
+20170418@Hunter.Tran: Reformat, change GroupId to IntId User define table
+20170508@Hunter.Tran: if EPA status is null, include in result
 */
 BEGIN
 	SET NOCOUNT ON;
@@ -81,10 +82,10 @@ BEGIN
 			AND emp.IsDeleted = 0
 			AND emp.[Enabled] = 1
 			INNER JOIN dbo.[Group] AS gr WITH (NOLOCK) ON emp.GroupId = gr.GroupId
-		WHERE CAST(pe.EndDate AS DATE) <= CAST(GETDATE() AS DATE)
+		WHERE CAST(pe.EndDate AS DATE) <= @ToDay
 			AND CAST(pc.EndDate AS DATE) < CAST(pe.EndDate AS DATE)
 			AND pe.TargetTypeId IN (2, 3) -- monthly, semi annual
-			AND epa.[Status] IN (0, 1) -- open/closed
+			AND (epa.[Status] is null OR epa.[Status] IN (0, 1)) -- open/closed or null
 			AND pe.IsActive = 1
 			AND pe.PeriodId = @PeriodId
 			AND (
@@ -118,7 +119,7 @@ BEGIN
 		WHERE CAST(pc.EndDate AS DATE) <= @Yesterday
 			AND CAST(pc.EndDate AS DATE) >= CAST(pe.EndDate AS DATE)
 			AND pe.TargetTypeId IN (2, 3) -- monthly, semi annul
-			AND epa.[Status] IN (0, 1) -- open/closed
+			AND (epa.[Status] is null OR epa.[Status] IN (0, 1)) -- open/closed or null
 			AND pe.IsActive = 1
 			AND pe.PeriodId = @PeriodId
 			AND (
@@ -153,7 +154,7 @@ BEGIN
 			INNER JOIN dbo.[Group] AS gr WITH (NOLOCK) ON emp.GroupId = gr.GroupId
 		WHERE CAST(pc.EndDate AS DATE) <= @Yesterday
 			AND pe.TargetTypeId IN (1, 5) -- probation/promotion
-			AND epa.[Status] IN (0, 1) -- open/closed
+			AND (epa.[Status] is null OR epa.[Status] IN (0, 1)) -- open/closed or null
 			AND pe.IsActive = 1
 			AND pe.PeriodId = @PeriodId
 			AND (

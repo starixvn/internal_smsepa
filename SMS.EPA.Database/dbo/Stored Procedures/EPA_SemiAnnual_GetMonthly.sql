@@ -27,17 +27,17 @@ BEGIN
 		SELECT DISTINCT val
 		FROM dbo.fnc_strSplit(@EPAIds, ',')
 
-		CREATE TABLE #TblEPA (
+		CREATE TABLE #tblEPA (
 			EPAParentId INT
 			,EPAId INT
 			)
 
-		CREATE TABLE #TblMonthlyEPA (
+		CREATE TABLE #tblMonthlyEPA (
 			EPAId INT
 			,EndDate DATE
 			)
 
-		CREATE TABLE #TblSemiEPA (
+		CREATE TABLE #tblSemiEPA (
 			EPAId INT
 			,EmployeeId INT
 			,StartDateOfReviewer DATETIME
@@ -45,7 +45,7 @@ BEGIN
 			,[Year] INT
 			)
 
-		INSERT INTO #TblMonthlyEPA
+		INSERT INTO #tblMonthlyEPA
 		SELECT DISTINCT epa.EPAId
 			,(CASE 
 				WHEN CAST(pc.EndDate AS DATE) > CAST(period.EndDate AS DATE) THEN pc.EndDate
@@ -61,7 +61,7 @@ BEGIN
 			GROUP BY EPAId
 			) AS pc ON epa.EPAId = pc.EPAId
 
-		INSERT INTO #TblSemiEPA
+		INSERT INTO #tblSemiEPA
 		SELECT DISTINCT semi.EPAId
 			,semi.EmployeeId
 			,semiPC.StartDate
@@ -83,7 +83,7 @@ BEGIN
 			INNER JOIN dbo.Period AS semiPeriod WITH (NOLOCK) ON semi.PeriodId = semiPeriod.PeriodId
 			AND semiPeriod.TargetTypeId = 3 -- semi
 
-		INSERT INTO #TblEPA (
+		INSERT INTO #tblEPA (
 			EPAParentId
 			,EPAId
 			)
@@ -92,33 +92,19 @@ BEGIN
 		FROM dbo.EPA AS epa WITH (NOLOCK)
 			INNER JOIN dbo.Period AS period WITH (NOLOCK) ON epa.PeriodId = period.PeriodId
 			AND period.TargetTypeId = 2 -- monthly
-			INNER JOIN #TblMonthlyEPA AS monthly ON epa.EPAId = monthly.EPAId
-			INNER JOIN #TblSemiEPA AS semi ON epa.EmployeeId = semi.EmployeeId
+			INNER JOIN #tblMonthlyEPA AS monthly WITH (NOLOCK) ON epa.EPAId = monthly.EPAId
+			INNER JOIN #tblSemiEPA AS semi WITH (NOLOCK) ON epa.EmployeeId = semi.EmployeeId
 			AND MONTH(monthly.EndDate) = semi.[Month]
 			AND YEAR(monthly.EndDate) = semi.[Year]
 
 		INSERT INTO @MonthlyEPAId
 		SELECT DISTINCT EPAId
-		FROM #TblEPA
+		FROM #tblEPA
 
 		-- General Info
 		SELECT DISTINCT epa.EPAId
 			,tbl.EPAParentId
-			,emp.NickName
-			,emp.Code
 			,epa.FinalScore
-			,emp.EmployeeId
-			,emp.Code
-			,emp.NickName
-			,emp.FullName
-			,emp.Email
-			,CAST(lkd.Value AS TINYINT) AS RatingTypeId
-			,lkd.Code
-			,lkd.[Name]
-			,epa.[Status] AS StatusId
-			,period.PeriodId
-			,period.[Name]
-			,period.StartDate
 			,(CASE 
 				WHEN tt.TargetTypeId IN (2, 3) THEN (CASE 
 						WHEN CAST(period.EndDate AS DATE) >= CAST(period.EndDate AS DATE) THEN (CASE 
@@ -134,7 +120,19 @@ BEGIN
 						WHEN CAST(period.EndDate AS DATE) < @ToDay THEN 1
 						ELSE 0 END
 						) END
-				) AS IsEndPeriod
+				) AS StatusId
+			,emp.EmployeeId
+			,emp.Code
+			,emp.NickName
+			,emp.FullName
+			,emp.Email
+			,CAST(lkd.Value AS TINYINT) AS RatingTypeId
+			,lkd.Code
+			,lkd.[Name]
+			,period.PeriodId
+			,period.[Name]
+			,period.StartDate
+			,period.EndDate
 			,tt.TargetTypeId
 			,tt.[Name] AS TargetTypeName
 			,srt.ScoreRatingTypeId
@@ -144,7 +142,7 @@ BEGIN
 			,srt.Reviewer
 			,srt.Management
 			,srt.Attendance
-		FROM #TblEPA AS tbl
+		FROM #tblEPA AS tbl WITH (NOLOCK)
 			INNER JOIN dbo.EPA AS epa WITH (NOLOCK) ON tbl.EPAId = epa.EPAId
 			INNER JOIN dbo.Employee AS emp WITH (NOLOCK) ON epa.EmployeeId = emp.EmployeeId
 			INNER JOIN dbo.Period AS period WITH (NOLOCK) ON epa.PeriodId = period.PeriodId
@@ -161,10 +159,10 @@ BEGIN
 		-- Process
 		EXECUTE dbo.EPA_GetProcess @MonthlyEPAId
 
-		DROP TABLE #TblEPA
+		DROP TABLE #tblEPA
 
-		DROP TABLE #TblMonthlyEPA
+		DROP TABLE #tblMonthlyEPA
 
-		DROP TABLE #TblSemiEPA
+		DROP TABLE #tblSemiEPA
 	END
 END

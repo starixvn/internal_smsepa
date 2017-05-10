@@ -1,4 +1,5 @@
 ﻿
+
 CREATE PROCEDURE [dbo].[Report_MonthlyEPASummary] @EmployeeId INT
 	,@PeriodIds NVARCHAR(MAX) = NULL
 	,@DepartmentId INT = NULL
@@ -26,7 +27,7 @@ BEGIN
 
 	CREATE TABLE #Employee (
 		EmployeeId INT
-		,Code NVARCHAR(10)
+		,Code NVARCHAR(20)
 		,GroupName NVARCHAR(150)
 		)
 

@@ -1,5 +1,4 @@
-﻿
-CREATE PROCEDURE [dbo].[Sync_DisciplineSummary] @DisciplineXml NVARCHAR(MAX)
+﻿CREATE PROCEDURE [dbo].[Sync_DisciplineSummary] @DisciplineXml NVARCHAR(MAX)
 	,@ErrCode INT = 0 OUTPUT
 	,@ErrMsg NVARCHAR(MAX) = '' OUTPUT
 AS
@@ -12,8 +11,8 @@ Original:
 Revisions:  
 Param's Explanation:
 - @DisciplineXml:  "<Discipline EmpId='{0}' Period='{1}' ChangeShift='{2}' MissingCheckInOut='{3}' LateIn='{4}' EarlyOut='{5}'"
-            + " Absent='{6}' UnpaidLeave='{7}' WorkingUndertime='{8}' UnpaidLeaveAbsent='{9}'"
-            + " OtherDisciplines='{10}' SystemSubtractScore='{11}' ModifiedDate='{12}'></Discipline>";;
+            + " Absent='{6}' UnpaidLeave='{7}' UnplannedLeave='{8}' WeekendLeave='{9}' WorkingUndertime='{10}' UnpaidLeaveAbsent='{11}'"
+            + " OtherDisciplines='{12}' SystemSubtractScore='{13}' ModifiedDate='{14}'></Discipline>";;
 */
 BEGIN
 	SET NOCOUNT ON;
@@ -39,6 +38,8 @@ BEGIN
 		,[EarlyOut] DECIMAL(5, 2)
 		,[Absent] DECIMAL(5, 2)
 		,[UnpaidLeave] DECIMAL(5, 2)
+		,[UnplannedLeave] DECIMAL(5, 2)
+		,[WeekendLeave] DECIMAL(5, 2)
 		,[WorkingUndertime] DECIMAL(5, 2)
 		,[UnpaidLeaveAbsent] DECIMAL(5, 2)
 		,[OtherDisciplines] DECIMAL(5, 2)
@@ -59,6 +60,8 @@ BEGIN
 			,[EarlyOut]
 			,[Absent]
 			,[UnpaidLeave]
+			,[UnplannedLeave]
+			,[WeekendLeave]
 			,[WorkingUndertime]
 			,[UnpaidLeaveAbsent]
 			,[OtherDisciplines]
@@ -73,12 +76,14 @@ BEGIN
 			,[EarlyOut]
 			,[Absent]
 			,[UnpaidLeave]
+			,[UnplannedLeave]
+			,[WeekendLeave]
 			,[WorkingUndertime]
 			,[UnpaidLeaveAbsent]
 			,[OtherDisciplines]
 			,[SystemSubtractScore]
 			,[ModifiedDate]
-		FROM OPENXML(@DocHandler, '/ROOT/Discipline', 1) WITH ([EmpId] INT, [Period] DATETIME, [ChangeShift] DECIMAL(5, 2), [MissingCheckInOut] DECIMAL(5, 2), [LateIn] DECIMAL(5, 2), [EarlyOut] DECIMAL(5, 2), [Absent] DECIMAL(5, 2), [UnpaidLeave] DECIMAL(5, 2), [WorkingUndertime] DECIMAL(5, 2), [UnpaidLeaveAbsent] DECIMAL(5, 2), [OtherDisciplines] DECIMAL(5, 2), [SystemSubtractScore] DECIMAL(5, 2), [ModifiedDate] DATETIME) AS Data
+		FROM OPENXML(@DocHandler, '/ROOT/Discipline', 1) WITH ([EmpId] INT, [Period] DATETIME, [ChangeShift] DECIMAL(5, 2), [MissingCheckInOut] DECIMAL(5, 2), [LateIn] DECIMAL(5, 2), [EarlyOut] DECIMAL(5, 2), [Absent] DECIMAL(5, 2), [UnpaidLeave] DECIMAL(5, 2), [UnplannedLeave] DECIMAL(5, 2), [WeekendLeave] DECIMAL(5, 2), [WorkingUndertime] DECIMAL(5, 2), [UnpaidLeaveAbsent] DECIMAL(5, 2), [OtherDisciplines] DECIMAL(5, 2), [SystemSubtractScore] DECIMAL(5, 2), [ModifiedDate] DATETIME) AS Data
 
 		EXEC sp_xml_removedocument @DocHandler
 	END TRY
@@ -99,6 +104,8 @@ BEGIN
 		,[EarlyOut]
 		,[Absent]
 		,[UnpaidLeave]
+		,[UnplannedLeave]
+		,[WeekendLeave]
 		,[WorkingUndertime]
 		,[UnpaidLeaveAbsent]
 		,[OtherDisciplines]
@@ -114,6 +121,8 @@ BEGIN
 		,new.[EarlyOut]
 		,new.[Absent]
 		,new.[UnpaidLeave]
+		,new.[UnplannedLeave]
+		,new.[WeekendLeave]
 		,new.[WorkingUndertime]
 		,new.[UnpaidLeaveAbsent]
 		,new.[OtherDisciplines]
@@ -132,6 +141,8 @@ BEGIN
 		,curr.[EarlyOut] = new.[EarlyOut]
 		,curr.[Absent] = new.[Absent]
 		,curr.[UnpaidLeave] = new.[UnpaidLeave]
+		,curr.[UnplannedLeave] = new.UnplannedLeave
+		,curr.[WeekendLeave] = new.WeekendLeave
 		,curr.[WorkingUndertime] = new.[WorkingUndertime]
 		,curr.[UnpaidLeaveAbsent] = new.[UnpaidLeaveAbsent]
 		,curr.[OtherDisciplines] = new.[OtherDisciplines]

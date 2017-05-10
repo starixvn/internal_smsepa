@@ -1,4 +1,5 @@
 ﻿
+
 CREATE PROCEDURE [dbo].[Report_EPASummary] @ActorId INT
 	,@PeriodIds NVARCHAR(MAX) = NULL
 	,@DepartmentId INT = NULL
@@ -27,7 +28,7 @@ BEGIN
 
 	CREATE TABLE #Employee (
 		EmployeeId INT
-		,Code NVARCHAR(10)
+		,Code NVARCHAR(20)
 		,GroupName NVARCHAR(150)
 		)
 
@@ -329,6 +330,11 @@ BEGIN
 			INNER JOIN dbo.Employee AS emp WITH (NOLOCK) ON epa.Code = emp.Code
 			INNER JOIN #Employee AS tblEmp ON emp.EmployeeId = tblEmp.EmployeeId
 		) AS tbl
+
+	select EPAProcess.EPAId, EPA.PeriodId, EPA.EmployeeId, ProcessId, TotalScore, AdjustScore
+	from EPAProcess INNER JOIN EPA ON EPAProcess.EPAId = EPA.EPAId
+	WHERE ProcessId <> 1
+		and EPAProcess.EPAId in (SELECT EPAId FROM #EPA)
 
 	DROP TABLE #EPA
 

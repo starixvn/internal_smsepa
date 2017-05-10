@@ -42,7 +42,8 @@ BEGIN
 		AND pc.ProcessId = 5 -- management
 		AND pc.EvaluatorId = @ManagementId
 		INNER JOIN dbo.TargetType AS tt WITH (NOLOCK) ON period.TargetTypeId = tt.TargetTypeId
-	WHERE (
+	WHERE epa.[Status] = 0 -- inprogress
+		AND (
 			@EmployeeIds IS NULL
 			OR epa.EmployeeId IN (
 				SELECT Id

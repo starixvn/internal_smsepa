@@ -1,5 +1,4 @@
-﻿
-CREATE PROCEDURE [dbo].[EPA_GetStandardGrade]
+﻿CREATE PROCEDURE [dbo].[EPA_GetStandardGrade]
 AS
 /*
 Created: 20151002@Tim.Trinh
@@ -14,9 +13,10 @@ BEGIN
 	SET NOCOUNT ON;
 
 	SELECT GradeId
+		,[Type]
 		,[Name]
 		,RTRIM(Code) AS Code
 		,LeftScore
 		,RightScore
-	FROM dbo.StandardGrade
+	FROM dbo.StandardGrade WITH (NOLOCK)
 END

@@ -13,6 +13,10 @@
     [SystemSubtractScore] DECIMAL (5, 2) NULL,
     [ModifiedDate]        DATETIME       NULL,
     [SyncDate]            DATETIME       NULL,
+    [UnplannedLeave]      DECIMAL (5, 2) NULL,
+    [WeekendLeave]        DECIMAL (5, 2) NULL,
     CONSTRAINT [PK_EmployeeDisciplineSummary] PRIMARY KEY CLUSTERED ([EmployeeId] ASC, [Period] ASC)
 );
+
+
 
