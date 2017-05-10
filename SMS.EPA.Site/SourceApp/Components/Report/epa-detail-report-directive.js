@@ -1,4 +1,4 @@
-﻿(function(angular) {
+(function(angular) {
     "use strict";
     /* jshint latedef:nofunc */
 
@@ -211,19 +211,19 @@
                 tempDisciplineScore = result.DisciplineScore;
             }
 
-            if (result.SelfScore !== status.NotAvailable) {
+            if (result.SelfScore !== status.NotAvailable && result.SelfScore !== "") {
                 result.FinalScore = result.SelfScore + tempDisciplineScore;
             }
 
-            if (result.EvaluatorScore !== status.NotAvailable) {
+            if (result.EvaluatorScore !== status.NotAvailable && result.EvaluatorScore !== "") {
                 result.FinalScore = result.EvaluatorScore + tempDisciplineScore;
             }
 
-            if (result.ReviewerScore !== status.NotAvailable) {
+            if (result.ReviewerScore !== status.NotAvailable && result.ReviewerScore !== "") {
                 result.FinalScore = result.ReviewerScore + tempDisciplineScore;
             }
 
-            if (result.ManagementScore !== status.NotAvailable) {
+            if (result.ManagementScore !== status.NotAvailable && result.ManagementScore !== "") {
                 result.FinalScore = result.ManagementScore + tempDisciplineScore;
             }
 
