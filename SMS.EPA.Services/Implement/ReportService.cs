@@ -23,9 +23,9 @@
     public class ReportService : BaseService, IReportService
     {
         private const int ExcelColumnWidth = 256;
-        private readonly IReportRepository _reportRepository;
         private readonly IEmployeeEPARepository _employeeEPARepository;
         private readonly IEmployeeEPAService _employeeEPAService;
+        private readonly IReportRepository _reportRepository;
 
         public ReportService() : this(null, null, null)
         {
@@ -39,6 +39,16 @@
             _reportRepository = reportRepository ?? new ReportRepository();
             _employeeEPARepository = employeeEPARepository ?? new EmployeeEPARepository();
             _employeeEPAService = employeeEPAService ?? new EmployeeEPAService();
+        }
+
+        public MemoryStream ExportEPASummaryReport(EPASummaryModel epaSummary)
+        {
+            return ExportEPASummaryReport(epaSummary, Lang.EPASummaryReportTitle);
+        }
+
+        public MemoryStream ExportMonthlyEPASummaryReport(EPASummaryModel epaSummary)
+        {
+            return ExportEPASummaryReport(epaSummary, Lang.MonthlyEPASummaryReportTitle);
         }
 
         public DashboardModel GetDashboard(int employeeId)
@@ -59,68 +69,34 @@
             return result;
         }
 
-        public EPASummaryModel GetEPASummaryReport(GetEPASummaryCriteria criteria)
+        public IEnumerable<EmployeeViewModel> GetEmployeeByActorId(GetEmployeeByActorIdCriteria criteria)
         {
-            EPASummaryModel result = new EPASummaryModel();
-            IEnumerable<StandardGradeModel> standardGrades = _employeeEPAService.GetStandardGrade();
+            IEnumerable<EmployeeViewModel> employees = new List<EmployeeViewModel>();
 
             if (criteria != null && criteria.IsValid())
             {
-                result = _reportRepository.GetEPASummary(criteria);
+                employees = GetData<EmployeeViewModel>(criteria);
             }
 
-            foreach (var epaInfo in result.EPAInfos)
-            {
-                foreach (var epaInfoPeriod in epaInfo.Periods)
-                {
-                    if (epaInfoPeriod.StatusId != 0)
-                    {
-                        continue;
-                    }
-
-                    // Recalculate final score and grade
-
-                    // Get the max EPAProcessId
-                    var validDetailScores = epaInfoPeriod.DetailScores.Where(x => !string.IsNullOrEmpty(x.TotalScore));
-                    if (!validDetailScores.Any())
-                    {
-                        continue;
-                    }
-
-                    var maxEPAProcesId = validDetailScores.Max(x => x.ProcessId);
-
-                    var lastPhaseScores = epaInfoPeriod.DetailScores
-                        .Where(x => x.ProcessId == maxEPAProcesId)
-                        .Select(x => x.FloatTotalScore);
-
-                    if (!lastPhaseScores.Any())
-                    {
-                        continue;
-                    }
-
-                    var lastPhasePerformanceScore = lastPhaseScores.Average();
-
-                    var tempDisciplineScore = epaInfoPeriod.HasDisciplineScore
-                        ? epaInfoPeriod.DisciplineScore
-                        : 0;
-
-                    epaInfoPeriod.FinalScore =
-                        (lastPhasePerformanceScore + tempDisciplineScore).ToString(CultureInfo.InvariantCulture);
-
-                    epaInfoPeriod.Grade = _employeeEPAService.ConvertScoreToGrade(
-                        lastPhasePerformanceScore,
-                        tempDisciplineScore,
-                        epaInfoPeriod.HasDisciplineScore,
-                        standardGrades);
-                }
-            }
-
-            return result;
+            return employees;
         }
 
-        public MemoryStream ExportEPASummaryReport(EPASummaryModel epaSummary)
+        public PeriodModel GetEPADetailPeriodForExportedFileName(string periodId)
         {
-            return ExportEPASummaryReport(epaSummary, Lang.EPASummaryReportTitle);
+            int id;
+
+            if (!string.IsNullOrEmpty(periodId) && int.TryParse(periodId, out id))
+            {
+                GetPeriodByIdCriteria getPeriodByIdCriteria =
+                    new GetPeriodByIdCriteria
+                    {
+                        PeriodId = id
+                    };
+
+                return GetDataEntity<PeriodModel>(getPeriodByIdCriteria);
+            }
+
+            return null;
         }
 
         public EPADetailModel GetEPADetailReport(GetEPADetailCriteria criteria)
@@ -149,27 +125,55 @@
             return result;
         }
 
-        public PeriodModel GetEPADetailPeriodForExportedFileName(string periodId)
+        public EPASummaryModel GetEPASummaryReport(GetEPASummaryCriteria criteria)
         {
-            int id;
+            EPASummaryModel result = new EPASummaryModel();
+            IEnumerable<StandardGradeModel> standardGrades = _employeeEPAService.GetStandardGrade();
 
-            if (!string.IsNullOrEmpty(periodId) && int.TryParse(periodId, out id))
+            if (criteria != null && criteria.IsValid())
             {
-                GetPeriodByIdCriteria getPeriodByIdCriteria =
-                    new GetPeriodByIdCriteria
-                    {
-                        PeriodId = id
-                    };
-
-                return GetDataEntity<PeriodModel>(getPeriodByIdCriteria);
+                result = _reportRepository.GetEPASummary(criteria);
             }
 
-            return null;
-        }
+            foreach (var epaInfo in result.EPAInfos)
+            {
+                foreach (var epaInfoPeriod in epaInfo.Periods)
+                {
+                    if (epaInfoPeriod.StatusId != 0)
+                    {
+                        continue;
+                    }
 
-        public MemoryStream ExportMonthlyEPASummaryReport(EPASummaryModel epaSummary)
-        {
-            return ExportEPASummaryReport(epaSummary, Lang.MonthlyEPASummaryReportTitle);
+                    // Recalculate final score and grade
+
+                    // Get the max EPAProcessId
+                    var lastPhasePerformanceScore = GetLastPhasePerformanceScore(epaInfoPeriod);
+                    float performanceScore;
+                    if (lastPhasePerformanceScore != null)
+                    {
+                        performanceScore = lastPhasePerformanceScore.Value;
+                    }
+                    else
+                    {
+                        continue;
+                    }
+
+                    var tempDisciplineScore = epaInfoPeriod.HasDisciplineScore
+                        ? epaInfoPeriod.DisciplineScore
+                        : 0;
+
+                    epaInfoPeriod.FinalScore =
+                        (performanceScore + tempDisciplineScore).ToString(CultureInfo.InvariantCulture);
+
+                    epaInfoPeriod.Grade = _employeeEPAService.ConvertScoreToGrade(
+                        performanceScore,
+                        tempDisciplineScore,
+                        epaInfoPeriod.HasDisciplineScore,
+                        standardGrades);
+                }
+            }
+
+            return result;
         }
 
         public EPADetailModel GetMonthlyEPADetailReport(GetMonthlyEPADetailCriteria criteria)
@@ -196,16 +200,93 @@
             return result;
         }
 
-        public IEnumerable<EmployeeViewModel> GetEmployeeByActorId(GetEmployeeByActorIdCriteria criteria)
+        private static void CreateBodyStyles(
+            HSSFWorkbook workbook,
+            out ICellStyle bodyStyle1,
+            out ICellStyle bodyStyle2,
+            out ICellStyle bodyStyle3,
+            out ICellStyle bodyStyle4)
         {
-            IEnumerable<EmployeeViewModel> employees = new List<EmployeeViewModel>();
+            bodyStyle1 = workbook.CreateCellStyle();
+            bodyStyle1.Alignment = HorizontalAlignment.Center;
+            bodyStyle1.VerticalAlignment = VerticalAlignment.Center;
 
-            if (criteria != null && criteria.IsValid())
-            {
-                employees = GetData<EmployeeViewModel>(criteria);
-            }
+            bodyStyle2 = workbook.CreateCellStyle();
+            bodyStyle2.Alignment = HorizontalAlignment.Center;
+            bodyStyle2.VerticalAlignment = VerticalAlignment.Center;
+            bodyStyle2.FillForegroundColor = HSSFColor.LightCornflowerBlue.Index;
+            bodyStyle2.FillPattern = FillPattern.SolidForeground;
+            bodyStyle2.FillBackgroundColor = HSSFColor.LightCornflowerBlue.Index;
 
-            return employees;
+            bodyStyle3 = workbook.CreateCellStyle();
+            bodyStyle3.Alignment = HorizontalAlignment.Left;
+
+            bodyStyle4 = workbook.CreateCellStyle();
+            bodyStyle4.Alignment = HorizontalAlignment.Left;
+            bodyStyle4.FillForegroundColor = HSSFColor.LightCornflowerBlue.Index;
+            bodyStyle4.FillPattern = FillPattern.SolidForeground;
+            bodyStyle4.FillBackgroundColor = HSSFColor.LightCornflowerBlue.Index;
+        }
+
+        private static ISheet CreateCommonCells(
+            ISheet sheet,
+            int rowIndex,
+            ICellStyle bodyStyle1,
+            ICellStyle bodyStyle2,
+            ICellStyle bodyStyle3,
+            ICellStyle bodyStyle4,
+            EPASummaryEmployeeModel epaInfo,
+            out ICellStyle bodyStyle,
+            out IRow row,
+            out ICell cellBody)
+        {
+            bodyStyle = rowIndex % 2 == 0 ? bodyStyle2 : bodyStyle1;
+            row = sheet.CreateRow(rowIndex);
+
+            cellBody = row.CreateCell(0);
+            cellBody.CellStyle = bodyStyle;
+            cellBody.SetCellValue(rowIndex - 3);
+            SetColumnWidth(ref sheet, 0, 5);
+
+            cellBody = row.CreateCell(1);
+            cellBody.CellStyle = bodyStyle;
+            cellBody.SetCellValue(epaInfo.Code);
+            SetColumnWidth(ref sheet, 1, 10);
+
+            bodyStyle = rowIndex % 2 == 0 ? bodyStyle4 : bodyStyle3;
+            cellBody = row.CreateCell(2);
+            cellBody.CellStyle = bodyStyle;
+            cellBody.SetCellValue(epaInfo.FullName);
+            SetColumnWidth(ref sheet, 2, 20);
+
+            bodyStyle = rowIndex % 2 == 0 ? bodyStyle2 : bodyStyle1;
+            cellBody = row.CreateCell(3);
+            cellBody.CellStyle = bodyStyle;
+            cellBody.SetCellValue(epaInfo.NickName);
+            SetColumnWidth(ref sheet, 3, 12);
+
+            bodyStyle = rowIndex % 2 == 0 ? bodyStyle4 : bodyStyle3;
+            cellBody = row.CreateCell(4);
+            cellBody.CellStyle = bodyStyle;
+            cellBody.SetCellValue(epaInfo.Category);
+            SetColumnWidth(ref sheet, 4, 12);
+
+            cellBody = row.CreateCell(5);
+            cellBody.CellStyle = bodyStyle;
+            cellBody.SetCellValue(epaInfo.Group.GroupName);
+            SetColumnWidth(ref sheet, 5, 16);
+
+            cellBody = row.CreateCell(6);
+            cellBody.CellStyle = bodyStyle;
+            cellBody.SetCellValue(epaInfo.JobTitle.JobTitleName);
+            SetColumnWidth(ref sheet, 6, 25);
+
+            bodyStyle = rowIndex % 2 == 0 ? bodyStyle2 : bodyStyle1;
+            cellBody = row.CreateCell(7);
+            cellBody.CellStyle = bodyStyle;
+            cellBody.SetCellValue(epaInfo.JoinedDate.ToString(Constants.DateFormat));
+            SetColumnWidth(ref sheet, 7, 15);
+            return sheet;
         }
 
         private static MemoryStream ExportEPASummaryReport(EPASummaryModel epaSummary, string title)
@@ -259,59 +340,78 @@
             }
         }
 
-        private static void RenderHeaderEPASummaryReport(
-            IList<PeriodModel> periodSelecteds,
-            ref HSSFWorkbook workbook,
+        private static void GenerateFinalScoreAndGradeCell(
             ref ISheet sheet,
-            IList<string> titleHeaders)
+            ICellStyle bodyStyle,
+            IRow row,
+            int i,
+            string finalScore,
+            string grade,
+            IFont redFont = null)
         {
-            IFont font = workbook.CreateFont();
-            font.FontHeightInPoints = 11;
-            font.Color = HSSFColor.White.Index;
-            font.Boldweight = (short)FontBoldWeight.Bold;
-
-            ICellStyle cellStyle = workbook.CreateCellStyle();
-            cellStyle.FillForegroundColor = HSSFColor.Grey80Percent.Index;
-            cellStyle.FillPattern = FillPattern.SolidForeground;
-            cellStyle.FillBackgroundColor = HSSFColor.Grey80Percent.Index;
-            cellStyle.Alignment = HorizontalAlignment.Center;
-            cellStyle.VerticalAlignment = VerticalAlignment.Center;
-            cellStyle.SetFont(font);
-
-            IRow row = sheet.CreateRow(2);
-            for (int i = 0; i < titleHeaders.Count; i++)
+            ICell cellBody = row.CreateCell(8 + (2 * i));
+            cellBody.CellStyle = bodyStyle;
+            if (redFont != null)
             {
-                var cell = row.CreateCell(i);
-                cell.CellStyle = cellStyle;
-                cell.SetCellValue(titleHeaders[i]);
-
-                sheet.AddMergedRegion(new CellRangeAddress(2, 3, i, i));
+                cellBody.CellStyle.SetFont(redFont);
             }
 
-            for (int i = 0; i < periodSelecteds.Count; i++)
-            {
-                var cell = row.CreateCell(titleHeaders.Count + (2 * i));
-                cell.CellStyle = cellStyle;
-                cell.SetCellValue(periodSelecteds[i].Name);
+            cellBody.SetCellValue(finalScore);
+            SetColumnWidth(ref sheet, 8 + (2 * i), 14);
 
-                sheet.AddMergedRegion(new CellRangeAddress(
-                    2,
-                    2,
-                    titleHeaders.Count + (2 * i),
-                    titleHeaders.Count + ((2 * i) + 1)));
+            cellBody = row.CreateCell(8 + ((2 * i) + 1));
+            cellBody.CellStyle = bodyStyle;
+            if (redFont != null)
+            {
+                cellBody.CellStyle.SetFont(redFont);
             }
 
-            IRow rowPeriod = sheet.CreateRow(3);
-            for (int i = 0; i < periodSelecteds.Count; i++)
-            {
-                var cell = rowPeriod.CreateCell(titleHeaders.Count + (2 * i));
-                cell.CellStyle = cellStyle;
-                cell.SetCellValue(Lang.FinalScore);
+            cellBody.SetCellValue(grade);
+            SetColumnWidth(ref sheet, 8 + ((2 * i) + 1), 10);
+        }
 
-                cell = rowPeriod.CreateCell(titleHeaders.Count + ((2 * i) + 1));
-                cell.CellStyle = cellStyle;
-                cell.SetCellValue(Lang.Grade);
+        private static string GetFinalScoreString(EPASummaryPeriodModel period)
+        {
+            var finalScore = period != null && period.IsEndPeriod.Equals(true)
+                ? (string.IsNullOrEmpty(period.FinalScore)
+                    ? Lang.NotAvailable
+                    : Math.Round(float.Parse(period.FinalScore), 2).ToString(CultureInfo.InvariantCulture))
+                : Lang.Pending;
+
+            return finalScore;
+        }
+
+        private static string GetGradeString(EPASummaryPeriodModel period)
+        {
+            var grade = period != null && period.IsEndPeriod.Equals(true)
+                ? (string.IsNullOrEmpty(period.FinalScore)
+                    ? Lang.NotAvailable
+                    : period.Grade)
+                : Lang.Pending;
+
+            return grade;
+        }
+
+        private static float? GetLastPhasePerformanceScore(EPASummaryPeriodModel epaInfoPeriod)
+        {
+            var validDetailScores = epaInfoPeriod.DetailScores.Where(x => !string.IsNullOrEmpty(x.TotalScore));
+            if (!validDetailScores.Any())
+            {
+                return null;
             }
+
+            var maxEPAProcesId = validDetailScores.Max(x => x.ProcessId);
+
+            var lastPhaseScores = epaInfoPeriod.DetailScores
+                .Where(x => x.ProcessId == maxEPAProcesId)
+                .Select(x => x.FloatTotalScore);
+
+            if (!lastPhaseScores.Any())
+            {
+                return null;
+            }
+
+            return lastPhaseScores.Average();
         }
 
         [SuppressMessage(
@@ -401,145 +501,59 @@
             }
         }
 
-        private static void GenerateFinalScoreAndGradeCell(
+        private static void RenderHeaderEPASummaryReport(
+            IList<PeriodModel> periodSelecteds,
+            ref HSSFWorkbook workbook,
             ref ISheet sheet,
-            ICellStyle bodyStyle,
-            IRow row,
-            int i,
-            string finalScore,
-            string grade,
-            IFont redFont = null)
+            IList<string> titleHeaders)
         {
-            ICell cellBody = row.CreateCell(8 + (2 * i));
-            cellBody.CellStyle = bodyStyle;
-            if (redFont != null)
+            IFont font = workbook.CreateFont();
+            font.FontHeightInPoints = 11;
+            font.Color = HSSFColor.White.Index;
+            font.Boldweight = (short)FontBoldWeight.Bold;
+
+            ICellStyle cellStyle = workbook.CreateCellStyle();
+            cellStyle.FillForegroundColor = HSSFColor.Grey80Percent.Index;
+            cellStyle.FillPattern = FillPattern.SolidForeground;
+            cellStyle.FillBackgroundColor = HSSFColor.Grey80Percent.Index;
+            cellStyle.Alignment = HorizontalAlignment.Center;
+            cellStyle.VerticalAlignment = VerticalAlignment.Center;
+            cellStyle.SetFont(font);
+
+            IRow row = sheet.CreateRow(2);
+            for (int i = 0; i < titleHeaders.Count; i++)
             {
-                cellBody.CellStyle.SetFont(redFont);
+                var cell = row.CreateCell(i);
+                cell.CellStyle = cellStyle;
+                cell.SetCellValue(titleHeaders[i]);
+
+                sheet.AddMergedRegion(new CellRangeAddress(2, 3, i, i));
             }
 
-            cellBody.SetCellValue(finalScore);
-            SetColumnWidth(ref sheet, 8 + (2 * i), 14);
-
-            cellBody = row.CreateCell(8 + ((2 * i) + 1));
-            cellBody.CellStyle = bodyStyle;
-            if (redFont != null)
+            for (int i = 0; i < periodSelecteds.Count; i++)
             {
-                cellBody.CellStyle.SetFont(redFont);
+                var cell = row.CreateCell(titleHeaders.Count + (2 * i));
+                cell.CellStyle = cellStyle;
+                cell.SetCellValue(periodSelecteds[i].Name);
+
+                sheet.AddMergedRegion(new CellRangeAddress(
+                    2,
+                    2,
+                    titleHeaders.Count + (2 * i),
+                    titleHeaders.Count + ((2 * i) + 1)));
             }
 
-            cellBody.SetCellValue(grade);
-            SetColumnWidth(ref sheet, 8 + ((2 * i) + 1), 10);
-        }
+            IRow rowPeriod = sheet.CreateRow(3);
+            for (int i = 0; i < periodSelecteds.Count; i++)
+            {
+                var cell = rowPeriod.CreateCell(titleHeaders.Count + (2 * i));
+                cell.CellStyle = cellStyle;
+                cell.SetCellValue(Lang.FinalScore);
 
-        private static ISheet CreateCommonCells(
-            ISheet sheet,
-            int rowIndex,
-            ICellStyle bodyStyle1,
-            ICellStyle bodyStyle2,
-            ICellStyle bodyStyle3,
-            ICellStyle bodyStyle4,
-            EPASummaryEmployeeModel epaInfo,
-            out ICellStyle bodyStyle,
-            out IRow row,
-            out ICell cellBody)
-        {
-            bodyStyle = rowIndex % 2 == 0 ? bodyStyle2 : bodyStyle1;
-            row = sheet.CreateRow(rowIndex);
-
-            cellBody = row.CreateCell(0);
-            cellBody.CellStyle = bodyStyle;
-            cellBody.SetCellValue(rowIndex - 3);
-            SetColumnWidth(ref sheet, 0, 5);
-
-            cellBody = row.CreateCell(1);
-            cellBody.CellStyle = bodyStyle;
-            cellBody.SetCellValue(epaInfo.Code);
-            SetColumnWidth(ref sheet, 1, 10);
-
-            bodyStyle = rowIndex % 2 == 0 ? bodyStyle4 : bodyStyle3;
-            cellBody = row.CreateCell(2);
-            cellBody.CellStyle = bodyStyle;
-            cellBody.SetCellValue(epaInfo.FullName);
-            SetColumnWidth(ref sheet, 2, 20);
-
-            bodyStyle = rowIndex % 2 == 0 ? bodyStyle2 : bodyStyle1;
-            cellBody = row.CreateCell(3);
-            cellBody.CellStyle = bodyStyle;
-            cellBody.SetCellValue(epaInfo.NickName);
-            SetColumnWidth(ref sheet, 3, 12);
-
-            bodyStyle = rowIndex % 2 == 0 ? bodyStyle4 : bodyStyle3;
-            cellBody = row.CreateCell(4);
-            cellBody.CellStyle = bodyStyle;
-            cellBody.SetCellValue(epaInfo.Category);
-            SetColumnWidth(ref sheet, 4, 12);
-
-            cellBody = row.CreateCell(5);
-            cellBody.CellStyle = bodyStyle;
-            cellBody.SetCellValue(epaInfo.Group.GroupName);
-            SetColumnWidth(ref sheet, 5, 16);
-
-            cellBody = row.CreateCell(6);
-            cellBody.CellStyle = bodyStyle;
-            cellBody.SetCellValue(epaInfo.JobTitle.JobTitleName);
-            SetColumnWidth(ref sheet, 6, 25);
-
-            bodyStyle = rowIndex % 2 == 0 ? bodyStyle2 : bodyStyle1;
-            cellBody = row.CreateCell(7);
-            cellBody.CellStyle = bodyStyle;
-            cellBody.SetCellValue(epaInfo.JoinedDate.ToString(Constants.DateFormat));
-            SetColumnWidth(ref sheet, 7, 15);
-            return sheet;
-        }
-
-        private static void CreateBodyStyles(
-            HSSFWorkbook workbook,
-            out ICellStyle bodyStyle1,
-            out ICellStyle bodyStyle2,
-            out ICellStyle bodyStyle3,
-            out ICellStyle bodyStyle4)
-        {
-            bodyStyle1 = workbook.CreateCellStyle();
-            bodyStyle1.Alignment = HorizontalAlignment.Center;
-            bodyStyle1.VerticalAlignment = VerticalAlignment.Center;
-
-            bodyStyle2 = workbook.CreateCellStyle();
-            bodyStyle2.Alignment = HorizontalAlignment.Center;
-            bodyStyle2.VerticalAlignment = VerticalAlignment.Center;
-            bodyStyle2.FillForegroundColor = HSSFColor.LightCornflowerBlue.Index;
-            bodyStyle2.FillPattern = FillPattern.SolidForeground;
-            bodyStyle2.FillBackgroundColor = HSSFColor.LightCornflowerBlue.Index;
-
-            bodyStyle3 = workbook.CreateCellStyle();
-            bodyStyle3.Alignment = HorizontalAlignment.Left;
-
-            bodyStyle4 = workbook.CreateCellStyle();
-            bodyStyle4.Alignment = HorizontalAlignment.Left;
-            bodyStyle4.FillForegroundColor = HSSFColor.LightCornflowerBlue.Index;
-            bodyStyle4.FillPattern = FillPattern.SolidForeground;
-            bodyStyle4.FillBackgroundColor = HSSFColor.LightCornflowerBlue.Index;
-        }
-
-        private static string GetGradeString(EPASummaryPeriodModel period)
-        {
-            var grade = period != null && period.IsEndPeriod.Equals(true)
-                ? (string.IsNullOrEmpty(period.FinalScore)
-                    ? Lang.NotAvailable
-                    : period.Grade)
-                : Lang.Pending;
-
-            return grade;
-        }
-
-        private static string GetFinalScoreString(EPASummaryPeriodModel period)
-        {
-            var finalScore = period != null && period.IsEndPeriod.Equals(true)
-                ? (string.IsNullOrEmpty(period.FinalScore)
-                    ? Lang.NotAvailable
-                    : Math.Round(float.Parse(period.FinalScore), 2).ToString(CultureInfo.InvariantCulture))
-                : Lang.Pending;
-
-            return finalScore;
+                cell = rowPeriod.CreateCell(titleHeaders.Count + ((2 * i) + 1));
+                cell.CellStyle = cellStyle;
+                cell.SetCellValue(Lang.Grade);
+            }
         }
 
         private static void SetColumnWidth(ref ISheet sheet, int columnIndex, int width)
