@@ -178,6 +178,8 @@
                     break;
                 }
 
+                debugger;
+
                 if (epaInfo.Process.Managements.length > 0) {
                     switch (epaInfo.Process.Managements[0].StatusId) {
                         case utilitiesFactory.processStatus.InProgress:

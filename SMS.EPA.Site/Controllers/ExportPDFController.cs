@@ -930,12 +930,14 @@
                 var standardGrades = _commonService.GetStandardGrade().ToList();
 
                 string tempGrade = Lang.NotAvailable;
-                foreach (StandardGradeModel standardGrade in standardGrades)
+
+                if (epaInfo.Process.PerformanceScore != null)
                 {
-                    if (standardGrade.LeftScore <= finalScore && finalScore < standardGrade.RightScore)
-                    {
-                        tempGrade = standardGrade.Code;
-                    }
+                    tempGrade = _employeeEPAService.ConvertScoreToGrade(
+                        epaInfo.Process.PerformanceScore.Value,
+                        epaInfo.DisciplineScore,
+                        epaInfo.HasDisciplineScore,
+                        standardGrades);
                 }
 
                 cell = new PdfPCell
@@ -961,7 +963,7 @@
 
         private PdfPCell CreateCellFromEPAProcessModel(EPAModel epaInfo, EPAProcessModel process, string totalScore)
         {
-            Font selectedFont = process.IsEndProcess ? _normalFont : _redFont;
+            var selectedFont = process.StatusId == (int)ProcessStatusType.InProgress ? _redFont : _normalFont;
 
             var cell = new PdfPCell
             {

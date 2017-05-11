@@ -188,8 +188,8 @@
                     return string.Empty;
                 }
 
-                if (performanceGrade.GradeId < (int)StandardGrade.Average ||
-                    disciplineGrade.GradeId < (int)StandardGrade.Average)
+                if (performanceGrade.GradeId > (int)StandardGrade.Average ||
+                    disciplineGrade.GradeId > (int)StandardGrade.Average)
                 {
                     grade = string.Compare(
                                 performanceGrade.Code,
