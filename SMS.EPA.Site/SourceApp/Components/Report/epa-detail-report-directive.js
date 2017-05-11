@@ -143,7 +143,7 @@
                     case utilitiesFactory.processStatus.InProgress:
                     result.SelfScore = epaInfo.Process.Self.TotalScore.length > 0
                         ? utilitiesFactory.parseFloat(epaInfo.Process.Self.TotalScore)
-                        : 0;
+                        : status.NotAvailable;
                     break;
                     case utilitiesFactory.processStatus.Closed:
                     result.SelfScore = epaInfo.Process.Self.TotalScore.length > 0
@@ -156,7 +156,7 @@
                     case utilitiesFactory.processStatus.InProgress:
                     result.EvaluatorScore = epaInfo.Process.AverageScoreByEvaluators !== null
                         ? epaInfo.Process.AverageScoreByEvaluators
-                        : 0;
+                        : status.NotAvailable;
                     break;
                     case utilitiesFactory.processStatus.Closed:
                     result.EvaluatorScore = epaInfo.Process.AverageScoreByEvaluators !== null
@@ -169,7 +169,7 @@
                     case utilitiesFactory.processStatus.InProgress:
                     result.ReviewerScore = epaInfo.Process.AverageScoreByReviewers !== null
                         ? epaInfo.Process.AverageScoreByReviewers
-                        : 0;
+                        : status.NotAvailable;
                     break;
                     case utilitiesFactory.processStatus.Closed:
                     result.ReviewerScore = epaInfo.Process.AverageScoreByReviewers !== null
@@ -183,7 +183,7 @@
                         case utilitiesFactory.processStatus.InProgress:
                         result.ManagementScore = epaInfo.Process.AverageScoreByManagements !== null
                             ? epaInfo.Process.AverageScoreByManagements
-                            : 0;
+                            : status.NotAvailable;
                         break;
                         case utilitiesFactory.processStatus.Closed:
                         result.ManagementScore = epaInfo.Process.AverageScoreByManagements !== null
