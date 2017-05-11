@@ -146,7 +146,12 @@
 
             vm.epaInfo.Process.CurrentProcess.AdjustScore = utilitiesFactory.parseFloat(totalScore - averageScore);
             vm.epaInfo.Process.CurrentProcess.AdjustScoreOriginal = vm.epaInfo.Process.CurrentProcess.AdjustScore;
-            vm.epaInfo.Grade = EvaluationModel.convertScoreToGrade(vm.finalScore, vm.standardGrades);
+            vm.epaInfo.Grade = EvaluationModel.convertScoreToGrade(
+                totalScore,
+                vm.epaInfo.DisciplineScore,
+                vm.epaInfo.HasDisciplineScore,
+                vm.epaInfo.Process.CurrentProcess.MaxPerformanceScore,
+                vm.standardGrades);
         };
 
         model.calculateAdjustScore = function (epaInfos, isReviewer) {
