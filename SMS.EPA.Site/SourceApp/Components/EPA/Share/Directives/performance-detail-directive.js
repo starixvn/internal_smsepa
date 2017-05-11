@@ -19,7 +19,7 @@
                 utilitiesFactory.maxLengthDescription(vm);
 
                 if (vm.epaInfo) {
-                    vm.rowspan = vm.epaInfo.Process.Evaluators.lenght;
+                    vm.rowspan = vm.epaInfo.Process.Evaluators.length;
                     var hasKPIOptional = $.grep(vm.epaInfo.KPIGroups, function (e) { return e.NumberKPIOptional > 0; }).length > 0;
 
                     if (vm.epaInfo.RatingType.RatingTypeId === vm.ratingTypes.Star

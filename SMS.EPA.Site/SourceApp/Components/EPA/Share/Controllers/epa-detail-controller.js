@@ -17,7 +17,7 @@
         vm.isViewDetail = true;
 
         vm.back = function () {
-            if ($routeParams.fromEPADetailReport) {
+            if ($routeParams.detailRpt) {
                 $location.url(baseUrl + 'Report/EPADetailReport?periodId=' + $routeParams.periodId
                     + '&departmentId=' + $routeParams.departmentId
                     + '&phaseIds=' + $routeParams.phaseIds
@@ -44,8 +44,6 @@
             EvaluationModel.getEPAInfoById(vm.epaId).then(function() {
                 vm.epaInfo = EvaluationModel.epaInfo;
                 vm.epaInfo.Employee.Avatar = baseUrl + vm.epaInfo.Employee.Avatar;
-
-                debugger;
 
                 if (vm.epaInfo.Process.PerformanceScore !== null) {
 

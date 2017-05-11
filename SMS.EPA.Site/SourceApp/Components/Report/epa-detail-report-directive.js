@@ -204,8 +204,6 @@
                 }
             }
 
-            debugger;
-
             var tempDisciplineScore = 0;
             if (result.DisciplineScore !== "-") {
                 tempDisciplineScore = result.DisciplineScore;
@@ -380,7 +378,7 @@
                         pageOption.isLocal +
                         "&employeeId=" +
                         pageOption.employeeId +
-                        "&exportPdf&fromEPADetailReport";
+                        "&exportPdf&detailRpt";
                 });
         }
 

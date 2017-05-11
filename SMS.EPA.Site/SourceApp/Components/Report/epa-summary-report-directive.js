@@ -154,8 +154,6 @@
                                         grade = status.NotAvailable;
                                     }
 
-                                    debugger;
-
                                     if (epaInfo.Periods[index].StatusId === 0) {
                                         cssClass = "red";
                                     }
