@@ -70,7 +70,8 @@
                 "ARIALUNI",
                 BaseFont.IDENTITY_H,
                 BaseFont.NOT_EMBEDDED,
-                FontSize, Font.BOLD,
+                FontSize,
+                Font.BOLD,
                 _defaultColor);
 
             Document document = new Document(PageSize.A4, 0, 0, 30f, 30f);
@@ -451,8 +452,7 @@
                         phrase.Add(new Chunk(" (" + kpiGroup.KPIs[index].WeightToDisplay + " pts)", _boldFont));
                     }
 
-                    Font font1 = FontFactory.GetFont("ARIALUNI", BaseFont.IDENTITY_H, BaseFont.NOT_EMBEDDED, 9,
-                        Font.NORMAL, _redColor);
+                    Font font1 = FontFactory.GetFont("ARIALUNI", BaseFont.IDENTITY_H, BaseFont.NOT_EMBEDDED, 9, Font.NORMAL, _redColor);
                     if (kpiGroup.KPIs[index].IsRequiredEvaluate)
                     {
                         phrase.Add(new Chunk(" (*)", font1));
@@ -915,7 +915,7 @@
 
                 float finalScore = CalculateFinalScore(epaInfo);
 
-                    Font selectedFont = epaInfo.IsClosed ? _normalFont : _redFont;
+                Font selectedFont = epaInfo.IsClosed ? _normalFont : _redFont;
 
                 cell = new PdfPCell
                 {
@@ -1667,8 +1667,7 @@
                 TotalWidth = TotalWidth,
                 LockedWidth = true
             };
-            Font font = FontFactory.GetFont("ARIALUNI", BaseFont.IDENTITY_H, BaseFont.NOT_EMBEDDED, 10, Font.BOLD,
-                _defaultColor);
+            Font font = FontFactory.GetFont("ARIALUNI", BaseFont.IDENTITY_H, BaseFont.NOT_EMBEDDED, 10, Font.BOLD, _defaultColor);
             PdfPCell cell = new PdfPCell(new Phrase(Lang.EPATilte + " - " + periodName, font))
             {
                 FixedHeight = 30,

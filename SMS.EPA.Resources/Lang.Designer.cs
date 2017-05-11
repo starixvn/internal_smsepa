@@ -3706,6 +3706,15 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Unplanned Leave.
+        /// </summary>
+        public static string UnplannedLeave {
+            get {
+                return ResourceManager.GetString("UnplannedLeave", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Updated Successfully!.
         /// </summary>
         public static string UpdatedSuccessfully {
@@ -3891,6 +3900,15 @@ namespace SMS.EPA.Resources {
         public static string ViolationTypeRequired {
             get {
                 return ResourceManager.GetString("ViolationTypeRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Weekend Leave.
+        /// </summary>
+        public static string WeekendLeave {
+            get {
+                return ResourceManager.GetString("WeekendLeave", resourceCulture);
             }
         }
         

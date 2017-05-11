@@ -136,7 +136,8 @@
             return epaDetail;
         }
 
-        private static void GroupPeriodByEmployee(IEnumerable<EPASummaryEmployeeModel> epaSummaries,
+        private static void GroupPeriodByEmployee(
+            IEnumerable<EPASummaryEmployeeModel> epaSummaries,
             IList<EPASummaryPeriodModel> periods)
         {
             foreach (EPASummaryEmployeeModel epaSummary in epaSummaries)

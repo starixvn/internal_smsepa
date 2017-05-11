@@ -82,7 +82,8 @@
                                 info.Period = period;
 
                                 return info;
-                            }, "EmployeeId, RatingTypeId, PeriodId, ScoreRatingTypeId").FirstOrDefault();
+                            },
+                            "EmployeeId, RatingTypeId, PeriodId, ScoreRatingTypeId").FirstOrDefault();
 
                     if (epaInfo != null)
                     {
@@ -93,7 +94,8 @@
                                     process.ModifiedBy = modifiedBy;
 
                                     return process;
-                                }, "EvaluatorId, ModifiedById");
+                                },
+                                "EvaluatorId, ModifiedById");
 
                         epaInfo.KPIGroups = multi.Read<EPAKpiGroupModel>().ToList();
 
@@ -418,7 +420,7 @@
         {
             foreach (RatingByKPIModel epaInfo in epaInfos)
             {
-                IEnumerable<TemporaryKPIModel> tempkpis = 
+                IEnumerable<TemporaryKPIModel> tempkpis =
                     kpis.Where(x => x.EPAId.Equals(epaInfo.EPAId) && x.KPIGroup.KPIGroupId.Equals(epaInfo.KPIGroup.KPIGroupId));
                 foreach (TemporaryKPIModel kpi in tempkpis)
                 {

@@ -416,6 +416,7 @@
             {
                 cellBody.CellStyle.SetFont(redFont);
             }
+
             cellBody.SetCellValue(finalScore);
             SetColumnWidth(ref sheet, 8 + (2 * i), 14);
 
@@ -425,6 +426,7 @@
             {
                 cellBody.CellStyle.SetFont(redFont);
             }
+
             cellBody.SetCellValue(grade);
             SetColumnWidth(ref sheet, 8 + ((2 * i) + 1), 10);
         }

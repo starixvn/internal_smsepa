@@ -1,7 +1,7 @@
 ﻿namespace SMS.EPA.ServicesAPI.Controllers
 {
-    using Model.API;
     using Fanex.Logging;
+    using Model.API;
     using System;
     using System.IO;
     using System.Linq;

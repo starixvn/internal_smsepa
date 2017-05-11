@@ -1419,4 +1419,10 @@
   <data name="PerformanceGuideline" xml:space="preserve">
     <value>Performance guideline</value>
   </data>
+  <data name="UnplannedLeave" xml:space="preserve">
+    <value>Unplanned Leave</value>
+  </data>
+  <data name="WeekendLeave" xml:space="preserve">
+    <value>Weekend Leave</value>
+  </data>
 </root>

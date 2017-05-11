@@ -24,8 +24,6 @@
     <Setting Key="EpaAuto_CheckEndProcess" SpName="EpaAuto_CheckEndProcess" DbName="SMSEPA" Plain="0"></Setting>
     <Setting Key="EpaAuto_UpdateIsEndProcess" SpName="EpaAuto_UpdateIsEndProcess" DbName="SMSEPA" Plain="0">
     </Setting>
-    <Setting Key="EpaAttendanceSummary_GetByEPA" SpName="EpaAttendanceSummary_GetByEPA" DbName="SMSEPA" Plain="0">
-    </Setting>
     <Setting Key="EpaAuto_UpdateFinalScoreEndEvaluation" SpName="EpaAuto_UpdateFinalScoreEndEvaluation" DbName="SMSEPA" Plain="0">
     </Setting>
     <Setting Key="EpaAuto_CheckLastestEndEvaluationPeriod" SpName="EpaAuto_CheckLastestEndEvaluationPeriod" DbName="SMSEPA" Plain="0">

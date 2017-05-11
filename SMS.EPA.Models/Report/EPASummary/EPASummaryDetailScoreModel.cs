@@ -23,6 +23,7 @@
                 {
                     float.TryParse(TotalScore, out totalScore);
                 }
+
                 return totalScore;
             }
         }

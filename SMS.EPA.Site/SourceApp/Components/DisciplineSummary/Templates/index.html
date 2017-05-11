@@ -65,7 +65,7 @@
     <table class="row table table-bordered table-striped">
         <thead>
             <tr class="header-table">
-                <th colspan="17">
+                <th colspan="19">
                     <input class="btnExcel pull-right" export-discipline-summary-report
                            ng-click="attendanceCtrl.exportReport(attendanceCtrl.filter)" type="button" title="Export to Excel">
                     <input type="text" ng-model="attendanceCtrl.searchKey" ng-change="attendanceCtrl.search()" class="search-inline-textbox search pull-right">
@@ -84,6 +84,8 @@
                 <th data-translate="UnpaidLeaveShort"></th>
                 <th data-translate="UnpaidLeaveAbsentShort"></th>
                 <th data-translate="ChangeShift"></th>
+                <th data-translate="UnplannedLeave"></th>
+                <th data-translate="WeekendLeave"></th>
                 <th data-translate="OtherViolations"></th>
                 <th data-translate="MinusScoringSystem"></th>
                 <th data-translate="MinusScoringApprover"></th>
@@ -93,8 +95,8 @@
         <tbody>
             <tr dir-paginate="employee in attendanceCtrl.filteredItems | itemsPerPage: attendanceCtrl.pageSize" pagination-id="summary" current-page="attendanceCtrl.currentPage">
                 <td class="text-center" ng-bind="attendanceCtrl.getIndex($index, attendanceCtrl.currentPage, attendanceCtrl.pageSize)"></td>
-                <td class="text-center" ng-bind="employee.Employee.Group.GroupName"></td>
-                <td class="text-center" ng-bind="employee.Employee.Code"></td>
+                <td class="text-left" ng-bind="employee.Employee.Group.GroupName"></td>
+                <td class="text-left" ng-bind="employee.Employee.Code"></td>
                 <td>
                     <span ng-bind="employee.Employee.NickName" popover-avatar avatar-src="{{employee.Employee.Avatar}}"></span>
                 </td>
@@ -106,6 +108,8 @@
                 <td class="text-right" ng-bind="employee.UnpaidLeave"></td>
                 <td class="text-right" ng-bind="employee.UnpaidLeaveAbsent"></td>
                 <td class="text-right" ng-bind="employee.ChangeShift"></td>
+                <td class="text-right" ng-bind="employee.UnplannedLeave"></td>
+                <td class="text-right" ng-bind="employee.WeekendLeave"></td>
                 <td class="text-right">
                     <div ng-show="employee.OtherViolationsScore > 0">
                         <a class="red" href="" ng-click="attendanceCtrl.viewOtherViolations(employee)">
@@ -127,12 +131,12 @@
                 </td>
             </tr>
             <tr ng-show="attendanceCtrl.filteredItems.length == 0">
-                <td class="empty-result" colspan="17" data-translate="EmptyResult"></td>
+                <td class="empty-result" colspan="19" data-translate="EmptyResult"></td>
             </tr>
         </tbody>
         <tfoot>
             <tr>
-                <td colspan="17" class="paging">
+                <td colspan="19" class="paging">
                     <span data-translate="Show"></span>
                     <select class="dropdown-entry form-control" ng-model="attendanceCtrl.pageSize"
                             ng-options="entry for entry in attendanceCtrl.entries"></select>

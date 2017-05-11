@@ -1,12 +1,12 @@
 ﻿namespace SMS.EPA.Model
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
     using Core.Constants;
     using Core.Utilities;
     using Enitites;
     using Report;
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
 
     [Serializable]
     public class DisciplineDetailModel : IExcelRecord
@@ -14,6 +14,8 @@
         public int EmployeeId { get; set; }
 
         public DateTime WorkDate { get; set; }
+
+        public string WorkDateToDisplay => WorkDate.ToString("ddd, dd MMM, yyyy");
 
         public string ShiftName { get; set; }
 
@@ -47,6 +49,10 @@
 
         public DisciplineModel ChangeShift { get; set; }
 
+        public DisciplineModel UnplannedLeave { get; set; }
+
+        public DisciplineModel WeekendLeave { get; set; }
+
         public decimal SystemSubtractScore
         {
             get
@@ -61,7 +67,9 @@
                     Absent,
                     UnpaidLeave,
                     UnpaidLeaveAbsent,
-                    ChangeShift
+                    ChangeShift,
+                    UnplannedLeave,
+                    WeekendLeave
                 };
 
                 foreach (DisciplineModel violation in violations.Where(violation => violation != null))
@@ -87,7 +95,9 @@
                     Absent,
                     UnpaidLeave,
                     UnpaidLeaveAbsent,
-                    ChangeShift
+                    ChangeShift,
+                    UnplannedLeave,
+                    WeekendLeave
                 };
 
                 foreach (DisciplineModel violation in violations.Where(violation => violation != null))
@@ -119,7 +129,7 @@
                 JobTitle = jobTitle,
                 JoinedDate = Employee.JoinedDate.ToString(Constants.DateFormat),
                 Employee.Category,
-                Date = WorkDate.ToString("ddd, dd MMM, yyyy"),
+                Date = WorkDateToDisplay,
                 Code = ShiftName,
                 CheckIn = ExcelRecordDataConverter.NullabeDateTimeToStringConverter(CheckIn),
                 CheckOut = ExcelRecordDataConverter.NullabeDateTimeToStringConverter(CheckOut),
@@ -132,6 +142,8 @@
                 UnpaidLeave = ExcelRecordDataConverter.ZeroValueToEmptyStringConverter(UnpaidLeave.Value),
                 UnpaidLeaveAbsent = ExcelRecordDataConverter.ZeroValueToEmptyStringConverter(UnpaidLeaveAbsent.Value),
                 ChangeShift = ExcelRecordDataConverter.ZeroValueToEmptyStringConverter(ChangeShift.Value),
+                UnplannedLeave = ExcelRecordDataConverter.ZeroValueToEmptyStringConverter(UnplannedLeave.Value),
+                WeekendLeave = ExcelRecordDataConverter.ZeroValueToEmptyStringConverter(WeekendLeave.Value),
                 SystemSubtractScore = SystemSubtractScore > 0 ? -SystemSubtractScore : 0,
                 ApproverSubtractScore = ApproverSubtractScore > 0 ? -ApproverSubtractScore : 0,
                 ApproverComment,

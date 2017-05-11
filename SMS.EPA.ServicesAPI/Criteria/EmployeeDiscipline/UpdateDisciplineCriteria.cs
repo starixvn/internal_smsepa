@@ -2,7 +2,7 @@
 {
     using Fanex.Data;
     using Fanex.Data.Repository;
-    using EPA.Model.API;
+    using Model.API;
     using System.Collections.Generic;
     using System.Linq;
     using System.Text;

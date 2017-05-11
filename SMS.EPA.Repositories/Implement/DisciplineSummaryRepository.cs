@@ -108,6 +108,8 @@
                     UnpaidLeave = GetUnpaidLeave(violation),
                     WorkingUnderTime = GetWorkingUnderTime(violation),
                     UnpaidLeaveAbsent = GetUnpaidLeaveAbsent(violation),
+                    UnplannedLeave = GetUnplannedLeave(violation),
+                    WeekendLeave = GetWeekendLeave(violation),
                     EmployeeComment = violation.EmployeeComment,
                     ApproverComment = violation.ApproverComment
                 };
@@ -199,6 +201,28 @@
                 Value = violation.UnpaidLeaveAbsentValue,
                 Score = violation.UnpaidLeaveAbsentScore,
                 HasIgnored = violation.UnpaidLeaveAbsentHasIgnored
+            };
+        }
+
+        private static DisciplineModel GetUnplannedLeave(dynamic violation)
+        {
+            return new DisciplineModel
+            {
+                DisciplineId = violation.UnplannedLeaveId,
+                Value = violation.UnplannedLeaveValue,
+                Score = violation.UnplannedLeaveScore,
+                HasIgnored = violation.UnplannedLeaveHasIgnored
+            };
+        }
+
+        private static DisciplineModel GetWeekendLeave(dynamic violation)
+        {
+            return new DisciplineModel
+            {
+                DisciplineId = violation.WeekendLeaveId,
+                Value = violation.WeekendLeaveValue,
+                Score = violation.WeekendLeaveScore,
+                HasIgnored = violation.WeekendLeaveHasIgnored
             };
         }
 

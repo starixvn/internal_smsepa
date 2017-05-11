@@ -69,7 +69,7 @@
     <table class="row table table-bordered table-striped attendance-detail">
         <thead>
             <tr class="header-table">
-                <th colspan="19">
+                <th colspan="21">
                     <a class="pull-left button-icon back-button" ng-click="detailAttendanceCtrl.backToList()" ng-show="detailAttendanceCtrl.fromSummaryPage">
                         <span class="glyphicon glyphicon-menu-left"></span>
                         <span data-translate="BackToList"></span>
@@ -81,21 +81,23 @@
                 </th>
             </tr>
             <tr class="headerName">
-                <th data-translate="Nick"></th>
+                <th data-translate="Nick" class="width-180"></th>
                 <th data-translate="Section"></th>
-                <th data-translate="Date"></th>
-                <th data-translate="Shift"></th>
-                <th data-translate="CheckIn"></th>
-                <th data-translate="CheckOut"></th>
-                <th data-translate="TotalHours"></th>
-                <th data-translate="CheckInOut"></th>
-                <th data-translate="WorkingUndertime"></th>
-                <th data-translate="LateIn"></th>
-                <th data-translate="EarlyOut"></th>
-                <th data-translate="Absent"></th>
-                <th data-translate="UnpaidLeaveShort"></th>
-                <th data-translate="UnpaidLeaveAbsentShort"></th>
-                <th data-translate="ChangeShift"></th>
+                <th data-translate="Date" class="width-200"></th>
+                <th data-translate="Shift" class="width-180"></th>
+                <th data-translate="CheckIn" class="width-100"></th>
+                <th data-translate="CheckOut" class="width-100"></th>
+                <th data-translate="TotalHours" class="width-100"></th>
+                <th data-translate="CheckInOut" class="width-180"></th>
+                <th data-translate="WorkingUndertime" class="width-180"></th>
+                <th data-translate="LateIn" class="width-180"></th>
+                <th data-translate="EarlyOut" class="width-180"></th>
+                <th data-translate="Absent" class="width-100"></th>
+                <th data-translate="UnpaidLeaveShort" class="width-100"></th>
+                <th data-translate="UnpaidLeaveAbsentShort" class="width-100"></th>
+                <th data-translate="ChangeShift" class="width-100"></th>
+                <th data-translate="UnplannedLeave" class="width-100"></th>
+                <th data-translate="WeekendLeave" class="width-100"></th>
                 <th data-translate="MinusScoringSystem"></th>
                 <th data-translate="MinusScoringApprover"></th>
                 <th data-translate="ApproverComment"></th>
@@ -105,103 +107,113 @@
         <tbody>
             <tr dir-paginate="employee in detailAttendanceCtrl.filteredItems | itemsPerPage: detailAttendanceCtrl.pageSize"
                 pagination-id="detail" current-page="detailAttendanceCtrl.currentPage" ng-class="{'highlight': employee.IsWeekend}">
-                <td class="width-200">
+                <td>
                     <span ng-bind="employee.Employee.NickName" popover-avatar avatar-src="{{employee.Employee.Avatar}}"></span>
                 </td>
-                <td class="text-center" ng-bind="employee.Employee.Group.GroupName"></td>
-                <td class="text-center width250" ng-bind="employee.WorkDateToString"></td>
-                <td class="text-center width180" ng-bind="employee.ShiftName"></td>
-                <td class="width-100">
+                <td class="text-left" ng-bind="employee.Employee.Group.GroupName"></td>
+                <td class="text-left" ng-bind="employee.WorkDateToDisplay"></td>
+                <td class="text-center" ng-bind="employee.ShiftName"></td>
+                <td>
                     <span ng-show="employee.CheckIn" ng-bind="employee.CheckIn | date:detailAttendanceCtrl.timeFormat"></span>
                     <span ng-show="!employee.CheckIn">-</span>
                 </td>
-                <td class="width-100">
+                <td>
                     <span ng-show="employee.CheckOut" ng-bind="employee.CheckOut | date:detailAttendanceCtrl.timeFormat"></span>
                     <span ng-show="!employee.CheckOut">-</span>
                 </td>
-                <td class="width180">
+                <td>
                     <span ng-show="employee.TotalHours.length > 0" ng-bind="employee.TotalHours"></span>
                     <span ng-show="employee.TotalHours.length == 0">-</span>
                 </td>
-                <td class="width-100">
+                <td>
                     <span ng-show="employee.MissingCheckInOut.Value > 0" ng-bind="employee.MissingCheckInOut.Value"></span>
                     <span ng-show="employee.MissingCheckInOut.Value == 0">-</span>
                     <input class="ignore-right" ng-show="employee.MissingCheckInOut.Value > 0" ng-model="employee.MissingCheckInOut.HasIgnored"
                            ng-disabled="true" type="checkbox" />
                 </td>
-                <td class="width180">
+                <td>
                     <span ng-show="employee.WorkingUnderTime.Value > 0" ng-bind="employee.WorkingUnderTime.Value"></span>
                     <span ng-show="employee.WorkingUnderTime.Value == 0">-</span>
                     <input class="ignore-right" ng-show="employee.WorkingUnderTime.Value > 0" ng-model="employee.WorkingUnderTime.HasIgnored"
                            ng-disabled="true" type="checkbox" />
                 </td>
-                <td class="width180">
+                <td>
                     <span ng-show="employee.LateIn.Value > 0 && employee.NumberOfMinutesLateIn.length > 0" ng-bind="employee.NumberOfMinutesLateIn"></span>
                     <span ng-show="employee.LateIn.Value == 0 && employee.NumberOfMinutesLateIn.length == 0">-</span>
                     <input class="ignore-right" ng-show="employee.LateIn.Value > 0 && employee.NumberOfMinutesLateIn.length > 0" ng-model="employee.LateIn.HasIgnored"
                            ng-disabled="true" type="checkbox" />
                 </td>
-                <td class="width180">
+                <td>
                     <span ng-show="employee.EarlyOut.Value > 0 && employee.NumberOfMinutesEarlyOut.length > 0" ng-bind="employee.NumberOfMinutesEarlyOut"></span>
                     <span ng-show="employee.EarlyOut.Value == 0 && employee.NumberOfMinutesEarlyOut.length == 0">-</span>
                     <input class="ignore-right" ng-show="employee.EarlyOut.Value > 0 && employee.NumberOfMinutesEarlyOut.length > 0" ng-model="employee.EarlyOut.HasIgnored"
                            ng-disabled="true" type="checkbox" />
                 </td>
-                <td class="width-100">
+                <td>
                     <span ng-show="employee.Absent.Value > 0" ng-bind="employee.Absent.Value"></span>
                     <span ng-show="employee.Absent.Value == 0">-</span>
                     <input class="ignore-right" ng-show="employee.Absent.Value > 0" ng-model="employee.Absent.HasIgnored"
                            ng-disabled="true" type="checkbox" />
                 </td>
-                <td class="width-100">
+                <td>
                     <span ng-show="employee.UnpaidLeave.Value > 0" ng-bind="employee.UnpaidLeave.Value"></span>
                     <span ng-show="employee.UnpaidLeave.Value == 0">-</span>
                     <input class="ignore-right" ng-show="employee.UnpaidLeave.Value > 0" ng-model="employee.UnpaidLeave.HasIgnored"
                            ng-disabled="true" type="checkbox" />
                 </td>
-                <td class="width-100">
+                <td>
                     <span ng-show="employee.UnpaidLeaveAbsent.Value > 0" ng-bind="employee.UnpaidLeaveAbsent.Value"></span>
                     <span ng-show="employee.UnpaidLeaveAbsent.Value == 0">-</span>
                     <input class="ignore-right" ng-show="employee.UnpaidLeaveAbsent.Value > 0" ng-model="employee.UnpaidLeaveAbsent.HasIgnored"
                            ng-disabled="true" type="checkbox" />
                 </td>
-                <td class="width-100">
+                <td>
                     <span ng-show="employee.ChangeShift.Value > 0" ng-bind="employee.ChangeShift.Value"></span>
                     <span ng-show="employee.ChangeShift.Value == 0">-</span>
                     <input class="ignore-right" ng-show="employee.ChangeShift.Value > 0" ng-model="employee.ChangeShift.HasIgnored"
                            ng-disabled="true" type="checkbox" />
                 </td>
-                <td class="text-right width-100">
+                <td>
+                    <span ng-show="employee.UnplannedLeave.Value > 0" ng-bind="employee.UnplannedLeave.Value"></span>
+                    <span ng-show="employee.UnplannedLeave.Value == 0">-</span>
+                    <input class="ignore-right" ng-show="employee.UnplannedLeave.Value > 0" ng-model="employee.UnplannedLeave.HasIgnored"
+                           ng-disabled="true" type="checkbox" />
+                </td>
+                <td>
+                    <span ng-show="employee.WeekendLeave.Value > 0" ng-bind="employee.WeekendLeave.Value"></span>
+                    <span ng-show="employee.WeekendLeave.Value == 0">-</span>
+                    <input class="ignore-right" ng-show="employee.WeekendLeave.Value > 0" ng-model="employee.WeekendLeave.HasIgnored"
+                           ng-disabled="true" type="checkbox" />
+                </td>
+                <td class="text-right">
                     <span class="red" ng-show="employee.SystemSubtractScore > 0">-{{employee.SystemSubtractScore | number: 1}}</span>
                     <span ng-show="employee.SystemSubtractScore == 0">{{employee.SystemSubtractScore | number: 1}}</span>
                 </td>
-                <td class="text-right width-100">
-                    <span class="red" ng-show="employee.ApproverSubtractScore > 0
-                          && employee.ApproverSubtractScore <= employee.SystemSubtractScore">
+                <td class="text-right">
+                    <span class="red" ng-show="employee.ApproverSubtractScore > 0 && employee.ApproverSubtractScore <= employee.SystemSubtractScore">
                         -{{employee.ApproverSubtractScore | number: 1}}
                     </span>
-                    <span class="red" ng-show="employee.ApproverSubtractScore > 0
-                          && employee.ApproverSubtractScore > employee.SystemSubtractScore">
+                    <span class="red" ng-show="employee.ApproverSubtractScore > 0 && employee.ApproverSubtractScore > employee.SystemSubtractScore">
                         -{{employee.SystemSubtractScore | number: 1}}
                     </span>
                     <span ng-show="employee.ApproverSubtractScore == 0">{{employee.ApproverSubtractScore | number: 1}}</span>
                 </td>
-                <td class="text-center width-100">
+                <td class="text-center">
                     <span class="glyphicon icon-description"
-                          ng-show="employee.ApproverComment.length > 0" tooltip="{{employee.ApproverComment}}"></span>
+                          ng-show="employee.ApproverComment && employee.ApproverComment.length > 0" tooltip="{{employee.ApproverComment}}"></span>
                 </td>
-                <td class="text-center width-100">
+                <td class="text-center">
                     <span class="glyphicon icon-description"
-                          ng-show="employee.EmployeeComment.length > 0" tooltip="{{employee.EmployeeComment}}"></span>
+                          ng-show="employee.EmployeeComment && employee.EmployeeComment.length > 0" tooltip="{{employee.EmployeeComment}}"></span>
                 </td>
             </tr>
             <tr ng-show="detailAttendanceCtrl.filteredItems.length == 0">
-                <td class="empty-result" colspan="19" data-translate="EmptyResult"></td>
+                <td class="empty-result" colspan="21" data-translate="EmptyResult"></td>
             </tr>
         </tbody>
         <tfoot>
             <tr>
-                <td colspan="19" class="paging">
+                <td colspan="21" class="paging">
                     <span data-translate="Show"></span>
                     <select class="dropdown-entry form-control" ng-model="detailAttendanceCtrl.pageSize"
                             ng-options="entry for entry in detailAttendanceCtrl.entries"></select>

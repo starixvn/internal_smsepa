@@ -78,12 +78,12 @@
         <tbody>
             <tr dir-paginate="discipline in disciplineSummaryByPeriodCtrl.filteredItems | itemsPerPage: disciplineSummaryByPeriodCtrl.pageSize" pagination-id="summary" current-page="disciplineSummaryByPeriodCtrl.currentPage">
                 <td class="text-center" ng-bind="disciplineSummaryByPeriodCtrl.getIndex($index, disciplineSummaryByPeriodCtrl.currentPage, disciplineSummaryByPeriodCtrl.pageSize)"></td>
-                <td class="text-center" ng-bind="discipline.Period.Name"></td>
-                <td class="text-center" ng-bind="discipline.Employee.Code"></td>
+                <td class="text-left" ng-bind="discipline.Period.Name"></td>
+                <td class="text-left" ng-bind="discipline.Employee.Code"></td>
                 <td>
                     <span ng-bind="discipline.Employee.NickName" popover-avatar avatar-src="{{discipline.Employee.Avatar}}"></span>
                 </td>
-                <td class="text-center" ng-bind="discipline.Employee.Group.GroupName"></td>
+                <td class="text-left" ng-bind="discipline.Employee.Group.GroupName"></td>
                 <td class="text-right">
                     <span class="red" ng-show="discipline.MissingCheckInOut > 0">-{{discipline.MissingCheckInOut | number: 1}}</span>
                     <span ng-show="discipline.MissingCheckInOut == 0">{{discipline.MissingCheckInOut | number: 1}}</span>
