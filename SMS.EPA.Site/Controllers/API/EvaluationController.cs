@@ -39,8 +39,38 @@
             }
 
             epaInfo = _evaluationService.GetEPAInfoById(epaId);
+            RemoveSensitiveDataOnEmployeeRole(epaInfo);
 
             return Request.CreateResponse(HttpStatusCode.OK, epaInfo);
+        }
+
+        private void RemoveSensitiveDataOnEmployeeRole(EPAModel epaInfo)
+        {
+            var roles = SessionService.CurrentUser.Roles.Select(x => x.RoleId).ToList();
+
+            if (!roles.Contains((int)SystemRole.Management))
+            {
+                foreach (EPAProcessModel epaProcessModel in epaInfo.Process.Managements)
+                {
+                    epaProcessModel.TotalScore = "";
+                }
+            }
+
+            if (!roles.Contains((int)SystemRole.Reviewer))
+            {
+                foreach (EPAProcessModel epaProcessModel in epaInfo.Process.Reviewers)
+                {
+                    epaProcessModel.TotalScore = "";
+                }
+            }
+
+            if (!roles.Contains((int)SystemRole.Evaluator))
+            {
+                foreach (EPAProcessModel epaProcessModel in epaInfo.Process.Evaluators)
+                {
+                    epaProcessModel.TotalScore = "";
+                }
+            }
         }
 
         [HttpPut]
