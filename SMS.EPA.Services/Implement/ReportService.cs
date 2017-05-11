@@ -81,10 +81,16 @@
                     // Recalculate final score and grade
 
                     // Get the max EPAProcessId
-                    var maxEPAProcesId = epaInfoPeriod.DetailScores.Max(x => x.ProcessId);
+                    var validDetailScores = epaInfoPeriod.DetailScores.Where(x => !string.IsNullOrEmpty(x.TotalScore));
+                    if (!validDetailScores.Any())
+                    {
+                        continue;
+                    }
+
+                    var maxEPAProcesId = validDetailScores.Max(x => x.ProcessId);
 
                     var lastPhaseScores = epaInfoPeriod.DetailScores
-                        .Where(x => x.ProcessId == maxEPAProcesId && !string.IsNullOrEmpty(x.TotalScore))
+                        .Where(x => x.ProcessId == maxEPAProcesId)
                         .Select(x => x.FloatTotalScore);
 
                     if (!lastPhaseScores.Any())

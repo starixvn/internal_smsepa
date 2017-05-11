@@ -154,7 +154,7 @@
                                         grade = status.NotAvailable;
                                     }
 
-                                    if (epaInfo.Periods[index].StatusId === 0) {
+                                    if (epaInfo.Periods[index].StatusId === 0 && epaInfo.Periods[index].FinalScore.length > 0) {
                                         cssClass = "red";
                                     }
                                 } else {
