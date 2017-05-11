@@ -69,7 +69,7 @@
                     Width: 120,
                     Name: "NickName",
                     HeaderAlign: "center",
-                    CellAlign: "center",
+                    CellAlign: "left",
                     AllowTruncate: true
                 },
                 {

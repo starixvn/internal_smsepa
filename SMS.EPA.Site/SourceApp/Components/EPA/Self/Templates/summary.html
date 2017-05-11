@@ -1,4 +1,10 @@
-﻿<table class="table table-bordered table-striped table-custom table-summary">
+﻿<div class="lable-comment-if-any" data-translate="CommentsIfAny"></div>
+<div class="textarea-comment">
+    <textarea class="form-control" maxlength="2000" ng-readonly="!empDetailCtrl.epaInfo.IsAllowedToEdit"
+        ng-model="empDetailCtrl.epaInfo.Process.CurrentProcess.Comment"></textarea>
+</div>
+
+<table class="table table-bordered table-striped table-custom table-summary">
     <thead>
         <tr>
             <th></th>
@@ -66,3 +72,5 @@
         </tr>
     </tbody>
 </table>
+<epa-performance-grade data-standard-grades="empDetailCtrl.standardGrades" ng-if="!empDetailCtrl.epaInfo.IsMonthly"></epa-performance-grade>
+<label class="error-message">{{"Note" | translate }}: (*) {{"RequiredField" | translate}}!</label>

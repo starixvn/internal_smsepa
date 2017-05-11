@@ -18,7 +18,7 @@
         vm.maxStar = utilitiesFactory.maxStar;
         vm.policyEnum = utilitiesFactory.policy;
         vm.ratingTypeEnum = utilitiesFactory.ratingType;
-        vm.standardGrades = [];
+        vm.standardGrades = CommonModel.standardGrades;
         vm.targetTypeEnum = utilitiesFactory.targetType;
 
         vm.cancel = cancel;

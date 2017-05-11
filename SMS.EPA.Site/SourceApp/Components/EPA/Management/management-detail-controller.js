@@ -35,7 +35,7 @@
         vm.epaId = parseInt($routeParams.id);
         vm.managementId = $routeParams.managementId;
         vm.jobGrades = [];
-        vm.standardGrades = [];
+        vm.standardGrades = CommonModel.standardGrades;
         vm.policyEnum = utilitiesFactory.policy;
         vm.targetTypeEnum = utilitiesFactory.targetType;
         vm.ratingTypeEnum = utilitiesFactory.ratingType;
