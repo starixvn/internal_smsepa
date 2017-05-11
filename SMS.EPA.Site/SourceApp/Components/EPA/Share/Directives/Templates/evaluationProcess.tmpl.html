@@ -7,7 +7,7 @@
             <span> - </span>
             <span ng-bind="evaluationProcessCtrl.epaInfo.Process.Self.EndDate | customDate"></span>
         </div>
-        <div ng-show="evaluationProcessCtrl.epaInfo.Process.Self.StatusId === evaluationProcessCtrl.statusTypes.EndProcess">
+        <div ng-show="evaluationProcessCtrl.epaInfo.Process.Self.StatusId === evaluationProcessCtrl.statusTypes.Closed">
             <label data-translate="EndProcess"></label><span class="icon-process"></span>
         </div>
         <div ng-show="evaluationProcessCtrl.epaInfo.Process.Self.StatusId === evaluationProcessCtrl.statusTypes.InProgress">
@@ -35,7 +35,7 @@
             <span> - </span>
             <span ng-bind="evaluationProcessCtrl.epaInfo.Process.Evaluators[0].EndDate | customDate"></span>
         </div>
-        <div ng-show="evaluationProcessCtrl.epaInfo.Process.Evaluators[0].StatusId === evaluationProcessCtrl.statusTypes.EndProcess">
+        <div ng-show="evaluationProcessCtrl.epaInfo.Process.Evaluators[0].StatusId === evaluationProcessCtrl.statusTypes.Closed">
             <label data-translate="EndProcess"></label><span class="icon-process"></span>
         </div>
         <div ng-show="evaluationProcessCtrl.epaInfo.Process.Evaluators[0].StatusId === evaluationProcessCtrl.statusTypes.InProgress">
@@ -63,7 +63,7 @@
             <span> - </span>
             <span ng-bind="evaluationProcessCtrl.epaInfo.Process.Reviewers[0].EndDate | customDate"></span>
         </div>
-        <div ng-show="evaluationProcessCtrl.epaInfo.Process.Reviewers[0].StatusId === evaluationProcessCtrl.statusTypes.EndProcess">
+        <div ng-show="evaluationProcessCtrl.epaInfo.Process.Reviewers[0].StatusId === evaluationProcessCtrl.statusTypes.Closed">
             <label data-translate="EndProcess"></label><span class="icon-process"></span>
         </div>
         <div ng-show="evaluationProcessCtrl.epaInfo.Process.Reviewers[0].StatusId === evaluationProcessCtrl.statusTypes.InProgress">
@@ -91,7 +91,7 @@
             <span> - </span>
             <span ng-bind="evaluationProcessCtrl.epaInfo.Process.Managements[0].EndDate | customDate"></span>
         </div>
-        <div ng-show="evaluationProcessCtrl.epaInfo.Process.Managements[0].StatusId === evaluationProcessCtrl.statusTypes.EndProcess">
+        <div ng-show="evaluationProcessCtrl.epaInfo.Process.Managements[0].StatusId === evaluationProcessCtrl.statusTypes.Closed">
             <label data-translate="EndProcess"></label><span class="icon-process"></span>
         </div>
         <div ng-show="evaluationProcessCtrl.epaInfo.Process.Managements[0].StatusId === evaluationProcessCtrl.statusTypes.InProgress">

@@ -62,7 +62,7 @@
                 </span>
             </td>
             <td class="text-center">
-                <div ng-show="monthlyResultCtrl.epaInfo.Process.Reviewers[0].StatusId === monthlyResultCtrl.statusTypes.EndProcess
+                <div ng-show="monthlyResultCtrl.epaInfo.Process.Reviewers[0].StatusId === monthlyResultCtrl.statusTypes.Closed
                             || monthlyResultCtrl.epaInfo.Process.Reviewers[0].StatusId === monthlyResultCtrl.statusTypes.InProgress">
                     {{monthlyResultCtrl.monthlyEPA.AverageReviewerScoreConverted | customScore}}
                     <span ng-show="monthlyResultCtrl.monthlyEPA.MonthlyEPAs && monthlyResultCtrl.monthlyEPA.MonthlyEPAs.length > 0">

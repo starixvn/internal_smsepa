@@ -20,7 +20,7 @@
                 function getClassProgress(status) {
                     if (status === vm.statusTypes.InProgress) {
                         return 'in-process';
-                    } else if (status === vm.statusTypes.EndProcess) {
+                    } else if (status === vm.statusTypes.Closed) {
                         return 'end-process';
                     } else {
                         return 'open';
