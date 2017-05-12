@@ -132,7 +132,7 @@
             get
             {
                 var isAllowedToEdit = IsCurrentProcessValid()
-                                      && (!IsSemiHasMonthly || IsProcessValid())
+                                      && IsProcessValid()
                                       && StatusId == (int)EPAStatus.Open;
 
                 return isAllowedToEdit;
@@ -141,8 +141,9 @@
 
         private bool IsProcessValid()
         {
-            return Process.CurrentProcess.ProcessId != (int)ProcessType.Self
-                   && Process.CurrentProcess.ProcessId != (int)ProcessType.Evaluator;
+            return !IsSemiHasMonthly
+                && Process.CurrentProcess.ProcessId != (int)ProcessType.Self
+                && Process.CurrentProcess.ProcessId != (int)ProcessType.Evaluator;
         }
 
         private bool IsCurrentProcessValid()
