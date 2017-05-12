@@ -17,6 +17,6 @@
 
         public static int StartDayCreateMonthlyPeriod => Convert.ToInt32(ConfigurationManager.AppSettings["StartDayCreateMonthlyPeriod"]);
 
-        public static int RelativeEmailPath => Convert.ToInt32(ConfigurationManager.AppSettings["RelativeEmailPath"]);
+        public static string RelativeEmailPath => ConfigurationManager.AppSettings["RelativeEmailPath"];
     }
 }

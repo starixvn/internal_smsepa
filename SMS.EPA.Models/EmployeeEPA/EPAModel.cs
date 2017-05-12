@@ -131,9 +131,10 @@
         {
             get
             {
-                var isAllowedToEdit = IsCurrentProcessValid()
-                                      && IsProcessValid()
-                                      && StatusId == (int)EPAStatus.Open;
+                bool isAllowedToEdit = !(Process.CurrentProcess == null
+                                         || Process.CurrentProcess.IsEndProcess
+                                         || IsProcessValid()
+                                         || StatusId == (int)EPAStatus.Closed);
 
                 return isAllowedToEdit;
             }
@@ -141,14 +142,9 @@
 
         private bool IsProcessValid()
         {
-            return !IsSemiHasMonthly
-                && Process.CurrentProcess.ProcessId != (int)ProcessType.Self
-                && Process.CurrentProcess.ProcessId != (int)ProcessType.Evaluator;
-        }
-
-        private bool IsCurrentProcessValid()
-        {
-            return Process.CurrentProcess != null && !Process.CurrentProcess.IsEndProcess;
+            return IsSemiHasMonthly
+                   && (Process.CurrentProcess.ProcessId == (int)ProcessType.Self ||
+                       Process.CurrentProcess.ProcessId == (int)ProcessType.Evaluator);
         }
 
         public object ConvertToExcelRecord()
