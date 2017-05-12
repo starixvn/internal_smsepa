@@ -23,23 +23,15 @@
 
         <!--Self-->
         <td rowspan="{{performanceResultCtrl.epaInfo.Rowspan}}" class="text-center col-score" ng-show="$first">
-            <div ng-show="performanceResultCtrl.process.Self.IsEndProcess">
-                {{performanceResultCtrl.epaInfo.MonthlyEPA.AverageSelfScoreConverted | customScore}} / {{performanceResultCtrl.epaInfo.ScoreRatingType.SelfEvaluated | customScore}}
-            </div>
-            <!--<div ng-show="!performanceResultCtrl.process.Self.IsEndProcess" data-translate="Pending"></div>-->
-            <div ng-show="!performanceResultCtrl.process.Self.IsEndProcess" class="red">
-                {{performanceResultCtrl.epaInfo.MonthlyEPA.AverageSelfScoreConverted | customScore}} / {{performanceResultCtrl.epaInfo.ScoreRatingType.SelfEvaluated | customScore}}
+            <div ng-show="performanceResultCtrl.SelfScore.IsShowed" class="{{performanceResultCtrl.SelfScore.Class}}">
+                {{performanceResultCtrl.SelfScore.Score}}
             </div>
         </td>
 
         <!--Evaluator Score-->
         <td class="text-center col-score">
-            <div ng-show="performanceResultCtrl.process.Evaluators[0].IsEndProcess">
-                {{performanceResultCtrl.epaInfo.MonthlyEPA.AverageEvaluatorScoreConverted | customScore}} / {{performanceResultCtrl.epaInfo.ScoreRatingType.Evaluator | customScore}}
-            </div>
-            <!--<div ng-show="!performanceResultCtrl.process.Evaluators[0].IsEndProcess" data-translate="Pending"></div>-->
-            <div ng-show="!performanceResultCtrl.process.Evaluators[0].IsEndProcess" class="red">
-                {{performanceResultCtrl.epaInfo.MonthlyEPA.AverageEvaluatorScoreConverted | customScore}} / {{performanceResultCtrl.epaInfo.ScoreRatingType.Evaluator | customScore}}
+            <div ng-show="performanceResultCtrl.EvaluatorScore.IsShowed" class="{{performanceResultCtrl.EvaluatorScore.Class}}">
+                {{performanceResultCtrl.EvaluatorScore.Score}}
             </div>
         </td>
 
@@ -77,6 +69,7 @@
         <td class="text-center col-score" ng-show="performanceResultCtrl.process.Managements.length > 0">
             <div ng-show="performanceResultCtrl.process.Managements[$index]"
                  ng-bind="performanceResultCtrl.process.Managements[$index].EvaluatorInfo.NickName"></div>
+            <p>Length: {{performanceResultCtrl.process.Managements.length}}</p>
         </td>
 
         <td class="text-center col-score" ng-show="performanceResultCtrl.process.Managements.length > 0">

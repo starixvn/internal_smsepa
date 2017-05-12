@@ -47,6 +47,8 @@
 
                 if (vm.epaInfo.Process.PerformanceScore !== null) {
 
+                    debugger;
+
                     vm.epaInfo.FinalScore =
                         (vm.epaInfo.Process.PerformanceScore + vm.epaInfo.DisciplineScore).toString();
 

@@ -139,6 +139,13 @@
             }
         }
 
+#if DEBUG
+        public void CheckAndExecuteForDebug()
+        {
+            CheckAndExecute();
+        }
+#endif
+
         private void CheckAndExecute()
         {
             if (AppSetting.EnableMonthlyPeriod)
