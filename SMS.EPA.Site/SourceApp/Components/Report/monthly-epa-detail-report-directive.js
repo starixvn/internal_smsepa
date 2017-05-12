@@ -84,7 +84,7 @@
                 }
             }
 
-            if (epaInfo.Period.IsEndPeriod) {
+            if (epaInfo.StatusId === utilitiesFactory.epaStatus.Closed) {
                 if (epaInfo.FinalScore.length > 0) {
                     result.FinalScore = utilitiesFactory.parseFloat(epaInfo.FinalScore);
                     result.Grade = epaInfo.Grade;

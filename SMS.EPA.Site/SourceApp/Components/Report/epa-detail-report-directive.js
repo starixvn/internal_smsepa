@@ -178,8 +178,6 @@
                     break;
                 }
 
-                debugger;
-
                 if (epaInfo.Process.Managements.length > 0) {
                     switch (epaInfo.Process.Managements[0].StatusId) {
                         case utilitiesFactory.processStatus.InProgress:
@@ -281,7 +279,7 @@
                             : "";
                         var cssManagementScore = "";
                         var cssDisciplineScore = epaInfo.EPAId > 0 && epaInfo.DisciplineScore < 0 ? "red" : "";
-                        var cssPendingShowDefaultRedValue = epaInfo.Period.IsEndPeriod ? "" : "red";
+                        var cssPendingShowDefaultRedValue = epaInfo.StatusId === utilitiesFactory.epaStatus.Closed ? "" : "red";
                         var pdfIcon = '<a class="icon-pdf exportPDF" data-epaid="' + epaInfo.EPAId + '"></a>';
                         var viewIcon = '<a class="icon-view viewEPADetail" data-epaid="' + epaInfo.EPAId + '"></a>';
 
@@ -316,35 +314,19 @@
                                 },
                                 {
                                     Name: "ManagementScore",
-                                    Value: "<span class='" +
-                                        cssManagementScore +
-                                        "'>" +
-                                        score.ManagementScore +
-                                        "</span>"
+                                    Value: "<span class='" + cssManagementScore + "'>" + score.ManagementScore + "</span>"
                                 },
                                 {
                                     Name: "DisciplineScore",
-                                    Value: "<span class='" +
-                                        cssDisciplineScore +
-                                        "'>" +
-                                        score.DisciplineScore +
-                                        "</span>"
+                                    Value: "<span class='" + cssDisciplineScore + "'>" + score.DisciplineScore + "</span>"
                                 },
                                 {
                                     Name: "FinalScore",
-                                    Value: "<span class='" +
-                                        cssPendingShowDefaultRedValue +
-                                        "'>" +
-                                        score.FinalScore +
-                                        "</span>"
+                                    Value: "<span class='" + cssPendingShowDefaultRedValue + "'>" + score.FinalScore + "</span>"
                                 },
                                 {
                                     Name: "Grade",
-                                    Value: "<span class='" +
-                                        cssPendingShowDefaultRedValue +
-                                        "'>" +
-                                        score.Grade +
-                                        "</span>"
+                                    Value: "<span class='" + cssPendingShowDefaultRedValue + "'>" + score.Grade + "</span>"
                                 },
                                 { Name: "ExportPdf", Value: epaInfo.EPAId > 0 ? pdfIcon : "" },
                                 { Name: "ViewDetail", Value: epaInfo.EPAId > 0 ? viewIcon : "" }

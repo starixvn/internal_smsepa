@@ -94,7 +94,7 @@
 
         protected static string GetFinalScore(EPAModel epaInfo)
         {
-            var finalScore = epaInfo.Period.IsEndPeriod
+            var finalScore = epaInfo.StatusId == (int)EPAStatus.Closed
                 ? (string.IsNullOrEmpty(epaInfo.FinalScore)
                     ? Lang.NotAvailable
                     : Math.Round(float.Parse(epaInfo.FinalScore), 2).ToString(CultureInfo.InvariantCulture))
@@ -105,7 +105,7 @@
 
         protected static string GetGrade(EPAModel epaInfo)
         {
-            var grade = epaInfo.Period.IsEndPeriod
+            var grade = epaInfo.StatusId == (int)EPAStatus.Closed
                 ? (string.IsNullOrEmpty(epaInfo.FinalScore) ? Lang.NotAvailable : epaInfo.Grade)
                 : Lang.Pending;
 
