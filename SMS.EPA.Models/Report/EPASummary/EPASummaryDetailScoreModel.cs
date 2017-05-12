@@ -19,7 +19,7 @@
             get
             {
                 float totalScore = 0;
-                if (string.IsNullOrEmpty(TotalScore))
+                if (!string.IsNullOrEmpty(TotalScore))
                 {
                     float.TryParse(TotalScore, out totalScore);
                 }

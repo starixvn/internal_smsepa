@@ -372,22 +372,26 @@
 
         private static string GetFinalScoreString(EPASummaryPeriodModel period)
         {
-            var finalScore = period != null && period.IsEndPeriod.Equals(true)
-                ? (string.IsNullOrEmpty(period.FinalScore)
+            string finalScore = string.Empty;
+            if (period != null)
+            {
+                finalScore = string.IsNullOrEmpty(period.FinalScore)
                     ? Lang.NotAvailable
-                    : Math.Round(float.Parse(period.FinalScore), 2).ToString(CultureInfo.InvariantCulture))
-                : Lang.Pending;
+                    : Math.Round(float.Parse(period.FinalScore), 2).ToString(CultureInfo.InvariantCulture);
+            }
 
             return finalScore;
         }
 
         private static string GetGradeString(EPASummaryPeriodModel period)
         {
-            var grade = period != null && period.IsEndPeriod.Equals(true)
-                ? (string.IsNullOrEmpty(period.FinalScore)
+            string grade = string.Empty;
+            if (period != null)
+            {
+                grade = string.IsNullOrEmpty(period.FinalScore)
                     ? Lang.NotAvailable
-                    : period.Grade)
-                : Lang.Pending;
+                    : period.Grade;
+            }
 
             return grade;
         }
@@ -479,9 +483,9 @@
                             i,
                             finalScore,
                             grade,
-                            period != null && period.StatusId == 1
-                                ? null
-                                : redFont);
+                            period != null && period.StatusId == 0 && !string.IsNullOrEmpty(period.FinalScore)
+                                ? redFont
+                                : null);
                     }
                     else
                     {
