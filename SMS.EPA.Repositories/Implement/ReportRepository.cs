@@ -47,10 +47,14 @@
 
                     IList<EPASummaryPeriodModel> periods = multi.Read<EPASummaryPeriodModel>().ToList();
 
-                    IList<EPASummaryDetailScoreModel> detailScores = multi.Read<EPASummaryDetailScoreModel>().ToList();
+                    if (!multi.IsEnded)
+                    {
+                        // If not montly Period
+                        IList<EPASummaryDetailScoreModel> detailScores = multi.Read<EPASummaryDetailScoreModel>().ToList();
+                        DecodeDetailScores(detailScores);
+                        AddDetailScoresToPeriods(periods, detailScores);
+                    }
 
-                    DecodeDetailScores(detailScores);
-                    AddDetailScoresToPeriods(periods, detailScores);
                     GroupPeriodByEmployee(epaSummary.EPAInfos, periods);
                     DecodeFinalScoreAndGrade(epaSummary.EPAInfos);
                 }
