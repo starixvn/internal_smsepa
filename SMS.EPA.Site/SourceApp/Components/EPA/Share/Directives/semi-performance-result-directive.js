@@ -36,6 +36,13 @@
                     utilitiesFactory,
                     vm.process.Reviewers,
                     vm.epaInfo.ScoreRatingType.Reviewer);
+
+                debugger;
+
+                vm.ManagementsScore = getMultiScoreDatas($filter,
+                    utilitiesFactory,
+                    vm.process.Managements,
+                    vm.epaInfo.ScoreRatingType.Management);
             },
             controllerAs: 'performanceResultCtrl',
             bindToController: true,
@@ -83,6 +90,10 @@
     }
 
     function getScoreValue($filter, score, maxScore) {
+        if (score === "" || score === null) {
+            return "N/A";
+        }
+
         return $filter("customScore")(score) + " / " + $filter("customScore")(maxScore);
     }
 })(angular);
