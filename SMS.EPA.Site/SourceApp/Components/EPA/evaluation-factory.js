@@ -21,7 +21,11 @@
         }
 
         function resetScore(epaId) {
-            return $http.put(baseUrl + 'api/Evaluation/ResetScore', { params: { epaId: epaId } });
+            var criteria = {
+              EPAId: epaId
+            };
+
+            return $http.put(baseUrl + 'api/Evaluation/ResetScore', criteria);
         }
     }
 })(angular);

@@ -87,19 +87,15 @@
         }
 
         [HttpPut]
-        public HttpResponseMessage ResetScore(int epaId)
+        public HttpResponseMessage ResetScore(ResetScoreCriteria criteria)
         {
             HttpResponseMessage response = null;
 
             if (SessionService.CurrentUser.Roles.Select(x => x.RoleId).Contains((int)SystemRole.SystemAdmin))
             {
-                EPAModel epaInfo = _evaluationService.GetEPAInfoById(epaId);
+                EPAModel epaInfo = _evaluationService.GetEPAInfoById(criteria.EPAId);
 
-                var resetScoreCriteria = new ResetScoreCriteria
-                {
-                    EPAId = epaInfo.EPAId,
-                    ModifiedBy = SessionService.EmployeeId
-                };
+                criteria.ModifiedBy = SessionService.EmployeeId;
 
                 CommandResult commandResult;
                 if (epaInfo.IsSemiHasMonthly)
@@ -107,17 +103,17 @@
                     if (epaInfo.Process.Reviewers.Any()
                         && epaInfo.Process.Reviewers.First().StartDate.Date <= DateTime.Now.Date)
                     {
-                        resetScoreCriteria.EPAInfo = epaInfo;
+                        criteria.EPAInfo = epaInfo;
 
-                        commandResult = _evaluationService.ResetScore(resetScoreCriteria);
+                        commandResult = _evaluationService.ResetScore(criteria);
                         response = Request.CreateResponse(HttpStatusCode.OK, commandResult);
                     }
                 }
                 else
                 {
-                    resetScoreCriteria.EPAInfo = epaInfo;
+                    criteria.EPAInfo = epaInfo;
 
-                    commandResult = _evaluationService.ResetScore(resetScoreCriteria);
+                    commandResult = _evaluationService.ResetScore(criteria);
                     response = Request.CreateResponse(HttpStatusCode.OK, commandResult);
                 }
             }

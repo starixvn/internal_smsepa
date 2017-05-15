@@ -352,38 +352,37 @@
                 vm.epaInfos = ReviewerEPAModel.epaInfos;
 
                 var averageScore = 0, countEndProcess = 0;
-                angular.forEach(vm.epaInfos,
-                    function (epaInfo) {
-                        if (epaInfo.IsSemiHasMonthly && !epaInfo.Process.CurrentProcess.TotalScore) {
-                            epaInfo.Process.CurrentProcess.TotalScore = epaInfo.MonthlyEPA.AverageReviewerScoreConverted;
-                        } else if (!epaInfo.IsSemiHasMonthly) {
-                            if (epaInfo.Process.Evaluators[0].IsEndProcess && !epaInfo.Process.CurrentProcess.TotalScore) {
-                                epaInfo.Process.CurrentProcess.TotalScore = epaInfo.Process.AverageScoreByEvaluators;
-                            }
+                angular.forEach(vm.epaInfos, function (epaInfo) {
+                    if (epaInfo.IsSemiHasMonthly && !epaInfo.Process.CurrentProcess.TotalScore) {
+                        epaInfo.Process.CurrentProcess.TotalScore = epaInfo.MonthlyEPA.AverageReviewerScoreConverted;
+                    } else if (!epaInfo.IsSemiHasMonthly) {
+                        if (epaInfo.Process.Evaluators[0].IsEndProcess && !epaInfo.Process.CurrentProcess.TotalScore) {
+                            epaInfo.Process.CurrentProcess.TotalScore = epaInfo.Process.AverageScoreByEvaluators;
                         }
+                    }
 
-                        epaInfo.Process.Self.TotalScore = utilitiesFactory.parseFloat(epaInfo.Process.Self.TotalScore);
-                        epaInfo.Process.CurrentProcess.TotalScore = utilitiesFactory.parseFloat(epaInfo.Process.CurrentProcess.TotalScore);
-                        epaInfo.FinalScore = epaInfo.Process.CurrentProcess.TotalScore + epaInfo.DisciplineScore;
-                        epaInfo.FinalScore = EvaluationModel.checkScore(epaInfo.FinalScore, 0, epaInfo.Process.CurrentProcess.MaxPerformanceScore);
-                        epaInfo.Grade = EvaluationModel.convertScoreToGrade(
-                            epaInfo.Process.CurrentProcess.TotalScore,
-                            epaInfo.DisciplineScore,
-                            epaInfo.HasDisciplineScore,
-                            epaInfo.Process.CurrentProcess.MaxPerformanceScore,
-                            vm.standardGrades);
+                    epaInfo.Process.Self.TotalScore = utilitiesFactory.parseFloat(epaInfo.Process.Self.TotalScore);
+                    epaInfo.Process.CurrentProcess.TotalScore = utilitiesFactory.parseFloat(epaInfo.Process.CurrentProcess.TotalScore);
+                    epaInfo.FinalScore = epaInfo.Process.CurrentProcess.TotalScore + epaInfo.DisciplineScore;
+                    epaInfo.FinalScore = EvaluationModel.checkScore(epaInfo.FinalScore, 0, epaInfo.Process.CurrentProcess.MaxPerformanceScore);
+                    epaInfo.Grade = EvaluationModel.convertScoreToGrade(
+                        epaInfo.Process.CurrentProcess.TotalScore,
+                        epaInfo.DisciplineScore,
+                        epaInfo.HasDisciplineScore,
+                        epaInfo.Process.CurrentProcess.MaxPerformanceScore,
+                        vm.standardGrades);
 
-                        if (epaInfo.LastFinalScore.length > 0) {
-                            epaInfo.LastFinalScore = utilitiesFactory.parseFloat(epaInfo.LastFinalScore);
-                        } else {
-                            epaInfo.LastFinalScore = null;
-                        }
+                    if (epaInfo.LastFinalScore.length > 0) {
+                        epaInfo.LastFinalScore = utilitiesFactory.parseFloat(epaInfo.LastFinalScore);
+                    } else {
+                        epaInfo.LastFinalScore = null;
+                    }
 
-                        if (epaInfo.Process.CurrentProcess.IsEndProcess || !(epaInfo.IsSemiAnnual || epaInfo.IsMonthly)) {
-                            countEndProcess += 1;
-                        }
-                        averageScore += epaInfo.Process.AverageScoreByEvaluators;
-                    });
+                    if (epaInfo.Process.CurrentProcess.IsEndProcess || !(epaInfo.IsSemiAnnual || epaInfo.IsMonthly)) {
+                        countEndProcess += 1;
+                    }
+                    averageScore += epaInfo.Process.AverageScoreByEvaluators;
+                });
 
                 if (countEndProcess === vm.epaInfos.length) {
                     vm.isEndProcessAll = true;
