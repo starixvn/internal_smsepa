@@ -142,7 +142,8 @@
 
                 foreach (ConditionalCellStyle conditionalCellStyle in ConditionalCellStyles)
                 {
-                    if (index == conditionalCellStyle.ColumnIndex && conditionalCellStyle.Condition(value))
+                    if (index == conditionalCellStyle.ColumnIndex
+                        && conditionalCellStyle.Condition(objectData))
                     {
                         cell.CellStyle = ColumnsStyles[conditionalCellStyle.StyleIndex];
                     }

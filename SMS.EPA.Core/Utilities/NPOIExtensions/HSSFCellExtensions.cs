@@ -46,15 +46,15 @@
                     return;
                 }
 
-                if (TrySetBoolCell(cell, valueString))
-                {
-                    return;
-                }
+                ////if (TrySetBoolCell(cell, valueString))
+                ////{
+                ////    return;
+                ////}
 
-                if (TrySetDateTimeCell(cell, valueString))
-                {
-                    return;
-                }
+                ////if (TrySetDateTimeCell(cell, valueString))
+                ////{
+                ////    return;
+                ////}
 
                 var textString = value as IRichTextString;
                 if (textString != null)
@@ -66,29 +66,29 @@
             }
         }
 
-        private static bool TrySetDateTimeCell(ICell cell, string valueString)
-        {
-            DateTime dateTimeValue;
-            if (DateTime.TryParse(valueString, out dateTimeValue))
-            {
-                cell.SetCellValue(dateTimeValue);
-                return true;
-            }
+        ////private static bool TrySetDateTimeCell(ICell cell, string valueString)
+        ////{
+        ////    DateTime dateTimeValue;
+        ////    if (DateTime.TryParse(valueString, out dateTimeValue))
+        ////    {
+        ////        cell.SetCellValue(dateTimeValue);
+        ////        return true;
+        ////    }
 
-            return false;
-        }
+        ////    return false;
+        ////}
 
-        private static bool TrySetBoolCell(ICell cell, string valueString)
-        {
-            bool boolValue;
-            if (bool.TryParse(valueString, out boolValue))
-            {
-                cell.SetCellValue(boolValue);
-                return true;
-            }
+        ////private static bool TrySetBoolCell(ICell cell, string valueString)
+        ////{
+        ////    bool boolValue;
+        ////    if (bool.TryParse(valueString, out boolValue))
+        ////    {
+        ////        cell.SetCellValue(boolValue);
+        ////        return true;
+        ////    }
 
-            return false;
-        }
+        ////    return false;
+        ////}
 
         private static bool TrySetDecimalCell(ICell cell, string valueString)
         {
