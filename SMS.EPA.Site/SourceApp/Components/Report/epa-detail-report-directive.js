@@ -61,13 +61,13 @@
 
         function calculateScore(epaInfo) {
             var result = {
-                SelfScore: "",
-                EvaluatorScore: "",
-                ReviewerScore: "",
-                ManagementScore: "",
-                DisciplineScore: "",
-                FinalScore: "",
-                Grade: ""
+                SelfScore: status.NotAvailable,
+                EvaluatorScore: status.NotAvailable,
+                ReviewerScore: status.NotAvailable,
+                ManagementScore: status.NotAvailable,
+                DisciplineScore: status.NotAvailable,
+                FinalScore: status.NotAvailable,
+                Grade: status.NotAvailable
             };
 
             if (epaInfo.HasDisciplineScore) {
@@ -79,6 +79,8 @@
                     result.DisciplineScore = "-";
                 }
             }
+
+            debugger;
 
             if (epaInfo.EPAId > 0) {
                 switch (epaInfo.Process.Self.StatusId) {
@@ -172,8 +174,6 @@
                 CommonModel.getStandardGrade();
                 standardGrades = CommonModel.standardGrades;
             }
-
-            debugger;
 
             if (result.FinalScore !== "") {
                 result.Grade = EvaluationModel.convertScoreToGrade(
