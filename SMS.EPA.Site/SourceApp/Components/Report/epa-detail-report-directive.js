@@ -173,12 +173,14 @@
                 standardGrades = CommonModel.standardGrades;
             }
 
+            debugger;
+
             if (result.FinalScore !== "") {
                 result.Grade = EvaluationModel.convertScoreToGrade(
                     result.FinalScore - tempDisciplineScore,
                     tempDisciplineScore,
                     epaInfo.HasDisciplineScore,
-                    epaInfo.MaxFinalScore - epaInfo.MaxDisciplineScore,
+                    100,
                     standardGrades);
             } else {
                 // Set default lowest value
