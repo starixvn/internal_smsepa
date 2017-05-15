@@ -4,6 +4,7 @@
     using Core.Enumerations;
     using Report;
     using System.Collections.Generic;
+    using System.Globalization;
     using System.Linq;
 
     public class EPAModel : IExcelRecord
@@ -145,6 +146,53 @@
             return IsSemiHasMonthly
                    && (Process.CurrentProcess.ProcessId == (int)ProcessType.Self ||
                        Process.CurrentProcess.ProcessId == (int)ProcessType.Evaluator);
+        }
+
+        public string FinalScoreToExport
+        {
+            get
+            {
+                // Discipline Score
+                float disciplineScore = 0;
+                if (HasDisciplineScore)
+                {
+                    disciplineScore = DisciplineScore;
+                }
+
+                float finalScore = -1;
+
+                // Self
+                float selfTotalScore;
+                if (float.TryParse(Process.Self.TotalScore, out selfTotalScore))
+                {
+                    finalScore = selfTotalScore + disciplineScore;
+                }
+
+                // Evaluator
+                if (Process.Evaluators.Any() && Process.AverageScoreByEvaluators != null)
+                {
+                    finalScore = Process.AverageScoreByEvaluators.Value + disciplineScore;
+                }
+
+                // Reviewer
+                if (Process.Reviewers.Any() && Process.AverageScoreByReviewers != null)
+                {
+                    finalScore = Process.AverageScoreByReviewers.Value + disciplineScore;
+                }
+
+                // Management
+                if (Process.Managements.Any() && Process.AverageScoreByManagements != null)
+                {
+                    finalScore = Process.AverageScoreByManagements.Value + disciplineScore;
+                }
+
+                if (finalScore == -1)
+                {
+                    return "N/A";
+                }
+
+                return StatusId == 0 ? finalScore.ToString(CultureInfo.InvariantCulture) : FinalScore;
+            }
         }
 
         public object ConvertToExcelRecord()

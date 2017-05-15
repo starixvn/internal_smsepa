@@ -915,7 +915,7 @@
 
                 Font selectedFont = epaInfo.IsClosed ? _normalFont : _redFont;
 
-                var finalScoreString = CalculateFinalScore(epaInfo);
+                var finalScoreString = epaInfo.FinalScoreToExport;
 
                 cell = new PdfPCell
                 {
@@ -1011,49 +1011,49 @@
                 : process.TotalScore + " / " + maxScore;
         }
 
-        private static string CalculateFinalScore(EPAModel epaInfo)
-        {
-            // Discipline Score
-            float disciplineScore = 0;
-            if (epaInfo.HasDisciplineScore)
-            {
-                disciplineScore = epaInfo.DisciplineScore;
-            }
+        //private static string CalculateFinalScore(EPAModel epaInfo)
+        //{
+        //    // Discipline Score
+        //    float disciplineScore = 0;
+        //    if (epaInfo.HasDisciplineScore)
+        //    {
+        //        disciplineScore = epaInfo.DisciplineScore;
+        //    }
 
-            float finalScore = -1;
+        //    float finalScore = -1;
 
-            // Self
-            float selfTotalScore;
-            if (float.TryParse(epaInfo.Process.Self.TotalScore, out selfTotalScore))
-            {
-                finalScore = selfTotalScore + disciplineScore;
-            }
+        //    // Self
+        //    float selfTotalScore;
+        //    if (float.TryParse(epaInfo.Process.Self.TotalScore, out selfTotalScore))
+        //    {
+        //        finalScore = selfTotalScore + disciplineScore;
+        //    }
 
-            // Evaluator
-            if (epaInfo.Process.Evaluators.Any() && epaInfo.Process.AverageScoreByEvaluators != null)
-            {
-                finalScore = epaInfo.Process.AverageScoreByEvaluators.Value + disciplineScore;
-            }
+        //    // Evaluator
+        //    if (epaInfo.Process.Evaluators.Any() && epaInfo.Process.AverageScoreByEvaluators != null)
+        //    {
+        //        finalScore = epaInfo.Process.AverageScoreByEvaluators.Value + disciplineScore;
+        //    }
 
-            // Reviewer
-            if (epaInfo.Process.Reviewers.Any() && epaInfo.Process.AverageScoreByReviewers != null)
-            {
-                finalScore = epaInfo.Process.AverageScoreByReviewers.Value + disciplineScore;
-            }
+        //    // Reviewer
+        //    if (epaInfo.Process.Reviewers.Any() && epaInfo.Process.AverageScoreByReviewers != null)
+        //    {
+        //        finalScore = epaInfo.Process.AverageScoreByReviewers.Value + disciplineScore;
+        //    }
 
-            // Management
-            if (epaInfo.Process.Managements.Any() && epaInfo.Process.AverageScoreByManagements != null)
-            {
-                finalScore = epaInfo.Process.AverageScoreByManagements.Value + disciplineScore;
-            }
+        //    // Management
+        //    if (epaInfo.Process.Managements.Any() && epaInfo.Process.AverageScoreByManagements != null)
+        //    {
+        //        finalScore = epaInfo.Process.AverageScoreByManagements.Value + disciplineScore;
+        //    }
 
-            if (finalScore == -1)
-            {
-                return "N/A";
-            }
+        //    if (finalScore == -1)
+        //    {
+        //        return "N/A";
+        //    }
 
-            return epaInfo.StatusId == 0 ? finalScore.ToString(CultureInfo.InvariantCulture) : epaInfo.FinalScore;
-        }
+        //    return epaInfo.StatusId == 0 ? finalScore.ToString(CultureInfo.InvariantCulture) : epaInfo.FinalScore;
+        //}
 
         private PdfPTable RenderPerformanceResultForSemiHasMonthly(EPAModel epaInfo)
         {
@@ -1278,7 +1278,7 @@
                     //        ? (string.IsNullOrEmpty(epaInfo.FinalScore) ? Lang.NotAvailable : epaInfo.FinalScore + " / " + epaInfo.MaxFinalScore)
                     //        : Lang.Pending;
 
-                    var finalScoreString = CalculateFinalScore(epaInfo);
+                    var finalScoreString = epaInfo.FinalScoreToExport;
 
                     cell = new PdfPCell(new Phrase(finalScoreString, selectedFont))
                     {

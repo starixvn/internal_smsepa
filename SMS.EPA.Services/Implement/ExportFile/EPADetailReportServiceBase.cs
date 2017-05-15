@@ -20,6 +20,20 @@
     {
         protected const int ExcelColumnWidth = 256;
 
+        private readonly ICommonService _commonService;
+
+        private readonly IEmployeeEPAService _employeeEPAService;
+
+        protected EPADetailReportServiceBase() : this(null, null)
+        {
+        }
+
+        protected EPADetailReportServiceBase(ICommonService commonService, IEmployeeEPAService employeeEPAService)
+        {
+            _commonService = commonService ?? new CommonService();
+            _employeeEPAService = employeeEPAService ?? new EmployeeEPAService();
+        }
+
         protected IFont RedFont { get; set; }
 
         protected ICellStyle EvenStyleCenter { get; set; }
@@ -92,24 +106,37 @@
             return evaluatorScore;
         }
 
-        protected static string GetFinalScore(EPAModel epaInfo)
+        //protected static string GetFinalScore(EPAModel epaInfo)
+        //{
+        //    var finalScore = epaInfo.StatusId == (int)EPAStatus.Closed
+        //        ? (string.IsNullOrEmpty(epaInfo.FinalScore)
+        //            ? Lang.NotAvailable
+        //            : Math.Round(float.Parse(epaInfo.FinalScore), 2).ToString(CultureInfo.InvariantCulture))
+        //        : Lang.Pending;
+
+        //    return finalScore;
+        //}
+
+        protected string GetGrade(EPAModel epaInfo, string finalScoreString)
         {
-            var finalScore = epaInfo.StatusId == (int)EPAStatus.Closed
-                ? (string.IsNullOrEmpty(epaInfo.FinalScore)
-                    ? Lang.NotAvailable
-                    : Math.Round(float.Parse(epaInfo.FinalScore), 2).ToString(CultureInfo.InvariantCulture))
-                : Lang.Pending;
+            var standardGrades = _commonService.GetStandardGrade().ToList();
 
-            return finalScore;
-        }
+            float finalScore;
+            float.TryParse(finalScoreString, out finalScore);
 
-        protected static string GetGrade(EPAModel epaInfo)
-        {
-            var grade = epaInfo.StatusId == (int)EPAStatus.Closed
-                ? (string.IsNullOrEmpty(epaInfo.FinalScore) ? Lang.NotAvailable : epaInfo.Grade)
-                : Lang.Pending;
+            float performanceScore = 0;
+            if (finalScore != 0)
+            {
+                performanceScore = finalScore - epaInfo.DisciplineScore;
+            }
 
-            return grade;
+            var tempGrade = _employeeEPAService.ConvertScoreToGrade(
+                performanceScore,
+                epaInfo.DisciplineScore,
+                epaInfo.HasDisciplineScore,
+                standardGrades);
+
+            return tempGrade;
         }
 
         protected static string GetReviewerScore(EPAModel epaInfo)

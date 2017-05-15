@@ -139,8 +139,8 @@
                 }
             }
 
-            var finalScore = GetFinalScore(epaInfo);
-            var grade = GetGrade(epaInfo);
+            var finalScore = epaInfo.FinalScoreToExport;
+            var grade = GetGrade(epaInfo, finalScore);
 
             return new
             {
