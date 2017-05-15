@@ -218,13 +218,13 @@
             "StyleCop.CSharp.StylecopPlus.Rules",
             "SP2101:MethodMustNotContainMoreLinesThan",
             Justification = "Reviewed. Suppression is OK here.")]
-        protected int WriteCommonCells(EPAModel epaInfo, IRow row)
+        protected int WriteCommonCells(EPAModel epaInfo, IRow row, int currentRow)
         {
             var currentColumn = 0;
 
             var cell = row.CreateCell(currentColumn);
             cell.CellStyle = BodyStyle;
-            cell.SetCellValue(1);
+            cell.SetCellValue(currentRow);
             SetColumnWidth(currentColumn++, 5);
 
             cell = row.CreateCell(currentColumn);

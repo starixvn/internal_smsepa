@@ -1,4 +1,4 @@
-(function(angular) {
+(function (angular) {
     "use strict";
     /* jshint latedef:nofunc */
 
@@ -30,22 +30,8 @@
                     SortDirection: sortCode,
                     SortType: "string"
                 },
-                {
-                    HeaderText: "Full Name",
-                    Width: 140,
-                    Name: "FullName",
-                    HeaderAlign: "center",
-                    CellAlign: "left",
-                    CanResize: true
-                },
-                {
-                    HeaderText: "Nick Name",
-                    Width: 100,
-                    Name: "NickName",
-                    HeaderAlign: "center",
-                    CellAlign: "center",
-                    AllowTruncate: true
-                },
+                { HeaderText: "Full Name", Width: 140, Name: "FullName", HeaderAlign: "center", CellAlign: "left", CanResize: true },
+                { HeaderText: "Nick Name", Width: 100, Name: "NickName", HeaderAlign: "center", CellAlign: "left", AllowTruncate: true },
                 {
                     HeaderText: "Section",
                     Width: 120,
@@ -56,59 +42,15 @@
                     SortDirection: sortSection,
                     SortType: "string"
                 },
-                {
-                    HeaderText: "Job Title",
-                    Width: 160,
-                    Name: "JobTitle",
-                    HeaderAlign: "center",
-                    CellAlign: "left",
-                    CanResize: true
-                },
-                {
-                    HeaderText: "Group Date",
-                    Width: 80,
-                    Name: "GroupDate",
-                    HeaderAlign: "center",
-                    CellAlign: "center",
-                    FormatDateTime: "DD MMM, YYYY"
-                },
+                { HeaderText: "Job Title", Width: 160, Name: "JobTitle", HeaderAlign: "center", CellAlign: "left", CanResize: true },
+                { HeaderText: "Group Date", Width: 80, Name: "GroupDate", HeaderAlign: "center", CellAlign: "left", FormatDateTime: "DD MMM, YYYY" },
                 { HeaderText: "Target Type", Width: 120, Name: "TargetType", HeaderAlign: "center", CellAlign: "left" },
                 { HeaderText: "Self Score", Width: 80, Name: "SelfScore", HeaderAlign: "center", CellAlign: "center" },
-                {
-                    HeaderText: "Evaluator Score",
-                    Width: 80,
-                    Name: "EvaluatorScore",
-                    HeaderAlign: "center",
-                    CellAlign: "center"
-                },
-                {
-                    HeaderText: "Reviewer Score",
-                    Width: 80,
-                    Name: "ReviewerScore",
-                    HeaderAlign: "center",
-                    CellAlign: "center"
-                },
-                {
-                    HeaderText: "Management Score",
-                    Width: 80,
-                    Name: "ManagementScore",
-                    HeaderAlign: "center",
-                    CellAlign: "center"
-                },
-                {
-                    HeaderText: "Discipline Score",
-                    Width: 80,
-                    Name: "DisciplineScore",
-                    HeaderAlign: "center",
-                    CellAlign: "center"
-                },
-                {
-                    HeaderText: "Final Score",
-                    Width: 80,
-                    Name: "FinalScore",
-                    HeaderAlign: "center",
-                    CellAlign: "center"
-                },
+                { HeaderText: "Evaluator Score", Width: 80, Name: "EvaluatorScore", HeaderAlign: "center", CellAlign: "center" },
+                { HeaderText: "Reviewer Score", Width: 80, Name: "ReviewerScore", HeaderAlign: "center", CellAlign: "center" },
+                { HeaderText: "Management Score", Width: 80, Name: "ManagementScore", HeaderAlign: "center", CellAlign: "center" },
+                { HeaderText: "Discipline Score", Width: 80, Name: "DisciplineScore", HeaderAlign: "center", CellAlign: "center" },
+                { HeaderText: "Final Score", Width: 80, Name: "FinalScore", HeaderAlign: "center", CellAlign: "center" },
                 { HeaderText: "Grade", Width: 80, Name: "Grade", HeaderAlign: "center", CellAlign: "center" },
                 { HeaderText: "Export PDF", Width: 80, Name: "ExportPdf", HeaderAlign: "center", CellAlign: "center" },
                 { HeaderText: "View Detail", Width: 80, Name: "ViewDetail", HeaderAlign: "center", CellAlign: "center" }
@@ -141,55 +83,55 @@
             if (epaInfo.EPAId > 0) {
                 switch (epaInfo.Process.Self.StatusId) {
                     case utilitiesFactory.processStatus.InProgress:
-                    result.SelfScore = epaInfo.Process.Self.TotalScore.length > 0
-                        ? utilitiesFactory.parseFloat(epaInfo.Process.Self.TotalScore)
-                        : status.NotAvailable;
-                    break;
+                        result.SelfScore = epaInfo.Process.Self.TotalScore.length > 0
+                            ? utilitiesFactory.parseFloat(epaInfo.Process.Self.TotalScore)
+                            : status.NotAvailable;
+                        break;
                     case utilitiesFactory.processStatus.Closed:
-                    result.SelfScore = epaInfo.Process.Self.TotalScore.length > 0
-                        ? utilitiesFactory.parseFloat(epaInfo.Process.Self.TotalScore)
-                        : status.NotAvailable;
-                    break;
+                        result.SelfScore = epaInfo.Process.Self.TotalScore.length > 0
+                            ? utilitiesFactory.parseFloat(epaInfo.Process.Self.TotalScore)
+                            : status.NotAvailable;
+                        break;
                 }
 
                 switch (epaInfo.Process.Evaluators[0].StatusId) {
                     case utilitiesFactory.processStatus.InProgress:
-                    result.EvaluatorScore = epaInfo.Process.AverageScoreByEvaluators !== null
-                        ? epaInfo.Process.AverageScoreByEvaluators
-                        : status.NotAvailable;
-                    break;
+                        result.EvaluatorScore = epaInfo.Process.AverageScoreByEvaluators !== null
+                            ? epaInfo.Process.AverageScoreByEvaluators
+                            : status.NotAvailable;
+                        break;
                     case utilitiesFactory.processStatus.Closed:
-                    result.EvaluatorScore = epaInfo.Process.AverageScoreByEvaluators !== null
-                        ? epaInfo.Process.AverageScoreByEvaluators
-                        : status.NotAvailable;
-                    break;
+                        result.EvaluatorScore = epaInfo.Process.AverageScoreByEvaluators !== null
+                            ? epaInfo.Process.AverageScoreByEvaluators
+                            : status.NotAvailable;
+                        break;
                 }
 
                 switch (epaInfo.Process.Reviewers[0].StatusId) {
                     case utilitiesFactory.processStatus.InProgress:
-                    result.ReviewerScore = epaInfo.Process.AverageScoreByReviewers !== null
-                        ? epaInfo.Process.AverageScoreByReviewers
-                        : status.NotAvailable;
-                    break;
+                        result.ReviewerScore = epaInfo.Process.AverageScoreByReviewers !== null
+                            ? epaInfo.Process.AverageScoreByReviewers
+                            : status.NotAvailable;
+                        break;
                     case utilitiesFactory.processStatus.Closed:
-                    result.ReviewerScore = epaInfo.Process.AverageScoreByReviewers !== null
-                        ? epaInfo.Process.AverageScoreByReviewers
-                        : status.NotAvailable;
-                    break;
+                        result.ReviewerScore = epaInfo.Process.AverageScoreByReviewers !== null
+                            ? epaInfo.Process.AverageScoreByReviewers
+                            : status.NotAvailable;
+                        break;
                 }
 
                 if (epaInfo.Process.Managements.length > 0) {
                     switch (epaInfo.Process.Managements[0].StatusId) {
                         case utilitiesFactory.processStatus.InProgress:
-                        result.ManagementScore = epaInfo.Process.AverageScoreByManagements !== null
-                            ? epaInfo.Process.AverageScoreByManagements
-                            : status.NotAvailable;
-                        break;
+                            result.ManagementScore = epaInfo.Process.AverageScoreByManagements !== null
+                                ? epaInfo.Process.AverageScoreByManagements
+                                : status.NotAvailable;
+                            break;
                         case utilitiesFactory.processStatus.Closed:
-                        result.ManagementScore = epaInfo.Process.AverageScoreByManagements !== null
-                            ? epaInfo.Process.AverageScoreByManagements
-                            : status.NotAvailable;
-                        break;
+                            result.ManagementScore = epaInfo.Process.AverageScoreByManagements !== null
+                                ? epaInfo.Process.AverageScoreByManagements
+                                : status.NotAvailable;
+                            break;
                     }
                 }
 
@@ -210,19 +152,19 @@
             }
 
             if (result.SelfScore !== status.NotAvailable && result.SelfScore !== "") {
-                result.FinalScore = result.SelfScore + tempDisciplineScore;
+                result.FinalScore = utilitiesFactory.parseFloat(result.SelfScore + tempDisciplineScore);
             }
 
             if (result.EvaluatorScore !== status.NotAvailable && result.EvaluatorScore !== "") {
-                result.FinalScore = result.EvaluatorScore + tempDisciplineScore;
+                result.FinalScore = utilitiesFactory.parseFloat(result.EvaluatorScore + tempDisciplineScore);
             }
 
             if (result.ReviewerScore !== status.NotAvailable && result.ReviewerScore !== "") {
-                result.FinalScore = result.ReviewerScore + tempDisciplineScore;
+                result.FinalScore = utilitiesFactory.parseFloat(result.ReviewerScore + tempDisciplineScore);
             }
 
             if (result.ManagementScore !== status.NotAvailable && result.ManagementScore !== "") {
-                result.FinalScore = result.ManagementScore + tempDisciplineScore;
+                result.FinalScore = utilitiesFactory.parseFloat(result.ManagementScore + tempDisciplineScore);
             }
 
             // Get Standard grades if empty
@@ -262,7 +204,7 @@
 
             if (gridData.EpaInfos) {
                 angular.forEach(gridData.EpaInfos,
-                    function(epaInfo, index) {
+                    function (epaInfo, index) {
                         var score = calculateScore(epaInfo);
                         var cssSelfScore = epaInfo.EPAId > 0 &&
                             !epaInfo.HasMonthlyEPA &&
@@ -274,9 +216,7 @@
                             !epaInfo.Process.Evaluators[0].IsEndProcess
                             ? "red"
                             : "";
-                        var cssReviewerScore = epaInfo.EPAId > 0 && !epaInfo.Process.Reviewers[0].IsEndProcess
-                            ? "red"
-                            : "";
+                        var cssReviewerScore = epaInfo.EPAId > 0 && !epaInfo.Process.Reviewers[0].IsEndProcess ? "red" : "";
                         var cssManagementScore = "";
                         var cssDisciplineScore = epaInfo.EPAId > 0 && epaInfo.DisciplineScore < 0 ? "red" : "";
                         var cssPendingShowDefaultRedValue = epaInfo.StatusId === utilitiesFactory.epaStatus.Closed ? "" : "red";
@@ -300,34 +240,13 @@
                                 { Name: "JobTitle", Value: epaInfo.Employee.JobTitleName },
                                 { Name: "GroupDate", Value: epaInfo.Employee.JoinedDate },
                                 { Name: "TargetType", Value: epaInfo.Period.TargetTypeName },
-                                {
-                                    Name: "SelfScore",
-                                    Value: "<span class='" + cssSelfScore + "'>" + score.SelfScore + "</span>"
-                                },
-                                {
-                                    Name: "EvaluatorScore",
-                                    Value: "<span class='" + cssEvaluatorScore + "'>" + score.EvaluatorScore + "</span>"
-                                },
-                                {
-                                    Name: "ReviewerScore",
-                                    Value: "<span class='" + cssReviewerScore + "'>" + score.ReviewerScore + "</span>"
-                                },
-                                {
-                                    Name: "ManagementScore",
-                                    Value: "<span class='" + cssManagementScore + "'>" + score.ManagementScore + "</span>"
-                                },
-                                {
-                                    Name: "DisciplineScore",
-                                    Value: "<span class='" + cssDisciplineScore + "'>" + score.DisciplineScore + "</span>"
-                                },
-                                {
-                                    Name: "FinalScore",
-                                    Value: "<span class='" + cssPendingShowDefaultRedValue + "'>" + score.FinalScore + "</span>"
-                                },
-                                {
-                                    Name: "Grade",
-                                    Value: "<span class='" + cssPendingShowDefaultRedValue + "'>" + score.Grade + "</span>"
-                                },
+                                { Name: "SelfScore", Value: "<span class='" + cssSelfScore + "'>" + score.SelfScore + "</span>" },
+                                { Name: "EvaluatorScore", Value: "<span class='" + cssEvaluatorScore + "'>" + score.EvaluatorScore + "</span>" },
+                                { Name: "ReviewerScore", Value: "<span class='" + cssReviewerScore + "'>" + score.ReviewerScore + "</span>" },
+                                { Name: "ManagementScore", Value: "<span class='" + cssManagementScore + "'>" + score.ManagementScore + "</span>" },
+                                { Name: "DisciplineScore", Value: "<span class='" + cssDisciplineScore + "'>" + score.DisciplineScore + "</span>" },
+                                { Name: "FinalScore", Value: "<span class='" + cssPendingShowDefaultRedValue + "'>" + score.FinalScore + "</span>" },
+                                { Name: "Grade", Value: "<span class='" + cssPendingShowDefaultRedValue + "'>" + score.Grade + "</span>" },
                                 { Name: "ExportPdf", Value: epaInfo.EPAId > 0 ? pdfIcon : "" },
                                 { Name: "ViewDetail", Value: epaInfo.EPAId > 0 ? viewIcon : "" }
                             ]
@@ -345,7 +264,7 @@
 
             $(".freegrid").on("click",
                 ".table-cell a.viewEPADetail",
-                function(event) {
+                function (event) {
                     event.preventDefault();
 
                     var epaId = parseInt($(this).data("epaid"));
@@ -371,7 +290,7 @@
 
             $(".freegrid").on("click",
                 ".table-cell a.exportPDF",
-                function(event) {
+                function (event) {
                     event.preventDefault();
 
                     var epaId = parseInt($(this).data("epaid"));
@@ -401,7 +320,7 @@
                 sortDirection: "=",
                 gridExpandHeight: "@"
             },
-            link: function($scope, iElement) {
+            link: function ($scope, iElement) {
                 var gridOptions = {
                     gridExpandHeight: $scope.gridExpandHeight,
                     showPager: true,
@@ -414,20 +333,20 @@
                     titleInfo: {
                         text: "EPA Detail Report",
                         showExcelButton: true,
-                        exportExcelFunction: function() {
+                        exportExcelFunction: function () {
                             $scope.exportReport();
                         }
                     },
                     sortOption: {
-                        serverSortFunction: function(sortColumnName, sortDirection) {
+                        serverSortFunction: function (sortColumnName, sortDirection) {
                             $scope.onSortChanging(sortColumnName, sortDirection);
                         }
                     }
                 };
 
                 $scope.$watch("gridData",
-                    function(gridData) {
-                        $timeout(function() {
+                    function (gridData) {
+                        $timeout(function () {
                             if (gridData.EpaInfos) {
                                 gridOptions.columns = generateColumnHeaders($scope);
                                 gridOptions.bodyRows = generateBodyRows(gridData, $scope.pageOption);

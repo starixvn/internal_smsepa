@@ -50,14 +50,15 @@
         public override void WriteContentTable()
         {
             CreateDefaultStyles();
+            int currentRow = 1;
 
-            foreach (var epaInfo in EpaDetail.EpaInfos)
+            foreach (EPAModel epaInfo in EpaDetail.EpaInfos)
             {
                 BodyStyle = ApplyEvenOddBodyStyle(EvenStyleCenter, OddStyleCenter);
 
                 IRow row = Sheet.CreateRow(CurrentRow);
 
-                var currentColumn = WriteCommonCells(epaInfo, row);
+                var currentColumn = WriteCommonCells(epaInfo, row, currentRow++);
 
                 dynamic score = CalculateScore(epaInfo);
 

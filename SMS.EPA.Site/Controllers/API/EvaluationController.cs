@@ -52,7 +52,7 @@
             {
                 foreach (EPAProcessModel epaProcessModel in epaInfo.Process.Managements)
                 {
-                    epaProcessModel.TotalScore = "";
+                    epaProcessModel.TotalScore = string.Empty;
                 }
             }
 
@@ -60,7 +60,7 @@
             {
                 foreach (EPAProcessModel epaProcessModel in epaInfo.Process.Reviewers)
                 {
-                    epaProcessModel.TotalScore = "";
+                    epaProcessModel.TotalScore = string.Empty;
                 }
             }
 
@@ -68,7 +68,7 @@
             {
                 foreach (EPAProcessModel epaProcessModel in epaInfo.Process.Evaluators)
                 {
-                    epaProcessModel.TotalScore = "";
+                    epaProcessModel.TotalScore = string.Empty;
                 }
             }
         }

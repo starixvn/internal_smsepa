@@ -64,18 +64,19 @@
         public override void WriteContentTable()
         {
             CreateDefaultStyles();
+            int currentRow = 1;
 
-            foreach (var epaInfo in EpaDetail.EpaInfos)
+            foreach (EPAModel epaInfo in EpaDetail.EpaInfos)
             {
                 BodyStyle = ApplyEvenOddBodyStyle(EvenStyleCenter, OddStyleCenter);
 
                 IRow row = Sheet.CreateRow(CurrentRow);
 
-                var currentColumn = WriteCommonCells(epaInfo, row);
+                int currentColumn = WriteCommonCells(epaInfo, row, currentRow++);
 
                 BodyStyle = ApplyEvenOddBodyStyle(EvenStyleLeft, OddStyleLeft);
 
-                var cell = row.CreateCell(currentColumn++);
+                ICell cell = row.CreateCell(currentColumn++);
                 cell.CellStyle = BodyStyle;
                 cell.SetCellValue(epaInfo.Period.TargetTypeName);
 
@@ -92,10 +93,7 @@
 
                 cell = row.CreateCell(currentColumn++);
                 cell.CellStyle = BodyStyle;
-                cell.SetCellValue(GetScoreByPhaseSelected(
-                    EpaDetail.PhaseSelecteds,
-                    score.ManagementScore.ToString(),
-                    (int)ProcessType.Management));
+                cell.SetCellValue(GetScoreByPhaseSelected(EpaDetail.PhaseSelecteds, score.ManagementScore.ToString(), (int)ProcessType.Management));
 
                 BodyStyle = ApplyEvenOddBodyStyle(EvenStyleCenter, OddStyleCenter);
 
@@ -123,12 +121,8 @@
             string managementScore = string.Empty;
 
             var disciplineScore = epaInfo.HasDisciplineScore
-                ? (epaInfo.DisciplineScore < 0
-                    ? "0"
-                    : epaInfo.DisciplineScore.ToString(CultureInfo.InvariantCulture))
-                : (Math.Abs(epaInfo.DisciplineScore) > Constants.Tolerance
-                    ? epaInfo.DisciplineScore.ToString(CultureInfo.InvariantCulture)
-                    : "-");
+                ? (epaInfo.DisciplineScore < 0 ? "0" : epaInfo.DisciplineScore.ToString(CultureInfo.InvariantCulture))
+                : (Math.Abs(epaInfo.DisciplineScore) > Constants.Tolerance ? epaInfo.DisciplineScore.ToString(CultureInfo.InvariantCulture) : "-");
 
             if (epaInfo.EPAId > 0)
             {
@@ -173,8 +167,7 @@
 
                 if (epaInfo.Process.Reviewers.First().StatusId == (int)ProcessStatusType.Closed)
                 {
-                    managementScore = epaInfo.Process.AverageScoreByManagements?.ToString() ??
-                                      Lang.NotAvailable;
+                    managementScore = epaInfo.Process.AverageScoreByManagements?.ToString() ?? Lang.NotAvailable;
                 }
             }
 
