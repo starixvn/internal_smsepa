@@ -151,20 +151,20 @@
                 tempDisciplineScore = result.DisciplineScore;
             }
 
-            if (result.SelfScore !== status.NotAvailable && result.SelfScore !== "") {
-                result.FinalScore = utilitiesFactory.parseFloat(result.SelfScore + tempDisciplineScore);
+            if (result.SelfScore !== status.NotAvailable && result.SelfScore !== "" || isShowScoreOfProcess(epaInfo.Process.Self.StatusId)) {
+                result.FinalScore = getPhaseScore(result.SelfScore, tempDisciplineScore);
             }
 
-            if (result.EvaluatorScore !== status.NotAvailable && result.EvaluatorScore !== "") {
-                result.FinalScore = utilitiesFactory.parseFloat(result.EvaluatorScore + tempDisciplineScore);
+            if (result.EvaluatorScore !== status.NotAvailable && result.EvaluatorScore !== "" || isShowScoreOfProcess(epaInfo.Process.Evaluators[0].StatusId)) {
+                result.FinalScore = getPhaseScore(result.EvaluatorScore, tempDisciplineScore);
             }
 
-            if (result.ReviewerScore !== status.NotAvailable && result.ReviewerScore !== "") {
-                result.FinalScore = utilitiesFactory.parseFloat(result.ReviewerScore + tempDisciplineScore);
+            if (result.ReviewerScore !== status.NotAvailable && result.ReviewerScore !== "" || isShowScoreOfProcess(epaInfo.Process.Reviewers[0].StatusId)) {
+                result.FinalScore = getPhaseScore(result.ReviewerScore, tempDisciplineScore);
             }
 
-            if (result.ManagementScore !== status.NotAvailable && result.ManagementScore !== "") {
-                result.FinalScore = utilitiesFactory.parseFloat(result.ManagementScore + tempDisciplineScore);
+            if (result.ManagementScore !== status.NotAvailable && result.ManagementScore !== "" || isShowScoreOfProcess(epaInfo.Process.Managements[0].StatusId)) {
+                result.FinalScore = getPhaseScore(result.ManagementScore, tempDisciplineScore);
             }
 
             // Get Standard grades if empty
@@ -196,6 +196,23 @@
             //}
 
             return result;
+        }
+
+        function isShowScoreOfProcess(statusId) {
+            if (statusId === utilitiesFactory.processStatus.InProgress ||
+                statusId === utilitiesFactory.processStatus.Closed) {
+                return true;
+            }
+
+            return false;
+        }
+
+        function getPhaseScore(phaseScore, tempDisciplineScore) {
+            if (phaseScore === status.NotAvailable) {
+                return status.NotAvailable;
+            } else {
+                return utilitiesFactory.parseFloat(phaseScore + tempDisciplineScore);
+            }
         }
 
         function generateBodyRows(gridData, pageOption) {
