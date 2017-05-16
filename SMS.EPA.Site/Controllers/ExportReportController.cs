@@ -119,6 +119,8 @@
 
                     _exportExcelService.ContentRowStartIndex = DefaultContentRowStartIndexForTemplate;
 
+                    CreateRedStyleForDisciplineSummaryByPeriodReport();
+
                     _exportExcelService.ExportWithTemplate(employeeDisciplines, true, true);
                 }
             }
@@ -460,6 +462,22 @@
             }
 
             return number < 0;
+        }
+
+        private void CreateRedStyleForDisciplineSummaryByPeriodReport()
+        {
+            // Style
+            int redStyleIndex = _exportExcelService.CreateNewColumnStyle();
+            ICellStyle style = _exportExcelService.ColumnsStyles[redStyleIndex];
+            IFont redFont = _exportExcelService.Workbook.CreateFont();
+            redFont.Color = HSSFColor.Red.Index;
+            style.SetFont(redFont);
+
+            for (int i = 9; i <= 16; i++)
+            {
+                ConditionalCellStyle redStyle = CreateCellStyleIfLessThanZero(redStyleIndex, i);
+                _exportExcelService.ConditionalCellStyles.Add(redStyle);
+            }
         }
 
         private void CreateRedStyleForDisciplineSummaryReport()
