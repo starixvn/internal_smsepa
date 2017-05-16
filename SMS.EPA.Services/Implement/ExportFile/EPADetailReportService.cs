@@ -86,7 +86,8 @@
 
                 currentColumn = WriteScoreCells(epaInfo, currentColumn, row, score);
 
-                if (epaInfo.Process.Managements.Any() && !epaInfo.Process.Managements.First().IsEndProcess)
+                if (epaInfo.Process.Managements.Any() && epaInfo.Process.Managements.First().StatusId ==
+                    (int)ProcessStatusType.InProgress)
                 {
                     BodyStyle = ApplyEvenOddBodyStyle(EvenRedStyle, OddRedStyle);
                 }
@@ -100,6 +101,11 @@
                 cell = row.CreateCell(currentColumn++);
                 cell.CellStyle = BodyStyle;
                 cell.SetCellValue(score.DisciplineScore);
+
+                if (epaInfo.StatusId == (int)EPAStatus.Open)
+                {
+                    BodyStyle = ApplyEvenOddBodyStyle(EvenRedStyle, OddRedStyle);
+                }
 
                 cell = row.CreateCell(currentColumn++);
                 cell.CellStyle = BodyStyle;

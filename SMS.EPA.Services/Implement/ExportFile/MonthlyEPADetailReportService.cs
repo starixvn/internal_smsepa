@@ -6,6 +6,7 @@
     using Resources;
     using System.Collections.Generic;
     using System.Web;
+    using Core.Enumerations;
 
     public class MonthlyEPADetailReportService : EPADetailReportServiceBase
     {
@@ -64,7 +65,9 @@
 
                 currentColumn = WriteScoreCells(epaInfo, currentColumn, row, score);
 
-                BodyStyle = ApplyEvenOddBodyStyle(EvenStyleCenter, OddStyleCenter);
+                BodyStyle = epaInfo.StatusId == (int)EPAStatus.Open
+                    ? ApplyEvenOddBodyStyle(EvenRedStyle, OddRedStyle)
+                    : ApplyEvenOddBodyStyle(EvenStyleCenter, OddStyleCenter);
 
                 var cell = row.CreateCell(currentColumn++);
                 cell.CellStyle = BodyStyle;
