@@ -103,72 +103,6 @@
             return new EmptyResult();
         }
 
-        private void CreateStyleForDisciplineDetailReport(IEnumerable<DisciplineDetailModel> employeeDisciplines)
-        {
-            int totalColumn = employeeDisciplines.First().ConvertToExcelRecord().GetType().GetProperties().Length;
-
-            // Red font
-            IFont redFont = _exportExcelService.Workbook.CreateFont();
-            redFont.Color = HSSFColor.Red.Index;
-
-            // Yellow style
-            int styleIndex = _exportExcelService.CreateNewColumnStyle();
-            ICellStyle style = _exportExcelService.ColumnsStyles[styleIndex];
-            style.FillPattern = FillPattern.SolidForeground;
-            style.FillBackgroundColor = HSSFColor.LightYellow.Index;
-            style.FillForegroundColor = HSSFColor.LightYellow.Index;
-
-            // Yellow with red font style
-            int yellowWithRedFontStyleIndex = _exportExcelService.CreateNewColumnStyle();
-            ICellStyle yelloWithRedFontStyle = _exportExcelService.ColumnsStyles[yellowWithRedFontStyleIndex];
-            yelloWithRedFontStyle.FillPattern = FillPattern.SolidForeground;
-            yelloWithRedFontStyle.FillBackgroundColor = HSSFColor.LightYellow.Index;
-            yelloWithRedFontStyle.FillForegroundColor = HSSFColor.LightYellow.Index;
-            yelloWithRedFontStyle.SetFont(redFont);
-
-            // Normal with red font style
-            int normalWithRedFontStyleIndex = _exportExcelService.CreateNewColumnStyle();
-            ICellStyle normalWithRedFontStyle = _exportExcelService.ColumnsStyles[normalWithRedFontStyleIndex];
-            normalWithRedFontStyle.SetFont(redFont);
-
-            // Condition
-
-            // Yellow
-            for (int i = 0; i < totalColumn; i++)
-            {
-                ConditionalCellStyle yellowCellStyle = new ConditionalCellStyle
-                {
-                    ColumnIndex = i,
-                    Condition = delegate(object o)
-                    {
-                        var value = o.GetType().GetProperties()[7].GetValue(o, null);
-                        DateTime dateTime = DateTime.Parse(value.ToString());
-
-                        return dateTime.DayOfWeek == DayOfWeek.Saturday || dateTime.DayOfWeek == DayOfWeek.Sunday;
-                    },
-                    StyleIndex = styleIndex
-                };
-                _exportExcelService.ConditionalCellStyles.Add(yellowCellStyle);
-            }
-
-            ConditionalCellStyle weekendWithRedScoringSystem =
-                CreateCellStyleIfLessThanZeroAndWeekend(yellowWithRedFontStyleIndex, 22);
-            _exportExcelService.ConditionalCellStyles.Add(weekendWithRedScoringSystem);
-
-            ConditionalCellStyle weekendWithRedScoringApprover =
-                CreateCellStyleIfLessThanZeroAndWeekend(yellowWithRedFontStyleIndex, 23);
-            _exportExcelService.ConditionalCellStyles.Add(weekendWithRedScoringApprover);
-
-            // Normal
-            ConditionalCellStyle normalWithRedScoringSystem =
-                CreateCellStyleIfLessThanZeroAndNotWeekend(normalWithRedFontStyleIndex, 22);
-            _exportExcelService.ConditionalCellStyles.Add(normalWithRedScoringSystem);
-
-            ConditionalCellStyle normalWithRedScoringApprover =
-                CreateCellStyleIfLessThanZeroAndNotWeekend(normalWithRedFontStyleIndex, 23);
-            _exportExcelService.ConditionalCellStyles.Add(normalWithRedScoringApprover);
-        }
-
         public ActionResult ExportDisciplineSummaryByPeriodReport(GetDisciplineSummaryByPeriodCriteria criteria)
         {
             if (criteria != null)
@@ -214,108 +148,6 @@
             }
 
             return new EmptyResult();
-        }
-
-        private void CreateRedStyleForDisciplineSummaryReport()
-        {
-            // Style
-            int redStyleIndex = _exportExcelService.CreateNewColumnStyle();
-            ICellStyle style = _exportExcelService.ColumnsStyles[redStyleIndex];
-            IFont redFont = _exportExcelService.Workbook.CreateFont();
-            redFont.Color = HSSFColor.Red.Index;
-            style.SetFont(redFont);
-
-            int columnIndex = 19;
-            ConditionalCellStyle substractSystemScoreStyle = CreateCellStyleIfLessThanZero(redStyleIndex, columnIndex);
-
-            _exportExcelService.ConditionalCellStyles.Add(substractSystemScoreStyle);
-
-            columnIndex = 20;
-
-            ConditionalCellStyle approverSubstractScoreStyle = CreateCellStyleIfLessThanZero(redStyleIndex, columnIndex);
-
-            _exportExcelService.ConditionalCellStyles.Add(approverSubstractScoreStyle);
-        }
-
-        private static ConditionalCellStyle CreateCellStyleIfLessThanZero(int styleIndex, int columnIndex)
-        {
-            return new ConditionalCellStyle
-            {
-                ColumnIndex = columnIndex,
-                Condition = delegate (object o)
-                {
-                    var value = o.GetType().GetProperties()[columnIndex].GetValue(o, null);
-                    float number;
-
-                    if (!float.TryParse(value.ToString(), out number))
-                    {
-                        return false;
-                    }
-
-                    return number < 0;
-                },
-                StyleIndex = styleIndex
-            };
-        }
-
-        private static ConditionalCellStyle CreateCellStyleIfLessThanZeroAndWeekend(int styleIndex, int columnIndex)
-        {
-            return new ConditionalCellStyle
-            {
-                ColumnIndex = columnIndex,
-                Condition = delegate(object o)
-                {
-                    var value = o.GetType().GetProperties()[columnIndex].GetValue(o, null);
-                    float number;
-
-                    if (!float.TryParse(value.ToString(), out number))
-                    {
-                        return false;
-                    }
-
-                    value = o.GetType().GetProperties()[7].GetValue(o, null);
-                    DateTime dateTime = DateTime.Parse(value.ToString());
-
-                    if ((dateTime.DayOfWeek == DayOfWeek.Saturday || dateTime.DayOfWeek == DayOfWeek.Sunday)
-                        && number < 0)
-                    {
-                        return true;
-                    }
-
-                    return false;
-                },
-                StyleIndex = styleIndex
-            };
-        }
-
-        private static ConditionalCellStyle CreateCellStyleIfLessThanZeroAndNotWeekend(int styleIndex, int columnIndex)
-        {
-            return new ConditionalCellStyle
-            {
-                ColumnIndex = columnIndex,
-                Condition = delegate (object o)
-                {
-                    var value = o.GetType().GetProperties()[columnIndex].GetValue(o, null);
-                    float number;
-
-                    if (!float.TryParse(value.ToString(), out number))
-                    {
-                        return false;
-                    }
-
-                    value = o.GetType().GetProperties()[7].GetValue(o, null);
-                    DateTime dateTime = DateTime.Parse(value.ToString());
-
-                    if ((dateTime.DayOfWeek != DayOfWeek.Saturday && dateTime.DayOfWeek != DayOfWeek.Sunday)
-                        && number < 0)
-                    {
-                        return true;
-                    }
-
-                    return false;
-                },
-                StyleIndex = styleIndex
-            };
         }
 
         public ActionResult ExportEmployeeFlowSettingReport(GetPeriodEmployeeSettingCriteria criteria)
@@ -477,6 +309,71 @@
             return new EmptyResult();
         }
 
+        private static ConditionalCellStyle CreateCellStyleIfLessThanZero(int styleIndex, int columnIndex)
+        {
+            return new ConditionalCellStyle
+            {
+                ColumnIndex = columnIndex,
+                Condition = delegate (object o)
+                {
+                    var value = o.GetType().GetProperties()[columnIndex].GetValue(o, null);
+                    float number;
+
+                    if (!float.TryParse(value.ToString(), out number))
+                    {
+                        return false;
+                    }
+
+                    return number < 0;
+                },
+                StyleIndex = styleIndex
+            };
+        }
+
+        private static ConditionalCellStyle CreateCellStyleIfLessThanZeroAndNotWeekend(int styleIndex, int columnIndex)
+        {
+            return new ConditionalCellStyle
+            {
+                ColumnIndex = columnIndex,
+                Condition = delegate (object o)
+                {
+                    var value = o.GetType().GetProperties()[7].GetValue(o, null);
+                    DateTime dateTime = DateTime.Parse(value.ToString());
+
+                    if (dateTime.DayOfWeek != DayOfWeek.Saturday && dateTime.DayOfWeek != DayOfWeek.Sunday)
+                    {
+                        value = o.GetType().GetProperties()[columnIndex].GetValue(o, null);
+                        return IsFloatLessThanZero(value);
+                    }
+
+                    return false;
+                },
+                StyleIndex = styleIndex
+            };
+        }
+
+        private static ConditionalCellStyle CreateCellStyleIfLessThanZeroAndWeekend(int styleIndex, int columnIndex)
+        {
+            return new ConditionalCellStyle
+            {
+                ColumnIndex = columnIndex,
+                Condition = delegate(object o)
+                {
+                    var value = o.GetType().GetProperties()[7].GetValue(o, null);
+                    DateTime dateTime = DateTime.Parse(value.ToString());
+
+                    if (dateTime.DayOfWeek == DayOfWeek.Saturday || dateTime.DayOfWeek == DayOfWeek.Sunday)
+                    {
+                        value = o.GetType().GetProperties()[columnIndex].GetValue(o, null);
+                        return IsFloatLessThanZero(value);
+                    }
+
+                    return false;
+                },
+                StyleIndex = styleIndex
+            };
+        }
+
         private static string GetDisciplineDetailReportTitle(GetDisciplineDetailCriteria criteria)
         {
             string reportTitle;
@@ -551,6 +448,105 @@
             }
 
             return fileName;
+        }
+
+        private static bool IsFloatLessThanZero(object value)
+        {
+            float number;
+
+            if (!float.TryParse(value.ToString(), out number))
+            {
+                return false;
+            }
+
+            return number < 0;
+        }
+
+        private void CreateRedStyleForDisciplineSummaryReport()
+        {
+            // Style
+            int redStyleIndex = _exportExcelService.CreateNewColumnStyle();
+            ICellStyle style = _exportExcelService.ColumnsStyles[redStyleIndex];
+            IFont redFont = _exportExcelService.Workbook.CreateFont();
+            redFont.Color = HSSFColor.Red.Index;
+            style.SetFont(redFont);
+
+            int columnIndex = 19;
+            ConditionalCellStyle substractSystemScoreStyle = CreateCellStyleIfLessThanZero(redStyleIndex, columnIndex);
+
+            _exportExcelService.ConditionalCellStyles.Add(substractSystemScoreStyle);
+
+            columnIndex = 20;
+
+            ConditionalCellStyle approverSubstractScoreStyle = CreateCellStyleIfLessThanZero(redStyleIndex, columnIndex);
+
+            _exportExcelService.ConditionalCellStyles.Add(approverSubstractScoreStyle);
+        }
+
+        private void CreateStyleForDisciplineDetailReport(IEnumerable<DisciplineDetailModel> employeeDisciplines)
+        {
+            int totalColumn = employeeDisciplines.First().ConvertToExcelRecord().GetType().GetProperties().Length;
+
+            // Red font
+            IFont redFont = _exportExcelService.Workbook.CreateFont();
+            redFont.Color = HSSFColor.Red.Index;
+
+            // Yellow style
+            int styleIndex = _exportExcelService.CreateNewColumnStyle();
+            ICellStyle style = _exportExcelService.ColumnsStyles[styleIndex];
+            style.FillPattern = FillPattern.SolidForeground;
+            style.FillBackgroundColor = HSSFColor.LightYellow.Index;
+            style.FillForegroundColor = HSSFColor.LightYellow.Index;
+
+            // Yellow with red font style
+            int yellowWithRedFontStyleIndex = _exportExcelService.CreateNewColumnStyle();
+            ICellStyle yelloWithRedFontStyle = _exportExcelService.ColumnsStyles[yellowWithRedFontStyleIndex];
+            yelloWithRedFontStyle.FillPattern = FillPattern.SolidForeground;
+            yelloWithRedFontStyle.FillBackgroundColor = HSSFColor.LightYellow.Index;
+            yelloWithRedFontStyle.FillForegroundColor = HSSFColor.LightYellow.Index;
+            yelloWithRedFontStyle.SetFont(redFont);
+
+            // Normal with red font style
+            int normalWithRedFontStyleIndex = _exportExcelService.CreateNewColumnStyle();
+            ICellStyle normalWithRedFontStyle = _exportExcelService.ColumnsStyles[normalWithRedFontStyleIndex];
+            normalWithRedFontStyle.SetFont(redFont);
+
+            // Condition
+
+            // Yellow
+            for (int i = 0; i < totalColumn; i++)
+            {
+                ConditionalCellStyle yellowCellStyle = new ConditionalCellStyle
+                {
+                    ColumnIndex = i,
+                    Condition = delegate(object o)
+                    {
+                        var value = o.GetType().GetProperties()[7].GetValue(o, null);
+                        DateTime dateTime = DateTime.Parse(value.ToString());
+
+                        return dateTime.DayOfWeek == DayOfWeek.Saturday || dateTime.DayOfWeek == DayOfWeek.Sunday;
+                    },
+                    StyleIndex = styleIndex
+                };
+                _exportExcelService.ConditionalCellStyles.Add(yellowCellStyle);
+            }
+
+            ConditionalCellStyle weekendWithRedScoringSystem =
+                CreateCellStyleIfLessThanZeroAndWeekend(yellowWithRedFontStyleIndex, 22);
+            _exportExcelService.ConditionalCellStyles.Add(weekendWithRedScoringSystem);
+
+            ConditionalCellStyle weekendWithRedScoringApprover =
+                CreateCellStyleIfLessThanZeroAndWeekend(yellowWithRedFontStyleIndex, 23);
+            _exportExcelService.ConditionalCellStyles.Add(weekendWithRedScoringApprover);
+
+            // Normal
+            ConditionalCellStyle normalWithRedScoringSystem =
+                CreateCellStyleIfLessThanZeroAndNotWeekend(normalWithRedFontStyleIndex, 22);
+            _exportExcelService.ConditionalCellStyles.Add(normalWithRedScoringSystem);
+
+            ConditionalCellStyle normalWithRedScoringApprover =
+                CreateCellStyleIfLessThanZeroAndNotWeekend(normalWithRedFontStyleIndex, 23);
+            _exportExcelService.ConditionalCellStyles.Add(normalWithRedScoringApprover);
         }
     }
 }
