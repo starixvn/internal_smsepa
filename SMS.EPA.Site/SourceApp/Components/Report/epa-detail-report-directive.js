@@ -227,15 +227,15 @@
                         var score = calculateScore(epaInfo);
                         var cssSelfScore = epaInfo.EPAId > 0 &&
                             !epaInfo.HasMonthlyEPA &&
-                            !epaInfo.Process.Self.IsEndProcess
+                            epaInfo.Process.Self.StatusId === utilitiesFactory.processStatus.InProgress
                             ? "red"
                             : "";
                         var cssEvaluatorScore = epaInfo.EPAId > 0 &&
                             !epaInfo.HasMonthlyEPA &&
-                            !epaInfo.Process.Evaluators[0].IsEndProcess
+                            epaInfo.Process.Evaluators[0].StatusId === utilitiesFactory.processStatus.InProgress
                             ? "red"
                             : "";
-                        var cssReviewerScore = epaInfo.EPAId > 0 && !epaInfo.Process.Reviewers[0].IsEndProcess ? "red" : "";
+                        var cssReviewerScore = epaInfo.EPAId > 0 && epaInfo.Process.Reviewers[0].StatusId === utilitiesFactory.processStatus.InProgress ? "red" : "";
                         var cssManagementScore = "";
                         var cssDisciplineScore = epaInfo.EPAId > 0 && epaInfo.DisciplineScore < 0 ? "red" : "";
                         var cssPendingShowDefaultRedValue = epaInfo.StatusId === utilitiesFactory.epaStatus.Closed ? "" : "red";
@@ -245,7 +245,7 @@
                         if (epaInfo.EPAId > 0 &&
                             epaInfo.Process.Managements &&
                             epaInfo.Process.Managements.length > 0 &&
-                            !epaInfo.Process.Managements[0].IsEndProcess) {
+                            epaInfo.Process.Managements[0].StatusId === utilitiesFactory.processStatus.InProgress) {
                             cssManagementScore = "red";
                         }
 

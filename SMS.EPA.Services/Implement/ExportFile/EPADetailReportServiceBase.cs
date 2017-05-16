@@ -114,7 +114,7 @@
             float.TryParse(finalScoreString, out finalScore);
 
             float? performanceScore = null;
-            if (finalScore != 0)
+            if (Math.Abs(finalScore) > Constants.Tolerance)
             {
                 performanceScore = finalScore - epaInfo.DisciplineScore;
             }

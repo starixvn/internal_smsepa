@@ -144,6 +144,8 @@
                                 var grade;
                                 var cssClass = "";
 
+                                debugger;
+
                                 if (index !== -1) {
                                     // Calculate Final Score and Grade
                                     if (epaInfo.Periods[index].FinalScore.length > 0) {
@@ -154,7 +156,7 @@
                                         grade = status.NotAvailable;
                                     }
 
-                                    if (epaInfo.Periods[index].StatusId === 0 && epaInfo.Periods[index].FinalScore.length > 0) {
+                                    if (epaInfo.Periods[index].StatusId === utilitiesFactory.epaStatus.Open) {
                                         cssClass = "red";
                                     }
                                 } else {

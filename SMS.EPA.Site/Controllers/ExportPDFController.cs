@@ -13,6 +13,7 @@
     using System.Linq;
     using System.Web;
     using System.Web.Mvc;
+    using Constants = Core.Constants.Constants;
 
     [SuppressMessage(
         "StyleCop.CSharp.StylecopPlus.Rules",
@@ -1247,7 +1248,7 @@
                     float.TryParse(finalScoreString, out finalScore);
 
                     float? performanceScore = null;
-                    if (finalScore != 0)
+                    if (Math.Abs(finalScore) > Constants.Tolerance)
                     {
                         performanceScore = finalScore - epaInfo.DisciplineScore;
                     }
