@@ -2,10 +2,12 @@
 {
     using Core.Constants;
     using Core.Enumerations;
+    using Resources;
     using Report;
     using System.Collections.Generic;
     using System.Globalization;
     using System.Linq;
+    using Newtonsoft.Json;
 
     public class EPAModel : IExcelRecord
     {
@@ -148,6 +150,7 @@
                        Process.CurrentProcess.ProcessId == (int)ProcessType.Evaluator);
         }
 
+        [JsonIgnore]
         public string FinalScoreToExport
         {
             get
@@ -169,30 +172,55 @@
                 }
 
                 // Evaluator
-                if (Process.Evaluators.Any() && Process.AverageScoreByEvaluators != null)
-                {
-                    finalScore = Process.AverageScoreByEvaluators.Value + disciplineScore;
-                }
+                finalScore = GetFinalScoreFromProccess(
+                    disciplineScore,
+                    finalScore,
+                    Process.Evaluators,
+                    Process.AverageScoreByEvaluators);
 
                 // Reviewer
-                if (Process.Reviewers.Any() && Process.AverageScoreByReviewers != null)
-                {
-                    finalScore = Process.AverageScoreByReviewers.Value + disciplineScore;
-                }
+                finalScore = GetFinalScoreFromProccess(
+                    disciplineScore,
+                    finalScore,
+                    Process.Reviewers,
+                    Process.AverageScoreByReviewers);
 
                 // Management
-                if (Process.Managements.Any() && Process.AverageScoreByManagements != null)
-                {
-                    finalScore = Process.AverageScoreByManagements.Value + disciplineScore;
-                }
+                finalScore = GetFinalScoreFromProccess(
+                    disciplineScore,
+                    finalScore,
+                    Process.Managements,
+                    Process.AverageScoreByManagements);
 
                 if (finalScore == -1)
                 {
-                    return "N/A";
+                    return Lang.NotAvailable;
                 }
 
                 return StatusId == 0 ? finalScore.ToString(CultureInfo.InvariantCulture) : FinalScore;
             }
+        }
+
+        private static float GetFinalScoreFromProccess(float disciplineScore, float finalScore, IList<EPAProcessModel> processes, float? averageScoreByProcesses)
+        {
+            float result = finalScore;
+            if (processes.Any())
+            {
+                if (averageScoreByProcesses != null)
+                {
+                    result = averageScoreByProcesses.Value + disciplineScore;
+                }
+                else
+                {
+                    if (processes[0].StatusId == (int)ProcessStatusType.InProgress ||
+                        processes[0].StatusId == (int)ProcessStatusType.Closed)
+                    {
+                        result = -1;
+                    }
+                }
+            }
+
+            return result;
         }
 
         public object ConvertToExcelRecord()

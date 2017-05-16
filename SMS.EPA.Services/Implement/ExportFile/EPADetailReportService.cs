@@ -115,10 +115,10 @@
 
         protected override dynamic CalculateScore(EPAModel epaInfo)
         {
-            string selfScore = NotAvailable;
-            string evaluatorScore = NotAvailable;
-            string reviewerScore = NotAvailable;
-            string managementScore = NotAvailable;
+            string selfScore = Lang.NotAvailable;
+            string evaluatorScore = Lang.NotAvailable;
+            string reviewerScore = Lang.NotAvailable;
+            string managementScore = Lang.NotAvailable;
 
             var disciplineScore = epaInfo.HasDisciplineScore
                 ? (epaInfo.DisciplineScore < 0 ? "0" : epaInfo.DisciplineScore.ToString(CultureInfo.InvariantCulture))
@@ -162,7 +162,7 @@
             {
                 if (epaInfo.Process.Reviewers.First().StatusId == (int)ProcessStatusType.InProgress)
                 {
-                    managementScore = epaInfo.Process.AverageScoreByManagements?.ToString() ?? "0";
+                    managementScore = epaInfo.Process.AverageScoreByManagements?.ToString() ?? Lang.NotAvailable;
                 }
 
                 if (epaInfo.Process.Reviewers.First().StatusId == (int)ProcessStatusType.Closed)

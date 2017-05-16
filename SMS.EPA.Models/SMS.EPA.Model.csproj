@@ -33,6 +33,10 @@
     <CodeAnalysisRuleSet>SMS.EPA.Model.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Newtonsoft.Json, Version=8.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.8.0.3\lib\net40\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
@@ -144,6 +148,10 @@
     <ProjectReference Include="..\SMS.EPA.Core\SMS.EPA.Core.csproj">
       <Project>{76EE2DA4-7127-4C21-B218-ADFF51B2B74E}</Project>
       <Name>SMS.EPA.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SMS.EPA.Resources\SMS.EPA.Resources.csproj">
+      <Project>{F855C077-310D-43DC-A8F6-ADE400BC74EF}</Project>
+      <Name>SMS.EPA.Resources</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

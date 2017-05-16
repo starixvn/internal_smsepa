@@ -24,8 +24,6 @@
 
         private readonly IEmployeeEPAService _employeeEPAService;
 
-        protected const string NotAvailable = "N/A";
-
         protected EPADetailReportServiceBase() : this(null, null)
         {
         }
@@ -93,11 +91,11 @@
 
         protected static string GetEvaluatorScore(EPAModel epaInfo)
         {
-            string evaluatorScore = string.Empty;
+            string evaluatorScore = Lang.NotAvailable;
 
             if (epaInfo.Process.Evaluators.First().StatusId == (int)ProcessStatusType.InProgress)
             {
-                evaluatorScore = epaInfo.Process.AverageScoreByEvaluators?.ToString() ?? "0";
+                evaluatorScore = epaInfo.Process.AverageScoreByEvaluators?.ToString() ?? Lang.NotAvailable;
             }
 
             if (epaInfo.Process.Evaluators.First().StatusId == (int)ProcessStatusType.Closed)
@@ -130,11 +128,11 @@
 
         protected static string GetReviewerScore(EPAModel epaInfo)
         {
-            string reviewerScore = string.Empty;
+            string reviewerScore = Lang.NotAvailable;
 
             if (epaInfo.Process.Reviewers.First().StatusId == (int)ProcessStatusType.InProgress)
             {
-                reviewerScore = epaInfo.Process.AverageScoreByReviewers?.ToString() ?? "0";
+                reviewerScore = epaInfo.Process.AverageScoreByReviewers?.ToString() ?? Lang.NotAvailable;
             }
 
             if (epaInfo.Process.Reviewers.First().StatusId == (int)ProcessStatusType.Closed)
@@ -155,7 +153,7 @@
 
         protected static string GetSelfScore(EPAModel epaInfo)
         {
-            string selfScore = string.Empty;
+            string selfScore = Lang.NotAvailable;
 
             if (epaInfo.Process.Self.StatusId == (int)ProcessStatusType.InProgress)
             {
@@ -292,7 +290,7 @@
         protected int WriteScoreCells(EPAModel epaInfo, int currentColumn, IRow row, dynamic score)
         {
             int localCurrentColumn = currentColumn;
-            if (!epaInfo.Process.Self.IsEndProcess)
+            if (epaInfo.Process.Self.StatusId == (int)ProcessStatusType.InProgress)
             {
                 BodyStyle = ApplyEvenOddBodyStyle(EvenRedStyle, OddRedStyle);
             }
@@ -304,7 +302,7 @@
                 score.SelfScore,
                 (int)ProcessType.Self));
 
-            if (!epaInfo.Process.Evaluators.First().IsEndProcess)
+            if (epaInfo.Process.Evaluators.First().StatusId == (int)ProcessStatusType.InProgress)
             {
                 BodyStyle = ApplyEvenOddBodyStyle(EvenRedStyle, OddRedStyle);
             }
@@ -316,7 +314,7 @@
                 score.EvaluatorScore,
                 (int)ProcessType.Evaluator));
 
-            if (!epaInfo.Process.Reviewers.First().IsEndProcess)
+            if (epaInfo.Process.Reviewers.First().StatusId == (int)ProcessStatusType.InProgress)
             {
                 BodyStyle = ApplyEvenOddBodyStyle(EvenRedStyle, OddRedStyle);
             }
