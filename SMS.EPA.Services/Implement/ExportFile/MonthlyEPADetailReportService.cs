@@ -80,10 +80,10 @@
 
         protected override dynamic CalculateScore(EPAModel epaInfo)
         {
-            string disciplineScore = string.Empty;
-            string selfScore = string.Empty;
-            string evaluatorScore = string.Empty;
-            string reviewerScore = string.Empty;
+            string disciplineScore = NotAvailable;
+            string selfScore = NotAvailable;
+            string evaluatorScore = NotAvailable;
+            string reviewerScore = NotAvailable;
 
             if (epaInfo.EPAId > 0)
             {

@@ -24,6 +24,8 @@
 
         private readonly IEmployeeEPAService _employeeEPAService;
 
+        protected const string NotAvailable = "N/A";
+
         protected EPADetailReportServiceBase() : this(null, null)
         {
         }
@@ -106,17 +108,6 @@
             return evaluatorScore;
         }
 
-        //protected static string GetFinalScore(EPAModel epaInfo)
-        //{
-        //    var finalScore = epaInfo.StatusId == (int)EPAStatus.Closed
-        //        ? (string.IsNullOrEmpty(epaInfo.FinalScore)
-        //            ? Lang.NotAvailable
-        //            : Math.Round(float.Parse(epaInfo.FinalScore), 2).ToString(CultureInfo.InvariantCulture))
-        //        : Lang.Pending;
-
-        //    return finalScore;
-        //}
-
         protected string GetGrade(EPAModel epaInfo, string finalScoreString)
         {
             var standardGrades = _commonService.GetStandardGrade().ToList();
@@ -130,13 +121,11 @@
                 performanceScore = finalScore - epaInfo.DisciplineScore;
             }
 
-            var tempGrade = _employeeEPAService.ConvertScoreToGrade(
+            return _employeeEPAService.ConvertScoreToGrade(
                 performanceScore,
                 epaInfo.DisciplineScore,
                 epaInfo.HasDisciplineScore,
                 standardGrades);
-
-            return tempGrade;
         }
 
         protected static string GetReviewerScore(EPAModel epaInfo)
