@@ -1,5 +1,6 @@
 ﻿namespace SMS.EPA.Model
 {
+    using System;
     using Core.Constants;
     using Core.Enumerations;
     using Resources;
@@ -192,7 +193,7 @@
                     Process.Managements,
                     Process.AverageScoreByManagements);
 
-                if (finalScore == -1)
+                if (Math.Abs(finalScore + 1) < Constants.Tolerance)
                 {
                     return Lang.NotAvailable;
                 }
