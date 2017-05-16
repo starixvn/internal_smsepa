@@ -277,7 +277,7 @@
                 Log.Info("Result of get average performance score of EPA " + epaInfo.EPAId + " : " + performanceScore);
 
                 epaInfo.Grade = performanceScore.HasValue
-                    ? employeeEPAService.ConvertScoreToGrade(performanceScore.Value, epaInfo.DisciplineScore, epaInfo.HasDisciplineScore, standardGrades)
+                    ? employeeEPAService.ConvertScoreToGrade(performanceScore, epaInfo.DisciplineScore, epaInfo.HasDisciplineScore, standardGrades)
                     : string.Empty;
                 Log.Info("Result of get grade of final score of EPA " + epaInfo.EPAId + ": " + epaInfo.Grade);
 

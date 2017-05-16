@@ -99,7 +99,7 @@
                     ? cryptographyService.Encrypt(finalScore.Value.ToString(CultureInfo.InvariantCulture))
                     : string.Empty;
                 string grade = performanceScore.HasValue
-                    ? evaluationService.ConvertScoreToGrade(performanceScore.Value, epaInfo.DisciplineScore, epaInfo.HasDisciplineScore, standardGrades)
+                    ? evaluationService.ConvertScoreToGrade(performanceScore, epaInfo.DisciplineScore, epaInfo.HasDisciplineScore, standardGrades)
                     : string.Empty;
                 epaInfo.Grade = !string.IsNullOrEmpty(grade) ? cryptographyService.Encrypt(grade) : string.Empty;
             }

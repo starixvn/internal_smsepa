@@ -33,6 +33,10 @@
         }
 
         function convertScoreToGrade(performanceScore, disciplineScore, hasDisciplineScore, maxPerformanceScore, standardGrades) {
+            if (isNaN(performanceScore) || performanceScore === "N/A") {
+                return "N/A";
+            }
+
             performanceScore = utilitiesFactory.parseFloat(performanceScore);
             disciplineScore = utilitiesFactory.parseFloat(disciplineScore);
             var finalScore = checkScore(performanceScore + disciplineScore, 0, maxPerformanceScore);

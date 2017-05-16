@@ -932,7 +932,7 @@
                 float finalScore;
                 float.TryParse(finalScoreString, out finalScore);
 
-                float performanceScore = 0;
+                float? performanceScore = null;
                 if (finalScore != 0)
                 {
                     performanceScore = finalScore - epaInfo.DisciplineScore;
@@ -1246,7 +1246,7 @@
                     float finalScore;
                     float.TryParse(finalScoreString, out finalScore);
 
-                    float performanceScore = 0;
+                    float? performanceScore = null;
                     if (finalScore != 0)
                     {
                         performanceScore = finalScore - epaInfo.DisciplineScore;

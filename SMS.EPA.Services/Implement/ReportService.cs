@@ -148,7 +148,7 @@
 
                     // Get the max EPAProcessId
                     var lastPhasePerformanceScore = GetLastPhasePerformanceScore(epaInfoPeriod);
-                    float performanceScore;
+                    float? performanceScore;
                     if (lastPhasePerformanceScore != null)
                     {
                         performanceScore = lastPhasePerformanceScore.Value;
@@ -163,7 +163,7 @@
                         : 0;
 
                     epaInfoPeriod.FinalScore =
-                        (performanceScore + tempDisciplineScore).ToString(CultureInfo.InvariantCulture);
+                        (performanceScore.Value + tempDisciplineScore).ToString(CultureInfo.InvariantCulture);
 
                     epaInfoPeriod.Grade = _employeeEPAService.ConvertScoreToGrade(
                         performanceScore,

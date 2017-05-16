@@ -15,6 +15,7 @@
     using System.IO;
     using System.Linq;
     using System.Runtime.Serialization.Formatters.Binary;
+    using Resources;
 
     public class EmployeeEPAService : BaseService, IEmployeeEPAService
     {
@@ -156,13 +157,19 @@
         }
 
         public string ConvertScoreToGrade(
-            float performanceScore,
+            float? performanceScore,
             float disciplineScore,
             bool hasDisciplineScore,
             IEnumerable<StandardGradeModel> standardGrades)
         {
-            string grade = string.Empty;
-            float finalScore = performanceScore + disciplineScore;
+            string grade = Lang.NotAvailable;
+
+            if (performanceScore == null)
+            {
+                return grade;
+            }
+
+            float finalScore = performanceScore.Value + disciplineScore;
 
             StandardGradeModel finalGrade = standardGrades
                 .FirstOrDefault(x => x.Type == (int)GradeType.Final && x.LeftScore <= finalScore &&
@@ -185,7 +192,7 @@
 
                 if (performanceGrade == null || disciplineGrade == null)
                 {
-                    return string.Empty;
+                    return Lang.NotAvailable;
                 }
 
                 if (performanceGrade.GradeId > (int)StandardGrade.Average ||
