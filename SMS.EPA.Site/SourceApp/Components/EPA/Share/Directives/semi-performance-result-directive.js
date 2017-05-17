@@ -37,8 +37,6 @@
                     vm.process.Reviewers,
                     vm.epaInfo.ScoreRatingType.Reviewer);
 
-                debugger;
-
                 vm.ManagementsScore = getMultiScoreDatas($filter,
                     utilitiesFactory,
                     vm.process.Managements,
