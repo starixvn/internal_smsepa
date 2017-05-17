@@ -98,62 +98,62 @@
                 {
                     if (i == 0)
                     {
-                        <td rowspan="@rowspan">@Model.MonthlyEPA.AverageSelfScoreConverted</td>
-                        <td rowspan="@rowspan">@Model.MonthlyEPA.AverageEvaluatorScoreConverted</td>
+                        <td rowspan="@rowspan" class="border-r-b-l">@Model.MonthlyEPA.AverageSelfScoreConverted</td>
+                        <td rowspan="@rowspan" class="border-r-b">@Model.MonthlyEPA.AverageEvaluatorScoreConverted</td>
                     }
                 }
                 else
                 {
                     if (i == 0)
                     {
-                        <td rowspan="@rowspan">@GetScoreFromProcess(Model.Process.Self, Model.ScoreRatingType)</td>
+                        <td rowspan="@rowspan" class="border-r-b-l">@GetScoreFromProcess(Model.Process.Self, Model.ScoreRatingType)</td>
                     }
 
                     if (i < Model.Process.Evaluators.Count)
                     {
-                        <td>@Model.Process.Evaluators[i].EvaluatorInfo.NickName</td>
-                        <td>@GetScoreFromProcess(Model.Process.Evaluators[i], Model.ScoreRatingType)</td>
+                        <td class="border-r-b">@Model.Process.Evaluators[i].EvaluatorInfo.NickName</td>
+                        <td class="border-r-b">@GetScoreFromProcess(Model.Process.Evaluators[i], Model.ScoreRatingType)</td>
                     }
                     else
                     {
-                        <td></td>
-                        <td></td>
+                        <td class="border-r-b"></td>
+                        <td class="border-r-b"></td>
                     }
                 }
 
                 @if (i < Model.Process.Reviewers.Count)
                 {
-                    <td>@Model.Process.Reviewers[i].EvaluatorInfo.NickName</td>
-                    <td>@GetScoreFromProcess(Model.Process.Reviewers[i], Model.ScoreRatingType)</td>
+                    <td class="border-r-b">@Model.Process.Reviewers[i].EvaluatorInfo.NickName</td>
+                    <td class="border-r-b">@GetScoreFromProcess(Model.Process.Reviewers[i], Model.ScoreRatingType)</td>
                 }
                 else
                 {
-                    <td></td>
-                    <td></td>
+                    <td class="border-r-b"></td>
+                    <td class="border-r-b"></td>
                 }
 
                 @if (Model.Process.Managements.Any())
                 {
                     if (i < Model.Process.Managements.Count)
                     {
-                        <td>@Model.Process.Managements[i].EvaluatorInfo.NickName</td>
-                        <td>@GetScoreFromProcess(Model.Process.Managements[i], Model.ScoreRatingType)</td>
+                        <td class="border-r-b">@Model.Process.Managements[i].EvaluatorInfo.NickName</td>
+                        <td class="border-r-b">@GetScoreFromProcess(Model.Process.Managements[i], Model.ScoreRatingType)</td>
                     }
                     else
                     {
-                        <td></td>
-                        <td></td>
+                        <td class="border-r-b"></td>
+                        <td class="border-r-b"></td>
                     }
                 }
 
                 @if (i == 0)
                 {
-                    <td rowspan="@rowspan">
+                    <td rowspan="@rowspan" class="border-r-b">
                         @(Model.HasDisciplineScore
                               ? Model.DisciplineScore + " / " + Model.MaxDisciplineScore
                               : (Model.DisciplineScore != 0 ? Model.DisciplineScore.ToString() : "-"))
                     </td>
-                    <td rowspan="@rowspan">
+                    <td rowspan="@rowspan" class="border-r-b">
                         @if (Model.StatusId == (int)EPAStatus.Closed)
                         {
                             if (!string.IsNullOrEmpty(Model.FinalScore))
@@ -170,7 +170,7 @@
                             <span class="red">@Model.FinalScoreToExport</span>
                         }
                     </td>
-                    <td rowspan="@rowspan">
+                    <td rowspan="@rowspan" class="border-r-b">
                         @if (Model.StatusId == (int)EPAStatus.Closed)
                         {
                             @Model.Grade

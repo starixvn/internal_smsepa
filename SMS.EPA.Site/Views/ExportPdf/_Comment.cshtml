@@ -9,54 +9,54 @@
             <th colspan="2">@Lang.SummaryComment</th>
         </tr>
         <tr>
-            <th>@Lang.FullName</th>
-            <th>@Lang.Comment</th>
+            <th width="20%">@Lang.FullName</th>
+            <th width="80%">@Lang.Comment</th>
         </tr>
     </thead>
     <tbody>
         @if (!Model.IsSemiHasMonthly)
         {
             <tr>
-                <td>@Model.Process.Self.EvaluatorInfo.FullName (@Model.Process.Self.EvaluatorInfo.NickName)</td>
-                <td>@Model.Process.Self.Comment</td>
+                <td class="border-r-b-l">@Model.Process.Self.EvaluatorInfo.FullName (@Model.Process.Self.EvaluatorInfo.NickName)</td>
+                <td class="border-r-b">@Model.Process.Self.Comment</td>
             </tr>
 
             <tr>
-                <td colspan="2"><strong>@Lang.Evaluator</strong></td>
+                <td colspan="2" class="border-r-b-l"><strong>@Lang.Evaluator</strong></td>
             </tr>
 
             foreach (EPAProcessModel evaluator in Model.Process.Evaluators)
             {
                 <tr>
-                    <td>@evaluator.EvaluatorInfo.FullName (@evaluator.EvaluatorInfo.NickName)</td>
-                    <td>@evaluator.Comment</td>
+                    <td class="border-r-b-l">@evaluator.EvaluatorInfo.FullName (@evaluator.EvaluatorInfo.NickName)</td>
+                    <td class="border-r-b">@evaluator.Comment</td>
                 </tr>
             }
         }
 
         <tr>
-            <td colspan="2"><strong>@Lang.Reviewer</strong></td>
+            <td colspan="2" class="border-r-b-l"><strong>@Lang.Reviewer</strong></td>
         </tr>
 
         @foreach (EPAProcessModel reviewer in Model.Process.Reviewers)
         {
             <tr>
-                <td>@reviewer.EvaluatorInfo.FullName (@reviewer.EvaluatorInfo.NickName)</td>
-                <td>@reviewer.Comment</td>
+                <td class="border-r-b-l">@reviewer.EvaluatorInfo.FullName (@reviewer.EvaluatorInfo.NickName)</td>
+                <td class="border-r-b">@reviewer.Comment</td>
             </tr>
         }
 
         @if (Model.Process.Managements.Any())
         {
             <tr>
-                <td colspan="2"><strong>@Lang.Management</strong></td>
+                <td colspan="2" class="border-r-b-l"><strong>@Lang.Management</strong></td>
             </tr>
 
             foreach (EPAProcessModel management in Model.Process.Managements)
             {
                 <tr>
-                    <td>@management.EvaluatorInfo.FullName (@management.EvaluatorInfo.NickName)</td>
-                    <td>@management.Comment</td>
+                    <td class="border-r-b-l">@management.EvaluatorInfo.FullName (@management.EvaluatorInfo.NickName)</td>
+                    <td class="border-r-b">@management.Comment</td>
                 </tr>
             }
         }

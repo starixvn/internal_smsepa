@@ -35,7 +35,7 @@
         @if (Model.IsProbation || Model.IsPromotion)
         {
             <tr>
-                <td>
+                <td class="border-r-b-l">
                     @GetRadioButton(Model.Recommendation.PassedProbation)<span> @Lang.PassProbation</span>
                     <br />
                     @GetRadioButton(Model.Recommendation.ExtendedProbation)<span> @Lang.ExtendProbation</span>
@@ -50,7 +50,7 @@
                 ? Lang.JobGrade + ": " + Model.Recommendation.JobGrade.Name
                 : Lang.JobGrade;
             <tr>
-                <td>
+                <td class="border-r-b-l">
                     @GetCheckbox(Model.Recommendation.Promoted) @Lang.Promotion
                     <br />
                     @GetCheckbox(Model.Recommendation.PayIncreased) @Lang.AnnualIncrement

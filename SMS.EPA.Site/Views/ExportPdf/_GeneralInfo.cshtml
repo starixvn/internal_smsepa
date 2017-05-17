@@ -27,29 +27,29 @@
     </thead>
     <tbody>
         <tr>
-            <td rowspan="4" class="avatar">@GetAvatar(Model.Code)</td>
-            <td>@Lang.EmployeeCode</td>
-            <td>@Model.Code</td>
-            <td>@Lang.NickName</td>
-            <td>@Model.NickName</td>
+            <td rowspan="4" class="border-b-l">@GetAvatar(Model.Code)</td>
+            <td class="border-b-l" width="10%">@Lang.EmployeeCode</td>
+            <td class="border-b" width="20%">@Model.Code</td>
+            <td class="border-b" width="10%">@Lang.NickName</td>
+            <td class="border-r-b" width="20%">@Model.NickName</td>
         </tr>
         <tr>
-            <td>@Lang.FullName</td>
-            <td>@Model.FullName</td>
-            <td>@Lang.JobTitle</td>
-            <td>@Model.JobTitleName</td>
+            <td class="border-b-l">@Lang.FullName</td>
+            <td class="border-b">@Model.FullName</td>
+            <td class="border-b">@Lang.JobTitle</td>
+            <td class="border-r-b">@Model.JobTitleName</td>
         </tr>
         <tr>
-            <td>@Lang.Department</td>
-            <td>@Model.DepartmentName</td>
-            <td>@Lang.Section</td>
-            <td>@Model.GroupName</td>
+            <td class="border-b-l">@Lang.Department</td>
+            <td class="border-b">@Model.DepartmentName</td>
+            <td class="border-b">@Lang.Section</td>
+            <td class="border-r-b">@Model.GroupName</td>
         </tr>
         <tr>
-            <td>@Lang.GroupDate</td>
-            <td>@Model.JoinedDate.ToString("dd MMM, yyyy")</td>
-            <td></td>
-            <td></td>
+            <td class="border-b-l">@Lang.GroupDate</td>
+            <td class="border-b">@Model.JoinedDate.ToString("dd MMM, yyyy")</td>
+            <td class="border-b"></td>
+            <td class="border-r-b"></td>
         </tr>
     </tbody>
 </table>

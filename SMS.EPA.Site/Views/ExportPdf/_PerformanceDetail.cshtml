@@ -25,44 +25,50 @@
             @foreach (EPAModel monthly in Model.MonthlyEPA.MonthlyEPAs)
             {
                 <tr>
-                    <td>@monthly.Period.Name</td>
-                    <td>@(!string.IsNullOrWhiteSpace(monthly.Process.Self.TotalScore) ? monthly.Process.Self.TotalScore : Lang.NotAvailable)</td>
-                    <td>@(monthly.Process.AverageScoreByEvaluators.HasValue ? monthly.Process.AverageScoreByEvaluators.Value.ToString() : Lang.NotAvailable)</td>
-                    <td>@(monthly.Process.AverageScoreByReviewers.HasValue ? monthly.Process.AverageScoreByReviewers.Value.ToString() : Lang.NotAvailable)</td>
+                    <td class="border-r-b-l">@monthly.Period.Name</td>
+                    <td class="border-r-b">
+                        @(!string.IsNullOrWhiteSpace(monthly.Process.Self.TotalScore) ? monthly.Process.Self.TotalScore : Lang.NotAvailable)
+                    </td>
+                    <td class="border-r-b">
+                        @(monthly.Process.AverageScoreByEvaluators.HasValue ? monthly.Process.AverageScoreByEvaluators.Value.ToString() : Lang.NotAvailable)
+                    </td>
+                    <td class="border-r-b">
+                        @(monthly.Process.AverageScoreByReviewers.HasValue ? monthly.Process.AverageScoreByReviewers.Value.ToString() : Lang.NotAvailable)
+                    </td>
                 </tr>
             }
 
             <tr>
-                <td>@Lang.MonthlyAverage</td>
-                <td>
+                <td class="border-r-b-l" style="text-align: right;">@Lang.MonthlyAverage</td>
+                <td class="border-r-b">
                     @(Model.MonthlyEPA.AverageSelfScore.HasValue
                         ? Model.MonthlyEPA.AverageSelfScore.Value + " / " + Model.MonthlyEPA.MonthlyEPAs.First().ScoreRatingType.SelfEvaluated
                         : Lang.NotAvailable)
                 </td>
-                <td>
+                <td class="border-r-b">
                     @(Model.MonthlyEPA.AverageEvaluatorScores.HasValue
                         ? Model.MonthlyEPA.AverageEvaluatorScores.Value + " / " + Model.MonthlyEPA.MonthlyEPAs.First().ScoreRatingType.Evaluator
                         : Lang.NotAvailable)
                 </td>
-                <td>
+                <td class="border-r-b">
                     @(Model.MonthlyEPA.AverageReviewerScores.HasValue
                         ? Model.MonthlyEPA.AverageReviewerScores.Value + " / " + Model.MonthlyEPA.MonthlyEPAs.First().ScoreRatingType.Reviewer
                         : Lang.NotAvailable)
                 </td>
             </tr>
             <tr>
-                <td>@Lang.SemiAverage</td>
-                <td>
+                <td class="border-r-b-l" style="text-align: right;">@Lang.SemiAverage</td>
+                <td class="border-r-b">
                     @(Model.MonthlyEPA.AverageSelfScoreConverted.HasValue
                         ? Model.MonthlyEPA.AverageSelfScoreConverted.Value + " / " + Model.ScoreRatingType.SelfEvaluated
                         : Lang.NotAvailable)
                 </td>
-                <td>
+                <td class="border-r-b">
                     @(Model.MonthlyEPA.AverageEvaluatorScoreConverted.HasValue
                         ? Model.MonthlyEPA.AverageEvaluatorScoreConverted.Value + " / " + Model.ScoreRatingType.Evaluator
                         : Lang.NotAvailable)
                 </td>
-                <td>
+                <td class="border-r-b">
                     @(Model.MonthlyEPA.AverageReviewerScoreConverted.HasValue
                         ? Model.MonthlyEPA.AverageReviewerScoreConverted.Value + " / " + Model.ScoreRatingType.Reviewer
                         : Lang.NotAvailable)
@@ -82,8 +88,8 @@ else
                     <th colspan="7">@(kpiGroup.Name + " (" + kpiGroup.Weight + " pts)")</th>
                 </tr>
                 <tr>
-                    <th rowspan="2">@Lang.SymbolCount</th>
-                    <th rowspan="2">@Lang.KPI</th>
+                    <th rowspan="2" width="2%">@Lang.SymbolCount</th>
+                    <th rowspan="2" width="40%">@Lang.KPI</th>
                     <th colspan="2">@Lang.Employee</th>
                     <th colspan="3">@Lang.Evaluator</th>
                 </tr>
@@ -105,8 +111,8 @@ else
                         <tr>
                             @if (i == 0)
                             {
-                                <td rowspan="@rowspan" width="2%">@(index++)</td>
-                                <td rowspan="@rowspan" width="40%">
+                                <td rowspan="@rowspan" class="border-r-b-l">@(index++)</td>
+                                <td rowspan="@rowspan" class="border-r-b">
                                     @kpi.Name
                                     @if (kpiGroup.NumberKPIOptional == 0)
                                     {
@@ -121,31 +127,31 @@ else
 
                                 if (Model.Process.Self.IsEndProcess)
                                 {
-                                    <td rowspan="@rowspan">
+                                    <td rowspan="@rowspan" class="border-r-b">
                                         @(!string.IsNullOrWhiteSpace(kpi.EvaluationBySelf.Score) ? kpi.EvaluationBySelf.ScoreToDisplay + " pts" : Lang.NotAvailable)
                                     </td>
-                                    <td rowspan="@rowspan">@kpi.EvaluationBySelf.Comment</td>
+                                    <td rowspan="@rowspan" class="border-r-b">@kpi.EvaluationBySelf.Comment</td>
                                 }
                                 else
                                 {
-                                    <td rowspan="@rowspan">@Lang.Pending</td>
-                                    <td rowspan="@rowspan">@Lang.Pending</td>
+                                    <td rowspan="@rowspan" class="border-r-b">@Lang.Pending</td>
+                                    <td rowspan="@rowspan" class="border-r-b">@Lang.Pending</td>
                                 }
                             }
 
-                            <td>@evaluator.NickName</td>
+                            <td class="border-r-b">@evaluator.NickName</td>
 
                             @if (Model.Process.Evaluators.First().IsEndProcess)
                             {
-                                <td>
+                                <td class="border-r-b">
                                     @(!string.IsNullOrWhiteSpace(evaluator.Score) ? evaluator.ScoreToDisplay + " pts" : Lang.NotAvailable)
                                 </td>
-                                <td>@evaluator.Comment</td>
+                                <td class="border-r-b">@evaluator.Comment</td>
                             }
                             else
                             {
-                                <td>@Lang.Pending</td>
-                                <td>@Lang.Pending</td>
+                                <td class="border-r-b">@Lang.Pending</td>
+                                <td class="border-r-b">@Lang.Pending</td>
                             }
                         </tr>
                     }
