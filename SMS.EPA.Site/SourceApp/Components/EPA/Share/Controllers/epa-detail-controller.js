@@ -29,7 +29,7 @@
         };
 
         vm.exportPdf = function () {
-            var url = baseUrl + 'ExportPdf/ExportPdf?epaId=' + vm.epaId;
+            var url = baseUrl + 'ExportPdfNew/ExportPdf/' + vm.epaId;
             var iframe = $('body iframe');
 
             if (iframe.length === 0) {

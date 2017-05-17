@@ -1,0 +1,31 @@
+﻿@using SMS.EPA.Resources
+@using SMS.EPA.Model
+
+@model EPAModel
+@{
+    Layout = null;
+}
+
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <link href="~/Content/Site/pdf.css" rel="stylesheet" />
+</head>
+<body>
+    <div class="container">
+        <div class="title">@Lang.EPATilte - @Model.Period.Name</div>
+        @Html.Partial("_GeneralInfo", Model.Employee)
+        <br />
+        @Html.Partial("_PerformanceResult", Model)
+
+        @if (Model.Recommendation != null)
+        {
+            @Html.Partial("_Recommendation", Model)
+        }
+
+        @Html.Partial("_PerformanceDetail", Model)
+        @Html.Partial("_Comment", Model)
+    </div>
+</body>
+</html>

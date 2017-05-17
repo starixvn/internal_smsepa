@@ -16,7 +16,7 @@
         {
             using (var stream = new MemoryStream())
             {
-                using (var pdfDocument = new Document(new Rectangle(A4Width, A4Height), 0, 0, 40, 40))
+                using (var pdfDocument = new Document(new Rectangle(A4Width, A4Height), 5, 5, 40, 40))
                 {
                     pdfDocument.SetPageSize(PageSize.A4);
 

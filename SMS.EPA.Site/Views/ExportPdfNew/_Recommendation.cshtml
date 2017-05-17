@@ -11,7 +11,7 @@
         path = Server.MapPath("~/content/site/images/radiobutton_yes.png");
     }
 
-    <img src="@path" />
+    <img src="@path" height="8" />
 }
 
 @helper GetCheckbox(bool value)
@@ -22,7 +22,7 @@
         path = Server.MapPath("~/content/site/images/checkbox_yes.png");
     }
 
-    <img src="@path" />
+    <img src="@path" height="8" />
 }
 
 <table class="recommendation">
@@ -36,11 +36,11 @@
         {
             <tr>
                 <td>
-                    @GetRadioButton(Model.Recommendation.PassedProbation) @Lang.PassProbation
+                    @GetRadioButton(Model.Recommendation.PassedProbation)<span> @Lang.PassProbation</span>
                     <br />
-                    @GetRadioButton(Model.Recommendation.ExtendedProbation) /> @Lang.ExtendProbation
+                    @GetRadioButton(Model.Recommendation.ExtendedProbation)<span> @Lang.ExtendProbation</span>
                     <br />
-                    @GetRadioButton(Model.Recommendation.FailedProbation) /> @Lang.FailProbation
+                    @GetRadioButton(Model.Recommendation.FailedProbation)<span>@Lang.FailProbation</span>
                 </td>
             </tr>
         }
@@ -51,11 +51,11 @@
                 : Lang.JobGrade;
             <tr>
                 <td>
-                    @GetCheckbox(Model.Recommendation.Promoted) /> @Lang.Promotion
+                    @GetCheckbox(Model.Recommendation.Promoted) @Lang.Promotion
                     <br />
-                    @GetCheckbox(Model.Recommendation.PayIncreased) /> @Lang.AnnualIncrement
+                    @GetCheckbox(Model.Recommendation.PayIncreased) @Lang.AnnualIncrement
                     <br />
-                    @GetCheckbox(Model.Recommendation.JobGradeIncreased) /> @jobGrade
+                    @GetCheckbox(Model.Recommendation.JobGradeIncreased) @jobGrade
                 </td>
             </tr>
         }

@@ -1,11 +1,13 @@
 ﻿namespace SMS.EPA.Site.Controllers
 {
+    using Core.Enumerations;
     using Core.Services;
     using Core.Services.Interfaces;
     using Core.Utilities;
     using Model;
     using Services.Implement;
     using Services.Interfaces;
+    using System.Collections.Generic;
     using System.Web.Hosting;
     using System.Web.Mvc;
 
@@ -13,7 +15,7 @@
     {
         private const string FileNameFormat = "{0}_{1}.pdf";
         private const string CssFilePath = @"~\Content\Site\pdf.css";
-        private const string ViewTemplatePath = "~/Views/ExportPdf/EpaDetail.cshtml";
+        private const string ViewTemplatePath = "~/Views/ExportPdfNew/EpaDetail.cshtml";
 
         private readonly IEmployeeEPAService employeeEPAService;
         private readonly IRazorRenderService razorRenderService;
@@ -33,24 +35,19 @@
 
         public ActionResult EpaDetail(int id)
         {
-            var epaInfo = new EpaDetailModel
-            {
-                EpaInfo = employeeEPAService.GetEPAInfoById(id),
-                Grades = employeeEPAService.GetStandardGrade()
-            };
+            EPAModel epaInfo = employeeEPAService.GetEPAInfoById(id);
+            epaInfo.Grade = GetGradeToExport(epaInfo);
 
             return View(epaInfo);
         }
 
         public ActionResult ExportPdf(int id)
         {
-            var epaInfo = new EpaDetailModel
-            {
-                EpaInfo = employeeEPAService.GetEPAInfoById(id)
-            };
+            EPAModel epaInfo = employeeEPAService.GetEPAInfoById(id);
+            epaInfo.Grade = GetGradeToExport(epaInfo);
 
-            var streamContent = RenderPdfContent(epaInfo);
-            var fileName = string.Format(FileNameFormat, epaInfo.EpaInfo.Employee.Code, epaInfo.EpaInfo.Employee.NickName);
+            byte[] streamContent = RenderPdfContent(epaInfo);
+            var fileName = string.Format(FileNameFormat, epaInfo.Employee.Code, epaInfo.Employee.NickName);
 
             return File(streamContent, @"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet.main+xml", fileName);
         }
@@ -65,12 +62,38 @@
             return PdfRender.ContentRender(cssFilePath, htmlString);
         }
 
-        private byte[] RenderPdfContent(EpaDetailModel epaInfo)
+        private byte[] RenderPdfContent(EPAModel epaInfo)
         {
             var cssFilePath = GetPhysicalFilePath(CssFilePath);
             var htmlString = razorRenderService.RenderViewToString(this, ViewTemplatePath, epaInfo);
 
             return RenderPdfContent(cssFilePath, htmlString);
+        }
+
+        private string GetGradeToExport(EPAModel epaInfo)
+        {
+            string grade = epaInfo.Grade;
+
+            if (epaInfo.StatusId == (int)EPAStatus.Open)
+            {
+                IEnumerable<StandardGradeModel> standardGrades = employeeEPAService.GetStandardGrade();
+                float finalScore;
+                float.TryParse(epaInfo.FinalScoreToExport, out finalScore);
+
+                float? performanceScore = null;
+                if (finalScore > 0)
+                {
+                    performanceScore = finalScore - epaInfo.DisciplineScore;
+                }
+
+                grade = employeeEPAService.ConvertScoreToGrade(
+                    performanceScore,
+                    epaInfo.DisciplineScore,
+                    epaInfo.HasDisciplineScore,
+                    standardGrades);
+            }
+
+            return grade;
         }
     }
 }

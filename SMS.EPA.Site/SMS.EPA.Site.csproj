@@ -258,7 +258,6 @@
     <Compile Include="Controllers\API\TargetEmployeeSettingController.cs" />
     <Compile Include="Controllers\API\TargetTemplateController.cs" />
     <Compile Include="Controllers\API\RoleController.cs" />
-    <Compile Include="Controllers\ExportPdfController.cs" />
     <Compile Include="Controllers\ExportPdfNewController.cs" />
     <Compile Include="Controllers\ExportReportController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -990,12 +989,12 @@
     <Content Include="Views\Emails\GWI\StartDateEmailToSpecialReviewer.cshtml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Views\ExportPdf\EpaDetail.cshtml" />
-    <Content Include="Views\ExportPdf\_GeneralInfo.cshtml" />
-    <Content Include="Views\ExportPdf\_Comment.cshtml" />
-    <Content Include="Views\ExportPdf\_Recommendation.cshtml" />
-    <Content Include="Views\ExportPdf\_PerformanceResult.cshtml" />
-    <Content Include="Views\ExportPdf\_PerformanceDetail.cshtml" />
+    <Content Include="Views\ExportPdfNew\EpaDetail.cshtml" />
+    <Content Include="Views\ExportPdfNew\_GeneralInfo.cshtml" />
+    <Content Include="Views\ExportPdfNew\_Comment.cshtml" />
+    <Content Include="Views\ExportPdfNew\_Recommendation.cshtml" />
+    <Content Include="Views\ExportPdfNew\_PerformanceResult.cshtml" />
+    <Content Include="Views\ExportPdfNew\_PerformanceDetail.cshtml" />
     <None Include="Web.pro.gwi.config">
       <SubType>Designer</SubType>
     </None>

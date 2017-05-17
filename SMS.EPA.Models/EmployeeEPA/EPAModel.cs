@@ -1,14 +1,14 @@
 ﻿namespace SMS.EPA.Model
 {
-    using System;
     using Core.Constants;
     using Core.Enumerations;
-    using Resources;
+    using Newtonsoft.Json;
     using Report;
+    using Resources;
+    using System;
     using System.Collections.Generic;
     using System.Globalization;
     using System.Linq;
-    using Newtonsoft.Json;
 
     public class EPAModel : IExcelRecord
     {
@@ -202,7 +202,11 @@
             }
         }
 
-        private static float GetFinalScoreFromProccess(float disciplineScore, float finalScore, IList<EPAProcessModel> processes, float? averageScoreByProcesses)
+        private static float GetFinalScoreFromProccess(
+            float disciplineScore,
+            float finalScore,
+            IList<EPAProcessModel> processes,
+            float? averageScoreByProcesses)
         {
             float result = finalScore;
             if (processes.Any())
@@ -213,8 +217,8 @@
                 }
                 else
                 {
-                    if (processes[0].StatusId == (int)ProcessStatusType.InProgress ||
-                        processes[0].StatusId == (int)ProcessStatusType.Closed)
+                    if (processes[0].StatusId == (int)ProcessStatusType.InProgress
+                        || processes[0].StatusId == (int)ProcessStatusType.Closed)
                     {
                         result = -1;
                     }

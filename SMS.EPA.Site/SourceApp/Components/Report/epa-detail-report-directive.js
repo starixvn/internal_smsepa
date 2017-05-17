@@ -314,7 +314,7 @@
 
                     var epaId = parseInt($(this).data("epaid"));
 
-                    var url = baseUrl + "ExportPdf/ExportPdf?epaId=" + epaId;
+                    var url = baseUrl + "ExportPdfNew/ExportPdf/" + epaId;
                     var iframe = $("body iframe");
 
                     if (iframe.length === 0) {

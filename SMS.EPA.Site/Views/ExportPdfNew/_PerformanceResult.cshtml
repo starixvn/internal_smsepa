@@ -6,39 +6,49 @@
 
 @{
     int rowspan = Model.Rowspan;
+    int totalcol = Model.IsSemiHasMonthly ? (Model.Process.Managements.Any() ? 9 : 7) : (Model.Process.Managements.Any() ? 10 : 8);
 }
 
 @helper GetScoreFromProcess(EPAProcessModel process, ScoreRatingTypeModel scoreRatingType)
 {
-float maxScore = scoreRatingType.SelfEvaluated;
-switch (process.ProcessId)
-{
-    case (int)ProcessType.Self:
-        maxScore = scoreRatingType.SelfEvaluated;
-        break;
+    float maxScore = scoreRatingType.SelfEvaluated;
+    switch (process.ProcessId)
+    {
+        case (int)ProcessType.Self:
+            maxScore = scoreRatingType.SelfEvaluated;
+            break;
 
-    case (int)ProcessType.Evaluator:
-        maxScore = scoreRatingType.Evaluator;
-        break;
+        case (int)ProcessType.Evaluator:
+            maxScore = scoreRatingType.Evaluator;
+            break;
 
-    case (int)ProcessType.Reviewer:
-        maxScore = scoreRatingType.Reviewer;
-        break;
+        case (int)ProcessType.Reviewer:
+            maxScore = scoreRatingType.Reviewer;
+            break;
 
-    case (int)ProcessType.Management:
-        maxScore = scoreRatingType.Management;
-        break;
-}
+        case (int)ProcessType.Management:
+            maxScore = scoreRatingType.Management;
+            break;
+    }
 
-    <span @(process.StatusId == (int)ProcessStatusType.InProgress ? " class=red" : string.Empty)>
-        @(string.IsNullOrEmpty(process.TotalScore) ? Lang.NotAvailable : process.TotalScore + " / " + @maxScore)
-    </span>
+    if (process.StatusId == (int)ProcessStatusType.InProgress)
+    {
+        <span class="red">
+            @(string.IsNullOrEmpty(process.TotalScore) ? Lang.NotAvailable : process.TotalScore + " / " + @maxScore)
+        </span>
+    }
+    else
+    {
+        <span class="red">
+            @(string.IsNullOrEmpty(process.TotalScore) ? Lang.NotAvailable : process.TotalScore + " / " + @maxScore)
+        </span>
+    }
 }
 
 <table class="performance-result">
     <thead>
         <tr class="table-title">
-            <th colspan="10">@Lang.PerformanceResult</th>
+            <th colspan="@totalcol">@Lang.PerformanceResult</th>
         </tr>
         <tr>
             @if (Model.IsSemiHasMonthly)
@@ -150,7 +160,7 @@ switch (process.ProcessId)
                         }
                         else
                         {
-
+                            <span class="red">@Model.FinalScoreToExport</span>
                         }
                     </td>
                     <td rowspan="@rowspan">
@@ -160,7 +170,7 @@ switch (process.ProcessId)
                         }
                         else
                         {
-
+                            <span class="red">@Model.Grade</span>
                         }
                     </td>
                 }
