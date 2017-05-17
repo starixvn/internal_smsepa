@@ -1,0 +1,55 @@
+﻿@using SMS.EPA.Resources
+@using SMS.EPA.Model
+
+@model EPAEmployeeModel
+
+@helper GetAvatar(string code)
+{
+    string path = File.Exists(Server.MapPath("~/avatars/avatar.jpg"))
+               ? Server.MapPath("~/avatars/avatar.jpg")
+               : string.Empty;
+
+    var codeWithExtension = code + ".jpg";
+
+    if (File.Exists(Server.MapPath("~/avatars/" + codeWithExtension)))
+    {
+        path = Server.MapPath("~/avatars/" + codeWithExtension);
+    }
+
+    <img src="@path" />
+}
+
+<table class="general-info">
+    <thead>
+        <tr class="table-title">
+            <th colspan="5">@Lang.GeneralInfo</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td rowspan="4" class="avatar">@GetAvatar(Model.Code)</td>
+            <td>@Lang.EmployeeCode</td>
+            <td>@Model.Code</td>
+            <td>@Lang.NickName</td>
+            <td>@Model.NickName</td>
+        </tr>
+        <tr>
+            <td>@Lang.FullName</td>
+            <td>@Model.FullName</td>
+            <td>@Lang.JobTitle</td>
+            <td>@Model.JobTitleName</td>
+        </tr>
+        <tr>
+            <td>@Lang.Department</td>
+            <td>@Model.DepartmentName</td>
+            <td>@Lang.Section</td>
+            <td>@Model.GroupName</td>
+        </tr>
+        <tr>
+            <td>@Lang.GroupDate</td>
+            <td>@Model.JoinedDate.ToString("dd MMM, yyyy")</td>
+            <td></td>
+            <td></td>
+        </tr>
+    </tbody>
+</table>

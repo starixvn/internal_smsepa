@@ -23,13 +23,13 @@
     {
         private const int FontSize = 8;
         private const float TotalWidth = 590;
-        private readonly Color _defaultColor = new Color(System.Drawing.ColorTranslator.FromHtml("#333"));
+        private readonly BaseColor _defaultColor = new BaseColor(System.Drawing.ColorTranslator.FromHtml("#333"));
         private readonly IEmployeeEPAService _employeeEPAService;
         private readonly ICommonService _commonService;
-        private readonly Color _redColor = new Color(System.Drawing.ColorTranslator.FromHtml("#df1501"));
-        private readonly Color _whiteColor = new Color(System.Drawing.ColorTranslator.FromHtml("#fff"));
+        private readonly BaseColor _redColor = new BaseColor(System.Drawing.ColorTranslator.FromHtml("#df1501"));
+        private readonly BaseColor _whiteColor = new BaseColor(System.Drawing.ColorTranslator.FromHtml("#fff"));
         private Font _boldFont;
-        private Color _borderColor;
+        private BaseColor _borderColor;
         private Font _defaultFont;
         private Font _normalFont;
         private Font _redFont;
@@ -134,7 +134,7 @@
             Response.End();
         }
 
-        private static PdfPTable CreateNewDefaultPdfPTable(float[] widths, Color borderColor)
+        private static PdfPTable CreateNewDefaultPdfPTable(float[] widths, BaseColor borderColor)
         {
             PdfPTable table = new PdfPTable(2)
             {
@@ -194,7 +194,7 @@
                 LockedWidth = true
             };
 
-            var border = new Color(System.Drawing.ColorTranslator.FromHtml("#ddd"));
+            var border = new BaseColor(System.Drawing.ColorTranslator.FromHtml("#ddd"));
 
             PdfPCell cell = new PdfPCell(new Phrase(Lang.GeneralInfo, _defaultFont))
             {
@@ -203,7 +203,7 @@
                 PaddingRight = 5,
                 Colspan = 5,
                 VerticalAlignment = Element.ALIGN_MIDDLE,
-                BackgroundColor = new Color(System.Drawing.ColorTranslator.FromHtml("#8b8f9e")),
+                BackgroundColor = new BaseColor(System.Drawing.ColorTranslator.FromHtml("#8b8f9e")),
                 Border = 0
             };
             table.AddCell(cell);
@@ -407,7 +407,7 @@
             detail.SetWidths(widths);
             detail.DefaultCell.BorderColor = _borderColor;
 
-            var backgroundColor = new Color(System.Drawing.ColorTranslator.FromHtml("#ebe4d4"));
+            var backgroundColor = new BaseColor(System.Drawing.ColorTranslator.FromHtml("#ebe4d4"));
 
             foreach (EPAKpiGroupModel kpiGroup in epaInfo.KPIGroups)
             {
@@ -419,7 +419,7 @@
                         PaddingLeft = 5,
                         PaddingRight = 5,
                         VerticalAlignment = Element.ALIGN_MIDDLE,
-                        BackgroundColor = new Color(System.Drawing.ColorTranslator.FromHtml("#8b8f9e")),
+                        BackgroundColor = new BaseColor(System.Drawing.ColorTranslator.FromHtml("#8b8f9e")),
                         Border = 0
                     };
                 detail.AddCell(cell);
@@ -533,7 +533,7 @@
         {
             string totalScore;
 
-            var backgroundColor = new Color(System.Drawing.ColorTranslator.FromHtml("#ebe4d4"));
+            var backgroundColor = new BaseColor(System.Drawing.ColorTranslator.FromHtml("#ebe4d4"));
 
             PdfPTable table = new PdfPTable(4)
             {
@@ -549,7 +549,7 @@
                 PaddingRight = 5,
                 Colspan = 4,
                 VerticalAlignment = Element.ALIGN_MIDDLE,
-                BackgroundColor = new Color(System.Drawing.ColorTranslator.FromHtml("#8b8f9e")),
+                BackgroundColor = new BaseColor(System.Drawing.ColorTranslator.FromHtml("#8b8f9e")),
                 Border = 0
             };
             table.AddCell(cell);
@@ -682,7 +682,7 @@
         {
             var totalCol = !epaInfo.Process.Managements.Any() ? 8 : 10;
 
-            var backgroundColor = new Color(System.Drawing.ColorTranslator.FromHtml("#ebe4d4"));
+            var backgroundColor = new BaseColor(System.Drawing.ColorTranslator.FromHtml("#ebe4d4"));
 
             PdfPTable table = new PdfPTable(totalCol)
             {
@@ -699,7 +699,7 @@
                 PaddingRight = 5,
                 Colspan = totalCol,
                 VerticalAlignment = Element.ALIGN_MIDDLE,
-                BackgroundColor = new Color(System.Drawing.ColorTranslator.FromHtml("#8b8f9e")),
+                BackgroundColor = new BaseColor(System.Drawing.ColorTranslator.FromHtml("#8b8f9e")),
                 Border = 0
             };
             table.AddCell(cell);
@@ -1016,7 +1016,7 @@
         {
             var totalCol = !epaInfo.Process.Managements.Any() ? 7 : 9;
 
-            var backgroundColor = new Color(System.Drawing.ColorTranslator.FromHtml("#ebe4d4"));
+            var backgroundColor = new BaseColor(System.Drawing.ColorTranslator.FromHtml("#ebe4d4"));
 
             PdfPTable table = new PdfPTable(totalCol)
             {
@@ -1033,7 +1033,7 @@
                     PaddingRight = 5,
                     Colspan = totalCol,
                     VerticalAlignment = Element.ALIGN_MIDDLE,
-                    BackgroundColor = new Color(System.Drawing.ColorTranslator.FromHtml("#8b8f9e")),
+                    BackgroundColor = new BaseColor(System.Drawing.ColorTranslator.FromHtml("#8b8f9e")),
                     Border = 0
                 };
             table.AddCell(cell);
@@ -1285,7 +1285,7 @@
                 PaddingRight = 5,
                 Colspan = 2,
                 VerticalAlignment = Element.ALIGN_MIDDLE,
-                BackgroundColor = new Color(System.Drawing.ColorTranslator.FromHtml("#8b8f9e")),
+                BackgroundColor = new BaseColor(System.Drawing.ColorTranslator.FromHtml("#8b8f9e")),
                 Border = 0
             };
             table.AddCell(cell);
@@ -1375,7 +1375,7 @@
                 PaddingRight = 5,
                 Colspan = 2,
                 VerticalAlignment = Element.ALIGN_MIDDLE,
-                BackgroundColor = new Color(System.Drawing.ColorTranslator.FromHtml("#8b8f9e")),
+                BackgroundColor = new BaseColor(System.Drawing.ColorTranslator.FromHtml("#8b8f9e")),
                 Border = 0
             };
             table.AddCell(cell);
@@ -1459,7 +1459,7 @@
 
         private PdfPTable RenderSummaryComment(EPAModel epaInfo)
         {
-            var backgroundColor = new Color(System.Drawing.ColorTranslator.FromHtml("#ebe4d4"));
+            var backgroundColor = new BaseColor(System.Drawing.ColorTranslator.FromHtml("#ebe4d4"));
 
             PdfPTable table = CreateNewDefaultPdfPTable(new float[] { 140, 450 }, _borderColor);
 
@@ -1470,7 +1470,7 @@
                 PaddingRight = 5,
                 Colspan = 2,
                 VerticalAlignment = Element.ALIGN_MIDDLE,
-                BackgroundColor = new Color(System.Drawing.ColorTranslator.FromHtml("#8b8f9e")),
+                BackgroundColor = new BaseColor(System.Drawing.ColorTranslator.FromHtml("#8b8f9e")),
                 Border = 0
             };
             table.AddCell(cell);
@@ -1502,7 +1502,7 @@
                 cell = new PdfPCell(new Phrase(Lang.Evaluator, _boldFont))
                 {
                     Colspan = 2,
-                    BackgroundColor = new Color(System.Drawing.ColorTranslator.FromHtml("#ececec")),
+                    BackgroundColor = new BaseColor(System.Drawing.ColorTranslator.FromHtml("#ececec")),
                     BorderColor = _borderColor,
                     VerticalAlignment = Element.ALIGN_MIDDLE
                 };
@@ -1533,7 +1533,7 @@
             cell = new PdfPCell(new Phrase(Lang.Reviewer, _boldFont))
             {
                 Colspan = 2,
-                BackgroundColor = new Color(System.Drawing.ColorTranslator.FromHtml("#ececec")),
+                BackgroundColor = new BaseColor(System.Drawing.ColorTranslator.FromHtml("#ececec")),
                 BorderColor = _borderColor,
                 VerticalAlignment = Element.ALIGN_MIDDLE
             };
@@ -1564,7 +1564,7 @@
                 cell = new PdfPCell(new Phrase(Lang.Management, _boldFont))
                 {
                     Colspan = 2,
-                    BackgroundColor = new Color(System.Drawing.ColorTranslator.FromHtml("#ececec")),
+                    BackgroundColor = new BaseColor(System.Drawing.ColorTranslator.FromHtml("#ececec")),
                     BorderColor = _borderColor,
                     VerticalAlignment = Element.ALIGN_MIDDLE
                 };
@@ -1597,7 +1597,7 @@
         private void AddCenterAlignedCell(
             PdfPTable table,
             string content,
-            Color backgroundColor = null,
+            BaseColor backgroundColor = null,
             int colspan = 1,
             int rowspan = 1)
         {
@@ -1636,7 +1636,7 @@
                 FixedHeight = 30,
                 HorizontalAlignment = Element.ALIGN_CENTER,
                 VerticalAlignment = Element.ALIGN_MIDDLE,
-                BackgroundColor = new Color(System.Drawing.ColorTranslator.FromHtml("#ebe4d4")),
+                BackgroundColor = new BaseColor(System.Drawing.ColorTranslator.FromHtml("#ebe4d4")),
                 Border = 0,
                 PaddingLeft = 12f,
                 PaddingRight = 12f
@@ -1648,7 +1648,7 @@
 
         private void SetDefaultStyles()
         {
-            _borderColor = new Color(System.Drawing.ColorTranslator.FromHtml("#cec5c2"));
+            _borderColor = new BaseColor(System.Drawing.ColorTranslator.FromHtml("#cec5c2"));
             _defaultFont = FontFactory.GetFont(
                 "ARIALUNI",
                 BaseFont.IDENTITY_H,

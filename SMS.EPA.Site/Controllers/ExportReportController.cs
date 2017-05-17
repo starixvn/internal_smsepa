@@ -1,10 +1,5 @@
 ﻿namespace SMS.EPA.Site.Controllers
 {
-    using System;
-    using System.Collections.Generic;
-    using System.IO;
-    using System.Linq;
-    using System.Web.Mvc;
     using Core.Constants;
     using Core.Enumerations;
     using Core.Services;
@@ -21,6 +16,11 @@
     using Services.Implement.ExportFile;
     using Services.Interfaces;
     using Services.Interfaces.ExportFile;
+    using System;
+    using System.Collections.Generic;
+    using System.IO;
+    using System.Linq;
+    using System.Web.Mvc;
 
     public class ExportReportController : Controller
     {

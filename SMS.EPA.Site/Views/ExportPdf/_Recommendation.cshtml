@@ -1,0 +1,63 @@
+﻿@using SMS.EPA.Resources
+@using SMS.EPA.Model
+
+@model EPAModel
+
+@helper GetRadioButton(bool value)
+{
+    string path = Server.MapPath("~/content/site/images/radiobutton_no.png");
+    if (value)
+    {
+        path = Server.MapPath("~/content/site/images/radiobutton_yes.png");
+    }
+
+    <img src="@path" />
+}
+
+@helper GetCheckbox(bool value)
+{
+    string path = Server.MapPath("~/content/site/images/checkbox_no.png");
+    if (value)
+    {
+        path = Server.MapPath("~/content/site/images/checkbox_yes.png");
+    }
+
+    <img src="@path" />
+}
+
+<table class="recommendation">
+    <thead>
+        <tr class="table-title">
+            <th>@Lang.Recommendation</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model.IsProbation || Model.IsPromotion)
+        {
+            <tr>
+                <td>
+                    @GetRadioButton(Model.Recommendation.PassedProbation) @Lang.PassProbation
+                    <br />
+                    @GetRadioButton(Model.Recommendation.ExtendedProbation) /> @Lang.ExtendProbation
+                    <br />
+                    @GetRadioButton(Model.Recommendation.FailedProbation) /> @Lang.FailProbation
+                </td>
+            </tr>
+        }
+        else if (Model.IsSemiAnnual)
+        {
+            string jobGrade = Model.Recommendation.JobGrade != null
+                ? Lang.JobGrade + ": " + Model.Recommendation.JobGrade.Name
+                : Lang.JobGrade;
+            <tr>
+                <td>
+                    @GetCheckbox(Model.Recommendation.Promoted) /> @Lang.Promotion
+                    <br />
+                    @GetCheckbox(Model.Recommendation.PayIncreased) /> @Lang.AnnualIncrement
+                    <br />
+                    @GetCheckbox(Model.Recommendation.JobGradeIncreased) /> @jobGrade
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

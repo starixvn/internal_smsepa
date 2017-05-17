@@ -1,0 +1,170 @@
+﻿@using SMS.EPA.Resources
+@using SMS.EPA.Core.Enumerations
+@using SMS.EPA.Model
+
+@model EPAModel
+
+@{
+    int rowspan = Model.Rowspan;
+}
+
+@helper GetScoreFromProcess(EPAProcessModel process, ScoreRatingTypeModel scoreRatingType)
+{
+float maxScore = scoreRatingType.SelfEvaluated;
+switch (process.ProcessId)
+{
+    case (int)ProcessType.Self:
+        maxScore = scoreRatingType.SelfEvaluated;
+        break;
+
+    case (int)ProcessType.Evaluator:
+        maxScore = scoreRatingType.Evaluator;
+        break;
+
+    case (int)ProcessType.Reviewer:
+        maxScore = scoreRatingType.Reviewer;
+        break;
+
+    case (int)ProcessType.Management:
+        maxScore = scoreRatingType.Management;
+        break;
+}
+
+    <span @(process.StatusId == (int)ProcessStatusType.InProgress ? " class=red" : string.Empty)>
+        @(string.IsNullOrEmpty(process.TotalScore) ? Lang.NotAvailable : process.TotalScore + " / " + @maxScore)
+    </span>
+}
+
+<table class="performance-result">
+    <thead>
+        <tr class="table-title">
+            <th colspan="10">@Lang.PerformanceResult</th>
+        </tr>
+        <tr>
+            @if (Model.IsSemiHasMonthly)
+            {
+                <th rowspan="2">@Lang.EmployeeScore</th>
+                <th rowspan="2">@Lang.EvaluatorScore</th>
+            }
+            else
+            {
+                <th rowspan="2">@Lang.Employee</th>
+                <th colspan="2">@Lang.Evaluator</th>
+            }
+
+            <th colspan="2">@Lang.Reviewer</th>
+
+            @if (Model.Process.Managements.Any())
+            {
+                <th colspan="2">@Lang.Management</th>
+            }
+
+            <th rowspan="2">@Lang.DisciplineScore</th>
+            <th rowspan="2">@Lang.FinalScore</th>
+            <th rowspan="2">@Lang.Grade</th>
+        </tr>
+        <tr>
+            @if (!Model.IsSemiHasMonthly)
+            {
+                <th>@Lang.NickName</th>
+                <th>@Lang.PerformanceScore</th>
+            }
+
+            @if (Model.Process.Managements.Any())
+            {
+                <th>@Lang.NickName</th>
+                <th>@Lang.PerformanceScore</th>
+            }
+
+            <th>@Lang.NickName</th>
+            <th>@Lang.PerformanceScore</th>
+        </tr>
+    </thead>
+    <tbody>
+        @for (int i = 0; i < rowspan; i++)
+        {
+            <tr>
+                @if (Model.IsSemiHasMonthly)
+                {
+                    if (i == 0)
+                    {
+                        <td rowspan="@rowspan">@Model.MonthlyEPA.AverageSelfScoreConverted</td>
+                        <td rowspan="@rowspan">@Model.MonthlyEPA.AverageEvaluatorScoreConverted</td>
+                    }
+                }
+                else
+                {
+                    if (i == 0)
+                    {
+                        <td rowspan="@rowspan">@GetScoreFromProcess(Model.Process.Self, Model.ScoreRatingType)</td>
+                    }
+
+                    if (i < Model.Process.Evaluators.Count)
+                    {
+                        <td>@Model.Process.Evaluators[i].EvaluatorInfo.NickName</td>
+                        <td>@GetScoreFromProcess(Model.Process.Evaluators[i], Model.ScoreRatingType)</td>
+                    }
+                    else
+                    {
+                        <td></td>
+                        <td></td>
+                    }
+                }
+
+                @if (i < Model.Process.Reviewers.Count)
+                {
+                    <td>@Model.Process.Reviewers[i].EvaluatorInfo.NickName</td>
+                    <td>@GetScoreFromProcess(Model.Process.Reviewers[i], Model.ScoreRatingType)</td>
+                }
+                else
+                {
+                    <td></td>
+                    <td></td>
+                }
+
+                @if (Model.Process.Managements.Any())
+                {
+                    if (i < Model.Process.Managements.Count)
+                    {
+                        <td>@Model.Process.Managements[i].EvaluatorInfo.NickName</td>
+                        <td>@GetScoreFromProcess(Model.Process.Managements[i], Model.ScoreRatingType)</td>
+                    }
+                    else
+                    {
+                        <td></td>
+                        <td></td>
+                    }
+                }
+
+                @if (i == 0)
+                {
+                    <td rowspan="@rowspan">
+                        @(Model.HasDisciplineScore
+                                 ? Model.DisciplineScore.ToString() + " / " + Model.MaxDisciplineScore
+                                 : (Model.DisciplineScore != 0 ? Model.DisciplineScore.ToString() : "-"))
+                    </td>
+                    <td rowspan="@rowspan">
+                        @if (Model.StatusId == (int)EPAStatus.Closed)
+                        {
+                            @(Model.FinalScore + " / " + Model.MaxFinalScore)
+                        }
+                        else
+                        {
+
+                        }
+                    </td>
+                    <td rowspan="@rowspan">
+                        @if (Model.StatusId == (int)EPAStatus.Closed)
+                        {
+                            @Model.Grade
+                        }
+                        else
+                        {
+
+                        }
+                    </td>
+                }
+            </tr>
+        }
+    </tbody>
+</table>

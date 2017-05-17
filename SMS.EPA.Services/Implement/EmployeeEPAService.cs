@@ -183,25 +183,19 @@
             if (hasDisciplineScore)
             {
                 StandardGradeModel performanceGrade = standardGrades
-                    .FirstOrDefault(x => x.Type == (int)GradeType.Performance && x.LeftScore <= performanceScore &&
-                                         x.RightScore >= performanceScore);
+                    .FirstOrDefault(x => x.Type == (int)GradeType.Performance && x.LeftScore <= performanceScore && x.RightScore >= performanceScore);
 
                 StandardGradeModel disciplineGrade = standardGrades
-                    .FirstOrDefault(x => x.Type == (int)GradeType.Discipline && x.LeftScore <= disciplineScore &&
-                                         x.RightScore >= disciplineScore);
+                    .FirstOrDefault(x => x.Type == (int)GradeType.Discipline && x.LeftScore <= disciplineScore && x.RightScore >= disciplineScore);
 
                 if (performanceGrade == null || disciplineGrade == null)
                 {
                     return Lang.NotAvailable;
                 }
 
-                if (performanceGrade.GradeId > (int)StandardGrade.Average ||
-                    disciplineGrade.GradeId > (int)StandardGrade.Average)
+                if (performanceGrade.GradeId > (int)StandardGrade.Average || disciplineGrade.GradeId > (int)StandardGrade.Average)
                 {
-                    grade = string.Compare(
-                                performanceGrade.Code,
-                                disciplineGrade.Code,
-                                StringComparison.OrdinalIgnoreCase) > 0
+                    grade = string.Compare(performanceGrade.Code, disciplineGrade.Code, StringComparison.OrdinalIgnoreCase) > 0
                         ? performanceGrade.Code
                         : disciplineGrade.Code;
                 }

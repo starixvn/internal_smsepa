@@ -1,0 +1,64 @@
+﻿@using SMS.EPA.Resources
+@using SMS.EPA.Model
+
+@model EPAModel
+
+<table class="summary-comment">
+    <thead>
+        <tr class="table-title">
+            <th colspan="2">@Lang.SummaryComment</th>
+        </tr>
+        <tr>
+            <th>@Lang.FullName</th>
+            <th>@Lang.Comment</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (!Model.IsSemiHasMonthly)
+        {
+            <tr>
+                <td>@Model.Process.Self.EvaluatorInfo.FullName (@Model.Process.Self.EvaluatorInfo.NickName)</td>
+                <td>@Model.Process.Self.Comment</td>
+            </tr>
+
+            <tr>
+                <td colspan="2"><strong>@Lang.Evaluator</strong></td>
+            </tr>
+
+            foreach (EPAProcessModel evaluator in Model.Process.Evaluators)
+            {
+                <tr>
+                    <td>@evaluator.EvaluatorInfo.FullName (@evaluator.EvaluatorInfo.NickName)</td>
+                    <td>@evaluator.Comment</td>
+                </tr>
+            }
+        }
+
+        <tr>
+            <td colspan="2"><strong>@Lang.Reviewer</strong></td>
+        </tr>
+
+        @foreach (EPAProcessModel reviewer in Model.Process.Reviewers)
+        {
+            <tr>
+                <td>@reviewer.EvaluatorInfo.FullName (@reviewer.EvaluatorInfo.NickName)</td>
+                <td>@reviewer.Comment</td>
+            </tr>
+        }
+
+        @if (Model.Process.Managements.Any())
+        {
+            <tr>
+                <td colspan="2"><strong>@Lang.Management</strong></td>
+            </tr>
+
+            foreach (EPAProcessModel management in Model.Process.Managements)
+            {
+                <tr>
+                    <td>@management.EvaluatorInfo.FullName (@management.EvaluatorInfo.NickName)</td>
+                    <td>@management.Comment</td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>
