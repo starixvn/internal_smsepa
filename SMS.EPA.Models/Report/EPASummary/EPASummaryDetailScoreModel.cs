@@ -10,6 +10,8 @@
 
         public int ProcessId { get; set; }
 
+        public int StatusId { get; set; }
+
         public string TotalScore { get; set; }
 
         public string AdjustScore { get; set; }

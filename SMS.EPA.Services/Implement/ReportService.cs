@@ -398,7 +398,9 @@
 
         private static float? GetLastPhasePerformanceScore(EPASummaryPeriodModel epaInfoPeriod)
         {
-            var validDetailScores = epaInfoPeriod.DetailScores.Where(x => !string.IsNullOrEmpty(x.TotalScore) && x.ProcessId > (int)ProcessType.Self);
+            var validDetailScores = epaInfoPeriod.DetailScores.Where(x => !string.IsNullOrEmpty(x.TotalScore)
+                                                                          && x.ProcessId > (int)ProcessType.Self
+                                                                          && x.StatusId > (int)ProcessStatusType.Open);
             if (!validDetailScores.Any())
             {
                 return null;
