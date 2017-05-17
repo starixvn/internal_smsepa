@@ -150,13 +150,20 @@
                 {
                     <td rowspan="@rowspan">
                         @(Model.HasDisciplineScore
-                                 ? Model.DisciplineScore.ToString() + " / " + Model.MaxDisciplineScore
-                                 : (Model.DisciplineScore != 0 ? Model.DisciplineScore.ToString() : "-"))
+                              ? Model.DisciplineScore + " / " + Model.MaxDisciplineScore
+                              : (Model.DisciplineScore != 0 ? Model.DisciplineScore.ToString() : "-"))
                     </td>
                     <td rowspan="@rowspan">
                         @if (Model.StatusId == (int)EPAStatus.Closed)
                         {
-                            @(Model.FinalScore + " / " + Model.MaxFinalScore)
+                            if (!string.IsNullOrEmpty(Model.FinalScore))
+                            {
+                                @(Model.FinalScore + " / " + Model.MaxFinalScore)
+                            }
+                            else
+                            {
+                                @Model.FinalScoreToExport
+                            }
                         }
                         else
                         {

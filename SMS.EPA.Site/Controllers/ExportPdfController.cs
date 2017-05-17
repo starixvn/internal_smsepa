@@ -10,6 +10,7 @@
     using System.Collections.Generic;
     using System.Web.Hosting;
     using System.Web.Mvc;
+    using Resources;
 
     public class ExportPdfController : Controller
     {
@@ -17,8 +18,8 @@
         private const string CssFilePath = @"~\Content\Site\pdf.css";
         private const string ViewTemplatePath = "~/Views/ExportPdf/EpaDetail.cshtml";
 
-        private readonly IEmployeeEPAService employeeEPAService;
-        private readonly IRazorRenderService razorRenderService;
+        private readonly IEmployeeEPAService _employeeEPAService;
+        private readonly IRazorRenderService _razorRenderService;
 
         public ExportPdfController()
             : this(null, null)
@@ -29,13 +30,13 @@
             IEmployeeEPAService employeeEPAService,
             IRazorRenderService razorRenderService)
         {
-            this.employeeEPAService = employeeEPAService ?? new EmployeeEPAService();
-            this.razorRenderService = razorRenderService ?? new RazorRenderService();
+            _employeeEPAService = employeeEPAService ?? new EmployeeEPAService();
+            _razorRenderService = razorRenderService ?? new RazorRenderService();
         }
 
         public ActionResult EpaDetail(int id)
         {
-            EPAModel epaInfo = employeeEPAService.GetEPAInfoById(id);
+            EPAModel epaInfo = _employeeEPAService.GetEPAInfoById(id);
             epaInfo.Grade = GetGradeToExport(epaInfo);
 
             return View(epaInfo);
@@ -43,7 +44,7 @@
 
         public ActionResult ExportPdf(int id)
         {
-            EPAModel epaInfo = employeeEPAService.GetEPAInfoById(id);
+            EPAModel epaInfo = _employeeEPAService.GetEPAInfoById(id);
             epaInfo.Grade = GetGradeToExport(epaInfo);
 
             byte[] streamContent = RenderPdfContent(epaInfo);
@@ -65,7 +66,7 @@
         private byte[] RenderPdfContent(EPAModel epaInfo)
         {
             var cssFilePath = GetPhysicalFilePath(CssFilePath);
-            var htmlString = razorRenderService.RenderViewToString(this, ViewTemplatePath, epaInfo);
+            var htmlString = _razorRenderService.RenderViewToString(this, ViewTemplatePath, epaInfo);
 
             return RenderPdfContent(cssFilePath, htmlString);
         }
@@ -76,7 +77,7 @@
 
             if (epaInfo.StatusId == (int)EPAStatus.Open)
             {
-                IEnumerable<StandardGradeModel> standardGrades = employeeEPAService.GetStandardGrade();
+                IEnumerable<StandardGradeModel> standardGrades = _employeeEPAService.GetStandardGrade();
                 float finalScore;
                 float.TryParse(epaInfo.FinalScoreToExport, out finalScore);
 
@@ -86,11 +87,18 @@
                     performanceScore = finalScore - epaInfo.DisciplineScore;
                 }
 
-                grade = employeeEPAService.ConvertScoreToGrade(
+                grade = _employeeEPAService.ConvertScoreToGrade(
                     performanceScore,
                     epaInfo.DisciplineScore,
                     epaInfo.HasDisciplineScore,
                     standardGrades);
+            }
+            else
+            {
+                if (string.IsNullOrEmpty(epaInfo.FinalScore))
+                {
+                    grade = Lang.NotAvailable;
+                }
             }
 
             return grade;

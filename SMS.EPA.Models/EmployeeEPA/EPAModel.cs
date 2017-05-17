@@ -173,32 +173,38 @@
                 }
 
                 // Evaluator
-                finalScore = GetFinalScoreFromProccess(
+                var processSpecificFinalScore = GetFinalScoreFromProccess(
                     disciplineScore,
                     finalScore,
                     Process.Evaluators,
                     Process.AverageScoreByEvaluators);
 
+                finalScore = SetFinalScore(processSpecificFinalScore, finalScore);
+
                 // Reviewer
-                finalScore = GetFinalScoreFromProccess(
+                processSpecificFinalScore = GetFinalScoreFromProccess(
                     disciplineScore,
                     finalScore,
                     Process.Reviewers,
                     Process.AverageScoreByReviewers);
 
+                finalScore = SetFinalScore(processSpecificFinalScore, finalScore);
+
                 // Management
-                finalScore = GetFinalScoreFromProccess(
+                processSpecificFinalScore = GetFinalScoreFromProccess(
                     disciplineScore,
                     finalScore,
                     Process.Managements,
                     Process.AverageScoreByManagements);
 
-                if (Math.Abs(finalScore + 1) < Constants.Tolerance)
+                finalScore = SetFinalScore(processSpecificFinalScore, finalScore);
+
+                if (Math.Abs(finalScore + 1) <= Constants.Tolerance)
                 {
                     return Lang.NotAvailable;
                 }
 
-                return StatusId == 0 ? finalScore.ToString(CultureInfo.InvariantCulture) : FinalScore;
+                return StatusId == (int)EPAStatus.Open ? finalScore.ToString(CultureInfo.InvariantCulture) : FinalScore;
             }
         }
 
@@ -226,6 +232,14 @@
             }
 
             return result;
+        }
+
+        private static float SetFinalScore(float processSpecificFinalScore, float oldFinalScore)
+        {
+            return Math.Abs(processSpecificFinalScore + 1) > Constants.Tolerance &&
+                   Math.Abs(processSpecificFinalScore - oldFinalScore) > Constants.Tolerance
+                ? processSpecificFinalScore
+                : oldFinalScore;
         }
 
         public object ConvertToExcelRecord()
