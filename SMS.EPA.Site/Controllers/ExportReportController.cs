@@ -337,14 +337,14 @@
             return new ConditionalCellStyle
             {
                 ColumnIndex = columnIndex,
-                Condition = delegate (object o)
+                Condition = currentObject =>
                 {
-                    var value = o.GetType().GetProperties()[7].GetValue(o, null);
+                    var value = currentObject.GetType().GetProperties()[7].GetValue(currentObject, null);
                     DateTime dateTime = DateTime.Parse(value.ToString());
 
                     if (dateTime.DayOfWeek != DayOfWeek.Saturday && dateTime.DayOfWeek != DayOfWeek.Sunday)
                     {
-                        value = o.GetType().GetProperties()[columnIndex].GetValue(o, null);
+                        value = currentObject.GetType().GetProperties()[columnIndex].GetValue(currentObject, null);
                         return IsFloatLessThanZero(value);
                     }
 
@@ -359,14 +359,14 @@
             return new ConditionalCellStyle
             {
                 ColumnIndex = columnIndex,
-                Condition = delegate(object o)
+                Condition = currentObject =>
                 {
-                    var value = o.GetType().GetProperties()[7].GetValue(o, null);
+                    var value = currentObject.GetType().GetProperties()[7].GetValue(currentObject, null);
                     DateTime dateTime = DateTime.Parse(value.ToString());
 
                     if (dateTime.DayOfWeek == DayOfWeek.Saturday || dateTime.DayOfWeek == DayOfWeek.Sunday)
                     {
-                        value = o.GetType().GetProperties()[columnIndex].GetValue(o, null);
+                        value = currentObject.GetType().GetProperties()[columnIndex].GetValue(currentObject, null);
                         return IsFloatLessThanZero(value);
                     }
 
@@ -537,7 +537,7 @@
                 ConditionalCellStyle yellowCellStyle = new ConditionalCellStyle
                 {
                     ColumnIndex = i,
-                    Condition = delegate(object o)
+                    Condition = o =>
                     {
                         var value = o.GetType().GetProperties()[7].GetValue(o, null);
                         DateTime dateTime = DateTime.Parse(value.ToString());

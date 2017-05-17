@@ -80,8 +80,6 @@
                 }
             }
 
-            debugger;
-
             if (epaInfo.EPAId > 0) {
                 switch (epaInfo.Process.Self.StatusId) {
                     case utilitiesFactory.processStatus.InProgress:
@@ -157,15 +155,15 @@
                 result.FinalScore = getPhaseScore(result.SelfScore, tempDisciplineScore);
             }
 
-            if (result.EvaluatorScore !== status.NotAvailable && result.EvaluatorScore !== "" || isShowScoreOfProcess(epaInfo.Process.Evaluators[0])) {
+            if (result.EvaluatorScore !== status.NotAvailable && result.EvaluatorScore !== "" || isShowScoreOfProcess(epaInfo.Process.Evaluators)) {
                 result.FinalScore = getPhaseScore(result.EvaluatorScore, tempDisciplineScore);
             }
 
-            if (result.ReviewerScore !== status.NotAvailable && result.ReviewerScore !== "" || isShowScoreOfProcess(epaInfo.Process.Reviewers[0])) {
+            if (result.ReviewerScore !== status.NotAvailable && result.ReviewerScore !== "" || isShowScoreOfProcess(epaInfo.Process.Reviewers)) {
                 result.FinalScore = getPhaseScore(result.ReviewerScore, tempDisciplineScore);
             }
 
-            if (result.ManagementScore !== status.NotAvailable && result.ManagementScore !== "" || isShowScoreOfProcess(epaInfo.Process.Managements[0])) {
+            if (result.ManagementScore !== status.NotAvailable && result.ManagementScore !== "" || isShowScoreOfProcess(epaInfo.Process.Managements)) {
                 result.FinalScore = getPhaseScore(result.ManagementScore, tempDisciplineScore);
             }
 
@@ -200,12 +198,14 @@
             return result;
         }
 
-        function isShowScoreOfProcess(actor) {
-            if (actor.StatusId === utilitiesFactory.processStatus.InProgress ||
-                actor.StatusId === utilitiesFactory.processStatus.Closed)
-                if (actor.Evaluated) {
-                    return true;
-                }
+        function isShowScoreOfProcess(actors) {
+            if (actors.length > 0) {
+                if (actors[0].StatusId === utilitiesFactory.processStatus.InProgress ||
+                    actors[0].StatusId === utilitiesFactory.processStatus.Closed)
+                    if (actors[0].Evaluated) {
+                        return true;
+                    }
+            }
             return false;
         }
 
