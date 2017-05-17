@@ -11,21 +11,21 @@
     using System.Web.Hosting;
     using System.Web.Mvc;
 
-    public class ExportPdfNewController : Controller
+    public class ExportPdfController : Controller
     {
         private const string FileNameFormat = "{0}_{1}.pdf";
         private const string CssFilePath = @"~\Content\Site\pdf.css";
-        private const string ViewTemplatePath = "~/Views/ExportPdfNew/EpaDetail.cshtml";
+        private const string ViewTemplatePath = "~/Views/ExportPdf/EpaDetail.cshtml";
 
         private readonly IEmployeeEPAService employeeEPAService;
         private readonly IRazorRenderService razorRenderService;
 
-        public ExportPdfNewController()
+        public ExportPdfController()
             : this(null, null)
         {
         }
 
-        public ExportPdfNewController(
+        public ExportPdfController(
             IEmployeeEPAService employeeEPAService,
             IRazorRenderService razorRenderService)
         {
