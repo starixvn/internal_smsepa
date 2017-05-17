@@ -34,29 +34,29 @@
             _employeeEPAService = employeeEPAService ?? new EmployeeEPAService();
         }
 
-        protected IFont RedFont { get; set; }
-
-        protected ICellStyle EvenStyleCenter { get; set; }
-
-        protected ICellStyle OddStyleCenter { get; set; }
-
-        protected ICellStyle EvenRedStyle { get; set; }
-
-        protected ICellStyle OddRedStyle { get; set; }
-
-        protected ICellStyle EvenStyleLeft { get; set; }
-
-        protected ICellStyle OddStyleLeft { get; set; }
+        public abstract IList<string> GetColumnsName { get; }
 
         protected ICellStyle BodyStyle { get; set; }
-
-        public abstract IList<string> GetColumnsName { get; }
 
         protected IList<string> ColumnsName { get; set; }
 
         protected int CurrentRow { get; set; }
 
         protected EPADetailModel EpaDetail { get; set; }
+
+        protected ICellStyle EvenRedStyle { get; set; }
+
+        protected ICellStyle EvenStyleCenter { get; set; }
+
+        protected ICellStyle EvenStyleLeft { get; set; }
+
+        protected ICellStyle OddRedStyle { get; set; }
+
+        protected ICellStyle OddStyleCenter { get; set; }
+
+        protected ICellStyle OddStyleLeft { get; set; }
+
+        protected IFont RedFont { get; set; }
 
         protected ISheet Sheet { get; set; }
 
@@ -104,26 +104,6 @@
             }
 
             return evaluatorScore;
-        }
-
-        protected string GetGrade(EPAModel epaInfo, string finalScoreString)
-        {
-            var standardGrades = _commonService.GetStandardGrade().ToList();
-
-            float finalScore;
-            float.TryParse(finalScoreString, out finalScore);
-
-            float? performanceScore = null;
-            if (Math.Abs(finalScore) > Constants.Tolerance)
-            {
-                performanceScore = finalScore - epaInfo.DisciplineScore;
-            }
-
-            return _employeeEPAService.ConvertScoreToGrade(
-                performanceScore,
-                epaInfo.DisciplineScore,
-                epaInfo.HasDisciplineScore,
-                standardGrades);
         }
 
         protected static string GetReviewerScore(EPAModel epaInfo)
@@ -181,6 +161,24 @@
             return CurrentRow % 2 == 0 ? evenStyle : oddStyle;
         }
 
+        protected void CreateDefaultStyles()
+        {
+            RedFont = Workbook.CreateFont();
+            RedFont.Color = HSSFColor.Red.Index;
+
+            EvenStyleCenter = CreateEvenStyleCenter();
+            OddStyleCenter = CreateOddStyleCenter();
+
+            EvenRedStyle = CreateEvenStyleCenter();
+            EvenRedStyle.SetFont(RedFont);
+
+            OddRedStyle = CreateOddStyleCenter();
+            OddRedStyle.SetFont(RedFont);
+
+            EvenStyleLeft = CreateEvenStyleLeft();
+            OddStyleLeft = CreateOddStyleLeft();
+        }
+
         protected ICellStyle CreateEvenStyleCenter()
         {
             ICellStyle evenStyle = Workbook.CreateCellStyle();
@@ -221,6 +219,26 @@
             oddStyle.VerticalAlignment = VerticalAlignment.Center;
 
             return oddStyle;
+        }
+
+        protected string GetGrade(EPAModel epaInfo, string finalScoreString)
+        {
+            var standardGrades = _commonService.GetStandardGrade().ToList();
+
+            float finalScore;
+            float.TryParse(finalScoreString, out finalScore);
+
+            float? performanceScore = null;
+            if (Math.Abs(finalScore) > Constants.Tolerance)
+            {
+                performanceScore = finalScore - epaInfo.DisciplineScore;
+            }
+
+            return _employeeEPAService.ConvertScoreToGrade(
+                performanceScore,
+                epaInfo.DisciplineScore,
+                epaInfo.HasDisciplineScore,
+                standardGrades);
         }
 
         protected void SetColumnWidth(int columnIndex, int width)
@@ -370,24 +388,6 @@
                 cell.SetCellValue(ColumnsName[i]);
                 Sheet.AutoSizeColumn(i);
             }
-        }
-
-        protected void CreateDefaultStyles()
-        {
-            RedFont = Workbook.CreateFont();
-            RedFont.Color = HSSFColor.Red.Index;
-
-            EvenStyleCenter = CreateEvenStyleCenter();
-            OddStyleCenter = CreateOddStyleCenter();
-
-            EvenRedStyle = CreateEvenStyleCenter();
-            EvenRedStyle.SetFont(RedFont);
-
-            OddRedStyle = CreateOddStyleCenter();
-            OddRedStyle.SetFont(RedFont);
-
-            EvenStyleLeft = CreateEvenStyleLeft();
-            OddStyleLeft = CreateOddStyleLeft();
         }
     }
 }

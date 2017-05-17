@@ -4,8 +4,6 @@
 
     public class DisciplineSummaryBase
     {
-        protected decimal approverSubtractScore;
-
         public decimal MissingCheckInOut { get; set; }
 
         public decimal LateIn { get; set; }

@@ -26,7 +26,10 @@
     {
         private const int DefaultContentRowStartIndexForTemplate = 3;
         private const string DisciplineDetailTemplatePath = @"~\ExcelTemplates\DisciplineDetailReport.xls";
-        private const string DisciplineSummaryByPeriodTemplatePath = @"~\ExcelTemplates\DisciplineSummaryByPeriodReport.xls";
+
+        private const string DisciplineSummaryByPeriodTemplatePath =
+            @"~\ExcelTemplates\DisciplineSummaryByPeriodReport.xls";
+
         private const string DisciplineSummaryTemplatePath = @"~\ExcelTemplates\DisciplineSummaryReport.xls";
         private const string EmployeeBasicInfoTemplate = @"~\ExcelTemplates\EmployeeBasicInfoTemplate.xls";
         private const string EmployeeFlowSettingTemplate = @"~\ExcelTemplates\EmployeeFlowSettingTemplate.xls";
@@ -107,7 +110,8 @@
         {
             if (criteria != null)
             {
-                IEnumerable<DisciplineSummaryByPeriodModel> employeeDisciplines = _disciplineService.GetDisciplineSummaryByPeriod(criteria);
+                IEnumerable<DisciplineSummaryByPeriodModel> employeeDisciplines =
+                    _disciplineService.GetDisciplineSummaryByPeriod(criteria);
 
                 if (employeeDisciplines != null && employeeDisciplines.Any())
                 {
@@ -133,7 +137,8 @@
             if (criteria != null)
             {
                 criteria.ApproverId = _sessionService.CurrentUser.EmployeeId;
-                IEnumerable<DisciplineSummaryModel> employeeDisciplines = _disciplineService.GetDisciplineSummary(criteria);
+                IEnumerable<DisciplineSummaryModel> employeeDisciplines =
+                    _disciplineService.GetDisciplineSummary(criteria);
 
                 if (employeeDisciplines != null && employeeDisciplines.Any())
                 {
@@ -196,7 +201,8 @@
             {
                 IList<EPAModel> epaInfos = _employeeEPAService.GetEPAToUpdateFinalScore(criteria);
                 string[] employeeIds = criteria.EmployeeIds.Split(',');
-                epaInfos = epaInfos.Join(employeeIds, x => x.Employee.EmployeeId.ToString(), y => y, (x, y) => x).ToList();
+                epaInfos = epaInfos.Join(employeeIds, x => x.Employee.EmployeeId.ToString(), y => y, (x, y) => x)
+                    .ToList();
 
                 if (epaInfos.Any())
                 {
@@ -277,7 +283,8 @@
         {
             if (flowTemplateId > 0 && !string.IsNullOrEmpty(flowTemplateName))
             {
-                IEnumerable<PersonalFlowModel> flowSettings = _personalFlowService.GetPersonalFlowByFlowTemplateId(flowTemplateId);
+                IEnumerable<PersonalFlowModel> flowSettings =
+                    _personalFlowService.GetPersonalFlowByFlowTemplateId(flowTemplateId);
 
                 _exportExcelService.FileName = "Personal_Flow_Setting";
                 _exportExcelService.SheetName = "Personal Flow";
@@ -316,9 +323,9 @@
             return new ConditionalCellStyle
             {
                 ColumnIndex = columnIndex,
-                Condition = delegate (object o)
+                Condition = currentObject =>
                 {
-                    var value = o.GetType().GetProperties()[columnIndex].GetValue(o, null);
+                    var value = currentObject.GetType().GetProperties()[columnIndex].GetValue(currentObject, null);
                     float number;
 
                     if (!float.TryParse(value.ToString(), out number))
@@ -384,11 +391,19 @@
 
             if (criteria.EmployeeId != null)
             {
-                reportTitle = string.Format(Lang.AttendanceDetailReportTitle, criteria.EmployeeName, startDate, endDate);
+                reportTitle = string.Format(
+                    Lang.AttendanceDetailReportTitle,
+                    criteria.EmployeeName,
+                    startDate,
+                    endDate);
             }
             else if (criteria.DepartmentId != null)
             {
-                reportTitle = string.Format(Lang.AttendanceDetailReportTitle, criteria.DepartmentName, startDate, endDate);
+                reportTitle = string.Format(
+                    Lang.AttendanceDetailReportTitle,
+                    criteria.DepartmentName,
+                    startDate,
+                    endDate);
             }
             else
             {
@@ -426,11 +441,19 @@
 
             if (criteria.EmployeeId != null)
             {
-                reportTitle = string.Format(Lang.AttendanceSummaryReportTitle, criteria.EmployeeName, startDate, endDate);
+                reportTitle = string.Format(
+                    Lang.AttendanceSummaryReportTitle,
+                    criteria.EmployeeName,
+                    startDate,
+                    endDate);
             }
             else if (criteria.DepartmentId != null)
             {
-                reportTitle = string.Format(Lang.AttendanceSummaryReportTitle, criteria.DepartmentName, startDate, endDate);
+                reportTitle = string.Format(
+                    Lang.AttendanceSummaryReportTitle,
+                    criteria.DepartmentName,
+                    startDate,
+                    endDate);
             }
             else
             {
@@ -496,7 +519,8 @@
 
             columnIndex = 20;
 
-            ConditionalCellStyle approverSubstractScoreStyle = CreateCellStyleIfLessThanZero(redStyleIndex, columnIndex);
+            ConditionalCellStyle approverSubstractScoreStyle =
+                CreateCellStyleIfLessThanZero(redStyleIndex, columnIndex);
 
             _exportExcelService.ConditionalCellStyles.Add(approverSubstractScoreStyle);
         }
@@ -519,9 +543,7 @@
             // Yellow with red font style
             int yellowWithRedFontStyleIndex = _exportExcelService.CreateNewColumnStyle();
             ICellStyle yelloWithRedFontStyle = _exportExcelService.ColumnsStyles[yellowWithRedFontStyleIndex];
-            yelloWithRedFontStyle.FillPattern = FillPattern.SolidForeground;
-            yelloWithRedFontStyle.FillBackgroundColor = HSSFColor.LightYellow.Index;
-            yelloWithRedFontStyle.FillForegroundColor = HSSFColor.LightYellow.Index;
+            yelloWithRedFontStyle.CloneStyleFrom(style);
             yelloWithRedFontStyle.SetFont(redFont);
 
             // Normal with red font style
@@ -532,14 +554,27 @@
             // Condition
 
             // Yellow
+            CreateConditionalCellStyleForDisciplineDetailReport(
+                totalColumn,
+                styleIndex,
+                yellowWithRedFontStyleIndex,
+                normalWithRedFontStyleIndex);
+        }
+
+        private void CreateConditionalCellStyleForDisciplineDetailReport(
+            int totalColumn,
+            int styleIndex,
+            int yellowWithRedFontStyleIndex,
+            int normalWithRedFontStyleIndex)
+        {
             for (int i = 0; i < totalColumn; i++)
             {
                 ConditionalCellStyle yellowCellStyle = new ConditionalCellStyle
                 {
                     ColumnIndex = i,
-                    Condition = o =>
+                    Condition = currentObject =>
                     {
-                        var value = o.GetType().GetProperties()[7].GetValue(o, null);
+                        var value = currentObject.GetType().GetProperties()[7].GetValue(currentObject, null);
                         DateTime dateTime = DateTime.Parse(value.ToString());
 
                         return dateTime.DayOfWeek == DayOfWeek.Saturday || dateTime.DayOfWeek == DayOfWeek.Sunday;
