@@ -6,13 +6,6 @@
     gridEpaDetailReport.$inject = ["$window", "$timeout", "utilitiesFactory", "EvaluationModel", "CommonModel", "baseUrl"];
 
     function gridEpaDetailReport($window, $timeout, utilitiesFactory, EvaluationModel, CommonModel, baseUrl) {
-        var status = {
-            NotAvailable: "N/A"
-        };
-
-        CommonModel.getStandardGrade();
-
-        var standardGrades = CommonModel.standardGrades;
 
         function generateColumnHeaders(scope) {
             var sortCode = scope.sortColumnName === "Code" ? scope.sortDirection : "",
@@ -59,164 +52,6 @@
             return columnHeaders;
         }
 
-        function calculateScore(epaInfo) {
-            var result = {
-                SelfScore: status.NotAvailable,
-                EvaluatorScore: status.NotAvailable,
-                ReviewerScore: status.NotAvailable,
-                ManagementScore: status.NotAvailable,
-                DisciplineScore: status.NotAvailable,
-                FinalScore: status.NotAvailable,
-                Grade: status.NotAvailable
-            };
-
-            if (epaInfo.HasDisciplineScore) {
-                result.DisciplineScore = epaInfo.DisciplineScore;
-            } else {
-                if (epaInfo.DisciplineScore !== 0) {
-                    result.DisciplineScore = epaInfo.DisciplineScore;
-                } else {
-                    result.DisciplineScore = "-";
-                }
-            }
-
-            if (epaInfo.EPAId > 0) {
-                switch (epaInfo.Process.Self.StatusId) {
-                    case utilitiesFactory.processStatus.InProgress:
-                        result.SelfScore = epaInfo.Process.Self.TotalScore.length > 0
-                            ? utilitiesFactory.parseFloat(epaInfo.Process.Self.TotalScore)
-                            : status.NotAvailable;
-                        break;
-                    case utilitiesFactory.processStatus.Closed:
-                        result.SelfScore = epaInfo.Process.Self.TotalScore.length > 0
-                            ? utilitiesFactory.parseFloat(epaInfo.Process.Self.TotalScore)
-                            : status.NotAvailable;
-                        break;
-                }
-
-                switch (epaInfo.Process.Evaluators[0].StatusId) {
-                    case utilitiesFactory.processStatus.InProgress:
-                        result.EvaluatorScore = epaInfo.Process.AverageScoreByEvaluators !== null
-                            ? epaInfo.Process.AverageScoreByEvaluators
-                            : status.NotAvailable;
-                        break;
-                    case utilitiesFactory.processStatus.Closed:
-                        result.EvaluatorScore = epaInfo.Process.AverageScoreByEvaluators !== null
-                            ? epaInfo.Process.AverageScoreByEvaluators
-                            : status.NotAvailable;
-                        break;
-                }
-
-                switch (epaInfo.Process.Reviewers[0].StatusId) {
-                    case utilitiesFactory.processStatus.InProgress:
-                        result.ReviewerScore = epaInfo.Process.AverageScoreByReviewers !== null
-                            ? epaInfo.Process.AverageScoreByReviewers
-                            : status.NotAvailable;
-                        break;
-                    case utilitiesFactory.processStatus.Closed:
-                        result.ReviewerScore = epaInfo.Process.AverageScoreByReviewers !== null
-                            ? epaInfo.Process.AverageScoreByReviewers
-                            : status.NotAvailable;
-                        break;
-                }
-
-                if (epaInfo.Process.Managements.length > 0) {
-                    switch (epaInfo.Process.Managements[0].StatusId) {
-                        case utilitiesFactory.processStatus.InProgress:
-                            result.ManagementScore = epaInfo.Process.AverageScoreByManagements !== null
-                                ? epaInfo.Process.AverageScoreByManagements
-                                : status.NotAvailable;
-                            break;
-                        case utilitiesFactory.processStatus.Closed:
-                            result.ManagementScore = epaInfo.Process.AverageScoreByManagements !== null
-                                ? epaInfo.Process.AverageScoreByManagements
-                                : status.NotAvailable;
-                            break;
-                    }
-                }
-
-                if (epaInfo.IsSemiHasMonthly) {
-                    result.SelfScore = epaInfo.MonthlyEPA.AverageSelfScoreConverted !== null
-                        ? epaInfo.MonthlyEPA.AverageSelfScoreConverted
-                        : status.NotAvailable;
-
-                    result.EvaluatorScore = epaInfo.MonthlyEPA.AverageEvaluatorScoreConverted !== null
-                        ? epaInfo.MonthlyEPA.AverageEvaluatorScoreConverted
-                        : status.NotAvailable;
-                }
-            }
-
-            var tempDisciplineScore = 0;
-            if (result.DisciplineScore !== "-") {
-                tempDisciplineScore = result.DisciplineScore;
-            }
-
-            if (result.SelfScore !== status.NotAvailable && result.SelfScore !== "" || isShowScoreOfProcess(epaInfo.Process.Self)) {
-                result.FinalScore = getPhaseScore(result.SelfScore, tempDisciplineScore);
-            }
-
-            if (result.EvaluatorScore !== status.NotAvailable && result.EvaluatorScore !== "" || isShowScoreOfProcess(epaInfo.Process.Evaluators)) {
-                result.FinalScore = getPhaseScore(result.EvaluatorScore, tempDisciplineScore);
-            }
-
-            if (result.ReviewerScore !== status.NotAvailable && result.ReviewerScore !== "" || isShowScoreOfProcess(epaInfo.Process.Reviewers)) {
-                result.FinalScore = getPhaseScore(result.ReviewerScore, tempDisciplineScore);
-            }
-
-            if (result.ManagementScore !== status.NotAvailable && result.ManagementScore !== "" || isShowScoreOfProcess(epaInfo.Process.Managements)) {
-                result.FinalScore = getPhaseScore(result.ManagementScore, tempDisciplineScore);
-            }
-
-            // Get Standard grades if empty
-            if (standardGrades.length === 0) {
-                CommonModel.getStandardGrade();
-                standardGrades = CommonModel.standardGrades;
-            }
-
-            if (result.FinalScore !== "") {
-                result.Grade = EvaluationModel.convertScoreToGrade(
-                    result.FinalScore - tempDisciplineScore,
-                    tempDisciplineScore,
-                    epaInfo.HasDisciplineScore,
-                    100,
-                    standardGrades);
-            } else {
-                // Set default lowest value
-                result.FinalScore = status.NotAvailable;
-                result.Grade = status.NotAvailable;
-            }
-
-            //if (epaInfo.FinalScore.length > 0) {
-            //    result.FinalScore = utilitiesFactory.parseFloat(epaInfo.FinalScore);
-            //    result.Grade = epaInfo.Grade;
-            //} else {
-            //    // Set default lowest value
-            //    result.FinalScore = status.NotAvailable;
-            //    result.Grade = status.NotAvailable;
-            //}
-
-            return result;
-        }
-
-        function isShowScoreOfProcess(actors) {
-            if (actors.length > 0) {
-                if (actors[0].StatusId === utilitiesFactory.processStatus.InProgress ||
-                    actors[0].StatusId === utilitiesFactory.processStatus.Closed)
-                    if (actors[0].Evaluated) {
-                        return true;
-                    }
-            }
-            return false;
-        }
-
-        function getPhaseScore(phaseScore, tempDisciplineScore) {
-            if (phaseScore === status.NotAvailable) {
-                return status.NotAvailable;
-            } else {
-                return utilitiesFactory.parseFloat(phaseScore + tempDisciplineScore);
-            }
-        }
-
         function generateBodyRows(gridData, pageOption) {
             var rows = [];
             var rowIndex = pageOption.itemsPerPage * pageOption.pageIndex;
@@ -224,7 +59,8 @@
             if (gridData.EpaInfos) {
                 angular.forEach(gridData.EpaInfos,
                     function (epaInfo, index) {
-                        var score = calculateScore(epaInfo);
+                        debugger;
+                        var score = EvaluationModel.calculateScoreAndGradeToDisplay(epaInfo);
                         var cssSelfScore = epaInfo.EPAId > 0 &&
                             !epaInfo.HasMonthlyEPA &&
                             epaInfo.Process.Self.StatusId === utilitiesFactory.processStatus.InProgress

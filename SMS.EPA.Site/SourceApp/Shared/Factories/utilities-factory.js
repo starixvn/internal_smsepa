@@ -11,6 +11,7 @@
             dateFormat = "dd MMM, yyyy",
             dateTimeFormatString = "MM/DD/YYYY HH:mm",
             timeFormat = 'HH:mm',
+            notAvailableString = "N/A",
             maxStar = 5,
             epaStatus = {
                 Open: 0,
@@ -59,6 +60,7 @@
             getDateTime: getDateTime,
             getSelectedData: getSelectedData,
             getTimeFormat: getTimeFormat,
+            notAvailableString: notAvailableString,
             maxLengthDescription: maxLengthDescription,
             maxStar: maxStar,
             numberEntryList: numberEntryList,

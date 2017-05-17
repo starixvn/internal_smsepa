@@ -47,17 +47,10 @@
 
                 if (vm.epaInfo.Process.PerformanceScore !== null) {
 
-                    debugger;
+                    var result = EvaluationModel.calculateScoreAndGradeToDisplay(vm.epaInfo);
 
-                    vm.epaInfo.FinalScore =
-                        (vm.epaInfo.Process.PerformanceScore + vm.epaInfo.DisciplineScore).toString();
-
-                    vm.epaInfo.Grade = EvaluationModel.convertScoreToGrade(
-                        vm.epaInfo.Process.PerformanceScore,
-                        vm.epaInfo.DisciplineScore,
-                        vm.epaInfo.HasDisciplineScore,
-                        vm.epaInfo.MaxFinalScore - vm.epaInfo.MaxDisciplineScore,
-                        vm.standardGrades);
+                    vm.epaInfo.FinalScore = result.FinalScore.toString();
+                    vm.epaInfo.Grade = result.Grade;
                 }
 
                 if (vm.epaInfo.Recommendation &&
