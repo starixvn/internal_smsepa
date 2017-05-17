@@ -4,13 +4,14 @@
     using Core.Services;
     using Core.Services.Interfaces;
     using Core.Utilities;
+    using Criteria;
     using Model;
+    using Resources;
     using Services.Implement;
     using Services.Interfaces;
     using System.Collections.Generic;
     using System.Web.Hosting;
     using System.Web.Mvc;
-    using Resources;
 
     public class ExportPdfController : Controller
     {
@@ -20,30 +21,38 @@
 
         private readonly IEmployeeEPAService _employeeEPAService;
         private readonly IRazorRenderService _razorRenderService;
+        private readonly ISessionService _sessionService;
 
         public ExportPdfController()
-            : this(null, null)
+            : this(null, null, null)
         {
         }
 
         public ExportPdfController(
             IEmployeeEPAService employeeEPAService,
-            IRazorRenderService razorRenderService)
+            IRazorRenderService razorRenderService,
+            ISessionService sessionService)
         {
             _employeeEPAService = employeeEPAService ?? new EmployeeEPAService();
             _razorRenderService = razorRenderService ?? new RazorRenderService();
-        }
-
-        public ActionResult EpaDetail(int id)
-        {
-            EPAModel epaInfo = _employeeEPAService.GetEPAInfoById(id);
-            epaInfo.Grade = GetGradeToExport(epaInfo);
-
-            return View(epaInfo);
+            _sessionService = sessionService ?? new SessionService();
         }
 
         public ActionResult ExportPdf(int id)
         {
+            var criteria = new GetEmployeePermissionCriteria
+            {
+                EPAId = id,
+                ActorUserId = _sessionService.EmployeeId
+            };
+
+            int permission = _employeeEPAService.CheckEmployeePermission(criteria);
+
+            if (permission == (int)Policy.None)
+            {
+                return new EmptyResult();
+            }
+
             EPAModel epaInfo = _employeeEPAService.GetEPAInfoById(id);
             epaInfo.Grade = GetGradeToExport(epaInfo);
 
