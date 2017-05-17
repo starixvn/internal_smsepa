@@ -218,11 +218,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-	<Compile Include="Properties\AssemblyInfo.cs">
-		<!-- Exclude the file from analysis -->
-		<SonarQubeExclude>true</SonarQubeExclude>
-	</Compile>
-
+    <Compile Include="Properties\AssemblyInfo.cs">
+      <!-- Exclude the file from analysis -->
+      <SonarQubeExclude>true</SonarQubeExclude>
+    </Compile>
     <Compile Include="..\GlobalSuppressions.cs">
       <Link>GlobalSuppressions.cs</Link>
       <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
@@ -275,11 +274,6 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <Analyzer Include="..\packages\SonarAnalyzer.CSharp.5.9.0.1001\analyzers\Google.Protobuf.dll" />
-    <Analyzer Include="..\packages\SonarAnalyzer.CSharp.5.9.0.1001\analyzers\SonarAnalyzer.CSharp.dll" />
-    <Analyzer Include="..\packages\SonarAnalyzer.CSharp.5.9.0.1001\analyzers\SonarAnalyzer.dll" />
-  </ItemGroup>
-  <ItemGroup>
     <Content Include="packages.config" />
     <None Include="Project_Readme.html" />
     <Content Include="SMS.EPA.ServicesAPI.Debug.ruleset" />
@@ -304,6 +298,11 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Model\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Analyzer Include="..\packages\SonarAnalyzer.CSharp.5.10.1.1411\analyzers\Google.Protobuf.dll" />
+    <Analyzer Include="..\packages\SonarAnalyzer.CSharp.5.10.1.1411\analyzers\SonarAnalyzer.CSharp.dll" />
+    <Analyzer Include="..\packages\SonarAnalyzer.CSharp.5.10.1.1411\analyzers\SonarAnalyzer.dll" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
