@@ -6,6 +6,9 @@
 
     public static class AppConfig
     {
+        private static List<string> _supportedIps;
+        private static List<string> _partnerIds;
+
         public static int TokenTimeOut
         {
             get
@@ -20,9 +23,13 @@
         {
             get
             {
-                string ips = ConfigurationManager.AppSettings["SupportedIP"];
+                if (_supportedIps == null || !_supportedIps.Any())
+                {
+                    string ips = ConfigurationManager.AppSettings["SupportedIP"];
+                    _supportedIps = string.IsNullOrEmpty(ips) ? new List<string>() : ips.Split(';').ToList();
+                }
 
-                return string.IsNullOrEmpty(ips) ? new List<string>() : ips.Split(';').ToList();
+                return _supportedIps;
             }
         }
 
@@ -30,9 +37,14 @@
         {
             get
             {
-                string partnerId = ConfigurationManager.AppSettings["PartnerId"];
+                if (_partnerIds == null || !_partnerIds.Any())
+                {
+                    string partnerId = ConfigurationManager.AppSettings["PartnerId"];
 
-                return string.IsNullOrEmpty(partnerId) ? new List<string>() : partnerId.Split(';').ToList();
+                    _partnerIds = string.IsNullOrEmpty(partnerId) ? new List<string>() : partnerId.Split(';').ToList();
+                }
+
+                return _partnerIds;
             }
         }
 
