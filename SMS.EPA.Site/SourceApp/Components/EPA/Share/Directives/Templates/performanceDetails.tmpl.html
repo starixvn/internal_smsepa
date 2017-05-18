@@ -8,7 +8,6 @@
 
 <div ng-repeat="kpiGroup in performanceDetailCtrl.epaInfo.KPIGroups"
      ng-init="performanceDetailCtrl.collapses[kpiGroup.Name] = false;" ng-if="kpiGroup.KPIs.length > 0">
-
     <div class="panel panel-default">
         <div class="panel-heading" data-toggle="collapse" data-target=".kpiGroup-{{$index}}">
             <h4 class="panel-title">
@@ -45,7 +44,7 @@
                             <td class="text-center col-score-star" rowspan="{{performanceDetailCtrl.rowspan}}" ng-show="$first">
                                 <div ng-show="performanceDetailCtrl.epaInfo.Process.Self.IsEndProcess">
                                     <div ng-show="kpi.EvaluationBySelf.Score.length > 0">
-                                        <span>{{ kpi.EvaluationBySelf.Score | splitScore}} pts</span>
+                                        <span>{{kpi.EvaluationBySelf.Score | splitScore}} pts</span>
                                         <span class="score-star-rating"
                                               ng-show="performanceDetailCtrl.showRatingScoreByStar && performanceDetailCtrl.checkIsRatingByStar(kpiGroup)">
                                             / <span ng-show="kpi.EvaluationBySelf.Rate || kpi.EvaluationBySelf.Rate == 0"
@@ -57,7 +56,20 @@
                                     </div>
                                     <span data-translate="NotAvailable" ng-show="kpi.EvaluationBySelf.Score.length === 0"></span>
                                 </div>
-                                <div data-translate="Pending" ng-show="!performanceDetailCtrl.epaInfo.Process.Self.IsEndProcess"></div>
+                                <div ng-show="!performanceDetailCtrl.epaInfo.Process.Self.IsEndProcess">
+                                    <div ng-show="kpi.EvaluationBySelf.Score.length > 0">
+                                        <span class="red">{{kpi.EvaluationBySelf.Score | splitScore}} pts</span>
+                                        <span class="score-star-rating red"
+                                              ng-show="performanceDetailCtrl.showRatingScoreByStar && performanceDetailCtrl.checkIsRatingByStar(kpiGroup)">
+                                            / <span ng-show="kpi.EvaluationBySelf.Rate || kpi.EvaluationBySelf.Rate == 0"
+                                                    ng-bind="kpi.EvaluationBySelf.Rate | splitScore"></span>
+                                            <input type="number" class="rating-loading" ng-readonly="true" data-size="xs"
+                                                   value="1" data-min="0" data-max="1" data-stars="1"
+                                                   data-show-caption="false" data-show-clear="false">
+                                        </span>
+                                    </div>
+                                    <span data-translate="NotAvailable" ng-show="kpi.EvaluationBySelf.Score.length === 0"></span>
+                                </div>
                             </td>
                             <td class="col-comment" rowspan="{{performanceDetailCtrl.rowspan}}" ng-show="$first">
                                 <div ng-show="performanceDetailCtrl.epaInfo.Process.Self.IsEndProcess">
@@ -67,13 +79,19 @@
                                     <a ng-show="kpi.EvaluationBySelf.Comment.length > 0 && kpi.EvaluationBySelf.showReadMore"
                                        href="javascript:;" ng-click="performanceDetailCtrl.readLess(kpi.EvaluationBySelf)" data-translate="ReadLess"></a>
                                 </div>
-                                <div class="text-center" data-translate="Pending" ng-show="!performanceDetailCtrl.epaInfo.Process.Self.IsEndProcess"></div>
+                                <div class="text-center" ng-show="!performanceDetailCtrl.epaInfo.Process.Self.IsEndProcess">
+                                    {{kpi.EvaluationBySelf.Comment | limitTo:kpi.EvaluationBySelf.numLimit > 0 ? kpi.EvaluationBySelf.numLimit : performanceDetailCtrl.maxLengthDescription}}
+                                    <a class="red" ng-show="kpi.EvaluationBySelf.Comment.length > 0 && !kpi.EvaluationBySelf.showReadMore && (kpi.EvaluationBySelf.Comment.length > performanceDetailCtrl.maxLengthDescription)" href="javascript:;"
+                                       ng-click="performanceDetailCtrl.readMore(kpi.EvaluationBySelf)" data-translate="ReadMore"></a>
+                                    <a class="red" ng-show="kpi.EvaluationBySelf.Comment.length > 0 && kpi.EvaluationBySelf.showReadMore"
+                                       href="javascript:;" ng-click="performanceDetailCtrl.readLess(kpi.EvaluationBySelf)" data-translate="ReadLess"></a>
+                                </div>
                             </td>
                             <td ng-bind="evaluator.NickName" class="text-center"></td>
                             <td class="text-center col-score-star">
                                 <div ng-show="performanceDetailCtrl.epaInfo.Process.Evaluators[0].IsEndProcess">
                                     <div ng-show="evaluator.Score.length > 0">
-                                        <span>{{ evaluator.Score | splitScore}} pts</span>
+                                        <span>{{evaluator.Score | splitScore}} pts</span>
                                         <span class="score-star-rating"
                                               ng-show="performanceDetailCtrl.showRatingScoreByStar && performanceDetailCtrl.checkIsRatingByStar(kpiGroup)">
                                             / <span ng-show="evaluator.Rate || evaluator.Rate == 0" ng-bind="evaluator.Rate | splitScore"></span>
@@ -84,7 +102,19 @@
                                     </div>
                                     <div data-translate="NotAvailable" ng-show="evaluator.Score.length === 0"></div>
                                 </div>
-                                <div data-translate="Pending" ng-show="!performanceDetailCtrl.epaInfo.Process.Evaluators[0].IsEndProcess"></div>
+                                <div ng-show="!performanceDetailCtrl.epaInfo.Process.Evaluators[0].IsEndProcess">
+                                    <div ng-show="evaluator.Score.length > 0">
+                                        <span class="red">{{evaluator.Score | splitScore}} pts</span>
+                                        <span class="score-star-rating red"
+                                              ng-show="performanceDetailCtrl.showRatingScoreByStar && performanceDetailCtrl.checkIsRatingByStar(kpiGroup)">
+                                            / <span ng-show="evaluator.Rate || evaluator.Rate == 0" ng-bind="evaluator.Rate | splitScore"></span>
+                                            <input type="number" class="rating-loading" ng-readonly="true" data-size="xs"
+                                                   value="1" data-min="0" data-max="1" data-stars="1"
+                                                   data-show-caption="false" data-show-clear="false">
+                                        </span>
+                                    </div>
+                                    <div data-translate="NotAvailable" ng-show="evaluator.Score.length === 0"></div>
+                                </div>
                             </td>
                             <td class="col-comment">
                                 <div ng-show="performanceDetailCtrl.epaInfo.Process.Evaluators[0].IsEndProcess">
@@ -94,7 +124,13 @@
                                     <a ng-show="evaluator.Comment.length > 0 && evaluator.showReadMore"
                                        href="javascript:;" ng-click="performanceDetailCtrl.readLess(evaluator)" data-translate="ReadLess"></a>
                                 </div>
-                                <div class="text-center" data-translate="Pending" ng-show="!performanceDetailCtrl.epaInfo.Process.Evaluators[0].IsEndProcess"></div>
+                                <div class="text-center" ng-show="!performanceDetailCtrl.epaInfo.Process.Evaluators[0].IsEndProcess">
+                                    {{evaluator.Comment | limitTo:evaluator.numLimit > 0 ? evaluator.numLimit : performanceDetailCtrl.maxLengthDescription}}
+                                    <a class="red" ng-show="evaluator.Comment.length > 0 && !evaluator.showReadMore && (evaluator.Comment.length > performanceDetailCtrl.maxLengthDescription)" href="javascript:;"
+                                       ng-click="performanceDetailCtrl.readMore(evaluator)" data-translate="ReadMore"></a>
+                                    <a class="red" ng-show="evaluator.Comment.length > 0 && evaluator.showReadMore"
+                                       href="javascript:;" ng-click="performanceDetailCtrl.readLess(evaluator)" data-translate="ReadLess"></a>
+                                </div>
                             </td>
                         </tr>
                     </tbody>
