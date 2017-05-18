@@ -107,6 +107,8 @@ else
                     for (int i = 0; i < rowspan; i++)
                     {
                         EvaluationModel evaluator = kpi.EvaluationByEvaluators[i];
+                        string selfClass = "";
+                        string evaluatorClass = "";
 
                         <tr>
                             @if (i == 0)
@@ -125,34 +127,27 @@ else
                                     }
                                 </td>
 
-                                if (Model.Process.Self.IsEndProcess)
+                                if (!Model.Process.Self.IsEndProcess)
                                 {
-                                    <td rowspan="@rowspan" class="border-r-b">
-                                        @(!string.IsNullOrWhiteSpace(kpi.EvaluationBySelf.Score) ? kpi.EvaluationBySelf.ScoreToDisplay + " pts" : Lang.NotAvailable)
-                                    </td>
-                                    <td rowspan="@rowspan" class="border-r-b">@kpi.EvaluationBySelf.Comment</td>
+                                    selfClass = "red";
                                 }
-                                else
-                                {
-                                    <td rowspan="@rowspan" class="border-r-b">@Lang.Pending</td>
-                                    <td rowspan="@rowspan" class="border-r-b">@Lang.Pending</td>
-                                }
+
+                                <td rowspan="@rowspan" class="border-r-b @selfClass">
+                                    @(!string.IsNullOrWhiteSpace(kpi.EvaluationBySelf.Score) ? kpi.EvaluationBySelf.ScoreToDisplay + " pts" : Lang.NotAvailable)
+                                </td>
+                                <td rowspan="@rowspan" class="border-r-b @selfClass">@kpi.EvaluationBySelf.Comment</td>
                             }
 
                             <td class="border-r-b">@evaluator.NickName</td>
 
-                            @if (Model.Process.Evaluators.First().IsEndProcess)
+                            @if (!Model.Process.Evaluators.First().IsEndProcess)
                             {
-                                <td class="border-r-b">
-                                    @(!string.IsNullOrWhiteSpace(evaluator.Score) ? evaluator.ScoreToDisplay + " pts" : Lang.NotAvailable)
-                                </td>
-                                <td class="border-r-b">@evaluator.Comment</td>
+                                evaluatorClass = "red";
                             }
-                            else
-                            {
-                                <td class="border-r-b">@Lang.Pending</td>
-                                <td class="border-r-b">@Lang.Pending</td>
-                            }
+                            <td class="border-r-b @evaluatorClass">
+                                @(!string.IsNullOrWhiteSpace(evaluator.Score) ? evaluator.ScoreToDisplay + " pts" : Lang.NotAvailable)
+                            </td>
+                            <td class="border-r-b @evaluatorClass">@evaluator.Comment</td>
                         </tr>
                     }
                 }
