@@ -12,6 +12,7 @@
     using System.Net;
     using System.Net.Http;
     using System.Web.Http;
+    using Resources;
 
     public class EvaluationController : BaseController
     {
@@ -64,11 +65,19 @@
                 }
             }
 
-            if (!roles.Contains((int)SystemRole.Evaluator))
+            if (!roles.Contains((int)SystemRole.Evaluator) || epaInfo.Process.Evaluators.FirstOrDefault()?.StatusId == (int)ProcessStatusType.Open)
             {
                 foreach (EPAProcessModel epaProcessModel in epaInfo.Process.Evaluators)
                 {
                     epaProcessModel.TotalScore = string.Empty;
+                }
+
+                var tests = epaInfo.KPIGroups.SelectMany(x => x.KPIs).SelectMany(x => x.EvaluationByEvaluators);
+                foreach (EvaluationModel evaluationModel in tests)
+                {
+                    evaluationModel.Score = string.Empty;
+                    evaluationModel.Rate = 0;
+                    evaluationModel.Comment = Lang.NotAvailable;
                 }
             }
         }

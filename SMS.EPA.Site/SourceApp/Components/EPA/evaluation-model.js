@@ -218,9 +218,9 @@
                 tempDisciplineScore = result.DisciplineScore;
             }
 
-            if (result.SelfScore !== utilitiesFactory.notAvailableString && result.SelfScore !== "" || isShowScoreOfProcess(epaInfo.Process.Self)) {
-                result.FinalScore = getPhaseScore(result.SelfScore, tempDisciplineScore);
-            }
+            //if (result.SelfScore !== utilitiesFactory.notAvailableString && result.SelfScore !== "" || isShowScoreOfProcess(epaInfo.Process.Self)) {
+            //    result.FinalScore = getPhaseScore(result.SelfScore, tempDisciplineScore);
+            //}
 
             if (result.EvaluatorScore !== utilitiesFactory.notAvailableString && result.EvaluatorScore !== "" || isShowScoreOfProcess(epaInfo.Process.Evaluators)) {
                 result.FinalScore = getPhaseScore(result.EvaluatorScore, tempDisciplineScore);

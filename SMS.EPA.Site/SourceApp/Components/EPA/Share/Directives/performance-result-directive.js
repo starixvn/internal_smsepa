@@ -39,6 +39,10 @@
                     vm.ManagementsScore = EvaluationModel.getMultiScoreDatas($filter,
                         vm.process.Managements,
                         vm.epaInfo.ScoreRatingType.Management);
+
+                    if (vm.epaInfo.FinalScore === "N/A") {
+                        vm.epaInfo.FinalScore = "";
+                    }
                 }
             },
             controllerAs: 'performanceResultCtrl',
