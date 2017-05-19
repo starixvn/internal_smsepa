@@ -1231,15 +1231,6 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Welcome to SMS EPA.
-        /// </summary>
-        public static string EPAWelcome {
-            get {
-                return ResourceManager.GetString("EPAWelcome", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Server cannot handle your request. Please try again later!.
         /// </summary>
         public static string ErrorMessage {
@@ -3522,15 +3513,6 @@ namespace SMS.EPA.Resources {
         public static string Title {
             get {
                 return ResourceManager.GetString("Title", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to SMS-EPA.
-        /// </summary>
-        public static string TitlePage {
-            get {
-                return ResourceManager.GetString("TitlePage", resourceCulture);
             }
         }
         

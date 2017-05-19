@@ -138,9 +138,6 @@
   <data name="EmptyResult" xml:space="preserve">
     <value>No information available!</value>
   </data>
-  <data name="EPAWelcome" xml:space="preserve">
-    <value>Welcome to SMS EPA</value>
-  </data>
   <data name="Evaluator" xml:space="preserve">
     <value>Evaluator</value>
   </data>
@@ -224,9 +221,6 @@
   </data>
   <data name="Title" xml:space="preserve">
     <value>Title</value>
-  </data>
-  <data name="TitlePage" xml:space="preserve">
-    <value>SMS-EPA</value>
   </data>
   <data name="UserManagement" xml:space="preserve">
     <value>User Management</value>

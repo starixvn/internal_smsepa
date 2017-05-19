@@ -1,12 +1,33 @@
-﻿@using SMS.EPA.Resources;
+﻿@using SMS.EPA.Core.Enumerations;
+@using System.Configuration;
 
 <!DOCTYPE html>
 <html data-ng-app="appModule">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width" />
-    <meta name="currentUserId" content=""/>
-    <title>@Lang.TitlePage</title>
+    <meta name="currentUserId" content="" />
+
+    @{
+        var title = string.Empty;
+        int siteId = 0;
+        int.TryParse(ConfigurationManager.AppSettings["SiteId"], out siteId);
+    }
+
+    @switch (siteId)
+    {
+        case (int)SiteId.SMS:
+            title = "SMS EPA";
+            break;
+        case (int)SiteId.HM:
+            title = "HM EPA";
+            break;
+        case (int)SiteId.GWI:
+            title = "GWI EPA";
+            break;
+    }
+
+    <title>@title</title>
     @Styles.Render("~/Content/Common/css",
         "~/bundles/less")
     @RenderSection("Head", false)
