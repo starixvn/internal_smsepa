@@ -1,13 +1,27 @@
 ﻿@using SMS.EPA.Resources;
+@using SMS.EPA.Core.Enumerations;
 @using SMS.EPA.Core.Model;
 
 @model UserSession
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
+
+    int siteId = (int)ViewBag.SiteId;
 }
 <div class="row header">
     <a class="col-xs-12 col-sm-2 logo" href="/">
-        <img src="~/Content/Site/Images/epa_logo.png" alt="SMS-EPA" title="SMS-EPA" />
+        @switch (siteId)
+        {
+            case (int)SiteId.SMS:
+                <img src="~/Content/Site/Images/epa_logo.png" alt="SMS-EPA" title="SMS-EPA" />
+                break;
+            case (int)SiteId.HM:
+                <img src="~/Content/Site/Images/Hongma-logo.png" alt="HM-EPA" title="HM-EPA" />
+                break;
+            case (int)SiteId.GWI:
+                <img src="~/Content/Site/Images/GWI-logo.png" alt="GWI-EPA" title="GWI-EPA" />
+                break;
+        }
     </a>
     <div class="col-xs-12 col-sm-10">
         <div ng-include src="'/SourceApp/Components/Common/Templates/topMenu.html'"></div>

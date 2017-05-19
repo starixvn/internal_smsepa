@@ -1,20 +1,57 @@
-﻿@using System.Web.Optimization
-@using SMS.EPA.Resources
+﻿@using System.Web.Optimization;
+@using SMS.EPA.Resources;
+@using SMS.EPA.Core.Enumerations;
+
 @model SMS.EPA.Model.Authentication.LoginModel
 @{
     Layout = null;
+
+    var title = string.Empty;
+    int siteId = (int)ViewBag.SiteId;
 }
 <!DOCTYPE html>
 <html>
 <head>
     <meta name="viewport" content="width=device-width" />
-    <title>@Lang.EPAWelcome</title>
+    <title>
+        @switch (siteId)
+        {
+            case (int)SiteId.SMS:
+                title = "Welcome to SMS EPA";
+                break;
+            case (int)SiteId.HM:
+                title = "Welcome to HM EPA";
+                break;
+            case (int)SiteId.GWI:
+                title = "Welcome to GWI EPA";
+                break;
+        }
+        @title
+    </title>
     @Styles.Render("~/Content/login/css")
 </head>
 <body>
     <div id="panel" class="container login">
         <div class="header-login row">
-            <div class="header-contain"></div>
+            <div class="header-contain">
+                <div>
+                    @switch (siteId)
+                    {
+                        case (int)SiteId.SMS:
+                            <img src="~/Content/Site/images/epa_logo.png" />
+                            break;
+                        case (int)SiteId.HM:
+                            <img src="~/Content/Site/images/Hongma-logo.png" />
+                            break;
+                        case (int)SiteId.GWI:
+                            <img src="~/Content/Site/images/GWI-logo.png" />
+                            break;
+                    }
+                </div>
+                <div>
+                    <img src="~/Content/Site/auth/images/lock-icon.png" />
+                </div>
+            </div>
         </div>
         <div id="formContainer" class="row auth">
             @using (Html.BeginForm())

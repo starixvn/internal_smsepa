@@ -36,6 +36,10 @@
         [HttpGet]
         public ActionResult Login()
         {
+            int siteId = 0;
+            int.TryParse(_configurationManager.GetAppSetting("SiteId"), out siteId);
+            ViewBag.SiteId = siteId;
+
             return View();
         }
 
@@ -89,6 +93,10 @@
             {
                 ModelState.AddModelError(string.Empty, Lang.InvalidUsernameOrPassword);
             }
+
+            int siteId = 0;
+            int.TryParse(_configurationManager.GetAppSetting("SiteId"), out siteId);
+            ViewBag.SiteId = siteId;
 
             return View(model);
         }
