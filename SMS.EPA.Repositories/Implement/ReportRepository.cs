@@ -100,7 +100,14 @@
                             },
                             "EmployeeId, PeriodId, ScoreRatingTypeId");
 
-                    IEnumerable<EPAProcessModel> processes = multi.Read<EPAProcessModel>();
+                    var processes = multi.Read<EPAProcessModel, EPAEmployeeModel, EPAProcessModel>(
+                        (process, employee) =>
+                        {
+                            process.EvaluatorInfo = employee;
+
+                            return process;
+                        },
+                        "EvaluatorId");
 
                     GroupEPAProcessByEPA(epaDetail.EpaInfos, processes);
                     DecodeAllScore(epaDetail.EpaInfos);

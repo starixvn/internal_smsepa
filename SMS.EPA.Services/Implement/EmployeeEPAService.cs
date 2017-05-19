@@ -66,37 +66,51 @@
 
         public void RemoveSensitiveDataOnEmployeeRole(EPAModel epaInfo, ISessionService sessionService)
         {
-            var roles = sessionService.CurrentUser.Roles.Select(x => x.RoleId).ToList();
+            var currentEmployeeId = sessionService.CurrentUser.EmployeeId;
 
-            if (!roles.Contains((int)SystemRole.Management) || epaInfo.Process.Managements.First()?.StatusId == (int)ProcessStatusType.Open)
+            var evaluatorProcessOfOtherActors =
+                epaInfo.Process.Managements.Where(x => x.EvaluatorInfo.EmployeeId != currentEmployeeId ||
+                                                       x.StatusId == (int)ProcessStatusType.Open);
+
+            RemoveSensitiveTotalScoreAndComment(evaluatorProcessOfOtherActors);
+
+            evaluatorProcessOfOtherActors = epaInfo.Process.Reviewers.Where(
+                x => x.EvaluatorInfo.EmployeeId != currentEmployeeId ||
+                     x.StatusId == (int)ProcessStatusType.Open);
+
+            RemoveSensitiveTotalScoreAndComment(evaluatorProcessOfOtherActors);
+
+            evaluatorProcessOfOtherActors = epaInfo.Process.Evaluators.Where(
+                x => x.EvaluatorInfo.EmployeeId != currentEmployeeId ||
+                     x.StatusId == (int)ProcessStatusType.Open);
+
+            if (evaluatorProcessOfOtherActors.Any())
             {
-                foreach (EPAProcessModel epaProcessModel in epaInfo.Process.Managements)
+                foreach (EPAProcessModel epaProcessModel in evaluatorProcessOfOtherActors)
                 {
                     epaProcessModel.TotalScore = string.Empty;
-                }
-            }
-
-            if (!roles.Contains((int)SystemRole.Reviewer) || epaInfo.Process.Reviewers.First()?.StatusId == (int)ProcessStatusType.Open)
-            {
-                foreach (EPAProcessModel epaProcessModel in epaInfo.Process.Reviewers)
-                {
-                    epaProcessModel.TotalScore = string.Empty;
-                }
-            }
-
-            if (!roles.Contains((int)SystemRole.Evaluator) || epaInfo.Process.Evaluators.First()?.StatusId == (int)ProcessStatusType.Open)
-            {
-                foreach (EPAProcessModel epaProcessModel in epaInfo.Process.Evaluators)
-                {
-                    epaProcessModel.TotalScore = string.Empty;
+                    epaProcessModel.Comment = string.Empty;
                 }
 
-                var tests = epaInfo.KPIGroups.SelectMany(x => x.KPIs).SelectMany(x => x.EvaluationByEvaluators);
-                foreach (EvaluationModel evaluationModel in tests)
+                var evaluationModels = epaInfo.KPIGroups.SelectMany(x => x.KPIs)
+                    .SelectMany(x => x.EvaluationByEvaluators);
+                foreach (EvaluationModel evaluationModel in evaluationModels)
                 {
                     evaluationModel.Score = string.Empty;
                     evaluationModel.Rate = 0;
                     evaluationModel.Comment = Lang.NotAvailable;
+                }
+            }
+        }
+
+        private static void RemoveSensitiveTotalScoreAndComment(IEnumerable<EPAProcessModel> evaluatorProcessOfOtherActors)
+        {
+            if (evaluatorProcessOfOtherActors.Any())
+            {
+                foreach (EPAProcessModel epaProcessModel in evaluatorProcessOfOtherActors)
+                {
+                    epaProcessModel.TotalScore = string.Empty;
+                    epaProcessModel.Comment = string.Empty;
                 }
             }
         }
