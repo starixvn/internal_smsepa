@@ -320,10 +320,9 @@
                 score.SelfScore,
                 (int)ProcessType.Self));
 
-            if (epaInfo.Process.Evaluators.First().StatusId == (int)ProcessStatusType.InProgress)
-            {
-                BodyStyle = ApplyEvenOddBodyStyle(EvenRedStyle, OddRedStyle);
-            }
+            BodyStyle = epaInfo.Process.Evaluators.First().StatusId == (int)ProcessStatusType.InProgress
+                ? ApplyEvenOddBodyStyle(EvenRedStyle, OddRedStyle)
+                : ApplyEvenOddBodyStyle(EvenStyleCenter, OddStyleCenter);
 
             cell = row.CreateCell(localCurrentColumn++);
             cell.CellStyle = BodyStyle;
@@ -332,10 +331,9 @@
                 score.EvaluatorScore,
                 (int)ProcessType.Evaluator));
 
-            if (epaInfo.Process.Reviewers.First().StatusId == (int)ProcessStatusType.InProgress)
-            {
-                BodyStyle = ApplyEvenOddBodyStyle(EvenRedStyle, OddRedStyle);
-            }
+            BodyStyle = epaInfo.Process.Reviewers.First().StatusId == (int)ProcessStatusType.InProgress
+                ? ApplyEvenOddBodyStyle(EvenRedStyle, OddRedStyle)
+                : ApplyEvenOddBodyStyle(EvenStyleCenter, OddStyleCenter);
 
             cell = row.CreateCell(localCurrentColumn++);
             cell.CellStyle = BodyStyle;

@@ -26,19 +26,22 @@
         private readonly IEmployeeEPARepository _employeeEPARepository;
         private readonly IEmployeeEPAService _employeeEPAService;
         private readonly IReportRepository _reportRepository;
+        private readonly ISessionService _sessionService;
 
-        public ReportService() : this(null, null, null)
+        public ReportService() : this(null, null, null, null)
         {
         }
 
         public ReportService(
             IReportRepository reportRepository,
             IEmployeeEPARepository employeeEPARepository,
-            IEmployeeEPAService employeeEPAService)
+            IEmployeeEPAService employeeEPAService,
+            ISessionService sessionService)
         {
             _reportRepository = reportRepository ?? new ReportRepository();
             _employeeEPARepository = employeeEPARepository ?? new EmployeeEPARepository();
             _employeeEPAService = employeeEPAService ?? new EmployeeEPAService();
+            _sessionService = sessionService ?? new SessionService();
         }
 
         public MemoryStream ExportEPASummaryReport(EPASummaryModel epaSummary)
@@ -106,6 +109,11 @@
             if (criteria != null && criteria.IsValid())
             {
                 result = _reportRepository.GetEPADetail(criteria);
+
+                foreach (EPAModel epaInfo in result.EpaInfos)
+                {
+                    _employeeEPAService.RemoveSensitiveDataOnEmployeeRole(epaInfo, _sessionService);
+                }
 
                 IList<EPAModel> monthlyEPAs = new List<EPAModel>();
                 string epaIds = string.Join(",", result.EpaInfos.Where(x => x.IsSemiHasMonthly).Select(x => x.EPAId));

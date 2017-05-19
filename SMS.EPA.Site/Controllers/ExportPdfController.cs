@@ -54,6 +54,7 @@
             }
 
             EPAModel epaInfo = _employeeEPAService.GetEPAInfoById(id);
+            _employeeEPAService.RemoveSensitiveDataOnEmployeeRole(epaInfo, _sessionService);
             epaInfo.Grade = GetGradeToExport(epaInfo);
 
             byte[] streamContent = RenderPdfContent(epaInfo);

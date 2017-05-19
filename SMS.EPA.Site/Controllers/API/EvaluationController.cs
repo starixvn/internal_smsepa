@@ -12,7 +12,6 @@
     using System.Net;
     using System.Net.Http;
     using System.Web.Http;
-    using Resources;
 
     public class EvaluationController : BaseController
     {
@@ -40,46 +39,9 @@
             }
 
             epaInfo = _evaluationService.GetEPAInfoById(epaId);
-            RemoveSensitiveDataOnEmployeeRole(epaInfo);
+            _evaluationService.RemoveSensitiveDataOnEmployeeRole(epaInfo, SessionService);
 
             return Request.CreateResponse(HttpStatusCode.OK, epaInfo);
-        }
-
-        private void RemoveSensitiveDataOnEmployeeRole(EPAModel epaInfo)
-        {
-            var roles = SessionService.CurrentUser.Roles.Select(x => x.RoleId).ToList();
-
-            if (!roles.Contains((int)SystemRole.Management))
-            {
-                foreach (EPAProcessModel epaProcessModel in epaInfo.Process.Managements)
-                {
-                    epaProcessModel.TotalScore = string.Empty;
-                }
-            }
-
-            if (!roles.Contains((int)SystemRole.Reviewer))
-            {
-                foreach (EPAProcessModel epaProcessModel in epaInfo.Process.Reviewers)
-                {
-                    epaProcessModel.TotalScore = string.Empty;
-                }
-            }
-
-            if (!roles.Contains((int)SystemRole.Evaluator) || epaInfo.Process.Evaluators.FirstOrDefault()?.StatusId == (int)ProcessStatusType.Open)
-            {
-                foreach (EPAProcessModel epaProcessModel in epaInfo.Process.Evaluators)
-                {
-                    epaProcessModel.TotalScore = string.Empty;
-                }
-
-                var tests = epaInfo.KPIGroups.SelectMany(x => x.KPIs).SelectMany(x => x.EvaluationByEvaluators);
-                foreach (EvaluationModel evaluationModel in tests)
-                {
-                    evaluationModel.Score = string.Empty;
-                    evaluationModel.Rate = 0;
-                    evaluationModel.Comment = Lang.NotAvailable;
-                }
-            }
         }
 
         [HttpPut]

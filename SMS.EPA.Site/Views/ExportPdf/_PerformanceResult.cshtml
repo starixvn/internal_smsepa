@@ -31,18 +31,16 @@
             break;
     }
 
+    string cssClass = "";
+
     if (process.StatusId == (int)ProcessStatusType.InProgress)
     {
-        <span class="red">
-            @(string.IsNullOrEmpty(process.TotalScore) ? Lang.NotAvailable : process.TotalScore + " / " + @maxScore)
-        </span>
+        cssClass = "red";
     }
-    else
-    {
-        <span>
-            @(string.IsNullOrEmpty(process.TotalScore) ? Lang.NotAvailable : process.TotalScore + " / " + @maxScore)
-        </span>
-    }
+
+    <span class="@cssClass">
+        @(string.IsNullOrEmpty(process.TotalScore) ? Lang.NotAvailable : process.TotalScore + " / " + maxScore)
+    </span>
 }
 
 <table class="performance-result">

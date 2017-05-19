@@ -167,16 +167,16 @@
 
         private static string GetManagementScore(EPAModel epaInfo)
         {
-            string managementScore = string.Empty;
+            string managementScore = Lang.NotAvailable;
 
             if (epaInfo.Process.Managements.Any())
             {
-                if (epaInfo.Process.Reviewers.First().StatusId == (int)ProcessStatusType.InProgress)
+                if (epaInfo.Process.Managements.First().StatusId == (int)ProcessStatusType.InProgress)
                 {
                     managementScore = epaInfo.Process.AverageScoreByManagements?.ToString() ?? Lang.NotAvailable;
                 }
 
-                if (epaInfo.Process.Reviewers.First().StatusId == (int)ProcessStatusType.Closed)
+                if (epaInfo.Process.Managements.First().StatusId == (int)ProcessStatusType.Closed)
                 {
                     managementScore = epaInfo.Process.AverageScoreByManagements?.ToString() ?? Lang.NotAvailable;
                 }

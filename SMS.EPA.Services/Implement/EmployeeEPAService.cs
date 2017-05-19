@@ -64,6 +64,43 @@
             return epaInfo;
         }
 
+        public void RemoveSensitiveDataOnEmployeeRole(EPAModel epaInfo, ISessionService sessionService)
+        {
+            var roles = sessionService.CurrentUser.Roles.Select(x => x.RoleId).ToList();
+
+            if (!roles.Contains((int)SystemRole.Management) || epaInfo.Process.Managements.First()?.StatusId == (int)ProcessStatusType.Open)
+            {
+                foreach (EPAProcessModel epaProcessModel in epaInfo.Process.Managements)
+                {
+                    epaProcessModel.TotalScore = string.Empty;
+                }
+            }
+
+            if (!roles.Contains((int)SystemRole.Reviewer) || epaInfo.Process.Reviewers.First()?.StatusId == (int)ProcessStatusType.Open)
+            {
+                foreach (EPAProcessModel epaProcessModel in epaInfo.Process.Reviewers)
+                {
+                    epaProcessModel.TotalScore = string.Empty;
+                }
+            }
+
+            if (!roles.Contains((int)SystemRole.Evaluator) || epaInfo.Process.Evaluators.First()?.StatusId == (int)ProcessStatusType.Open)
+            {
+                foreach (EPAProcessModel epaProcessModel in epaInfo.Process.Evaluators)
+                {
+                    epaProcessModel.TotalScore = string.Empty;
+                }
+
+                var tests = epaInfo.KPIGroups.SelectMany(x => x.KPIs).SelectMany(x => x.EvaluationByEvaluators);
+                foreach (EvaluationModel evaluationModel in tests)
+                {
+                    evaluationModel.Score = string.Empty;
+                    evaluationModel.Rate = 0;
+                    evaluationModel.Comment = Lang.NotAvailable;
+                }
+            }
+        }
+
         public IEnumerable<EPAModel> GetEPAEndEvaluationPeriod(GetEPAEndEvaluationPeriodCriteria criteria)
         {
             IEnumerable<EPAModel> epaInfos = new List<EPAModel>();

@@ -5,6 +5,7 @@
     using Model;
     using Model.Enitites;
     using System.Collections.Generic;
+    using Core.Services;
 
     public interface IEmployeeEPAService
     {
@@ -23,6 +24,8 @@
         IEnumerable<EPAModel> GetEPAEndEvaluationPeriod(GetEPAEndEvaluationPeriodCriteria criteria);
 
         EPAModel GetEPAInfoById(int epaId);
+
+        void RemoveSensitiveDataOnEmployeeRole(EPAModel epaInfo, ISessionService sessionService);
 
         IList<EPAModel> GetEPAToUpdateFinalScore(GetEPAToUpdateFinalScoreCriteria criteria);
 
