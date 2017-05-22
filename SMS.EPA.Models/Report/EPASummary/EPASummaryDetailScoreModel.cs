@@ -8,6 +8,8 @@
 
         public int EmployeeId { get; set; }
 
+        public int EvaluatorId { get; set; }
+
         public int ProcessId { get; set; }
 
         public int StatusId { get; set; }

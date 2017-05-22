@@ -138,10 +138,12 @@
             EPASummaryModel result = new EPASummaryModel();
             IEnumerable<StandardGradeModel> standardGrades = _employeeEPAService.GetStandardGrade();
 
-            if (criteria != null && criteria.IsValid())
+            if (criteria == null || !criteria.IsValid())
             {
-                result = _reportRepository.GetEPASummary(criteria);
+                return result;
             }
+
+            result = _reportRepository.GetEPASummary(criteria);
 
             foreach (var epaInfo in result.EPAInfos)
             {
@@ -155,7 +157,7 @@
                     // Recalculate final score and grade
 
                     // Get the max EPAProcessId
-                    var lastPhasePerformanceScore = GetLastPhasePerformanceScore(epaInfoPeriod);
+                    var lastPhasePerformanceScore = GetLastPhasePerformanceScore(epaInfoPeriod, criteria.ActorId);
                     float? performanceScore;
                     if (lastPhasePerformanceScore != null)
                     {
@@ -404,11 +406,12 @@
             return grade;
         }
 
-        private static float? GetLastPhasePerformanceScore(EPASummaryPeriodModel epaInfoPeriod)
+        private static float? GetLastPhasePerformanceScore(EPASummaryPeriodModel epaInfoPeriod, int actorId)
         {
             var validDetailScores = epaInfoPeriod.DetailScores.Where(x => !string.IsNullOrEmpty(x.TotalScore)
                                                                           && x.ProcessId > (int)ProcessType.Self
-                                                                          && x.StatusId > (int)ProcessStatusType.Open);
+                                                                          && x.StatusId > (int)ProcessStatusType.Open
+                                                                          && x.EvaluatorId == actorId);
             if (!validDetailScores.Any())
             {
                 return null;
