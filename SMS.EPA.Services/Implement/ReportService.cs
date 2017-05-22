@@ -496,7 +496,7 @@
                             i,
                             finalScore,
                             grade,
-                            period != null && period.StatusId == 0 && !string.IsNullOrEmpty(period.FinalScore) ? redFont : null);
+                            period != null && period.StatusId == (int)EPAStatus.Open ? redFont : null);
                     }
                     else
                     {

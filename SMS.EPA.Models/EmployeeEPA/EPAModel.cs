@@ -47,12 +47,12 @@
 
                 float finalScore = -1;
 
-                // Self
-                float selfTotalScore;
-                if (float.TryParse(Process.Self.TotalScore, out selfTotalScore))
-                {
-                    finalScore = selfTotalScore + disciplineScore;
-                }
+                ////// Self
+                ////float selfTotalScore;
+                ////if (float.TryParse(Process.Self.TotalScore, out selfTotalScore))
+                ////{
+                ////    finalScore = selfTotalScore + disciplineScore;
+                ////}
 
                 // Evaluator
                 var processSpecificFinalScore = GetFinalScoreFromProccess(
