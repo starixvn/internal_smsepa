@@ -406,12 +406,18 @@
             return grade;
         }
 
-        private static float? GetLastPhasePerformanceScore(EPASummaryPeriodModel epaInfoPeriod, int actorId)
+        private float? GetLastPhasePerformanceScore(EPASummaryPeriodModel epaInfoPeriod, int actorId)
         {
-            var validDetailScores = epaInfoPeriod.DetailScores.Where(x => !string.IsNullOrEmpty(x.TotalScore)
-                                                                          && x.ProcessId > (int)ProcessType.Self
-                                                                          && x.StatusId > (int)ProcessStatusType.Open
-                                                                          && x.EvaluatorId == actorId);
+            var roles = _sessionService.CurrentUser.Roles.Select(x => x.RoleId).ToList();
+
+            var validDetailScores = roles.Contains((int)SystemRole.HumanResource) ||
+                                    roles.Contains((int)SystemRole.SystemAdmin)
+                ? epaInfoPeriod.DetailScores.Where(x => !string.IsNullOrEmpty(x.TotalScore))
+                : epaInfoPeriod.DetailScores.Where(x => !string.IsNullOrEmpty(x.TotalScore)
+                                                        && x.ProcessId > (int)ProcessType.Self
+                                                        && x.StatusId > (int)ProcessStatusType.Open
+                                                        && x.EvaluatorId == actorId);
+
             if (!validDetailScores.Any())
             {
                 return null;
