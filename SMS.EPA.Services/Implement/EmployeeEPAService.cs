@@ -69,26 +69,37 @@
             var currentEmployeeId = sessionService.CurrentUser.EmployeeId;
 
             var roles = sessionService.CurrentUser.Roles.Select(x => x.RoleId).ToList();
+
+            // Remove all data for open Process (process that not evaluated / already evaluated but are extended
+            var evaluatorProcessOfOtherActors =
+                epaInfo.Process.Managements.Where(x => x.StatusId == (int)ProcessStatusType.Open);
+            evaluatorProcessOfOtherActors =
+                evaluatorProcessOfOtherActors.Concat(
+                    epaInfo.Process.Reviewers.Where(x => x.StatusId == (int)ProcessStatusType.Open));
+            evaluatorProcessOfOtherActors =
+                evaluatorProcessOfOtherActors.Concat(
+                    epaInfo.Process.Evaluators.Where(x => x.StatusId == (int)ProcessStatusType.Open));
+
+            RemoveSensitiveTotalScoreAndComment(evaluatorProcessOfOtherActors);
+
+            // Do not remove if roles is HR or SA
             if (roles.Contains((int)SystemRole.HumanResource) || roles.Contains((int)SystemRole.SystemAdmin))
             {
                 return;
             }
 
-            var evaluatorProcessOfOtherActors =
-                epaInfo.Process.Managements.Where(x => x.EvaluatorInfo.EmployeeId != currentEmployeeId ||
-                                                       x.StatusId == (int)ProcessStatusType.Open);
+            // Remove if user is not the one who evalutate that EPA
+
+            evaluatorProcessOfOtherActors =
+                epaInfo.Process.Managements.Where(x => x.EvaluatorInfo.EmployeeId != currentEmployeeId);
 
             RemoveSensitiveTotalScoreAndComment(evaluatorProcessOfOtherActors);
 
-            evaluatorProcessOfOtherActors = epaInfo.Process.Reviewers.Where(
-                x => x.EvaluatorInfo.EmployeeId != currentEmployeeId ||
-                     x.StatusId == (int)ProcessStatusType.Open);
+            evaluatorProcessOfOtherActors = epaInfo.Process.Reviewers.Where(x => x.EvaluatorInfo.EmployeeId != currentEmployeeId);
 
             RemoveSensitiveTotalScoreAndComment(evaluatorProcessOfOtherActors);
 
-            evaluatorProcessOfOtherActors = epaInfo.Process.Evaluators.Where(
-                x => x.EvaluatorInfo.EmployeeId != currentEmployeeId ||
-                     x.StatusId == (int)ProcessStatusType.Open);
+            evaluatorProcessOfOtherActors = epaInfo.Process.Evaluators.Where(x => x.EvaluatorInfo.EmployeeId != currentEmployeeId);
 
             if (evaluatorProcessOfOtherActors.Any())
             {
