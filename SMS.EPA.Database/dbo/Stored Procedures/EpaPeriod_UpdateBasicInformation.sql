@@ -1,4 +1,5 @@
-﻿CREATE PROCEDURE [dbo].[EpaPeriod_UpdateBasicInformation] @PeriodId INT
+﻿
+CREATE PROCEDURE [dbo].[EpaPeriod_UpdateBasicInformation] @PeriodId INT
 	,@Name NVARCHAR(200) = NULL
 	,@TargetTypeId INT
 	,@StartDate DATE = NULL
@@ -23,10 +24,13 @@ Param's Explanation:
 BEGIN
 	SET NOCOUNT ON;
 
+	DECLARE @Today DATE = GETDATE()
+		,@MonthlyId INT = 2
+
 	IF NOT EXISTS (
 			SELECT 1
-			FROM [dbo].[Period] WITH (NOLOCK)
-			WHERE [PeriodId] = @PeriodId
+			FROM dbo.Period WITH (NOLOCK)
+			WHERE PeriodId = @PeriodId
 			)
 	BEGIN
 		SELECT @ErrCode = 1
@@ -37,8 +41,8 @@ BEGIN
 
 	IF EXISTS (
 			SELECT 1
-			FROM [dbo].[Period] WITH (NOLOCK)
-			WHERE [PeriodId] <> @PeriodId
+			FROM dbo.Period WITH (NOLOCK)
+			WHERE PeriodId <> @PeriodId
 				AND [Name] = @Name
 			)
 	BEGIN
@@ -48,12 +52,12 @@ BEGIN
 		RETURN
 	END
 
-	IF @TargetTypeId = 2 -- monthly
+	IF @TargetTypeId = @MonthlyId
 		AND EXISTS (
 			SELECT 1
 			FROM dbo.Period WITH (NOLOCK)
-			WHERE [PeriodId] <> @PeriodId
-				AND TargetTypeId = 2
+			WHERE PeriodId <> @PeriodId
+				AND TargetTypeId = @MonthlyId
 				AND (
 					CAST(@StartDate AS DATE) BETWEEN CAST(StartDate AS DATE)
 						AND CAST(EndDate AS DATE)
@@ -86,18 +90,18 @@ BEGIN
 		FROM dbo.Period WITH (NOLOCK)
 		WHERE PeriodId = @PeriodId
 
-		UPDATE [dbo].[Period] WITH (ROWLOCK, UPDLOCK)
+		UPDATE dbo.Period WITH (ROWLOCK, UPDLOCK)
 		SET [Name] = @Name
-			,[TargetTypeId] = @TargetTypeId
-			,[StartDate] = @StartDate
-			,[EndDate] = @EndDate
-			,[AttendanceStartDate] = @AttendanceStartDate
-			,[AttendanceEndDate] = @AttendanceEndDate
-			,[IsActive] = @IsActive
+			,TargetTypeId = @TargetTypeId
+			,StartDate = @StartDate
+			,EndDate = @EndDate
+			,AttendanceStartDate = @AttendanceStartDate
+			,AttendanceEndDate = @AttendanceEndDate
+			,IsActive = @IsActive
 			,[Description] = @Description
-			,[ModifiedBy] = @ModifiedBy
-			,[ModifiedDate] = GETDATE()
-		WHERE [PeriodId] = @PeriodId
+			,ModifiedBy = @ModifiedBy
+			,ModifiedDate = GETDATE()
+		WHERE PeriodId = @PeriodId
 
 		IF @TargetTypeId IN (2, 3)
 			AND (
@@ -114,24 +118,22 @@ BEGIN
 		BEGIN
 			UPDATE epa
 			SET epa.[Status] = (CASE 
+					WHEN CAST(pc.EndDate AS DATE) > @Today THEN 0
 					WHEN CAST(period.EndDate AS DATE) > CAST(pc.EndDate AS DATE)
-					AND CAST(period.EndDate AS DATE) > CAST(GETDATE() AS DATE) THEN 0
-					WHEN CAST(period.EndDate AS DATE) < CAST(GETDATE() AS DATE)
-						AND CAST(pc.EndDate AS DATE) < CAST(GETDATE() AS DATE) THEN 1 END
+						AND CAST(period.EndDate AS DATE) > @Today THEN 0
+					WHEN CAST(period.EndDate AS DATE) < @Today
+						AND CAST(pc.EndDate AS DATE) < @Today THEN 1 END
 					)
-			FROM dbo.EPA AS epa
+			FROM dbo.EPA AS epa WITH (NOLOCK)
 				INNER JOIN (
 				SELECT DISTINCT EPAId
 					,MAX(EndDate) AS EndDate
-				FROM dbo.EPAProcess
+				FROM dbo.EPAProcess WITH (NOLOCK)
 				GROUP BY EPAId
 				) AS pc ON epa.EPAId = pc.EPAId
-				INNER JOIN dbo.Period AS period ON epa.PeriodId = period.PeriodId
+				INNER JOIN dbo.Period AS period WITH (NOLOCK) ON epa.PeriodId = period.PeriodId
 			WHERE period.PeriodId = @PeriodId
-				AND (
-					epa.[Status] = 0
-					OR epa.[Status] = 1
-					)
+				AND ISNULL(epa.[Status], 0) IN (0, 1)
 		END
 
 		EXEC @Data = [dbo].[fncGetDataForWriteLog] @ObjectId = @PeriodId

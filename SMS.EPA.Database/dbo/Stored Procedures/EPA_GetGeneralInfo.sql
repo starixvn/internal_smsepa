@@ -99,8 +99,8 @@ BEGIN
 	SELECT epa.EPAId
 		,(CASE 
 			WHEN tt.TargetTypeId IN (2, 3) THEN (CASE 
-					WHEN CAST(pc.EndDate AS DATE) >= CAST(period.EndDate AS DATE) THEN (CASE 
-							WHEN CAST(pc.EndDate AS DATE) < @ToDay THEN 1
+					WHEN pc.EndDate >= CAST(period.EndDate AS DATE) THEN (CASE 
+							WHEN pc.EndDate < @ToDay THEN 1
 							ELSE 0 END
 							)
 					ELSE (CASE 
@@ -109,7 +109,7 @@ BEGIN
 							) END
 					)
 			ELSE (CASE 
-					WHEN CAST(pc.EndDate AS DATE) < @ToDay THEN 1
+					WHEN pc.EndDate < @ToDay THEN 1
 					ELSE 0 END
 					) END
 			)
@@ -117,7 +117,7 @@ BEGIN
 		INNER JOIN @TblEPAIds AS epaId ON epa.EPAId = epaId.Id
 		INNER JOIN (
 		SELECT pc.EPAId
-			,MAX(pc.EndDate) AS EndDate
+			,CAST(MAX(pc.EndDate) AS DATE) AS EndDate
 		FROM dbo.EPAProcess AS pc WITH (NOLOCK)
 			INNER JOIN @TblEPAIds AS epaId1 ON pc.EPAId = epaId1.Id
 		GROUP BY pc.EPAId
@@ -194,10 +194,10 @@ BEGIN
 		,CAST(pc.StartDate AS DATE) AS StartDate
 		,(CASE 
 			WHEN tt.TargetTypeId IN (2, 3) THEN CASE 
-					WHEN CAST(pc.EndDate AS DATE) >= CAST(period.EndDate AS DATE) THEN CAST(pc.EndDate AS DATE)
+					WHEN pc.EndDate >= CAST(period.EndDate AS DATE) THEN pc.EndDate
 					ELSE period.EndDate
 					END
-			ELSE CAST(pc.EndDate AS DATE) END
+			ELSE pc.EndDate END
 			) AS EndDate
 		,tt.TargetTypeId
 		,tt.[Name] AS TargetTypeName
@@ -212,8 +212,8 @@ BEGIN
 		INNER JOIN @TblEPAIds AS epaId ON epa.EPAId = epaId.Id
 		INNER JOIN (
 		SELECT pc1.EPAId
-			,MIN(pc1.StartDate) AS StartDate
-			,MAX(pc1.EndDate) AS EndDate
+			,CAST(MIN(pc1.StartDate) AS DATE) AS StartDate
+			,CAST(MAX(pc1.EndDate) AS DATE) AS EndDate
 		FROM dbo.EPAProcess AS pc1 WITH (NOLOCK)
 			INNER JOIN @TblEPAIds AS epaId1 ON pc1.EPAId = epaId1.Id
 		GROUP BY pc1.EPAId
@@ -238,7 +238,7 @@ BEGIN
 		,emp.Code
 
 	DROP TABLE #tblDisciplineScores
-
+	
 	DROP TABLE #tblLastEPA
 
 	DROP TABLE #tblOtherViolation

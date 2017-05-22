@@ -1,5 +1,4 @@
 ﻿
-
 CREATE PROCEDURE [dbo].[EPA_GetLastScore] @EPAIds IntId READONLY
 AS
 /*
@@ -16,14 +15,14 @@ Param's Explanation:
 BEGIN
 	SET NOCOUNT ON
 
-	CREATE TABLE #TblEPA (
+	CREATE TABLE #tblEPA (
 		EPAId INT
 		,EmployeeId INT
 		,TargetTypeId INT
 		,StartDate DATE
 		)
 
-	CREATE TABLE #TblLastEPA (
+	CREATE TABLE #tblLastEPA (
 		LastEPAId INT
 		,EPAId INT
 		,EmployeeId INT
@@ -34,7 +33,12 @@ BEGIN
 		,DisciplineScore FLOAT
 		)
 
-	INSERT INTO #TblEPA
+	INSERT INTO #tblEPA (
+		EPAId
+		,EmployeeId
+		,TargetTypeId
+		,StartDate
+		)
 	SELECT DISTINCT epa.EPAId
 		,emp.EmployeeId
 		,tt.TargetTypeId
@@ -48,7 +52,16 @@ BEGIN
 		INNER JOIN dbo.EPAProcess AS pc WITH (NOLOCK) ON epa.EPAId = pc.EPAId
 		AND pc.ProcessId = 2 -- self
 
-	INSERT INTO #TblLastEPA
+	INSERT INTO #tblLastEPA (
+		LastEPAId
+		,EPAId
+		,EmployeeId
+		,Code
+		,[Date]
+		,FinalScore
+		,Grade
+		,DisciplineScore
+		)
 	SELECT DISTINCT epa.EPAId
 		,tblEPA.EPAId
 		,emp.EmployeeId
@@ -62,7 +75,7 @@ BEGIN
 		AND period.IsActive = 1
 		INNER JOIN dbo.TargetType AS tt ON period.TargetTypeId = tt.TargetTypeId
 		INNER JOIN dbo.Employee AS emp WITH (NOLOCK) ON epa.EmployeeId = emp.EmployeeId
-		INNER JOIN #TblEPA AS tblEPA ON emp.EmployeeId = tblEPA.EmployeeId
+		INNER JOIN #tblEPA AS tblEPA WITH (NOLOCK) ON emp.EmployeeId = tblEPA.EmployeeId
 		AND tt.TargetTypeId = tblEPA.TargetTypeId
 		INNER JOIN dbo.EPAProcess AS pc WITH (NOLOCK) ON epa.EPAId = pc.EPAId
 	WHERE epa.[Status] = 1 -- closed
@@ -97,14 +110,14 @@ BEGIN
 		,NULL
 	FROM dbo.EPASummaryImport AS lastEPA WITH (NOLOCK)
 		INNER JOIN dbo.Employee AS emp WITH (NOLOCK) ON lastEPA.Code = emp.Code
-		INNER JOIN #TblEPA AS tblEPA ON emp.EmployeeId = tblEPA.EmployeeId
+		INNER JOIN #tblEPA AS tblEPA WITH (NOLOCK) ON emp.EmployeeId = tblEPA.EmployeeId
 		AND tblEPA.TargetTypeId = 3 -- semi
 		INNER JOIN (
 		SELECT lastEPA1.Code
-			,MAX(CAST(lastEPA1.PeriodDate AS DATE)) AS PeriodDate
+			,CAST(MAX(lastEPA1.PeriodDate) AS DATE) AS PeriodDate
 		FROM dbo.EPASummaryImport AS lastEPA1 WITH (NOLOCK)
 			INNER JOIN dbo.Employee AS emp WITH (NOLOCK) ON lastEPA1.Code = emp.Code
-			INNER JOIN #TblEPA AS tbl ON emp.EmployeeId = tbl.EmployeeId
+			INNER JOIN #tblEPA AS tbl WITH (NOLOCK) ON emp.EmployeeId = tbl.EmployeeId
 			AND tbl.TargetTypeId = 3 -- semi
 		GROUP BY lastEPA1.Code
 		) AS tblData ON lastEPA.Code = tblData.Code
@@ -117,21 +130,29 @@ BEGIN
 		,tbl1.FinalScore
 		,tbl1.Grade
 		,tbl1.DisciplineScore
-	FROM #TblEPA AS tbl
+	FROM #tblEPA AS tbl WITH (NOLOCK)
 		INNER JOIN (
-		SELECT *
-		FROM #TblLastEPA
+		SELECT LastEPAId
+			,EPAId
+			,EmployeeId
+			,Code
+			,[Date]
+			,FinalScore
+			,Grade
+			,DisciplineScore
+		FROM #tblLastEPA AS lastepa WITH (NOLOCK)
 		WHERE [Date] = (
 				SELECT TOP 1 MAX([Date])
-				FROM #TblLastEPA
-				WHERE EmployeeId = EmployeeId
-					AND EPAId = EPAId
-				GROUP BY EmployeeId
+				FROM #tblLastEPA WITH (NOLOCK)
+				WHERE EmployeeId = lastepa.EmployeeId
+					AND EPAId = lastepa.EPAId
+				GROUP BY EPAId
+					,EmployeeId
 				)
 		) AS tbl1 ON tbl.EmployeeId = tbl1.EmployeeId
 		AND tbl.EPAId = tbl1.EPAId
 
-	DROP TABLE #TblEPA
+	DROP TABLE #tblEPA
 
-	DROP TABLE #TblLastEPA
+	DROP TABLE #tblLastEPA
 END

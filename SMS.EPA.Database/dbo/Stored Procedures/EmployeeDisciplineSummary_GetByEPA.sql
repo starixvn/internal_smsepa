@@ -12,32 +12,37 @@ Param's Explanation:
 BEGIN
 	SET NOCOUNT ON;
 
-	CREATE TABLE #EPAId (EPAId INT)
+	CREATE TABLE #tblEPAId (EPAId INT)
 
-	CREATE TABLE #EPA (
+	CREATE TABLE #tblEPA (
 		EPAId INT
 		,EmployeeId INT
 		,StartDate DATE
 		,EndDate DATE
 		)
 
-	CREATE TABLE #EmployeeDisciplineScore (
+	CREATE TABLE #tblEmployeeDisciplineScore (
 		EPAId INT
 		,SystemSubtractScore FLOAT
 		,ApproverSubtractScore FLOAT
 		,OtherDisciplines FLOAT
 		)
 
-	INSERT INTO #EPAId
+	INSERT INTO #tblEPAId (EPAId)
 	SELECT DISTINCT val
 	FROM dbo.fnc_strSplit(@EPAIds, ',')
 
-	INSERT INTO #EPA
+	INSERT INTO #tblEPA (
+		EPAId
+		,EmployeeId
+		,StartDate
+		,EndDate
+		)
 	SELECT DISTINCT epa.EPAId
 		,epa.EmployeeId
 		,period.AttendanceStartDate
 		,period.AttendanceEndDate
-	FROM #EPAId AS epat
+	FROM #tblEPAId AS epat WITH (NOLOCK)
 		INNER JOIN dbo.EPA AS epa WITH (NOLOCK) ON epat.EPAId = epa.EPAId
 		INNER JOIN dbo.Period AS period WITH (NOLOCK) ON epa.PeriodId = period.PeriodId
 		INNER JOIN dbo.Employee AS emp WITH (NOLOCK) ON epa.EmployeeId = emp.EmployeeId
@@ -45,13 +50,27 @@ BEGIN
 		AND emp.[Enabled] = 1
 	WHERE period.TargetTypeId = 3 -- semi
 
-	INSERT INTO #EmployeeDisciplineScore
+	INSERT INTO #tblEmployeeDisciplineScore (
+		EPAId
+		,SystemSubtractScore
+		,ApproverSubtractScore
+		,OtherDisciplines
+		)
 	SELECT epa.EPAId
 		,d.SystemSubtractScore
-		,(d.ChangeShift + d.MissingCheckInOut + d.LateIn + d.EarlyOut + d.[Absent] + d.UnpaidLeave + d.WorkingUndertime + d.UnpaidLeaveAbsent) AS ApproverSubtractScore
+		,(d.ChangeShift
+		  + d.MissingCheckInOut
+		  + d.LateIn
+		  + d.EarlyOut
+		  + d.[Absent]
+		  + d.UnpaidLeave
+		  + d.WorkingUndertime
+		  + d.UnpaidLeaveAbsent
+		  + ISNULL(d.UnplannedLeave, 0)
+		  + ISNULL(d.WeekendLeave, 0)) AS ApproverSubtractScore
 		,d.OtherDisciplines
 	FROM dbo.EmployeeDisciplineSummary AS d WITH (NOLOCK)
-		INNER JOIN #EPA AS epa WITH (NOLOCK) ON d.EmployeeId = epa.EmployeeId
+		INNER JOIN #tblEPA AS epa WITH (NOLOCK) ON d.EmployeeId = epa.EmployeeId
 		AND d.Period BETWEEN epa.StartDate
 			AND epa.EndDate
 	WHERE d.ChangeShift > 0
@@ -63,6 +82,8 @@ BEGIN
 		OR d.WorkingUndertime > 0
 		OR d.UnpaidLeaveAbsent > 0
 		OR d.OtherDisciplines > 0
+		OR ISNULL(d.UnplannedLeave, 0) > 0
+		OR ISNULL(d.WeekendLeave, 0) > 0
 
 	SELECT DISTINCT d.EPAId
 		,(CASE srt.ScoreRatingTypeId
@@ -79,7 +100,7 @@ BEGIN
 			ELSE 0 END
 			) AS DisciplineScore
 		,d.OtherDisciplines
-	FROM #EmployeeDisciplineScore AS d
+	FROM #tblEmployeeDisciplineScore AS d WITH (NOLOCK)
 		INNER JOIN dbo.EPA AS epa WITH (NOLOCK) ON d.EPAId = epa.EPAId
 		INNER JOIN dbo.ScoreRatingType AS srt WITH (NOLOCK) ON epa.ScoreRatingTypeId = srt.ScoreRatingTypeId
 	
@@ -88,18 +109,18 @@ BEGIN
 		,srt.Attendance AS SystemDisciplineScore
 		,srt.Attendance AS DisciplineScore
 		,0 AS OtherDisciplines
-	FROM #EPA AS epat
+	FROM #tblEPA AS epat WITH (NOLOCK)
 		INNER JOIN dbo.EPA AS epa WITH (NOLOCK) ON epat.EPAId = epa.EPAId
 		INNER JOIN dbo.ScoreRatingType AS srt ON epa.ScoreRatingTypeId = srt.ScoreRatingTypeId
 	WHERE NOT EXISTS (
 			SELECT 1
-			FROM #EmployeeDisciplineScore AS d
+			FROM #tblEmployeeDisciplineScore AS d WITH (NOLOCK)
 			WHERE epat.EPAId = d.EPAId
 			)
 
-	DROP TABLE #EPAId
+	DROP TABLE #tblEPAId
 
-	DROP TABLE #EPA
+	DROP TABLE #tblEPA
 
-	DROP TABLE #EmployeeDisciplineScore
+	DROP TABLE #tblEmployeeDisciplineScore
 END

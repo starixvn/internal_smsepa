@@ -1,4 +1,4 @@
-﻿/****** Object:  Stored Procedure dbo.EpaAttendanceSummary_GetDetail    Script Date: 7/21/2016 2:45:47 PM ******/
+﻿
 CREATE PROCEDURE [dbo].[EpaAttendanceSummary_GetDetail] @StartDate DATE
 	,@EndDate DATE
 	,@ApproverId INT
@@ -71,6 +71,14 @@ BEGIN
 		,UnpaidLeaveAbsentValue INT
 		,UnpaidLeaveAbsentScore DECIMAL(5, 2)
 		,UnpaidLeaveAbsentHasIgnored BIT
+		,UnplannedLeaveId INT
+		,UnplannedLeaveValue INT
+		,UnplannedLeaveScore DECIMAL(5, 2)
+		,UnplannedLeaveHasIgnored BIT
+		,WeekendLeaveId INT
+		,WeekendLeaveValue INT
+		,WeekendLeaveScore DECIMAL(5, 2)
+		,WeekendLeaveHasIgnored BIT
 		,EmployeeComment NVARCHAR(500)
 		,ApproverComment NVARCHAR(500)
 		)
@@ -126,6 +134,14 @@ BEGIN
 		,empV.IsUnpaidLeaveAbsent AS UnpaidLeaveAbsentValue
 		,dbo.fncGetDisciplineScoreById(8) AS UnpaidLeaveAbsentScore
 		,empV.IsIgnoredUnpaidLeaveAbsent AS UnpaidLeaveAbsentHasIgnored
+		,9 AS UnplannedLeaveId
+		,ISNULL(empV.IsUnplannedLeave, 0) AS UnplannedLeaveValue
+		,dbo.fncGetDisciplineScoreById(9) AS UnplannedLeaveScore
+		,ISNULL(empV.IsIgnoredUnplannedLeave, 0) AS UnplannedLeaveHasIgnored
+		,10 AS WeekendLeaveId
+		,ISNULL(empV.IsWeekendLeave, 0) AS WeekendLeaveValue
+		,dbo.fncGetDisciplineScoreById(10) AS WeekendLeaveScore
+		,ISNULL(empV.IsIgnoredUnplannedLeave, 0) AS WeekendLeaveHasIgnored
 		,empV.EmployeeComment
 		,empV.ApproverComment
 	FROM dbo.EmployeeDiscipline AS empV WITH (NOLOCK)
@@ -178,6 +194,14 @@ BEGIN
 				@ReasonId = 8
 				AND empV.IsUnpaidLeaveAbsent = 1
 				)
+			OR (
+				@ReasonId = 9
+				AND empV.IsUnplannedLeave = 1
+				)
+			OR (
+				@ReasonId = 10
+				AND empV.IsWeekendLeave = 1
+				)
 			)
 		AND (
 			empV.IsChangeShift > 0
@@ -188,6 +212,8 @@ BEGIN
 			OR empV.IsUnpaidLeave > 0
 			OR empV.IsWorkingUndertime > 0
 			OR empV.IsUnpaidLeaveAbsent > 0
+			OR empV.IsUnplannedLeave > 0
+			OR empV.IsWeekendLeave > 0
 			)
 		AND (
 			ISNULL(@DepartmentId, '') = ''
@@ -277,6 +303,14 @@ BEGIN
 						empV.IsUnpaidLeaveAbsent = 1
 						AND empV.IsIgnoredUnpaidLeaveAbsent = 1
 						)
+					OR (
+						empV.IsUnplannedLeave = 1
+						AND empV.IsIgnoredUnplannedLeave = 1
+						)
+					OR (
+						empV.IsWeekendLeave = 1
+						AND empV.IsIgnoredWeekendLeave = 1
+						)
 					)
 				)
 			OR (
@@ -314,13 +348,21 @@ BEGIN
 						empV.IsUnpaidLeaveAbsent = 1
 						AND empV.IsIgnoredUnpaidLeaveAbsent = 0
 						)
+					OR (
+						empV.IsUnplannedLeave = 1
+						AND empV.IsIgnoredUnplannedLeave = 0
+						)
+					OR (
+						empV.IsWeekendLeave = 1
+						AND empV.IsIgnoredWeekendLeave = 0
+						)
 					)
 				)
 			)
 	ORDER BY empV.WorkDate DESC
 
 	SELECT d.*
-	FROM #DisciplineDetail AS d
+	FROM #DisciplineDetail AS d WITH (NOLOCK)
 	ORDER BY d.WorkDate DESC
 
 	DROP TABLE #DisciplineDetail

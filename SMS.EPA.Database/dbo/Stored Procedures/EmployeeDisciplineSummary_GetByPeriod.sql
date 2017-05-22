@@ -1,5 +1,4 @@
-﻿
-CREATE PROCEDURE [dbo].[EmployeeDisciplineSummary_GetByPeriod] @PeriodId INT = NULL
+﻿CREATE PROCEDURE [dbo].[EmployeeDisciplineSummary_GetByPeriod] @PeriodId INT = NULL
 	,@DepartmentId INT = NULL
 	,@EmployeeId INT = NULL
 	,@DisciplineTypeId INT = NULL
@@ -25,6 +24,8 @@ BEGIN
 		,SUM(d.UnpaidLeave) AS UnpaidLeave
 		,SUM(d.WorkingUndertime) AS WorkingUndertime
 		,0 AS UnpaidLeaveAbsent
+		,SUM(ISNULL(d.UnplannedLeave, 0)) AS UnplannedLeave
+		,SUM(ISNULL(d.WeekendLeave, 0)) AS WeekendLeave
 		,SUM(d.OtherDisciplines) AS OtherDisciplines
 		,SUM(d.SystemSubtractScore - d.ChangeShift - d.EarlyOut - d.[Absent] - d.UnpaidLeaveAbsent) AS SystemSubtractScore
 		,period.PeriodId
@@ -85,6 +86,8 @@ BEGIN
 			OR d.[Absent] > 0
 			OR d.UnpaidLeave > 0
 			OR d.WorkingUndertime > 0
+			OR d.UnplannedLeave > 0
+			OR d.WeekendLeave > 0
 			)
 		AND (
 			ISNULL(@DisciplineTypeId, '') = ''
@@ -119,6 +122,14 @@ BEGIN
 			OR (
 				@DisciplineTypeId = 8
 				AND d.UnpaidLeaveAbsent > 0
+				)
+			OR (
+				@DisciplineTypeId = 9
+				AND d.UnplannedLeave > 0
+				)
+			OR (
+				@DisciplineTypeId = 10
+				AND d.WeekendLeave > 0
 				)
 			OR (
 				@DisciplineTypeId = - 1

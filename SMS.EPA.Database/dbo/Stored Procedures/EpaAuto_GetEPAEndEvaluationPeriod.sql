@@ -1,6 +1,4 @@
 ﻿
-/****** Object:  Stored Procedure dbo.EpaAuto_GetEPAEndEvaluationPeriod    Script Date: 7/21/2016 3:01:35 PM ******/
-/****** Object:  Stored Procedure dbo.EpaAuto_GetEPAEndEvaluationPeriod    Script Date: 7/21/2016 2:45:48 PM ******/
 CREATE PROCEDURE [dbo].[EpaAuto_GetEPAEndEvaluationPeriod]
 AS
 /*
@@ -17,7 +15,11 @@ BEGIN
 
 	DECLARE @TblEPAId IntId
 		,@EPAIds NVARCHAR(MAX)
-		,@Yesterday DATETIME
+		,@Today DATE = GETDATE()
+		,@Yesterday DATE
+	-- target type
+	DECLARE @MonthlyId INT = 2
+		,@SemiId INT = 3
 
 	CREATE TABLE #DisciplineScores (
 		EPAId INT
@@ -26,38 +28,30 @@ BEGIN
 		,OtherDisciplines FLOAT
 		)
 
-	SET @Yesterday = DATEADD(DAY, - 1, GETDATE())
+	SET @Yesterday = DATEADD(DAY, - 1, @Today)
 
 	INSERT INTO @TblEPAId (Id)
 	SELECT DISTINCT epa.EPAId
 	FROM dbo.EPA AS epa WITH (NOLOCK)
 		INNER JOIN dbo.EPAProcess AS epaP WITH (NOLOCK) ON epa.EPAId = epaP.EPAId
 		INNER JOIN dbo.Period AS pe WITH (NOLOCK) ON epa.PeriodId = pe.PeriodId
-	WHERE CAST(pe.EndDate AS DATE) = CAST(GETDATE() AS DATE)
-		AND CAST(epaP.EndDate AS DATE) < CAST(pe.EndDate AS DATE)
+	WHERE (
+			(
+				CAST(pe.EndDate AS DATE) = @Today
+				AND CAST(epaP.EndDate AS DATE) < CAST(pe.EndDate AS DATE)
+				)
+			OR (
+				CAST(epaP.EndDate AS DATE) = @Yesterday
+				AND CAST(epaP.EndDate AS DATE) >= CAST(pe.EndDate AS DATE)
+				)
+			)
 		AND ProcessId IN (
 			SELECT MAX(ProcessId)
 			FROM dbo.EPAProcess WITH (NOLOCK)
 			WHERE EPAId = epaP.EPAId
 			)
-		AND pe.TargetTypeId IN (2, 3) -- Monthly, Semi
-		AND epa.[Status] <> 2
-		AND pe.IsActive = 1
-	
-	UNION
-	SELECT DISTINCT epa.EPAId
-	FROM dbo.EPAProcess AS epaP WITH (NOLOCK)
-		INNER JOIN dbo.EPA AS epa WITH (NOLOCK) ON epa.EPAId = epaP.EPAId
-		INNER JOIN dbo.Period AS pe WITH (NOLOCK) ON pe.PeriodId = epa.PeriodId
-	WHERE CAST(epaP.EndDate AS DATE) = CAST(@Yesterday AS DATE)
-		AND CAST(epaP.EndDate AS DATE) >= CAST(pe.EndDate AS DATE)
-		AND ProcessId IN (
-			SELECT MAX(ProcessId)
-			FROM dbo.EPAProcess WITH (NOLOCK)
-			WHERE EPAId = epaP.EPAId
-			)
-		AND pe.TargetTypeId IN (2, 3) -- Monthly, Semi
-		AND epa.[Status] <> 2
+		AND pe.TargetTypeId IN (@MonthlyId, @SemiId)
+		AND ISNULL(epa.[Status], 0) <> 2
 		AND pe.IsActive = 1
 	
 	UNION
@@ -65,14 +59,14 @@ BEGIN
 	FROM dbo.EPAProcess AS epaP WITH (NOLOCK)
 		INNER JOIN dbo.EPA AS epa WITH (NOLOCK) ON epaP.EPAId = epa.EPAId
 		INNER JOIN dbo.Period AS pe WITH (NOLOCK) ON pe.PeriodId = epa.PeriodId
-	WHERE CAST(epaP.EndDate AS DATE) = CAST(@Yesterday AS DATE)
+	WHERE CAST(epaP.EndDate AS DATE) = @Yesterday
 		AND ProcessId IN (
 			SELECT MAX(ProcessId)
 			FROM dbo.EPAProcess WITH (NOLOCK)
 			WHERE EPAId = epa.EPAId
 			)
-		AND pe.TargetTypeId NOT IN (2, 3) -- Monthly, Semi
-		AND epa.[Status] <> 2
+		AND pe.TargetTypeId NOT IN (@MonthlyId, @SemiId)
+		AND ISNULL(epa.[Status], 0) <> 2
 		AND pe.IsActive = 1
 	
 	UNION
@@ -81,7 +75,7 @@ BEGIN
 		INNER JOIN dbo.Period AS pe WITH (NOLOCK) ON pe.PeriodId = epa.PeriodId
 	WHERE epa.[Status] = 1
 		AND ISNULL(epa.FinalScore, '') = ''
-		AND CAST(pe.EndDate AS DATE) < CAST(GETDATE() AS DATE)
+		AND CAST(pe.EndDate AS DATE) < @Today
 		AND pe.IsActive = 1
 
 	SELECT @EPAIds = COALESCE(@EPAIds + ',', '') + CAST(Id AS NVARCHAR)

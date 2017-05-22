@@ -1,4 +1,5 @@
-﻿CREATE PROCEDURE [dbo].[EPA_GetEPAToUpdateFinalScore] @PeriodId INT
+﻿
+CREATE PROCEDURE [dbo].[EPA_GetEPAToUpdateFinalScore] @PeriodId INT
 	,@GroupId INT = NULL
 	,@IsLocal BIT = NULL
 	,@EmployeeId INT = NULL
@@ -19,7 +20,12 @@ BEGIN
 		,@EPAIds NVARCHAR(MAX)
 		,@Yesterday DATE
 		,@TargetTypeId INT
-		,@ToDay DATE
+		,@Today DATE = GETDATE()
+	-- target type
+	DECLARE @MonthlyId INT = 2
+		,@SemiId INT = 3
+		,@ProbationId INT = 1
+		,@PromotionId INT = 5
 
 	CREATE TABLE #DisciplineScores (
 		EPAId INT
@@ -28,7 +34,6 @@ BEGIN
 		,OtherDisciplines FLOAT
 		)
 
-	SET @ToDay = CAST(GETDATE() AS DATE)
 	SET @Yesterday = DATEADD(DAY, - 1, GETDATE())
 
 	SELECT @TargetTypeId = TargetTypeId
@@ -36,14 +41,14 @@ BEGIN
 	WHERE PeriodId = @PeriodId
 		AND IsActive = 1
 
-	IF @TargetTypeId IN (2, 3)
+	IF @TargetTypeId IN (@MonthlyId, @SemiId)
 	BEGIN
 		INSERT INTO @TblEPAId (Id)
 		SELECT DISTINCT epa.EPAId
 		FROM dbo.EPA AS epa WITH (NOLOCK)
 			INNER JOIN (
 			SELECT DISTINCT EPAId
-				,MAX(EndDate) AS EndDate
+				,CAST(MAX(EndDate) AS DATE) AS EndDate
 			FROM dbo.EPAProcess WITH (NOLOCK)
 			GROUP BY EPAId
 			) AS pc ON epa.EPAId = pc.EPAId
@@ -52,9 +57,17 @@ BEGIN
 			AND emp.IsDeleted = 0
 			AND emp.[Enabled] = 1
 			INNER JOIN dbo.[Group] AS gr WITH (NOLOCK) ON emp.GroupId = gr.GroupId
-		WHERE CAST(pe.EndDate AS DATE) <= CAST(GETDATE() AS DATE)
-			AND CAST(pc.EndDate AS DATE) < CAST(pe.EndDate AS DATE)
-			AND pe.TargetTypeId IN (2, 3) -- monthly, semi annual
+		WHERE (
+				(
+					CAST(pe.EndDate AS DATE) <= @Today
+					AND pc.EndDate < CAST(pe.EndDate AS DATE)
+					)
+				OR (
+					pc.EndDate <= @Yesterday
+					AND pc.EndDate >= CAST(pe.EndDate AS DATE)
+					)
+				)
+			AND pe.TargetTypeId IN (@MonthlyId, @SemiId)
 			AND ISNULL(epa.[Status], 0) IN (0, 1) -- open/closed
 			AND pe.IsActive = 1
 			AND pe.PeriodId = @PeriodId
@@ -70,48 +83,15 @@ BEGIN
 				ISNULL(@EmployeeId, '') = ''
 				OR emp.EmployeeId = @EmployeeId
 				)
-		
-		UNION
-		SELECT DISTINCT epa.EPAId
-		FROM dbo.EPA AS epa WITH (NOLOCK)
-			INNER JOIN (
-			SELECT DISTINCT EPAId
-				,MAX(EndDate) AS EndDate
-			FROM dbo.EPAProcess WITH (NOLOCK)
-			GROUP BY EPAId
-			) AS pc ON epa.EPAId = pc.EPAId
-			INNER JOIN dbo.Period AS pe WITH (NOLOCK) ON pe.PeriodId = epa.PeriodId
-			INNER JOIN dbo.Employee AS emp WITH (NOLOCK) ON epa.EmployeeId = emp.EmployeeId
-			AND emp.IsDeleted = 0
-			AND emp.[Enabled] = 1
-			INNER JOIN dbo.[Group] AS gr WITH (NOLOCK) ON emp.GroupId = gr.GroupId
-		WHERE CAST(pc.EndDate AS DATE) <= @Yesterday
-			AND CAST(pc.EndDate AS DATE) >= CAST(pe.EndDate AS DATE)
-			AND pe.TargetTypeId IN (2, 3) -- monthly, semi annul
-			AND epa.[Status] IN (0, 1) -- open/closed
-			AND pe.IsActive = 1
-			AND pe.PeriodId = @PeriodId
-			AND (
-				ISNULL(@GroupId, '') = ''
-				OR gr.GroupId = @GroupId
-				)
-			AND (
-				@IsLocal IS NULL
-				OR emp.IsLocal = @IsLocal
-				)
-			AND (
-				ISNULL(@EmployeeId, '') = ''
-				OR emp.EmployeeId = @EmployeeId
-				)
 	END
-	ELSE IF @TargetTypeId IN (1, 5) -- probation/promotion
+	ELSE IF @TargetTypeId IN (@ProbationId, @PromotionId)
 	BEGIN
 		INSERT INTO @TblEPAId (Id)
 		SELECT DISTINCT epa.EPAId
 		FROM dbo.EPA AS epa WITH (NOLOCK)
 			INNER JOIN (
 			SELECT DISTINCT EPAId
-				,MAX(EndDate) AS EndDate
+				,CAST(MAX(EndDate) AS DATE) AS EndDate
 			FROM dbo.EPAProcess WITH (NOLOCK)
 			GROUP BY EPAId
 			) AS pc ON epa.EPAId = pc.EPAId
@@ -120,9 +100,9 @@ BEGIN
 			AND emp.IsDeleted = 0
 			AND emp.[Enabled] = 1
 			INNER JOIN dbo.[Group] AS gr WITH (NOLOCK) ON emp.GroupId = gr.GroupId
-		WHERE CAST(pc.EndDate AS DATE) <= @Yesterday
-			AND pe.TargetTypeId IN (1, 5) -- probation/promotion
-			AND epa.[Status] IN (0, 1) -- open/closed
+		WHERE pc.EndDate <= @Yesterday
+			AND pe.TargetTypeId IN (@ProbationId, @PromotionId)
+			AND ISNULL(epa.[Status], 0) IN (0, 1) -- open/closed
 			AND pe.IsActive = 1
 			AND pe.PeriodId = @PeriodId
 			AND (

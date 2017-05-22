@@ -22,10 +22,10 @@ BEGIN
 		,pc.StartDate
 		,pc.EndDate
 		,(CASE 
-			WHEN CAST(pc.StartDate AS DATE) > @ToDay THEN 2
+			WHEN CAST(pc.StartDate AS DATE) > @ToDay THEN 1
 			WHEN @ToDay BETWEEN CAST(pc.StartDate AS DATE)
-					AND CAST(pc.EndDate AS DATE) THEN 0
-			WHEN CAST(pc.EndDate AS DATE) < @ToDay THEN 1 END
+					AND CAST(pc.EndDate AS DATE) THEN 2
+			WHEN CAST(pc.EndDate AS DATE) < @ToDay THEN 3 END
 			) AS StatusId -- 1:Open; 2:In Progress; 3:Closed
 		,pc.IsEndProcess
 		,pc.EvaluateDate

@@ -16,7 +16,7 @@ BEGIN
 
 	DECLARE @TblEPAIds IntId
 		,@EPAIds NVARCHAR(MAX)
-		,@ToDay DATE
+		,@ToDay DATE = GETDATE()
 
 	CREATE TABLE #tblDisciplineScores (
 		EPAId INT
@@ -35,8 +35,6 @@ BEGIN
 		,StatusId TINYINT
 		)
 
-	SET @ToDay = CAST(GETDATE() AS DATE)
-
 	INSERT INTO @TblEPAIds (Id)
 	SELECT DISTINCT epa.EPAId
 	FROM dbo.EPA AS epa WITH (NOLOCK)
@@ -49,6 +47,7 @@ BEGIN
 		AND period.IsActive = 1
 		INNER JOIN dbo.TargetType AS tt WITH (NOLOCK) ON period.TargetTypeId = tt.TargetTypeId
 	WHERE CAST(selfpc.StartDate AS DATE) <= @ToDay
+		AND ISNULL(epa.[Status], 0) IN (0, 1)
 
 	INSERT INTO #tblOtherViolation (
 		EPAId
@@ -134,7 +133,10 @@ BEGIN
 				WHEN tbl.NumberOtherViolation > 0 THEN 1
 				ELSE 0 END
 				) AS HasOtherViolation
-			,selfpc.IsEndProcess AS IsEndProcessBySelf
+			,(CASE 
+				WHEN CAST(selfpc.StartDate AS DATE) < @ToDay THEN 1
+				ELSE 0 END
+				) AS IsEndProcessBySelf
 			,tblstatus.StatusId
 			,emp.EmployeeId
 			,emp.Code
@@ -153,10 +155,10 @@ BEGIN
 			,CAST(pc.StartDate AS DATE) AS StartDate
 			,(CASE 
 				WHEN tt.TargetTypeId IN (2, 3) THEN CASE 
-						WHEN CAST(pc.EndDate AS DATE) >= CAST(period.EndDate AS DATE) THEN CAST(pc.EndDate AS DATE)
+						WHEN pc.EndDate >= CAST(period.EndDate AS DATE) THEN pc.EndDate
 						ELSE period.EndDate
 						END
-				ELSE CAST(pc.EndDate AS DATE) END
+				ELSE pc.EndDate END
 				) AS EndDate
 			,tt.TargetTypeId
 			,tt.[Name] AS TargetTypeName
@@ -164,8 +166,8 @@ BEGIN
 			INNER JOIN @TblEPAIds AS epat ON epa.EPAId = epat.Id
 			INNER JOIN (
 			SELECT pc.EPAId
-				,MIN(pc.StartDate) AS StartDate
-				,MAX(pc.EndDate) AS EndDate
+				,CAST(MIN(pc.StartDate) AS DATE) AS StartDate
+				,CAST(MAX(pc.EndDate) AS DATE) AS EndDate
 			FROM dbo.EPAProcess AS pc WITH (NOLOCK)
 				INNER JOIN @TblEPAIds AS epaId1 ON pc.EPAId = epaId1.Id
 			GROUP BY pc.EPAId

@@ -96,10 +96,14 @@ BEGIN
 				@StatusProcess = 0
 				AND @ToDay BETWEEN CAST(pcEva.StartDate AS DATE)
 					AND CAST(pcEva.EndDate AS DATE)
+				AND epa.HasMonthlyEPA = 0
 				)
 			OR (
 				@StatusProcess = 1
-				AND @ToDay > CAST(pcEva.EndDate AS DATE)
+				AND (
+					@ToDay > CAST(pcEva.EndDate AS DATE)
+					OR epa.HasMonthlyEPA = 1
+					)
 				)
 			)
 

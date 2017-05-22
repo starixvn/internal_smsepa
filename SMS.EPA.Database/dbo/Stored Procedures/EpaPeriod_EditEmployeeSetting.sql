@@ -21,34 +21,35 @@ Param's Explanation:
 		</ROOT>'
 */
 BEGIN
-	SET NOCOUNT ON;
+	SET NOCOUNT
+		,XACT_ABORT ON;
 
 	DECLARE @TargetTypeId INT
 		,@EmployeeIds IntId
 		,@OverlapEmployeeIds IntId
 		,@OverlapEmployees NVARCHAR(MAX)
-		,@Today DATE
-
-	SET @Today = CAST(GETDATE() AS DATE)
+		,@Today DATE = GETDATE()
+		,@MonthlyId INT = 2
+		,@SemiId INT = 3
 
 	SELECT @TargetTypeId = TargetTypeId
 	FROM dbo.Period WITH (NOLOCK)
 	WHERE PeriodId = @PeriodId
 
-	CREATE TABLE #EmployeeChangedTarget (
+	CREATE TABLE #tblEmployeeChangedTarget (
 		EPAId INT
 		,PeriodId INT
 		,EmployeeId INT
 		,TargetTemplateId INT
 		)
 
-	CREATE TABLE #EmployeeAssignments (
+	CREATE TABLE #tblEmployeeAssignments (
 		PeriodId INT
 		,EmployeeId INT
 		,EvaluatorId INT
 		,ProcessId INT
-		,StartDate DATETIME NULL
-		,EndDate DATETIME NULL
+		,StartDate DATE NULL
+		,EndDate DATE NULL
 		,[Priority] INT
 		)
 
@@ -58,7 +59,7 @@ BEGIN
 		EXEC sp_xml_preparedocument @DocHandler OUTPUT
 			,@EmployeeAssignments
 
-		INSERT INTO #EmployeeAssignments (
+		INSERT INTO #tblEmployeeAssignments (
 			PeriodId
 			,EmployeeId
 			,EvaluatorId
@@ -80,7 +81,7 @@ BEGIN
 				ELSE EndDate
 				END
 			,[Priority]
-		FROM OPENXML(@DocHandler, '/ROOT/Assignment', 1) WITH (EmployeeId INT, EvaluatorId INT, ProcessId INT, StartDate DATETIME, EndDate DATETIME, [Priority] INT) AS Data
+		FROM OPENXML(@DocHandler, '/ROOT/Assignment', 1) WITH (EmployeeId INT, EvaluatorId INT, ProcessId INT, StartDate DATE, EndDate DATE, [Priority] INT) AS Data
 
 		EXEC sp_xml_removedocument @DocHandler
 	END TRY
@@ -94,7 +95,7 @@ BEGIN
 
 	INSERT INTO @EmployeeIds (Id)
 	SELECT DISTINCT EmployeeId
-	FROM #EmployeeAssignments
+	FROM #tblEmployeeAssignments WITH (NOLOCK)
 
 	-- check overlap monthly, semi
 	INSERT INTO @OverlapEmployeeIds (Id)
@@ -107,7 +108,7 @@ BEGIN
 		INNER JOIN @OverlapEmployeeIds AS overId ON empId.Id = overId.Id
 
 	DELETE empA
-	FROM #EmployeeAssignments AS empA
+	FROM #tblEmployeeAssignments AS empA
 		INNER JOIN @OverlapEmployeeIds AS overId ON empA.EmployeeId = overId.Id
 
 	-- write log
@@ -154,7 +155,7 @@ BEGIN
 
 		IF ISNULL(@TargetTemplateId, '') <> ''
 		BEGIN
-			INSERT INTO #EmployeeChangedTarget (
+			INSERT INTO #tblEmployeeChangedTarget (
 				EPAId
 				,PeriodId
 				,EmployeeId
@@ -164,7 +165,7 @@ BEGIN
 				,@PeriodId
 				,emp.EmployeeId
 				,@TargetTemplateId
-			FROM #EmployeeAssignments AS emp
+			FROM #tblEmployeeAssignments AS emp WITH (NOLOCK)
 				INNER JOIN dbo.EPA AS epa WITH (NOLOCK) ON emp.PeriodId = epa.PeriodId
 				AND emp.EmployeeId = epa.EmployeeId
 				INNER JOIN (
@@ -176,7 +177,7 @@ BEGIN
 
 			DELETE pTS
 			FROM dbo.PeriodTargetSetting AS pTS
-				INNER JOIN #EmployeeAssignments AS empAssign ON pTS.EmployeeId = empAssign.EmployeeId
+				INNER JOIN #tblEmployeeAssignments AS empAssign WITH (NOLOCK) ON pTS.EmployeeId = empAssign.EmployeeId
 			WHERE pTS.PeriodId = @PeriodId
 
 			INSERT INTO dbo.PeriodTargetSetting (
@@ -191,12 +192,12 @@ BEGIN
 				,@TargetTemplateId
 				,@ModifiedBy
 				,GETDATE()
-			FROM #EmployeeAssignments
+			FROM #tblEmployeeAssignments WITH (NOLOCK)
 		END
 
 		DELETE pFS
 		FROM dbo.PeriodFlowSetting AS pFS
-			INNER JOIN #EmployeeAssignments AS empAssign ON pFS.EmployeeId = empAssign.EmployeeId
+			INNER JOIN #tblEmployeeAssignments AS empAssign WITH (NOLOCK) ON pFS.EmployeeId = empAssign.EmployeeId
 		WHERE pFS.PeriodId = @PeriodId
 
 		INSERT INTO dbo.PeriodFlowSetting (
@@ -219,10 +220,10 @@ BEGIN
 			,[Priority]
 			,@ModifiedBy
 			,GETDATE()
-		FROM #EmployeeAssignments
+		FROM #tblEmployeeAssignments WITH (NOLOCK)
 
 		-- Update EPA when change Period Setting
-		CREATE TABLE #EmployeeProcess (
+		CREATE TABLE #tblEmployeeProcess (
 			EPAId INT
 			,EmployeeId INT
 			,ProcessId INT
@@ -232,7 +233,7 @@ BEGIN
 			,[Priority] INT
 			)
 
-		INSERT INTO #EmployeeProcess (
+		INSERT INTO #tblEmployeeProcess (
 			EPAId
 			,ProcessId
 			,EvaluatorId
@@ -246,31 +247,31 @@ BEGIN
 			,empA.StartDate
 			,empA.EndDate
 			,empA.[Priority]
-		FROM #EmployeeAssignments AS empA
+		FROM #tblEmployeeAssignments AS empA WITH (NOLOCK)
 			INNER JOIN dbo.EPA AS epa WITH (NOLOCK) ON empA.PeriodId = epa.PeriodId
 			AND empA.EmployeeId = epa.EmployeeId
 
 		IF EXISTS (
 				SELECT 1
-				FROM #EmployeeProcess
+				FROM #tblEmployeeProcess WITH (NOLOCK)
 				)
 		BEGIN
 			-- Change Target Template
 			IF EXISTS (
 					SELECT 1
-					FROM #EmployeeChangedTarget
+					FROM #tblEmployeeChangedTarget WITH (NOLOCK)
 					)
 			BEGIN
 				UPDATE epa
 				SET epa.ScoreRatingTypeId = tg.ScoreRatingTypeId
 					,epa.RatingTypeId = tg.RatingTypeId
 				FROM dbo.EPA AS epa
-					INNER JOIN #EmployeeChangedTarget AS empT ON epa.EPAId = empT.EPAId
-					INNER JOIN dbo.TargetTemplate AS tg ON empT.TargetTemplateId = tg.TargetTemplateId
+					INNER JOIN #tblEmployeeChangedTarget AS empT WITH (NOLOCK) ON epa.EPAId = empT.EPAId
+					INNER JOIN dbo.TargetTemplate AS tg WITH (NOLOCK) ON empT.TargetTemplateId = tg.TargetTemplateId
 
 				DELETE dt
 				FROM dbo.EPADetail AS dt
-					INNER JOIN #EmployeeChangedTarget AS emp ON dt.EPAId = emp.EPAId
+					INNER JOIN #tblEmployeeChangedTarget AS emp WITH (NOLOCK) ON dt.EPAId = emp.EPAId
 
 				UPDATE epa
 				SET epa.FinalScore = NULL
@@ -280,7 +281,7 @@ BEGIN
 					,epa.OldDisciplineScore = NULL
 					,epa.OldGrade = NULL
 				FROM dbo.EPA AS epa
-					INNER JOIN #EmployeeChangedTarget AS empT ON epa.EPAId = empT.EPAId
+					INNER JOIN #tblEmployeeChangedTarget AS empT WITH (NOLOCK) ON epa.EPAId = empT.EPAId
 
 				UPDATE epaP
 				SET epaP.TotalScore = NULL
@@ -290,7 +291,7 @@ BEGIN
 					,epaP.ModifiedBy = NULL
 					,epaP.ModifiedDate = NULL
 				FROM dbo.EPAProcess AS epaP
-					INNER JOIN #EmployeeChangedTarget AS empT ON epaP.EPAId = empT.EPAId
+					INNER JOIN #tblEmployeeChangedTarget AS empT WITH (NOLOCK) ON epaP.EPAId = empT.EPAId
 
 				INSERT INTO dbo.EPADetail (
 					EPAId
@@ -348,7 +349,7 @@ BEGIN
 					,tarKPI.[Weight]
 					,NULL
 					,GETDATE()
-				FROM #EmployeeChangedTarget AS peEmp
+				FROM #tblEmployeeChangedTarget AS peEmp WITH (NOLOCK)
 					INNER JOIN dbo.EPA AS epa WITH (NOLOCK) ON peEmp.PeriodId = epa.PeriodId
 					AND peEmp.EmployeeId = epa.EmployeeId
 					INNER JOIN dbo.PeriodFlowSetting AS peFS WITH (NOLOCK) ON peEmp.PeriodId = peFS.PeriodId
@@ -362,13 +363,13 @@ BEGIN
 			END
 
 			-- Delete process
-			CREATE TABLE #ProcessDeleted (
+			CREATE TABLE #tblProcessDeleted (
 				EPAId INT
 				,ProcessId INT
 				,EvaluatorId INT
 				)
 
-			INSERT INTO #ProcessDeleted (
+			INSERT INTO #tblProcessDeleted (
 				EPAId
 				,ProcessId
 				,EvaluatorId
@@ -378,10 +379,10 @@ BEGIN
 				,epaP.EvaluatorId
 			FROM dbo.EPAProcess AS epaP WITH (NOLOCK)
 				INNER JOIN dbo.EPA AS epa WITH (NOLOCK) ON epaP.EPAId = epa.EPAId
-				INNER JOIN #EmployeeProcess AS empP ON epa.EPAId = empP.EPAId
+				INNER JOIN #tblEmployeeProcess AS empP WITH (NOLOCK) ON epa.EPAId = empP.EPAId
 			WHERE NOT EXISTS (
 					SELECT 1
-					FROM #EmployeeProcess AS empP1
+					FROM #tblEmployeeProcess AS empP1 WITH (NOLOCK)
 					WHERE empP1.ProcessId = epaP.ProcessId
 						AND empP1.EvaluatorId = epaP.EvaluatorId
 						AND empP1.EPAId = epaP.EPAId
@@ -389,31 +390,31 @@ BEGIN
 
 			DELETE pc
 			FROM dbo.EPAProcess AS pc
-				INNER JOIN #ProcessDeleted AS del ON pc.EPAId = del.EPAId
+				INNER JOIN #tblProcessDeleted AS del WITH (NOLOCK) ON pc.EPAId = del.EPAId
 				AND pc.ProcessId = del.ProcessId
 				AND pc.EvaluatorId = del.EvaluatorId
 
 			DELETE dt
 			FROM dbo.EPADetail AS dt
-				INNER JOIN #ProcessDeleted AS del ON dt.EPAId = del.EPAId
+				INNER JOIN #tblProcessDeleted AS del WITH (NOLOCK) ON dt.EPAId = del.EPAId
 				AND dt.ProcessId = del.ProcessId
 				AND dt.EvaluatorId = del.EvaluatorId
 			WHERE NOT EXISTS (
 					SELECT 1
-					FROM #EmployeeChangedTarget
+					FROM #tblEmployeeChangedTarget WITH (NOLOCK)
 					WHERE dt.EPAId = EPAId
 					)
 
-			DROP TABLE #ProcessDeleted
+			DROP TABLE #tblProcessDeleted
 
 			-- Insert new process and epa detail of new process
-			CREATE TABLE #ProcessNew (
+			CREATE TABLE #tblProcessNew (
 				EPAId INT
 				,ProcessId INT
 				,EvaluatorId INT
 				)
 
-			INSERT INTO #ProcessNew (
+			INSERT INTO #tblProcessNew (
 				EPAId
 				,ProcessId
 				,EvaluatorId
@@ -421,7 +422,7 @@ BEGIN
 			SELECT empP.EPAId
 				,empP.ProcessId
 				,empP.EvaluatorId
-			FROM #EmployeeProcess AS empP WITH (NOLOCK)
+			FROM #tblEmployeeProcess AS empP WITH (NOLOCK)
 				INNER JOIN dbo.EPA AS epa WITH (NOLOCK) ON empP.EPAId = epa.EPAId
 			WHERE NOT EXISTS (
 					SELECT 1
@@ -483,14 +484,14 @@ BEGIN
 				,epaD.KPIWeight
 				,NULL
 				,GETDATE()
-			FROM #ProcessNew AS proN
+			FROM #tblProcessNew AS proN WITH (NOLOCK)
 				INNER JOIN dbo.EPA AS epa WITH (NOLOCK) ON proN.EPAId = epa.EPAId
 				INNER JOIN dbo.EPADetail AS epaD WITH (NOLOCK) ON epa.EPAId = epaD.EPAId
 				AND epaD.ProcessId = 2 -- Self
 			WHERE proN.ProcessId IN (3) -- Self-evaluator and Evaluator process
 				AND NOT EXISTS (
 					SELECT 1
-					FROM #EmployeeChangedTarget
+					FROM #tblEmployeeChangedTarget WITH (NOLOCK)
 					WHERE epa.EPAId = EPAId
 					)
 
@@ -537,9 +538,9 @@ BEGIN
 				,NULL
 				,NULL
 				,GETDATE()
-			FROM #ProcessNew AS proN
+			FROM #tblProcessNew AS proN WITH (NOLOCK)
 				INNER JOIN dbo.EPA AS epa WITH (NOLOCK) ON proN.EPAId = epa.EPAId
-				INNER JOIN #EmployeeProcess AS empP WITH (NOLOCK) ON epa.EPAId = empP.EPAId
+				INNER JOIN #tblEmployeeProcess AS empP WITH (NOLOCK) ON epa.EPAId = empP.EPAId
 				AND proN.ProcessId = empP.ProcessId
 				AND proN.EvaluatorId = empP.EvaluatorId
 				INNER JOIN dbo.PeriodProcessSetting AS pePro WITH (NOLOCK) ON epa.PeriodId = pePro.PeriodId
@@ -561,13 +562,13 @@ BEGIN
 							END
 					END
 			FROM dbo.EPAProcess AS epaP
-				INNER JOIN #EmployeeProcess AS empP ON epaP.EPAId = empP.EPAId
+				INNER JOIN #tblEmployeeProcess AS empP WITH (NOLOCK) ON epaP.EPAId = empP.EPAId
 				AND epaP.ProcessId = empP.ProcessId
 				AND epaP.EvaluatorId = empP.EvaluatorId
 				INNER JOIN dbo.EPA AS epa ON epaP.EPAId = epa.EPAId
 			WHERE NOT EXISTS (
 					SELECT 1
-					FROM #ProcessNew AS pcN
+					FROM #tblProcessNew AS pcN WITH (NOLOCK)
 					WHERE pcN.EPAId = empP.EPAId
 						AND pcN.ProcessId = empP.ProcessId
 						AND pcN.EvaluatorId = empP.EvaluatorId
@@ -589,7 +590,7 @@ BEGIN
 				AND epa.[Status] <> 2 -- reject
 				AND (
 					(
-						period.TargetTypeId IN (2, 3) -- monthly, semi
+						period.TargetTypeId IN (@MonthlyId, @SemiId)
 						AND (
 							(
 								CAST(period.EndDate AS DATE) > epaP.EndDate
@@ -602,7 +603,7 @@ BEGIN
 							)
 						)
 					OR (
-						period.TargetTypeId NOT IN (2, 3)
+						period.TargetTypeId NOT IN (@MonthlyId, @SemiId)
 						AND epaP.EndDate < @Today
 						)
 					)
@@ -610,7 +611,7 @@ BEGIN
 			UPDATE epa WITH (ROWLOCK, UPDLOCK)
 			SET [Status] = 0 -- Opened
 			FROM dbo.EPA AS epa
-				INNER JOIN dbo.Period AS period ON epa.PeriodId = period.PeriodId
+				INNER JOIN dbo.Period AS period WITH (NOLOCK) ON epa.PeriodId = period.PeriodId
 				INNER JOIN (
 				SELECT DISTINCT pc.EPAId
 					,CAST(MAX(pc.EndDate) AS DATE) AS EndDate
@@ -629,9 +630,9 @@ BEGIN
 					OR epaP.EndDate >= @Today
 					)
 
-			DROP TABLE #ProcessNew
+			DROP TABLE #tblProcessNew
 
-			DROP TABLE #EmployeeProcess
+			DROP TABLE #tblEmployeeProcess
 		END
 
 		DECLARE @Data NVARCHAR(MAX)
@@ -677,6 +678,8 @@ BEGIN
 			,@OldData = @OldData
 			,@ObjectIds = NULL
 
+		COMMIT TRANSACTION
+
 		IF EXISTS (
 				SELECT 1
 				FROM @OverlapEmployeeIds
@@ -691,29 +694,28 @@ BEGIN
 
 			SELECT @ErrCode = 1
 
-			IF @TargetTypeId = 2 -- monthly
+			IF @TargetTypeId = @MonthlyId
 			BEGIN
 				SELECT @ErrMsg = 'Start Date / End Date of <b>' + @OverlapEmployees + '</b> overlap on semi.'
 			END
-			ELSE IF @TargetTypeId = 3 -- monthly
+			ELSE IF @TargetTypeId = @SemiId
 			BEGIN
 				SELECT @ErrMsg = 'Start Date / End Date of <b>' + @OverlapEmployees + '</b> overlap on monthly.'
 			END
 
 			RETURN
 		END
-
-		COMMIT TRANSACTION
 	END TRY
 
 	BEGIN CATCH
-		ROLLBACK TRANSACTION
+		IF XACT_STATE() <> 0
+			ROLLBACK TRANSACTION
 
 		SELECT @ErrCode = 1
 			,@ErrMsg = N'Update employee setting unsuccessfully.'
 	END CATCH
 
-	DROP TABLE #EmployeeAssignments
+	DROP TABLE #tblEmployeeAssignments
 
-	DROP TABLE #EmployeeChangedTarget
+	DROP TABLE #tblEmployeeChangedTarget
 END

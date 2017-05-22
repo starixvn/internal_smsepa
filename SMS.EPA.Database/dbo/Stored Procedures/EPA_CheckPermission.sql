@@ -25,7 +25,7 @@ BEGIN
 			SELECT 1
 			FROM dbo.EPA AS epa WITH (NOLOCK)
 			WHERE epa.EPAId = @EPAId
-				AND epa.[Status] = 0 -- open
+				AND ISNULL(epa.[Status], 0) = 0 -- open
 			)
 		AND @ProcessId IS NOT NULL
 	BEGIN
