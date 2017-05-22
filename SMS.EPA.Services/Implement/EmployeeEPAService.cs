@@ -68,6 +68,12 @@
         {
             var currentEmployeeId = sessionService.CurrentUser.EmployeeId;
 
+            var roles = sessionService.CurrentUser.Roles.Select(x => x.RoleId).ToList();
+            if (roles.Contains((int)SystemRole.HumanResource) || roles.Contains((int)SystemRole.SystemAdmin))
+            {
+                return;
+            }
+
             var evaluatorProcessOfOtherActors =
                 epaInfo.Process.Managements.Where(x => x.EvaluatorInfo.EmployeeId != currentEmployeeId ||
                                                        x.StatusId == (int)ProcessStatusType.Open);
