@@ -91,15 +91,15 @@
             // Remove if user is not the one who evalutate that EPA
 
             evaluatorProcessOfOtherActors =
-                epaInfo.Process.Managements.Where(x => x.EvaluatorInfo.EmployeeId != currentEmployeeId);
+                epaInfo.Process.Managements.Where(x => x.EvaluatorInfo.EmployeeId != currentEmployeeId && x.StatusId != (int)ProcessStatusType.Closed);
 
             RemoveSensitiveTotalScoreAndComment(evaluatorProcessOfOtherActors);
 
-            evaluatorProcessOfOtherActors = epaInfo.Process.Reviewers.Where(x => x.EvaluatorInfo.EmployeeId != currentEmployeeId);
+            evaluatorProcessOfOtherActors = epaInfo.Process.Reviewers.Where(x => x.EvaluatorInfo.EmployeeId != currentEmployeeId && x.StatusId != (int)ProcessStatusType.Closed);
 
             RemoveSensitiveTotalScoreAndComment(evaluatorProcessOfOtherActors);
 
-            evaluatorProcessOfOtherActors = epaInfo.Process.Evaluators.Where(x => x.EvaluatorInfo.EmployeeId != currentEmployeeId);
+            evaluatorProcessOfOtherActors = epaInfo.Process.Evaluators.Where(x => x.EvaluatorInfo.EmployeeId != currentEmployeeId && x.StatusId != (int)ProcessStatusType.Closed);
 
             if (evaluatorProcessOfOtherActors.Any())
             {
