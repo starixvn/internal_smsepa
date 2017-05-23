@@ -367,7 +367,7 @@
 
                 var averageScore = 0, countEndProcess = 0;
                 angular.forEach(vm.epaInfos, function (epaInfo) {
-                    if (epaInfo.Process.CurrentProcess.TotalScore === 0 && epaInfo.Process.Reviewers[0].IsEndProcess) {
+                    if (epaInfo.Process.CurrentProcess.TotalScore.length === 0 && epaInfo.Process.Reviewers[0].IsEndProcess) {
                         epaInfo.Process.CurrentProcess.TotalScore = epaInfo.Process.AverageScoreByReviewers;
                     }
 
