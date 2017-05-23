@@ -16,7 +16,7 @@
             { Id: 2, Name: 'No time in & out' },
             { Id: 3, Name: 'Tardiness' },
             { Id: 6, Name: 'Unpaid leave' },
-            { Id: 9, Name: 'Unplanned leave' },
+            { Id: 9, Name: 'Not Following Leave Procedures' },
             { Id: 10, Name: 'Weekend leave' },
             { Id: 7, Name: 'Undertime' },
             { Id: -1, Name: 'Misconduct case' }

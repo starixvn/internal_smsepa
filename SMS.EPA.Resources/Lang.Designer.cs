@@ -3688,7 +3688,7 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Unplanned Leave.
+        ///   Looks up a localized string similar to Not Following Leave Procedures.
         /// </summary>
         public static string UnplannedLeave {
             get {
