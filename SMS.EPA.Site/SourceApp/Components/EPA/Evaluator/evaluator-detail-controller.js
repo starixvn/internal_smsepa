@@ -15,8 +15,7 @@
         'utilitiesFactory',
         'historyFactory',
         'lockScreenService',
-        'baseUrl',
-        'currentUserId'
+        'baseUrl'
     ];
 
     function evaluatorDetailController($timeout,
@@ -29,8 +28,7 @@
         utilitiesFactory,
         historyFactory,
         lockScreenService,
-        baseUrl,
-        currentUserId) {
+        baseUrl) {
         var vm = this;
 
         vm.permission = 0;
@@ -45,7 +43,6 @@
         vm.ratingTypeEnum = utilitiesFactory.ratingType;
         vm.hasRatingByStar = false;
         vm.showRatingScoreByStar = true;
-        vm.currentUserId = currentUserId;
 
         vm.hoveringLeave = null;
 

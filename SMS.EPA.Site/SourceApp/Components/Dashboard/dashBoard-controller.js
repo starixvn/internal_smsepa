@@ -11,8 +11,7 @@
         'CommonModel',
         'utilitiesFactory',
         'lockScreenService',
-        'baseUrl',
-        'currentUserId'
+        'baseUrl'
     ];
 
     function dashboardController(
@@ -21,8 +20,7 @@
         CommonModel,
         utilitiesFactory,
         lockScreenService,
-        baseUrl,
-        currentUserId) {
+        baseUrl) {
         var vm = this;
 
         vm.epaStatusEnum = utilitiesFactory.epaStatus;
@@ -37,7 +35,6 @@
         vm.selfEvaluationDetail = selfEvaluationDetail;
         vm.viewEPAResult = viewEPAResult;
         vm.viewOtherViolationDetail = viewOtherViolationDetail;
-        vm.currentUserId = currentUserId;
 
         initialize();
 
@@ -56,7 +53,6 @@
                 vm.evaluationProcesses = [];
                 vm.myEPAs = dashboardInfo.MyEpaInfos;
                 vm.monthlyEPAs = dashboardInfo.MonthlyEpaInfos;
-                currentUserId.value = dashboardInfo.Employee.EmployeeId;
 
                 angular.forEach(vm.myEPAs, function (myEPA) {
                     if (myEPA.IsClosed) {

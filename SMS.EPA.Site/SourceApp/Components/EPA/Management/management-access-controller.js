@@ -16,8 +16,7 @@
         'notificationFactory',
         'historyFactory',
         'lockScreenService',
-        'baseUrl',
-        'currentUserId'
+        'baseUrl'
     ];
 
     function managementController(
@@ -32,8 +31,7 @@
         notificationFactory,
         historyFactory,
         lockScreenService,
-        baseUrl,
-        currentUserId) {
+        baseUrl) {
         var vm = this;
 
         vm.permission = 0;
@@ -45,7 +43,6 @@
         vm.isEndProcessAll = false;
         vm.policyEnum = utilitiesFactory.policy;
         vm.targetTypeEnum = utilitiesFactory.targetType;
-        vm.currentUserId = currentUserId;
 
         vm.filter = {};
 

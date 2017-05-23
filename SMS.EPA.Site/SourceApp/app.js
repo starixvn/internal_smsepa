@@ -65,6 +65,5 @@
                 var baseUrl = $("base").first().attr("href");
                 $provide.value("baseUrl", baseUrl);
             }
-        ])
-        .value("currentUserId", { value: 0 });
+        ]);
 })(angular);
