@@ -15,8 +15,6 @@
     <Setting Key="Sync_Employee" SpName="Sync_Employee" DbName="SMSEPA" Plain="0"></Setting>
     <Setting Key="Sync_JobTitle" SpName="Sync_JobTitle" DbName="SMSEPA" Plain="0"></Setting>
     <Setting Key="Sync_Department" SpName="Sync_Department" DbName="SMSEPA" Plain="0"></Setting>
-    <Setting Key="Sync_Attendance" SpName="Sync_Attendance" DbName="SMSEPA" Plain="0"></Setting>
-    <Setting Key="Sync_AttendanceViolation" SpName="Sync_AttendanceViolation" DbName="SMSEPA" Plain="0"></Setting>
     <Setting Key="Sync_EmployeeDisciplinePermission" SpName="Sync_EmployeeDisciplinePermission" DbName="SMSEPA" Plain="0"></Setting>
     <Setting Key="Sync_TeamDisciplinePermission" SpName="Sync_TeamDisciplinePermission" DbName="SMSEPA" Plain="0"></Setting>
   </Function>
