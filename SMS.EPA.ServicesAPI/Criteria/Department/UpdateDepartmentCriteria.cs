@@ -28,7 +28,7 @@
                     value.AppendFormat(
                         DepartmentTpl,
                         department.DepartmentId,
-                        department.Code,
+                        HttpUtility.HtmlEncode(department.Code),
                         HttpUtility.HtmlEncode(department.Name),
                         department.ParentId,
                         department.ManagerId,

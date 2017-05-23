@@ -16,28 +16,25 @@
     {
         private readonly ISessionService _sessionService;
         private readonly IEmployeeService _employeeService;
-        private readonly IConfigurationManagerService _configurationManager;
 
         public AuthController()
-            : this(null, null, null)
+            : this(null, null)
         {
         }
 
         public AuthController(
             ISessionService sessionService,
-            IEmployeeService employeeService,
-            IConfigurationManagerService configurationManager)
+            IEmployeeService employeeService)
         {
             _sessionService = sessionService ?? new SessionService();
             _employeeService = employeeService ?? new EmployeeService();
-            _configurationManager = configurationManager ?? new ConfigurationManagerService();
         }
 
         [HttpGet]
         public ActionResult Login()
         {
             int siteId = 0;
-            int.TryParse(_configurationManager.GetAppSetting("SiteId"), out siteId);
+            int.TryParse(ConfigurationManagerService.GetAppSetting("SiteId"), out siteId);
             ViewBag.SiteId = siteId;
 
             return View();
@@ -95,16 +92,16 @@
             }
 
             int siteId = 0;
-            int.TryParse(_configurationManager.GetAppSetting("SiteId"), out siteId);
+            int.TryParse(ConfigurationManagerService.GetAppSetting("SiteId"), out siteId);
             ViewBag.SiteId = siteId;
 
             return View(model);
         }
 
-        private bool ValidateEmployee(UserSession user, string password)
+        private static bool ValidateEmployee(UserSession user, string password)
         {
             var isValid = false;
-            string defaultPassword = _configurationManager.GetAppSetting("DefaultPassword");
+            string defaultPassword = ConfigurationManagerService.GetAppSetting("DefaultPassword");
 
             if (!string.IsNullOrWhiteSpace(password) && user != null)
             {

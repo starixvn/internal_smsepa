@@ -15,13 +15,7 @@
 
         void SendMailToManagementStartDate(string templateEmailPath, PeriodFlowModel employeeSetting, string periodName);
 
-        void SendMailToSelfRemindDate(string templateEmailPath, PeriodFlowModel employeeSetting, string periodName);
-
-        void SendMailToEvaluatorRemindDate(string templateEmailPath, PeriodFlowModel employeeSetting, string periodName);
-
-        void SendMailToReviewerRemindDate(string templateEmailPath, PeriodFlowModel employeeSetting, string periodName);
-
-        void SendMailToManagementRemindDate(string templateEmailPath, PeriodFlowModel employeeSetting, string periodName);
+        void SendMailReminder(string templateEmailPath, PeriodFlowModel employeeSetting, string periodName, int mailMode);
 
         void SendMailToNotifyChangeSetting(string templateEmailPath, PeriodFlowModel employeeSetting, string periodName);
 

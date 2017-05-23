@@ -1,13 +1,12 @@
 ﻿namespace SMS.EPA.Services.UnitTests
 {
-    using System;
+    using Implement;
+    using Interfaces;
+    using Model;
+    using Model.Email;
     using NSubstitute;
     using NUnit.Framework;
-    using SMS.EPA.Core;
-    using SMS.EPA.Core.Services.Interfaces;
-    using SMS.EPA.Model;
-    using SMS.EPA.Services.Implement;
-    using SMS.EPA.Services.Interfaces;
+    using System;
 
     [TestFixture]
     public class MailServiceTests
@@ -87,52 +86,13 @@
         }
 
         [Test]
-        public void SendMailToSelfRemindDate_ValidArg_ExpectedToSendMail()
+        public void SendMailReminder_ValidArg_ExpectedToSendMail()
         {
             // Arrange
             ArrangeEmail();
 
             // Act
-            mailService.SendMailToSelfRemindDate(Arg.Any<string>(), new PeriodFlowModel(), Arg.Any<string>());
-
-            // Assert
-            baseMailService.Received().SendEmail(Arg.Any<MailModel>());
-        }
-
-        [Test]
-        public void SendMailToEvaluatorRemindDate_ValidArg_ExpectedToSendMail()
-        {
-            // Arrange
-            ArrangeEmail();
-
-            // Act
-            mailService.SendMailToEvaluatorRemindDate(Arg.Any<string>(), new PeriodFlowModel(), Arg.Any<string>());
-
-            // Assert
-            baseMailService.Received().SendEmail(Arg.Any<MailModel>());
-        }
-
-        [Test]
-        public void SendMailToReviewerRemindDate_ValidArg_ExpectedToSendMail()
-        {
-            // Arrange
-            ArrangeEmail();
-
-            // Act
-            mailService.SendMailToReviewerRemindDate(Arg.Any<string>(), new PeriodFlowModel(), Arg.Any<string>());
-
-            // Assert
-            baseMailService.Received().SendEmail(Arg.Any<MailModel>());
-        }
-
-        [Test]
-        public void SendMailToManagementRemindDate_ValidArg_ExpectedToSendMail()
-        {
-            // Arrange
-            ArrangeEmail();
-
-            // Act
-            mailService.SendMailToManagementRemindDate(Arg.Any<string>(), new PeriodFlowModel(), Arg.Any<string>());
+            mailService.SendMailReminder(Arg.Any<string>(), new PeriodFlowModel(), Arg.Any<string>(), Arg.Any<int>());
 
             // Assert
             baseMailService.Received().SendEmail(Arg.Any<MailModel>());

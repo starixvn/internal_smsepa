@@ -5,9 +5,7 @@
 
     public interface IAutoMailService
     {
-        void SendStartMail(PeriodModel period, IEnumerable<PeriodFlowModel> employeeSettings);
-
-        void SendReminderMail(PeriodModel period, IEnumerable<PeriodFlowModel> employeeSettings);
+        void SendReminderMail(PeriodModel period, IEnumerable<PeriodFlowModel> employeeSettings, int mailMode);
 
         void SendEndEvaluationMailToSelf(EPAModel evaluationInfo, float? averagePerformanceScore, float disciplineScore);
 

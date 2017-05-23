@@ -1,8 +1,9 @@
-﻿namespace SMS.EPA.Core.Services.Implement
+﻿namespace SMS.EPA.Services.Implement
 {
     using Fanex.MailDeliver.MailClient.API;
     using Fanex.MailDeliver.Model;
     using Interfaces;
+    using Model.Email;
     using System;
     using System.Configuration;
     using System.IO;

@@ -129,11 +129,11 @@
             switch (mailMode)
             {
                 case (int)MailMode.Start:
-                    _autoMailService.SendStartMail(period, employeeSettings);
+                    _autoMailService.SendReminderMail(period, employeeSettings, (int)MailMode.Start);
                     break;
 
                 case (int)MailMode.Reminder:
-                    _autoMailService.SendReminderMail(period, employeeSettings);
+                    _autoMailService.SendReminderMail(period, employeeSettings, (int)MailMode.Reminder);
                     break;
 
                 case (int)MailMode.EndPeriod:

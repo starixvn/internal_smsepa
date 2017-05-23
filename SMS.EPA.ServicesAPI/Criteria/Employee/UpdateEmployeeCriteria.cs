@@ -28,8 +28,7 @@
             get
             {
                 var value = new StringBuilder("<ROOT>");
-                IConfigurationManagerService configurationManager = new ConfigurationManagerService();
-                bool encryptedPassword = bool.Parse(configurationManager.GetAppSetting("EncryptedPassword"));
+                bool encryptedPassword = bool.Parse(ConfigurationManagerService.GetAppSetting("EncryptedPassword"));
 
                 if (Employees != null && Employees.Any())
                 {

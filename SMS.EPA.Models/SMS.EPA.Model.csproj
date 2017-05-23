@@ -47,6 +47,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Email\MailModel.cs" />
+    <Compile Include="Email\MailReminderSubject.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <!-- Exclude the file from analysis -->
       <SonarQubeExclude>true</SonarQubeExclude>

@@ -15,19 +15,16 @@
     public class EmployeeController : BaseController
     {
         private readonly IEmployeeService _employeeService;
-        private readonly IConfigurationManagerService _configurationManager;
 
         public EmployeeController()
-            : this(null, null)
+            : this(null)
         {
         }
 
         public EmployeeController(
-            IEmployeeService employeeService,
-            IConfigurationManagerService configurationManager)
+            IEmployeeService employeeService)
         {
             _employeeService = employeeService ?? new EmployeeService();
-            _configurationManager = configurationManager ?? new ConfigurationManagerService();
         }
 
         [ApiAuthorize(FunctionKey = EPAFunctionKey.UserManagement, Policy = Policy.Read)]
@@ -110,7 +107,7 @@
         [ApiAuthorize(FunctionKey = EPAFunctionKey.UserManagement, Policy = Policy.Host)]
         public CommandResult ResetPassword(int employeeId)
         {
-            string newPassword = _configurationManager.GetAppSetting("PasswordToReset");
+            string newPassword = ConfigurationManagerService.GetAppSetting("PasswordToReset");
             var criteria = new ResetPasswordCriteria
             {
                 EmployeeId = employeeId,
@@ -138,7 +135,7 @@
         [HttpGet]
         public string GetDefaultPassword()
         {
-            string defaultPassword = _configurationManager.GetAppSetting("PasswordToReset");
+            string defaultPassword = ConfigurationManagerService.GetAppSetting("PasswordToReset");
             return defaultPassword;
         }
 

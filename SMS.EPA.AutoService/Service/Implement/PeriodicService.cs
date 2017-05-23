@@ -1,5 +1,6 @@
 ﻿namespace SMS.EPA.AutoService.Service.Implement
 {
+    using Core.Enumerations;
     using Core.Model;
     using Core.Services;
     using EPA.Criteria;
@@ -72,7 +73,7 @@
 
                     if (employeeSettings != null && employeeSettings.Any())
                     {
-                        AutoMailService.SendStartMail(period, employeeSettings);
+                        AutoMailService.SendReminderMail(period, employeeSettings, (int)MailMode.Start);
                     }
                 });
             }

@@ -3,7 +3,6 @@
     using Core.Enumerations;
     using Core.Model;
     using Core.Repositories;
-    using Core.Services;
     using Criteria;
     using Implement;
     using Interfaces;
@@ -21,7 +20,6 @@
         private IBaseRepository _baseRepository;
         private IPeriodRepository _periodRepository;
         private IManualMailService _manualMailService;
-        private IConfigurationManagerService _configurationManager;
 
         #region GetPeriod
 
@@ -735,20 +733,12 @@
             return service;
         }
 
-        private IConfigurationManagerService FakeConfigurationManagerService()
-        {
-            IConfigurationManagerService service = Substitute.For<IConfigurationManagerService>();
-
-            return service;
-        }
-
         private PeriodService GetPeriodService(
             IBaseRepository baseRepository = null,
             IPeriodRepository periodRepository = null,
-            IManualMailService manualMailService = null,
-            IConfigurationManagerService configurationManager = null)
+            IManualMailService manualMailService = null)
         {
-            var service = new PeriodService(periodRepository, manualMailService, configurationManager);
+            var service = new PeriodService(periodRepository, manualMailService);
             service.Repository = baseRepository;
 
             return service;
@@ -954,13 +944,11 @@
             var employeeSettings = new List<PeriodFlowModel>();
 
             _baseRepository = FakeBaseRepository();
-            _configurationManager = FakeConfigurationManagerService();
             _manualMailService = FakeManualMailService();
             _periodRepository = FakePeriodRepository();
 
-            _periodService = GetPeriodService(_baseRepository, _periodRepository, _manualMailService, _configurationManager);
+            _periodService = GetPeriodService(_baseRepository, _periodRepository, _manualMailService);
             _periodService.Repository.Update(Arg.Any<UpdateEmployeeSettingOfPeriodCriteria>()).Returns(result ?? new CommandResult());
-            _configurationManager.GetAppSetting(Arg.Any<string>()).Returns(appSetting ?? string.Empty);
             _periodRepository.GetPeriodById(Arg.Any<GetPeriodByIdCriteria>()).Returns(period);
             _periodRepository.GetEmployeeSettingByPeriodId(Arg.Any<GetEmployeeSettingByPeriodIdCriteria>()).Returns(employeeSettings);
         }

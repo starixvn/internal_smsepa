@@ -1,4 +1,4 @@
-﻿namespace SMS.EPA.Core
+﻿namespace SMS.EPA.Model.Email
 {
     public class MailModel
     {

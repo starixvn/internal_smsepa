@@ -14,21 +14,18 @@
     {
         private readonly IPeriodRepository _periodRepository;
         private readonly IManualMailService _manualMailService;
-        private readonly IConfigurationManagerService _configurationManager;
 
         public PeriodService()
-            : this(null, null, null)
+            : this(null, null)
         {
         }
 
         public PeriodService(
             IPeriodRepository periodRepository,
-            IManualMailService manualMailService,
-            IConfigurationManagerService configurationManager)
+            IManualMailService manualMailService)
         {
             _periodRepository = periodRepository ?? new PeriodRepository();
             _manualMailService = manualMailService ?? new ManualMailService();
-            _configurationManager = configurationManager ?? new ConfigurationManagerService();
         }
 
         public IEnumerable<PeriodModel> GetPeriod(GetPeriodCriteria criteria)
@@ -175,7 +172,7 @@
             if (criteria != null && criteria.IsValid())
             {
                 commandResult = Repository.Update(criteria);
-                string sendMailWhenEditEmployeeSetting = _configurationManager.GetAppSetting("SendMailWhenEditEmployeeSetting");
+                string sendMailWhenEditEmployeeSetting = ConfigurationManagerService.GetAppSetting("SendMailWhenEditEmployeeSetting");
 
                 if (commandResult.IsSuccessful && sendMailWhenEditEmployeeSetting.Equals("true", StringComparison.OrdinalIgnoreCase))
                 {

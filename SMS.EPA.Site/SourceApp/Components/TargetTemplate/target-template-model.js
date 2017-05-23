@@ -364,7 +364,7 @@
             if (!hasWeight) {
                 notificationFactory.error('WeightKPIGroupRequired');
                 isValid = false;
-            } else if (totalWeight !== maxWeight) {
+            } else if (utilitiesFactory.parseFloat(totalWeight) !== maxWeight) {
                 var message = utilitiesFactory.formatString(totalWeightWarningMessage, maxWeight);
                 notificationFactory.error('', message);
                 isValid = false;

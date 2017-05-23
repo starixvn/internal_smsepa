@@ -19,17 +19,15 @@
         private const string MailNotifyChangeSetting = "EmailNotifyChangeSetting.cshtml";
 
         private readonly IMailService mailService;
-        private readonly IConfigurationManagerService configurationManager;
 
         public ManualMailService()
-            : this(null, null)
+            : this(null)
         {
         }
 
-        public ManualMailService(IMailService mailService, IConfigurationManagerService configurationManager)
+        public ManualMailService(IMailService mailService)
         {
             this.mailService = mailService ?? new MailService();
-            this.configurationManager = configurationManager ?? new ConfigurationManagerService();
         }
 
         public void SendStartMail(PeriodModel period, IEnumerable<PeriodFlowModel> employeeSettings)
@@ -87,10 +85,10 @@
             }
         }
 
-        private string GetEmailPath(string fileName)
+        private static string GetEmailPath(string fileName)
         {
             string assemblyPath = AppDomain.CurrentDomain.BaseDirectory;
-            string emailPath = Path.Combine(assemblyPath, configurationManager.GetAppSetting("RelativeEmailPath") + fileName);
+            string emailPath = Path.Combine(assemblyPath, ConfigurationManagerService.GetAppSetting("RelativeEmailPath") + fileName);
 
             return emailPath;
         }

@@ -200,7 +200,6 @@
     <Compile Include="Helpers\CompressionHelper.cs" />
     <Compile Include="Model\CommandResult.cs" />
     <Compile Include="Model\FunctionModel.cs" />
-    <Compile Include="Model\MailModel.cs" />
     <Compile Include="Model\SystemRoleModel.cs" />
     <Compile Include="Model\UserSession.cs" />
     <Compile Include="Repositories\BaseRepository.cs" />
@@ -210,8 +209,6 @@
     <Compile Include="Services\BaseService.cs" />
     <Compile Include="Services\ConfigurationManagerService.cs" />
     <Compile Include="Services\CryptographyService.cs" />
-    <Compile Include="Services\Interfaces\IBaseMailService.cs" />
-    <Compile Include="Services\BaseMailService.cs" />
     <Compile Include="Services\Interfaces\IConfigurationManagerService.cs" />
     <Compile Include="Services\Interfaces\ICryptographyService.cs" />
     <Compile Include="Services\Interfaces\IRazorRenderService.cs" />

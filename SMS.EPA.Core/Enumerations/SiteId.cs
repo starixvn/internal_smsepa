@@ -5,6 +5,8 @@
         None = 0,
         SMS = 1,
         HM = 2,
-        GWI = 3
+        GWI = 3,
+        GROUP = 4,
+        LEXFIN = 5
     }
 }

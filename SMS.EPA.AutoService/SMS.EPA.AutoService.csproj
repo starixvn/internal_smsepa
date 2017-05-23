@@ -286,37 +286,25 @@
     <Content Include="Views\Emails\SMS\RemindDateEmailToSelf.cshtml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Views\Emails\SMS\RemindDateEmailToSpecialEvaluator.cshtml">
+    <Content Include="Views\Emails\SMS\RemindDateEmailToHR.cshtml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Views\Emails\SMS\RemindDateEmailToSpecialManagement.cshtml">
+    <Content Include="Views\Emails\EmailNotifyChangeSetting.cshtml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Views\Emails\SMS\RemindDateEmailToSpecialReviewer.cshtml">
+    <Content Include="Views\Emails\RemindDateEmailToEvaluator.cshtml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Views\Emails\SMS\StartDateEmailToEvaluator.cshtml">
+    <Content Include="Views\Emails\RemindDateEmailToHR.cshtml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Views\Emails\SMS\StartDateEmailToHR.cshtml">
+    <Content Include="Views\Emails\RemindDateEmailToManagement.cshtml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Views\Emails\SMS\StartDateEmailToManagement.cshtml">
+    <Content Include="Views\Emails\RemindDateEmailToReviewer.cshtml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Views\Emails\SMS\StartDateEmailToReviewer.cshtml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Views\Emails\SMS\StartDateEmailToSelf.cshtml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Views\Emails\SMS\StartDateEmailToSpecialEvaluator.cshtml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Views\Emails\SMS\StartDateEmailToSpecialManagement.cshtml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Views\Emails\SMS\StartDateEmailToSpecialReviewer.cshtml">
+    <Content Include="Views\Emails\RemindDateEmailToSelf.cshtml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

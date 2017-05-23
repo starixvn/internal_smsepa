@@ -126,8 +126,7 @@
         private void ArrangeEmail()
         {
             mailService = Substitute.For<IMailService>();
-            IConfigurationManagerService configurationManager = Substitute.For<IConfigurationManagerService>();
-            manualMailService = new ManualMailService(mailService, configurationManager);
+            manualMailService = new ManualMailService(mailService);
         }
     }
 }

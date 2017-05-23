@@ -2,9 +2,9 @@
 {
     using System.Configuration;
 
-    public class ConfigurationManagerService : IConfigurationManagerService
+    public static class ConfigurationManagerService
     {
-        public string GetAppSetting(string key)
+        public static string GetAppSetting(string key)
         {
             return ConfigurationManager.AppSettings[key];
         }

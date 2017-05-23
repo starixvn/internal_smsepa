@@ -1,5 +1,7 @@
-﻿namespace SMS.EPA.Core.Services.Interfaces
+﻿namespace SMS.EPA.Services.Interfaces
 {
+    using Model.Email;
+
     public interface IBaseMailService
     {
         void SendEmail(MailModel email);

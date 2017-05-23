@@ -15,7 +15,6 @@
     {
         private IEmployeeService _employeeService;
         private ISessionService _sessionService;
-        private IConfigurationManagerService _configurationManager;
         private EmployeeController _employeeController;
 
         #region GetAllEmployee
@@ -203,10 +202,9 @@
             // Arrange
             _employeeService = FakeEmployeeService();
             _sessionService = FakeSessionService();
-            _configurationManager = FakeConfigurationManagerService();
-            _configurationManager.GetAppSetting(Arg.Any<string>()).Returns("123456");
+            ConfigurationManagerService.GetAppSetting(Arg.Any<string>()).Returns("123456");
             _employeeService.ResetPassword(Arg.Any<ResetPasswordCriteria>()).Returns(new CommandResult());
-            _employeeController = GetEmployeeController(_employeeService, _sessionService, _configurationManager);
+            _employeeController = GetEmployeeController(_employeeService, _sessionService);
 
             // Act
             var actual = _employeeController.ResetPassword(Arg.Any<int>());
@@ -267,20 +265,12 @@
             return service;
         }
 
-        private IConfigurationManagerService FakeConfigurationManagerService()
-        {
-            IConfigurationManagerService service = Substitute.For<IConfigurationManagerService>();
-
-            return service;
-        }
-
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Reliability", "CA2000:Dispose objects before losing scope", Justification = "Reviewed")]
         private EmployeeController GetEmployeeController(
             IEmployeeService employeeService = null,
-            ISessionService sessionService = null,
-            IConfigurationManagerService configurationManager = null)
+            ISessionService sessionService = null)
         {
-            var controller = new EmployeeController(employeeService, configurationManager);
+            var controller = new EmployeeController(employeeService);
             controller.SessionService = sessionService;
 
             return controller;

@@ -7,23 +7,21 @@
     public class HomeController : Controller
     {
         private readonly ISessionService _sessionService;
-        private readonly IConfigurationManagerService _configurationManager;
 
         public HomeController()
-            : this(null, null)
+            : this(null)
         {
         }
 
-        public HomeController(ISessionService sessionService, IConfigurationManagerService configurationManager)
+        public HomeController(ISessionService sessionService)
         {
             _sessionService = sessionService ?? new SessionService();
-            _configurationManager = configurationManager ?? new ConfigurationManagerService();
         }
 
         public ActionResult Index()
         {
             int siteId = 0;
-            int.TryParse(_configurationManager.GetAppSetting("SiteId"), out siteId);
+            int.TryParse(ConfigurationManagerService.GetAppSetting("SiteId"), out siteId);
             ViewBag.SiteId = siteId;
 
             if (_sessionService.CurrentUser != null)
