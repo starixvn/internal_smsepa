@@ -412,7 +412,8 @@
 
             var validDetailScores = roles.Contains((int)SystemRole.HumanResource) ||
                                     roles.Contains((int)SystemRole.SystemAdmin)
-                ? epaInfoPeriod.DetailScores.Where(x => !string.IsNullOrEmpty(x.TotalScore))
+                ? epaInfoPeriod.DetailScores.Where(x => !string.IsNullOrEmpty(x.TotalScore) &&
+                                                        x.ProcessId > (int)ProcessType.Self)
                 : epaInfoPeriod.DetailScores.Where(x => !string.IsNullOrEmpty(x.TotalScore)
                                                         && x.ProcessId > (int)ProcessType.Self
                                                         && x.StatusId > (int)ProcessStatusType.Open
