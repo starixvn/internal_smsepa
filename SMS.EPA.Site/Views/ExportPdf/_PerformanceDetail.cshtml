@@ -1,4 +1,5 @@
-﻿@using SMS.EPA.Resources
+﻿@using SMS.EPA.Core.Enumerations
+@using SMS.EPA.Resources
 @using SMS.EPA.Model
 
 @model EPAModel
@@ -127,7 +128,7 @@ else
                                     }
                                 </td>
 
-                                if (!Model.Process.Self.IsEndProcess)
+                                if (Model.Process.Self.StatusId == (int)ProcessStatusType.InProgress)
                                 {
                                     selfClass = "red";
                                 }
@@ -140,7 +141,7 @@ else
 
                             <td class="border-r-b">@evaluator.NickName</td>
 
-                            @if (!Model.Process.Evaluators.First().IsEndProcess)
+                            @if (Model.Process.Evaluators[i].StatusId == (int)ProcessStatusType.InProgress)
                             {
                                 evaluatorClass = "red";
                             }
