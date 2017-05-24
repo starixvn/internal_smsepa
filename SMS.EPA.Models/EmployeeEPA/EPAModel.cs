@@ -21,6 +21,7 @@
             Period = new EPAPeriodModel();
             Employee = new EPAEmployeeModel();
             RatingType = new RatingTypeModel();
+            AllProcesses = new List<EPAProcessModel>();
         }
 
         public float DisciplineScore { get; set; }
@@ -33,62 +34,7 @@
 
         public string FinalScore { get; set; }
 
-        [JsonIgnore]
-        public string FinalScoreToExport
-        {
-            get
-            {
-                // Discipline Score
-                float disciplineScore = 0;
-                if (HasDisciplineScore)
-                {
-                    disciplineScore = DisciplineScore;
-                }
-
-                float finalScore = -1;
-
-                ////// Self
-                ////float selfTotalScore;
-                ////if (float.TryParse(Process.Self.TotalScore, out selfTotalScore))
-                ////{
-                ////    finalScore = selfTotalScore + disciplineScore;
-                ////}
-
-                // Evaluator
-                var processSpecificFinalScore = GetFinalScoreFromProccess(
-                    disciplineScore,
-                    finalScore,
-                    Process.Evaluators,
-                    Process.AverageScoreByEvaluators);
-
-                finalScore = SetFinalScore(processSpecificFinalScore, finalScore);
-
-                // Reviewer
-                processSpecificFinalScore = GetFinalScoreFromProccess(
-                    disciplineScore,
-                    finalScore,
-                    Process.Reviewers,
-                    Process.AverageScoreByReviewers);
-
-                finalScore = SetFinalScore(processSpecificFinalScore, finalScore);
-
-                // Management
-                processSpecificFinalScore = GetFinalScoreFromProccess(
-                    disciplineScore,
-                    finalScore,
-                    Process.Managements,
-                    Process.AverageScoreByManagements);
-
-                finalScore = SetFinalScore(processSpecificFinalScore, finalScore);
-
-                if (Math.Abs(finalScore + 1) <= Constants.Tolerance)
-                {
-                    return Lang.NotAvailable;
-                }
-
-                return StatusId == (int)EPAStatus.Open ? finalScore.ToString(CultureInfo.InvariantCulture) : FinalScore;
-            }
-        }
+        public string FinalScoreToExport { get; set; }
 
         public string Grade { get; set; }
 
@@ -166,6 +112,9 @@
 
         public EvaluationProcessModel Process { get; set; }
 
+        [JsonIgnore]
+        public IList<EPAProcessModel> AllProcesses { get; set; }
+
         public RatingTypeModel RatingType { get; set; }
 
         public EPARecommendationModel Recommendation { get; set; }
@@ -212,40 +161,6 @@
             };
 
             return record;
-        }
-
-        private static float GetFinalScoreFromProccess(
-            float disciplineScore,
-            float finalScore,
-            IList<EPAProcessModel> processes,
-            float? averageScoreByProcesses)
-        {
-            float result = finalScore;
-            if (processes.Any())
-            {
-                if (averageScoreByProcesses != null)
-                {
-                    result = averageScoreByProcesses.Value + disciplineScore;
-                }
-                else
-                {
-                    if (processes[0].StatusId == (int)ProcessStatusType.InProgress
-                        || processes[0].StatusId == (int)ProcessStatusType.Closed)
-                    {
-                        result = -1;
-                    }
-                }
-            }
-
-            return result;
-        }
-
-        private static float SetFinalScore(float processSpecificFinalScore, float oldFinalScore)
-        {
-            return Math.Abs(processSpecificFinalScore + 1) > Constants.Tolerance &&
-                   Math.Abs(processSpecificFinalScore - oldFinalScore) > Constants.Tolerance
-                ? processSpecificFinalScore
-                : oldFinalScore;
         }
 
         private bool IsProcessValid()

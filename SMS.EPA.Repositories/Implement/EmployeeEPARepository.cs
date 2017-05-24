@@ -341,6 +341,8 @@
         {
             foreach (EPAProcessModel process in processes.Where(x => x.EPAId.Equals(epaInfo.EPAId)))
             {
+                epaInfo.AllProcesses.Add(process);
+
                 switch (process.ProcessId)
                 {
                     case (int)ProcessType.HumanResource:

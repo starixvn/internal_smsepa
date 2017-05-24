@@ -77,18 +77,15 @@
         public static float? CalculateAverageScore(IList<EPAProcessModel> processes)
         {
             float average = 0;
-            int count = 0;
             float? result = null;
 
-            foreach (EPAProcessModel process in processes.Where(x => !string.IsNullOrEmpty(x.TotalScore)))
-            {
-                count++;
-                average += float.Parse(process.TotalScore);
-            }
+            var validProcesses = processes.Where(x => !string.IsNullOrEmpty(x.TotalScore)).ToList();
 
-            if (count > 0)
+            if (validProcesses.Any())
             {
-                result = (float)Math.Round(average / count, Constants.NumberOfDecimalDefault);
+                average += validProcesses.Sum(process => float.Parse(process.TotalScore));
+
+                result = (float)Math.Round(average / validProcesses.Count, Constants.NumberOfDecimalDefault);
             }
 
             return result;

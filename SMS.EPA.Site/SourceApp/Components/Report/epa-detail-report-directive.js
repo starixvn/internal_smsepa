@@ -59,7 +59,6 @@
             if (gridData.EpaInfos) {
                 angular.forEach(gridData.EpaInfos,
                     function (epaInfo, index) {
-                        debugger;
                         var score = EvaluationModel.calculateScoreAndGradeToDisplay(epaInfo);
                         var cssSelfScore = epaInfo.EPAId > 0 &&
                             !epaInfo.HasMonthlyEPA &&

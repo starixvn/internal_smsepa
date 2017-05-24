@@ -166,6 +166,8 @@
             {
                 foreach (EPAProcessModel process in processes.Where(x => x.EPAId == epaInfo.EPAId))
                 {
+                    epaInfo.AllProcesses.Add(process);
+
                     switch (process.ProcessId)
                     {
                         case (int)ProcessType.Self:

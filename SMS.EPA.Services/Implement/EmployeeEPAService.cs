@@ -12,6 +12,7 @@
     using Repositories;
     using System;
     using System.Collections.Generic;
+    using System.Globalization;
     using System.IO;
     using System.Linq;
     using System.Runtime.Serialization.Formatters.Binary;
@@ -85,6 +86,7 @@
             // Do not remove if roles is HR or SA
             if (roles.Contains((int)SystemRole.HumanResource) || roles.Contains((int)SystemRole.SystemAdmin))
             {
+                CalculateFinalScore(epaInfo, currentEmployeeId, roles);
                 return;
             }
 
@@ -118,6 +120,95 @@
                     evaluationModel.Comment = Lang.NotAvailable;
                 }
             }
+
+            CalculateFinalScore(epaInfo, currentEmployeeId, roles);
+        }
+
+        private static void CalculateFinalScore(EPAModel epaInfo, int currentEmployeeId, IList<int> roles)
+        {
+            // Discipline Score
+            float disciplineScore = 0;
+            if (epaInfo.HasDisciplineScore)
+            {
+                disciplineScore = epaInfo.DisciplineScore;
+            }
+
+            ////float finalScore = -1;
+
+            ////////// Self
+            ////////float selfTotalScore;
+            ////////if (float.TryParse(Process.Self.TotalScore, out selfTotalScore))
+            ////////{
+            ////////    finalScore = selfTotalScore + disciplineScore;
+            ////////}
+
+            ////// Evaluator
+            ////var processSpecificFinalScore = GetFinalScoreFromProccess(
+            ////    disciplineScore,
+            ////    epaInfo.Process.Evaluators,
+            ////    epaInfo.Process.AverageScoreByEvaluators);
+
+            ////finalScore = SetFinalScore(processSpecificFinalScore, finalScore);
+
+            ////// Reviewer
+            ////processSpecificFinalScore = GetFinalScoreFromProccess(
+            ////    disciplineScore,
+            ////    epaInfo.Process.Reviewers,
+            ////    epaInfo.Process.AverageScoreByReviewers);
+
+            ////finalScore = SetFinalScore(processSpecificFinalScore, finalScore);
+
+            ////// Management
+            ////processSpecificFinalScore = GetFinalScoreFromProccess(
+            ////    disciplineScore,
+            ////    epaInfo.Process.Managements,
+            ////    epaInfo.Process.AverageScoreByManagements);
+
+            ////finalScore = SetFinalScore(processSpecificFinalScore, finalScore);
+
+            ////if (Math.Abs(finalScore + 1) <= Constants.Tolerance)
+            ////{
+            ////    epaInfo.FinalScoreToExport = Lang.NotAvailable;
+            ////}
+
+            ////epaInfo.FinalScoreToExport = epaInfo.StatusId == (int)EPAStatus.Open
+            ////    ? finalScore.ToString(CultureInfo.InvariantCulture)
+            ////    : epaInfo.FinalScore;
+
+            var validProcess =
+                epaInfo.AllProcesses.Where(x => x.StatusId > (int)ProcessStatusType.Open &&
+                                                x.ProcessId > (int)ProcessType.Self);
+
+            //if (!roles.Contains((int)SystemRole.HumanResource) && !roles.Contains((int)SystemRole.SystemAdmin))
+            //{
+            //    validProcess = validProcess.Where(x => x.EvaluatorInfo.EmployeeId == currentEmployeeId);
+            //}
+
+            var maxProcessTypeId = validProcess.Max(x => x.ProcessId);
+
+            switch (maxProcessTypeId)
+            {
+                case (int)ProcessType.Management:
+                    epaInfo.FinalScoreToExport =
+                        GetAverageTotalScore(epaInfo.Process.AverageScoreByManagements, disciplineScore);
+                    break;
+                case (int)ProcessType.Reviewer:
+                    epaInfo.FinalScoreToExport =
+                        GetAverageTotalScore(epaInfo.Process.AverageScoreByReviewers, disciplineScore);
+                    break;
+                case (int)ProcessType.Evaluator:
+                    epaInfo.FinalScoreToExport =
+                        GetAverageTotalScore(epaInfo.Process.AverageScoreByEvaluators, disciplineScore);
+                    break;
+                default:
+                    epaInfo.FinalScoreToExport = Lang.NotAvailable;
+                    break;
+            }
+        }
+
+        private static string GetAverageTotalScore(float? averageScore, float disciplineScore)
+        {
+            return (averageScore + disciplineScore)?.ToString(CultureInfo.InvariantCulture) ?? Lang.NotAvailable;
         }
 
         private static void RemoveSensitiveTotalScoreAndComment(IEnumerable<EPAProcessModel> evaluatorProcessOfOtherActors)

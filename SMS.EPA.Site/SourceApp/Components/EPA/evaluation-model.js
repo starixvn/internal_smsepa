@@ -1,4 +1,4 @@
-﻿(function (angular) {
+(function (angular) {
     'use strict';
     /* jshint latedef:nofunc */
 
@@ -218,21 +218,7 @@
                 tempDisciplineScore = result.DisciplineScore;
             }
 
-            //if (result.SelfScore !== utilitiesFactory.notAvailableString && result.SelfScore !== "" || isShowScoreOfProcess(epaInfo.Process.Self)) {
-            //    result.FinalScore = getPhaseScore(result.SelfScore, tempDisciplineScore);
-            //}
-
-            if (result.EvaluatorScore !== utilitiesFactory.notAvailableString && result.EvaluatorScore !== "" || isShowScoreOfProcess(epaInfo.Process.Evaluators)) {
-                result.FinalScore = getPhaseScore(result.EvaluatorScore, tempDisciplineScore);
-            }
-
-            if (result.ReviewerScore !== utilitiesFactory.notAvailableString && result.ReviewerScore !== "" || isShowScoreOfProcess(epaInfo.Process.Reviewers)) {
-                result.FinalScore = getPhaseScore(result.ReviewerScore, tempDisciplineScore);
-            }
-
-            if (result.ManagementScore !== utilitiesFactory.notAvailableString && result.ManagementScore !== "" || isShowScoreOfProcess(epaInfo.Process.Managements)) {
-                result.FinalScore = getPhaseScore(result.ManagementScore, tempDisciplineScore);
-            }
+            result.FinalScore = epaInfo.FinalScoreToExport;
 
             // Get Standard grades if empty
             if (standardGrades.length === 0) {
