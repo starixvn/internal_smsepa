@@ -873,21 +873,21 @@
     <Content Include="Views\Emails\EndEvaluationEmailToSelf.cshtml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <None Include="Web.lexfin.config">
+    <Content Include="Web.lexfin.config">
       <SubType>Designer</SubType>
-    </None>
-    <None Include="Web.gwi.config">
+    </Content>
+    <Content Include="Web.gwi.config">
       <SubType>Designer</SubType>
-    </None>
-    <None Include="Web.hm.config">
+    </Content>
+    <Content Include="Web.hm.config">
       <SubType>Designer</SubType>
-    </None>
-    <None Include="Web.group.config">
+    </Content>
+    <Content Include="Web.group.config">
       <SubType>Designer</SubType>
-    </None>
-    <None Include="Web.sms.config">
+    </Content>
+    <Content Include="Web.sms.config">
       <SubType>Designer</SubType>
-    </None>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SMS.EPA.Core\SMS.EPA.Core.csproj">
