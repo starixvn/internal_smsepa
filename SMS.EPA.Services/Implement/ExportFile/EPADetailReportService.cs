@@ -91,11 +91,10 @@
 
                 currentColumn = WriteScoreCells(epaInfo, currentColumn, row, score);
 
-                if (epaInfo.Process.Managements.Any() && epaInfo.Process.Managements.First().StatusId ==
-                    (int)ProcessStatusType.InProgress)
-                {
-                    BodyStyle = ApplyEvenOddBodyStyle(EvenRedStyle, OddRedStyle);
-                }
+                BodyStyle = epaInfo.Process.Managements.Any() && epaInfo.Process.Managements.First().StatusId ==
+                            (int)ProcessStatusType.InProgress
+                    ? ApplyEvenOddBodyStyle(EvenRedStyle, OddRedStyle)
+                    : ApplyEvenOddBodyStyle(EvenStyleCenter, OddStyleCenter);
 
                 cell = row.CreateCell(currentColumn++);
                 cell.CellStyle = BodyStyle;
