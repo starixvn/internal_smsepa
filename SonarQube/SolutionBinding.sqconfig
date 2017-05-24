@@ -1,10 +1,10 @@
 {
-  "ServerUri": "http://10.18.200.213:9000",
+  "ServerUri": "http://sonarqube.nexdev.net/",
   "ProjectKey": "SMS-EPA",
   "Profiles": {
     "CSharp": {
-      "ProfileKey": "cs-sonar-way-37779",
-      "ProfileTimestamp": "2017-05-17T10:19:45+07:00"
+      "ProfileKey": "cs-sonar-way-80515",
+      "ProfileTimestamp": "2017-05-11T17:17:22+07:00"
     }
   }
 }
