@@ -331,6 +331,7 @@
     <Content Include="Content\Site\images\icon-alert.png" />
     <Content Include="Content\Site\images\icon-search.png" />
     <Content Include="Content\Site\images\icon_sprite.png" />
+    <Content Include="Content\Site\images\Lexfin-logo.png" />
     <Content Include="Content\Site\images\line-menu.png" />
     <Content Include="Content\Site\images\loading.gif" />
     <Content Include="Content\Site\auth\images\lock-icon.png" />
