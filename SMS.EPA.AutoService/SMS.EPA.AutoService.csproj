@@ -112,17 +112,14 @@
     <Compile Include="ProjectInstaller.Designer.cs">
       <DependentUpon>ProjectInstaller.cs</DependentUpon>
     </Compile>
-    <Compile Include="Service\Implement\AutoMailService.cs" />
     <Compile Include="Service\Implement\EvaluationService.cs">
       <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
     </Compile>
     <Compile Include="Service\Implement\MonthlyService.cs" />
-    <Compile Include="Service\Implement\PeriodicService.cs" />
+    <Compile Include="Service\Implement\BasePeriodService.cs" />
     <Compile Include="Service\Implement\ProbationService.cs" />
     <Compile Include="Service\Implement\PromotionService.cs" />
     <Compile Include="Service\Implement\SemiAnnualService.cs" />
-    <Compile Include="Service\Implement\StaticPeriodService.cs" />
-    <Compile Include="Service\Interfaces\IAutoMailService.cs" />
     <Compile Include="Service\Interfaces\IEvaluationService.cs" />
     <Compile Include="Service\Interfaces\IMonthlyService.cs" />
     <Compile Include="Service\Interfaces\IProbationService.cs" />
@@ -130,13 +127,19 @@
     <Compile Include="Service\Interfaces\ISemiAnnualService.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.pro.gwi.config">
+    <None Include="App.gwi.config">
       <SubType>Designer</SubType>
     </None>
-    <None Include="App.pro.hm.config">
+    <None Include="App.hm.config">
       <SubType>Designer</SubType>
     </None>
-    <None Include="App.pro.sms.config">
+    <None Include="App.group.config">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="App.lexfin.config">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="App.sms.config">
       <SubType>Designer</SubType>
     </None>
     <None Include="App.config">
@@ -148,147 +151,6 @@
     <CodeAnalysisDictionary Include="FxCopDictionary.xml" />
     <None Include="SMS.EPA.AutoService.Debug.ruleset" />
     <None Include="SMS.EPA.AutoService.ruleset" />
-    <Content Include="Views\Emails\HM\EmailNotifyChangeSetting.cshtml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Views\Emails\HM\EndEvaluationEmailToHRByEmployee.cshtml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Views\Emails\HM\EndEvaluationEmailToHRByPeriod.cshtml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Views\Emails\HM\EndEvaluationEmailToSelf.cshtml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Views\Emails\HM\RemindDateEmailToEvaluator.cshtml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Views\Emails\HM\RemindDateEmailToManagement.cshtml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Views\Emails\HM\RemindDateEmailToReviewer.cshtml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Views\Emails\HM\RemindDateEmailToSelf.cshtml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Views\Emails\HM\RemindDateEmailToSpecialEvaluator.cshtml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Views\Emails\HM\RemindDateEmailToSpecialManagement.cshtml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Views\Emails\HM\RemindDateEmailToSpecialReviewer.cshtml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Views\Emails\HM\StartDateEmailToEvaluator.cshtml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Views\Emails\HM\StartDateEmailToHR.cshtml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Views\Emails\HM\StartDateEmailToManagement.cshtml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Views\Emails\HM\StartDateEmailToReviewer.cshtml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Views\Emails\HM\StartDateEmailToSelf.cshtml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Views\Emails\HM\StartDateEmailToSpecialEvaluator.cshtml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Views\Emails\HM\StartDateEmailToSpecialManagement.cshtml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Views\Emails\HM\StartDateEmailToSpecialReviewer.cshtml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Views\Emails\GWI\EmailNotifyChangeSetting.cshtml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Views\Emails\GWI\EndEvaluationEmailToHRByEmployee.cshtml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Views\Emails\GWI\EndEvaluationEmailToHRByPeriod.cshtml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Views\Emails\GWI\EndEvaluationEmailToSelf.cshtml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Views\Emails\GWI\RemindDateEmailToEvaluator.cshtml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Views\Emails\GWI\RemindDateEmailToManagement.cshtml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Views\Emails\GWI\RemindDateEmailToReviewer.cshtml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Views\Emails\GWI\RemindDateEmailToSelf.cshtml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Views\Emails\GWI\RemindDateEmailToSpecialEvaluator.cshtml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Views\Emails\GWI\RemindDateEmailToSpecialManagement.cshtml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Views\Emails\GWI\RemindDateEmailToSpecialReviewer.cshtml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Views\Emails\GWI\StartDateEmailToEvaluator.cshtml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Views\Emails\GWI\StartDateEmailToHR.cshtml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Views\Emails\GWI\StartDateEmailToManagement.cshtml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Views\Emails\GWI\StartDateEmailToReviewer.cshtml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Views\Emails\GWI\StartDateEmailToSelf.cshtml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Views\Emails\GWI\StartDateEmailToSpecialEvaluator.cshtml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Views\Emails\GWI\StartDateEmailToSpecialManagement.cshtml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Views\Emails\GWI\StartDateEmailToSpecialReviewer.cshtml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Views\Emails\SMS\EmailNotifyChangeSetting.cshtml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Views\Emails\SMS\EndEvaluationEmailToHRByEmployee.cshtml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Views\Emails\SMS\EndEvaluationEmailToHRByPeriod.cshtml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Views\Emails\SMS\EndEvaluationEmailToSelf.cshtml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Views\Emails\SMS\RemindDateEmailToEvaluator.cshtml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Views\Emails\SMS\RemindDateEmailToManagement.cshtml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Views\Emails\SMS\RemindDateEmailToReviewer.cshtml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Views\Emails\SMS\RemindDateEmailToSelf.cshtml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Views\Emails\SMS\RemindDateEmailToHR.cshtml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
     <Content Include="Views\Emails\EmailNotifyChangeSetting.cshtml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -305,6 +167,15 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Views\Emails\RemindDateEmailToSelf.cshtml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Views\Emails\EndEvaluationEmailToHRByEmployee.cshtml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Views\Emails\EndEvaluationEmailToHRByPeriod.cshtml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Views\Emails\EndEvaluationEmailToSelf.cshtml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

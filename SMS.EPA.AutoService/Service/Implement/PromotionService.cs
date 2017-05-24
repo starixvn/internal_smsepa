@@ -6,7 +6,7 @@
     using System.Collections.Generic;
     using System.Linq;
 
-    public class PromotionService : StaticPeriodService, IPromotionService
+    public class PromotionService : BasePeriodService, IPromotionService
     {
         public void CheckPromotionPeriod()
         {

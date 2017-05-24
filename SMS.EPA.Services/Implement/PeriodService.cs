@@ -13,7 +13,7 @@
     public class PeriodService : BaseService, IPeriodService
     {
         private readonly IPeriodRepository _periodRepository;
-        private readonly IManualMailService _manualMailService;
+        private readonly IPeriodMailService _manualMailService;
 
         public PeriodService()
             : this(null, null)
@@ -22,10 +22,10 @@
 
         public PeriodService(
             IPeriodRepository periodRepository,
-            IManualMailService manualMailService)
+            IPeriodMailService manualMailService)
         {
             _periodRepository = periodRepository ?? new PeriodRepository();
-            _manualMailService = manualMailService ?? new ManualMailService();
+            _manualMailService = manualMailService ?? new PeriodMailService();
         }
 
         public IEnumerable<PeriodModel> GetPeriod(GetPeriodCriteria criteria)
@@ -310,7 +310,7 @@
             switch (mailMode)
             {
                 case MailMode.Start:
-                    _manualMailService.SendStartMail(period, employeeSettings);
+                    _manualMailService.SendReminderMail(period, employeeSettings, (int)MailMode.Start);
                     break;
 
                 case MailMode.NotifyChange:

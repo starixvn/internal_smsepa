@@ -6,84 +6,12 @@
     using Model.Email;
     using NSubstitute;
     using NUnit.Framework;
-    using System;
 
     [TestFixture]
     public class MailServiceTests
     {
         private IBaseMailService baseMailService;
         private IMailService mailService;
-
-        [Test]
-        public void SendMailToHRStartDate_ValidArg_ExpectedToSendMail()
-        {
-            // Arrange
-            var periodFlow = new PeriodFlowModel()
-            {
-                StartDate = new DateTime(),
-                EndDate = new DateTime()
-            };
-
-            ArrangeEmail();
-
-            // Act
-            mailService.SendMailToHrStartDate(Arg.Any<string>(), periodFlow, Arg.Any<string>());
-
-            // Assert
-            baseMailService.Received().SendEmail(Arg.Any<MailModel>());
-        }
-
-        [Test]
-        public void SendMailToSelfStartDate_ValidArg_ExpectedToSendMail()
-        {
-            // Arrange
-            ArrangeEmail();
-
-            // Act
-            mailService.SendMailToSelfStartDate(Arg.Any<string>(), new PeriodFlowModel(), Arg.Any<string>());
-
-            // Assert
-            baseMailService.Received().SendEmail(Arg.Any<MailModel>());
-        }
-
-        [Test]
-        public void SendMailToEvaluatorStartDate_ValidArg_ExpectedToSendMail()
-        {
-            // Arrange
-            ArrangeEmail();
-
-            // Act
-            mailService.SendMailToEvaluatorStartDate(Arg.Any<string>(), new PeriodFlowModel(), Arg.Any<string>());
-
-            // Assert
-            baseMailService.Received().SendEmail(Arg.Any<MailModel>());
-        }
-
-        [Test]
-        public void SendMailToManagementStartDate_ValidArg_ExpectedToSendMail()
-        {
-            // Arrange
-            ArrangeEmail();
-
-            // Act
-            mailService.SendMailToManagementStartDate(Arg.Any<string>(), new PeriodFlowModel(), Arg.Any<string>());
-
-            // Assert
-            baseMailService.Received().SendEmail(Arg.Any<MailModel>());
-        }
-
-        [Test]
-        public void SendMailToReviewerStartDate_ValidArg_ExpectedToSendMail()
-        {
-            // Arrange
-            ArrangeEmail();
-
-            // Act
-            mailService.SendMailToReviewerStartDate(Arg.Any<string>(), new PeriodFlowModel(), Arg.Any<string>());
-
-            // Assert
-            baseMailService.Received().SendEmail(Arg.Any<MailModel>());
-        }
 
         [Test]
         public void SendMailReminder_ValidArg_ExpectedToSendMail()

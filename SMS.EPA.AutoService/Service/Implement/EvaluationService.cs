@@ -13,7 +13,7 @@
     public class EvaluationService : BaseService, IEvaluationService
     {
         private readonly IPeriodService _periodService;
-        private readonly IAutoMailService _autoMailService;
+        private readonly IPeriodMailService _periodMailService;
         private readonly ICryptographyService _cryptographyService;
 
         public EvaluationService()
@@ -23,11 +23,11 @@
 
         public EvaluationService(
             IPeriodService periodService,
-            IAutoMailService autoMailService,
+            IPeriodMailService periodMailService,
             ICryptographyService cryptographyService)
         {
             _periodService = periodService ?? new PeriodService();
-            _autoMailService = autoMailService ?? new AutoMailService();
+            _periodMailService = periodMailService ?? new PeriodMailService();
             _cryptographyService = cryptographyService ?? new CryptographyService();
         }
 
@@ -129,15 +129,15 @@
             switch (mailMode)
             {
                 case (int)MailMode.Start:
-                    _autoMailService.SendReminderMail(period, employeeSettings, (int)MailMode.Start);
+                    _periodMailService.SendReminderMail(period, employeeSettings, (int)MailMode.Start);
                     break;
 
                 case (int)MailMode.Reminder:
-                    _autoMailService.SendReminderMail(period, employeeSettings, (int)MailMode.Reminder);
+                    _periodMailService.SendReminderMail(period, employeeSettings, (int)MailMode.Reminder);
                     break;
 
                 case (int)MailMode.EndPeriod:
-                    _autoMailService.SendEndEvaluationMailToHumanResourceByPeriod(period, employeeSettings);
+                    _periodMailService.SendEndEvaluationMailToHumanResourceByPeriod(period, employeeSettings);
                     break;
                 default:
                     return;

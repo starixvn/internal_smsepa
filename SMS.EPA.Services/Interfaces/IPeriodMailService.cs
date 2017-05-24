@@ -1,9 +1,9 @@
-﻿namespace SMS.EPA.AutoService.Service
+﻿namespace SMS.EPA.Services.Interfaces
 {
-    using Model;
     using System.Collections.Generic;
+    using Model;
 
-    public interface IAutoMailService
+    public interface IPeriodMailService
     {
         void SendReminderMail(PeriodModel period, IEnumerable<PeriodFlowModel> employeeSettings, int mailMode);
 
@@ -12,5 +12,7 @@
         void SendEndEvaluationMailToHumanResourceByEmployee(EPAModel evaluationInfo);
 
         void SendEndEvaluationMailToHumanResourceByPeriod(PeriodModel period, IEnumerable<PeriodFlowModel> employeeSettings);
+
+        void SendNotifyMail(PeriodModel period, IEnumerable<PeriodFlowModel> employeeSettings);
     }
 }

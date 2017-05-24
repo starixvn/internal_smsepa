@@ -11,7 +11,7 @@
     using System.Collections.Generic;
     using System.Linq;
 
-    public class MonthlyService : PeriodicService, IMonthlyService
+    public class MonthlyService : BasePeriodService, IMonthlyService
     {
         public void CheckMonthlyPeriod()
         {

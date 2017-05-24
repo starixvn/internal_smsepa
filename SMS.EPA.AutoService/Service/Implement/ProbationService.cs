@@ -7,7 +7,7 @@
     using System.Collections.Generic;
     using System.Linq;
 
-    public class ProbationService : StaticPeriodService, IProbationService
+    public class ProbationService : BasePeriodService, IProbationService
     {
         public void CheckProbationPeriod()
         {

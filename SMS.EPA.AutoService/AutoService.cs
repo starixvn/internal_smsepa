@@ -27,7 +27,7 @@
         private readonly Timer _updateCounterTimer;
         private readonly IEvaluationService evaluationService;
         private readonly IPeriodService periodService;
-        private readonly IAutoMailService autoMailService;
+        private readonly IPeriodMailService reminderMailService;
         private readonly IEmployeeEPAService employeeEPAService;
         private readonly IMonthlyService monthlyService;
         private readonly ISemiAnnualService semiAnnualService;
@@ -50,7 +50,7 @@
             cryptographyService = new CryptographyService();
             evaluationService = new EvaluationService();
             periodService = new PeriodService();
-            autoMailService = new AutoMailService();
+            reminderMailService = new PeriodMailService();
             employeeEPAService = new EmployeeEPAService();
             monthlyService = new MonthlyService();
             semiAnnualService = new SemiAnnualService();
@@ -294,13 +294,13 @@
 
         private void SendMailEndEvaluation(IList<int> periods, EPAModel epaInfo, float? averagePerformanceScore)
         {
-            autoMailService.SendEndEvaluationMailToSelf(epaInfo, averagePerformanceScore, epaInfo.DisciplineScore);
+            reminderMailService.SendEndEvaluationMailToSelf(epaInfo, averagePerformanceScore, epaInfo.DisciplineScore);
 
             if (epaInfo.Period != null)
             {
                 if (epaInfo.IsProbation || epaInfo.IsPromotion)
                 {
-                    autoMailService.SendEndEvaluationMailToHumanResourceByEmployee(epaInfo);
+                    reminderMailService.SendEndEvaluationMailToHumanResourceByEmployee(epaInfo);
                 }
                 else
                 {

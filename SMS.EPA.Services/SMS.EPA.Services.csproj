@@ -125,7 +125,7 @@
     <Compile Include="Implement\KPIGroupService.cs" />
     <Compile Include="Implement\KPIService.cs" />
     <Compile Include="Implement\EmployeeEPAService.cs" />
-    <Compile Include="Implement\ManualMailService.cs" />
+    <Compile Include="Implement\PeriodMailService.cs" />
     <Compile Include="Implement\PeriodService.cs" />
     <Compile Include="Implement\ReportService.cs" />
     <Compile Include="Implement\ScoreRatingTypeService.cs" />
@@ -154,7 +154,7 @@
     <Compile Include="Interfaces\IKPIService.cs" />
     <Compile Include="Interfaces\IEmployeeEPAService.cs" />
     <Compile Include="Interfaces\IMailService.cs" />
-    <Compile Include="Interfaces\IManualMailService.cs" />
+    <Compile Include="Interfaces\IPeriodMailService.cs" />
     <Compile Include="Interfaces\IMenuService.cs" />
     <Compile Include="Interfaces\IPeriodService.cs" />
     <Compile Include="Interfaces\IReportService.cs" />

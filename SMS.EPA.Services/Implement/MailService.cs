@@ -1,14 +1,11 @@
 ﻿namespace SMS.EPA.Services.Implement
 {
-    using Core.Constants;
     using Core.Services;
     using Interfaces;
     using Model;
     using Model.Email;
     using Resources;
-    using System;
     using System.Collections.Generic;
-    using System.Configuration;
     using System.Linq;
 
     public class MailService : IMailService
@@ -25,163 +22,6 @@
         {
             _baseMailService = baseMailService ?? new BaseMailService();
             url = ConfigurationManagerService.GetAppSetting("SendMailWhenEditEmployeeSetting");
-        }
-
-        public void SendMailToHrStartDate(string templateEmailPath, PeriodFlowModel employeeSetting, string periodName)
-        {
-            if (employeeSetting != null)
-            {
-                MailModel email = new MailModel();
-                string startDate = employeeSetting.StartDate.HasValue
-                    ? ChangeStartDate(employeeSetting.StartDate.Value)
-                    : string.Empty;
-                string
-                    endDate = employeeSetting.EndDate.HasValue
-                        ? ChangeEndDate(employeeSetting.EndDate.Value)
-                        : string.Empty;
-                email.Subject = string.Format(Lang.StartDateEmailToHRSubject, periodName, startDate, endDate);
-                email.Title = ConfigurationManager.AppSettings["Email.SenderName"];
-                email.Body = _baseMailService.ReadTextFile(templateEmailPath);
-                email.Body = string.Format(
-                    email.Body,
-                    employeeSetting.EvaluatorInfo.NickName,
-                    email.Title,
-                    periodName,
-                    startDate,
-                    endDate,
-                    url);
-                email.ReceiverEmail = employeeSetting.EvaluatorInfo.Email;
-
-                _baseMailService.SendEmail(email);
-            }
-        }
-
-        public void SendMailToSelfStartDate(
-            string templateEmailPath,
-            PeriodFlowModel employeeSetting,
-            string periodName)
-        {
-            if (employeeSetting != null)
-            {
-                MailModel email = new MailModel();
-                string startDate = employeeSetting.StartDate.HasValue
-                    ? ChangeStartDate(employeeSetting.StartDate.Value)
-                    : string.Empty;
-                string endDate = employeeSetting.EndDate.HasValue
-                    ? ChangeEndDate(employeeSetting.EndDate.Value)
-                    : string.Empty;
-
-                email.Subject = string.Format(Lang.StartDateEmailToSelfSubject, periodName, startDate, endDate);
-                email.Title = ConfigurationManager.AppSettings["Email.SenderName"];
-                email.Body = _baseMailService.ReadTextFile(templateEmailPath);
-                email.Body = string.Format(
-                    email.Body,
-                    employeeSetting.EvaluatorInfo.NickName,
-                    email.Title,
-                    periodName,
-                    startDate,
-                    endDate,
-                    url);
-                email.ReceiverEmail = employeeSetting.EvaluatorInfo.Email;
-
-                _baseMailService.SendEmail(email);
-            }
-        }
-
-        public void SendMailToEvaluatorStartDate(
-            string templateEmailPath,
-            PeriodFlowModel employeeSetting,
-            string periodName)
-        {
-            if (employeeSetting != null)
-            {
-                MailModel email = new MailModel();
-                string startDate = employeeSetting.StartDate.HasValue
-                    ? ChangeStartDate(employeeSetting.StartDate.Value)
-                    : string.Empty;
-                string
-                    endDate = employeeSetting.EndDate.HasValue
-                        ? ChangeEndDate(employeeSetting.EndDate.Value)
-                        : string.Empty;
-                email.Subject = string.Format(Lang.StartDateEmailToEvaluatorSubject, periodName, startDate, endDate);
-                email.Title = ConfigurationManager.AppSettings["Email.SenderName"];
-                email.Body = _baseMailService.ReadTextFile(templateEmailPath);
-                email.Body = string.Format(
-                    email.Body,
-                    employeeSetting.EvaluatorInfo.NickName,
-                    email.Title,
-                    periodName,
-                    startDate,
-                    endDate,
-                    url);
-                email.ReceiverEmail = employeeSetting.EvaluatorInfo.Email;
-
-                _baseMailService.SendEmail(email);
-            }
-        }
-
-        public void SendMailToReviewerStartDate(
-            string templateEmailPath,
-            PeriodFlowModel employeeSetting,
-            string periodName)
-        {
-            if (employeeSetting != null)
-            {
-                MailModel email = new MailModel();
-                string startDate = employeeSetting.StartDate.HasValue
-                    ? ChangeStartDate(employeeSetting.StartDate.Value)
-                    : string.Empty;
-                string
-                    endDate = employeeSetting.EndDate.HasValue
-                        ? ChangeEndDate(employeeSetting.EndDate.Value)
-                        : string.Empty;
-                email.Subject = string.Format(Lang.StartDateEmailToReviewerSubject, periodName, startDate, endDate);
-                email.Title = ConfigurationManager.AppSettings["Email.SenderName"];
-                email.Body = _baseMailService.ReadTextFile(templateEmailPath);
-                email.Body = string.Format(
-                    email.Body,
-                    employeeSetting.EvaluatorInfo.NickName,
-                    email.Title,
-                    periodName,
-                    startDate,
-                    endDate,
-                    url);
-                email.ReceiverEmail = employeeSetting.EvaluatorInfo.Email;
-
-                _baseMailService.SendEmail(email);
-            }
-        }
-
-        public void SendMailToManagementStartDate(
-            string templateEmailPath,
-            PeriodFlowModel employeeSetting,
-            string periodName)
-        {
-            if (employeeSetting != null)
-            {
-                MailModel email = new MailModel();
-                string startDate = employeeSetting.StartDate.HasValue
-                    ? ChangeStartDate(employeeSetting.StartDate.Value)
-                    : string.Empty;
-                string
-                    endDate = employeeSetting.EndDate.HasValue
-                        ? ChangeEndDate(employeeSetting.EndDate.Value)
-                        : string.Empty;
-                email.Subject = string.Format(Lang.StartDateEmailToManagementSubject, periodName, startDate, endDate);
-                email.Title = ConfigurationManager.AppSettings["Email.SenderName"];
-                email.Body = _baseMailService.ReadTextFile(templateEmailPath);
-                email.Body = string.Format(
-                    email.Body,
-                    employeeSetting.EvaluatorInfo.NickName,
-                    email.Title,
-                    periodName,
-                    startDate,
-                    endDate,
-                    url);
-                email.ReceiverEmail = employeeSetting.EvaluatorInfo.Email;
-
-                _baseMailService.SendEmail(email);
-            }
         }
 
         public void SendMailReminder(string templateEmailPath, PeriodFlowModel employeeSetting, string periodName, int mailMode)
@@ -301,18 +141,6 @@
 
                 _baseMailService.SendEmail(email);
             }
-        }
-
-        private static string ChangeStartDate(DateTime startDate)
-        {
-            var result = new DateTime(startDate.Year, startDate.Month, startDate.Day, 0, 0, 0, 0, startDate.Kind);
-            return result.ToString(Constants.FormatDateTimeEmail);
-        }
-
-        private static string ChangeEndDate(DateTime endDate)
-        {
-            var result = new DateTime(endDate.Year, endDate.Month, endDate.Day, 23, 59, 0, 0, endDate.Kind);
-            return result.ToString(Constants.FormatDateTimeEmail);
         }
 
         private static string GetEvaluator(IList<EPAProcessModel> evaluators)

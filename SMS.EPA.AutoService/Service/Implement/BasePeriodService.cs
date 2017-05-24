@@ -14,23 +14,99 @@
     using System.Reflection;
     using System.Threading.Tasks;
 
-    public class StaticPeriodService : BaseService
+    public class BasePeriodService : BaseService
     {
         protected static readonly ILog Log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
-        protected readonly IPeriodService PeriodService;
-        protected readonly IAutoMailService AutoMailService;
 
-        public StaticPeriodService()
-            : this(null, null)
+        protected readonly IPeriodMailService PeriodMailService;
+        protected readonly IPeriodService PeriodService;
+
+        public BasePeriodService() : this(null, null)
         {
         }
 
-        public StaticPeriodService(
+        public BasePeriodService(
             IPeriodService periodService,
-            IAutoMailService autoMailService)
+            IPeriodMailService periodMailService)
         {
             PeriodService = periodService ?? new PeriodService();
-            AutoMailService = autoMailService ?? new AutoMailService();
+            PeriodMailService = periodMailService ?? new PeriodMailService();
+        }
+
+        protected IEnumerable<PeriodFlowModel> GetEmployeeSettings(int periodId)
+        {
+            IEnumerable<PeriodFlowModel> employeeSettings = new List<PeriodFlowModel>();
+            var criteria = new GetEmployeeSettingByPeriodIdCriteria
+            {
+                PeriodId = periodId
+            };
+
+            if (criteria.IsValid())
+            {
+                employeeSettings = PeriodService.GetEmployeeSettingByPeriodId(criteria);
+            }
+
+            return employeeSettings;
+        }
+
+        protected void InsertEmployeeToPeriod(int periodId, ICriteria criteria, string messageExplanation)
+        {
+            var commandResult = new CommandResult();
+
+            if (criteria.IsValid())
+            {
+                commandResult = Repository.Insert(criteria);
+            }
+
+            string messageResult = commandResult.IsSuccessful ? "0" : commandResult.Message;
+            Log.Info($"{messageExplanation} {periodId}: {messageResult}");
+        }
+
+        protected void SendStartEmail(int periodId)
+        {
+            if (AppSetting.SendMailAllWhenPeriodStarted)
+            {
+                Task.Factory.StartNew(() =>
+                {
+                    PeriodModel period = PeriodService.GetPeriodById(periodId);
+                    IEnumerable<PeriodFlowModel> employeeSettings = GetEmployeeSettings(periodId);
+
+                    if (employeeSettings != null && employeeSettings.Any())
+                    {
+                        PeriodMailService.SendReminderMail(period, employeeSettings, (int)MailMode.Start);
+                    }
+                });
+            }
+        }
+
+        protected void GenerateEPA(int periodId, string messageExplanation)
+        {
+            var criteria = new AutoGenerateEvaluationCriteria
+            {
+                PeriodId = periodId
+            };
+            var commandResult = new CommandResult();
+
+            if (criteria.IsValid())
+            {
+                commandResult = PeriodService.GenerateEvaluation(criteria);
+            }
+
+            string messageResult = commandResult.IsSuccessful ? "0" : commandResult.Message;
+            Log.Info(
+                $"{messageExplanation} {periodId}: {messageResult}");
+        }
+
+        protected IEnumerable<int> GetStartedPeriods(ICriteria criteria)
+        {
+            IEnumerable<int> startedPeriods = new List<int>();
+
+            if (criteria.IsValid())
+            {
+                startedPeriods = GetData<int>(criteria);
+            }
+
+            return startedPeriods;
         }
 
         protected IEnumerable<PeriodFlowModel> GetEmployeeSettings(int periodId, string employeeIds)
@@ -61,7 +137,7 @@
 
                     if (employeeSettings != null && employeeSettings.Any())
                     {
-                        AutoMailService.SendReminderMail(period, employeeSettings, (int)MailMode.Start);
+                        PeriodMailService.SendReminderMail(period, employeeSettings, (int)MailMode.Start);
                     }
                 });
             }

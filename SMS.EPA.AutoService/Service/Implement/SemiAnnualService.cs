@@ -5,7 +5,7 @@
     using System.Collections.Generic;
     using System.Linq;
 
-    public class SemiAnnualService : PeriodicService, ISemiAnnualService
+    public class SemiAnnualService : BasePeriodService, ISemiAnnualService
     {
         public void CheckSemiAnnualPeriod()
         {

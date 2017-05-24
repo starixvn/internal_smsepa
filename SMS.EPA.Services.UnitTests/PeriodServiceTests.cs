@@ -19,7 +19,7 @@
         private PeriodService _periodService;
         private IBaseRepository _baseRepository;
         private IPeriodRepository _periodRepository;
-        private IManualMailService _manualMailService;
+        private IPeriodMailService _manualMailService;
 
         #region GetPeriod
 
@@ -726,9 +726,9 @@
             return repository;
         }
 
-        private IManualMailService FakeManualMailService()
+        private IPeriodMailService FakeManualMailService()
         {
-            IManualMailService service = Substitute.For<IManualMailService>();
+            IPeriodMailService service = Substitute.For<IPeriodMailService>();
 
             return service;
         }
@@ -736,7 +736,7 @@
         private PeriodService GetPeriodService(
             IBaseRepository baseRepository = null,
             IPeriodRepository periodRepository = null,
-            IManualMailService manualMailService = null)
+            IPeriodMailService manualMailService = null)
         {
             var service = new PeriodService(periodRepository, manualMailService);
             service.Repository = baseRepository;
