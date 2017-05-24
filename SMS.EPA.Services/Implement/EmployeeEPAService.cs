@@ -83,25 +83,31 @@
 
             RemoveSensitiveTotalScoreAndComment(evaluatorProcessOfOtherActors);
 
-            // Do not remove if roles is HR or SA
-            if (roles.Contains((int)SystemRole.HumanResource) || roles.Contains((int)SystemRole.SystemAdmin))
+            bool isHrSa = roles.Contains((int)SystemRole.HumanResource) || roles.Contains((int)SystemRole.SystemAdmin);
+
+            if (isHrSa)
             {
-                CalculateFinalScore(epaInfo, currentEmployeeId, roles);
+                CalculateFinalScore(epaInfo);
                 return;
             }
 
             // Remove if user is not the one who evalutate that EPA
 
             evaluatorProcessOfOtherActors =
-                epaInfo.Process.Managements.Where(x => x.EvaluatorInfo.EmployeeId != currentEmployeeId && x.StatusId != (int)ProcessStatusType.Closed);
+                epaInfo.Process.Managements.Where(x => x.EvaluatorInfo.EmployeeId != currentEmployeeId &&
+                                                       x.StatusId != (int)ProcessStatusType.Closed);
 
             RemoveSensitiveTotalScoreAndComment(evaluatorProcessOfOtherActors);
 
-            evaluatorProcessOfOtherActors = epaInfo.Process.Reviewers.Where(x => x.EvaluatorInfo.EmployeeId != currentEmployeeId && x.StatusId != (int)ProcessStatusType.Closed);
+            evaluatorProcessOfOtherActors =
+                epaInfo.Process.Reviewers.Where(x => x.EvaluatorInfo.EmployeeId != currentEmployeeId &&
+                                                     x.StatusId != (int)ProcessStatusType.Closed);
 
             RemoveSensitiveTotalScoreAndComment(evaluatorProcessOfOtherActors);
 
-            evaluatorProcessOfOtherActors = epaInfo.Process.Evaluators.Where(x => x.EvaluatorInfo.EmployeeId != currentEmployeeId && x.StatusId != (int)ProcessStatusType.Closed);
+            evaluatorProcessOfOtherActors =
+                epaInfo.Process.Evaluators.Where(x => x.EvaluatorInfo.EmployeeId != currentEmployeeId &&
+                                                      x.StatusId != (int)ProcessStatusType.Closed);
 
             if (evaluatorProcessOfOtherActors.Any())
             {
@@ -111,7 +117,8 @@
                     epaProcessModel.Comment = string.Empty;
                 }
 
-                var evaluationModels = epaInfo.KPIGroups.SelectMany(x => x.KPIs)
+                var evaluationModels = epaInfo.KPIGroups
+                    .SelectMany(x => x.KPIs)
                     .SelectMany(x => x.EvaluationByEvaluators);
                 foreach (EvaluationModel evaluationModel in evaluationModels)
                 {
@@ -121,10 +128,10 @@
                 }
             }
 
-            CalculateFinalScore(epaInfo, currentEmployeeId, roles);
+            CalculateFinalScore(epaInfo);
         }
 
-        private static void CalculateFinalScore(EPAModel epaInfo, int currentEmployeeId, IList<int> roles)
+        private static void CalculateFinalScore(EPAModel epaInfo)
         {
             // Discipline Score
             float disciplineScore = 0;
@@ -133,56 +140,11 @@
                 disciplineScore = epaInfo.DisciplineScore;
             }
 
-            ////float finalScore = -1;
-
-            ////////// Self
-            ////////float selfTotalScore;
-            ////////if (float.TryParse(Process.Self.TotalScore, out selfTotalScore))
-            ////////{
-            ////////    finalScore = selfTotalScore + disciplineScore;
-            ////////}
-
-            ////// Evaluator
-            ////var processSpecificFinalScore = GetFinalScoreFromProccess(
-            ////    disciplineScore,
-            ////    epaInfo.Process.Evaluators,
-            ////    epaInfo.Process.AverageScoreByEvaluators);
-
-            ////finalScore = SetFinalScore(processSpecificFinalScore, finalScore);
-
-            ////// Reviewer
-            ////processSpecificFinalScore = GetFinalScoreFromProccess(
-            ////    disciplineScore,
-            ////    epaInfo.Process.Reviewers,
-            ////    epaInfo.Process.AverageScoreByReviewers);
-
-            ////finalScore = SetFinalScore(processSpecificFinalScore, finalScore);
-
-            ////// Management
-            ////processSpecificFinalScore = GetFinalScoreFromProccess(
-            ////    disciplineScore,
-            ////    epaInfo.Process.Managements,
-            ////    epaInfo.Process.AverageScoreByManagements);
-
-            ////finalScore = SetFinalScore(processSpecificFinalScore, finalScore);
-
-            ////if (Math.Abs(finalScore + 1) <= Constants.Tolerance)
-            ////{
-            ////    epaInfo.FinalScoreToExport = Lang.NotAvailable;
-            ////}
-
-            ////epaInfo.FinalScoreToExport = epaInfo.StatusId == (int)EPAStatus.Open
-            ////    ? finalScore.ToString(CultureInfo.InvariantCulture)
-            ////    : epaInfo.FinalScore;
-
             var validProcess =
                 epaInfo.AllProcesses.Where(x => x.StatusId > (int)ProcessStatusType.Open &&
                                                 x.ProcessId > (int)ProcessType.Self);
 
-            //if (!roles.Contains((int)SystemRole.HumanResource) && !roles.Contains((int)SystemRole.SystemAdmin))
-            //{
-            //    validProcess = validProcess.Where(x => x.EvaluatorInfo.EmployeeId == currentEmployeeId);
-            //}
+            // Because the total score of each process is removed if invalid, do not need to check for permission here
 
             var maxProcessTypeId = validProcess.Max(x => x.ProcessId);
 

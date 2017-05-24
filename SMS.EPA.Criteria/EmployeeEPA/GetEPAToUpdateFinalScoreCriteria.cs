@@ -21,7 +21,7 @@
 
         public override string GetSettingKey()
         {
-            return "EPA_GetEPAToUpdateFinalScore_xtest";
+            return "EPA_GetEPAToUpdateFinalScore";
         }
 
         public override bool IsValid()
