@@ -144,8 +144,6 @@
                                 var grade;
                                 var cssClass = "";
 
-                                debugger;
-
                                 if (index !== -1) {
                                     // Calculate Final Score and Grade
                                     if (epaInfo.Periods[index].FinalScore.length > 0) {
