@@ -52,6 +52,14 @@
 
         public bool IsIgnoredAbsent { get; set; }
 
+        public bool IsUnplannedLeave { get; set; }
+
+        public bool IsIgnoredUnplannedLeave { get; set; }
+
+        public bool IsWeekendLeave { get; set; }
+
+        public bool IsIgnoredWeekendLeave { get; set; }
+
         public bool IsUnpaidLeave { get; set; }
 
         public bool IsIgnoredUnpaidLeave { get; set; }

@@ -16,8 +16,9 @@
             + " EmployeeComment='{10}' ApproverComment='{11}' IsMissingCheckInOut='{12}' IsIgnoredMissingCheckInOut='{13}'"
             + " IsLateIn='{14}' IsIgnoredLateIn='{15}' IsEarlyOut='{16}' IsIgnoredEarlyOut='{17}' IsWorkingUndertime='{18}'"
             + " IsIgnoredWorkingUndertime='{19}' IsChangeShift='{20}' IsIgnoredChangeShift='{21}' IsAbsent='{22}' IsIgnoredAbsent='{23}'"
-            + " IsUnpaidLeave='{24}' IsIgnoredUnpaidLeave='{25}' IsUnpaidLeaveAbsent='{26}' IsIgnoredUnpaidLeaveAbsent='{27}'"
-            + " ModifiedDate='{28}' IsDeleted='{29}'></Violation>";
+            + " IsUnplannedLeave='{24}' IsIgnoredUnplannedLeave='{25}' IsWeekendLeave='{26}' IsIgnoredWeekendLeave='{27}'"
+            + " IsUnpaidLeave='{28}' IsIgnoredUnpaidLeave='{29}' IsUnpaidLeaveAbsent='{30}' IsIgnoredUnpaidLeaveAbsent='{31}'"
+            + " ModifiedDate='{32}' IsDeleted='{33}'></Violation>";
 
         [SpParam(Ignored = true)]
         public IList<Discipline> Disciplines { get; set; }
@@ -58,6 +59,10 @@
                             discipline.IsIgnoredChangeShift,
                             discipline.IsAbsent,
                             discipline.IsIgnoredAbsent,
+                            discipline.IsUnplannedLeave,
+                            discipline.IsIgnoredUnplannedLeave,
+                            discipline.IsWeekendLeave,
+                            discipline.IsIgnoredWeekendLeave,
                             discipline.IsUnpaidLeave,
                             discipline.IsIgnoredUnpaidLeave,
                             discipline.IsUnpaidLeaveAbsent,

@@ -57,6 +57,10 @@
         [HttpPost]
         public ActionResult Login(LoginModel model)
         {
+            int siteId = 0;
+            int.TryParse(ConfigurationManagerService.GetAppSetting("SiteId"), out siteId);
+            ViewBag.SiteId = siteId;
+
             if (!ModelState.IsValid || model == null)
             {
                 return View(model);
@@ -90,10 +94,6 @@
             {
                 ModelState.AddModelError(string.Empty, Lang.InvalidUsernameOrPassword);
             }
-
-            int siteId = 0;
-            int.TryParse(ConfigurationManagerService.GetAppSetting("SiteId"), out siteId);
-            ViewBag.SiteId = siteId;
 
             return View(model);
         }
