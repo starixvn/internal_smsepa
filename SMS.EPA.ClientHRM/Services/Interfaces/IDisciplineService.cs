@@ -14,6 +14,6 @@
 
         DateTime GetFromDateDiscipline(TokenAccess token);
 
-        CommandResult Update(IEnumerable<Discipline> disciplines, TokenAccess token);
+        void Update(IEnumerable<Discipline> disciplines, TokenAccess token);
     }
 }

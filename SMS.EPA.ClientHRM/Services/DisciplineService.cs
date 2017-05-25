@@ -8,6 +8,7 @@
     using System;
     using System.Collections.Generic;
     using ThirdPartyAPI;
+    using System.Linq;
 
     public class DisciplineService : IDisciplineService
     {
@@ -43,9 +44,19 @@
             return _disciplineApi.GetFromDateDiscipline(token);
         }
 
-        public CommandResult Update(IEnumerable<Discipline> disciplines, TokenAccess token)
+        public void Update(IEnumerable<Discipline> disciplines, TokenAccess token)
         {
-            return _disciplineApi.Update(disciplines, token);
+            var disciplineList = disciplines.ToList();
+            List<Discipline> disciplineTemps;
+            var skipNumbers = 0;
+            var takeNumbers = 100;
+            while (skipNumbers <= disciplineList.Count)
+            {
+                disciplineTemps = disciplineList.Skip(skipNumbers).Take(takeNumbers).ToList();
+                _disciplineApi.Update(disciplineTemps, token);
+                skipNumbers += takeNumbers;
+            }
+
         }
     }
 }
