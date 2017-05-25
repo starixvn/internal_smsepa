@@ -12,6 +12,8 @@
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Maintainability", "CA1506:AvoidExcessiveClassCoupling", Justification = "Ok.")]
         public static void Start()
         {
+            Container = new Container();
+
             Container.Register<IDepartmentService, DepartmentService>(Lifestyle.Singleton);
             Container.Register<IDisciplineService, DisciplineService>(Lifestyle.Singleton);
             Container.Register<IDisciplineSummaryService, DisciplineSummaryService>(Lifestyle.Singleton);
