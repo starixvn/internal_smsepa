@@ -170,7 +170,14 @@
 
         private static string GetAverageTotalScore(float? averageScore, float disciplineScore)
         {
-            return (averageScore + disciplineScore)?.ToString(CultureInfo.InvariantCulture) ?? Lang.NotAvailable;
+            if (averageScore != null)
+            {
+                var result = averageScore.Value + disciplineScore;
+
+                return Math.Round((decimal)result, 2).ToString(CultureInfo.InvariantCulture);
+            }
+
+            return Lang.NotAvailable;
         }
 
         private static void RemoveSensitiveTotalScoreAndComment(IEnumerable<EPAProcessModel> evaluatorProcessOfOtherActors)

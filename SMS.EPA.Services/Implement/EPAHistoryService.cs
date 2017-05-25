@@ -1,5 +1,6 @@
 ﻿namespace SMS.EPA.Services.Implement
 {
+    using System;
     using Core.Services;
     using Criteria.EPAHistory;
     using Interfaces;
@@ -63,7 +64,17 @@
         {
             foreach (EPAHistoryModel epa in epas)
             {
-                epa.FinalScore = !string.IsNullOrWhiteSpace(epa.EncodeFinalScore) ? float.Parse(_cryptographyService.Decrypt(epa.EncodeFinalScore)) : 0;
+                if (!string.IsNullOrWhiteSpace(epa.EncodeFinalScore))
+                {
+                    epa.FinalScore = float.Parse(_cryptographyService.Decrypt(epa.EncodeFinalScore));
+                    var finalScoreDecimal = Math.Round((decimal)epa.FinalScore, 2);
+                    epa.FinalScore = (float)finalScoreDecimal;
+                }
+                else
+                {
+                    epa.FinalScore = 0;
+                }
+
                 epa.Grade = !string.IsNullOrWhiteSpace(epa.EncodeGrade) ? _cryptographyService.Decrypt(epa.EncodeGrade) : string.Empty;
             }
         }
