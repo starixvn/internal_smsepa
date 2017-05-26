@@ -29,7 +29,7 @@
             if (employeeSetting != null && !string.IsNullOrWhiteSpace(templateEmailPath))
             {
                 var bodyTemplate = _baseMailService.ReadTextFile(templateEmailPath);
-                var emailReminder = new MailReminderSubject(employeeSetting, bodyTemplate, periodName, mailMode);
+                var emailReminder = new MailReminder(employeeSetting, bodyTemplate, periodName, mailMode);
                 _baseMailService.SendEmail(emailReminder.Email);
             }
         }

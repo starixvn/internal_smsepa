@@ -6,7 +6,7 @@
     using Resources;
     using System;
 
-    public class MailReminderSubject
+    public class MailReminder
     {
         private readonly int processId;
         private readonly string fromDate;
@@ -34,7 +34,7 @@
 
         public MailModel Email { get; private set; }
 
-        public MailReminderSubject(PeriodFlowModel employeeSetting, string bodyTemplate, string periodName, int mailMode)
+        public MailReminder(PeriodFlowModel employeeSetting, string bodyTemplate, string periodName, int mailMode)
         {
             processId = employeeSetting.ProcessId;
             fromDate = employeeSetting.StartDate.HasValue
@@ -82,12 +82,16 @@
                     return string.Empty;
             }
         }
-
+        
         private string GetSubjectWhenReminder()
         {
             string subject;
             switch (processId)
             {
+                case (int)ProcessType.HumanResource:
+                    subject = Lang.StartDateEmailToHRSubject;
+                    break;
+
                 case (int)ProcessType.Self:
                     subject = Lang.RemindDateEmailToSelfSubject;
                     break;
@@ -117,6 +121,10 @@
             string subject;
             switch (processId)
             {
+                case (int)ProcessType.HumanResource:
+                    subject = Lang.StartDateEmailToHRSubject;
+                    break;
+
                 case (int)ProcessType.Self:
                     subject = Lang.RemindDateEmailToSelfSubject;
                     break;
