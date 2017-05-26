@@ -46,7 +46,7 @@
             // 
             // _serviceInstaller1
             // 
-            this._serviceInstaller1.ServiceName = "_LEXFIN.EPA.AutoService";
+            this._serviceInstaller1.ServiceName = "_GHR.EPA.AutoService";
             this._serviceInstaller1.StartType = System.ServiceProcess.ServiceStartMode.Automatic;
             // 
             // ProjectInstaller

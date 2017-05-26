@@ -12,7 +12,6 @@
         private readonly string fromDate;
         private readonly string toDate;
         private readonly string periodName;
-        private readonly int mailMode;
 
         public static string SenderName
         {
@@ -46,11 +45,10 @@
                     : string.Empty;
 
             this.periodName = periodName;
-            this.mailMode = mailMode;
 
             Email = new MailModel
             {
-                Subject = GetSubject(),
+                Subject = GetSubject(mailMode),
                 Body = string.Format(bodyTemplate, employeeSetting.EvaluatorInfo.NickName, SenderName, periodName, SiteUrl, fromDate, toDate),
                 ReceiverEmail = employeeSetting.EvaluatorInfo.Email
             };
@@ -67,23 +65,8 @@
             var result = new DateTime(endDate.Year, endDate.Month, endDate.Day, 23, 59, 0, 0, endDate.Kind);
             return result.ToString(Constants.FormatDateTimeEmail);
         }
-
-        private string GetSubject()
-        {
-            switch (mailMode)
-            {
-                case (int)MailMode.Start:
-                    return GetSubjectWhenStart();
-     
-                case (int)MailMode.Reminder:
-                    return GetSubjectWhenReminder();
-
-                default:
-                    return string.Empty;
-            }
-        }
         
-        private string GetSubjectWhenReminder()
+        private string GetSubject(int mailMode)
         {
             string subject;
             switch (processId)
@@ -93,52 +76,19 @@
                     break;
 
                 case (int)ProcessType.Self:
-                    subject = Lang.RemindDateEmailToSelfSubject;
+                    subject = mailMode == (int)MailMode.Start ? Lang.StartDateEmailToSelfSubject : Lang.RemindDateEmailToSelfSubject;
                     break;
 
                 case (int)ProcessType.Evaluator:
-                    subject = Lang.RemindDateEmailToEvaluatorSubject;
+                    subject = mailMode == (int)MailMode.Start ? Lang.StartDateEmailToEvaluatorSubject : Lang.RemindDateEmailToEvaluatorSubject;
                     break;
 
                 case (int)ProcessType.Reviewer:
-                    subject = Lang.RemindDateEmailToReviewerSubject;
+                    subject = mailMode == (int)MailMode.Start ? Lang.StartDateEmailToReviewerSubject : Lang.RemindDateEmailToReviewerSubject;
                     break;
 
                 case (int)ProcessType.Management:
-                    subject = Lang.RemindDateEmailToManagementSubject;
-                    break;
-
-                default:
-                    subject = string.Empty;
-                    break;
-            }
-
-            return string.Format(subject, periodName, fromDate, toDate);
-        }
-
-        private string GetSubjectWhenStart()
-        {
-            string subject;
-            switch (processId)
-            {
-                case (int)ProcessType.HumanResource:
-                    subject = Lang.StartDateEmailToHRSubject;
-                    break;
-
-                case (int)ProcessType.Self:
-                    subject = Lang.RemindDateEmailToSelfSubject;
-                    break;
-
-                case (int)ProcessType.Evaluator:
-                    subject = Lang.RemindDateEmailToEvaluatorSubject;
-                    break;
-
-                case (int)ProcessType.Reviewer:
-                    subject = Lang.RemindDateEmailToReviewerSubject;
-                    break;
-
-                case (int)ProcessType.Management:
-                    subject = Lang.RemindDateEmailToManagementSubject;
+                    subject = mailMode == (int)MailMode.Start ? Lang.StartDateEmailToManagementSubject: Lang.RemindDateEmailToManagementSubject;
                     break;
 
                 default:
