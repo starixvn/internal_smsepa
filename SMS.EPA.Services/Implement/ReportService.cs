@@ -149,10 +149,10 @@
             {
                 foreach (var epaInfoPeriod in epaInfo.Periods)
                 {
-                    if (epaInfoPeriod.StatusId != 0)
-                    {
-                        continue;
-                    }
+                    ////if (epaInfoPeriod.StatusId != (int)EPAStatus.Open)
+                    ////{
+                    ////    continue;
+                    ////}
 
                     // Recalculate final score and grade
 
