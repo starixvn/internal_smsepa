@@ -1419,4 +1419,7 @@
   <data name="WeekendLeave" xml:space="preserve">
     <value>Weekend Leave</value>
   </data>
+  <data name="RemindDateEmailToHRSubject" xml:space="preserve">
+    <value>Reminder - {0} for confirmation from {1} to {2}</value>
+  </data>
 </root>

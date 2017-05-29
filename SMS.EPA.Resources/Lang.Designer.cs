@@ -2680,6 +2680,15 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Reminder - {0} for confirmation from {1} to {2}.
+        /// </summary>
+        public static string RemindDateEmailToHRSubject {
+            get {
+                return ResourceManager.GetString("RemindDateEmailToHRSubject", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Reminder - {0} for final review from {1} to {2}.
         /// </summary>
         public static string RemindDateEmailToManagementSubject {

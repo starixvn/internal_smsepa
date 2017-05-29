@@ -72,7 +72,7 @@
             switch (processId)
             {
                 case (int)ProcessType.HumanResource:
-                    subject = Lang.StartDateEmailToHRSubject;
+                    subject = mailMode == (int)MailMode.Start ? Lang.StartDateEmailToHRSubject : Lang.RemindDateEmailToHRSubject;
                     break;
 
                 case (int)ProcessType.Self:
