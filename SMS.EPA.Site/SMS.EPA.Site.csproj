@@ -326,6 +326,7 @@
     <Content Include="Content\Site\images\checkbox_no.png" />
     <Content Include="Content\Site\images\checkbox_yes.png" />
     <Content Include="Content\Site\images\excel-icon.png" />
+    <Content Include="Content\Site\images\GROUP-logo.png" />
     <Content Include="Content\Site\images\GWI-logo.png" />
     <Content Include="Content\Site\images\Hongma-logo.png" />
     <Content Include="Content\Site\images\icon-alert.png" />
