@@ -14,7 +14,7 @@
         public string EPAProcess => ConvertEvaluationProcessToXml(EvaluationProcesses);
 
         [SpParam(Ignored = true)]
-        public IEnumerable<AutoEmployeePeriodModel> EvaluationProcesses { get; set; }
+        public IEnumerable<AutoEvaluationProcessModel> EvaluationProcesses { get; set; }
 
         public override bool IsValid()
         {
@@ -26,11 +26,11 @@
             return "EpaAuto_UpdateIsEndProcess";
         }
 
-        private static string ConvertEvaluationProcessToXml(IEnumerable<AutoEmployeePeriodModel> evaluationProcesses)
+        private static string ConvertEvaluationProcessToXml(IEnumerable<AutoEvaluationProcessModel> evaluationProcesses)
         {
             var epaProcessXmlBuilder = new StringBuilder(Constants.BeginRootTag);
 
-            foreach (AutoEmployeePeriodModel evaluationProcess in evaluationProcesses)
+            foreach (AutoEvaluationProcessModel evaluationProcess in evaluationProcesses)
             {
                 epaProcessXmlBuilder.AppendFormat(ProcessXmlTemplate, evaluationProcess.EPAId, evaluationProcess.ProcessId);
             }

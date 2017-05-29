@@ -140,10 +140,12 @@
         }
 
 #if DEBUG
+
         public void CheckAndExecuteForDebug()
         {
             CheckAndExecute();
         }
+
 #endif
 
         private void CheckAndExecute()
@@ -172,7 +174,7 @@
 
         private void CheckEndProcess()
         {
-            IEnumerable<AutoEmployeePeriodModel> evaluationProcesses = evaluationService.CheckEndProcess();
+            IEnumerable<AutoEvaluationProcessModel> evaluationProcesses = evaluationService.CheckEndProcess();
 
             if (evaluationProcesses != null && evaluationProcesses.Any())
             {
@@ -182,7 +184,7 @@
             }
         }
 
-        private void UpdateEndProcess(IEnumerable<AutoEmployeePeriodModel> evaluationProcesses)
+        private void UpdateEndProcess(IEnumerable<AutoEvaluationProcessModel> evaluationProcesses)
         {
             var criteria = new UpdateIsEndProcessCriteria
             {
@@ -199,9 +201,9 @@
             Log.Info("Result of update status of processes that ended yesterday: " + messageResult);
         }
 
-        private void UpdateTotalScoreOfSemiHasMonthly(IEnumerable<AutoEmployeePeriodModel> evaluationProcesses)
+        private void UpdateTotalScoreOfSemiHasMonthly(IEnumerable<AutoEvaluationProcessModel> evaluationProcesses)
         {
-            foreach (AutoEmployeePeriodModel evaluationProcess in evaluationProcesses)
+            foreach (AutoEvaluationProcessModel evaluationProcess in evaluationProcesses)
             {
                 EPAModel epaInfo = employeeEPAService.GetEPAInfoById(evaluationProcess.EPAId);
                 var criteria = new UpdateTotalScoreOfSemiHasMonthlyCriteria
@@ -221,9 +223,9 @@
             }
         }
 
-        private void UpdateTotalScoreOfProcess(IEnumerable<AutoEmployeePeriodModel> evaluationProcesses)
+        private void UpdateTotalScoreOfProcess(IEnumerable<AutoEvaluationProcessModel> evaluationProcesses)
         {
-            foreach (AutoEmployeePeriodModel evaluationProcess in evaluationProcesses)
+            foreach (AutoEvaluationProcessModel evaluationProcess in evaluationProcesses)
             {
                 if (string.IsNullOrEmpty(evaluationProcess.TotalScore))
                 {
@@ -249,8 +251,7 @@
                     }
 
                     var messageResult = commandResult.IsSuccessful ? "0" : commandResult.Message;
-                    Log.Info("Result of update total score of process of EPA " + evaluationProcess.EPAId + " : " +
-                             messageResult);
+                    Log.Info("Result of update total score of process of EPA " + evaluationProcess.EPAId + " : " + messageResult);
                 }
             }
         }
@@ -350,21 +351,15 @@
         private void CheckSendReminderEmail()
         {
             var criteria = new GetPeriodHasReminderProcessCriteria();
-            IEnumerable<AutoEmployeePeriodModel> reminderProcess =
-                evaluationService.GetPeriodHasReminderProcess(criteria);
+            IEnumerable<AutoEmployeePeriodModel> reminderProcess = evaluationService.GetPeriodHasReminderProcess(criteria);
 
             foreach (AutoEmployeePeriodModel periodProcess in reminderProcess)
             {
-                if (!periodProcess.IsSemiHasMonthly
-                    || (periodProcess.ProcessId != (int)ProcessType.Self
-                        && periodProcess.ProcessId != (int)ProcessType.Evaluator))
-                {
-                    evaluationService.GetAndSendEmailToAllRelatedEmployee(
-                        periodProcess.PeriodId,
-                        string.Empty,
-                        periodProcess.ProcessId,
-                        (int)MailMode.Reminder);
-                }
+                evaluationService.GetAndSendEmailToAllRelatedEmployee(
+                    periodProcess.PeriodId,
+                    string.Empty,
+                    periodProcess.ProcessId,
+                    (int)MailMode.Reminder);
             }
         }
 

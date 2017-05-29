@@ -47,6 +47,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AutoService\AutoEvaluationProcessModel.cs" />
     <Compile Include="Email\MailModel.cs" />
     <Compile Include="Email\MailReminder.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -118,7 +119,7 @@
     <Compile Include="FlowSetting\FlowItemModel.cs" />
     <Compile Include="KPIGroup\KPIGroupModel.cs" />
     <Compile Include="KPI\KPIModel.cs" />
-    <Compile Include="Period\AutoEmployeePeriodModel.cs" />
+    <Compile Include="AutoService\AutoEmployeePeriodModel.cs" />
     <Compile Include="Period\PeriodEmployeeSettingModel.cs" />
     <Compile Include="Period\PeriodFlowModel.cs" />
     <Compile Include="Period\PeriodModel.cs" />

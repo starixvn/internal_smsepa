@@ -43,14 +43,14 @@
             return reminderPeriods;
         }
 
-        public IEnumerable<AutoEmployeePeriodModel> CheckEndProcess()
+        public IEnumerable<AutoEvaluationProcessModel> CheckEndProcess()
         {
             var criteria = new CheckEndProcessCriteria();
-            IEnumerable<AutoEmployeePeriodModel> evaluationProcesses = new List<AutoEmployeePeriodModel>();
+            IEnumerable<AutoEvaluationProcessModel> evaluationProcesses = new List<AutoEvaluationProcessModel>();
 
             if (criteria.IsValid())
             {
-                evaluationProcesses = GetData<AutoEmployeePeriodModel>(criteria);
+                evaluationProcesses = GetData<AutoEvaluationProcessModel>(criteria);
                 DecryptTotalScore(evaluationProcesses);
             }
 
@@ -139,6 +139,7 @@
                 case (int)MailMode.EndPeriod:
                     _periodMailService.SendEndEvaluationMailToHumanResourceByPeriod(period, employeeSettings);
                     break;
+
                 default:
                     return;
             }
@@ -158,11 +159,11 @@
             return employeeSettings;
         }
 
-        private void DecryptTotalScore(IEnumerable<AutoEmployeePeriodModel> evaluationProcesses)
+        private void DecryptTotalScore(IEnumerable<AutoEvaluationProcessModel> evaluationProcesses)
         {
-            foreach (AutoEmployeePeriodModel evaluationProcesse in evaluationProcesses)
+            foreach (AutoEvaluationProcessModel evaluationProcess in evaluationProcesses)
             {
-                evaluationProcesse.TotalScore = _cryptographyService.Decrypt(evaluationProcesse.TotalScore);
+                evaluationProcess.TotalScore = _cryptographyService.Decrypt(evaluationProcess.TotalScore);
             }
         }
     }
