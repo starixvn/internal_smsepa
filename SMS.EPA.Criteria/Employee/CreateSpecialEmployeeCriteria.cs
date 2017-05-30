@@ -32,12 +32,12 @@
 
         public override bool IsValid()
         {
-            if (!string.IsNullOrWhiteSpace(NickName))
+            if (string.IsNullOrWhiteSpace(NickName))
             {
                 return false;
             }
 
-            if (Username.Contains(" ") || string.IsNullOrWhiteSpace(Username))
+            if (string.IsNullOrWhiteSpace(Username) || Username.Contains(" "))
             {
                 return false;
             }
