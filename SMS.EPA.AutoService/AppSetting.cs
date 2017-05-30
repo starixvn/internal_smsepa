@@ -18,5 +18,7 @@
         public static int StartDayCreateMonthlyPeriod => Convert.ToInt32(ConfigurationManager.AppSettings["StartDayCreateMonthlyPeriod"]);
 
         public static string RelativeEmailPath => ConfigurationManager.AppSettings["RelativeEmailPath"];
+
+        public static bool IsRunAtStartService => Convert.ToBoolean(ConfigurationManager.AppSettings["IsRunAtStartService"]);
     }
 }

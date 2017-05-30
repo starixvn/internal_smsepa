@@ -103,6 +103,10 @@
         {
             Log.Info("Service started at " + DateTime.Now);
             _updateCounterTimer.Enabled = true;
+            if (AppSetting.IsRunAtStartService)
+            {
+                CheckAndExecute();
+            }
         }
 
         protected override void OnStop()
