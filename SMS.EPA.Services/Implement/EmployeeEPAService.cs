@@ -146,7 +146,12 @@
 
             // Because the total score of each process is removed if invalid, do not need to check for permission here
 
-            var maxProcessTypeId = validProcess.Max(x => x.ProcessId);
+            var maxProcessTypeId = (int)ProcessType.None;
+
+            if (validProcess.Any())
+            {
+                maxProcessTypeId = validProcess.Max(x => x.ProcessId);
+            }
 
             switch (maxProcessTypeId)
             {
