@@ -10,13 +10,13 @@
     using Model;
     using Model.Enitites;
     using Repositories;
+    using Resources;
     using System;
     using System.Collections.Generic;
     using System.Globalization;
     using System.IO;
     using System.Linq;
     using System.Runtime.Serialization.Formatters.Binary;
-    using Resources;
 
     public class EmployeeEPAService : BaseService, IEmployeeEPAService
     {
@@ -140,9 +140,7 @@
                 disciplineScore = epaInfo.DisciplineScore;
             }
 
-            var validProcess =
-                epaInfo.AllProcesses.Where(x => x.StatusId > (int)ProcessStatusType.Open &&
-                                                x.ProcessId > (int)ProcessType.Self);
+            var validProcess = epaInfo.AllProcesses.Where(x => x.StatusId > (int)ProcessStatusType.Open && x.ProcessId > (int)ProcessType.Self);
 
             // Because the total score of each process is removed if invalid, do not need to check for permission here
 
@@ -159,14 +157,17 @@
                     epaInfo.FinalScoreToExport =
                         GetAverageTotalScore(epaInfo.Process.AverageScoreByManagements, disciplineScore);
                     break;
+
                 case (int)ProcessType.Reviewer:
                     epaInfo.FinalScoreToExport =
                         GetAverageTotalScore(epaInfo.Process.AverageScoreByReviewers, disciplineScore);
                     break;
+
                 case (int)ProcessType.Evaluator:
                     epaInfo.FinalScoreToExport =
                         GetAverageTotalScore(epaInfo.Process.AverageScoreByEvaluators, disciplineScore);
                     break;
+
                 default:
                     epaInfo.FinalScoreToExport = Lang.NotAvailable;
                     break;
@@ -574,17 +575,14 @@
 
         public void SetMaxSubtractAndMaxAdditionScore(EPAModel epaInfo)
         {
-            float maxAdditionScore;
-            float score;
-
             switch (epaInfo.Process.CurrentProcess.ProcessId)
             {
                 case (int)ProcessType.Reviewer:
-                    CalculateEpaInfoForReviewer(epaInfo, out maxAdditionScore, out score);
+                    CalculateEpaInfoForReviewer(epaInfo);
                     break;
 
                 case (int)ProcessType.Management:
-                    CalculateEpaInfoForManagement(epaInfo, out maxAdditionScore, out score);
+                    CalculateEpaInfoForManagement(epaInfo);
                     break;
 
                 default:
@@ -592,8 +590,11 @@
             }
         }
 
-        private static void CalculateEpaInfoForManagement(EPAModel epaInfo, out float maxAdditionScore, out float score)
+        private static void CalculateEpaInfoForManagement(EPAModel epaInfo)
         {
+            float maxAdditionScore;
+            float score;
+
             if (epaInfo.Process.Reviewers.Any())
             {
                 score = -epaInfo.Process.AverageScoreByReviewers ?? 0;
@@ -616,11 +617,14 @@
                 }
             }
 
-            epaInfo.Process.CurrentProcess.MaxAdditionScore = maxAdditionScore;
+            epaInfo.Process.CurrentProcess.MaxAdditionScore = (float)Math.Round(maxAdditionScore, Constants.NumberOfDecimalDefault);
         }
 
-        private static void CalculateEpaInfoForReviewer(EPAModel epaInfo, out float maxAdditionScore, out float score)
+        private static void CalculateEpaInfoForReviewer(EPAModel epaInfo)
         {
+            float maxAdditionScore;
+            float score;
+
             if (epaInfo.IsSemiHasMonthly)
             {
                 score = -epaInfo.MonthlyEPA.AverageReviewerScoreConverted ?? 0;
@@ -634,7 +638,7 @@
                 maxAdditionScore = epaInfo.Process.CurrentProcess.MaxTotalScore + score;
             }
 
-            epaInfo.Process.CurrentProcess.MaxAdditionScore = maxAdditionScore;
+            epaInfo.Process.CurrentProcess.MaxAdditionScore = (float)Math.Round(maxAdditionScore, Constants.NumberOfDecimalDefault);
         }
 
         private static void FillContentRow(IList<EPAModel> epaInfos, ref ExcelTemplateWriter writer)
