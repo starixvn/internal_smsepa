@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <RuleSet Name="SonarQube - Nexus / SMS EPA Sonar way" Description="This rule set was automatically generated from SonarQube.&#xD;&#xA;http://sonarqube.nexdev.net/profiles/show?key=cs-sonar-way-80515" ToolsVersion="14.0">
   <Rules AnalyzerId="SonarAnalyzer.CSharp" RuleNamespace="SonarAnalyzer.CSharp">
-    <Rule Id="S100" Action="Warning" />
+    <Rule Id="S100" Action="None" />
     <Rule Id="S1006" Action="Warning" />
     <Rule Id="S101" Action="None" />
     <Rule Id="S103" Action="Warning" />
