@@ -268,16 +268,18 @@
                 var actorScore = getScoreData($filter,
                     actors[index].StatusId,
                     actors[index].TotalScore,
-                    maxScore);
+                    maxScore,
+                    actors[index].Comment);
                 data.push(actorScore);
             }
 
             return data;
         }
 
-        function getScoreData($filter, statusId, score, maxScore) {
+        function getScoreData($filter, statusId, score, maxScore, comment) {
             return {
                 IsShowed: isScoreShowed(statusId),
+                IsCommentShowed: isCommentShowed(statusId, comment),
                 Class: getScoreClass(statusId),
                 Score: getScoreValue($filter, score, maxScore, statusId)
             }
@@ -290,6 +292,18 @@
             //    return false;
             //}
             return true;
+        }
+
+        function isCommentShowed(statusId, comment) {
+            if (comment !== undefined && comment != null) {
+                if ((statusId === utilitiesFactory.processStatus.Closed ||
+                        statusId === utilitiesFactory.processStatus.InProgress) &&
+                    comment.length > 0) {
+                    return true;
+                }
+            }
+
+            return false;
         }
 
         function getScoreClass(statusId) {

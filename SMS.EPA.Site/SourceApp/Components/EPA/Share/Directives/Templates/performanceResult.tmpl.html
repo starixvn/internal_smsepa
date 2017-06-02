@@ -70,7 +70,7 @@
         </td>
         <td class="text-center col-comment">
             <span class="glyphicon icon-view {{performanceResultCtrl.EvaluatorsScore[$index].Class}}"
-                  ng-show="performanceResultCtrl.EvaluatorsScore[$index].IsShowed"
+                  ng-show="performanceResultCtrl.EvaluatorsScore[$index].IsCommentShowed"
                   tooltip="{{performanceResultCtrl.process.Evaluators[$index].Comment}}" tooltip-placement="top"></span>
         </td>
 
@@ -87,7 +87,7 @@
         </td>
         <td class="text-center col-comment" ng-show="performanceResultCtrl.process.Reviewers.length > 0">
             <span class="glyphicon icon-view {{performanceResultCtrl.ReviewersScore[$index].Class}}"
-                  ng-show="performanceResultCtrl.ReviewersScore[$index].IsShowed"
+                  ng-show="performanceResultCtrl.ReviewersScore[$index].IsCommentShowed"
                   tooltip="{{performanceResultCtrl.process.Reviewers[$index].Comment}}" tooltip-placement="top"></span>
         </td>
 
@@ -104,7 +104,7 @@
         </td>
         <td class="text-center col-comment" ng-show="performanceResultCtrl.process.Managements.length > 0">
             <span class="glyphicon icon-view {{performanceResultCtrl.ManagementsScore[$index].Class}}"
-                  ng-show="performanceResultCtrl.ManagementsScore[$index].IsShowed"
+                  ng-show="performanceResultCtrl.ManagementsScore[$index].IsCommentShowed"
                   tooltip="{{performanceResultCtrl.process.Managements[$index].Comment}}" tooltip-placement="left"></span>
         </td>
 
