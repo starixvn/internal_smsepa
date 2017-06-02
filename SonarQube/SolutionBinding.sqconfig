@@ -1,5 +1,6 @@
 {
   "ServerUri": "http://sonarqube.nexdev.net/",
+  "Organization": null,
   "ProjectKey": "SMS-EPA",
   "Profiles": {
     "CSharp": {
