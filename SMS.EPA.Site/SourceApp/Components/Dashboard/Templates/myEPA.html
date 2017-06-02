@@ -23,8 +23,8 @@
                 <div ng-show="epaInfo.EPAId > 0 && !epaInfo.IsClosed" data-translate="Pending"></div>
                 <div ng-show="epaInfo.EPAId < 0" ng-bind="'-'"></div>
             </td>
-            <td class="text-center">
-                <div class="col-percent-50">
+            <td class="col-discipline-score">
+                <div>
                     <div ng-show="epaInfo.EPAId > 0 && epaInfo.IsClosed">
                         <div ng-show="epaInfo.HasDisciplineScore">
                             <span ng-class="epaInfo.DisciplineScore < 0 ? 'red' : ''"
@@ -40,7 +40,7 @@
                     <div ng-show="epaInfo.EPAId > 0 && !epaInfo.IsClosed" data-translate="Pending"></div>
                     <div ng-show="epaInfo.EPAId < 0" ng-bind="'-'"></div>
                 </div>
-                <div class="col-percent-40" ng-if="epaInfo.EPAId > 0 && epaInfo.IsClosed && epaInfo.OtherDisciplines > 0">
+                <div ng-if="epaInfo.EPAId > 0 && epaInfo.IsClosed && epaInfo.OtherDisciplines > 0">
                     <a class="glyphicon icon-alert" href="" ng-click="dashboardCtrl.viewOtherViolationDetail(epaInfo)"
                        ng-if="epaInfo.HasOtherViolation" ng-attr-title='{{"ViewOtherViolation" | translate}}'></a>
                     <a class="glyphicon icon-alert" href=""

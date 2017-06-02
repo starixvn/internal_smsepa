@@ -111,12 +111,12 @@
                 <td class="text-right" ng-bind="employee.UnplannedLeave"></td>
                 <td class="text-right" ng-bind="employee.WeekendLeave"></td>
                 <td class="text-right">
-                    <div ng-show="employee.OtherViolationsScore > 0">
+                    <div ng-show="employee.OtherDisciplines > 0">
                         <a class="red" href="" ng-click="attendanceCtrl.viewOtherViolations(employee)">
-                            -{{employee.OtherViolationsScore | number: 1}}
+                            -{{employee.OtherDisciplines | number: 1}}
                         </a>
                     </div>
-                    <div ng-show="employee.OtherViolationsScore == 0">{{employee.OtherViolationsScore | number: 1}}</div>
+                    <div ng-show="employee.OtherDisciplines == 0">{{employee.OtherDisciplines | number: 1}}</div>
                 </td>
                 <td class="text-right">
                     <span class="red" ng-show="employee.SystemSubtractScore > 0">-{{employee.SystemSubtractScore | number: 1}}</span>

@@ -30,39 +30,28 @@
                 border-bottom: 1px solid #e5e3e3;
             }
         }
-
-        .table.table-bordered {
-            margin: 0;
-
-            a {
-                cursor: pointer;
-
-                &:hover, &:focus {
-                    text-decoration: none;
-                }
-            }
-
-            .col-final-score {
-                width: 15%;
-            }
-
-            .col-percent-50 {
-                width: 50%;
-                float: left;
-                text-align: right;
-            }
-
-            .col-percent-40 {
-                width: 40%;
-                float: left;
-                text-align: left;
-                margin-left: 5%;
-            }
-        }
     }
 
     .target-tabset .nav-tabs li > a {
         text-transform: none;
+    }
+
+    .table.table-bordered {
+        margin: 0;
+
+        a {
+            cursor: pointer;
+
+            &:hover, &:focus {
+                text-decoration: none;
+            }
+        }
+
+        .col-discipline-score {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
     }
 }
 
