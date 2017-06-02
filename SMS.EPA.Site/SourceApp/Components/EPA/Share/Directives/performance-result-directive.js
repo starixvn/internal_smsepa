@@ -21,8 +21,6 @@
                 if (vm.epaInfo) {
                     vm.process = vm.epaInfo ? angular.copy(vm.epaInfo.Process) : null;
 
-                    debugger;
-
                     vm.SelfScore = EvaluationModel.getScoreData($filter,
                         vm.process.Self.StatusId,
                         vm.process.Self.TotalScore,
