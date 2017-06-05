@@ -3,9 +3,9 @@
     /* jshint latedef:nofunc */
 
     angular.module('epaModule').directive('epaSemiPerformanceResult', performanceResult);
-    performanceResult.$inject = ["$filter", "EvaluationModel"];
+    performanceResult.$inject = ["$filter", "EvaluationModel", "utilitiesFactory"];
 
-    function performanceResult($filter, EvaluationModel) {
+    function performanceResult($filter, EvaluationModel, utilitiesFactory) {
         return {
             restrict: 'E',
             scope: {
@@ -21,12 +21,12 @@
                 };
 
                 vm.SelfScore = EvaluationModel.getScoreData($filter,
-                    vm.process.Self.StatusId,
+                    utilitiesFactory.processStatus.Closed,
                     vm.epaInfo.MonthlyEPA.AverageSelfScoreConverted,
                     vm.epaInfo.ScoreRatingType.SelfEvaluated);
 
                 vm.EvaluatorScore = EvaluationModel.getScoreData($filter,
-                    vm.process.Evaluators[0].StatusId,
+                    utilitiesFactory.processStatus.Closed,
                     vm.epaInfo.MonthlyEPA.AverageEvaluatorScoreConverted,
                     vm.epaInfo.ScoreRatingType.Evaluator);
 
