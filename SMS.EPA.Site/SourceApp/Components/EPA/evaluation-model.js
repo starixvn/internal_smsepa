@@ -46,6 +46,7 @@
             hasDisciplineScore,
             maxPerformanceScore,
             standardGrades) {
+
             if (isNaN(performanceScore) || performanceScore === "N/A") {
                 return "N/A";
             }
@@ -231,12 +232,17 @@
             result.FinalScore = epaInfo.FinalScoreToExport;
 
             if (result.FinalScore !== "") {
-                result.Grade = convertScoreToGrade(
-                    result.FinalScore - tempDisciplineScore,
-                    tempDisciplineScore,
-                    epaInfo.HasDisciplineScore,
-                    100,
-                    standardGrades);
+                if (epaInfo.StatusId === utilitiesFactory.epaStatus.Closed) {
+                    // Final Score and Grade are already saved in database
+                    result.Grade = epaInfo.Grade;
+                } else {
+                    result.Grade = convertScoreToGrade(
+                        result.FinalScore - tempDisciplineScore,
+                        tempDisciplineScore,
+                        epaInfo.HasDisciplineScore,
+                        100,
+                        standardGrades);
+                }
             } else {
                 // Set default lowest value
                 result.FinalScore = utilitiesFactory.notAvailableString;
@@ -244,25 +250,6 @@
             }
 
             return result;
-        }
-
-        function getPhaseScore(phaseScore, tempDisciplineScore) {
-            if (phaseScore === utilitiesFactory.notAvailableString) {
-                return utilitiesFactory.notAvailableString;
-            } else {
-                return utilitiesFactory.parseFloat(phaseScore + tempDisciplineScore);
-            }
-        }
-
-        function isShowScoreOfProcess(actors) {
-            if (actors.length > 0) {
-                if (actors[0].StatusId === utilitiesFactory.processStatus.InProgress ||
-                    actors[0].StatusId === utilitiesFactory.processStatus.Closed)
-                    if (actors[0].Evaluated) {
-                        return true;
-                    }
-            }
-            return false;
         }
 
         function getMultiScoreDatas($filter, actors, maxScore) {

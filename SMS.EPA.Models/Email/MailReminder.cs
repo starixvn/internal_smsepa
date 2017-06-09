@@ -15,7 +15,7 @@
 
         public static string SenderName => ConfigurationManagerService.GetAppSetting("Email.SenderName");
 
-        public static string SiteUrl => ConfigurationManagerService.GetAppSetting("url");
+        public static string SiteLink => ConfigurationManagerService.GetAppSetting("url");
 
         public string PeriodName { get; private set; }
 
@@ -37,8 +37,14 @@
             Email = new MailModel
             {
                 Subject = GetSubject(mailMode),
-                Body = string.Format(bodyTemplate, employeeSetting.EvaluatorInfo.NickName, SenderName, periodName,
-                    SiteUrl, _fromDate, _toDate),
+                Body = string.Format(
+                    bodyTemplate,
+                    employeeSetting.EvaluatorInfo.NickName,
+                    SenderName,
+                    periodName,
+                    SiteLink,
+                    _fromDate,
+                    _toDate),
                 ReceiverEmail = employeeSetting.EvaluatorInfo.Email
             };
         }
