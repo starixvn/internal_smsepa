@@ -8,48 +8,37 @@
 
     public class MailReminder
     {
-        private readonly int processId;
-        private readonly string fromDate;
-        private readonly string toDate;
-        private readonly string periodName;
+        private readonly int _processId;
+        private readonly string _fromDate;
+        private readonly string _toDate;
+        private readonly string _periodName;
 
-        public static string SenderName
-        {
-            get
-            {
-                return ConfigurationManagerService.GetAppSetting("Email.SenderName");
-            }
-        }
+        public static string SenderName => ConfigurationManagerService.GetAppSetting("Email.SenderName");
 
-        public static string SiteUrl
-        {
-            get
-            {
-                return ConfigurationManagerService.GetAppSetting("url");
-            }
-        }
+        public static string SiteUrl => ConfigurationManagerService.GetAppSetting("url");
 
         public string PeriodName { get; private set; }
 
-        public MailModel Email { get; private set; }
+        public MailModel Email { get; }
 
         public MailReminder(PeriodFlowModel employeeSetting, string bodyTemplate, string periodName, int mailMode)
         {
-            processId = employeeSetting.ProcessId;
-            fromDate = employeeSetting.StartDate.HasValue
-                    ? ChangeStartDate(employeeSetting.StartDate.Value)
-                    : string.Empty;
+            _processId = employeeSetting.ProcessId;
+            _fromDate = employeeSetting.StartDate.HasValue
+                ? ChangeStartDate(employeeSetting.StartDate.Value)
+                : string.Empty;
 
-            toDate = employeeSetting.EndDate.HasValue
-                    ? ChangeEndDate(employeeSetting.EndDate.Value)
-                    : string.Empty;
+            _toDate = employeeSetting.EndDate.HasValue
+                ? ChangeEndDate(employeeSetting.EndDate.Value)
+                : string.Empty;
 
-            this.periodName = periodName;
+            _periodName = periodName;
 
             Email = new MailModel
             {
                 Subject = GetSubject(mailMode),
-                Body = string.Format(bodyTemplate, employeeSetting.EvaluatorInfo.NickName, SenderName, periodName, SiteUrl, fromDate, toDate),
+                Body = string.Format(bodyTemplate, employeeSetting.EvaluatorInfo.NickName, SenderName, periodName,
+                    SiteUrl, _fromDate, _toDate),
                 ReceiverEmail = employeeSetting.EvaluatorInfo.Email
             };
         }
@@ -65,30 +54,40 @@
             var result = new DateTime(endDate.Year, endDate.Month, endDate.Day, 23, 59, 0, 0, endDate.Kind);
             return result.ToString(Constants.FormatDateTimeEmail);
         }
-        
+
         private string GetSubject(int mailMode)
         {
             string subject;
-            switch (processId)
+            switch (_processId)
             {
                 case (int)ProcessType.HumanResource:
-                    subject = mailMode == (int)MailMode.Start ? Lang.StartDateEmailToHRSubject : Lang.RemindDateEmailToHRSubject;
+                    subject = mailMode == (int)MailMode.Start
+                        ? Lang.StartDateEmailToHRSubject
+                        : Lang.RemindDateEmailToHRSubject;
                     break;
 
                 case (int)ProcessType.Self:
-                    subject = mailMode == (int)MailMode.Start ? Lang.StartDateEmailToSelfSubject : Lang.RemindDateEmailToSelfSubject;
+                    subject = mailMode == (int)MailMode.Start
+                        ? Lang.StartDateEmailToSelfSubject
+                        : Lang.RemindDateEmailToSelfSubject;
                     break;
 
                 case (int)ProcessType.Evaluator:
-                    subject = mailMode == (int)MailMode.Start ? Lang.StartDateEmailToEvaluatorSubject : Lang.RemindDateEmailToEvaluatorSubject;
+                    subject = mailMode == (int)MailMode.Start
+                        ? Lang.StartDateEmailToEvaluatorSubject
+                        : Lang.RemindDateEmailToEvaluatorSubject;
                     break;
 
                 case (int)ProcessType.Reviewer:
-                    subject = mailMode == (int)MailMode.Start ? Lang.StartDateEmailToReviewerSubject : Lang.RemindDateEmailToReviewerSubject;
+                    subject = mailMode == (int)MailMode.Start
+                        ? Lang.StartDateEmailToReviewerSubject
+                        : Lang.RemindDateEmailToReviewerSubject;
                     break;
 
                 case (int)ProcessType.Management:
-                    subject = mailMode == (int)MailMode.Start ? Lang.StartDateEmailToManagementSubject: Lang.RemindDateEmailToManagementSubject;
+                    subject = mailMode == (int)MailMode.Start
+                        ? Lang.StartDateEmailToManagementSubject
+                        : Lang.RemindDateEmailToManagementSubject;
                     break;
 
                 default:
@@ -96,7 +95,7 @@
                     break;
             }
 
-            return string.Format(subject, periodName, fromDate, toDate);
+            return string.Format(subject, _periodName, _fromDate, _toDate);
         }
     }
 }
