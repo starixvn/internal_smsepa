@@ -1,9 +1,11 @@
-(function (angular) {
+(function(angular) {
     'use strict';
     /* jshint latedef:nofunc */
 
     angular.module('epaModule').factory('EvaluationModel', evaluationModel);
-    evaluationModel.$inject = ['evaluationFactory', 'utilitiesFactory', 'notificationFactory', 'errorFactory', "CommonModel"];
+    evaluationModel.$inject = [
+        'evaluationFactory', 'utilitiesFactory', 'notificationFactory', 'errorFactory', "CommonModel"
+    ];
 
     function evaluationModel(evaluationFactory, utilitiesFactory, notificationFactory, errorFactory, CommonModel) {
         var epaInfo = {};
@@ -39,7 +41,11 @@
             return result;
         }
 
-        function convertScoreToGrade(performanceScore, disciplineScore, hasDisciplineScore, maxPerformanceScore, standardGrades) {
+        function convertScoreToGrade(performanceScore,
+            disciplineScore,
+            hasDisciplineScore,
+            maxPerformanceScore,
+            standardGrades) {
             if (isNaN(performanceScore) || performanceScore === "N/A") {
                 return "N/A";
             }
@@ -60,38 +66,51 @@
             var belowAverage = 'D';
 
             if (hasDisciplineScore) {
-                angular.forEach(standardGrades, function (standardGrade) {
-                    if (standardGrade.Type === gradeType.Discipline && disciplineScore >= standardGrade.LeftScore && disciplineScore <= standardGrade.RightScore) {
-                        disciplineGrade = standardGrade.Code.toUpperCase();
-                    }
+                angular.forEach(standardGrades,
+                    function(standardGrade) {
+                        if (standardGrade.Type === gradeType.Discipline &&
+                            disciplineScore >= standardGrade.LeftScore &&
+                            disciplineScore <= standardGrade.RightScore) {
+                            disciplineGrade = standardGrade.Code.toUpperCase();
+                        }
 
-                    if (standardGrade.Type === gradeType.Performance && performanceScore >= standardGrade.LeftScore && performanceScore <= standardGrade.RightScore) {
-                        performanceGrade = standardGrade.Code.toUpperCase();
-                    }
+                        if (standardGrade.Type === gradeType.Performance &&
+                            performanceScore >= standardGrade.LeftScore &&
+                            performanceScore <= standardGrade.RightScore) {
+                            performanceGrade = standardGrade.Code.toUpperCase();
+                        }
 
-                    if (standardGrade.Type === gradeType.Final && finalScore >= standardGrade.LeftScore && finalScore <= standardGrade.RightScore) {
-                        finalGrade = standardGrade.Code.toUpperCase();
-                    }
-                });
+                        if (standardGrade.Type === gradeType.Final &&
+                            finalScore >= standardGrade.LeftScore &&
+                            finalScore <= standardGrade.RightScore) {
+                            finalGrade = standardGrade.Code.toUpperCase();
+                        }
+                    });
 
-                if (disciplineGrade.localeCompare(belowAverage) >= 0 || performanceGrade.localeCompare(belowAverage) >= 0) {
-                    finalGrade = disciplineGrade.localeCompare(performanceGrade) >= 0 ? disciplineGrade : performanceGrade;
+                if (disciplineGrade.localeCompare(belowAverage) >= 0 ||
+                    performanceGrade.localeCompare(belowAverage) >= 0) {
+                    finalGrade = disciplineGrade.localeCompare(performanceGrade) >= 0
+                        ? disciplineGrade
+                        : performanceGrade;
                 }
             } else {
-                angular.forEach(standardGrades, function (standardGrade) {
-                    if (standardGrade.Type === gradeType.Final && finalScore >= standardGrade.LeftScore && finalScore <= standardGrade.RightScore) {
-                        finalGrade = standardGrade.Code.toUpperCase();
-                    }
-                });
+                angular.forEach(standardGrades,
+                    function(standardGrade) {
+                        if (standardGrade.Type === gradeType.Final &&
+                            finalScore >= standardGrade.LeftScore &&
+                            finalScore <= standardGrade.RightScore) {
+                            finalGrade = standardGrade.Code.toUpperCase();
+                        }
+                    });
             }
 
             return finalGrade;
         }
 
         function getEPAInfoById(epaId) {
-            return evaluationFactory.getEPAInfoById(epaId).success(function (epaInfo) {
+            return evaluationFactory.getEPAInfoById(epaId).success(function(epaInfo) {
                 model.epaInfo = epaInfo;
-            }).error(function (response, status) {
+            }).error(function(response, status) {
                 errorFactory.errorHandle(status);
             });
         }
@@ -107,9 +126,10 @@
                 averageWeight = kpiGroup.Weight / kpiGroup.KPIs.length;
                 averageWeight = utilitiesFactory.splitNumber(averageWeight, 4);
 
-                angular.forEach(kpiGroup.KPIs, function (kpi) {
-                    kpi.Weight = averageWeight;
-                });
+                angular.forEach(kpiGroup.KPIs,
+                    function(kpi) {
+                        kpi.Weight = averageWeight;
+                    });
             }
         }
 
@@ -150,10 +170,6 @@
             if (epaInfo.EPAId > 0) {
                 switch (epaInfo.Process.Self.StatusId) {
                 case utilitiesFactory.processStatus.InProgress:
-                    result.SelfScore = epaInfo.Process.Self.TotalScore.length > 0
-                        ? utilitiesFactory.parseFloat(epaInfo.Process.Self.TotalScore)
-                        : utilitiesFactory.notAvailableString;
-                    break;
                 case utilitiesFactory.processStatus.Closed:
                     result.SelfScore = epaInfo.Process.Self.TotalScore.length > 0
                         ? utilitiesFactory.parseFloat(epaInfo.Process.Self.TotalScore)
@@ -163,10 +179,6 @@
 
                 switch (epaInfo.Process.Evaluators[0].StatusId) {
                 case utilitiesFactory.processStatus.InProgress:
-                    result.EvaluatorScore = epaInfo.Process.AverageScoreByEvaluators !== null
-                        ? epaInfo.Process.AverageScoreByEvaluators
-                        : utilitiesFactory.notAvailableString;
-                    break;
                 case utilitiesFactory.processStatus.Closed:
                     result.EvaluatorScore = epaInfo.Process.AverageScoreByEvaluators !== null
                         ? epaInfo.Process.AverageScoreByEvaluators
@@ -176,10 +188,6 @@
 
                 switch (epaInfo.Process.Reviewers[0].StatusId) {
                 case utilitiesFactory.processStatus.InProgress:
-                    result.ReviewerScore = epaInfo.Process.AverageScoreByReviewers !== null
-                        ? epaInfo.Process.AverageScoreByReviewers
-                        : utilitiesFactory.notAvailableString;
-                    break;
                 case utilitiesFactory.processStatus.Closed:
                     result.ReviewerScore = epaInfo.Process.AverageScoreByReviewers !== null
                         ? epaInfo.Process.AverageScoreByReviewers
@@ -190,10 +198,6 @@
                 if (epaInfo.Process.Managements.length > 0) {
                     switch (epaInfo.Process.Managements[0].StatusId) {
                     case utilitiesFactory.processStatus.InProgress:
-                        result.ManagementScore = epaInfo.Process.AverageScoreByManagements !== null
-                            ? epaInfo.Process.AverageScoreByManagements
-                            : utilitiesFactory.notAvailableString;
-                        break;
                     case utilitiesFactory.processStatus.Closed:
                         result.ManagementScore = epaInfo.Process.AverageScoreByManagements !== null
                             ? epaInfo.Process.AverageScoreByManagements
@@ -218,13 +222,13 @@
                 tempDisciplineScore = result.DisciplineScore;
             }
 
-            result.FinalScore = epaInfo.FinalScoreToExport;
-
             // Get Standard grades if empty
             if (standardGrades.length === 0) {
                 CommonModel.getStandardGrade();
                 standardGrades = CommonModel.standardGrades;
             }
+
+            result.FinalScore = epaInfo.FinalScoreToExport;
 
             if (result.FinalScore !== "") {
                 result.Grade = convertScoreToGrade(
@@ -282,7 +286,7 @@
                 IsCommentShowed: isCommentShowed(statusId, comment),
                 Class: getScoreClass(statusId),
                 Score: getScoreValue($filter, score, maxScore, statusId)
-            }
+            };
         }
 
         function isScoreShowed(statusId) {
@@ -295,7 +299,7 @@
         }
 
         function isCommentShowed(statusId, comment) {
-            if (comment !== undefined && comment != null) {
+            if (comment !== undefined && comment !== null) {
                 if ((statusId === utilitiesFactory.processStatus.Closed ||
                         statusId === utilitiesFactory.processStatus.InProgress) &&
                     comment.length > 0) {
