@@ -1,5 +1,4 @@
 ﻿@using System.Web.Optimization;
-@using SMS.EPA.Resources;
 @using SMS.EPA.Core.Enumerations;
 
 @model SMS.EPA.Model.Authentication.LoginModel
@@ -74,6 +73,7 @@
         <div id="formContainer" class="row auth">
             @using (Html.BeginForm())
             {
+                @Html.Hidden("returnUrl", Request.QueryString["ReturnUrl"])
                 @Html.TextBoxFor(model => model.Username, new { placeholder = "Username", @class = "col-sm-12 username" })
                 @Html.PasswordFor(model => model.Password, new { placeholder = "Password", @class = "col-sm-12 password" })
                 <input type="submit" name="submit" class="col-sm-12 btn-submit" value="Log In" />

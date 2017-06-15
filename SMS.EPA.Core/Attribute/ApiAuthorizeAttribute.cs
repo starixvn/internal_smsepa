@@ -11,7 +11,7 @@
     using System.Web.Http;
     using System.Web.Http.Controllers;
 
-    [AttributeUsage(AttributeTargets.All, AllowMultiple = true)]
+    [AttributeUsage(AttributeTargets.Method, AllowMultiple = true)]
     public sealed class ApiAuthorizeAttribute : AuthorizeAttribute
     {
         private readonly ISessionService _sessionService;

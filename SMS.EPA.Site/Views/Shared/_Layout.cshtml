@@ -43,6 +43,7 @@
 </head>
 <body ng-cloak>
     <div class="container-fluid page">
+        @Html.AntiForgeryToken()
         @RenderBody()
     </div>
     @Scripts.Render("~/bundles/vendor",

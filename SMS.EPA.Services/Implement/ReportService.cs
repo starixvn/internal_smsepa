@@ -149,13 +149,6 @@
             {
                 foreach (var epaInfoPeriod in epaInfo.Periods)
                 {
-                    ////if (epaInfoPeriod.StatusId != (int)EPAStatus.Open)
-                    ////{
-                    ////    continue;
-                    ////}
-
-                    // Recalculate final score and grade
-
                     // Get the max EPAProcessId
                     var lastPhasePerformanceScore = GetLastPhasePerformanceScore(epaInfoPeriod, criteria.ActorId);
                     float? performanceScore;
@@ -168,12 +161,9 @@
                         continue;
                     }
 
-                    var tempDisciplineScore = epaInfoPeriod.HasDisciplineScore
-                        ? epaInfoPeriod.DisciplineScore
-                        : 0;
+                    var tempDisciplineScore = epaInfoPeriod.HasDisciplineScore ? epaInfoPeriod.DisciplineScore : 0;
 
-                    epaInfoPeriod.FinalScore =
-                        (performanceScore.Value + tempDisciplineScore).ToString(CultureInfo.InvariantCulture);
+                    epaInfoPeriod.FinalScore = (performanceScore.Value + tempDisciplineScore).ToString(CultureInfo.InvariantCulture);
 
                     epaInfoPeriod.Grade = _employeeEPAService.ConvertScoreToGrade(
                         performanceScore,
@@ -406,48 +396,6 @@
             return grade;
         }
 
-        private float? GetLastPhasePerformanceScore(EPASummaryPeriodModel epaInfoPeriod, int actorId)
-        {
-            var roles = _sessionService.CurrentUser.Roles.Select(x => x.RoleId).ToList();
-
-            ////var validDetailScores = roles.Contains((int)SystemRole.HumanResource) ||
-            ////                        roles.Contains((int)SystemRole.SystemAdmin)
-            ////    ? epaInfoPeriod.DetailScores.Where(x => !string.IsNullOrEmpty(x.TotalScore)
-            ////                                            && x.ProcessId > (int)ProcessType.Self
-            ////                                            && x.StatusId > (int)ProcessStatusType.Open)
-            ////    : epaInfoPeriod.DetailScores.Where(x => !string.IsNullOrEmpty(x.TotalScore)
-            ////                                            && x.ProcessId > (int)ProcessType.Self
-            ////                                            && x.StatusId > (int)ProcessStatusType.Open
-            ////                                            && x.EvaluatorId == actorId);
-
-            var validDetailScores = epaInfoPeriod.DetailScores.Where(x => !string.IsNullOrEmpty(x.TotalScore)
-                                                                          && x.ProcessId > (int)ProcessType.Self
-                                                                          && x.StatusId > (int)ProcessStatusType.Open);
-
-            if(!roles.Contains((int)SystemRole.HumanResource) && !roles.Contains((int)SystemRole.SystemAdmin))
-            {
-                validDetailScores = validDetailScores.Where(x => x.EvaluatorId == actorId);
-            }
-
-            if (!validDetailScores.Any())
-            {
-                return null;
-            }
-
-            var maxEPAProcesId = validDetailScores.Max(x => x.ProcessId);
-
-            var lastPhaseScores = epaInfoPeriod.DetailScores
-                .Where(x => x.ProcessId == maxEPAProcesId)
-                .Select(x => x.FloatTotalScore);
-
-            if (!lastPhaseScores.Any())
-            {
-                return null;
-            }
-
-            return lastPhaseScores.Average();
-        }
-
         [SuppressMessage(
             "StyleCop.CSharp.StylecopPlus.Rules",
             "SP2101:MethodMustNotContainMoreLinesThan",
@@ -591,6 +539,38 @@
         private static void SetColumnWidth(ref ISheet sheet, int columnIndex, int width)
         {
             sheet.SetColumnWidth(columnIndex, width * ExcelColumnWidth);
+        }
+
+        private float? GetLastPhasePerformanceScore(EPASummaryPeriodModel epaInfoPeriod, int actorId)
+        {
+            var roles = _sessionService.CurrentUser.Roles.Select(x => x.RoleId).ToList();
+
+            var validDetailScores = epaInfoPeriod.DetailScores.Where(x => !string.IsNullOrEmpty(x.TotalScore)
+                                                                          && x.ProcessId > (int)ProcessType.Self
+                                                                          && x.StatusId > (int)ProcessStatusType.Open);
+
+            if (!roles.Contains((int)SystemRole.HumanResource) && !roles.Contains((int)SystemRole.SystemAdmin))
+            {
+                validDetailScores = validDetailScores.Where(x => x.EvaluatorId == actorId);
+            }
+
+            if (!validDetailScores.Any())
+            {
+                return null;
+            }
+
+            var maxEPAProcesId = validDetailScores.Max(x => x.ProcessId);
+
+            var lastPhaseScores = epaInfoPeriod.DetailScores
+                .Where(x => x.ProcessId == maxEPAProcesId)
+                .Select(x => x.FloatTotalScore);
+
+            if (!lastPhaseScores.Any())
+            {
+                return null;
+            }
+
+            return lastPhaseScores.Average();
         }
     }
 }

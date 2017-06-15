@@ -1,4 +1,4 @@
-﻿(function(angular) {
+﻿(function (angular) {
     "use strict";
 
     angular.module("appModule",
@@ -34,19 +34,24 @@
             "$locationProvider",
             "paginationTemplateProvider",
             "$routeProvider",
+            "$httpProvider",
             "datepickerConfig",
             "datepickerPopupConfig",
             "$provide",
-            function(
+            function (
                 $translateProvider,
                 $locationProvider,
                 paginationTemplateProvider,
                 $routeProvider,
+                $httpProvider,
                 datepickerConfig,
                 datepickerPopupConfig,
                 $provide) {
                 $translateProvider.useLoader("resourceFactory", {});
                 $translateProvider.preferredLanguage("en");
+
+                $httpProvider.defaults.headers.common["X-Requested-With"] = 'XMLHttpRequest';
+                $httpProvider.defaults.headers.common["X-XSRF-Token"] = angular.element('input[name="__RequestVerificationToken"]').attr('value');
 
                 $routeProvider
                     .when("/Home/AccessDenied", { templateUrl: "/SourceApp/Shared/Templates/AccessDenied.html" })

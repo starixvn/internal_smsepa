@@ -5,6 +5,7 @@
     using System.Web.Http;
     using System.Web.Security;
 
+    [WebApiValidateAntiForgeryToken]
     [DeflateCompression]
     public class BaseController : ApiController
     {

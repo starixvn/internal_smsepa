@@ -172,6 +172,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Attribute\WebApiValidateAntiForgeryTokenAttribute.cs" />
     <Compile Include="Enumerations\GradeType.cs" />
     <Compile Include="Enumerations\SiteId.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">

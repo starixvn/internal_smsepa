@@ -5,7 +5,7 @@
     using System.Net.Http;
     using System.Web.Http.Filters;
 
-    [AttributeUsage(AttributeTargets.All)]
+    [AttributeUsage(AttributeTargets.Method | AttributeTargets.Class, AllowMultiple = false)]
     public sealed class DeflateCompressionAttribute : ActionFilterAttribute
     {
         public override void OnActionExecuted(HttpActionExecutedContext actionExecutedContext)
