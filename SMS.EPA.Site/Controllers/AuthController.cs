@@ -77,7 +77,7 @@
                     FormsAuthentication.SetAuthCookie(model.Username, false);
                     GetAndInsertIPAddress(user);
 
-                    Response.Redirect(Url.IsLocalUrl(model.ReturnUrl) ? model.ReturnUrl : FormsAuthentication.DefaultUrl);
+                    Response.Redirect(Url.IsLocalUrl(model.ReturnPath) ? model.ReturnPath : FormsAuthentication.DefaultUrl);
                 }
                 else
                 {
