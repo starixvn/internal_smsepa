@@ -16,14 +16,27 @@ BEGIN
 	SET NOCOUNT ON;
 
 	DECLARE @TargetTypeId INT
-		,@StartDate DATETIME
+		,@StartDate DATE
+		,@Today DATE = GETDATE()
+	-- target type
+	DECLARE @SemiId INT = 3
+		,@MonthlyId INT = 2
+
+	CREATE TABLE #tblEmployee (EmployeeId INT)
 
 	SELECT @TargetTypeId = TargetTypeId
 		,@StartDate = StartDate
 	FROM dbo.Period WITH (NOLOCK)
 	WHERE PeriodId = @PeriodId
 
-	IF @TargetTypeId IN (2, 3) -- Monthly, Semi
+	IF @EmployeeIds IS NOT NULL
+	BEGIN
+		INSERT INTO #tblEmployee (EmployeeId)
+		SELECT DISTINCT val
+		FROM dbo.fnc_strSplit(@EmployeeIds, ',')
+	END
+
+	IF @TargetTypeId IN (@MonthlyId, @SemiId)
 	BEGIN
 		IF ISNULL(@StartDate, '') <> ''
 		BEGIN
@@ -38,27 +51,32 @@ BEGIN
 				,eva.Email
 			FROM dbo.EPA AS epa WITH (NOLOCK)
 				INNER JOIN dbo.EPAProcess AS pc WITH (NOLOCK) ON epa.EPAId = pc.EPAId
-				AND pc.IsEndProcess = 0 -- in progress
 				INNER JOIN dbo.Employee AS eva WITH (NOLOCK) ON pc.EvaluatorId = eva.EmployeeId
 				AND eva.[Enabled] = 1
 				AND eva.IsDeleted = 0
 				INNER JOIN dbo.Period AS period WITH (NOLOCK) ON epa.PeriodId = period.PeriodId
 				INNER JOIN dbo.PeriodProcessSetting AS periodPS WITH (NOLOCK) ON period.PeriodId = periodPS.PeriodId
 				AND pc.ProcessId = periodPS.ProcessId
-			WHERE epa.[Status] = 0 -- open
+				LEFT JOIN #tblEmployee AS emp WITH (NOLOCK) ON epa.EmployeeId = emp.EmployeeId
+			WHERE ISNULL(epa.[Status], 0) = 0 -- open
 				AND epa.PeriodId = @PeriodId
 				AND (
 					ISNULL(@ProcessId, '') = ''
 					OR pc.ProcessId = @ProcessId
 					)
 				AND (
-					ISNULL(@EmployeeIds, '') = ''
-					OR epa.EmployeeId IN (
-						SELECT DISTINCT val
-						FROM fnc_strSplit(@EmployeeIds, ',')
+					epa.HasMonthlyEPA = 0
+					OR (
+						period.TargetTypeId = @SemiId
+						AND epa.HasMonthlyEPA = 1
+						AND pc.ProcessId NOT IN (2, 3) -- self, evaluator
 						)
 					)
-				AND CAST(GETDATE() AS DATE) BETWEEN CAST(pc.StartDate AS DATE)
+				AND (
+					ISNULL(@EmployeeIds, '') = ''
+					OR emp.EmployeeId IS NOT NULL
+					)
+				AND @Today BETWEEN CAST(pc.StartDate AS DATE)
 					AND CAST(pc.EndDate AS DATE)
 		END
 	END
@@ -76,23 +94,22 @@ BEGIN
 		FROM dbo.EPAProcess AS pc WITH (NOLOCK)
 			INNER JOIN dbo.EPA AS epa WITH (NOLOCK) ON pc.EPAId = epa.EPAId
 			AND epa.PeriodId = @PeriodId
-			AND epa.[Status] = 0 -- open
+			AND ISNULL(epa.[Status], 0) = 0 -- open
 			INNER JOIN dbo.Employee AS eva WITH (NOLOCK) ON pc.EvaluatorId = eva.EmployeeId
 			AND eva.[Enabled] = 1
 			AND eva.IsDeleted = 0
-		WHERE pc.IsEndProcess = 0 -- in progress
-			AND (
+			LEFT JOIN #tblEmployee AS emp WITH (NOLOCK) ON epa.EmployeeId = emp.EmployeeId
+		WHERE (
 				ISNULL(@ProcessId, '') = ''
 				OR pc.ProcessId = @ProcessId
 				)
 			AND (
 				ISNULL(@EmployeeIds, '') = ''
-				OR epa.EmployeeId IN (
-					SELECT DISTINCT val
-					FROM fnc_strSplit(@EmployeeIds, ',')
-					)
+				OR emp.EmployeeId IS NOT NULL
 				)
-			AND CAST(GETDATE() AS DATE) BETWEEN CAST(pc.StartDate AS DATE)
+			AND @Today BETWEEN CAST(pc.StartDate AS DATE)
 				AND CAST(pc.EndDate AS DATE)
 	END
+
+	DROP TABLE #tblEmployee
 END

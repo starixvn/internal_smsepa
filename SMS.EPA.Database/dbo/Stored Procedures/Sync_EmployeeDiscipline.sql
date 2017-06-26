@@ -17,8 +17,9 @@ Param's Explanation:
             + " EmployeeComment='{10}' ApproverComment='{11}' IsMissingCheckInOut='{12}' IsIgnoredMissingCheckInOut='{13}'"
             + " IsLateIn='{14}' IsIgnoredLateIn='{15}' IsEarlyOut='{16}' IsIgnoredEarlyOut='{17}' IsWorkingUndertime='{18}'"
             + " IsIgnoredWorkingUndertime='{19}' IsChangeShift='{20}' IsIgnoredChangeShift='{21}' IsAbsent='{22}' IsIgnoredAbsent='{23}'"
-            + " IsUnpaidLeave='{24}' IsIgnoredUnpaidLeave='{25}' IsUnpaidLeaveAbsent='{26}' IsIgnoredUnpaidLeaveAbsent='{27}'"
-            + " ModifiedDate='{28}' IsDeleted='{29}'></Violation>";
+            + " IsUnplannedLeave='{24}' IsIgnoredUnplannedLeave='{25}' IsWeekendLeave='{26}' IsIgnoredWeekendLeave='{27}'"
+            + " IsUnpaidLeave='{28}' IsIgnoredUnpaidLeave='{29}' IsUnpaidLeaveAbsent='{30}' IsIgnoredUnpaidLeaveAbsent='{31}'"
+            + " ModifiedDate='{32}' IsDeleted='{33}'></Violation>";
 */
 BEGIN
 	SET NOCOUNT ON;
@@ -60,6 +61,10 @@ BEGIN
 		,[IsIgnoredChangeShift] BIT
 		,[IsAbsent] BIT
 		,[IsIgnoredAbsent] BIT
+		,[IsUnplannedLeave] BIT
+		,[IsIgnoredUnplannedLeave] BIT
+		,[IsWeekendLeave] BIT
+		,[IsIgnoredWeekendLeave] BIT
 		,[IsUnpaidLeave] BIT
 		,[IsIgnoredUnpaidLeave] BIT
 		,[IsUnpaidLeaveAbsent] BIT
@@ -100,6 +105,10 @@ BEGIN
 			,[IsIgnoredChangeShift]
 			,[IsAbsent]
 			,[IsIgnoredAbsent]
+			,[IsUnplannedLeave]
+			,[IsIgnoredUnplannedLeave]
+			,[IsWeekendLeave]
+			,[IsIgnoredWeekendLeave]
 			,[IsUnpaidLeave]
 			,[IsIgnoredUnpaidLeave]
 			,[IsUnpaidLeaveAbsent]
@@ -138,6 +147,10 @@ BEGIN
 			,[IsIgnoredChangeShift]
 			,[IsAbsent]
 			,[IsIgnoredAbsent]
+			,[IsUnplannedLeave]
+			,[IsIgnoredUnplannedLeave]
+			,[IsWeekendLeave]
+			,[IsIgnoredWeekendLeave]
 			,[IsUnpaidLeave]
 			,[IsIgnoredUnpaidLeave]
 			,[IsUnpaidLeaveAbsent]
@@ -145,12 +158,15 @@ BEGIN
 			,[ModifiedDate]
 			,[IsDeleted]
 			,@SyncDate
-		FROM OPENXML(@DocHandler, '/ROOT/Violation', 1) WITH ([WorkDate] DATETIME, [EmpId] INT, [ShiftName] VARCHAR(50), [CheckIn] DATETIME, [CheckOut] DATETIME, [TotalHours] DECIMAL(5, 2), [LateIn] INT, [EarlyOut] INT, [Type] INT, [DisciplineScore] DECIMAL(5, 2), [EmployeeComment] NVARCHAR(500), [ApproverComment] NVARCHAR(500), [IsMissingCheckInOut] BIT, [IsIgnoredMissingCheckInOut] BIT, [IsLateIn] BIT, [IsIgnoredLateIn] BIT, [IsEarlyOut] BIT, [IsIgnoredEarlyOut] BIT, [IsWorkingUndertime] BIT, [IsIgnoredWorkingUndertime] BIT, [IsChangeShift] BIT, [IsIgnoredChangeShift] BIT, [IsAbsent] BIT, [IsIgnoredAbsent] BIT, [IsUnpaidLeave] BIT, [IsIgnoredUnpaidLeave] BIT, [IsUnpaidLeaveAbsent] BIT, [IsIgnoredUnpaidLeaveAbsent] BIT, [ModifiedDate] DATETIME, [IsDeleted] BIT) AS Data
+		FROM OPENXML(@DocHandler, '/ROOT/Violation', 1) WITH ([WorkDate] DATETIME, [EmpId] INT, [ShiftName] VARCHAR(50), [CheckIn] DATETIME, [CheckOut] DATETIME, [TotalHours] DECIMAL(5, 2), [LateIn] INT, [EarlyOut] INT, [Type] INT, [DisciplineScore] DECIMAL(5, 2), [EmployeeComment] NVARCHAR(500), [ApproverComment] NVARCHAR(500), [IsMissingCheckInOut] BIT, [IsIgnoredMissingCheckInOut] BIT, [IsLateIn] BIT, [IsIgnoredLateIn] BIT, [IsEarlyOut] BIT, [IsIgnoredEarlyOut] BIT, [IsWorkingUndertime] BIT, [IsIgnoredWorkingUndertime] BIT, [IsChangeShift] BIT, [IsIgnoredChangeShift] BIT, [IsAbsent] BIT, [IsIgnoredAbsent] BIT, 
+			[IsUnplannedLeave] BIT
+			,[IsIgnoredUnplannedLeave] BIT
+			,[IsWeekendLeave] BIT
+			,[IsIgnoredWeekendLeave] BIT
+		,[IsUnpaidLeave] BIT, [IsIgnoredUnpaidLeave] BIT, [IsUnpaidLeaveAbsent] BIT, [IsIgnoredUnpaidLeaveAbsent] BIT, [ModifiedDate] DATETIME, [IsDeleted] BIT) AS Data
 
 		EXEC sp_xml_removedocument @DocHandler
 
-		SELECT *
-		FROM #Violation
 	END TRY
 
 	BEGIN CATCH
@@ -185,6 +201,10 @@ BEGIN
 		,[IsIgnoredChangeShift]
 		,[IsAbsent]
 		,[IsIgnoredAbsent]
+		,[IsUnplannedLeave]
+		,[IsIgnoredUnplannedLeave]
+		,[IsWeekendLeave]
+		,[IsIgnoredWeekendLeave]
 		,[IsUnpaidLeave]
 		,[IsIgnoredUnpaidLeave]
 		,[IsUnpaidLeaveAbsent]
@@ -217,6 +237,10 @@ BEGIN
 		,new.[IsIgnoredChangeShift]
 		,new.[IsAbsent]
 		,new.[IsIgnoredAbsent]
+		,new.[IsUnplannedLeave]
+		,new.[IsIgnoredUnplannedLeave]
+		,new.[IsWeekendLeave]
+		,new.[IsIgnoredWeekendLeave]
 		,new.[IsUnpaidLeave]
 		,new.[IsIgnoredUnpaidLeave]
 		,new.[IsUnpaidLeaveAbsent]
@@ -262,6 +286,10 @@ BEGIN
 		,curr.[IsIgnoredChangeShift] = new.[IsIgnoredChangeShift]
 		,curr.[IsAbsent] = new.[IsAbsent]
 		,curr.[IsIgnoredAbsent] = new.[IsIgnoredAbsent]
+		,curr.[IsUnplannedLeave] = new.[IsUnplannedLeave]
+		,curr.[IsIgnoredUnplannedLeave] = new.[IsIgnoredUnplannedLeave]
+		,curr.[IsWeekendLeave] = new.[IsWeekendLeave]
+		,curr.[IsIgnoredWeekendLeave] = new.[IsIgnoredWeekendLeave]
 		,curr.[IsUnpaidLeave] = new.[IsUnpaidLeave]
 		,curr.[IsIgnoredUnpaidLeave] = new.[IsIgnoredUnpaidLeave]
 		,curr.[IsUnpaidLeaveAbsent] = new.[IsUnpaidLeaveAbsent]

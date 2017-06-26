@@ -25,17 +25,19 @@
     [IsIgnoredWorkingUnderTime]  BIT            NULL,
     [IsUnpaidLeaveAbsent]        BIT            NULL,
     [IsIgnoredUnpaidLeaveAbsent] BIT            NULL,
-    [IsUnplannedLeave]           BIT            NULL,
-    [IsIgnoredUnplannedLeave]    BIT            NULL,
-    [IsWeekendLeave]             BIT            NULL,
-    [IsIgnoredWeekendLeave]      BIT            NULL,
     [EmployeeComment]            NVARCHAR (500) NULL,
     [ApproverComment]            NVARCHAR (500) NULL,
     [ModifiedDate]               DATETIME       NULL,
     [IsDeleted]                  BIT            NULL,
     [SyncDate]                   DATETIME       NULL,
+    [IsUnplannedLeave]           BIT            NULL,
+    [IsIgnoredUnplannedLeave]    BIT            NULL,
+    [IsWeekendLeave]             BIT            NULL,
+    [IsIgnoredWeekendLeave]      BIT            NULL,
     CONSTRAINT [PK__Employee__ED608AD04B614E84] PRIMARY KEY CLUSTERED ([EmpId] ASC, [WorkDate] ASC, [DisciplineTypeId] ASC)
 );
+
+
 
 
 

@@ -55,8 +55,8 @@ BEGIN
 			,[ModifiedDate]
 			)
 		SELECT [DepartmentId]
-			,[Code]
-			,REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(NAME, '&amp;', '&'), '&#39;', ''''), '&lt;', '<'), '&gt;', '>'), '&quot;', '"')
+			,REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(Code, '&amp;', '&'), '&#39;', ''''), '&lt;', '<'), '&gt;', '>'), '&quot;', '"')
+			,REPLACE(REPLACE(REPLACE(REPLACE(REPLACE([Name], '&amp;', '&'), '&#39;', ''''), '&lt;', '<'), '&gt;', '>'), '&quot;', '"')
 			,CASE 
 				WHEN [ParentId] = 0 THEN NULL
 				ELSE [ParentId]
@@ -71,7 +71,7 @@ BEGIN
 				END
 			,[IsActive]
 			,[ModifiedDate]
-		FROM OPENXML(@DocHandler, '/ROOT/Department', 1) WITH (DepartmentId [int], Code [nvarchar](50), NAME [nvarchar](200), ParentId [int], ManagerId [int], [DepartmentLevel] [int], [IsActive] [bit], ModifiedDate DATETIME) AS Data
+		FROM OPENXML(@DocHandler, '/ROOT/Department', 1) WITH (DepartmentId [int], Code [nvarchar](50), [Name] [nvarchar](200), ParentId [int], ManagerId [int], [DepartmentLevel] [int], [IsActive] [bit], ModifiedDate DATETIME) AS Data
 
 		EXEC sp_xml_removedocument @DocHandler
 	END TRY

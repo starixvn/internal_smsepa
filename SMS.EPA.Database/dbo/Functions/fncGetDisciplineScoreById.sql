@@ -1,4 +1,5 @@
-﻿CREATE FUNCTION [dbo].[fncGetDisciplineScoreById] (@DisciplineTypeId INT)
+﻿
+CREATE FUNCTION [dbo].[fncGetDisciplineScoreById] (@DisciplineTypeId INT)
 RETURNS DECIMAL(5, 2)
 AS
 /*
@@ -20,5 +21,5 @@ BEGIN
 	FROM dbo.DisciplineType WITH (NOLOCK)
 	WHERE DisciplineTypeId = @DisciplineTypeId
 
-	RETURN @Score
+	RETURN ISNULL(@Score, 0)
 END

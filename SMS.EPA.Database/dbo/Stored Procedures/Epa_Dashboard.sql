@@ -17,6 +17,9 @@ BEGIN
 	DECLARE @TblEPAIds IntId
 		,@EPAIds NVARCHAR(MAX)
 		,@ToDay DATE = GETDATE()
+	-- target
+	DECLARE @MonthlyId INT = 2
+		,@SemiId INT = 3
 
 	CREATE TABLE #tblDisciplineScores (
 		EPAId INT
@@ -72,7 +75,7 @@ BEGIN
 		)
 	SELECT epa.EPAId
 		,(CASE 
-			WHEN tt.TargetTypeId IN (2, 3) THEN (CASE 
+			WHEN tt.TargetTypeId IN (@MonthlyId, @SemiId) THEN (CASE 
 					WHEN CAST(pc.EndDate AS DATE) >= CAST(period.EndDate AS DATE) THEN (CASE 
 							WHEN CAST(pc.EndDate AS DATE) < @ToDay THEN 1
 							ELSE 0 END
@@ -134,7 +137,9 @@ BEGIN
 				ELSE 0 END
 				) AS HasOtherViolation
 			,(CASE 
-				WHEN CAST(selfpc.StartDate AS DATE) < @ToDay THEN 1
+				WHEN epa.HasMonthlyEPA = 1
+					AND period.TargetTypeId = @SemiId THEN 1
+				WHEN CAST(selfpc.EndDate AS DATE) < @ToDay THEN 1
 				ELSE 0 END
 				) AS IsEndProcessBySelf
 			,tblstatus.StatusId
@@ -154,7 +159,7 @@ BEGIN
 			,period.[Name]
 			,CAST(pc.StartDate AS DATE) AS StartDate
 			,(CASE 
-				WHEN tt.TargetTypeId IN (2, 3) THEN CASE 
+				WHEN tt.TargetTypeId IN (@MonthlyId, @SemiId) THEN CASE 
 						WHEN pc.EndDate >= CAST(period.EndDate AS DATE) THEN pc.EndDate
 						ELSE period.EndDate
 						END

@@ -1,4 +1,5 @@
-﻿CREATE PROCEDURE [dbo].[EpaAuto_GetPeriodHasStartedProcess] @PeriodId INT = NULL
+﻿
+CREATE PROCEDURE [dbo].[EpaAuto_GetPeriodHasStartedProcess] @PeriodId INT = NULL
 AS
 /*
 Created: 2015-08-26@Josh.Phan
@@ -7,7 +8,7 @@ DB: SMSEPA
 Original: 
 
 Revisions:  
-	Param's Explanation:
+Param's Explanation:
 	20170419@Hunter.Tran: Check if period is active
 */
 BEGIN
@@ -15,12 +16,6 @@ BEGIN
 
 	SELECT DISTINCT pe.PeriodId
 		,pc.ProcessId
-		,pe.TargetTypeId
-		,CASE 
-			WHEN pe.TargetTypeId = 3 -- semi
-				AND epa.HasMonthlyEPA = 1 THEN 1
-			ELSE 0
-			END AS HasMonthlyEPA
 	FROM dbo.EPA AS epa WITH (NOLOCK)
 		INNER JOIN dbo.EPAProcess AS pc WITH (NOLOCK) ON epa.EPAId = pc.EPAId
 		INNER JOIN dbo.Period AS pe WITH (NOLOCK) ON epa.PeriodId = pe.PeriodId
@@ -29,6 +24,6 @@ BEGIN
 			ISNULL(@PeriodId, '') = ''
 			OR pe.PeriodId = @PeriodId
 			)
-		AND epa.[Status] = 0 -- Open
-		AND pe.IsActive = 1 -- Active period
+		AND ISNULL(epa.[Status], 0) = 0 -- Open
+		AND pe.IsActive = 1
 END

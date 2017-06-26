@@ -65,8 +65,8 @@ BEGIN
 		,d.IsUnpaidLeave AS UnpaidLeave
 		,d.IsWorkingUndertime AS WorkingUnderTime
 		,d.IsUnpaidLeaveAbsent AS UnpaidLeaveAbsent
-		,d.IsUnplannedLeave AS UnplannedLeave
-		,d.IsWeekendLeave AS WeekendLeave
+		,ISNULL(d.IsUnplannedLeave, 0) AS UnplannedLeave
+		,ISNULL(d.IsWeekendLeave, 0) AS WeekendLeave
 		,0 AS VerbalWarning
 		,0 AS WrittenWarning
 		,0 AS OtherDisciplineScore
@@ -239,19 +239,19 @@ BEGIN
 			ELSE 0
 			END
 
-	SELECT SUM(empD.ChangeShift) AS ChangeShift
-		,SUM(empD.MissingCheckInOut) AS MissingCheckInOut
-		,SUM(empD.LateIn) AS LateIn
-		,SUM(empD.EarlyOut) AS EarlyOut
-		,SUM(empD.[Absent]) AS [Absent]
-		,SUM(empD.UnpaidLeave) AS UnpaidLeave
-		,SUM(empD.WorkingUnderTime) AS WorkingUnderTime
-		,SUM(empD.UnpaidLeaveAbsent) AS UnpaidLeaveAbsent
-		,SUM(empD.UnplannedLeave) AS UnplannedLeave
-		,SUM(empD.WeekendLeave) AS WeekendLeave
-		,SUM(empD.OtherViolationsScore) AS OtherViolationsScore
-		,SUM(empF.SystemSubtractScore + empD.OtherViolationsScore) AS SystemSubtractScore
-		,SUM(empF.ApproverSubtractScore + empD.OtherViolationsScore) AS ApproverSubtractScore
+	SELECT SUM(ISNULL(empD.ChangeShift, 0)) AS ChangeShift
+		,SUM(ISNULL(empD.MissingCheckInOut, 0)) AS MissingCheckInOut
+		,SUM(ISNULL(empD.LateIn, 0)) AS LateIn
+		,SUM(ISNULL(empD.EarlyOut, 0)) AS EarlyOut
+		,SUM(ISNULL(empD.[Absent], 0)) AS [Absent]
+		,SUM(ISNULL(empD.UnpaidLeave, 0)) AS UnpaidLeave
+		,SUM(ISNULL(empD.WorkingUnderTime, 0)) AS WorkingUnderTime
+		,SUM(ISNULL(empD.UnpaidLeaveAbsent, 0)) AS UnpaidLeaveAbsent
+		,SUM(ISNULL(empD.UnplannedLeave, 0)) AS UnplannedLeave
+		,SUM(ISNULL(empD.WeekendLeave, 0)) AS WeekendLeave
+		,SUM(ISNULL(empD.OtherViolationsScore, 0)) AS OtherDisciplines
+		,SUM(ISNULL(empF.SystemSubtractScore, 0) + ISNULL(empD.OtherViolationsScore, 0)) AS SystemSubtractScore
+		,SUM(ISNULL(empF.ApproverSubtractScore, 0) + ISNULL(empD.OtherViolationsScore, 0)) AS ApproverSubtractScore
 		,Permission = (CASE 
 			WHEN EXISTS (
 					SELECT 1

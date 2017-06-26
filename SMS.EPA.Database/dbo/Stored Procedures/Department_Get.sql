@@ -1,6 +1,6 @@
 ﻿
 CREATE PROCEDURE [dbo].[Department_Get] @ParentId INT = NULL
-	,@IsActive BIT = NULL
+	,@IsActive BIT = 1
 AS
 /*
 Created: 20150721@Tim.Trinh
