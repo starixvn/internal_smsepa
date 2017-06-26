@@ -127,19 +127,19 @@
     <Compile Include="Service\Interfaces\ISemiAnnualService.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.gwi.config">
+    <None Include="AppConfigs\App.PRO.gwi.config">
       <SubType>Designer</SubType>
     </None>
-    <None Include="App.hm.config">
+    <None Include="AppConfigs\App.PRO.hm.config">
       <SubType>Designer</SubType>
     </None>
-    <None Include="App.group.config">
+    <None Include="AppConfigs\App.PRO.group.config">
       <SubType>Designer</SubType>
     </None>
-    <None Include="App.lexfin.config">
+    <None Include="AppConfigs\App.PRO.lexfin.config">
       <SubType>Designer</SubType>
     </None>
-    <None Include="App.sms.config">
+    <None Include="AppConfigs\App.PRO.sms.config">
       <SubType>Designer</SubType>
     </None>
     <None Include="App.config">

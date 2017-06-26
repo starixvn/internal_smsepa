@@ -876,19 +876,19 @@
     <Content Include="Views\Emails\EndEvaluationEmailToSelf.cshtml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Web.lexfin.config">
+    <Content Include="WebConfigs\Web.PRO.lexfin.config">
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="Web.gwi.config">
+    <Content Include="WebConfigs\Web.PRO.gwi.config">
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="Web.hm.config">
+    <Content Include="WebConfigs\Web.PRO.hm.config">
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="Web.group.config">
+    <Content Include="WebConfigs\Web.PRO.group.config">
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="Web.sms.config">
+    <Content Include="WebConfigs\Web.PRO.sms.config">
       <SubType>Designer</SubType>
     </Content>
     <None Include="Web.cti.config">

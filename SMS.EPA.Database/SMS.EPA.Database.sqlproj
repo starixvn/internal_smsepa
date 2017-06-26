@@ -65,7 +65,6 @@
     <Folder Include="dbo\Functions\" />
     <Folder Include="dbo\Stored Procedures\" />
     <Folder Include="dbo\User Defined Types\" />
-    <Folder Include="Security\" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="dbo\Tables\EvaluationGlobalSetting.sql" />
@@ -76,11 +75,8 @@
     <Build Include="dbo\Tables\SemiPeriodSettingDetail.sql" />
     <Build Include="dbo\Tables\EPASummaryImport.sql" />
     <Build Include="dbo\Tables\EPADetail.sql" />
-    <Build Include="dbo\Tables\AttendanceDetailIgnored.sql" />
-    <Build Include="dbo\Tables\AttendanceViolation.sql" />
     <Build Include="dbo\Tables\Department.sql" />
     <Build Include="dbo\Tables\Employee.sql" />
-    <Build Include="dbo\Tables\EmployeeOtherViolation.sql" />
     <Build Include="dbo\Tables\EmployeeRole.sql" />
     <Build Include="dbo\Tables\ScoreRatingType.sql" />
     <Build Include="dbo\Tables\OtherViolationType.sql" />
@@ -91,12 +87,9 @@
     <Build Include="dbo\Tables\HRMEmployeeSupervisor.sql" />
     <Build Include="dbo\Tables\HRMGroupSupervisor.sql" />
     <Build Include="dbo\Tables\HRMJobTitle.sql" />
-    <Build Include="dbo\Tables\AttendanceSectionRule.sql" />
     <Build Include="dbo\Tables\KPI.sql" />
-    <Build Include="dbo\Tables\HRMEmployeeAttendanceViolation.sql" />
     <Build Include="dbo\Tables\KPIDetail.sql" />
     <Build Include="dbo\Tables\KPIGroup.sql" />
-    <Build Include="dbo\Tables\EPAImportTemp.sql" />
     <Build Include="dbo\Tables\KPIGroupHistory.sql" />
     <Build Include="dbo\Tables\KPIHistory.sql" />
     <Build Include="dbo\Tables\Lookup.sql" />
@@ -123,8 +116,6 @@
     <Build Include="dbo\Tables\StandardGrade.sql" />
     <Build Include="dbo\Views\HierarchyDepartment.sql" />
     <Build Include="dbo\Functions\fncGetDataForWriteLog.sql" />
-    <Build Include="dbo\Functions\fncGetDataForWriteLog_Discipline_IgnoredViolations.sql" />
-    <Build Include="dbo\Functions\fncGetDataForWriteLog_Discipline_OtherViolations.sql" />
     <Build Include="dbo\Functions\fncGetDataForWriteLog_Employee_ChangePassWord.sql" />
     <Build Include="dbo\Functions\fncGetDataForWriteLog_EPA_AdjustScore.sql" />
     <Build Include="dbo\Functions\fncGetDataForWriteLog_EPA_UpdateScore.sql" />
@@ -166,24 +157,16 @@
     <Build Include="dbo\Stored Procedures\TargetTemplate_GetAllKPIByKPIGroups.sql" />
     <Build Include="dbo\Stored Procedures\TargetTemplate_GetAll.sql" />
     <Build Include="dbo\Stored Procedures\TargetTemplate_Delete.sql" />
-    <Build Include="dbo\Stored Procedures\Sync_TeamSupervisor_GetMaxModifiedDate.sql" />
-    <Build Include="dbo\Stored Procedures\Sync_TeamSupervisor.sql" />
     <Build Include="dbo\Stored Procedures\Sync_TeamDisciplinePermission_GetMaxModifiedDate.sql" />
     <Build Include="dbo\Stored Procedures\Sync_TeamDisciplinePermission.sql" />
     <Build Include="dbo\Stored Procedures\Sync_JobTitle.sql" />
-    <Build Include="dbo\Stored Procedures\Sync_GroupSupervisor_GetMaxModifiedDate.sql" />
-    <Build Include="dbo\Stored Procedures\Sync_GroupSupervisor.sql" />
     <Build Include="dbo\Stored Procedures\Sync_Group_GetMaxModifiedDate.sql" />
     <Build Include="dbo\Stored Procedures\Sync_Group.sql" />
-    <Build Include="dbo\Stored Procedures\Sync_EmployeeSupervisor_GetMaxModifiedDate.sql" />
-    <Build Include="dbo\Stored Procedures\Sync_EmployeeSupervisor.sql" />
     <Build Include="dbo\Stored Procedures\Sync_EmployeeDisciplinePermission_GetMaxModifiedDate.sql" />
     <Build Include="dbo\Stored Procedures\Sync_EmployeeDisciplinePermission.sql" />
     <Build Include="dbo\Stored Procedures\Sync_EmployeeDiscipline_GetMaxModifiedDate.sql" />
     <Build Include="dbo\Stored Procedures\Sync_EmployeeDiscipline_GetFromDate.sql" />
     <Build Include="dbo\Stored Procedures\Sync_EmployeeDiscipline.sql" />
-    <Build Include="dbo\Stored Procedures\Sync_EmployeeAttendanceViolation_GetMaxModifiedDate.sql" />
-    <Build Include="dbo\Stored Procedures\Sync_EmployeeAttendanceViolation_GetFromDate.sql" />
     <Build Include="dbo\Stored Procedures\Sync_Employee_GetMaxModifiedDate.sql" />
     <Build Include="dbo\Stored Procedures\Sync_Employee.sql" />
     <Build Include="dbo\Stored Procedures\Sync_DisciplineSummary_GetLastModifiedDate.sql" />
@@ -191,7 +174,6 @@
     <Build Include="dbo\Stored Procedures\Sync_Department_GetMaxModifiedDate.sql" />
     <Build Include="dbo\Stored Procedures\Sync_Department.sql" />
     <Build Include="dbo\Stored Procedures\Sync_CalculateLeftRightGroupDepartment.sql" />
-    <Build Include="dbo\Stored Procedures\Sync_AttendanceViolation.sql" />
     <Build Include="dbo\Stored Procedures\SettingEmployeeFlow_Set.sql" />
     <Build Include="dbo\Stored Procedures\SettingEmployeeFlow_GetById.sql" />
     <Build Include="dbo\Stored Procedures\SettingEmployeeFlow_Get.sql" />
@@ -307,7 +289,6 @@
     <Build Include="dbo\Stored Procedures\EpaAttendanceSummary_GetDetail.sql" />
     <Build Include="dbo\Stored Procedures\EpaAttendanceSummary_GetByEPA.sql" />
     <Build Include="dbo\Stored Procedures\EpaAttendanceSummary_Get.sql" />
-    <Build Include="dbo\Stored Procedures\EpaAttendanceSummary_Delete.sql" />
     <Build Include="dbo\Stored Procedures\EPA_UpdateStatus.sql" />
     <Build Include="dbo\Stored Procedures\EPA_UpdateScore.sql" />
     <Build Include="dbo\Stored Procedures\EPA_UpdateFinalScoreEndEvaluation.sql" />
@@ -359,8 +340,6 @@
     <Build Include="dbo\Stored Procedures\EmployeeDisciplineSummary_GetByPeriod.sql" />
     <Build Include="dbo\Stored Procedures\EmployeeDisciplineSummary_GetByEPA.sql" />
     <Build Include="dbo\Stored Procedures\Department_Get.sql" />
-    <Build Include="dbo\Stored Procedures\EpaPeriod_EditEmployeeSetting_CheckEmployeeOverlap_xpre.sql" />
-    <Build Include="dbo\Stored Procedures\EpaPeriod_AddEmployee_CheckEmployeeOverlap_xpre.sql" />
     <Build Include="dbo\Tables\JobGrade.sql" />
     <Build Include="dbo\Tables\EPARecommendation.sql" />
     <Build Include="dbo\Functions\fncGetDataForWriteLog_EPA_UpdateFinalScore.sql" />
@@ -370,28 +349,7 @@
     <Build Include="dbo\Tables\OrdinalNumbers.sql" />
     <Build Include="dbo\Stored Procedures\Report_GetEmployees.sql" />
     <Build Include="dbo\Stored Procedures\EpaAuto_Probation_InsertPeriod.sql" />
-    <Build Include="Security\RoleMemberships.sql" />
-    <Build Include="dbo\Stored Procedures\Sync_Shift_GetMaxModifiedDate.sql" />
-    <Build Include="dbo\Stored Procedures\Sync_Shift.sql" />
-    <Build Include="dbo\Stored Procedures\Sync_RequestHistory.sql" />
-    <Build Include="dbo\Stored Procedures\Sync_Request.sql" />
-    <Build Include="dbo\Stored Procedures\Sync_LeaveType.sql" />
-    <Build Include="dbo\Stored Procedures\Sync_EmployeeRequestHistory_GetMaxModifiedDate.sql" />
-    <Build Include="dbo\Stored Procedures\Sync_EmployeeRequest_GetMaxModifiedDate.sql" />
-    <Build Include="dbo\Stored Procedures\Sync_EmployeeCalendar_GetMaxModifiedDate.sql" />
-    <Build Include="dbo\Stored Procedures\Sync_EmployeeAttendance_GetMaxModifiedDate.sql" />
-    <Build Include="dbo\Stored Procedures\Sync_Calendar.sql" />
-    <Build Include="dbo\Stored Procedures\Sync_Attendance.sql" />
-    <Build Include="dbo\Stored Procedures\EpaPeriod_Get_xpre.sql" />
-    <Build Include="dbo\Stored Procedures\EpaAttendanceSummary_IgnoredViolation.sql" />
-    <Build Include="dbo\Stored Procedures\EpaAttendanceSummary_GetByEPA_xpre.sql" />
-    <Build Include="dbo\Stored Procedures\EpaAttendanceSummary_AddOtherViolations.sql" />
     <Build Include="dbo\Stored Procedures\EPA_UpdateScoreByReviewerOrManagement.sql" />
-    <Build Include="dbo\Stored Procedures\EPA_RatingByKPI_GetKPIToView_xpre.sql" />
-    <Build Include="dbo\Stored Procedures\EPA_RatingByKPI_GetKPIByTargetTemplate_xpre.sql" />
-    <Build Include="dbo\Stored Procedures\EPA_GetLastScore_xpre1.sql" />
-    <Build Include="dbo\Stored Procedures\EPA_GetGeneralInfo_xpre.sql" />
-    <Build Include="dbo\Stored Procedures\EPA_GetEPAToUpdateFinalScore_xtest.sql" />
     <Build Include="dbo\Stored Procedures\DBA_GrantPermissions.sql">
       <AnsiNulls>Off</AnsiNulls>
       <QuotedIdentifier>Off</QuotedIdentifier>
