@@ -23,29 +23,29 @@
                 <div ng-show="epaInfo.EPAId > 0 && !epaInfo.IsClosed" data-translate="Pending"></div>
                 <div ng-show="epaInfo.EPAId < 0" ng-bind="'-'"></div>
             </td>
-            <td class="col-discipline-score">
-                <div>
-                    <div ng-show="epaInfo.EPAId > 0 && epaInfo.IsClosed">
-                        <div ng-show="epaInfo.HasDisciplineScore">
+            <td class="text-center">
+                <span>
+                    <span ng-show="epaInfo.EPAId > 0 && epaInfo.IsClosed">
+                        <span ng-show="epaInfo.HasDisciplineScore">
                             <span ng-class="epaInfo.DisciplineScore < 0 ? 'red' : ''"
                                   ng-bind="epaInfo.DisciplineScore | customScore"></span> / <span ng-bind="epaInfo.MaxDisciplineScore | customScore"></span>
-                        </div>
-                        <div ng-show="!epaInfo.HasDisciplineScore">
+                        </span>
+                        <span ng-show="!epaInfo.HasDisciplineScore">
                             <span ng-show="epaInfo.DisciplineScore"
                                   ng-class="epaInfo.DisciplineScore < 0 ? 'red' : ''"
                                   ng-bind="epaInfo.DisciplineScore | customScore"></span>
                             <span ng-show="!epaInfo.DisciplineScore" ng-bind="'-'"></span>
-                        </div>
-                    </div>
-                    <div ng-show="epaInfo.EPAId > 0 && !epaInfo.IsClosed" data-translate="Pending"></div>
-                    <div ng-show="epaInfo.EPAId < 0" ng-bind="'-'"></div>
-                </div>
-                <div ng-if="epaInfo.EPAId > 0 && epaInfo.IsClosed && epaInfo.OtherDisciplines > 0">
+                        </span>
+                    </span>
+                    <span ng-show="epaInfo.EPAId > 0 && !epaInfo.IsClosed" data-translate="Pending"></span>
+                    <span ng-show="epaInfo.EPAId < 0" ng-bind="'-'"></span>
+                </span>
+                <span ng-if="epaInfo.EPAId > 0 && epaInfo.IsClosed && epaInfo.OtherDisciplines > 0">
                     <a class="glyphicon icon-alert" href="" ng-click="dashboardCtrl.viewOtherViolationDetail(epaInfo)"
                        ng-if="epaInfo.HasOtherViolation" ng-attr-title='{{"ViewOtherViolation" | translate}}'></a>
                     <a class="glyphicon icon-alert" href=""
                        ng-if="!epaInfo.HasOtherViolation" ng-attr-title='Misconduction case: {{epaInfo.OtherDisciplines}}'></a>
-                </div>
+                </span>
             </td>
             <td class="text-center">
                 <div ng-show="epaInfo.IsClosed">
