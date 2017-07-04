@@ -27,12 +27,12 @@
 
         public EPASummaryModel GetEPASummary(ICriteria criteria)
         {
-            EPASummaryModel epaSummary = new EPASummaryModel();
-
             using (var db = new ObjectDb(criteria.GetSettingKey()))
             {
-                using (GridReaderWrapper multi = db.QueryMultiple(criteria.GetSpParams()))
+                using (IMultiResultReader multi = db.QueryMultiple(criteria.GetSpParams()))
                 {
+                    var epaSummary = new EPASummaryModel();
+
                     epaSummary.PeriodSelecteds = multi.Read<PeriodModel>().ToList();
 
                     epaSummary.EPAInfos = multi.Read<EPASummaryEmployeeModel, Group, JobTitle, EPASummaryEmployeeModel>(
@@ -47,7 +47,7 @@
 
                     IList<EPASummaryPeriodModel> periods = multi.Read<EPASummaryPeriodModel>().ToList();
 
-                    if (!multi.IsEnded)
+                    if (!multi.IsEmptyOrClosed)
                     {
                         // If not montly Period
                         IList<EPASummaryDetailScoreModel> detailScores = multi.Read<EPASummaryDetailScoreModel>().ToList();
@@ -57,19 +57,17 @@
 
                     GroupPeriodByEmployee(epaSummary.EPAInfos, periods);
                     DecodeFinalScoreAndGrade(epaSummary.EPAInfos);
+
+                    return epaSummary;
                 }
             }
-
-            return epaSummary;
         }
 
         private static void AddDetailScoresToPeriods(IList<EPASummaryPeriodModel> periods, IList<EPASummaryDetailScoreModel> detailScores)
         {
             foreach (EPASummaryPeriodModel summaryPeriodModel in periods)
             {
-                var scoresOfPeriod =
-                    detailScores.Where(x => x.EmployeeId == summaryPeriodModel.EmployeeId &&
-                                            x.PeriodId == summaryPeriodModel.PeriodId);
+                var scoresOfPeriod = detailScores.Where(x => x.EmployeeId == summaryPeriodModel.EmployeeId && x.PeriodId == summaryPeriodModel.PeriodId);
 
                 foreach (EPASummaryDetailScoreModel detailScoreModel in scoresOfPeriod)
                 {
@@ -80,16 +78,15 @@
 
         public EPADetailModel GetEPADetail(ICriteria criteria)
         {
-            EPADetailModel epaDetail = new EPADetailModel();
-
             using (var db = new ObjectDb(criteria.GetSettingKey()))
             {
-                using (GridReaderWrapper multi = db.QueryMultiple(criteria.GetSpParams()))
+                using (IMultiResultReader multi = db.QueryMultiple(criteria.GetSpParams()))
                 {
+                    var epaDetail = new EPADetailModel();
+
                     epaDetail.PhaseSelecteds = multi.Read<EvaluationPhaseModel>();
 
-                    epaDetail.EpaInfos = multi
-                        .Read<EPAModel, EPAEmployeeModel, EPAPeriodModel, ScoreRatingTypeModel, EPAModel>(
+                    epaDetail.EpaInfos = multi.Read<EPAModel, EPAEmployeeModel, EPAPeriodModel, ScoreRatingTypeModel, EPAModel>(
                             (info, employee, period, scoreRatingType) =>
                             {
                                 info.Employee = employee;
@@ -111,20 +108,20 @@
 
                     GroupEPAProcessByEPA(epaDetail.EpaInfos, processes);
                     DecodeAllScore(epaDetail.EpaInfos);
+
+                    return epaDetail;
                 }
             }
-
-            return epaDetail;
         }
 
         public EPADetailModel GetMonthlyEPADetail(ICriteria criteria)
         {
-            EPADetailModel epaDetail = new EPADetailModel();
-
             using (var db = new ObjectDb(criteria.GetSettingKey()))
             {
-                using (GridReaderWrapper multi = db.QueryMultiple(criteria.GetSpParams()))
+                using (IMultiResultReader multi = db.QueryMultiple(criteria.GetSpParams()))
                 {
+                    var epaDetail = new EPADetailModel();
+
                     epaDetail.PhaseSelecteds = multi.Read<EvaluationPhaseModel>();
 
                     epaDetail.EpaInfos = multi.Read<EPAModel, EPAEmployeeModel, EPAPeriodModel, EPAModel>(
@@ -141,10 +138,10 @@
 
                     GroupEPAProcessByEPA(epaDetail.EpaInfos, processes);
                     DecodeAllScore(epaDetail.EpaInfos);
+
+                    return epaDetail;
                 }
             }
-
-            return epaDetail;
         }
 
         private static void GroupPeriodByEmployee(

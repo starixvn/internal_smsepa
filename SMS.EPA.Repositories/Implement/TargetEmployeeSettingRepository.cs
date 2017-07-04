@@ -13,9 +13,9 @@
         {
             using (var db = new ObjectDb(criteria.GetSettingKey()))
             {
-                using (GridReaderWrapper multi = db.QueryMultiple(criteria.GetSpParams()))
+                using (IMultiResultReader multi = db.QueryMultiple(criteria.GetSpParams()))
                 {
-                    IEnumerable<Employee> employees = multi.Read<Employee, Group, Employee>(
+                    var employees = multi.Read<Employee, Group, Employee>(
                         (emp, gr) =>
                         {
                             emp.Group = gr;
@@ -23,7 +23,7 @@
                         },
                         "GroupId");
 
-                    IEnumerable<TargetTemplateEmployee> targetEmployees = multi.Read<TargetTemplateEmployee>();
+                    var targetEmployees = multi.Read<TargetTemplateEmployee>();
 
                     return MappingTargetTemplateEmployee(employees, targetEmployees);
                 }
@@ -34,11 +34,11 @@
         {
             using (var db = new ObjectDb(criteria.GetSettingKey()))
             {
-                using (GridReaderWrapper multi = db.QueryMultiple(criteria.GetSpParams()))
+                using (IMultiResultReader multi = db.QueryMultiple(criteria.GetSpParams()))
                 {
-                    IEnumerable<Department> deparments = multi.Read<Department>();
+                    var deparments = multi.Read<Department>();
 
-                    IEnumerable<TargetTemplateDepartment> targetDepartments = multi.Read<TargetTemplateDepartment>();
+                    var targetDepartments = multi.Read<TargetTemplateDepartment>();
 
                     return MappingTargetTemplateDepartment(deparments, targetDepartments);
                 }
@@ -74,8 +74,8 @@
 
             foreach (Department department in departments)
             {
-                IList<TargetTemplateDepartment> tempTargetTemplateDepartments = targetTemplateDepartments.Where(
-                        t => t.DepartmentId == department.DepartmentId && t.IsGroup == department.IsGroup)
+                IList<TargetTemplateDepartment> tempTargetTemplateDepartments = targetTemplateDepartments
+                    .Where(t => t.DepartmentId == department.DepartmentId && t.IsGroup == department.IsGroup)
                     .ToList();
                 targetDepartments.Add(new TargetDepartmentSetting
                 {

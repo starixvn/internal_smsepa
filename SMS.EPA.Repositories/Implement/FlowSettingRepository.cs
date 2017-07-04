@@ -1,11 +1,11 @@
 ﻿namespace SMS.EPA.Repositories
 {
-    using System;
     using Core.Enumerations;
     using Fanex.Data;
     using Fanex.Data.Repository;
     using Model;
     using Model.Enitites;
+    using System;
     using System.Collections.Generic;
     using System.Linq;
 
@@ -15,7 +15,7 @@
         {
             using (var db = new ObjectDb(criteria.GetSettingKey()))
             {
-                IEnumerable<FlowModel> epaFlow = db.Query<FlowModel, FlowTemplateModel, EvaluatorInfoViewModel, FlowModel>(
+                var epaFlow = db.Query<FlowModel, FlowTemplateModel, EvaluatorInfoViewModel, FlowModel>(
                    (f, ft, e) =>
                    {
                        f.FlowTemplate = ft;
@@ -31,31 +31,27 @@
 
         public IEnumerable<DepartmentFlowModel> GetDepartmentFlowByFlowTemplateId(ICriteria criteria)
         {
-            IEnumerable<DepartmentFlowModel> flows;
-
             using (var db = new ObjectDb(criteria.GetSettingKey()))
             {
-                using (GridReaderWrapper multi = db.QueryMultiple(criteria.GetSpParams()))
+                using (IMultiResultReader multi = db.QueryMultiple(criteria.GetSpParams()))
                 {
-                    flows = multi.Read<DepartmentFlowModel>();
-                    IEnumerable<ProcessFlowModel> processes = multi.Read<ProcessFlowModel>();
+                    var flows = multi.Read<DepartmentFlowModel>();
+                    var processes = multi.Read<ProcessFlowModel>();
 
                     GroupProcessFlowByDepartment(flows, processes);
+
+                    return flows;
                 }
             }
-
-            return flows;
         }
 
         public IEnumerable<PersonalFlowModel> GetPersonalFlowByFlowTemplateId(ICriteria criteria)
         {
-            IEnumerable<PersonalFlowModel> flows;
-
             using (var db = new ObjectDb(criteria.GetSettingKey()))
             {
-                using (GridReaderWrapper multi = db.QueryMultiple(criteria.GetSpParams()))
+                using (IMultiResultReader multi = db.QueryMultiple(criteria.GetSpParams()))
                 {
-                    flows = multi.Read<PersonalFlowModel, Group, PersonalFlowModel>(
+                    var flows = multi.Read<PersonalFlowModel, Group, PersonalFlowModel>(
                         (flow, gr) =>
                         {
                             flow.Group = gr;
@@ -64,13 +60,13 @@
                         },
                         "GroupId");
 
-                    IEnumerable<ProcessFlowModel> processes = multi.Read<ProcessFlowModel>();
+                    var processes = multi.Read<ProcessFlowModel>();
 
                     GroupProcessFlowByEmployee(flows, processes);
+
+                    return flows;
                 }
             }
-
-            return flows;
         }
 
         private static void GroupProcessFlowByDepartment(IEnumerable<DepartmentFlowModel> flows, IEnumerable<ProcessFlowModel> processes)

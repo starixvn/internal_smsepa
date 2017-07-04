@@ -1,11 +1,11 @@
 ﻿namespace SMS.EPA.Repositories
 {
-    using System;
     using Core.Enumerations;
     using Fanex.Data;
     using Fanex.Data.Repository;
     using Model;
     using Model.Enitites;
+    using System;
     using System.Collections.Generic;
     using System.Linq;
 
@@ -45,9 +45,9 @@
         {
             using (var db = new ObjectDb(criteria.GetSettingKey()))
             {
-                using (GridReaderWrapper multi = db.QueryMultiple(criteria.GetSpParams()))
+                using (IMultiResultReader multi = db.QueryMultiple(criteria.GetSpParams()))
                 {
-                    IEnumerable<PeriodEmployeeSettingModel> employeeSettings =
+                    var employeeSettings =
                         multi.Read<PeriodEmployeeSettingModel, EmployeeViewModel, DepartmentViewModel, Group, JobTitle, TargetTemplate, PeriodEmployeeSettingModel>(
                             (pe, emp, dep, gr, job, tar) =>
                             {
@@ -61,8 +61,7 @@
                             },
                             "EmployeeId, DepartmentId, GroupId, JobTitleId, TargetTemplateId");
 
-                    IEnumerable<PeriodFlowSettingModel> flowSettings =
-                        multi.Read<PeriodFlowSettingModel, EvaluatorInfoViewModel, PeriodFlowSettingModel>(
+                    var flowSettings = multi.Read<PeriodFlowSettingModel, EvaluatorInfoViewModel, PeriodFlowSettingModel>(
                             (fl, eva) =>
                             {
                                 fl.EvaluatorInfo = eva;
@@ -104,8 +103,7 @@
                 var setting = employeeSetting;
 
                 IEnumerable<PeriodFlowSettingModel> employeeFlowSettings =
-                    flowSettings.Where(x => x.PeriodId == setting.PeriodId &&
-                                            x.EmployeeId == setting.Employee.EmployeeId);
+                    flowSettings.Where(x => x.PeriodId == setting.PeriodId && x.EmployeeId == setting.Employee.EmployeeId);
 
                 foreach (PeriodFlowSettingModel employeeFlowSetting in employeeFlowSettings)
                 {

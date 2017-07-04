@@ -14,9 +14,9 @@
         {
             using (var db = new ObjectDb(criteria.GetSettingKey()))
             {
-                using (GridReaderWrapper multi = db.QueryMultiple(criteria.GetSpParams()))
+                using (IMultiResultReader multi = db.QueryMultiple(criteria.GetSpParams()))
                 {
-                    IEnumerable<Employee> employees = multi.Read<Employee, JobTitle, Group, Employee>(
+                    var employees = multi.Read<Employee, JobTitle, Group, Employee>(
                            (emp, jb, gr) =>
                            {
                                emp.JobTitle = jb;
@@ -26,7 +26,7 @@
                            },
                            "JobTitleId, GroupId");
 
-                    IEnumerable<EmployeeRoleModel> roles = multi.Read<EmployeeRoleModel>();
+                    var roles = multi.Read<EmployeeRoleModel>();
 
                     foreach (Employee employee in employees)
                     {
@@ -50,9 +50,9 @@
         {
             using (var db = new ObjectDb(criteria.GetSettingKey()))
             {
-                using (GridReaderWrapper multi = db.QueryMultiple(criteria.GetSpParams()))
+                using (IMultiResultReader multi = db.QueryMultiple(criteria.GetSpParams()))
                 {
-                    UserSession user = multi.Read<UserSession>().FirstOrDefault();
+                    var user = multi.Read<UserSession>().FirstOrDefault();
 
                     if (user != null && user.EmployeeId > 0)
                     {
@@ -69,9 +69,9 @@
         {
             using (var db = new ObjectDb(criteria.GetSettingKey()))
             {
-                using (GridReaderWrapper multi = db.QueryMultiple(criteria.GetSpParams()))
+                using (IMultiResultReader multi = db.QueryMultiple(criteria.GetSpParams()))
                 {
-                    Employee employee = multi.Read<Employee, JobTitle, Department, Group, Employee>(
+                    var employee = multi.Read<Employee, JobTitle, Department, Group, Employee>(
                            (emp, jb, dept, gr) =>
                            {
                                emp.JobTitle = jb;
