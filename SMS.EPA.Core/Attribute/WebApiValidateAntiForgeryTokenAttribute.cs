@@ -8,7 +8,7 @@
     using System.Web.Http.Filters;
 
     [AttributeUsage(AttributeTargets.Method | AttributeTargets.Class, AllowMultiple = false, Inherited = true)]
-    public class WebApiValidateAntiForgeryTokenAttribute : ActionFilterAttribute
+    public sealed class WebApiValidateAntiForgeryTokenAttribute : ActionFilterAttribute
     {
         public override void OnActionExecuting(HttpActionContext actionContext)
         {
