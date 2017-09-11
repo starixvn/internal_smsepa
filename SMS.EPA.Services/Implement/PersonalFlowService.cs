@@ -11,16 +11,15 @@
 
     public class PersonalFlowService : BaseService, IPersonalFlowService
     {
-        private readonly IFlowSettingRepository _flowSettingRepository;
+        private readonly IFlowSettingRepository flowSettingRepository;
 
-        public PersonalFlowService()
-            : this(null)
+        public PersonalFlowService() : this(null)
         {
         }
 
         public PersonalFlowService(IFlowSettingRepository flowSettingRepository)
         {
-            _flowSettingRepository = flowSettingRepository ?? new FlowSettingRepository();
+            this.flowSettingRepository = flowSettingRepository ?? new FlowSettingRepository();
         }
 
         public IEnumerable<PersonalFlowModel> GetPersonalFlowByFlowTemplateId(int flowTemplateId)
@@ -33,7 +32,7 @@
 
             if (criteria.IsValid())
             {
-                flows = _flowSettingRepository.GetPersonalFlowByFlowTemplateId(criteria).OrderBy(i => i.Group.GroupName);
+                flows = flowSettingRepository.GetPersonalFlowByFlowTemplateId(criteria).OrderBy(i => i.Group.GroupName);
             }
 
             return flows;
@@ -45,7 +44,7 @@
 
             if (criteria != null && criteria.IsValid())
             {
-                flow = _flowSettingRepository.GetFlowSettingByFlowTemplateId(criteria);
+                flow = flowSettingRepository.GetFlowSettingByFlowTemplateId(criteria);
             }
 
             return flow;
@@ -53,7 +52,7 @@
 
         public CommandResult CreatePersonalFlow(CreatePersonalFlowCriteria criteria)
         {
-            CommandResult result = new CommandResult();
+            var result = new CommandResult();
 
             if (criteria != null && criteria.IsValid())
             {
@@ -65,7 +64,7 @@
 
         public CommandResult DeletePersonalFlow(DeletePersonalFlowCriteria criteria)
         {
-            CommandResult result = new CommandResult();
+            var result = new CommandResult();
 
             if (criteria != null && criteria.IsValid())
             {
@@ -81,7 +80,7 @@
 
             if (criteria != null && criteria.IsValid())
             {
-                IEnumerable<EvaluatorInfoViewModel> data = GetData<EvaluatorInfoViewModel>(criteria).OrderBy(i => i.NickName);
+                var data = GetData<EvaluatorInfoViewModel>(criteria).OrderBy(i => i.NickName);
                 result.DefaultFlowSettings = data.Where(x => !x.IsExistsSetting);
                 result.PersonalFlowSettings = data.Where(x => x.IsExistsSetting);
             }

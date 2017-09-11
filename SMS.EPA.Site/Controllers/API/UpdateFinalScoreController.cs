@@ -21,8 +21,7 @@
         private readonly IEmployeeEPAService evaluationService;
         private readonly ICryptographyService cryptographyService;
 
-        public UpdateFinalScoreController()
-            : this(null, null)
+        public UpdateFinalScoreController() : this(null, null)
         {
         }
 

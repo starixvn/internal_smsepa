@@ -10,7 +10,7 @@
     {
         public IEnumerable<TargetTypeModel> GetTargetType(GetTargetTypeCriteria criteria)
         {
-            IEnumerable<TargetTypeModel> targetTypes = GetData<TargetTypeModel>(criteria);
+            var targetTypes = GetData<TargetTypeModel>(criteria);
             return targetTypes;
         }
     }

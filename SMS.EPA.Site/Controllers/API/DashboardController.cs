@@ -10,12 +10,11 @@
 
     public class DashboardController : BaseController
     {
-        private readonly IEmployeeService _employeeService;
-        private readonly IReportService _reportService;
-        private readonly IDashboardService _dashboardService;
+        private readonly IEmployeeService employeeService;
+        private readonly IReportService reportService;
+        private readonly IDashboardService dashboardService;
 
-        public DashboardController() :
-            this(null, null, null)
+        public DashboardController() : this(null, null, null)
         {
         }
 
@@ -24,17 +23,17 @@
             IReportService reportService,
             IDashboardService dashboardService)
         {
-            _employeeService = employeeService ?? new EmployeeService();
-            _reportService = reportService ?? new ReportService();
-            _dashboardService = dashboardService ?? new DashboardService();
+            this.employeeService = employeeService ?? new EmployeeService();
+            this.reportService = reportService ?? new ReportService();
+            this.dashboardService = dashboardService ?? new DashboardService();
         }
 
         [HttpGet]
         [ApiAuthorize(FunctionKey = EPAFunctionKey.Home, Policy = Policy.Read)]
         public DashboardModel GetDashboard()
         {
-            DashboardModel dashboard = _reportService.GetDashboard(SessionService.EmployeeId);
-            dashboard.Employee = _employeeService.GetEmployeeById(SessionService.EmployeeId);
+            DashboardModel dashboard = reportService.GetDashboard(SessionService.EmployeeId);
+            dashboard.Employee = employeeService.GetEmployeeById(SessionService.EmployeeId);
 
             return dashboard;
         }
@@ -43,7 +42,7 @@
         [ApiAuthorize(FunctionKey = EPAFunctionKey.Home, Policy = Policy.Read)]
         public ToDoListViewModel GetToDoList()
         {
-            ToDoListViewModel todoList = _dashboardService.GetToDoList(SessionService.EmployeeId);
+            ToDoListViewModel todoList = dashboardService.GetToDoList(SessionService.EmployeeId);
 
             return todoList;
         }

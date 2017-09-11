@@ -20,9 +20,8 @@
     {
         protected const int ExcelColumnWidth = 256;
 
-        private readonly ICommonService _commonService;
-
-        private readonly IEmployeeEPAService _employeeEPAService;
+        private readonly ICommonService commonService;
+        private readonly IEmployeeEPAService employeeEPAService;
 
         protected EPADetailReportServiceBase() : this(null, null)
         {
@@ -30,8 +29,8 @@
 
         protected EPADetailReportServiceBase(ICommonService commonService, IEmployeeEPAService employeeEPAService)
         {
-            _commonService = commonService ?? new CommonService();
-            _employeeEPAService = employeeEPAService ?? new EmployeeEPAService();
+            this.commonService = commonService ?? new CommonService();
+            this.employeeEPAService = employeeEPAService ?? new EmployeeEPAService();
         }
 
         public abstract IList<string> GetColumnsName { get; }
@@ -223,7 +222,7 @@
 
         protected string GetGrade(EPAModel epaInfo, string finalScoreString)
         {
-            var standardGrades = _commonService.GetStandardGrade().ToList();
+            var standardGrades = commonService.GetStandardGrade().ToList();
 
             float finalScore;
             float.TryParse(finalScoreString, out finalScore);
@@ -234,7 +233,7 @@
                 performanceScore = finalScore - epaInfo.DisciplineScore;
             }
 
-            return _employeeEPAService.ConvertScoreToGrade(
+            return employeeEPAService.ConvertScoreToGrade(
                 performanceScore,
                 epaInfo.DisciplineScore,
                 epaInfo.HasDisciplineScore,

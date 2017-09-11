@@ -1,9 +1,8 @@
 ﻿namespace SMS.EPA.AutoService
 {
-    using System;
     using Fanex.Data;
     using Fanex.Data.OldConnectionStringProvider;
-    using System.ServiceProcess;
+    using System;
 
     public static class Program
     {
@@ -21,8 +20,10 @@
 #if DEBUG
             if (Environment.UserInteractive)
             {
-                AutoService autoService = new AutoService();
-                autoService.CheckAndExecuteForDebug();
+                using (var autoService = new AutoService())
+                {
+                    autoService.CheckAndExecuteForDebug();
+                }
             }
 #else
             var servicesToRun = new ServiceBase[]

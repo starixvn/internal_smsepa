@@ -14,16 +14,15 @@
 
     public class EvaluatorByKPIController : BaseController
     {
-        private readonly IEvaluatorByKPIService _evaluatorByKPIService;
+        private readonly IEvaluatorByKPIService evaluatorByKPIService;
 
-        public EvaluatorByKPIController()
-            : this(null)
+        public EvaluatorByKPIController() : this(null)
         {
         }
 
         public EvaluatorByKPIController(IEvaluatorByKPIService evaluatorByKPIService)
         {
-            _evaluatorByKPIService = evaluatorByKPIService ?? new EvaluatorByKPIService();
+            this.evaluatorByKPIService = evaluatorByKPIService ?? new EvaluatorByKPIService();
         }
 
         [HttpGet]
@@ -35,7 +34,7 @@
                 EvaluatorId = SessionService.EmployeeId
             };
 
-            return _evaluatorByKPIService.GetPeriodByEvaluator(criteria);
+            return evaluatorByKPIService.GetPeriodByEvaluator(criteria);
         }
 
         [HttpGet]
@@ -48,7 +47,7 @@
                 PeriodId = periodId
             };
 
-            return _evaluatorByKPIService.GetTargetTemplateByEvaluator(criteria);
+            return evaluatorByKPIService.GetTargetTemplateByEvaluator(criteria);
         }
 
         [HttpGet]
@@ -60,7 +59,7 @@
                 EvaluatorId = SessionService.EmployeeId
             };
 
-            return _evaluatorByKPIService.GetPeriodToView(criteria);
+            return evaluatorByKPIService.GetPeriodToView(criteria);
         }
 
         [HttpGet]
@@ -73,7 +72,7 @@
                 PeriodId = periodId
             };
 
-            return _evaluatorByKPIService.GetTargetTemplateToView(criteria);
+            return evaluatorByKPIService.GetTargetTemplateToView(criteria);
         }
 
         [HttpGet]
@@ -88,7 +87,7 @@
                 TargetTemplateId = targetTemplateId
             };
 
-            return _evaluatorByKPIService.GetEvaluatorsByTargetTemplate(criteria);
+            return evaluatorByKPIService.GetEvaluatorsByTargetTemplate(criteria);
         }
 
         [HttpGet]
@@ -105,7 +104,7 @@
                 TargetTemplateId = targetTemplateId
             };
 
-            return _evaluatorByKPIService.GetKPIToView(criteria);
+            return evaluatorByKPIService.GetKPIToView(criteria);
         }
 
         [HttpGet]
@@ -124,7 +123,7 @@
                 KPIId = kpiId
             };
 
-            return _evaluatorByKPIService.GetEmployeeEPAToView(criteria);
+            return evaluatorByKPIService.GetEmployeeEPAToView(criteria);
         }
 
         [HttpGet]
@@ -140,7 +139,7 @@
                 PeriodId = periodId
             };
 
-            return _evaluatorByKPIService.GetKPIByTargetTemplate(criteria);
+            return evaluatorByKPIService.GetKPIByTargetTemplate(criteria);
         }
 
         [HttpGet]
@@ -162,7 +161,7 @@
                 EmployeeIds = employeeIds
             };
 
-            return _evaluatorByKPIService.GetEmployeeEpabyKPI(criteria);
+            return evaluatorByKPIService.GetEmployeeEpabyKPI(criteria);
         }
 
         [HttpPut]
@@ -175,7 +174,7 @@
                 EpaInfos = epaInfos
             };
 
-            return _evaluatorByKPIService.UpdateKPIScore(criteria);
+            return evaluatorByKPIService.UpdateKPIScore(criteria);
         }
 
         public int GetUserPermissionOnRatingByKPI()

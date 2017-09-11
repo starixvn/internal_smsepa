@@ -27,7 +27,7 @@
             {
                 KPIGroupId = kpiGroupId
             };
-            KPIGroupModel kpiGroup = new KPIGroupModel();
+            var kpiGroup = new KPIGroupModel();
 
             if (criteria.IsValid())
             {
@@ -39,7 +39,7 @@
 
         public CommandResult CreateKPIGroup(CreateKPIGroupCriteria criteria)
         {
-            CommandResult commandResult = new CommandResult();
+            var commandResult = new CommandResult();
 
             if (criteria != null && criteria.IsValid())
             {
@@ -51,7 +51,7 @@
 
         public CommandResult UpdateKPIGroup(UpdateKPIGroupCriteria criteria)
         {
-            CommandResult commandResult = new CommandResult();
+            var commandResult = new CommandResult();
 
             if (criteria != null && criteria.IsValid())
             {
@@ -63,7 +63,7 @@
 
         public CommandResult UpdateStatusKPIGroup(UpdateStatusKPIGroupCriteria criteria)
         {
-            CommandResult commandResult = new CommandResult();
+            var commandResult = new CommandResult();
 
             if (criteria != null && criteria.IsValid())
             {
@@ -75,7 +75,7 @@
 
         public CommandResult DeleteKPIGroup(DeleteKPIGroupCriteria criteria)
         {
-            CommandResult commandResult = new CommandResult();
+            var commandResult = new CommandResult();
 
             if (criteria != null && criteria.IsValid())
             {

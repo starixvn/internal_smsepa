@@ -14,17 +14,16 @@
 
     public class EmployeeController : BaseController
     {
-        private readonly IEmployeeService _employeeService;
+        private readonly IEmployeeService employeeService;
 
-        public EmployeeController()
-            : this(null)
+        public EmployeeController() : this(null)
         {
         }
 
         public EmployeeController(
             IEmployeeService employeeService)
         {
-            _employeeService = employeeService ?? new EmployeeService();
+            this.employeeService = employeeService ?? new EmployeeService();
         }
 
         [ApiAuthorize(FunctionKey = EPAFunctionKey.UserManagement, Policy = Policy.Read)]
@@ -46,7 +45,7 @@
                 HasMonthlyEPA = hasMonthlyEPA
             };
 
-            IEnumerable<Employee> employees = _employeeService.GetAllEmployee(criteria);
+            IEnumerable<Employee> employees = employeeService.GetAllEmployee(criteria);
             return employees;
         }
 
@@ -59,7 +58,7 @@
                 criteria.CreatedBy = SessionService.EmployeeId;
             }
 
-            CommandResult commandResult = _employeeService.CreateSpecialEmployee(criteria);
+            CommandResult commandResult = employeeService.CreateSpecialEmployee(criteria);
             return commandResult;
         }
 
@@ -72,7 +71,7 @@
                 criteria.ModifiedBy = SessionService.EmployeeId;
             }
 
-            CommandResult commandResult = _employeeService.UpdateSpecialEmployee(criteria);
+            CommandResult commandResult = employeeService.UpdateSpecialEmployee(criteria);
             return commandResult;
         }
 
@@ -85,7 +84,7 @@
                 criteria.ModifiedBy = SessionService.EmployeeId;
             }
 
-            CommandResult commandResult = _employeeService.ChangePassword(criteria);
+            CommandResult commandResult = employeeService.ChangePassword(criteria);
 
             return commandResult;
         }
@@ -99,7 +98,7 @@
                 criteria.ModifiedBy = SessionService.EmployeeId;
             }
 
-            CommandResult commandResult = _employeeService.AssignRoleToEmployee(criteria);
+            CommandResult commandResult = employeeService.AssignRoleToEmployee(criteria);
             return commandResult;
         }
 
@@ -115,7 +114,7 @@
                 ModifiedBy = SessionService.EmployeeId
             };
 
-            CommandResult commandResult = _employeeService.ResetPassword(criteria);
+            CommandResult commandResult = employeeService.ResetPassword(criteria);
             return commandResult;
         }
 
@@ -128,7 +127,7 @@
                 criteria.ModifiedBy = SessionService.EmployeeId;
             }
 
-            CommandResult commandResult = _employeeService.UpdateHasMonthlyEPA(criteria);
+            CommandResult commandResult = employeeService.UpdateHasMonthlyEPA(criteria);
             return commandResult;
         }
 

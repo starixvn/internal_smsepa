@@ -5,24 +5,23 @@
     using Core.Enumerations;
     using Criteria;
     using Model;
+    using Model.Discipline;
     using Services.Implement;
     using Services.Interfaces;
     using System;
     using System.Collections.Generic;
-    using Model.Discipline;
 
     public class DisciplineSummaryController : BaseController
     {
-        private readonly IDisciplineService _disciplineService;
+        private readonly IDisciplineService disciplineService;
 
-        public DisciplineSummaryController()
-            : this(null)
+        public DisciplineSummaryController() : this(null)
         {
         }
 
         public DisciplineSummaryController(IDisciplineService disciplineService)
         {
-            _disciplineService = disciplineService ?? new DisciplineService();
+            this.disciplineService = disciplineService ?? new DisciplineService();
         }
 
         [ApiAuthorize(FunctionKey = EPAFunctionKey.DisciplineSummary, Policy = Policy.Read)]
@@ -46,7 +45,7 @@
                 ApproverId = SessionService.EmployeeId,
                 IsShowAll = isShowAll
             };
-            IEnumerable<DisciplineSummaryModel> employeeDisciplines = _disciplineService.GetDisciplineSummary(criteria);
+            IEnumerable<DisciplineSummaryModel> employeeDisciplines = disciplineService.GetDisciplineSummary(criteria);
 
             return employeeDisciplines;
         }
@@ -72,7 +71,7 @@
                 ApproverId = SessionService.EmployeeId,
                 HasIgnored = hasIgnored
             };
-            IEnumerable<DisciplineDetailModel> employeeDisciplines = _disciplineService.GetDisciplineDetail(criteria);
+            IEnumerable<DisciplineDetailModel> employeeDisciplines = disciplineService.GetDisciplineDetail(criteria);
 
             return employeeDisciplines;
         }
@@ -93,8 +92,7 @@
                 IsLocal = isLocal,
                 EmployeeId = employeeId
             };
-            IEnumerable<DisciplineSummaryByPeriodModel> employeeDisciplines =
-                _disciplineService.GetDisciplineSummaryByPeriod(criteria);
+            IEnumerable<DisciplineSummaryByPeriodModel> employeeDisciplines = disciplineService.GetDisciplineSummaryByPeriod(criteria);
 
             return employeeDisciplines;
         }
@@ -113,7 +111,7 @@
                 StartDate = startDate,
                 EndDate = endDate
             };
-            IEnumerable<OtherDisciplineModel> violations = _disciplineService.GetOtherViolations(criteria);
+            IEnumerable<OtherDisciplineModel> violations = disciplineService.GetOtherViolations(criteria);
 
             return violations;
         }
@@ -127,7 +125,7 @@
                 IncludeOtherViolate = includeOtherViolate,
                 IsActive = isActive
             };
-            IEnumerable<DisciplineTypeModel> violations = _disciplineService.GetDisciplineType(criteria);
+            IEnumerable<DisciplineTypeModel> violations = disciplineService.GetDisciplineType(criteria);
 
             return violations;
         }

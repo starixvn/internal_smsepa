@@ -16,11 +16,10 @@
 
     public class EvaluatorEPAController : BaseController
     {
-        private readonly IEmployeeEPAService _evaluationService;
-        private readonly IEvaluatorEPAService _evaluatorService;
+        private readonly IEmployeeEPAService evaluationService;
+        private readonly IEvaluatorEPAService evaluatorService;
 
-        public EvaluatorEPAController()
-            : this(null, null)
+        public EvaluatorEPAController() : this(null, null)
         {
         }
 
@@ -28,8 +27,8 @@
             IEmployeeEPAService evaluationService,
             IEvaluatorEPAService evaluatorService)
         {
-            _evaluationService = evaluationService ?? new EmployeeEPAService();
-            _evaluatorService = evaluatorService ?? new EvaluatorEPAService();
+            this.evaluationService = evaluationService ?? new EmployeeEPAService();
+            this.evaluatorService = evaluatorService ?? new EvaluatorEPAService();
         }
 
         [HttpGet]
@@ -42,7 +41,7 @@
                 ProcessId = (int)ProcessType.Evaluator
             };
 
-            return _evaluationService.GetGroupByEvaluatorOrReviewerOrManagement(criteria);
+            return evaluationService.GetGroupByEvaluatorOrReviewerOrManagement(criteria);
         }
 
         [HttpGet]
@@ -61,7 +60,7 @@
                 IsMonthly = isMonthly
             };
 
-            return _evaluationService.GetMemberByEvaluatorOrReviewerOrManagement(criteria);
+            return evaluationService.GetMemberByEvaluatorOrReviewerOrManagement(criteria);
         }
 
         [HttpGet]
@@ -83,7 +82,7 @@
                 StatusProcess = statusProcess
             };
 
-            return _evaluatorService.GetEPAByEvaluator(criteria);
+            return evaluatorService.GetEPAByEvaluator(criteria);
         }
 
         [HttpGet]
@@ -110,7 +109,7 @@
                 EvaluatorId = sessionServiceEmployeeId
             };
 
-            epaInfo = _evaluatorService.GetEPAInfoByEvaluator(criteria);
+            epaInfo = evaluatorService.GetEPAInfoByEvaluator(criteria);
 
             return Request.CreateResponse(HttpStatusCode.OK, epaInfo);
         }
@@ -119,7 +118,7 @@
         [ApiAuthorize(FunctionKey = EPAFunctionKey.Evaluator, Policy = Policy.Host)]
         public CommandResult UpdateEPAScoreByEvaluator(UpdateEPAScoreCriteria criteria)
         {
-            CommandResult commandResult = new CommandResult();
+            var commandResult = new CommandResult();
 
             if (criteria != null)
             {
@@ -127,7 +126,7 @@
                 criteria.EvaluatorId = SessionService.EmployeeId;
                 criteria.ModifiedBy = SessionService.EmployeeId;
 
-                commandResult = _evaluatorService.UpdateEPAScoreByEvaluator(criteria);
+                commandResult = evaluatorService.UpdateEPAScoreByEvaluator(criteria);
             }
 
             return commandResult;
@@ -151,7 +150,7 @@
                 ProcessId = processId
             };
 
-            return _evaluationService.CheckEmployeePermission(criteria);
+            return evaluationService.CheckEmployeePermission(criteria);
         }
     }
 }

@@ -12,21 +12,20 @@
 
     public class TargetTemplateService : BaseService, ITargetTemplateService
     {
-        private readonly ITargetTemplateRepository _targetTemplateRepository;
+        private readonly ITargetTemplateRepository targetTemplateRepository;
 
-        public TargetTemplateService()
-            : this(null)
+        public TargetTemplateService() : this(null)
         {
         }
 
         public TargetTemplateService(ITargetTemplateRepository targetTemplateRepository)
         {
-            _targetTemplateRepository = targetTemplateRepository ?? new TargetTemplateRepository();
+            this.targetTemplateRepository = targetTemplateRepository ?? new TargetTemplateRepository();
         }
 
         public TargetTemplate GetTargetTemplateById(GetTargetTemplateByIdCriteria criteria)
         {
-            TargetTemplate targetTemplate = new TargetTemplate();
+            var targetTemplate = new TargetTemplate();
 
             if (criteria != null && criteria.IsValid())
             {
@@ -50,7 +49,7 @@
 
         public CommandResult CreateTargetTemplate(CreateTargetTemplateCriteria criteria)
         {
-            CommandResult result = new CommandResult();
+            var result = new CommandResult();
 
             if (criteria != null && criteria.IsValid())
             {
@@ -62,7 +61,7 @@
 
         public CommandResult UpdateTargetTemplate(UpdateTargetTemplateCriteria criteria)
         {
-            CommandResult result = new CommandResult();
+            var result = new CommandResult();
 
             if (criteria != null && criteria.IsValid())
             {
@@ -74,7 +73,7 @@
 
         public CommandResult UpdateTargetTemplateBasicInfo(UpdateTargetTemplateBasicInfoCriteria criteria)
         {
-            CommandResult result = new CommandResult();
+            var result = new CommandResult();
 
             if (criteria != null && criteria.IsValid())
             {
@@ -86,7 +85,7 @@
 
         public CommandResult DeleteTargetTemplate(DeleteTargetTemplateCriteria criteria)
         {
-            CommandResult result = new CommandResult();
+            var result = new CommandResult();
 
             if (criteria != null && criteria.IsValid())
             {
@@ -98,7 +97,7 @@
 
         public CommandResult AddKPIGroupWeight(SetKPIGroupOfTargetTemplateCriteria criteria)
         {
-            CommandResult result = new CommandResult();
+            var result = new CommandResult();
 
             if (criteria != null && criteria.IsValid())
             {
@@ -127,7 +126,7 @@
 
         public CommandResult UpdateStatusTargetTemplate(UpdateStatusTargetTemplateCriteria criteria)
         {
-            CommandResult result = new CommandResult();
+            var result = new CommandResult();
 
             if (criteria != null && criteria.IsValid())
             {
@@ -139,7 +138,7 @@
 
         public CommandResult DeleteKPIGroup(DeleteKPIGroupOfTargetTemplateCriteria criteria)
         {
-            CommandResult result = new CommandResult();
+            var result = new CommandResult();
 
             if (criteria != null && criteria.IsValid())
             {
@@ -155,7 +154,7 @@
 
             if (criteria != null && criteria.IsValid())
             {
-                IEnumerable<KPIModel> kpiList = _targetTemplateRepository.GetKPIOfTargetTemplate(criteria);
+                IEnumerable<KPIModel> kpiList = targetTemplateRepository.GetKPIOfTargetTemplate(criteria);
                 kpiGroups = GroupKPI(kpiList);
 
                 if (onlyKPISelected)
@@ -182,14 +181,14 @@
         private static IEnumerable<TargetTemplateKPIGroupModel> GroupKPI(IEnumerable<KPIModel> kpiList)
         {
             return kpiList.GroupBy(x => x.KPIGroups.First().KPIGroupId).Select(x => new TargetTemplateKPIGroupModel
-                                            {
-                                                KPIGroupId = x.Key,
-                                                Name = x.First().KPIGroups.First().Name,
-                                                IsSpreadKPI = x.First().KPIGroups.First().IsSpreadKPI,
-                                                Weight = x.First().KPIGroups.First().Weight,
-                                                Selected = CheckGroupSelected(x.ToList()),
-                                                KPIs = CheckKPISelected(x.ToList())
-                                            });
+            {
+                KPIGroupId = x.Key,
+                Name = x.First().KPIGroups.First().Name,
+                IsSpreadKPI = x.First().KPIGroups.First().IsSpreadKPI,
+                Weight = x.First().KPIGroups.First().Weight,
+                Selected = CheckGroupSelected(x.ToList()),
+                KPIs = CheckKPISelected(x.ToList())
+            });
         }
 
         private static bool CheckGroupSelected(List<KPIModel> listKPI)

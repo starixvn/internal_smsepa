@@ -18,7 +18,7 @@
 
         public string AdjustScore { get; set; }
 
-        public float FloatTotalScore
+        public float TotalScoreConverted
         {
             get
             {

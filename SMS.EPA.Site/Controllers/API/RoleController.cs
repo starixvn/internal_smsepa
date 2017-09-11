@@ -13,22 +13,21 @@
 
     public class RoleController : BaseController
     {
-        private readonly IRoleService _roleService;
+        private readonly IRoleService roleService;
 
-        public RoleController()
-            : this(null)
+        public RoleController() : this(null)
         {
         }
 
         public RoleController(IRoleService roleService)
         {
-            _roleService = roleService ?? new RoleService();
+            this.roleService = roleService ?? new RoleService();
         }
 
         [ApiAuthorize(FunctionKey = EPAFunctionKey.RoleManagement, Policy = Policy.Read)]
         public IEnumerable<RoleFunctionModel> GetRoleFunctionByRoleId(int roleId)
         {
-            IEnumerable<RoleFunctionModel> functions = _roleService.GetFunctionByRoleId(roleId);
+            IEnumerable<RoleFunctionModel> functions = roleService.GetFunctionByRoleId(roleId);
             return functions;
         }
 
@@ -41,7 +40,7 @@
                 criteria.ModifiedBy = SessionService.EmployeeId;
             }
 
-            CommandResult commandResult = _roleService.AssignFunctionToRole(criteria);
+            CommandResult commandResult = roleService.AssignFunctionToRole(criteria);
             return commandResult;
         }
     }

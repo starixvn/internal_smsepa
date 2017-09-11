@@ -10,16 +10,15 @@
 
     public class TargetEmployeeSettingService : BaseService, ITargetEmployeeSettingService
     {
-        private readonly ITargetEmployeeSettingRepository _targetEmployeeSettingRepository;
+        private readonly ITargetEmployeeSettingRepository targetEmployeeSettingRepository;
 
-        public TargetEmployeeSettingService()
-            : this(null)
+        public TargetEmployeeSettingService() : this(null)
         {
         }
 
         public TargetEmployeeSettingService(ITargetEmployeeSettingRepository targetEmployeeSettingRepository)
         {
-            _targetEmployeeSettingRepository = targetEmployeeSettingRepository ?? new TargetEmployeeSettingRepository();
+            this.targetEmployeeSettingRepository = targetEmployeeSettingRepository ?? new TargetEmployeeSettingRepository();
         }
 
         public IList<TargetEmployeeSetting> GetTargetEmployeeSetting(GetAllTargetEmployeeSettingCriteria criteria)
@@ -28,7 +27,7 @@
 
             if (criteria != null && criteria.IsValid())
             {
-                targetEmployees = _targetEmployeeSettingRepository.GetTargetTemplateEmployee(criteria);
+                targetEmployees = targetEmployeeSettingRepository.GetTargetTemplateEmployee(criteria);
             }
 
             return targetEmployees ?? new List<TargetEmployeeSetting>();
@@ -40,7 +39,7 @@
 
             if (criteria != null && criteria.IsValid())
             {
-                targetDepartments = _targetEmployeeSettingRepository.GetTargetTemplateDepartment(criteria);
+                targetDepartments = targetEmployeeSettingRepository.GetTargetTemplateDepartment(criteria);
             }
 
             return targetDepartments ?? new List<TargetDepartmentSetting>();
@@ -48,7 +47,7 @@
 
         public CommandResult AssignTargetTemplateToEmployee(AssignTargetTemplateToEmployeeCriteria criteria)
         {
-            CommandResult commandResult = new CommandResult();
+            var commandResult = new CommandResult();
 
             if (criteria != null && criteria.IsValid())
             {
@@ -60,7 +59,7 @@
 
         public CommandResult DeleteTargetEmployeeSetting(DeleteTargetEmployeeSettingCriteria criteria)
         {
-            CommandResult commandResult = new CommandResult();
+            var commandResult = new CommandResult();
 
             if (criteria != null && criteria.IsValid())
             {
@@ -72,7 +71,7 @@
 
         public CommandResult AssignTargetTemplateToDepartment(AssignTargetDepartmentSettingCriteria criteria)
         {
-            CommandResult commandResult = new CommandResult();
+            var commandResult = new CommandResult();
 
             if (criteria != null && criteria.IsValid())
             {
@@ -84,7 +83,7 @@
 
         public CommandResult DeleteTargetDepartmentSetting(DeleteTargetDepartmentSettingCriteria criteria)
         {
-            CommandResult commandResult = new CommandResult();
+            var commandResult = new CommandResult();
 
             if (criteria != null && criteria.IsValid())
             {

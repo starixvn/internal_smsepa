@@ -1,29 +1,30 @@
 ﻿namespace SMS.EPA.Services.Implement
 {
-    using System;
     using Core.Services;
     using Criteria.EPAHistory;
     using Interfaces;
     using Model;
     using Model.EPAHistory;
     using Repositories;
+    using System;
     using System.Collections.Generic;
     using System.Linq;
 
     public class EPAHistoryService : BaseService, IEPAHistoryService
     {
-        private readonly IEPAHistoryRepository _epaHistoryRepository;
-        private readonly ICryptographyService _cryptographyService;
+        private readonly IEPAHistoryRepository epaHistoryRepository;
+        private readonly ICryptographyService cryptographyService;
 
-        public EPAHistoryService()
-            : this(null, null)
+        public EPAHistoryService() : this(null, null)
         {
         }
 
-        public EPAHistoryService(IEPAHistoryRepository epaHistoryRepository, ICryptographyService cryptographyService)
+        public EPAHistoryService(
+            IEPAHistoryRepository epaHistoryRepository,
+            ICryptographyService cryptographyService)
         {
-            _epaHistoryRepository = epaHistoryRepository ?? new EPAHistoryRepository();
-            _cryptographyService = cryptographyService ?? new CryptographyService();
+            this.epaHistoryRepository = epaHistoryRepository ?? new EPAHistoryRepository();
+            this.cryptographyService = cryptographyService ?? new CryptographyService();
         }
 
         public IList<EPAHistoryModel> GetEPAHistory(GetEPAHistoryCriteria criteria)
@@ -32,7 +33,7 @@
 
             if (criteria != null && criteria.IsValid())
             {
-                epas = _epaHistoryRepository.GetEPAHistory(criteria);
+                epas = epaHistoryRepository.GetEPAHistory(criteria);
 
                 if (epas != null && epas.Any())
                 {
@@ -49,7 +50,7 @@
 
             if (criteria != null && criteria.IsValid())
             {
-                epas = _epaHistoryRepository.GetMonthlyEPAHistory(criteria);
+                epas = epaHistoryRepository.GetMonthlyEPAHistory(criteria);
 
                 if (epas != null && epas.Any())
                 {
@@ -66,7 +67,7 @@
             {
                 if (!string.IsNullOrWhiteSpace(epa.EncodeFinalScore))
                 {
-                    epa.FinalScore = float.Parse(_cryptographyService.Decrypt(epa.EncodeFinalScore));
+                    epa.FinalScore = float.Parse(cryptographyService.Decrypt(epa.EncodeFinalScore));
                     var finalScoreDecimal = Math.Round((decimal)epa.FinalScore, 2);
                     epa.FinalScore = (float)finalScoreDecimal;
                 }
@@ -75,7 +76,7 @@
                     epa.FinalScore = 0;
                 }
 
-                epa.Grade = !string.IsNullOrWhiteSpace(epa.EncodeGrade) ? _cryptographyService.Decrypt(epa.EncodeGrade) : string.Empty;
+                epa.Grade = !string.IsNullOrWhiteSpace(epa.EncodeGrade) ? cryptographyService.Decrypt(epa.EncodeGrade) : string.Empty;
             }
         }
 

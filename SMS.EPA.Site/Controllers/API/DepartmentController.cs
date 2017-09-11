@@ -11,16 +11,15 @@
 
     public class DepartmentController : BaseController
     {
-        private readonly ICommonService _commonService;
+        private readonly ICommonService commonService;
 
-        public DepartmentController()
-            : this(null)
+        public DepartmentController() : this(null)
         {
         }
 
         public DepartmentController(ICommonService commonService)
         {
-            _commonService = commonService ?? new CommonService();
+            this.commonService = commonService ?? new CommonService();
         }
 
         [HttpGet]
@@ -35,7 +34,7 @@
                 IsActive = isActive
             };
 
-            return _commonService.GetDepartment(criteria);
+            return commonService.GetDepartment(criteria);
         }
     }
 }

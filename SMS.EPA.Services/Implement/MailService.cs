@@ -10,17 +10,16 @@
 
     public class MailService : IMailService
     {
-        private readonly IBaseMailService _baseMailService;
+        private readonly IBaseMailService baseMailService;
         private readonly string url;
 
-        public MailService()
-            : this(null)
+        public MailService() : this(null)
         {
         }
 
         public MailService(IBaseMailService baseMailService)
         {
-            _baseMailService = baseMailService ?? new BaseMailService();
+            this.baseMailService = baseMailService ?? new BaseMailService();
             url = ConfigurationManagerService.GetAppSetting("SendMailWhenEditEmployeeSetting");
         }
 
@@ -28,12 +27,12 @@
         {
             if (employeeSetting != null && !string.IsNullOrWhiteSpace(templateEmailPath))
             {
-                var bodyTemplate = _baseMailService.ReadTextFile(templateEmailPath);
+                var bodyTemplate = baseMailService.ReadTextFile(templateEmailPath);
                 var emailReminder = new MailReminder(employeeSetting, bodyTemplate, periodName, mailMode);
-                _baseMailService.SendEmail(emailReminder.Email);
+                baseMailService.SendEmail(emailReminder.Email);
             }
         }
-    
+
         public void SendMailToNotifyChangeSetting(
             string templateEmailPath,
             PeriodFlowModel employeeSetting,
@@ -41,16 +40,16 @@
         {
             if (employeeSetting != null)
             {
-                MailModel email = new MailModel
+                var email = new MailModel
                 {
                     Subject = string.Format(Lang.NotifyEmailChangeSetting, periodName),
-                    Body = _baseMailService.ReadTextFile(templateEmailPath)
+                    Body = baseMailService.ReadTextFile(templateEmailPath)
                 };
 
                 email.Body = string.Format(email.Body, employeeSetting.EvaluatorInfo.NickName, periodName, url);
                 email.ReceiverEmail = employeeSetting.EvaluatorInfo.Email;
 
-                _baseMailService.SendEmail(email);
+                baseMailService.SendEmail(email);
             }
         }
 
@@ -68,16 +67,13 @@
                 };
 
                 float? finalScore = averagePerformanceScore + disciplineScore;
-                float?
-                    adjustmentScore = averagePerformanceScore.HasValue
+                float? adjustmentScore = averagePerformanceScore.HasValue
                         ? GetAdjustmentScore(evaluationInfo, averagePerformanceScore.Value)
                         : null;
                 string evaluatorNames = GetEvaluator(evaluationInfo.Process.Evaluators);
-                string
-                    reviewerNames = GetEvaluator(evaluationInfo.Process.Reviewers);
-                string
-                    managementNames = GetEvaluator(evaluationInfo.Process.Managements);
-                email.Body = _baseMailService.ReadTextFile(templateEmailPath);
+                string reviewerNames = GetEvaluator(evaluationInfo.Process.Reviewers);
+                string managementNames = GetEvaluator(evaluationInfo.Process.Managements);
+                email.Body = baseMailService.ReadTextFile(templateEmailPath);
                 email.Body = string.Format(
                     email.Body,
                     evaluationInfo.Employee.NickName,
@@ -93,7 +89,7 @@
                     url);
                 email.ReceiverEmail = evaluationInfo.Employee.Email;
 
-                _baseMailService.SendEmail(email);
+                baseMailService.SendEmail(email);
             }
         }
 
@@ -107,7 +103,7 @@
                 MailModel email = new MailModel
                 {
                     Subject = string.Format(Lang.EndMailEvaluationToSelf, evaluationInfo.Period.Name),
-                    Body = _baseMailService.ReadTextFile(templateEmailPath)
+                    Body = baseMailService.ReadTextFile(templateEmailPath)
                 };
 
                 email.Body = string.Format(
@@ -119,7 +115,7 @@
                     url);
                 email.ReceiverEmail = humanResource.EvaluatorInfo.Email;
 
-                _baseMailService.SendEmail(email);
+                baseMailService.SendEmail(email);
             }
         }
 
@@ -130,16 +126,16 @@
         {
             if (employeeSetting != null)
             {
-                MailModel email = new MailModel
+                var email = new MailModel
                 {
                     Subject = string.Format(Lang.EndMailEvaluationToSelf, periodName),
-                    Body = _baseMailService.ReadTextFile(templateEmailPath)
+                    Body = baseMailService.ReadTextFile(templateEmailPath)
                 };
 
                 email.Body = string.Format(email.Body, employeeSetting.EvaluatorInfo.NickName, periodName);
                 email.ReceiverEmail = employeeSetting.EvaluatorInfo.Email;
 
-                _baseMailService.SendEmail(email);
+                baseMailService.SendEmail(email);
             }
         }
 
@@ -156,15 +152,13 @@
 
             if (evaluationInfo.Process.Managements.Any() && evaluationInfo.Process.AverageScoreByManagements.HasValue)
             {
-                adjustScore = averagePerformanceScore - evaluationInfo.Process.AverageScoreByReviewers ??
-                              averagePerformanceScore;
+                adjustScore = averagePerformanceScore - evaluationInfo.Process.AverageScoreByReviewers ?? averagePerformanceScore;
             }
             else
             {
                 if (evaluationInfo.Process.AverageScoreByReviewers.HasValue)
                 {
-                    adjustScore = averagePerformanceScore - evaluationInfo.Process.AverageScoreByEvaluators ??
-                                  averagePerformanceScore;
+                    adjustScore = averagePerformanceScore - evaluationInfo.Process.AverageScoreByEvaluators ?? averagePerformanceScore;
                 }
             }
 

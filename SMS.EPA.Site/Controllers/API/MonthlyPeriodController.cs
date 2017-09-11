@@ -15,16 +15,15 @@
 
     public class MonthlyPeriodController : BaseController
     {
-        private readonly IPeriodService _periodService;
+        private readonly IPeriodService periodService;
 
-        public MonthlyPeriodController()
-            : this(null)
+        public MonthlyPeriodController() : this(null)
         {
         }
 
         public MonthlyPeriodController(IPeriodService periodService)
         {
-            _periodService = periodService ?? new PeriodService();
+            this.periodService = periodService ?? new PeriodService();
         }
 
         [ApiAuthorize(FunctionKey = EPAFunctionKey.MonthlyPeriod, Policy = Policy.Read)]
@@ -38,14 +37,14 @@
                 ToDate = toDate
             };
 
-            IEnumerable<PeriodModel> periods = _periodService.GetMonthlyPeriod(criteria);
+            IEnumerable<PeriodModel> periods = periodService.GetMonthlyPeriod(criteria);
 
             return periods;
         }
 
         public IEnumerable<PeriodModel> GetAllMonthlyPeriod()
         {
-            IEnumerable<PeriodModel> periods = _periodService.GetAllMonthlyPeriod();
+            IEnumerable<PeriodModel> periods = periodService.GetAllMonthlyPeriod();
 
             return periods;
         }
@@ -53,7 +52,7 @@
         [ApiAuthorize(FunctionKey = EPAFunctionKey.MonthlyPeriod, Policy = Policy.Read)]
         public PeriodModel GetMonthlyPeriodById(int periodId)
         {
-            PeriodModel period = _periodService.GetPeriodById(periodId);
+            PeriodModel period = periodService.GetPeriodById(periodId);
 
             return period;
         }
@@ -69,7 +68,7 @@
                 criteria.TargetTypeId = (int)TargetType.Monthly;
                 criteria.IsActive = true;
                 criteria.CreatedBy = SessionService.EmployeeId;
-                commandResult = _periodService.CreatePeriod(criteria);
+                commandResult = periodService.CreatePeriod(criteria);
             }
 
             return commandResult;
@@ -86,7 +85,7 @@
                 criteria.TargetTypeId = (int)TargetType.Monthly;
                 criteria.IsActive = true;
                 criteria.ModifiedBy = SessionService.EmployeeId;
-                commandResult = _periodService.UpdateBasicInformationPeriod(criteria);
+                commandResult = periodService.UpdateBasicInformationPeriod(criteria);
             }
 
             return commandResult;
@@ -95,7 +94,7 @@
         [ApiAuthorize(FunctionKey = EPAFunctionKey.MonthlyPeriod, Policy = Policy.Read)]
         public IEnumerable<FlowModel> GetProcessSettingByPeriodId(int periodId)
         {
-            IEnumerable<FlowModel> processSettings = _periodService.GetProcessSettingByPeriodId(periodId);
+            IEnumerable<FlowModel> processSettings = periodService.GetProcessSettingByPeriodId(periodId);
             return processSettings;
         }
 
@@ -108,7 +107,7 @@
             if (criteria != null)
             {
                 criteria.ModifiedBy = SessionService.EmployeeId;
-                commandResult = _periodService.UpdateProcessSettingPeriod(criteria);
+                commandResult = periodService.UpdateProcessSettingPeriod(criteria);
             }
 
             return commandResult;
@@ -124,7 +123,7 @@
                 ModifiedBy = SessionService.EmployeeId
             };
 
-            CommandResult commandResult = _periodService.DeletePeriod(criteria);
+            CommandResult commandResult = periodService.DeletePeriod(criteria);
 
             return commandResult;
         }
@@ -151,7 +150,7 @@
                 EPAStatus = epaStatus
             };
 
-            IEnumerable<PeriodEmployeeSettingModel> employeeSettings = _periodService.GetPeriodEmployeeSettingById(criteria);
+            IEnumerable<PeriodEmployeeSettingModel> employeeSettings = periodService.GetPeriodEmployeeSettingById(criteria);
             employeeSettings = employeeSettings.OrderBy(x => x.Employee.Group.GroupCode).ThenBy(x => x.Employee.NickName);
 
             return employeeSettings;
@@ -166,7 +165,7 @@
             if (criteria != null)
             {
                 criteria.ModifiedBy = SessionService.EmployeeId;
-                commandResult = _periodService.AddEmployeeToPeriod(criteria);
+                commandResult = periodService.AddEmployeeToPeriod(criteria);
             }
 
             return commandResult;
@@ -181,7 +180,7 @@
             if (criteria != null)
             {
                 criteria.ModifiedBy = SessionService.EmployeeId;
-                commandResult = _periodService.UpdateEmployeeSettingOfPeriod(criteria);
+                commandResult = periodService.UpdateEmployeeSettingOfPeriod(criteria);
             }
 
             return commandResult;
@@ -195,11 +194,11 @@
 
             if (criteria != null)
             {
-                commandResult = _periodService.GenerateEvaluation(criteria);
+                commandResult = periodService.GenerateEvaluation(criteria);
 
                 if (commandResult.IsSuccessful)
                 {
-                    _periodService.SendEmailNoticeAtBegin(criteria.PeriodId);
+                    periodService.SendEmailNoticeAtBegin(criteria.PeriodId);
                 }
             }
 
@@ -215,7 +214,7 @@
             if (criteria != null)
             {
                 criteria.ModifiedBy = SessionService.EmployeeId;
-                commandResult = _periodService.UpdateIncludeStatusEmployeePeriod(criteria);
+                commandResult = periodService.UpdateIncludeStatusEmployeePeriod(criteria);
             }
 
             return commandResult;
@@ -231,7 +230,7 @@
                 EmployeeIds = employeeIds
             };
 
-            bool hasStarted = _periodService.CheckSelfProcessStarted(criteria);
+            bool hasStarted = periodService.CheckSelfProcessStarted(criteria);
             return hasStarted;
         }
 

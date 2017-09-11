@@ -1,6 +1,5 @@
 ﻿namespace SMS.EPA.Services.UnitTests
 {
-    using Core.Services;
     using NSubstitute;
     using NUnit.Framework;
     using SMS.EPA.Core.Enumerations;
@@ -15,95 +14,96 @@
         private IMailService mailService;
         private IPeriodMailService manualMailService;
 
-        //[Test]
-        //public void SendStartMail_HRProcess_ExpectedToSendMailToHR()
-        //{
-        //    // Arrange
-        //    var employeeSettings = new List<PeriodFlowModel>();
-        //    employeeSettings.Add(new PeriodFlowModel()
-        //    {
-        //        ProcessId = (int)ProcessType.HumanResource
-        //    });
-        //    ArrangeEmail();
+        /*[Test]
+        public void SendStartMail_HRProcess_ExpectedToSendMailToHR()
+        {
+            // Arrange
+            var employeeSettings = new List<PeriodFlowModel>();
+            employeeSettings.Add(new PeriodFlowModel()
+            {
+                ProcessId = (int)ProcessType.HumanResource
+            });
+            ArrangeEmail();
 
-        //    // Act
-        //    manualMailService.SendStartMail(new PeriodModel(), employeeSettings);
+            // Act
+            manualMailService.SendStartMail(new PeriodModel(), employeeSettings);
 
-        //    // Assert
-        //    mailService.Received().SendMailToHrStartDate(Arg.Any<string>(), Arg.Any<PeriodFlowModel>(), Arg.Any<string>());
-        //}
+            // Assert
+            mailService.Received().SendMailToHrStartDate(Arg.Any<string>(), Arg.Any<PeriodFlowModel>(), Arg.Any<string>());
+        }
 
-        //[Test]
-        //public void SendStartMail_SelfProcess_ExpectedToSendMailToSelfEvaluation()
-        //{
-        //    // Arrange
-        //    var employeeSettings = new List<PeriodFlowModel>();
-        //    employeeSettings.Add(new PeriodFlowModel()
-        //    {
-        //        ProcessId = (int)ProcessType.Self
-        //    });
-        //    ArrangeEmail();
+        [Test]
+        public void SendStartMail_SelfProcess_ExpectedToSendMailToSelfEvaluation()
+        {
+            // Arrange
+            var employeeSettings = new List<PeriodFlowModel>();
+            employeeSettings.Add(new PeriodFlowModel()
+            {
+                ProcessId = (int)ProcessType.Self
+            });
+            ArrangeEmail();
 
-        //    // Act
-        //    manualMailService.SendStartMail(new PeriodModel(), employeeSettings);
+            // Act
+            manualMailService.SendStartMail(new PeriodModel(), employeeSettings);
 
-        //    // Assert
-        //    mailService.Received().SendMailToSelfStartDate(Arg.Any<string>(), Arg.Any<PeriodFlowModel>(), Arg.Any<string>());
-        //}
+            // Assert
+            mailService.Received().SendMailToSelfStartDate(Arg.Any<string>(), Arg.Any<PeriodFlowModel>(), Arg.Any<string>());
+        }
 
-        //[Test]
-        //public void SendStartMail_EvaluatorProcess_ExpectedToSendMailToEvaluator()
-        //{
-        //    // Arrange
-        //    var employeeSettings = new List<PeriodFlowModel>();
-        //    employeeSettings.Add(new PeriodFlowModel()
-        //    {
-        //        ProcessId = (int)ProcessType.Evaluator
-        //    });
-        //    ArrangeEmail();
+        [Test]
+        public void SendStartMail_EvaluatorProcess_ExpectedToSendMailToEvaluator()
+        {
+            // Arrange
+            var employeeSettings = new List<PeriodFlowModel>();
+            employeeSettings.Add(new PeriodFlowModel()
+            {
+                ProcessId = (int)ProcessType.Evaluator
+            });
+            ArrangeEmail();
 
-        //    // Act
-        //    manualMailService.SendStartMail(new PeriodModel(), employeeSettings);
+            // Act
+            manualMailService.SendStartMail(new PeriodModel(), employeeSettings);
 
-        //    // Assert
-        //    mailService.Received().SendMailToEvaluatorStartDate(Arg.Any<string>(), Arg.Any<PeriodFlowModel>(), Arg.Any<string>());
-        //}
+            // Assert
+            mailService.Received().SendMailToEvaluatorStartDate(Arg.Any<string>(), Arg.Any<PeriodFlowModel>(), Arg.Any<string>());
+        }
 
-        //[Test]
-        //public void SendStartMail_ReviewerProcess_ExpectedToSendMailToReviewer()
-        //{
-        //    // Arrange
-        //    var employeeSettings = new List<PeriodFlowModel>();
-        //    employeeSettings.Add(new PeriodFlowModel()
-        //    {
-        //        ProcessId = (int)ProcessType.Reviewer
-        //    });
-        //    ArrangeEmail();
+        [Test]
+        public void SendStartMail_ReviewerProcess_ExpectedToSendMailToReviewer()
+        {
+            // Arrange
+            var employeeSettings = new List<PeriodFlowModel>();
+            employeeSettings.Add(new PeriodFlowModel()
+            {
+                ProcessId = (int)ProcessType.Reviewer
+            });
+            ArrangeEmail();
 
-        //    // Act
-        //    manualMailService.SendStartMail(new PeriodModel(), employeeSettings);
+            // Act
+            manualMailService.SendStartMail(new PeriodModel(), employeeSettings);
 
-        //    // Assert
-        //    mailService.Received().SendMailToReviewerStartDate(Arg.Any<string>(), Arg.Any<PeriodFlowModel>(), Arg.Any<string>());
-        //}
+            // Assert
+            mailService.Received().SendMailToReviewerStartDate(Arg.Any<string>(), Arg.Any<PeriodFlowModel>(), Arg.Any<string>());
+        }
 
-        //[Test]
-        //public void SendStartMail_ManagementProcess_ExpectedToSendMailToManagement()
-        //{
-        //    // Arrange
-        //    var employeeSettings = new List<PeriodFlowModel>();
-        //    employeeSettings.Add(new PeriodFlowModel()
-        //    {
-        //        ProcessId = (int)ProcessType.Management
-        //    });
-        //    ArrangeEmail();
+        [Test]
+        public void SendStartMail_ManagementProcess_ExpectedToSendMailToManagement()
+        {
+            // Arrange
+            var employeeSettings = new List<PeriodFlowModel>();
+            employeeSettings.Add(new PeriodFlowModel()
+            {
+                ProcessId = (int)ProcessType.Management
+            });
+            ArrangeEmail();
 
-        //    // Act
-        //    manualMailService.SendStartMail(new PeriodModel(), employeeSettings);
+            // Act
+            manualMailService.SendStartMail(new PeriodModel(), employeeSettings);
 
-        //    // Assert
-        //    mailService.Received().SendMailToManagementStartDate(Arg.Any<string>(), Arg.Any<PeriodFlowModel>(), Arg.Any<string>());
-        //}
+            // Assert
+            mailService.Received().SendMailToManagementStartDate(Arg.Any<string>(), Arg.Any<PeriodFlowModel>(), Arg.Any<string>());
+        }
+        */
 
         [Test]
         public void SendNotifyMail_ValidArg_ExpectedToSendMailToNotifyChangeSetting()

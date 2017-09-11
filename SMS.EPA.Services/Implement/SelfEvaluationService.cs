@@ -11,11 +11,10 @@
 
     public class SelfEvaluationService : BaseService, ISelfEvaluationService
     {
-        private readonly IEmployeeEPARepository _employeeEPARepository;
-        private readonly IEmployeeEPAService _evaluationService;
+        private readonly IEmployeeEPARepository employeeEPARepository;
+        private readonly IEmployeeEPAService evaluationService;
 
-        public SelfEvaluationService()
-            : this(null, null)
+        public SelfEvaluationService() : this(null, null)
         {
         }
 
@@ -23,8 +22,8 @@
             IEmployeeEPARepository employeeEPARepository,
             IEmployeeEPAService evaluationService)
         {
-            _employeeEPARepository = employeeEPARepository ?? new EmployeeEPARepository();
-            _evaluationService = evaluationService ?? new EmployeeEPAService();
+            this.employeeEPARepository = employeeEPARepository ?? new EmployeeEPARepository();
+            this.evaluationService = evaluationService ?? new EmployeeEPAService();
         }
 
         public IEnumerable<EPAModel> GetEPAByEmployee(GetEPAByEmployeeCriteria criteria)
@@ -33,11 +32,11 @@
 
             if (criteria != null && criteria.IsValid())
             {
-                epas = _employeeEPARepository.GetEPA(criteria);
+                epas = employeeEPARepository.GetEPA(criteria);
 
                 foreach (EPAModel epa in epas)
                 {
-                    epa.Process.CurrentProcess = _evaluationService.CloneEPAProcess(epa.Process.Self);
+                    epa.Process.CurrentProcess = evaluationService.CloneEPAProcess(epa.Process.Self);
                 }
             }
 
@@ -50,10 +49,10 @@
 
             if (criteria != null && criteria.IsValid())
             {
-                epaInfo = _employeeEPARepository.GetEPAInfo(criteria);
-                epaInfo.Process.CurrentProcess = _evaluationService.CloneEPAProcess(epaInfo.Process.Self);
-                _evaluationService.SetMaxPerformanceScore(epaInfo);
-                _evaluationService.SpreadKPIScore(epaInfo.KPIGroups);
+                epaInfo = employeeEPARepository.GetEPAInfo(criteria);
+                epaInfo.Process.CurrentProcess = evaluationService.CloneEPAProcess(epaInfo.Process.Self);
+                evaluationService.SetMaxPerformanceScore(epaInfo);
+                evaluationService.SpreadKPIScore(epaInfo.KPIGroups);
 
                 foreach (EPAKpiModel kpi in epaInfo.KPIGroups.SelectMany(x => x.KPIs))
                 {
@@ -62,8 +61,8 @@
 
                 if (epaInfo.IsSemiHasMonthly)
                 {
-                    epaInfo.MonthlyEPA.MonthlyEPAs = _evaluationService.GetMonthlyEPAOfSemi(epaInfo.EPAId.ToString());
-                    _evaluationService.ConvertAverageMonthlyScore(epaInfo.MonthlyEPA, epaInfo.ScoreRatingType);
+                    epaInfo.MonthlyEPA.MonthlyEPAs = evaluationService.GetMonthlyEPAOfSemi(epaInfo.EPAId.ToString());
+                    evaluationService.ConvertAverageMonthlyScore(epaInfo.MonthlyEPA, epaInfo.ScoreRatingType);
                 }
             }
 

@@ -45,7 +45,7 @@
 
         public EPAModel GetEPAInfoByEvaluator(GetEPAInfoByEvaluatorCriteria criteria)
         {
-            EPAModel epaInfo = new EPAModel();
+            var epaInfo = new EPAModel();
 
             if (criteria != null && criteria.IsValid())
             {
@@ -74,7 +74,7 @@
 
         public CommandResult UpdateEPAScoreByEvaluator(UpdateEPAScoreCriteria criteria)
         {
-            CommandResult commandResult = new CommandResult();
+            var commandResult = new CommandResult();
 
             if (criteria != null && criteria.IsValid())
             {

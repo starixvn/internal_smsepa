@@ -13,7 +13,7 @@
 
     public class EPAHistoryController : BaseController
     {
-        private readonly IEPAHistoryService _epaHistoryService;
+        private readonly IEPAHistoryService epaHistoryService;
 
         public EPAHistoryController()
             : this(null)
@@ -22,7 +22,7 @@
 
         public EPAHistoryController(IEPAHistoryService epaHistoryService)
         {
-            _epaHistoryService = epaHistoryService ?? new EPAHistoryService();
+            this.epaHistoryService = epaHistoryService ?? new EPAHistoryService();
         }
 
         [HttpGet]
@@ -42,7 +42,7 @@
                 EmployeeId = employeeId
             };
 
-            IList<EPAHistoryModel> epas = _epaHistoryService.GetEPAHistory(criteria);
+            IList<EPAHistoryModel> epas = epaHistoryService.GetEPAHistory(criteria);
             return epas;
         }
 
@@ -56,7 +56,7 @@
                 EmployeeId = employeeId
             };
 
-            IList<EPAHistoryModel> epas = _epaHistoryService.GetMonthlyEPAHistory(criteria);
+            IList<EPAHistoryModel> epas = epaHistoryService.GetMonthlyEPAHistory(criteria);
             return epas;
         }
 

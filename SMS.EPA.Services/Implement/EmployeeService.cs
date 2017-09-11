@@ -14,16 +14,15 @@
 
     public class EmployeeService : BaseService, IEmployeeService
     {
-        private readonly IEmployeeRepository _employeeRepository;
+        private readonly IEmployeeRepository employeeRepository;
 
-        public EmployeeService()
-            : this(null)
+        public EmployeeService() : this(null)
         {
         }
 
         public EmployeeService(IEmployeeRepository employeeRepository)
         {
-            _employeeRepository = employeeRepository ?? new EmployeeRepository();
+            this.employeeRepository = employeeRepository ?? new EmployeeRepository();
         }
 
         public UserSession GetEmployeeLogin(GetEmployeeLoginCriteria criteria)
@@ -32,7 +31,7 @@
 
             if (criteria != null && criteria.IsValid())
             {
-                employee = _employeeRepository.GetEmployeeLogin(criteria);
+                employee = employeeRepository.GetEmployeeLogin(criteria);
             }
 
             return employee;
@@ -50,7 +49,7 @@
 
             if (criteria != null && criteria.IsValid())
             {
-                employees = _employeeRepository.GetAllEmployee(criteria);
+                employees = employeeRepository.GetAllEmployee(criteria);
             }
 
             return employees;
@@ -66,7 +65,7 @@
 
             if (criteria.IsValid())
             {
-                employee = _employeeRepository.GetEmployeeById(criteria);
+                employee = employeeRepository.GetEmployeeById(criteria);
             }
 
             return employee;

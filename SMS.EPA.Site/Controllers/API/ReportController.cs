@@ -15,11 +15,10 @@
 
     public class ReportController : BaseController
     {
-        private readonly IReportService _reportService;
-        private readonly CommonController _commonController;
+        private readonly IReportService reportService;
+        private readonly CommonController commonController;
 
-        public ReportController()
-            : this(null, null)
+        public ReportController() : this(null, null)
         {
         }
 
@@ -27,8 +26,8 @@
             IReportService reportService,
             CommonController commonController)
         {
-            _reportService = reportService ?? new ReportService();
-            _commonController = commonController ?? new CommonController();
+            this.reportService = reportService ?? new ReportService();
+            this.commonController = commonController ?? new CommonController();
         }
 
         [HttpGet]
@@ -52,7 +51,7 @@
                 SortDirection = sortDirection
             };
 
-            EPASummaryModel epaInfos = _reportService.GetEPASummaryReport(criteria);
+            EPASummaryModel epaInfos = reportService.GetEPASummaryReport(criteria);
 
             return Request.CreateResponse(HttpStatusCode.OK, epaInfos);
         }
@@ -80,7 +79,7 @@
                 SortDirection = sortDirection
             };
 
-            EPADetailModel epaInfos = _reportService.GetEPADetailReport(criteria);
+            EPADetailModel epaInfos = reportService.GetEPADetailReport(criteria);
 
             if (string.IsNullOrEmpty(sortColumnName) && epaInfos.EpaInfos.Any())
             {
@@ -113,7 +112,7 @@
                 SortDirection = sortDirection
             };
 
-            EPADetailModel epaInfos = _reportService.GetMonthlyEPADetailReport(criteria);
+            EPADetailModel epaInfos = reportService.GetMonthlyEPADetailReport(criteria);
 
             return Request.CreateResponse(HttpStatusCode.OK, epaInfos);
         }
@@ -136,7 +135,7 @@
                 SortDirection = sortDirection
             };
 
-            EPASummaryModel epaInfos = _reportService.GetMonthlyEPASummaryReport(criteria);
+            EPASummaryModel epaInfos = reportService.GetMonthlyEPASummaryReport(criteria);
 
             return Request.CreateResponse(HttpStatusCode.OK, epaInfos);
         }
@@ -144,7 +143,7 @@
         [HttpGet]
         public IList<PeriodModel> GetAllPeriodIncludeImport()
         {
-            IList<PeriodModel> periods = _commonController.GetAllPeriodIncludeImport();
+            IList<PeriodModel> periods = commonController.GetAllPeriodIncludeImport();
 
             if (periods.Count > 0)
             {
@@ -169,7 +168,7 @@
                 ActorId = SessionService.EmployeeId
             };
 
-            IEnumerable<EmployeeViewModel> employees = _reportService.GetEmployeeByActorId(criteria);
+            IEnumerable<EmployeeViewModel> employees = reportService.GetEmployeeByActorId(criteria);
 
             return employees;
         }

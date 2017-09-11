@@ -16,16 +16,15 @@
 
     public class CommonController : BaseController
     {
-        private readonly ICommonService _commonService;
+        private readonly ICommonService commonService;
 
-        public CommonController()
-            : this(null)
+        public CommonController() : this(null)
         {
         }
 
         public CommonController(ICommonService commonService)
         {
-            _commonService = commonService ?? new CommonService();
+            this.commonService = commonService ?? new CommonService();
         }
 
         [HttpGet]
@@ -39,7 +38,7 @@
                 ExcludeTargetTypeIds = excludeTargetTypeIds
             };
 
-            return _commonService.GetTargetType(criteria);
+            return commonService.GetTargetType(criteria);
         }
 
         [HttpGet]
@@ -55,7 +54,7 @@
                 IsRequiredEvaluate = isRequiredEvaluate
             };
 
-            return _commonService.GetKPI(criteria);
+            return commonService.GetKPI(criteria);
         }
 
         [HttpGet]
@@ -66,7 +65,7 @@
                 IsActive = isActive
             };
 
-            return _commonService.GetKPIGroup(criteria);
+            return commonService.GetKPIGroup(criteria);
         }
 
         public List<object> GetSystemRoles(bool exceptNone)
@@ -115,24 +114,24 @@
                 IncludeVerifier = includeVerifier
             };
 
-            return _commonService.GetAllEmployee(criteria);
+            return commonService.GetAllEmployee(criteria);
         }
 
         public IEnumerable<Employee> GetEmployeeByDepartmentId(int? departmentId = null)
         {
-            return _commonService.GetEmployeeByDepartmentId(departmentId);
+            return commonService.GetEmployeeByDepartmentId(departmentId);
         }
 
         [HttpGet]
         public IEnumerable<Employee> GetEmployeeByGroupId(int groupId)
         {
-            return _commonService.GetEmployeeByGroupId(groupId);
+            return commonService.GetEmployeeByGroupId(groupId);
         }
 
         [HttpGet]
         public Employee GetEmployeeById(int employeeId)
         {
-            return _commonService.GetEmployeeById(employeeId);
+            return commonService.GetEmployeeById(employeeId);
         }
 
         [HttpGet]
@@ -140,7 +139,7 @@
         {
             var criteria = new GetAllGroupCriteria();
 
-            return _commonService.GetAllGroup(criteria);
+            return commonService.GetAllGroup(criteria);
         }
 
         [HttpGet]
@@ -152,7 +151,7 @@
                 IsActive = isActive
             };
 
-            return _commonService.GetDepartment(criteria);
+            return commonService.GetDepartment(criteria);
         }
 
         public List<object> GetAllStatus()
@@ -176,13 +175,13 @@
                 IsActive = isActive
             };
 
-            return _commonService.GetPeriod(criteria);
+            return commonService.GetPeriod(criteria);
         }
 
         [HttpGet]
         public IEnumerable<StandardGradeModel> GetStandardGrade()
         {
-            return _commonService.GetStandardGrade();
+            return commonService.GetStandardGrade();
         }
 
         [HttpGet]
@@ -190,7 +189,7 @@
         {
             var criteria = new GetAllPeriodIncludeImportCriteria();
 
-            return _commonService.GetAllPeriodIncludeImport(criteria);
+            return commonService.GetAllPeriodIncludeImport(criteria);
         }
 
         [HttpGet]
@@ -201,7 +200,7 @@
                 EPAId = epaId
             };
 
-            return _commonService.GetOtherViolationDetailByEPAId(criteria);
+            return commonService.GetOtherViolationDetailByEPAId(criteria);
         }
 
         [HttpGet]
@@ -213,18 +212,18 @@
                 IsActive = isActive
             };
 
-            return _commonService.GetAllTargetTemplate(criteria);
+            return commonService.GetAllTargetTemplate(criteria);
         }
 
         [HttpGet]
         public IEnumerable<MenuGroupModel> GetMenusByEmployeeId()
         {
-            return _commonService.GetMenusByEmployeeId(SessionService.EmployeeId);
+            return commonService.GetMenusByEmployeeId(SessionService.EmployeeId);
         }
 
         public IEnumerable<JobTitle> GetAllJobTitle()
         {
-            return _commonService.GetAllJobTitle();
+            return commonService.GetAllJobTitle();
         }
 
         public int GetUserPermissionOnFlowManagement()
@@ -236,7 +235,7 @@
         [HttpGet]
         public IEnumerable<JobGradeModel> GetJobGrade(bool? isActive)
         {
-            return _commonService.GetJobGrade(isActive);
+            return commonService.GetJobGrade(isActive);
         }
     }
 }

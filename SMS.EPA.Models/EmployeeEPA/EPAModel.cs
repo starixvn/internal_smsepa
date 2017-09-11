@@ -4,10 +4,7 @@
     using Core.Enumerations;
     using Newtonsoft.Json;
     using Report;
-    using Resources;
-    using System;
     using System.Collections.Generic;
-    using System.Globalization;
     using System.Linq;
 
     public class EPAModel : IExcelRecord

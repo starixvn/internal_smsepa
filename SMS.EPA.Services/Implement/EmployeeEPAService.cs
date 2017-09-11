@@ -20,16 +20,15 @@
 
     public class EmployeeEPAService : BaseService, IEmployeeEPAService
     {
-        private readonly IEmployeeEPARepository _employeeEPARepository;
+        private readonly IEmployeeEPARepository employeeEPARepository;
 
-        public EmployeeEPAService()
-            : this(null)
+        public EmployeeEPAService() : this(null)
         {
         }
 
         public EmployeeEPAService(IEmployeeEPARepository employeeEPARepository)
         {
-            _employeeEPARepository = employeeEPARepository ?? new EmployeeEPARepository();
+            this.employeeEPARepository = employeeEPARepository ?? new EmployeeEPARepository();
         }
 
         public EPAModel GetEPAInfoById(int epaId)
@@ -43,7 +42,7 @@
 
             if (criteria.IsValid())
             {
-                epaInfo = _employeeEPARepository.GetEPAInfo(criteria);
+                epaInfo = employeeEPARepository.GetEPAInfo(criteria);
 
                 if (epaInfo != null)
                 {
@@ -68,7 +67,6 @@
         public void RemoveSensitiveDataOnEmployeeRole(EPAModel epaInfo, ISessionService sessionService)
         {
             var currentEmployeeId = sessionService.CurrentUser.EmployeeId;
-
             var roles = sessionService.CurrentUser.Roles.Select(x => x.RoleId).ToList();
 
             // Remove all data for open Process (process that not evaluated / already evaluated but are extended
@@ -134,7 +132,6 @@
             var validProcess = epaInfo.AllProcesses.Where(x => x.StatusId > (int)ProcessStatusType.Open && x.ProcessId > (int)ProcessType.Self);
 
             // Because the total score of each process is removed if invalid, do not need to check for permission here
-
             var maxProcessTypeId = (int)ProcessType.None;
 
             if (validProcess.Any())
@@ -195,7 +192,7 @@
 
             if (criteria != null && criteria.IsValid())
             {
-                epaInfos = _employeeEPARepository.GetEPAEndEvaluationPeriod(criteria);
+                epaInfos = employeeEPARepository.GetEPAEndEvaluationPeriod(criteria);
             }
 
             return epaInfos;
@@ -211,7 +208,7 @@
 
             if (criteria.IsValid())
             {
-                recommendation = _employeeEPARepository.GetRecommendationById(criteria);
+                recommendation = employeeEPARepository.GetRecommendationById(criteria);
             }
 
             return recommendation;
@@ -271,7 +268,7 @@
 
         public CommandResult UpdateEPASummaryImport(UpdateEPASummaryImportCriteria criteria)
         {
-            CommandResult commandResult = new CommandResult();
+            var commandResult = new CommandResult();
 
             if (criteria != null && criteria.IsValid())
             {
@@ -362,14 +359,14 @@
                 EPAIds = epaIds
             };
 
-            IList<EPAModel> monthlyEPAs = _employeeEPARepository.GetEPA(criteria).ToList();
+            IList<EPAModel> monthlyEPAs = employeeEPARepository.GetEPA(criteria).ToList();
 
             return monthlyEPAs;
         }
 
         public CommandResult ResetScore(ResetScoreCriteria criteria)
         {
-            CommandResult commandResult = new CommandResult();
+            var commandResult = new CommandResult();
 
             if (criteria != null && criteria.IsValid())
             {
@@ -409,7 +406,7 @@
 
             if (criteria != null && criteria.IsValid())
             {
-                epaInfos = _employeeEPARepository.GetEPAToUpdateFinalScore(criteria);
+                epaInfos = employeeEPARepository.GetEPAToUpdateFinalScore(criteria);
             }
 
             return epaInfos;
@@ -417,7 +414,7 @@
 
         public CommandResult UpdateFinalScoreEPAEndEvaluation(UpdateFinalScoreEPAEndEvaluationCriteria criteria)
         {
-            CommandResult commandResult = new CommandResult();
+            var commandResult = new CommandResult();
 
             if (criteria != null && criteria.IsValid())
             {

@@ -16,7 +16,7 @@
                 EmployeeId = employeeId
             };
 
-            IEnumerable<MenuItemModel> menuItems = GetData<MenuItemModel>(criteria);
+            var menuItems = GetData<MenuItemModel>(criteria);
             IList<MenuGroupModel> menus = GroupMenuItem(menuItems);
 
             return menus;

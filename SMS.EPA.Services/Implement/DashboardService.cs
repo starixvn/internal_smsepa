@@ -12,16 +12,15 @@
 
     public class DashboardService : BaseService, IDashboardService
     {
-        private readonly IDashboardRepository _dashboardRepository;
+        private readonly IDashboardRepository dashboardRepository;
 
-        public DashboardService()
-            : this(null)
+        public DashboardService() : this(null)
         {
         }
 
         public DashboardService(IDashboardRepository dashboardRepository)
         {
-            _dashboardRepository = dashboardRepository ?? new DashboardRepository();
+            this.dashboardRepository = dashboardRepository ?? new DashboardRepository();
         }
 
         public ToDoListViewModel GetToDoList(int employeeId)
@@ -34,7 +33,7 @@
 
             if (criteria.IsValid())
             {
-                IEnumerable<ToDoListModel> todoList = _dashboardRepository.GetToDoList(criteria);
+                IEnumerable<ToDoListModel> todoList = dashboardRepository.GetToDoList(criteria);
                 result.ToDoList = todoList.Where(x => x.Period.TargetType.TargetTypeId == (int)TargetType.Probation)
                     .Concat(todoList.Where(x => x.Period.TargetType.TargetTypeId == (int)TargetType.SemiAnnual))
                     .Concat(todoList.Where(x => x.Period.TargetType.TargetTypeId == (int)TargetType.Promotion))

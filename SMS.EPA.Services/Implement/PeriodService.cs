@@ -12,11 +12,10 @@
 
     public class PeriodService : BaseService, IPeriodService
     {
-        private readonly IPeriodRepository _periodRepository;
-        private readonly IPeriodMailService _manualMailService;
+        private readonly IPeriodRepository periodRepository;
+        private readonly IPeriodMailService manualMailService;
 
-        public PeriodService()
-            : this(null, null)
+        public PeriodService() : this(null, null)
         {
         }
 
@@ -24,8 +23,8 @@
             IPeriodRepository periodRepository,
             IPeriodMailService manualMailService)
         {
-            _periodRepository = periodRepository ?? new PeriodRepository();
-            _manualMailService = manualMailService ?? new PeriodMailService();
+            this.periodRepository = periodRepository ?? new PeriodRepository();
+            this.manualMailService = manualMailService ?? new PeriodMailService();
         }
 
         public IEnumerable<PeriodModel> GetPeriod(GetPeriodCriteria criteria)
@@ -34,7 +33,7 @@
 
             if (criteria != null && criteria.IsValid())
             {
-                periods = _periodRepository.GetPeriod(criteria);
+                periods = periodRepository.GetPeriod(criteria);
             }
 
             return periods;
@@ -50,7 +49,7 @@
 
             if (criteria.IsValid())
             {
-                period = _periodRepository.GetPeriodById(criteria);
+                period = periodRepository.GetPeriodById(criteria);
             }
 
             return period;
@@ -83,7 +82,7 @@
 
         public CommandResult CreatePeriod(CreatePeriodCriteria criteria)
         {
-            CommandResult commandResult = new CommandResult();
+            var commandResult = new CommandResult();
 
             if (criteria != null && criteria.IsValid())
             {
@@ -95,7 +94,7 @@
 
         public CommandResult AutoCreateMonthlyPeriod(AutoCreateMonthlyPeriodCriteria criteria)
         {
-            CommandResult commandResult = new CommandResult();
+            var commandResult = new CommandResult();
 
             if (criteria != null && criteria.IsValid())
             {
@@ -107,7 +106,7 @@
 
         public CommandResult UpdateBasicInformationPeriod(UpdateBasicInformationPeriodCriteria criteria)
         {
-            CommandResult commandResult = new CommandResult();
+            var commandResult = new CommandResult();
 
             if (criteria != null && criteria.IsValid())
             {
@@ -119,7 +118,7 @@
 
         public CommandResult UpdateStatusPeriod(UpdateStatusPeriodCriteria criteria)
         {
-            CommandResult commandResult = new CommandResult();
+            var commandResult = new CommandResult();
 
             if (criteria != null && criteria.IsValid())
             {
@@ -131,7 +130,7 @@
 
         public CommandResult DeletePeriod(DeletePeriodCriteria criteria)
         {
-            CommandResult commandResult = new CommandResult();
+            var commandResult = new CommandResult();
 
             if (criteria != null && criteria.IsValid())
             {
@@ -147,7 +146,7 @@
 
             if (criteria != null && criteria.IsValid())
             {
-                employeeSettings = _periodRepository.GetPeriodEmployeeSettingById(criteria);
+                employeeSettings = periodRepository.GetPeriodEmployeeSettingById(criteria);
             }
 
             return employeeSettings;
@@ -155,7 +154,7 @@
 
         public CommandResult AddEmployeeToPeriod(AddEmployeeToPeriodCriteria criteria)
         {
-            CommandResult commandResult = new CommandResult();
+            var commandResult = new CommandResult();
 
             if (criteria != null && criteria.IsValid())
             {
@@ -167,7 +166,7 @@
 
         public CommandResult UpdateEmployeeSettingOfPeriod(UpdateEmployeeSettingOfPeriodCriteria criteria)
         {
-            CommandResult commandResult = new CommandResult();
+            var commandResult = new CommandResult();
 
             if (criteria != null && criteria.IsValid())
             {
@@ -185,7 +184,7 @@
 
         public CommandResult UpdateIncludeStatusEmployeePeriod(UpdateIncludeStatusEmployeePeriodCriteria criteria)
         {
-            CommandResult commandResult = new CommandResult();
+            var commandResult = new CommandResult();
 
             if (criteria != null && criteria.IsValid())
             {
@@ -223,7 +222,7 @@
 
             if (criteria != null && criteria.IsValid())
             {
-                employeeSettings = _periodRepository.GetEmployeeSettingByPeriodId(criteria);
+                employeeSettings = periodRepository.GetEmployeeSettingByPeriodId(criteria);
             }
 
             return employeeSettings;
@@ -280,7 +279,7 @@
 
         public CommandResult UpdateProcessSettingPeriod(UpdateProcessSettingPeriodCriteria criteria)
         {
-            CommandResult commandResult = new CommandResult();
+            var commandResult = new CommandResult();
 
             if (criteria != null && criteria.IsValid())
             {
@@ -310,11 +309,11 @@
             switch (mailMode)
             {
                 case MailMode.Start:
-                    _manualMailService.SendReminderMail(period, employeeSettings, (int)MailMode.Start);
+                    manualMailService.SendReminderMail(period, employeeSettings, (int)MailMode.Start);
                     break;
 
                 case MailMode.NotifyChange:
-                    _manualMailService.SendNotifyMail(period, employeeSettings);
+                    manualMailService.SendNotifyMail(period, employeeSettings);
                     break;
 
                 case MailMode.None:

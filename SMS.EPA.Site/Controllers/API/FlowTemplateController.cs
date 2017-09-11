@@ -13,16 +13,15 @@
 
     public class FlowTemplateController : BaseController
     {
-        private readonly IFlowTemplateService _flowTemplateService;
+        private readonly IFlowTemplateService flowTemplateService;
 
-        public FlowTemplateController()
-            : this(null)
+        public FlowTemplateController() : this(null)
         {
         }
 
         public FlowTemplateController(IFlowTemplateService flowTemplateService)
         {
-            _flowTemplateService = flowTemplateService ?? new FlowTemplateService();
+            this.flowTemplateService = flowTemplateService ?? new FlowTemplateService();
         }
 
         [HttpGet]
@@ -37,14 +36,14 @@
                 IsActive = isActive
             };
 
-            return _flowTemplateService.GetFlowTemplate(criteria);
+            return flowTemplateService.GetFlowTemplate(criteria);
         }
 
         [HttpGet]
         [ApiAuthorize(FunctionKey = EPAFunctionKey.FlowManagement, Policy = Policy.Read)]
         public FlowTemplateModel GetFlowTemplateById(int flowTemplateId)
         {
-            return _flowTemplateService.GetFlowTemplateById(flowTemplateId);
+            return flowTemplateService.GetFlowTemplateById(flowTemplateId);
         }
 
         [HttpPost]
@@ -56,7 +55,7 @@
                 criteria.CreatedBy = SessionService.EmployeeId;
             }
 
-            return _flowTemplateService.CreateFlowTemplate(criteria);
+            return flowTemplateService.CreateFlowTemplate(criteria);
         }
 
         [HttpPut]
@@ -68,7 +67,7 @@
                 criteria.ModifiedBy = SessionService.EmployeeId;
             }
 
-            return _flowTemplateService.UpdateFlowTemplate(criteria);
+            return flowTemplateService.UpdateFlowTemplate(criteria);
         }
 
         [HttpPut]
@@ -80,7 +79,7 @@
                 criteria.ModifiedBy = SessionService.EmployeeId;
             }
 
-            return _flowTemplateService.UpdateStatusFlowTemplate(criteria);
+            return flowTemplateService.UpdateStatusFlowTemplate(criteria);
         }
 
         [HttpDelete]
@@ -93,7 +92,7 @@
                 ModifiedBy = SessionService.EmployeeId
             };
 
-            return _flowTemplateService.DeleteFlowTemplate(criteria);
+            return flowTemplateService.DeleteFlowTemplate(criteria);
         }
     }
 }

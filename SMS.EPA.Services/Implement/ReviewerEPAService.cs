@@ -46,7 +46,7 @@
 
         public EPAModel GetEPAInfoByReviewer(GetEPAInfoByReviewerCriteria criteria)
         {
-            EPAModel epaInfo = new EPAModel();
+            var epaInfo = new EPAModel();
 
             if (criteria != null && criteria.IsValid())
             {
@@ -75,7 +75,7 @@
 
         public CommandResult AdjustScoreByReviewer(AdjustScoreByReviewerOrManagementCriteria criteria)
         {
-            CommandResult commandResult = new CommandResult();
+            var commandResult = new CommandResult();
 
             if (criteria != null && criteria.IsValid())
             {

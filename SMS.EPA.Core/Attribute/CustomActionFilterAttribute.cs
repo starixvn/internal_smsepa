@@ -6,7 +6,7 @@
     using System.Web.Http.Filters;
 
     [AttributeUsage(AttributeTargets.Method | AttributeTargets.Class, AllowMultiple = false)]
-    public sealed class DeflateCompressionAttribute : ActionFilterAttribute
+    public sealed class CustomActionFilterAttribute : ActionFilterAttribute
     {
         public override void OnActionExecuted(HttpActionExecutedContext actionExecutedContext)
         {
@@ -21,6 +21,7 @@
                 actionExecutedContext.Response.Content.Headers.Remove("Content-Type");
                 actionExecutedContext.Response.Content.Headers.Add("Content-encoding", "deflate");
                 actionExecutedContext.Response.Content.Headers.Add("Content-Type", "application/json");
+
                 base.OnActionExecuted(actionExecutedContext);
             }
         }

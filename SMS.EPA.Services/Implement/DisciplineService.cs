@@ -11,16 +11,15 @@
 
     public class DisciplineService : BaseService, IDisciplineService
     {
-        private readonly IDisciplineSummaryRepository _disciplineSummaryRepository;
+        private readonly IDisciplineSummaryRepository disciplineSummaryRepository;
 
-        public DisciplineService()
-            : this(null)
+        public DisciplineService() : this(null)
         {
         }
 
         public DisciplineService(IDisciplineSummaryRepository disciplineSummaryRepository)
         {
-            _disciplineSummaryRepository = disciplineSummaryRepository ?? new DisciplineSummaryRepository();
+            this.disciplineSummaryRepository = disciplineSummaryRepository ?? new DisciplineSummaryRepository();
         }
 
         public IEnumerable<DisciplineSummaryModel> GetDisciplineSummary(GetDisciplineSummaryCriteria criteria)
@@ -29,7 +28,7 @@
 
             if (criteria != null && criteria.IsValid())
             {
-                employeeDisciplines = _disciplineSummaryRepository.GetDisciplineSummary(criteria);
+                employeeDisciplines = disciplineSummaryRepository.GetDisciplineSummary(criteria);
                 employeeDisciplines = employeeDisciplines.OrderByDescending(x => x.Permission);
             }
 
@@ -66,7 +65,7 @@
 
             if (criteria != null && criteria.IsValid())
             {
-                employeeDisciplines = _disciplineSummaryRepository.GetDisciplineDetail(criteria);
+                employeeDisciplines = disciplineSummaryRepository.GetDisciplineDetail(criteria);
                 employeeDisciplines = employeeDisciplines.OrderBy(x => x.Employee.Group.GroupId)
                     .ThenBy(x => x.Employee.Code)
                     .ThenByDescending(x => x.WorkDate);
@@ -81,7 +80,7 @@
 
             if (criteria != null && criteria.IsValid())
             {
-                employeeDisciplines = _disciplineSummaryRepository.GetDisciplineSummaryByPeriod(criteria);
+                employeeDisciplines = disciplineSummaryRepository.GetDisciplineSummaryByPeriod(criteria);
             }
 
             return employeeDisciplines;

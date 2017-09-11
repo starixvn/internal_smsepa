@@ -12,16 +12,15 @@
 
     public class DepartmentFlowService : BaseService, IDepartmentFlowService
     {
-        private readonly IFlowSettingRepository _flowSettingRepository;
+        private readonly IFlowSettingRepository flowSettingRepository;
 
-        public DepartmentFlowService()
-            : this(null)
+        public DepartmentFlowService() : this(null)
         {
         }
 
         public DepartmentFlowService(IFlowSettingRepository flowSettingRepository)
         {
-            _flowSettingRepository = flowSettingRepository ?? new FlowSettingRepository();
+            this.flowSettingRepository = flowSettingRepository ?? new FlowSettingRepository();
         }
 
         public IEnumerable<DepartmentFlowModel> GetDepartmentFlowByFlowTemplateId(int flowTemplateId)
@@ -34,7 +33,7 @@
 
             if (criteria.IsValid())
             {
-                flows = _flowSettingRepository.GetDepartmentFlowByFlowTemplateId(criteria).OrderBy(i => i.Name);
+                flows = flowSettingRepository.GetDepartmentFlowByFlowTemplateId(criteria).OrderBy(i => i.Name);
             }
 
             return flows;
@@ -46,7 +45,7 @@
 
             if (criteria != null && criteria.IsValid())
             {
-                flow = _flowSettingRepository.GetFlowSettingByFlowTemplateId(criteria);
+                flow = flowSettingRepository.GetFlowSettingByFlowTemplateId(criteria);
             }
 
             return flow;
@@ -54,7 +53,7 @@
 
         public CommandResult CreateDepartmentFlow(CreateDepartmentFlowCriteria criteria)
         {
-            CommandResult result = new CommandResult();
+            var result = new CommandResult();
 
             if (criteria != null && criteria.IsValid())
             {
@@ -66,7 +65,7 @@
 
         public CommandResult DeleteDepartmentFlow(DeleteDepartmentFlowCriteria criteria)
         {
-            CommandResult result = new CommandResult();
+            var result = new CommandResult();
 
             if (criteria != null && criteria.IsValid())
             {

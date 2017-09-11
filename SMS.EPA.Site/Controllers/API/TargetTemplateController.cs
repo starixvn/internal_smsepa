@@ -14,11 +14,10 @@
 
     public class TargetTemplateController : BaseController
     {
-        private readonly ITargetTemplateService _targetTemplateService;
-        private readonly IScoreRatingTypeService _scoreRatingTypeService;
+        private readonly ITargetTemplateService targetTemplateService;
+        private readonly IScoreRatingTypeService scoreRatingTypeService;
 
-        public TargetTemplateController()
-            : this(null, null)
+        public TargetTemplateController() : this(null, null)
         {
         }
 
@@ -26,8 +25,8 @@
             ITargetTemplateService targetTemplateService,
             IScoreRatingTypeService scoreRatingTypeService)
         {
-            _targetTemplateService = targetTemplateService ?? new TargetTemplateService();
-            _scoreRatingTypeService = scoreRatingTypeService ?? new ScoreRatingTypeService();
+            this.targetTemplateService = targetTemplateService ?? new TargetTemplateService();
+            this.scoreRatingTypeService = scoreRatingTypeService ?? new ScoreRatingTypeService();
         }
 
         [ApiAuthorize(FunctionKey = EPAFunctionKey.TargetTemplate, Policy = Policy.Read)]
@@ -38,7 +37,7 @@
                 TargetTypeId = targetTypeId,
                 IsActive = isActive
             };
-            IEnumerable<TargetTemplate> targetTemplates = _targetTemplateService.GetAllTargetTemplate(criteria);
+            IEnumerable<TargetTemplate> targetTemplates = targetTemplateService.GetAllTargetTemplate(criteria);
 
             return targetTemplates;
         }
@@ -50,7 +49,7 @@
             {
                 TargetTemplateId = targetTemplateId
             };
-            TargetTemplate targetTemplate = _targetTemplateService.GetTargetTemplateById(criteria);
+            TargetTemplate targetTemplate = targetTemplateService.GetTargetTemplateById(criteria);
 
             return targetTemplate;
         }
@@ -64,7 +63,7 @@
                 criteria.CreatedBy = SessionService.EmployeeId;
             }
 
-            CommandResult commandResult = _targetTemplateService.CreateTargetTemplate(criteria);
+            CommandResult commandResult = targetTemplateService.CreateTargetTemplate(criteria);
             return commandResult;
         }
 
@@ -77,7 +76,7 @@
                 criteria.ModifiedBy = SessionService.EmployeeId;
             }
 
-            CommandResult commandResult = _targetTemplateService.UpdateStatusTargetTemplate(criteria);
+            CommandResult commandResult = targetTemplateService.UpdateStatusTargetTemplate(criteria);
             return commandResult;
         }
 
@@ -90,7 +89,7 @@
                 criteria.ModifiedBy = SessionService.EmployeeId;
             }
 
-            CommandResult commandResult = _targetTemplateService.UpdateTargetTemplateBasicInfo(criteria);
+            CommandResult commandResult = targetTemplateService.UpdateTargetTemplateBasicInfo(criteria);
             return commandResult;
         }
 
@@ -103,7 +102,7 @@
                 criteria.ModifiedBy = SessionService.EmployeeId;
             }
 
-            CommandResult commandResult = _targetTemplateService.UpdateTargetTemplate(criteria);
+            CommandResult commandResult = targetTemplateService.UpdateTargetTemplate(criteria);
             return commandResult;
         }
 
@@ -117,7 +116,7 @@
                 ModifiedBy = SessionService.EmployeeId
             };
 
-            CommandResult commandResult = _targetTemplateService.DeleteTargetTemplate(criteria);
+            CommandResult commandResult = targetTemplateService.DeleteTargetTemplate(criteria);
             return commandResult;
         }
 
@@ -130,7 +129,7 @@
                 criteria.ModifiedBy = SessionService.EmployeeId;
             }
 
-            CommandResult commandResult = _targetTemplateService.AddKPIGroupWeight(criteria);
+            CommandResult commandResult = targetTemplateService.AddKPIGroupWeight(criteria);
             return commandResult;
         }
 
@@ -141,7 +140,7 @@
             {
                 TargetTemplateId = targetTemplateId
             };
-            IEnumerable<KPIGroupModel> groups = _targetTemplateService.GetKPIGroupOfTargetTemplate(criteria);
+            IEnumerable<KPIGroupModel> groups = targetTemplateService.GetKPIGroupOfTargetTemplate(criteria);
 
             return groups;
         }
@@ -153,7 +152,7 @@
             {
                 TargetTemplateId = targetTemplateId
             };
-            IEnumerable<TargetTemplateKPIGroupModel> kpis = _targetTemplateService.GetKPIOfTargetTemplate(criteria, onlySelected);
+            IEnumerable<TargetTemplateKPIGroupModel> kpis = targetTemplateService.GetKPIOfTargetTemplate(criteria, onlySelected);
 
             return kpis;
         }
@@ -168,7 +167,7 @@
                 KPIGroupId = kpiGroupId,
                 ModifiedBy = SessionService.EmployeeId
             };
-            CommandResult commandResult = _targetTemplateService.DeleteKPIGroup(criteria);
+            CommandResult commandResult = targetTemplateService.DeleteKPIGroup(criteria);
 
             return commandResult;
         }
@@ -186,7 +185,7 @@
                 ScoreRatingTypeId = scoreRatingTypeId,
                 IsActive = isActive
             };
-            IEnumerable<ScoreRatingTypeModel> scoreRatingTypes = _scoreRatingTypeService.GetScoreRatingType(criteria);
+            IEnumerable<ScoreRatingTypeModel> scoreRatingTypes = scoreRatingTypeService.GetScoreRatingType(criteria);
 
             return scoreRatingTypes;
         }
@@ -194,7 +193,7 @@
         public IEnumerable<RatingType> GetRatingType()
         {
             var criteria = new GetRatingTypeCriteria();
-            IEnumerable<RatingType> ratingTypes = _targetTemplateService.GetRatingType(criteria);
+            IEnumerable<RatingType> ratingTypes = targetTemplateService.GetRatingType(criteria);
 
             return ratingTypes;
         }

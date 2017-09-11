@@ -16,11 +16,10 @@
 
     public class ReviewerEPAController : BaseController
     {
-        private readonly IEmployeeEPAService _evaluationService;
-        private readonly IReviewerEPAService _reviewerEPAService;
+        private readonly IEmployeeEPAService evaluationService;
+        private readonly IReviewerEPAService reviewerEPAService;
 
-        public ReviewerEPAController()
-            : this(null, null)
+        public ReviewerEPAController() : this(null, null)
         {
         }
 
@@ -28,8 +27,8 @@
             IEmployeeEPAService evaluationService,
             IReviewerEPAService reviewerEPAService)
         {
-            _evaluationService = evaluationService ?? new EmployeeEPAService();
-            _reviewerEPAService = reviewerEPAService ?? new ReviewerEPAService();
+            this.evaluationService = evaluationService ?? new EmployeeEPAService();
+            this.reviewerEPAService = reviewerEPAService ?? new ReviewerEPAService();
         }
 
         [HttpGet]
@@ -42,7 +41,7 @@
                 ProcessId = (int)ProcessType.Reviewer
             };
 
-            return _evaluationService.GetGroupByEvaluatorOrReviewerOrManagement(criteria);
+            return evaluationService.GetGroupByEvaluatorOrReviewerOrManagement(criteria);
         }
 
         [HttpGet]
@@ -61,7 +60,7 @@
                 IsMonthly = isMonthly
             };
 
-            return _evaluationService.GetMemberByEvaluatorOrReviewerOrManagement(criteria);
+            return evaluationService.GetMemberByEvaluatorOrReviewerOrManagement(criteria);
         }
 
         [HttpGet]
@@ -83,18 +82,16 @@
                 StatusProcess = statusProcess
             };
 
-            return _reviewerEPAService.GetEPAByReviewer(criteria);
+            return reviewerEPAService.GetEPAByReviewer(criteria);
         }
 
         [HttpGet]
         [ApiAuthorize(FunctionKey = EPAFunctionKey.Reviewer, Policy = Policy.Read)]
         public HttpResponseMessage GetEPAInfoByReviewer(int epaId, int? reviewerId = null)
         {
-            EPAModel epaInfo = new EPAModel();
-
+            var epaInfo = new EPAModel();
             var processId = reviewerId == null ? (int?)ProcessType.Reviewer : null;
             var sessionServiceEmployeeId = reviewerId ?? SessionService.EmployeeId;
-
             int permission = CheckEmployeePermission(epaId, sessionServiceEmployeeId, processId);
 
             if (permission == (int)Policy.None)
@@ -108,7 +105,7 @@
                 ReviewerId = SessionService.EmployeeId
             };
 
-            epaInfo = _reviewerEPAService.GetEPAInfoByReviewer(criteria);
+            epaInfo = reviewerEPAService.GetEPAInfoByReviewer(criteria);
 
             return Request.CreateResponse(HttpStatusCode.OK, epaInfo);
         }
@@ -124,7 +121,7 @@
                 criteria.ProcessId = (int)ProcessType.Reviewer;
                 criteria.ModifiedBy = SessionService.EmployeeId;
 
-                commandResult = _reviewerEPAService.AdjustScoreByReviewer(criteria);
+                commandResult = reviewerEPAService.AdjustScoreByReviewer(criteria);
             }
 
             return commandResult;
@@ -148,7 +145,7 @@
                 ProcessId = processId
             };
 
-            return _evaluationService.CheckEmployeePermission(criteria);
+            return evaluationService.CheckEmployeePermission(criteria);
         }
     }
 }

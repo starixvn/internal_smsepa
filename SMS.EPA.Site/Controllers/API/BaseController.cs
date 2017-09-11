@@ -6,7 +6,7 @@
     using System.Web.Security;
 
     [WebApiValidateAntiForgeryToken]
-    [DeflateCompression]
+    [CustomActionFilter]
     public class BaseController : ApiController
     {
         private ISessionService _sessionService;

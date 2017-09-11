@@ -11,16 +11,15 @@
 
     public class EvaluatorByKPIService : BaseService, IEvaluatorByKPIService
     {
-        private readonly IEmployeeEPARepository _evaluationRepository;
+        private readonly IEmployeeEPARepository evaluationRepository;
 
-        public EvaluatorByKPIService()
-            : this(null)
+        public EvaluatorByKPIService() : this(null)
         {
         }
 
         public EvaluatorByKPIService(IEmployeeEPARepository evaluationRepository)
         {
-            _evaluationRepository = evaluationRepository ?? new EmployeeEPARepository();
+            this.evaluationRepository = evaluationRepository ?? new EmployeeEPARepository();
         }
 
         public IEnumerable<EPAPeriodModel> GetPeriodByEvaluator(GetPeriodByEvaluatorCriteria criteria)
@@ -77,7 +76,7 @@
 
             if (criteria != null && criteria.IsValid())
             {
-                kpis = _evaluationRepository.GetKPIByTargetTemplate(criteria);
+                kpis = evaluationRepository.GetKPIByTargetTemplate(criteria);
             }
 
             return kpis;
@@ -89,7 +88,7 @@
 
             if (criteria != null && criteria.IsValid())
             {
-                kpis = _evaluationRepository.GetKPIToView(criteria);
+                kpis = evaluationRepository.GetKPIToView(criteria);
             }
 
             return kpis;
@@ -101,7 +100,7 @@
 
             if (criteria != null && criteria.IsValid())
             {
-                epas = _evaluationRepository.GetEmployeeEPAByKPI(criteria);
+                epas = evaluationRepository.GetEmployeeEPAByKPI(criteria);
             }
 
             return epas;
@@ -113,7 +112,7 @@
 
             if (criteria != null && criteria.IsValid())
             {
-                epas = _evaluationRepository.GetEmployeeEPAByKPI(criteria);
+                epas = evaluationRepository.GetEmployeeEPAByKPI(criteria);
             }
 
             return epas;
@@ -121,7 +120,7 @@
 
         public CommandResult UpdateKPIScore(UpdateKPIScoreCriteria criteria)
         {
-            CommandResult commandResult = new CommandResult();
+            var commandResult = new CommandResult();
 
             if (criteria != null && criteria.IsValid())
             {

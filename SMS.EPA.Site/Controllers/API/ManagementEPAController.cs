@@ -16,11 +16,10 @@
 
     public class ManagementEPAController : BaseController
     {
-        private readonly IEmployeeEPAService _evaluationService;
-        private readonly IManagementEPAService _managementEPAService;
+        private readonly IEmployeeEPAService evaluationService;
+        private readonly IManagementEPAService managementEPAService;
 
-        public ManagementEPAController()
-            : this(null, null)
+        public ManagementEPAController() : this(null, null)
         {
         }
 
@@ -28,8 +27,8 @@
             IEmployeeEPAService evaluationService,
             IManagementEPAService managementEPAService)
         {
-            _evaluationService = evaluationService ?? new EmployeeEPAService();
-            _managementEPAService = managementEPAService ?? new ManagementEPAService();
+            this.evaluationService = evaluationService ?? new EmployeeEPAService();
+            this.managementEPAService = managementEPAService ?? new ManagementEPAService();
         }
 
         [HttpGet]
@@ -42,7 +41,7 @@
                 ProcessId = (int)ProcessType.Management
             };
 
-            return _evaluationService.GetGroupByEvaluatorOrReviewerOrManagement(criteria);
+            return evaluationService.GetGroupByEvaluatorOrReviewerOrManagement(criteria);
         }
 
         [HttpGet]
@@ -60,7 +59,7 @@
                 IsMonthly = false
             };
 
-            return _evaluationService.GetMemberByEvaluatorOrReviewerOrManagement(criteria);
+            return evaluationService.GetMemberByEvaluatorOrReviewerOrManagement(criteria);
         }
 
         [HttpGet]
@@ -80,7 +79,7 @@
                 StatusProcess = statusProcess
             };
 
-            return _managementEPAService.GetEPAByManagement(criteria);
+            return managementEPAService.GetEPAByManagement(criteria);
         }
 
         [HttpGet]
@@ -105,7 +104,7 @@
                 ManagementId = SessionService.EmployeeId
             };
 
-            epaInfo = _managementEPAService.GetEPAInfoByManagement(criteria);
+            epaInfo = managementEPAService.GetEPAInfoByManagement(criteria);
 
             return Request.CreateResponse(HttpStatusCode.OK, epaInfo);
         }
@@ -121,7 +120,7 @@
                 criteria.ProcessId = (int)ProcessType.Management;
                 criteria.ModifiedBy = SessionService.EmployeeId;
 
-                commandResult = _managementEPAService.AdjustScoreByManagement(criteria);
+                commandResult = managementEPAService.AdjustScoreByManagement(criteria);
             }
 
             return commandResult;
@@ -145,7 +144,7 @@
                 ProcessId = processId
             };
 
-            return _evaluationService.CheckEmployeePermission(criteria);
+            return evaluationService.CheckEmployeePermission(criteria);
         }
     }
 }

@@ -1,14 +1,13 @@
 ﻿namespace SMS.EPA.ClientHrm.Services
 {
-    using Core.Model;
     using Criteria;
     using EPA.Model.API;
     using Fanex.Data.Repository;
     using Model;
     using System;
     using System.Collections.Generic;
-    using ThirdPartyAPI;
     using System.Linq;
+    using ThirdPartyAPI;
 
     public class DisciplineService : IDisciplineService
     {
@@ -56,7 +55,6 @@
                 _disciplineApi.Update(disciplineTemps, token);
                 skipNumbers += takeNumbers;
             }
-
         }
     }
 }

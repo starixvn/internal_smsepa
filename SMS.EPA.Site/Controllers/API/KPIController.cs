@@ -13,7 +13,7 @@
 
     public class KPIController : BaseController
     {
-        private readonly IKPIService _kpiService;
+        private readonly IKPIService kpiService;
 
         public KPIController()
             : this(null)
@@ -22,7 +22,7 @@
 
         public KPIController(IKPIService kpiService)
         {
-            _kpiService = kpiService ?? new KPIService();
+            this.kpiService = kpiService ?? new KPIService();
         }
 
         [HttpGet]
@@ -39,7 +39,7 @@
                 IsRequiredEvaluate = isRequiredEvaluate
             };
 
-            return _kpiService.GetKPI(criteria);
+            return kpiService.GetKPI(criteria);
         }
 
         [HttpPost]
@@ -51,7 +51,7 @@
                 criteria.CreatedBy = SessionService.EmployeeId;
             }
 
-            CommandResult commandResult = _kpiService.CreateKPI(criteria);
+            CommandResult commandResult = kpiService.CreateKPI(criteria);
 
             return commandResult;
         }
@@ -65,7 +65,7 @@
                 criteria.ModifiedBy = SessionService.EmployeeId;
             }
 
-            CommandResult commandResult = _kpiService.UpdateKPI(criteria);
+            CommandResult commandResult = kpiService.UpdateKPI(criteria);
 
             return commandResult;
         }
@@ -79,7 +79,7 @@
                 criteria.ModifiedBy = SessionService.EmployeeId;
             }
 
-            CommandResult commandResult = _kpiService.UpdateStatusKPI(criteria);
+            CommandResult commandResult = kpiService.UpdateStatusKPI(criteria);
 
             return commandResult;
         }
@@ -93,7 +93,7 @@
                 criteria.ModifiedBy = SessionService.EmployeeId;
             }
 
-            CommandResult commandResult = _kpiService.UpdateRequiredEvaluateKPI(criteria);
+            CommandResult commandResult = kpiService.UpdateRequiredEvaluateKPI(criteria);
 
             return commandResult;
         }
@@ -108,7 +108,7 @@
                 ModifiedBy = SessionService.EmployeeId
             };
 
-            CommandResult commandResult = _kpiService.DeleteKPI(criteria);
+            CommandResult commandResult = kpiService.DeleteKPI(criteria);
 
             return commandResult;
         }

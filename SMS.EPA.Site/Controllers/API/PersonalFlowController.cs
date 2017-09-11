@@ -13,23 +13,22 @@
 
     public class PersonalFlowController : BaseController
     {
-        private readonly IPersonalFlowService _personalFlowService;
+        private readonly IPersonalFlowService personalFlowService;
 
-        public PersonalFlowController()
-            : this(null)
+        public PersonalFlowController() : this(null)
         {
         }
 
         public PersonalFlowController(IPersonalFlowService personalFlowService)
         {
-            _personalFlowService = personalFlowService ?? new PersonalFlowService();
+            this.personalFlowService = personalFlowService ?? new PersonalFlowService();
         }
 
         [HttpGet]
         [ApiAuthorize(FunctionKey = EPAFunctionKey.FlowManagement, Policy = Policy.Read)]
         public IEnumerable<PersonalFlowModel> GetPersonalFlowByFlowTemplateId(int flowTemplateId)
         {
-            return _personalFlowService.GetPersonalFlowByFlowTemplateId(flowTemplateId);
+            return personalFlowService.GetPersonalFlowByFlowTemplateId(flowTemplateId);
         }
 
         [HttpGet]
@@ -42,20 +41,20 @@
                 FlowTemplateId = flowTemplateId
             };
 
-            return _personalFlowService.GetPersonalFlowById(criteria);
+            return personalFlowService.GetPersonalFlowById(criteria);
         }
 
         [HttpPost]
         [ApiAuthorize(FunctionKey = EPAFunctionKey.FlowManagement, Policy = Policy.Host)]
         public CommandResult CreatePersonalFlow(CreatePersonalFlowCriteria criteria)
         {
-            CommandResult commandResult = new CommandResult();
+            var commandResult = new CommandResult();
 
             if (criteria != null)
             {
                 criteria.ModifiedBy = SessionService.EmployeeId;
 
-                commandResult = _personalFlowService.CreatePersonalFlow(criteria);
+                commandResult = personalFlowService.CreatePersonalFlow(criteria);
             }
 
             return commandResult;
@@ -72,7 +71,7 @@
                 ModifiedBy = SessionService.EmployeeId
             };
 
-            return _personalFlowService.DeletePersonalFlow(criteria);
+            return personalFlowService.DeletePersonalFlow(criteria);
         }
 
         [HttpGet]
@@ -91,7 +90,7 @@
                 IsMonthlyPeriod = isMonthlyPeriod
             };
 
-            EmployeeFlowSettingModel result = _personalFlowService.GetEmployeeFlowSetting(criteria);
+            EmployeeFlowSettingModel result = personalFlowService.GetEmployeeFlowSetting(criteria);
             return result;
         }
     }

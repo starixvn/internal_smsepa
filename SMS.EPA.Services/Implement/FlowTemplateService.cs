@@ -10,16 +10,15 @@
 
     public class FlowTemplateService : BaseService, IFlowTemplateService
     {
-        private readonly IFlowTemplateRepository _flowTemplateRepository;
+        private readonly IFlowTemplateRepository flowTemplateRepository;
 
-        public FlowTemplateService()
-            : this(null)
+        public FlowTemplateService() : this(null)
         {
         }
 
         public FlowTemplateService(IFlowTemplateRepository flowTemplateRepository)
         {
-            _flowTemplateRepository = flowTemplateRepository ?? new FlowTemplateRepository();
+            this.flowTemplateRepository = flowTemplateRepository ?? new FlowTemplateRepository();
         }
 
         public IEnumerable<FlowTemplateModel> GetFlowTemplate(GetFlowTemplateCriteria criteria)
@@ -28,7 +27,7 @@
 
             if (criteria != null && criteria.IsValid())
             {
-                flowTemplates = _flowTemplateRepository.GetFlowTemplate(criteria);
+                flowTemplates = flowTemplateRepository.GetFlowTemplate(criteria);
             }
 
             return flowTemplates;
@@ -36,7 +35,7 @@
 
         public FlowTemplateModel GetFlowTemplateById(int flowTemplateById)
         {
-            FlowTemplateModel flowTemplate = new FlowTemplateModel();
+            var flowTemplate = new FlowTemplateModel();
             var criteria = new GetFlowTemplateByIdCriteria
             {
                 FlowTemplateId = flowTemplateById
@@ -44,7 +43,7 @@
 
             if (criteria.IsValid())
             {
-                flowTemplate = _flowTemplateRepository.GetFlowTemplateById(criteria);
+                flowTemplate = flowTemplateRepository.GetFlowTemplateById(criteria);
             }
 
             return flowTemplate;
@@ -52,7 +51,7 @@
 
         public CommandResult CreateFlowTemplate(CreateFlowTemplateCriteria criteria)
         {
-            CommandResult result = new CommandResult();
+            var result = new CommandResult();
 
             if (criteria != null && criteria.IsValid())
             {
@@ -64,7 +63,7 @@
 
         public CommandResult UpdateFlowTemplate(UpdateFlowTemplateCriteria criteria)
         {
-            CommandResult result = new CommandResult();
+            var result = new CommandResult();
 
             if (criteria != null && criteria.IsValid())
             {
@@ -76,7 +75,7 @@
 
         public CommandResult UpdateStatusFlowTemplate(UpdateStatusFlowTemplateCriteria criteria)
         {
-            CommandResult result = new CommandResult();
+            var result = new CommandResult();
 
             if (criteria != null && criteria.IsValid())
             {
@@ -88,7 +87,7 @@
 
         public CommandResult DeleteFlowTemplate(DeleteFlowTemplateCriteria criteria)
         {
-            CommandResult result = new CommandResult();
+            var result = new CommandResult();
 
             if (criteria != null && criteria.IsValid())
             {

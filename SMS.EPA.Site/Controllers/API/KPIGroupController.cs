@@ -13,16 +13,15 @@
 
     public class KPIGroupController : BaseController
     {
-        private readonly IKPIGroupService _kpiGroupService;
+        private readonly IKPIGroupService kpiGroupService;
 
-        public KPIGroupController()
-            : this(null)
+        public KPIGroupController() : this(null)
         {
         }
 
         public KPIGroupController(IKPIGroupService kpiGroupService)
         {
-            _kpiGroupService = kpiGroupService ?? new KPIGroupService();
+            this.kpiGroupService = kpiGroupService ?? new KPIGroupService();
         }
 
         [HttpGet]
@@ -34,14 +33,14 @@
                 IsActive = isActive
             };
 
-            return _kpiGroupService.GetKPIGroup(criteria);
+            return kpiGroupService.GetKPIGroup(criteria);
         }
 
         [HttpGet]
         [ApiAuthorize(FunctionKey = EPAFunctionKey.KPIGroup, Policy = Policy.Read)]
         public KPIGroupModel GetKPIGroupById(int kpiGroupId)
         {
-            return _kpiGroupService.GetKPIGroupById(kpiGroupId);
+            return kpiGroupService.GetKPIGroupById(kpiGroupId);
         }
 
         [HttpPost]
@@ -53,7 +52,7 @@
                 criteria.CreatedBy = SessionService.EmployeeId;
             }
 
-            CommandResult commandResult = _kpiGroupService.CreateKPIGroup(criteria);
+            CommandResult commandResult = kpiGroupService.CreateKPIGroup(criteria);
 
             return commandResult;
         }
@@ -67,7 +66,7 @@
                 criteria.ModifiedBy = SessionService.EmployeeId;
             }
 
-            CommandResult commandResult = _kpiGroupService.UpdateKPIGroup(criteria);
+            CommandResult commandResult = kpiGroupService.UpdateKPIGroup(criteria);
 
             return commandResult;
         }
@@ -81,7 +80,7 @@
                 criteria.ModifiedBy = SessionService.EmployeeId;
             }
 
-            CommandResult commandResult = _kpiGroupService.UpdateStatusKPIGroup(criteria);
+            CommandResult commandResult = kpiGroupService.UpdateStatusKPIGroup(criteria);
 
             return commandResult;
         }
@@ -96,7 +95,7 @@
                 ModifiedBy = SessionService.EmployeeId
             };
 
-            CommandResult commandResult = _kpiGroupService.DeleteKPIGroup(criteria);
+            CommandResult commandResult = kpiGroupService.DeleteKPIGroup(criteria);
 
             return commandResult;
         }

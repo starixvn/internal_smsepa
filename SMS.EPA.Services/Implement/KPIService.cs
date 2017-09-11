@@ -10,16 +10,15 @@
 
     public class KPIService : BaseService, IKPIService
     {
-        private readonly IKPIRepository _kpiRepository;
+        private readonly IKPIRepository kpiRepository;
 
-        public KPIService()
-            : this(null)
+        public KPIService() : this(null)
         {
         }
 
         public KPIService(IKPIRepository kpiRepository)
         {
-            _kpiRepository = kpiRepository ?? new KPIRepository();
+            this.kpiRepository = kpiRepository ?? new KPIRepository();
         }
 
         public IEnumerable<KPIModel> GetKPI(GetKPICriteria criteria)
@@ -28,7 +27,7 @@
 
             if (criteria != null && criteria.IsValid())
             {
-                kpis = _kpiRepository.GetKPI(criteria);
+                kpis = kpiRepository.GetKPI(criteria);
             }
 
             return kpis;
@@ -36,7 +35,7 @@
 
         public CommandResult CreateKPI(CreateKPICriteria criteria)
         {
-            CommandResult commandResult = new CommandResult();
+            var commandResult = new CommandResult();
 
             if (criteria != null && criteria.IsValid())
             {
@@ -48,7 +47,7 @@
 
         public CommandResult UpdateKPI(UpdateKPICriteria criteria)
         {
-            CommandResult commandResult = new CommandResult();
+            var commandResult = new CommandResult();
 
             if (criteria != null && criteria.IsValid())
             {
@@ -60,7 +59,7 @@
 
         public CommandResult UpdateStatusKPI(UpdateStatusKPICriteria criteria)
         {
-            CommandResult commandResult = new CommandResult();
+            var commandResult = new CommandResult();
 
             if (criteria != null && criteria.IsValid())
             {
@@ -72,7 +71,7 @@
 
         public CommandResult UpdateRequiredEvaluateKPI(UpdateRequiredEvaluateKPICriteria criteria)
         {
-            CommandResult commandResult = new CommandResult();
+            var commandResult = new CommandResult();
 
             if (criteria != null && criteria.IsValid())
             {
@@ -84,7 +83,7 @@
 
         public CommandResult DeleteKPI(DeleteKPICriteria criteria)
         {
-            CommandResult commandResult = new CommandResult();
+            var commandResult = new CommandResult();
 
             if (criteria != null && criteria.IsValid())
             {

@@ -15,11 +15,10 @@
 
     public class SelfEvaluationController : BaseController
     {
-        private readonly IEmployeeEPAService _evaluationService;
-        private readonly ISelfEvaluationService _selfEvaluationService;
+        private readonly IEmployeeEPAService evaluationService;
+        private readonly ISelfEvaluationService selfEvaluationService;
 
-        public SelfEvaluationController()
-            : this(null, null)
+        public SelfEvaluationController() : this(null, null)
         {
         }
 
@@ -27,8 +26,8 @@
             IEmployeeEPAService evaluationService,
             ISelfEvaluationService selfEvaluationService)
         {
-            _evaluationService = evaluationService ?? new EmployeeEPAService();
-            _selfEvaluationService = selfEvaluationService ?? new SelfEvaluationService();
+            this.evaluationService = evaluationService ?? new EmployeeEPAService();
+            this.selfEvaluationService = selfEvaluationService ?? new SelfEvaluationService();
         }
 
         [HttpGet]
@@ -40,14 +39,14 @@
                 EmployeeId = SessionService.EmployeeId
             };
 
-            return _selfEvaluationService.GetEPAByEmployee(criteria);
+            return selfEvaluationService.GetEPAByEmployee(criteria);
         }
 
         [HttpGet]
         [ApiAuthorize(FunctionKey = EPAFunctionKey.Self, Policy = Policy.Read)]
         public HttpResponseMessage GetEPAInfoByEmployee(int epaId)
         {
-            EPAModel epaInfo = new EPAModel();
+            var epaInfo = new EPAModel();
             int permission = CheckEmployeePermission(epaId);
 
             if (permission == (int)Policy.None)
@@ -61,7 +60,7 @@
                 EmployeeId = SessionService.EmployeeId
             };
 
-            epaInfo = _selfEvaluationService.GetEPAInfoByEmployee(criteria);
+            epaInfo = selfEvaluationService.GetEPAInfoByEmployee(criteria);
 
             return Request.CreateResponse(HttpStatusCode.OK, epaInfo);
         }
@@ -78,7 +77,7 @@
                 criteria.EvaluatorId = SessionService.EmployeeId;
                 criteria.ModifiedBy = SessionService.EmployeeId;
 
-                commandResult = _selfEvaluationService.UpdateEPAScoreByEmployee(criteria);
+                commandResult = selfEvaluationService.UpdateEPAScoreByEmployee(criteria);
             }
 
             return commandResult;
@@ -99,7 +98,7 @@
                 ProcessId = (int)ProcessType.Self
             };
 
-            return _evaluationService.CheckEmployeePermission(criteria);
+            return evaluationService.CheckEmployeePermission(criteria);
         }
     }
 }

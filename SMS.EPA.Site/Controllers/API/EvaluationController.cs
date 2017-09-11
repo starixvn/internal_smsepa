@@ -15,7 +15,7 @@
 
     public class EvaluationController : BaseController
     {
-        private readonly IEmployeeEPAService _evaluationService;
+        private readonly IEmployeeEPAService evaluationService;
 
         public EvaluationController()
             : this(null)
@@ -24,7 +24,7 @@
 
         public EvaluationController(IEmployeeEPAService evaluationService)
         {
-            _evaluationService = evaluationService ?? new EmployeeEPAService();
+            this.evaluationService = evaluationService ?? new EmployeeEPAService();
         }
 
         [HttpGet]
@@ -38,8 +38,8 @@
                 return Request.CreateResponse(HttpStatusCode.MethodNotAllowed, epaInfo);
             }
 
-            epaInfo = _evaluationService.GetEPAInfoById(epaId);
-            _evaluationService.RemoveSensitiveDataOnEmployeeRole(epaInfo, SessionService);
+            epaInfo = evaluationService.GetEPAInfoById(epaId);
+            evaluationService.RemoveSensitiveDataOnEmployeeRole(epaInfo, SessionService);
 
             return Request.CreateResponse(HttpStatusCode.OK, epaInfo);
         }
@@ -47,13 +47,13 @@
         [HttpPut]
         public CommandResult ConvertEPA()
         {
-            IEnumerable<EPASummaryImportModel> epaInfos = _evaluationService.GetMemberEPASummaryImport();
+            IEnumerable<EPASummaryImportModel> epaInfos = evaluationService.GetMemberEPASummaryImport();
             var criteria = new UpdateEPASummaryImportCriteria
             {
                 EpaInfos = epaInfos
             };
 
-            CommandResult result = _evaluationService.UpdateEPASummaryImport(criteria);
+            CommandResult result = evaluationService.UpdateEPASummaryImport(criteria);
             return result;
         }
 
@@ -64,7 +64,7 @@
 
             if (SessionService.CurrentUser.Roles.Select(x => x.RoleId).Contains((int)SystemRole.SystemAdmin))
             {
-                EPAModel epaInfo = _evaluationService.GetEPAInfoById(criteria.EPAId);
+                EPAModel epaInfo = evaluationService.GetEPAInfoById(criteria.EPAId);
 
                 criteria.ModifiedBy = SessionService.EmployeeId;
 
@@ -76,7 +76,7 @@
                     {
                         criteria.EPAInfo = epaInfo;
 
-                        commandResult = _evaluationService.ResetScore(criteria);
+                        commandResult = evaluationService.ResetScore(criteria);
                         response = Request.CreateResponse(HttpStatusCode.OK, commandResult);
                     }
                 }
@@ -84,7 +84,7 @@
                 {
                     criteria.EPAInfo = epaInfo;
 
-                    commandResult = _evaluationService.ResetScore(criteria);
+                    commandResult = evaluationService.ResetScore(criteria);
                     response = Request.CreateResponse(HttpStatusCode.OK, commandResult);
                 }
             }
@@ -104,7 +104,7 @@
                 ActorUserId = SessionService.EmployeeId
             };
 
-            return _evaluationService.CheckEmployeePermission(criteria);
+            return evaluationService.CheckEmployeePermission(criteria);
         }
     }
 }

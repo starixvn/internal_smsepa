@@ -13,16 +13,15 @@
 
     public class TargetEmployeeSettingController : BaseController
     {
-        private readonly ITargetEmployeeSettingService _targetEmployeeSettingService;
+        private readonly ITargetEmployeeSettingService targetEmployeeSettingService;
 
-        public TargetEmployeeSettingController()
-            : this(null)
+        public TargetEmployeeSettingController() : this(null)
         {
         }
 
         public TargetEmployeeSettingController(ITargetEmployeeSettingService targetEmployeeSettingService)
         {
-            _targetEmployeeSettingService = targetEmployeeSettingService ?? new TargetEmployeeSettingService();
+            this.targetEmployeeSettingService = targetEmployeeSettingService ?? new TargetEmployeeSettingService();
         }
 
         [ApiAuthorize(FunctionKey = EPAFunctionKey.TargetEmployeeSetting, Policy = Policy.Read)]
@@ -40,7 +39,7 @@
                 ShowAll = showAll
             };
 
-            IList<TargetEmployeeSetting> targetEmployeeSettings = _targetEmployeeSettingService.GetTargetEmployeeSetting(criteria);
+            IList<TargetEmployeeSetting> targetEmployeeSettings = targetEmployeeSettingService.GetTargetEmployeeSetting(criteria);
             return targetEmployeeSettings;
         }
 
@@ -53,7 +52,7 @@
                 criteria.ModifiedBy = SessionService.EmployeeId;
             }
 
-            CommandResult commandResult = _targetEmployeeSettingService.AssignTargetTemplateToEmployee(criteria);
+            CommandResult commandResult = targetEmployeeSettingService.AssignTargetTemplateToEmployee(criteria);
             return commandResult;
         }
 
@@ -68,7 +67,7 @@
                 ModifiedBy = SessionService.EmployeeId
             };
 
-            CommandResult commandResult = _targetEmployeeSettingService.DeleteTargetEmployeeSetting(criteria);
+            CommandResult commandResult = targetEmployeeSettingService.DeleteTargetEmployeeSetting(criteria);
             return commandResult;
         }
 
@@ -86,7 +85,7 @@
                 TargetTypeId = targetTypeId,
                 ShowAll = showAll
             };
-            IList<TargetDepartmentSetting> targetDepartments = _targetEmployeeSettingService.GetTargetDepartmentSetting(criteria);
+            IList<TargetDepartmentSetting> targetDepartments = targetEmployeeSettingService.GetTargetDepartmentSetting(criteria);
             return targetDepartments;
         }
 
@@ -94,7 +93,7 @@
         [ApiAuthorize(FunctionKey = EPAFunctionKey.TargetEmployeeSetting, Policy = Policy.Host)]
         public CommandResult AssignTargetTemplateToDepartment(TargetSettingAssignModel model)
         {
-            CommandResult commandResult = new CommandResult();
+            var commandResult = new CommandResult();
 
             if (model != null)
             {
@@ -105,7 +104,7 @@
                     ModifiedBy = SessionService.EmployeeId
                 };
 
-                commandResult = _targetEmployeeSettingService.AssignTargetTemplateToDepartment(criteria);
+                commandResult = targetEmployeeSettingService.AssignTargetTemplateToDepartment(criteria);
             }
 
             return commandResult;
@@ -126,7 +125,7 @@
                 ModifiedBy = SessionService.EmployeeId
             };
 
-            CommandResult commandResult = _targetEmployeeSettingService.DeleteTargetDepartmentSetting(criteria);
+            CommandResult commandResult = targetEmployeeSettingService.DeleteTargetDepartmentSetting(criteria);
             return commandResult;
         }
 

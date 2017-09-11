@@ -23,10 +23,10 @@
     public class ReportService : BaseService, IReportService
     {
         private const int ExcelColumnWidth = 256;
-        private readonly IEmployeeEPARepository _employeeEPARepository;
-        private readonly IEmployeeEPAService _employeeEPAService;
-        private readonly IReportRepository _reportRepository;
-        private readonly ISessionService _sessionService;
+        private readonly IEmployeeEPARepository employeeEPARepository;
+        private readonly IEmployeeEPAService employeeEPAService;
+        private readonly IReportRepository reportRepository;
+        private readonly ISessionService sessionService;
 
         public ReportService() : this(null, null, null, null)
         {
@@ -38,10 +38,10 @@
             IEmployeeEPAService employeeEPAService,
             ISessionService sessionService)
         {
-            _reportRepository = reportRepository ?? new ReportRepository();
-            _employeeEPARepository = employeeEPARepository ?? new EmployeeEPARepository();
-            _employeeEPAService = employeeEPAService ?? new EmployeeEPAService();
-            _sessionService = sessionService ?? new SessionService();
+            this.reportRepository = reportRepository ?? new ReportRepository();
+            this.employeeEPARepository = employeeEPARepository ?? new EmployeeEPARepository();
+            this.employeeEPAService = employeeEPAService ?? new EmployeeEPAService();
+            this.sessionService = sessionService ?? new SessionService();
         }
 
         public MemoryStream ExportEPASummaryReport(EPASummaryModel epaSummary)
@@ -64,7 +64,7 @@
 
             if (criteria.IsValid())
             {
-                result = _employeeEPARepository.GetDashboard(criteria);
+                result = employeeEPARepository.GetDashboard(criteria);
                 result.MonthlyEpaInfos = result.MyEpaInfos.Where(x => x.Period.TargetTypeId == (int)TargetType.Monthly);
                 result.MyEpaInfos = result.MyEpaInfos.Where(x => x.Period.TargetTypeId != (int)TargetType.Monthly);
             }
@@ -90,13 +90,12 @@
 
             if (!string.IsNullOrEmpty(periodId) && int.TryParse(periodId, out id))
             {
-                GetPeriodByIdCriteria getPeriodByIdCriteria =
-                    new GetPeriodByIdCriteria
-                    {
-                        PeriodId = id
-                    };
+                var criteria = new GetPeriodByIdCriteria
+                {
+                    PeriodId = id
+                };
 
-                return GetDataEntity<PeriodModel>(getPeriodByIdCriteria);
+                return GetDataEntity<PeriodModel>(criteria);
             }
 
             return null;
@@ -104,15 +103,15 @@
 
         public EPADetailModel GetEPADetailReport(GetEPADetailCriteria criteria)
         {
-            EPADetailModel result = new EPADetailModel();
+            var result = new EPADetailModel();
 
             if (criteria != null && criteria.IsValid())
             {
-                result = _reportRepository.GetEPADetail(criteria);
+                result = reportRepository.GetEPADetail(criteria);
 
                 foreach (EPAModel epaInfo in result.EpaInfos)
                 {
-                    _employeeEPAService.RemoveSensitiveDataOnEmployeeRole(epaInfo, _sessionService);
+                    employeeEPAService.RemoveSensitiveDataOnEmployeeRole(epaInfo, sessionService);
                 }
 
                 IList<EPAModel> monthlyEPAs = new List<EPAModel>();
@@ -120,13 +119,13 @@
 
                 if (!string.IsNullOrEmpty(epaIds))
                 {
-                    monthlyEPAs = _employeeEPAService.GetMonthlyEPAOfSemi(epaIds);
+                    monthlyEPAs = employeeEPAService.GetMonthlyEPAOfSemi(epaIds);
                 }
 
                 foreach (EPAModel epaInfo in result.EpaInfos)
                 {
-                    _employeeEPAService.GroupMonthlyEPABySemi(epaInfo, monthlyEPAs);
-                    _employeeEPAService.ConvertAverageMonthlyScore(epaInfo.MonthlyEPA, epaInfo.ScoreRatingType);
+                    employeeEPAService.GroupMonthlyEPABySemi(epaInfo, monthlyEPAs);
+                    employeeEPAService.ConvertAverageMonthlyScore(epaInfo.MonthlyEPA, epaInfo.ScoreRatingType);
                 }
             }
 
@@ -135,15 +134,15 @@
 
         public EPASummaryModel GetEPASummaryReport(GetEPASummaryCriteria criteria)
         {
-            EPASummaryModel result = new EPASummaryModel();
-            IEnumerable<StandardGradeModel> standardGrades = _employeeEPAService.GetStandardGrade();
+            var result = new EPASummaryModel();
+            IEnumerable<StandardGradeModel> standardGrades = employeeEPAService.GetStandardGrade();
 
             if (criteria == null || !criteria.IsValid())
             {
                 return result;
             }
 
-            result = _reportRepository.GetEPASummary(criteria);
+            result = reportRepository.GetEPASummary(criteria);
 
             foreach (var epaInfo in result.EPAInfos)
             {
@@ -165,7 +164,7 @@
 
                     epaInfoPeriod.FinalScore = (performanceScore.Value + tempDisciplineScore).ToString(CultureInfo.InvariantCulture);
 
-                    epaInfoPeriod.Grade = _employeeEPAService.ConvertScoreToGrade(
+                    epaInfoPeriod.Grade = employeeEPAService.ConvertScoreToGrade(
                         performanceScore,
                         tempDisciplineScore,
                         epaInfoPeriod.HasDisciplineScore,
@@ -178,11 +177,11 @@
 
         public EPADetailModel GetMonthlyEPADetailReport(GetMonthlyEPADetailCriteria criteria)
         {
-            EPADetailModel result = new EPADetailModel();
+            var result = new EPADetailModel();
 
             if (criteria != null && criteria.IsValid())
             {
-                result = _reportRepository.GetMonthlyEPADetail(criteria);
+                result = reportRepository.GetMonthlyEPADetail(criteria);
             }
 
             return result;
@@ -190,11 +189,11 @@
 
         public EPASummaryModel GetMonthlyEPASummaryReport(GetMonthlyEPASummaryCriteria criteria)
         {
-            EPASummaryModel result = new EPASummaryModel();
+            var result = new EPASummaryModel();
 
             if (criteria != null && criteria.IsValid())
             {
-                result = _reportRepository.GetEPASummary(criteria);
+                result = reportRepository.GetEPASummary(criteria);
             }
 
             return result;
@@ -286,6 +285,7 @@
             cellBody.CellStyle = bodyStyle;
             cellBody.SetCellValue(epaInfo.JoinedDate.ToString(Constants.DateFormat));
             SetColumnWidth(ref sheet, 7, 15);
+
             return sheet;
         }
 
@@ -388,9 +388,7 @@
             string grade = string.Empty;
             if (period != null)
             {
-                grade = string.IsNullOrEmpty(period.FinalScore)
-                    ? Lang.NotAvailable
-                    : period.Grade;
+                grade = string.IsNullOrEmpty(period.FinalScore) ? Lang.NotAvailable : period.Grade;
             }
 
             return grade;
@@ -543,7 +541,7 @@
 
         private float? GetLastPhasePerformanceScore(EPASummaryPeriodModel epaInfoPeriod, int actorId)
         {
-            var roles = _sessionService.CurrentUser.Roles.Select(x => x.RoleId).ToList();
+            var roles = sessionService.CurrentUser.Roles.Select(x => x.RoleId).ToList();
 
             var validDetailScores = epaInfoPeriod.DetailScores.Where(x => !string.IsNullOrEmpty(x.TotalScore)
                                                                           && x.ProcessId > (int)ProcessType.Self
@@ -561,9 +559,7 @@
 
             var maxEPAProcesId = validDetailScores.Max(x => x.ProcessId);
 
-            var lastPhaseScores = epaInfoPeriod.DetailScores
-                .Where(x => x.ProcessId == maxEPAProcesId)
-                .Select(x => x.FloatTotalScore);
+            var lastPhaseScores = epaInfoPeriod.DetailScores.Where(x => x.ProcessId == maxEPAProcesId).Select(x => x.TotalScoreConverted);
 
             if (!lastPhaseScores.Any())
             {
