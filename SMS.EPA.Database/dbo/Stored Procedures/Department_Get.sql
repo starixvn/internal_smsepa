@@ -1,5 +1,4 @@
-﻿
-CREATE PROCEDURE [dbo].[Department_Get] @ParentId INT = NULL
+﻿CREATE PROCEDURE [dbo].[Department_Get] @ParentId INT = NULL
 	,@IsActive BIT = 1
 AS
 /*
@@ -15,30 +14,24 @@ Param's Explanation:
 BEGIN
 	SET NOCOUNT ON;
 
-	SELECT [DepartmentId]
-		,dep.[Code]
-		,[Name]
-		,[ParentId]
-		,[IsActive]
+	SELECT dept.DepartmentId
+		,dept.[Code]
+		,dept.[Name]
+		,dept.ParentId
+		,dept.IsActive
 		,0 AS IsGroup
-		,[ManagerId]
+		,dept.ManagerId
 		,mg.FullName
 		,mg.NickName
-	FROM dbo.Department AS dep WITH (NOLOCK)
-		LEFT JOIN dbo.Employee AS mg WITH (NOLOCK) ON dep.[ManagerId] = mg.EmployeeId
-	WHERE (
-			@ParentId IS NULL
-			OR ParentId = @ParentId
-			)
-		AND (
-			@IsActive IS NULL
-			OR IsActive = @IsActive
-			)
+	FROM dbo.Department AS dept WITH (NOLOCK)
+		LEFT JOIN dbo.Employee AS mg WITH (NOLOCK) ON dept.[ManagerId] = mg.EmployeeId
+	WHERE ISNULL(@ParentId, dept.ParentId) = dept.ParentId
+		AND ISNULL(@IsActive, dept.IsActive) = dept.IsActive
 	
 	UNION ALL
-	SELECT (- g.GroupId) AS [DepartmentId]
+	SELECT (- g.GroupId) AS DepartmentId
 		,g.Code
-		,g.NAME
+		,g.[Name]
 		,g.DepartmentId AS ParentId
 		,(CASE g.IsDeleted
 			WHEN 0 THEN 1

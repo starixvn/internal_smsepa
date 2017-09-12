@@ -1,5 +1,4 @@
-﻿
-CREATE PROCEDURE [dbo].[EPA_GetMember] @ActorUserId INT
+﻿CREATE PROCEDURE [dbo].[EPA_GetMember] @ActorUserId INT
 	,@ProcessId INT
 	,@GroupId INT = NULL
 	,@IsLocal BIT = NULL
@@ -19,9 +18,7 @@ Param's Explanation:
 BEGIN
 	SET NOCOUNT ON;
 
-	DECLARE @ToDay DATE
-
-	SET @ToDay = CAST(GETDATE() AS DATE)
+	DECLARE @Today DATE = GETDATE()
 
 	SELECT DISTINCT emp.EmployeeId
 		,emp.Code
@@ -34,7 +31,7 @@ BEGIN
 		INNER JOIN dbo.EPAProcess AS pc WITH (NOLOCK) ON epa.EPAId = pc.EPAId
 		AND pc.EvaluatorId = @ActorUserId
 		AND pc.ProcessId = @ProcessId
-		AND CAST(pc.StartDate AS DATE) <= @ToDay
+		AND pc.StartDate <= @Today
 		INNER JOIN dbo.Employee AS emp WITH (NOLOCK) ON epa.EmployeeId = emp.EmployeeId
 		AND emp.[Enabled] = 1
 		AND emp.IsDeleted = 0
@@ -43,30 +40,24 @@ BEGIN
 		AND period.IsActive = 1
 		INNER JOIN dbo.TargetType AS tt WITH (NOLOCK) ON period.TargetTypeId = tt.TargetTypeId
 	WHERE epa.[Status] = 0
-		AND (
-			@GroupId IS NULL
-			OR g.GroupId = @GroupId
-			)
-		AND (
-			@IsLocal IS NULL
-			OR emp.IsLocal = @IsLocal
-			)
+		AND ISNULL(@GroupId, g.GroupId) = g.GroupId
+		AND ISNULL(@IsLocal, emp.IsLocal) = emp.IsLocal
 		/*AND (
 			(
 				tt.TargetTypeId IN (2, 3) -- semi
-				AND @ToDay >= CAST(pc.StartDate AS DATE)
+				AND @Today >= pc.StartDate
 				AND (
-					@ToDay < CAST(period.EndDate AS DATE)
+					@Today < period.EndDate
 					OR (
-						@ToDay <= CAST(pc.EndDate AS DATE)
+						@Today <= pc.EndDate
 						AND pc.ProcessId >= @ProcessId
 						)
 					)
 				)
 			OR (
 				tt.TargetTypeId NOT IN (2, 3)
-				AND @ToDay BETWEEN CAST(pc.StartDate AS DATE)
-					AND CAST(pc.EndDate AS DATE)
+				AND @Today BETWEEN pc.StartDate
+					AND pc.EndDate
 				AND pc.ProcessId >= @ProcessId
 				)
 			)*/

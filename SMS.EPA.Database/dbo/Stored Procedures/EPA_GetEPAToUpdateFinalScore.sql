@@ -1,5 +1,4 @@
-﻿
-CREATE PROCEDURE [dbo].[EPA_GetEPAToUpdateFinalScore] @PeriodId INT
+﻿CREATE PROCEDURE [dbo].[EPA_GetEPAToUpdateFinalScore] @PeriodId INT
 	,@DepartmentId INT = NULL
 	,@IsLocal BIT = NULL
 	,@EmployeeId INT = NULL
@@ -92,14 +91,14 @@ BEGIN
 			AND emp.[Enabled] = 1
 			INNER JOIN dbo.[Group] AS gr WITH (NOLOCK) ON emp.GroupId = gr.GroupId
 			LEFT JOIN @GroupIds AS tblgr ON gr.GroupId = tblgr.Id
-		WHERE CAST(pe.EndDate AS DATE) <= @Today
-			AND CAST(pc.EndDate AS DATE) < CAST(pe.EndDate AS DATE)
+		WHERE pe.EndDate <= @Today
+			AND pc.EndDate < pe.EndDate
 			AND pe.TargetTypeId IN (@MonthlyId, @SemiId)
 			AND ISNULL(epa.[Status], 0) IN (0, 1)
 			AND pe.IsActive = 1
 			AND pe.PeriodId = @PeriodId
 			AND (
-				ISNULL(@DepartmentId, '') = ''
+				@DepartmentId IS NULL
 				OR tblgr.Id IS NOT NULL
 				)
 			AND ISNULL(@IsLocal, emp.IsLocal) = emp.IsLocal
@@ -120,14 +119,14 @@ BEGIN
 			AND emp.[Enabled] = 1
 			INNER JOIN dbo.[Group] AS gr WITH (NOLOCK) ON emp.GroupId = gr.GroupId
 			LEFT JOIN @GroupIds AS tblgr ON gr.GroupId = tblgr.Id
-		WHERE CAST(pc.EndDate AS DATE) <= @Yesterday
-			AND CAST(pc.EndDate AS DATE) >= CAST(pe.EndDate AS DATE)
+		WHERE pc.EndDate <= @Yesterday
+			AND pc.EndDate >= pe.EndDate
 			AND pe.TargetTypeId IN (@MonthlyId, @SemiId)
 			AND ISNULL(epa.[Status], 0) IN (0, 1)
 			AND pe.IsActive = 1
 			AND pe.PeriodId = @PeriodId
 			AND (
-				ISNULL(@DepartmentId, '') = ''
+				@DepartmentId IS NULL
 				OR tblgr.Id IS NOT NULL
 				)
 			AND ISNULL(@IsLocal, emp.IsLocal) = emp.IsLocal
@@ -150,13 +149,13 @@ BEGIN
 			AND emp.[Enabled] = 1
 			INNER JOIN dbo.[Group] AS gr WITH (NOLOCK) ON emp.GroupId = gr.GroupId
 			LEFT JOIN @GroupIds AS tblgr ON gr.GroupId = tblgr.Id
-		WHERE CAST(pc.EndDate AS DATE) <= @Yesterday
+		WHERE pc.EndDate <= @Yesterday
 			AND pe.TargetTypeId IN (@ProbationId, @PromotionId)
 			AND ISNULL(epa.[Status], 0) IN (0, 1)
 			AND pe.IsActive = 1
 			AND pe.PeriodId = @PeriodId
 			AND (
-				ISNULL(@DepartmentId, '') = ''
+				@DepartmentId IS NULL
 				OR tblgr.Id IS NOT NULL
 				)
 			AND ISNULL(@IsLocal, emp.IsLocal) = emp.IsLocal
@@ -181,17 +180,17 @@ BEGIN
 	SELECT epa.EPAId
 		,(CASE 
 			WHEN tt.TargetTypeId IN (@MonthlyId, @SemiId) THEN (CASE 
-					WHEN CAST(pc.EndDate AS DATE) >= CAST(period.EndDate AS DATE) THEN (CASE 
-							WHEN CAST(pc.EndDate AS DATE) < @Today THEN 1
+					WHEN pc.EndDate >= period.EndDate THEN (CASE 
+							WHEN pc.EndDate < @Today THEN 1
 							ELSE 0 END
 							)
 					ELSE (CASE 
-							WHEN CAST(period.EndDate AS DATE) <= @Today THEN 1
+							WHEN period.EndDate <= @Today THEN 1
 							ELSE 0 END
 							) END
 					)
 			ELSE (CASE 
-					WHEN CAST(pc.EndDate AS DATE) < @Today THEN 1
+					WHEN pc.EndDate < @Today THEN 1
 					ELSE 0 END
 					) END
 			)
@@ -246,7 +245,7 @@ BEGIN
 		AND period.IsActive = 1
 		INNER JOIN dbo.ScoreRatingType AS srt WITH (NOLOCK) ON epa.ScoreRatingTypeId = srt.ScoreRatingTypeId
 		INNER JOIN dbo.TargetType AS tt WITH (NOLOCK) ON period.TargetTypeId = tt.TargetTypeId
-		LEFT JOIN #tblDisciplineScores AS ds ON epa.EPAId = ds.EPAId
+		LEFT JOIN #tblDisciplineScores AS ds WITH (NOLOCK) ON epa.EPAId = ds.EPAId
 		LEFT JOIN dbo.[Group] AS gr WITH (NOLOCK) ON emp.GroupId = gr.GroupId
 		LEFT JOIN dbo.Department AS dept WITH (NOLOCK) ON gr.DepartmentId = dept.DepartmentId
 		LEFT JOIN dbo.HRMJobTitle AS job WITH (NOLOCK) ON emp.JobTitle = job.Id

@@ -1,5 +1,4 @@
-﻿
-CREATE PROCEDURE [dbo].[EPA_RatingByKPI_Get] @EvaluatorId INT
+﻿CREATE PROCEDURE [dbo].[EPA_RatingByKPI_Get] @EvaluatorId INT
 	,@PeriodId INT
 	,@TargetTemplateId INT
 	,@KPIId INT
@@ -20,9 +19,10 @@ BEGIN
 
 	DECLARE @Employees IntId
 		,@RequiredCommentOnMaxScore BIT
-		,@Today DATE
+		,@Today DATE = GETDATE()
+		,@EvaluatorProcessId TINYINT = 3
 
-	CREATE TABLE #EPA (
+	CREATE TABLE #tblEPA (
 		EPAId INT
 		,KPIGroupId INT
 		)
@@ -39,19 +39,21 @@ BEGIN
 		,NumberKPIOptional INT
 		)
 
-	SET @Today = CAST(GETDATE() AS DATE)
-
-	INSERT INTO #KPIGroup
+	INSERT INTO #KPIGroup (
+		TargetTemplateId
+		,KPIGroupId
+		,NumberKPI
+		)
 	SELECT DISTINCT dt.TargetTemplateId
 		,dt.KPIGroupId
 		,COUNT(KPIId) AS NumberKPI
 	FROM dbo.EPA AS epa WITH (NOLOCK)
 		INNER JOIN dbo.EPADetail AS dt WITH (NOLOCK) ON epa.EPAId = dt.EPAId
-		AND dt.ProcessId = 3 -- evaluator phase
+		AND dt.ProcessId = @EvaluatorProcessId
 		INNER JOIN dbo.EPAProcess AS pc WITH (NOLOCK) ON epa.EPAId = pc.EPAId
-		AND pc.ProcessId = 3 -- evaluator phase
-		AND @Today BETWEEN CAST(pc.StartDate AS DATE)
-			AND CAST(pc.EndDate AS DATE)
+		AND pc.ProcessId = @EvaluatorProcessId
+		AND @Today BETWEEN pc.StartDate
+			AND pc.EndDate
 		INNER JOIN dbo.Period AS period WITH (NOLOCK) ON epa.PeriodId = period.PeriodId
 	WHERE dt.EvaluatorId = @EvaluatorId
 		AND pc.EvaluatorId = @EvaluatorId
@@ -62,18 +64,22 @@ BEGIN
 		,dt.TargetTemplateId
 		,dt.KPIGroupId
 
-	INSERT INTO #TblKPIGroup
+	INSERT INTO #TblKPIGroup (
+		TargetTemplateId
+		,KPIGroupId
+		,NumberKPIOptional
+		)
 	SELECT DISTINCT dt.TargetTemplateId
 		,dt.KPIGroupId
 		,COUNT(KPIId) AS NumberKPIOptional
 	FROM dbo.EPA AS epa WITH (NOLOCK)
 		INNER JOIN dbo.Period AS period WITH (NOLOCK) ON epa.PeriodId = period.PeriodId
 		INNER JOIN dbo.EPADetail AS dt WITH (NOLOCK) ON epa.EPAId = dt.EPAId
-		AND dt.ProcessId = 3 -- evaluator phase
+		AND dt.ProcessId = @EvaluatorProcessId
 		INNER JOIN dbo.EPAProcess AS pc WITH (NOLOCK) ON epa.EPAId = pc.EPAId
-		AND pc.ProcessId = 3 -- evaluator phase
-		AND @Today BETWEEN CAST(pc.StartDate AS DATE)
-			AND CAST(pc.EndDate AS DATE)
+		AND pc.ProcessId = @EvaluatorProcessId
+		AND @Today BETWEEN pc.StartDate
+			AND pc.EndDate
 	WHERE dt.EvaluatorId = @EvaluatorId
 		AND pc.EvaluatorId = @EvaluatorId
 		AND period.PeriodId = @PeriodId
@@ -96,16 +102,19 @@ BEGIN
 		FROM fnc_strSplit(@EmployeeIds, ',')
 	END
 
-	INSERT INTO #EPA
+	INSERT INTO #tblEPA (
+		EPAId
+		,KPIGroupId
+		)
 	SELECT DISTINCT epa.EPAId
 		,dt.KPIGroupId
 	FROM dbo.EPA AS epa WITH (NOLOCK)
 		INNER JOIN dbo.EPAProcess AS pc WITH (NOLOCK) ON epa.EPAId = pc.EPAId
-		AND pc.ProcessId = 3 -- evaluator phase
-		AND @ToDay BETWEEN CAST(pc.StartDate AS DATE)
-			AND CAST(pc.EndDate AS DATE)
+		AND pc.ProcessId = @EvaluatorProcessId
+		AND @ToDay BETWEEN pc.StartDate
+			AND pc.EndDate
 		INNER JOIN dbo.EPADetail AS dt WITH (NOLOCK) ON epa.EPAId = dt.EPAId
-		AND dt.ProcessId = 3 -- evaluator phase
+		AND dt.ProcessId = @EvaluatorProcessId
 		INNER JOIN dbo.Period AS period WITH (NOLOCK) ON epa.PeriodId = period.PeriodId
 		AND period.IsActive = 1
 		INNER JOIN dbo.PeriodTargetSetting AS pts WITH (NOLOCK) ON period.PeriodId = pts.PeriodId
@@ -114,10 +123,7 @@ BEGIN
 		LEFT JOIN dbo.[Group] AS gr WITH (NOLOCK) ON emp.GroupId = gr.GroupId
 	WHERE epa.[Status] = 0 -- open
 		AND epa.HasMonthlyEPA = 0
-		AND (
-			@GroupId IS NULL
-			OR gr.GroupId = @GroupId
-			)
+		AND ISNULL(@GroupId, gr.GroupId) = gr.GroupId
 		AND (
 			@EmployeeIds IS NULL
 			OR epa.EmployeeId IN (
@@ -159,7 +165,7 @@ BEGIN
 			WHEN tbl2.NumberKPIOptional > 0 THEN 1
 			ELSE 0 END
 			) AS HasKPIOptional
-	FROM #EPA AS tbl
+	FROM #tblEPA AS tbl WITH (NOLOCK)
 		INNER JOIN dbo.EPA AS epa WITH (NOLOCK) ON tbl.EPAId = epa.EPAId
 		INNER JOIN dbo.Period AS period WITH (NOLOCK) ON epa.PeriodId = period.PeriodId
 		INNER JOIN dbo.Employee AS emp WITH (NOLOCK) ON epa.EmployeeId = emp.EmployeeId
@@ -171,14 +177,14 @@ BEGIN
 		AND lk.Id = 8 -- rating type
 		INNER JOIN dbo.EPADetail AS dt WITH (NOLOCK) ON tbl.EPAId = dt.EPAId
 		AND tbl.KPIGroupId = dt.KPIGroupId
-		AND dt.ProcessId = 3 -- evaluator phase
+		AND dt.ProcessId = @EvaluatorProcessId
 		INNER JOIN dbo.EPAProcess AS pc WITH (NOLOCK) ON epa.EPAId = pc.EPAId
-		AND pc.ProcessId = 3 -- evaluator phase
+		AND pc.ProcessId = @EvaluatorProcessId
 		INNER JOIN dbo.KPIGroupHistory AS kghis WITH (NOLOCK) ON dt.KPIGroupId = kghis.KPIGroupId
 		AND dt.KPIGroupLogNo = kghis.LogNo
-		INNER JOIN #KPIGroup AS tbl1 ON dt.TargetTemplateId = tbl1.TargetTemplateId
+		INNER JOIN #KPIGroup AS tbl1 WITH (NOLOCK) ON dt.TargetTemplateId = tbl1.TargetTemplateId
 		AND dt.KPIGroupId = tbl1.KPIGroupId
-		LEFT JOIN #TblKPIGroup AS tbl2 ON dt.TargetTemplateId = tbl2.TargetTemplateId
+		LEFT JOIN #TblKPIGroup AS tbl2 WITH (NOLOCK) ON dt.TargetTemplateId = tbl2.TargetTemplateId
 		AND dt.KPIGroupId = tbl2.KPIGroupId
 	WHERE dt.EvaluatorId = @EvaluatorId
 		AND pc.EvaluatorId = @EvaluatorId
@@ -201,14 +207,14 @@ BEGIN
 		,dt.IsMaxScore
 		,dt.Comment
 		,dt.KPIGroupId
-	FROM #EPA AS tbl
+	FROM #tblEPA AS tbl WITH (NOLOCK)
 		INNER JOIN dbo.EPA AS epa WITH (NOLOCK) ON tbl.EPAId = epa.EPAId
 		INNER JOIN dbo.Period AS period WITH (NOLOCK) ON epa.PeriodId = period.PeriodId
 		INNER JOIN dbo.EPAProcess AS pc WITH (NOLOCK) ON tbl.EPAId = pc.EPAId
-		AND pc.ProcessId = 3
+		AND pc.ProcessId = @EvaluatorProcessId
 		INNER JOIN dbo.EPADetail AS dt WITH (NOLOCK) ON tbl.EPAId = dt.EPAId
 		AND tbl.KPIGroupId = dt.KPIGroupId
-		AND dt.ProcessId = 3
+		AND dt.ProcessId = @EvaluatorProcessId
 		INNER JOIN dbo.KPIHistory AS khis WITH (NOLOCK) ON dt.KPIId = khis.KPIId
 		AND dt.KPILogNo = khis.LogNo
 	WHERE pc.EvaluatorId = @EvaluatorId
@@ -232,7 +238,7 @@ BEGIN
 		,dt.IsMaxScore
 		,dt.Comment
 		,dt.KPIGroupId
-	FROM #EPA AS tbl
+	FROM #tblEPA AS tbl WITH (NOLOCK)
 		INNER JOIN dbo.EPA AS epa WITH (NOLOCK) ON tbl.EPAId = epa.EPAId
 		INNER JOIN dbo.Period AS period WITH (NOLOCK) ON epa.PeriodId = period.PeriodId
 		INNER JOIN dbo.EPAProcess AS pc WITH (NOLOCK) ON tbl.EPAId = pc.EPAId
@@ -248,7 +254,7 @@ BEGIN
 	ORDER BY epa.EPAId
 		,dt.KPIDisplayOrder
 
-	DROP TABLE #EPA
+	DROP TABLE #tblEPA
 
 	DROP TABLE #KPIGroup
 

@@ -1,5 +1,4 @@
-﻿
-CREATE PROCEDURE [dbo].[EpaAuto_GetEPAEndEvaluationPeriod]
+﻿CREATE PROCEDURE [dbo].[EpaAuto_GetEPAEndEvaluationPeriod]
 AS
 /*
 Created: 20160329@Tim.Trinh
@@ -21,7 +20,7 @@ BEGIN
 	DECLARE @MonthlyId INT = 2
 		,@SemiId INT = 3
 
-	CREATE TABLE #DisciplineScores (
+	CREATE TABLE #tblDisciplineScores (
 		EPAId INT
 		,SystemDisciplineScore FLOAT
 		,DisciplineScore FLOAT
@@ -37,12 +36,12 @@ BEGIN
 		INNER JOIN dbo.Period AS pe WITH (NOLOCK) ON epa.PeriodId = pe.PeriodId
 	WHERE (
 			(
-				CAST(pe.EndDate AS DATE) = @Today
-				AND CAST(epaP.EndDate AS DATE) < CAST(pe.EndDate AS DATE)
+				pe.EndDate = @Today
+				AND epaP.EndDate < pe.EndDate
 				)
 			OR (
-				CAST(epaP.EndDate AS DATE) = @Yesterday
-				AND CAST(epaP.EndDate AS DATE) >= CAST(pe.EndDate AS DATE)
+				epaP.EndDate = @Yesterday
+				AND epaP.EndDate >= pe.EndDate
 				)
 			)
 		AND ProcessId IN (
@@ -75,13 +74,18 @@ BEGIN
 		INNER JOIN dbo.Period AS pe WITH (NOLOCK) ON pe.PeriodId = epa.PeriodId
 	WHERE epa.[Status] = 1
 		AND ISNULL(epa.FinalScore, '') = ''
-		AND CAST(pe.EndDate AS DATE) < @Today
+		AND pe.EndDate < @Today
 		AND pe.IsActive = 1
 
 	SELECT @EPAIds = COALESCE(@EPAIds + ',', '') + CAST(Id AS NVARCHAR)
 	FROM @TblEPAId
 
-	INSERT INTO #DisciplineScores
+	INSERT INTO #tblDisciplineScores (
+		EPAId
+		,SystemDisciplineScore
+		,DisciplineScore
+		,OtherDisciplines
+		)
 	EXECUTE dbo.EmployeeDisciplineSummary_GetByEPA @EPAIds
 
 	-- General Info
@@ -112,11 +116,11 @@ BEGIN
 		AND period.IsActive = 1
 		INNER JOIN dbo.ScoreRatingType AS srt WITH (NOLOCK) ON epa.ScoreRatingTypeId = srt.ScoreRatingTypeId
 		INNER JOIN dbo.TargetType AS tt WITH (NOLOCK) ON period.TargetTypeId = tt.TargetTypeId
-		LEFT JOIN #DisciplineScores AS ds ON epa.EPAId = ds.EPAId
+		LEFT JOIN #tblDisciplineScores AS ds WITH (NOLOCK) ON epa.EPAId = ds.EPAId
 	ORDER BY epa.EPAId
 
 	-- Process
 	EXECUTE dbo.EPA_GetProcess @TblEPAId
 
-	DROP TABLE #DisciplineScores
+	DROP TABLE #tblDisciplineScores
 END

@@ -1,5 +1,4 @@
-﻿
-CREATE PROCEDURE [dbo].[EPA_AdjustScoreByReviewerOrManagement] @EPADetails NVARCHAR(MAX) = ''
+﻿CREATE PROCEDURE [dbo].[EPA_AdjustScoreByReviewerOrManagement] @EPADetails NVARCHAR(MAX) = ''
 	,@RecommendationXml NVARCHAR(MAX) = ''
 	,@ProcessId TINYINT
 	,@ModifiedBy INT
@@ -34,13 +33,13 @@ Param's Explanation:
 BEGIN
 	SET NOCOUNT ON
 
-	DECLARE @ModifiedDate DATETIME
-		,@Today DATETIME
+	DECLARE @ModifiedDate DATETIME = GETDATE()
+		,@Today DATE = GETDATE()
+		,@DocHandler INT
+		,@NumberAdjustEmployee INT
+		,@Data NVARCHAR(MAX)
 
-	SET @ModifiedDate = GETDATE()
-	SET @Today = CAST(GETDATE() AS DATE)
-
-	CREATE TABLE #Details (
+	CREATE TABLE #tblDetails (
 		EPAId INT
 		,ProcessId INT
 		,EmployeeId INT
@@ -50,7 +49,7 @@ BEGIN
 		,Comment NVARCHAR(MAX) NULL
 		)
 
-	CREATE TABLE #Recommendations (
+	CREATE TABLE #tblRecommendations (
 		EPAId INT
 		,ProbationStatus TINYINT
 		,Promoted BIT
@@ -60,12 +59,18 @@ BEGIN
 		)
 
 	BEGIN TRY
-		DECLARE @DocHandler INT
-
 		EXEC sp_xml_preparedocument @DocHandler OUTPUT
 			,@EPADetails
 
-		INSERT INTO #Details
+		INSERT INTO #tblDetails (
+			EPAId
+			,ProcessId
+			,EmployeeId
+			,EvaluatorId
+			,AdjustScore
+			,TotalScore
+			,Comment
+			)
 		SELECT EPAId
 			,ProcessId
 			,EmployeeId
@@ -78,7 +83,14 @@ BEGIN
 		EXEC sp_xml_preparedocument @DocHandler OUTPUT
 			,@RecommendationXml
 
-		INSERT INTO #Recommendations
+		INSERT INTO #tblRecommendations (
+			EPAId
+			,ProbationStatus
+			,Promoted
+			,PayIncreased
+			,JobGradeIncreased
+			,JobGradeId
+			)
 		SELECT EPAId
 			,ProbationStatus
 			,Promoted
@@ -101,29 +113,27 @@ BEGIN
 			SELECT 1
 			FROM dbo.EPA AS epa WITH (NOLOCK)
 				INNER JOIN dbo.EPAProcess AS pc WITH (NOLOCK) ON epa.EPAId = pc.EPAId
-				INNER JOIN #Details AS dt ON epa.EPAId = dt.EPAId
+				INNER JOIN #tblDetails AS dt WITH (NOLOCK) ON epa.EPAId = dt.EPAId
 				AND pc.ProcessId = dt.ProcessId
 				AND pc.EvaluatorId = dt.EvaluatorId
-				AND @Today NOT BETWEEN CAST(pc.StartDate AS DATE)
-					AND CAST(pc.EndDate AS DATE)
-				AND CAST(pc.EndDate AS DATE) > @Today
+				AND @Today NOT BETWEEN pc.StartDate
+					AND pc.EndDate
+				AND pc.EndDate > @Today
 			)
 	BEGIN
 		DELETE dt
-		FROM #Details AS dt
-			INNER JOIN dbo.EPA AS epa ON dt.EPAId = epa.EPAId
+		FROM #tblDetails AS dt
+			INNER JOIN dbo.EPA AS epa WITH (NOLOCK) ON dt.EPAId = epa.EPAId
 			AND dt.EmployeeId = epa.EmployeeId
-			INNER JOIN dbo.EPAProcess AS pc ON epa.EPAId = pc.EPAId
+			INNER JOIN dbo.EPAProcess AS pc WITH (NOLOCK) ON epa.EPAId = pc.EPAId
 			AND dt.EvaluatorId = pc.EvaluatorId
 			AND dt.ProcessId = pc.ProcessId
-			AND @Today NOT BETWEEN CAST(pc.StartDate AS DATE)
-				AND CAST(pc.EndDate AS DATE)
-			AND CAST(pc.EndDate AS DATE) > @Today
-
-		DECLARE @NumberAdjustEmployee INT
+			AND @Today NOT BETWEEN pc.StartDate
+				AND pc.EndDate
+			AND pc.EndDate > @Today
 
 		SELECT @NumberAdjustEmployee = COUNT(EPAId)
-		FROM #Details
+		FROM #tblDetails WITH (NOLOCK)
 
 		IF @NumberAdjustEmployee = 0
 		BEGIN
@@ -151,7 +161,7 @@ BEGIN
 			,pc.EvaluateDate = @ModifiedDate
 		FROM dbo.EPAProcess AS pc WITH (ROWLOCK, UPDLOCK)
 			INNER JOIN dbo.EPA AS epa WITH (NOLOCK) ON pc.EPAId = epa.EPAId
-			INNER JOIN #Details AS dt ON pc.EPAId = dt.EPAId
+			INNER JOIN #tblDetails AS dt WITH (NOLOCK) ON pc.EPAId = dt.EPAId
 			AND pc.ProcessId = dt.ProcessId
 			AND pc.EvaluatorId = dt.EvaluatorId
 
@@ -165,7 +175,7 @@ BEGIN
 				,pc.EvaluateDate = @ModifiedDate
 			FROM dbo.EPAProcess AS pc WITH (ROWLOCK, UPDLOCK)
 				INNER JOIN dbo.EPA AS epa WITH (NOLOCK) ON pc.EPAId = epa.EPAId
-				INNER JOIN #Details AS dt ON pc.EPAId = dt.EPAId
+				INNER JOIN #tblDetails AS dt WITH (NOLOCK) ON pc.EPAId = dt.EPAId
 				AND pc.ProcessId = dt.ProcessId
 				AND pc.EvaluatorId <> dt.EvaluatorId
 		END
@@ -180,9 +190,7 @@ BEGIN
 			,re.ModifiedDate = @ModifiedDate
 		FROM dbo.EPARecommendation AS re WITH (ROWLOCK, UPDLOCK)
 			INNER JOIN dbo.EPA AS epa WITH (NOLOCK) ON re.EPAId = epa.EPAId
-			INNER JOIN #Recommendations AS dt ON re.EPAId = dt.EPAId
-
-		DECLARE @Data NVARCHAR(MAX)
+			INNER JOIN #tblRecommendations AS dt WITH (NOLOCK) ON re.EPAId = dt.EPAId
 
 		EXEC @Data = [dbo].[fncGetDataForWriteLog_EPA_AdjustScore] @EPADetails = @EPADetails
 
@@ -204,7 +212,7 @@ BEGIN
 			,@ErrMsg = N'Update unsuccessfully.'
 	END CATCH
 
-	DROP TABLE #Details
+	DROP TABLE #tblDetails
 
-	DROP TABLE #Recommendations
+	DROP TABLE #tblRecommendations
 END

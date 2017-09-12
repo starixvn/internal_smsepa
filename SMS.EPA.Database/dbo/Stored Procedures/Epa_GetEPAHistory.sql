@@ -1,5 +1,4 @@
-﻿
-CREATE PROCEDURE [dbo].[Epa_GetEPAHistory] @PeriodId INT = NULL
+﻿CREATE PROCEDURE [dbo].[Epa_GetEPAHistory] @PeriodId INT = NULL
 	,@EvaluatorId INT
 	,@DepartmentId INT = NULL
 	,@IsLocal BIT = NULL
@@ -128,15 +127,8 @@ BEGIN
 					)
 				)
 			)
-		
-		AND (
-			ISNULL(@EmployeeId, '') = ''
-			OR data.EmployeeId = @EmployeeId
-			)
-		AND (
-			@IsLocal IS NULL
-			OR data.IsLocal = @IsLocal
-			)
+		AND ISNULL(@EmployeeId, data.EmployeeId) = data.EmployeeId
+		AND ISNULL(@IsLocal, data.IsLocal) = data.IsLocal
 		AND data.[Status] = 1 -- Closed
 		AND data.TargetTypeId <> 2 -- monthly
 		--AND CAST(pe.[EndDate] AS DATE) <= CAST(GETDATE() AS DATE)

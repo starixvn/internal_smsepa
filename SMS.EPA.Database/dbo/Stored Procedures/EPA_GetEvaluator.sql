@@ -1,5 +1,4 @@
-﻿
-CREATE PROCEDURE [dbo].[EPA_GetEvaluator] @EPAs IntId READONLY
+﻿CREATE PROCEDURE [dbo].[EPA_GetEvaluator] @EPAs IntId READONLY
 AS
 /*
 Created: 20150827@Tim.Trinh
@@ -13,15 +12,15 @@ Param's Explanation:
 BEGIN
 	SET NOCOUNT ON;
 
-	DECLARE @Today DATE = CAST(GETDATE() AS DATE)
+	DECLARE @Today DATE = GETDATE()
 
 	SELECT epa.EPAId
 		,pc.ProcessId
 		,(CASE 
-			WHEN CAST(pc.StartDate AS DATE) > @Today THEN 1
-			WHEN @Today BETWEEN CAST(pc.StartDate AS DATE)
-					AND CAST(pc.EndDate AS DATE) THEN 2
-			WHEN CAST(pc.EndDate AS DATE) > @Today THEN 3 END
+			WHEN pc.StartDate > @Today THEN 1
+			WHEN @Today BETWEEN pc.StartDate
+					AND pc.EndDate THEN 2
+			WHEN pc.EndDate > @Today THEN 3 END
 			) AS StatusId -- 1:Open; 2:In Progress; 3:Closed
 		,pc.IsEndProcess
 		,eva.EmployeeId AS EvaluatorId

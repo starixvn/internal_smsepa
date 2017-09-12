@@ -3,7 +3,7 @@ AS
 /*
 Created: 20150827@Tim.Trinh
 Task: Get epa process by list epas.
-DB: SPM
+DB: SMSEPA
 Original: 
  
 Param's Explanation:
@@ -12,7 +12,7 @@ Param's Explanation:
 BEGIN
 	SET NOCOUNT ON;
 
-	DECLARE @ToDay DATE = CAST(GETDATE() AS DATE)
+	DECLARE @Today DATE = GETDATE()
 
 	SELECT DISTINCT epa.EPAId
 		,pc.ProcessId
@@ -22,10 +22,10 @@ BEGIN
 		,pc.StartDate
 		,pc.EndDate
 		,(CASE 
-			WHEN CAST(pc.StartDate AS DATE) > @ToDay THEN 1
-			WHEN @ToDay BETWEEN CAST(pc.StartDate AS DATE)
-					AND CAST(pc.EndDate AS DATE) THEN 2
-			WHEN CAST(pc.EndDate AS DATE) < @ToDay THEN 3 END
+			WHEN pc.StartDate > @Today THEN 1
+			WHEN @Today BETWEEN pc.StartDate
+					AND pc.EndDate THEN 2
+			WHEN pc.EndDate < @Today THEN 3 END
 			) AS StatusId -- 1:Open; 2:In Progress; 3:Closed
 		,pc.IsEndProcess
 		,pc.EvaluateDate

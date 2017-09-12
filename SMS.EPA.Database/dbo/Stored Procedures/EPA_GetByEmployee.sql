@@ -1,5 +1,4 @@
-﻿
-CREATE PROCEDURE [dbo].[EPA_GetByEmployee] @EmployeeId INT
+﻿CREATE PROCEDURE [dbo].[EPA_GetByEmployee] @EmployeeId INT
 AS
 /*
 Created: 20150710@Tim.Trinh
@@ -15,9 +14,7 @@ BEGIN
 	SET NOCOUNT ON;
 
 	DECLARE @EPAIds IntId
-		,@ToDay DATE
-
-	SET @ToDay = CAST(GETDATE() AS DATE)
+		,@Today DATE = GETDATE()
 
 	INSERT INTO @EPAIds (Id)
 	SELECT DISTINCT epa.EPAId
@@ -29,22 +26,22 @@ BEGIN
 		INNER JOIN dbo.Period AS period WITH (NOLOCK) ON epa.PeriodId = period.PeriodId
 		AND period.IsActive = 1
 		INNER JOIN dbo.TargetType AS tt WITH (NOLOCK) ON period.TargetTypeId = tt.TargetTypeId
-	WHERE epa.[Status] = 0 -- inprogress
+	WHERE ISNULL(epa.[Status], 0) = 0 -- inprogress
 		AND (
 			tt.TargetTypeId IN (2, 3) -- monthly, semi
-			AND @ToDay >= CAST(pcSelf.StartDate AS DATE)
+			AND @Today >= pcSelf.StartDate
 			AND (
-				@ToDay < CAST(period.EndDate AS DATE)
+				@Today < period.EndDate
 				OR (
-					@ToDay <= CAST(pc.EndDate AS DATE)
+					@Today <= pc.EndDate
 					AND pc.ProcessId > 1 -- HR
 					)
 				)
 			)
 		OR (
 			tt.TargetTypeId NOT IN (2, 3)
-			AND @ToDay BETWEEN CAST(pc.StartDate AS DATE)
-				AND CAST(pc.EndDate AS DATE)
+			AND @Today BETWEEN pc.StartDate
+				AND pc.EndDate
 			AND pc.ProcessId > 1 -- HR
 			)
 

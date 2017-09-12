@@ -53,12 +53,9 @@ BEGIN
 		LEFT JOIN dbo.HRMJobTitle AS job WITH (NOLOCK) ON emp.JobTitle = job.Id
 	WHERE emp.[Enabled] = 1
 		AND emp.IsDeleted = 0
+		AND ISNULL(@PeriodId, period.PeriodId) = period.PeriodId
 		AND (
-			ISNULL(@PeriodId, '') = ''
-			OR period.PeriodId = @PeriodId
-			)
-		AND (
-			ISNULL(@DepartmentId, '') = ''
+			@DepartmentId IS NULL
 			OR (
 				@DepartmentId < 0
 				AND gr.GroupId = - @DepartmentId
@@ -74,10 +71,7 @@ BEGIN
 					)
 				)
 			)
-		AND (
-			ISNULL(@EmployeeId, '') = ''
-			OR emp.EmployeeId = @EmployeeId
-			)
+		AND ISNULL(@EmployeeId, emp.EmployeeId) = emp.EmployeeId
 		AND (
 			d.ChangeShift > 0
 			OR d.MissingCheckInOut > 0
@@ -90,7 +84,7 @@ BEGIN
 			OR d.WeekendLeave > 0
 			)
 		AND (
-			ISNULL(@DisciplineTypeId, '') = ''
+			@DisciplineTypeId IS NULL
 			OR (
 				@DisciplineTypeId = 1
 				AND d.ChangeShift > 0
@@ -136,10 +130,7 @@ BEGIN
 				AND d.OtherDisciplines > 0
 				)
 			)
-		AND (
-			@IsLocal IS NULL
-			OR emp.IsLocal = @IsLocal
-			)
+		AND ISNULL(@IsLocal, emp.IsLocal) = emp.IsLocal
 	GROUP BY period.PeriodId
 		,period.[Name]
 		,period.StartDate

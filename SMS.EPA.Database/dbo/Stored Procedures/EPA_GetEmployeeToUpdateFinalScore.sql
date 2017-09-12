@@ -1,5 +1,4 @@
-﻿
-CREATE PROCEDURE [dbo].[EPA_GetEmployeeToUpdateFinalScore] @PeriodId INT
+﻿CREATE PROCEDURE [dbo].[EPA_GetEmployeeToUpdateFinalScore] @PeriodId INT
 	,@GroupId INT = NULL
 	,@IsLocal BIT = NULL
 	,@Query NVARCHAR(100) = NULL
@@ -17,10 +16,9 @@ BEGIN
 	SET NOCOUNT ON;
 
 	DECLARE @EPAIds IntId
-		,@Yesterday DATE
+		,@Today DATE = GETDATE()
+		,@Yesterday DATE = DATEADD(DAY, - 1, GETDATE())
 		,@TargetTypeId INT
-
-	SET @Yesterday = DATEADD(DAY, - 1, GETDATE())
 
 	SELECT @TargetTypeId = TargetTypeId
 	FROM dbo.Period WITH (NOLOCK)
@@ -43,20 +41,14 @@ BEGIN
 			AND emp.IsDeleted = 0
 			AND emp.[Enabled] = 1
 			INNER JOIN dbo.[Group] AS gr WITH (NOLOCK) ON emp.GroupId = gr.GroupId
-		WHERE CAST(pe.EndDate AS DATE) <= CAST(GETDATE() AS DATE)
-			AND CAST(pc.EndDate AS DATE) < CAST(pe.EndDate AS DATE)
+		WHERE pe.EndDate <= @Today
+			AND pc.EndDate < pe.EndDate
 			AND pe.TargetTypeId IN (2, 3) -- monthly, semi annual
 			AND epa.[Status] IN (0, 1) -- open/closed
 			AND pe.IsActive = 1
 			AND pe.PeriodId = @PeriodId
-			AND (
-				ISNULL(@GroupId, '') = ''
-				OR gr.GroupId = @GroupId
-				)
-			AND (
-				@IsLocal IS NULL
-				OR emp.IsLocal = @IsLocal
-				)
+			AND ISNULL(@GroupId, gr.GroupId) = gr.GroupId
+			AND ISNULL(@IsLocal, emp.IsLocal) = emp.IsLocal
 			AND (
 				ISNULL(@Query, '') = ''
 				OR emp.FullName LIKE '%' + @Query + '%'
@@ -77,20 +69,14 @@ BEGIN
 			AND emp.IsDeleted = 0
 			AND emp.[Enabled] = 1
 			INNER JOIN dbo.[Group] AS gr WITH (NOLOCK) ON emp.GroupId = gr.GroupId
-		WHERE CAST(pc.EndDate AS DATE) <= @Yesterday
-			AND CAST(pc.EndDate AS DATE) >= CAST(pe.EndDate AS DATE)
+		WHERE pc.EndDate <= @Yesterday
+			AND pc.EndDate >= pe.EndDate
 			AND pe.TargetTypeId IN (2, 3) -- monthly, semi annul
 			AND epa.[Status] IN (0, 1) -- open/closed
 			AND pe.IsActive = 1
 			AND pe.PeriodId = @PeriodId
-			AND (
-				ISNULL(@GroupId, '') = ''
-				OR gr.GroupId = @GroupId
-				)
-			AND (
-				@IsLocal IS NULL
-				OR emp.IsLocal = @IsLocal
-				)
+			AND ISNULL(@GroupId, gr.GroupId) = gr.GroupId
+			AND ISNULL(@IsLocal, emp.IsLocal) = emp.IsLocal
 			AND (
 				ISNULL(@Query, '') = ''
 				OR emp.FullName LIKE '%' + @Query + '%'
@@ -113,19 +99,13 @@ BEGIN
 			AND emp.IsDeleted = 0
 			AND emp.[Enabled] = 1
 			INNER JOIN dbo.[Group] AS gr WITH (NOLOCK) ON emp.GroupId = gr.GroupId
-		WHERE CAST(pc.EndDate AS DATE) <= @Yesterday
+		WHERE pc.EndDate <= @Yesterday
 			AND pe.TargetTypeId IN (1, 5) -- probation/promotion
 			AND epa.[Status] IN (0, 1) -- open/closed
 			AND pe.IsActive = 1
 			AND pe.PeriodId = @PeriodId
-			AND (
-				ISNULL(@GroupId, '') = ''
-				OR gr.GroupId = @GroupId
-				)
-			AND (
-				@IsLocal IS NULL
-				OR emp.IsLocal = @IsLocal
-				)
+			AND ISNULL(@GroupId, gr.GroupId) = gr.GroupId
+			AND ISNULL(@IsLocal, emp.IsLocal) = emp.IsLocal
 			AND (
 				ISNULL(@Query, '') = ''
 				OR emp.FullName LIKE '%' + @Query + '%'

@@ -1,5 +1,4 @@
-﻿
-CREATE PROCEDURE [dbo].[Dashboard_GetToDoList] @EmployeeId INT
+﻿CREATE PROCEDURE [dbo].[Dashboard_GetToDoList] @EmployeeId INT
 AS
 /*
 Created: 20160928@Tim.Trinh
@@ -31,7 +30,7 @@ BEGIN
 		AND period.IsActive = 1
 		INNER JOIN dbo.EPAProcess AS pc WITH (NOLOCK) ON epa.EPAId = pc.EPAId
 		AND pc.ProcessId IN (3, 4, 5) -- evaluator, reviewer, management
-		AND @ToDay >= CAST(pc.StartDate AS DATE)
+		AND @ToDay >= pc.StartDate
 	WHERE pc.EvaluatorId = @EmployeeId
 		AND ISNULL(epa.[Status], 0) = @Inprogress
 
@@ -44,7 +43,7 @@ BEGIN
 		AND pc.ProcessId = 3 -- evaluator
 	WHERE ISNULL(epa.[Status], 0) = @Inprogress
 		AND pc.EvaluatorId = @EmployeeId
-		AND @ToDay > CAST(pc.EndDate AS DATE)
+		AND @ToDay > pc.EndDate
 	GROUP BY period.PeriodId
 
 	SELECT @NumberOfEmployeesUnfinishedByEvaluator = COUNT(1)
@@ -56,8 +55,8 @@ BEGIN
 	WHERE ISNULL(epa.[Status], 0) = @Inprogress
 		AND pc.EvaluatorId = @EmployeeId
 		AND epa.HasMonthlyEPA = 0
-		AND @ToDay BETWEEN CAST(pc.StartDate AS DATE)
-			AND CAST(pc.EndDate AS DATE)
+		AND @ToDay BETWEEN pc.StartDate
+			AND pc.EndDate
 	GROUP BY period.PeriodId
 
 	-- reviewer
@@ -69,7 +68,7 @@ BEGIN
 		AND pc.ProcessId = 4 -- reviewer
 	WHERE ISNULL(epa.[Status], 0) = @Inprogress
 		AND pc.EvaluatorId = @EmployeeId
-		AND @ToDay > CAST(pc.EndDate AS DATE)
+		AND @ToDay > pc.EndDate
 	GROUP BY period.PeriodId
 
 	SELECT @NumberOfEmployeesUnfinishedByReviewer = COUNT(1)
@@ -80,8 +79,8 @@ BEGIN
 		AND pc.ProcessId = 4 -- reviewer
 	WHERE ISNULL(epa.[Status], 0) = @Inprogress
 		AND pc.EvaluatorId = @EmployeeId
-		AND @ToDay BETWEEN CAST(pc.StartDate AS DATE)
-			AND CAST(pc.EndDate AS DATE)
+		AND @ToDay BETWEEN pc.StartDate
+			AND pc.EndDate
 	GROUP BY period.PeriodId
 
 	-- management
@@ -93,7 +92,7 @@ BEGIN
 		AND pc.ProcessId = 5 -- management
 	WHERE ISNULL(epa.[Status], 0) = @Inprogress
 		AND pc.EvaluatorId = @EmployeeId
-		AND @ToDay > CAST(pc.EndDate AS DATE)
+		AND @ToDay > pc.EndDate
 	GROUP BY period.PeriodId
 
 	SELECT @NumberOfEmployeesUnfinishedByManagement = COUNT(1)
@@ -104,8 +103,8 @@ BEGIN
 		AND pc.ProcessId = 5 -- management
 	WHERE ISNULL(epa.[Status], 0) = @Inprogress
 		AND pc.EvaluatorId = @EmployeeId
-		AND @ToDay BETWEEN CAST(pc.StartDate AS DATE)
-			AND CAST(pc.EndDate AS DATE)
+		AND @ToDay BETWEEN pc.StartDate
+			AND pc.EndDate
 	GROUP BY period.PeriodId
 
 	SELECT @NumberOfEmployeesFinishedByEvaluator AS NumberOfEmployeesFinishedByEvaluator

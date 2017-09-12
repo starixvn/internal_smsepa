@@ -1,0 +1,30 @@
+ALTER TABLE dbo.Period
+ALTER COLUMN StartDate DATE NULL
+GO
+ALTER TABLE dbo.Period
+ALTER COLUMN EndDate DATE NULL
+GO
+ALTER TABLE dbo.Period
+ALTER COLUMN AttendanceStartDate DATE NULL
+GO
+ALTER TABLE dbo.Period
+ALTER COLUMN AttendanceEndDate DATE NULL
+GO
+ALTER TABLE dbo.PeriodFlowSetting
+ALTER COLUMN StartDate DATE NULL
+GO
+ALTER TABLE dbo.PeriodFlowSetting
+ALTER COLUMN EndDate DATE NULL
+GO
+ALTER TABLE dbo.EPAProcess
+ALTER COLUMN StartDate DATE NULL
+GO
+ALTER TABLE dbo.EPAProcess
+ALTER COLUMN EndDate DATE NULL
+GO
+ALTER TABLE dbo.EPAProcess
+ALTER COLUMN RemindDate DATE NULL
+GO
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[EPA_GetNumberOfRow]') AND type in (N'P', N'PC'))
+DROP PROCEDURE [dbo].[EPA_GetNumberOfRow]
+GO

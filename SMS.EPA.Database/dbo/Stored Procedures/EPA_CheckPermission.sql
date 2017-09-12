@@ -1,5 +1,4 @@
-﻿
-CREATE PROCEDURE [dbo].[EPA_CheckPermission] @EPAId INT
+﻿CREATE PROCEDURE [dbo].[EPA_CheckPermission] @EPAId INT
 	,@ActorUserId INT
 	,@ProcessId INT = NULL
 AS
@@ -35,11 +34,12 @@ BEGIN
 					INNER JOIN dbo.EPAProcess AS pc WITH (NOLOCK) ON epa.EPAId = pc.EPAId
 					AND pc.EvaluatorId = @ActorUserId
 					AND pc.ProcessId = @ProcessId
-					AND CAST(pc.StartDate AS DATE) <= @Today
+					AND pc.StartDate <= @Today
 					INNER JOIN dbo.Period AS period WITH (NOLOCK) ON epa.PeriodId = period.PeriodId
 				WHERE epa.EPAId = @EPAId
 					AND (
-						epa.HasMonthlyEPA = 0 OR (
+						epa.HasMonthlyEPA = 0
+						OR (
 							epa.HasMonthlyEPA = 1
 							AND period.TargetTypeId = @SemiId
 							AND pc.ProcessId > 3
