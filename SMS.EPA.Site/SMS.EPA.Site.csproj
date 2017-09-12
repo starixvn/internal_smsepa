@@ -325,6 +325,7 @@
     <Content Include="Content\Site\images\calendar.png" />
     <Content Include="Content\Site\images\checkbox_no.png" />
     <Content Include="Content\Site\images\checkbox_yes.png" />
+    <Content Include="Content\Site\images\CTI-logo.png" />
     <Content Include="Content\Site\images\excel-icon.png" />
     <Content Include="Content\Site\images\GROUP-logo.png" />
     <Content Include="Content\Site\images\GWI-logo.png" />
@@ -890,6 +891,9 @@
     <Content Include="Web.sms.config">
       <SubType>Designer</SubType>
     </Content>
+    <None Include="Web.cti.config">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SMS.EPA.Core\SMS.EPA.Core.csproj">

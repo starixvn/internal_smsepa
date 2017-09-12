@@ -7,6 +7,7 @@
         HM = 2,
         GWI = 3,
         GROUP = 4,
-        LEXFIN = 5
+        LEXFIN = 5,
+        CTI = 6
     }
 }
