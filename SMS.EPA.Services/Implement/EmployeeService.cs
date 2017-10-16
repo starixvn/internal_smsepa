@@ -78,7 +78,7 @@
             if (criteria != null && criteria.IsValid())
             {
                 criteria.Password = Encryption.ComputeHash(HashProvider.Sha1, criteria.Password);
-                commandResult = Repository.Insert(criteria);
+                commandResult = Repository.ExecuteNonQuery(criteria);
             }
 
             return commandResult;
@@ -90,7 +90,7 @@
 
             if (criteria != null && criteria.IsValid())
             {
-                commandResult = Repository.Update(criteria);
+                commandResult = Repository.ExecuteNonQuery(criteria);
             }
 
             return commandResult;
@@ -106,7 +106,7 @@
                 if (ValidatePassword(criteria.OldPassword, oldPassword))
                 {
                     criteria.NewPassword = Encryption.ComputeHash(HashProvider.Sha1, criteria.NewPassword);
-                    commandResult = Repository.Update(criteria);
+                    commandResult = Repository.ExecuteNonQuery(criteria);
                 }
                 else
                 {
@@ -124,7 +124,7 @@
             if (criteria != null && criteria.IsValid())
             {
                 criteria.NewPassword = Encryption.ComputeHash(HashProvider.Sha1, criteria.NewPassword);
-                commandResult = Repository.Update(criteria);
+                commandResult = Repository.ExecuteNonQuery(criteria);
             }
 
             return commandResult;
@@ -136,7 +136,7 @@
 
             if (criteria != null && criteria.IsValid())
             {
-                commandResult = Repository.Update(criteria);
+                commandResult = Repository.ExecuteNonQuery(criteria);
             }
 
             return commandResult;
@@ -180,7 +180,7 @@
 
             if (criteria != null && criteria.IsValid())
             {
-                commandResult = Repository.Insert(criteria);
+                commandResult = Repository.ExecuteNonQuery(criteria);
             }
 
             return commandResult;
@@ -192,7 +192,7 @@
 
             if (criteria != null && criteria.IsValid())
             {
-                commandResult = Repository.Update(criteria);
+                commandResult = Repository.ExecuteNonQuery(criteria);
             }
 
             return commandResult;

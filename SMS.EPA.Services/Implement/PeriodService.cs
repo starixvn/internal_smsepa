@@ -86,7 +86,7 @@
 
             if (criteria != null && criteria.IsValid())
             {
-                commandResult = Repository.Insert(criteria);
+                commandResult = Repository.ExecuteNonQuery(criteria);
             }
 
             return commandResult;
@@ -98,7 +98,7 @@
 
             if (criteria != null && criteria.IsValid())
             {
-                commandResult = Repository.Insert(criteria);
+                commandResult = Repository.ExecuteNonQuery(criteria);
             }
 
             return commandResult;
@@ -110,7 +110,7 @@
 
             if (criteria != null && criteria.IsValid())
             {
-                commandResult = Repository.Update(criteria);
+                commandResult = Repository.ExecuteNonQuery(criteria);
             }
 
             return commandResult;
@@ -122,7 +122,7 @@
 
             if (criteria != null && criteria.IsValid())
             {
-                commandResult = Repository.Update(criteria);
+                commandResult = Repository.ExecuteNonQuery(criteria);
             }
 
             return commandResult;
@@ -134,7 +134,7 @@
 
             if (criteria != null && criteria.IsValid())
             {
-                commandResult = Repository.Delete(criteria);
+                commandResult = Repository.ExecuteNonQuery(criteria);
             }
 
             return commandResult;
@@ -158,7 +158,7 @@
 
             if (criteria != null && criteria.IsValid())
             {
-                commandResult = Repository.Update(criteria);
+                commandResult = Repository.ExecuteNonQuery(criteria);
             }
 
             return commandResult;
@@ -170,7 +170,7 @@
 
             if (criteria != null && criteria.IsValid())
             {
-                commandResult = Repository.Update(criteria);
+                commandResult = Repository.ExecuteNonQuery(criteria);
                 string sendMailWhenEditEmployeeSetting = ConfigurationManagerService.GetAppSetting("SendMailWhenEditEmployeeSetting");
 
                 if (commandResult.IsSuccessful && sendMailWhenEditEmployeeSetting.Equals("true", StringComparison.OrdinalIgnoreCase))
@@ -188,7 +188,7 @@
 
             if (criteria != null && criteria.IsValid())
             {
-                commandResult = Repository.Update(criteria);
+                commandResult = Repository.ExecuteNonQuery(criteria);
             }
 
             return commandResult;
@@ -200,7 +200,7 @@
 
             if (criteria != null && criteria.IsValid())
             {
-                commandResult = Repository.Insert(criteria);
+                commandResult = Repository.ExecuteNonQuery(criteria);
             }
 
             return commandResult;
@@ -283,7 +283,7 @@
 
             if (criteria != null && criteria.IsValid())
             {
-                commandResult = Repository.Update(criteria);
+                commandResult = Repository.ExecuteNonQuery(criteria);
             }
 
             return commandResult;

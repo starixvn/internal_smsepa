@@ -1,12 +1,12 @@
 ﻿namespace SMS.EPA.ServicesAPI.Controllers
 {
-    using Core.Model;
-    using Criteria.Department;
-    using EPA.Model.API;
-    using Services;
     using System;
     using System.Net;
     using System.Web.Http;
+    using Core.Model;
+    using Criteria.Department;
+    using Model.API;
+    using Services;
 
     [Authorize]
     public class DepartmentController : ApiController

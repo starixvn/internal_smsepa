@@ -114,7 +114,7 @@
             _kpiGroupService.CreateKPIGroup(criteria);
 
             // Assert
-            _kpiGroupService.Repository.Received().Insert(Arg.Is<CreateKPIGroupCriteria>(x => x.IsValid()));
+            _kpiGroupService.Repository.Received().ExecuteNonQuery(Arg.Is<CreateKPIGroupCriteria>(x => x.IsValid()));
         }
 
         #endregion CreateKPIGroup
@@ -150,7 +150,7 @@
             _kpiGroupService.UpdateKPIGroup(criteria);
 
             // Assert
-            _kpiGroupService.Repository.Received().Update(Arg.Is<UpdateKPIGroupCriteria>(x => x.IsValid()));
+            _kpiGroupService.Repository.Received().ExecuteNonQuery(Arg.Is<UpdateKPIGroupCriteria>(x => x.IsValid()));
         }
 
         #endregion UpdateKPIGroup
@@ -185,7 +185,7 @@
             _kpiGroupService.UpdateStatusKPIGroup(criteria);
 
             // Assert
-            _kpiGroupService.Repository.Received().Update(Arg.Is<UpdateStatusKPIGroupCriteria>(x => x.IsValid()));
+            _kpiGroupService.Repository.Received().ExecuteNonQuery(Arg.Is<UpdateStatusKPIGroupCriteria>(x => x.IsValid()));
         }
 
         #endregion UpdateStatusKPIGroup
@@ -220,7 +220,7 @@
             _kpiGroupService.DeleteKPIGroup(criteria);
 
             // Assert
-            _kpiGroupService.Repository.Received().Delete(Arg.Is<DeleteKPIGroupCriteria>(x => x.IsValid()));
+            _kpiGroupService.Repository.Received().ExecuteNonQuery(Arg.Is<DeleteKPIGroupCriteria>(x => x.IsValid()));
         }
 
         #endregion DeleteKPIGroup
@@ -279,28 +279,28 @@
         {
             _baseRepository = FakeBaseRepository();
             _kpiGroupService = GetKPIGroupService(_baseRepository);
-            _kpiGroupService.Repository.Insert(Arg.Any<CreateKPIGroupCriteria>()).Returns(result ?? new CommandResult());
+            _kpiGroupService.Repository.ExecuteNonQuery(Arg.Any<CreateKPIGroupCriteria>()).Returns(result ?? new CommandResult());
         }
 
         private void ArrangeUpdateKPIGroup(CommandResult result = null)
         {
             _baseRepository = FakeBaseRepository();
             _kpiGroupService = GetKPIGroupService(_baseRepository);
-            _kpiGroupService.Repository.Update(Arg.Any<UpdateKPIGroupCriteria>()).Returns(result ?? new CommandResult());
+            _kpiGroupService.Repository.ExecuteNonQuery(Arg.Any<UpdateKPIGroupCriteria>()).Returns(result ?? new CommandResult());
         }
 
         private void ArrangeUpdateStatusKPIGroup(CommandResult result = null)
         {
             _baseRepository = FakeBaseRepository();
             _kpiGroupService = GetKPIGroupService(_baseRepository);
-            _kpiGroupService.Repository.Update(Arg.Any<UpdateStatusKPIGroupCriteria>()).Returns(result ?? new CommandResult());
+            _kpiGroupService.Repository.ExecuteNonQuery(Arg.Any<UpdateStatusKPIGroupCriteria>()).Returns(result ?? new CommandResult());
         }
 
         private void ArrangeDeleteKPIGroup(CommandResult result = null)
         {
             _baseRepository = FakeBaseRepository();
             _kpiGroupService = GetKPIGroupService(_baseRepository);
-            _kpiGroupService.Repository.Delete(Arg.Any<DeleteKPIGroupCriteria>()).Returns(result ?? new CommandResult());
+            _kpiGroupService.Repository.ExecuteNonQuery(Arg.Any<DeleteKPIGroupCriteria>()).Returns(result ?? new CommandResult());
         }
 
         #endregion Helpers

@@ -41,7 +41,7 @@
 
             if (criteria.IsValid())
             {
-                comandResult = Repository.Insert(criteria);
+                comandResult = Repository.ExecuteNonQuery(criteria);
             }
 
             string messageResult = comandResult.IsSuccessful ? "0" : comandResult.Message;

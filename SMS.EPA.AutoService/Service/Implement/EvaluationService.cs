@@ -63,7 +63,7 @@
 
             if (criteria != null && criteria.IsValid())
             {
-                comandResult = Repository.Update(criteria);
+                comandResult = Repository.ExecuteNonQuery(criteria);
             }
 
             return comandResult;
@@ -75,7 +75,7 @@
 
             if (criteria != null && criteria.IsValid())
             {
-                comandResult = Repository.Update(criteria);
+                comandResult = Repository.ExecuteNonQuery(criteria);
             }
 
             return comandResult;
@@ -103,7 +103,7 @@
 
             if (criteria != null && criteria.IsValid())
             {
-                commandResult = Repository.Update(criteria);
+                commandResult = Repository.ExecuteNonQuery(criteria);
             }
 
             return commandResult;
@@ -115,7 +115,7 @@
 
             if (criteria != null && criteria.IsValid())
             {
-                commandResult = Repository.Update(criteria);
+                commandResult = Repository.ExecuteNonQuery(criteria);
             }
 
             return commandResult;

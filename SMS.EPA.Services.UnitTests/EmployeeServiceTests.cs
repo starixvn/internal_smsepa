@@ -208,7 +208,7 @@
             _employeeService.CreateSpecialEmployee(criteria);
 
             // Assert
-            _employeeService.Repository.Received().Insert(Arg.Is<CreateSpecialEmployeeCriteria>(x => x.IsValid()));
+            _employeeService.Repository.Received().ExecuteNonQuery(Arg.Is<CreateSpecialEmployeeCriteria>(x => x.IsValid()));
         }
 
         #endregion CreateSpecialEmployee
@@ -246,7 +246,7 @@
             _employeeService.UpdateSpecialEmployee(criteria);
 
             // Assert
-            _employeeService.Repository.Received().Update(Arg.Is<UpdateSpecialEmployeeCriteria>(x => x.IsValid()));
+            _employeeService.Repository.Received().ExecuteNonQuery(Arg.Is<UpdateSpecialEmployeeCriteria>(x => x.IsValid()));
         }
 
         #endregion UpdateSpecialEmployee
@@ -373,7 +373,7 @@
             _employeeService.AssignRoleToEmployee(criteria);
 
             // Assert
-            _employeeService.Repository.Received().Update(Arg.Is<AssignRoleToEmployeeCriteria>(x => x.IsValid()));
+            _employeeService.Repository.Received().ExecuteNonQuery(Arg.Is<AssignRoleToEmployeeCriteria>(x => x.IsValid()));
         }
 
         #endregion AssignRoleToEmployee
@@ -482,7 +482,7 @@
             _employeeService.InsertEmployeeIPAddress(criteria);
 
             // Assert
-            _employeeService.Repository.Received().Insert(Arg.Is<InsertEmployeeIPAddressCriteria>(x => x.IsValid()));
+            _employeeService.Repository.Received().ExecuteNonQuery(Arg.Is<InsertEmployeeIPAddressCriteria>(x => x.IsValid()));
         }
 
         #endregion InsertEmployeeIPAddress
@@ -517,7 +517,7 @@
             _employeeService.UpdateHasMonthlyEPA(criteria);
 
             // Assert
-            _employeeService.Repository.Received().Update(Arg.Is<UpdateHasMonthlyEPACriteria>(x => x.IsValid()));
+            _employeeService.Repository.Received().ExecuteNonQuery(Arg.Is<UpdateHasMonthlyEPACriteria>(x => x.IsValid()));
         }
 
         #endregion UpdateHasMonthlyEPA
@@ -630,14 +630,14 @@
         {
             _baseRepository = FakeBaseRepository();
             _employeeService = GetEmployeeService(null, _baseRepository);
-            _employeeService.Repository.Insert(Arg.Any<CreateSpecialEmployeeCriteria>()).Returns(result ?? new CommandResult());
+            _employeeService.Repository.ExecuteNonQuery(Arg.Any<CreateSpecialEmployeeCriteria>()).Returns(result ?? new CommandResult());
         }
 
         private void ArrangeUpdateSpecialEmployee(CommandResult result = null)
         {
             _baseRepository = FakeBaseRepository();
             _employeeService = GetEmployeeService(null, _baseRepository);
-            _employeeService.Repository.Update(Arg.Any<UpdateSpecialEmployeeCriteria>()).Returns(result ?? new CommandResult());
+            _employeeService.Repository.ExecuteNonQuery(Arg.Any<UpdateSpecialEmployeeCriteria>()).Returns(result ?? new CommandResult());
         }
 
         private void ArrangeChangePassword(CommandResult result = null)
@@ -646,7 +646,7 @@
             _employeeService = Substitute.For<EmployeeService>();
             _employeeService.Repository = _baseRepository;
             _employeeService.GetDataEntity<string>(Arg.Any<GetPasswordByEmpIdCriteria>()).Returns(Encryption.ComputeHash(HashProvider.Sha1, "123456"));
-            _employeeService.Repository.Update(Arg.Any<ChangePasswordCriteria>()).Returns(result ?? new CommandResult());
+            _employeeService.Repository.ExecuteNonQuery(Arg.Any<ChangePasswordCriteria>()).Returns(result ?? new CommandResult());
         }
 
         private void ArrangeResetPassword(CommandResult result = null)
@@ -654,14 +654,14 @@
             _baseRepository = FakeBaseRepository();
             _employeeService = Substitute.For<EmployeeService>();
             _employeeService.Repository = _baseRepository;
-            _employeeService.Repository.Update(Arg.Any<ResetPasswordCriteria>()).Returns(result ?? new CommandResult());
+            _employeeService.Repository.ExecuteNonQuery(Arg.Any<ResetPasswordCriteria>()).Returns(result ?? new CommandResult());
         }
 
         private void ArrangeAssignRoleToEmployee(CommandResult result = null)
         {
             _baseRepository = FakeBaseRepository();
             _employeeService = GetEmployeeService(null, _baseRepository);
-            _employeeService.Repository.Update(Arg.Any<AssignRoleToEmployeeCriteria>()).Returns(result ?? new CommandResult());
+            _employeeService.Repository.ExecuteNonQuery(Arg.Any<AssignRoleToEmployeeCriteria>()).Returns(result ?? new CommandResult());
         }
 
         private void ArrangeGetEmployeeByDepartmentId(IEnumerable<Employee> result = null)
@@ -682,14 +682,14 @@
         {
             _baseRepository = FakeBaseRepository();
             _employeeService = GetEmployeeService(null, _baseRepository);
-            _employeeService.Repository.Insert(Arg.Any<InsertEmployeeIPAddressCriteria>()).Returns(result ?? new CommandResult());
+            _employeeService.Repository.ExecuteNonQuery(Arg.Any<InsertEmployeeIPAddressCriteria>()).Returns(result ?? new CommandResult());
         }
 
         private void ArrangeUpdateHasMonthlyEPA(CommandResult result = null)
         {
             _baseRepository = FakeBaseRepository();
             _employeeService = GetEmployeeService(null, _baseRepository);
-            _employeeService.Repository.Update(Arg.Any<UpdateHasMonthlyEPACriteria>()).Returns(result ?? new CommandResult());
+            _employeeService.Repository.ExecuteNonQuery(Arg.Any<UpdateHasMonthlyEPACriteria>()).Returns(result ?? new CommandResult());
         }
 
         #endregion Helpers

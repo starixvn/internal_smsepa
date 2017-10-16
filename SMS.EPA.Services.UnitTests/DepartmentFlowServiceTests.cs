@@ -146,7 +146,7 @@
             var actual = departmentFlowService.CreateDepartmentFlow(citeria);
 
             // Assert
-            departmentFlowService.Repository.Received().Insert(citeria);
+            departmentFlowService.Repository.Received().ExecuteNonQuery(citeria);
         }
 
         #endregion CreateDepartmentFlow
@@ -182,7 +182,7 @@
             var actual = departmentFlowService.DeleteDepartmentFlow(citeria);
 
             // Assert
-            departmentFlowService.Repository.Received().Delete(citeria);
+            departmentFlowService.Repository.Received().ExecuteNonQuery(citeria);
         }
 
         #endregion DeleteDepartmentFlow
@@ -296,9 +296,9 @@
             var baseRepository = FakeBaseRepository();
             departmentFlowService = new DepartmentFlowService(flowSettingRepository);
             departmentFlowService.Repository = baseRepository;
-            departmentFlowService.Repository.Insert(Arg.Any<ICriteria>()).Returns(result ?? new CommandResult());
-            departmentFlowService.Repository.Update(Arg.Any<ICriteria>()).Returns(result ?? new CommandResult());
-            departmentFlowService.Repository.Delete(Arg.Any<ICriteria>()).Returns(result ?? new CommandResult());
+            departmentFlowService.Repository.ExecuteNonQuery(Arg.Any<ICriteria>()).Returns(result ?? new CommandResult());
+            departmentFlowService.Repository.ExecuteNonQuery(Arg.Any<ICriteria>()).Returns(result ?? new CommandResult());
+            departmentFlowService.Repository.ExecuteNonQuery(Arg.Any<ICriteria>()).Returns(result ?? new CommandResult());
         }
 
         private void ArrangeGetDepartmentHasSettingByFlowTemplateId(IList<Department> departments = null)

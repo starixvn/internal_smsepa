@@ -144,7 +144,7 @@
             targetEmployeeSettingService.AssignTargetTemplateToEmployee(criteria);
 
             // Assert
-            targetEmployeeSettingService.Repository.Received().Update(Arg.Is<AssignTargetTemplateToEmployeeCriteria>(x => x.IsValid()));
+            targetEmployeeSettingService.Repository.Received().ExecuteNonQuery(Arg.Is<AssignTargetTemplateToEmployeeCriteria>(x => x.IsValid()));
         }
 
         #endregion AssignTargetTemplateToEmployee
@@ -178,7 +178,7 @@
             targetEmployeeSettingService.AssignTargetTemplateToDepartment(criteria);
 
             // Assert
-            targetEmployeeSettingService.Repository.Received().Update(Arg.Is<AssignTargetDepartmentSettingCriteria>(x => x.IsValid()));
+            targetEmployeeSettingService.Repository.Received().ExecuteNonQuery(Arg.Is<AssignTargetDepartmentSettingCriteria>(x => x.IsValid()));
         }
 
         #endregion AssignTargetTemplateToDepartment
@@ -213,7 +213,7 @@
             targetEmployeeSettingService.DeleteTargetEmployeeSetting(criteria);
 
             // Assert
-            targetEmployeeSettingService.Repository.Received().Delete(Arg.Is<DeleteTargetEmployeeSettingCriteria>(x => x.IsValid()));
+            targetEmployeeSettingService.Repository.Received().ExecuteNonQuery(Arg.Is<DeleteTargetEmployeeSettingCriteria>(x => x.IsValid()));
         }
 
         #endregion DeleteTargetEmployeeSetting
@@ -248,7 +248,7 @@
             targetEmployeeSettingService.DeleteTargetDepartmentSetting(criteria);
 
             // Assert
-            targetEmployeeSettingService.Repository.Received().Delete(criteria);
+            targetEmployeeSettingService.Repository.Received().ExecuteNonQuery(criteria);
         }
 
         #endregion DeleteTargetDepartmentSetting
@@ -290,9 +290,9 @@
         {
             var baseRepository = FakeBaseRepository();
             targetEmployeeSettingService = GetTargetEmployeeSettingService(baseRepository);
-            targetEmployeeSettingService.Repository.Insert(Arg.Any<ICriteria>()).Returns(result ?? new CommandResult());
-            targetEmployeeSettingService.Repository.Update(Arg.Any<ICriteria>()).Returns(result ?? new CommandResult());
-            targetEmployeeSettingService.Repository.Delete(Arg.Any<ICriteria>()).Returns(result ?? new CommandResult());
+            targetEmployeeSettingService.Repository.ExecuteNonQuery(Arg.Any<ICriteria>()).Returns(result ?? new CommandResult());
+            targetEmployeeSettingService.Repository.ExecuteNonQuery(Arg.Any<ICriteria>()).Returns(result ?? new CommandResult());
+            targetEmployeeSettingService.Repository.ExecuteNonQuery(Arg.Any<ICriteria>()).Returns(result ?? new CommandResult());
         }
     }
 }

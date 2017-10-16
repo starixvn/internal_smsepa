@@ -81,7 +81,7 @@
             _roleService.AssignFunctionToRole(criteria);
 
             // Assert
-            _roleService.Repository.Received().Update(Arg.Is<AssignFunctionToRoleCriteria>(x => x.IsValid()));
+            _roleService.Repository.Received().ExecuteNonQuery(Arg.Is<AssignFunctionToRoleCriteria>(x => x.IsValid()));
         }
 
         #endregion AssignFunctionToRole
@@ -114,7 +114,7 @@
         {
             _baseRepository = FakeBaseRepository();
             _roleService = GetRoleService(_baseRepository);
-            _roleService.Repository.Update(Arg.Any<AssignFunctionToRoleCriteria>()).Returns(result ?? new CommandResult());
+            _roleService.Repository.ExecuteNonQuery(Arg.Any<AssignFunctionToRoleCriteria>()).Returns(result ?? new CommandResult());
         }
 
         private IEnumerable<RoleFunctionModel> GetListOfRoleFunctionModelForTest()

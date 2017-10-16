@@ -55,7 +55,7 @@
 
             if (criteria.IsValid())
             {
-                commandResult = Repository.Insert(criteria);
+                commandResult = Repository.ExecuteNonQuery(criteria);
             }
 
             string messageResult = commandResult.IsSuccessful ? "0" : commandResult.Message;

@@ -98,7 +98,7 @@
             _kpiService.CreateKPI(criteria);
 
             // Assert
-            _kpiService.Repository.Received().Insert(Arg.Is<CreateKPICriteria>(x => x.IsValid()));
+            _kpiService.Repository.Received().ExecuteNonQuery(Arg.Is<CreateKPICriteria>(x => x.IsValid()));
         }
 
         #endregion CreateKPI
@@ -135,7 +135,7 @@
             _kpiService.UpdateKPI(criteria);
 
             // Assert
-            _kpiService.Repository.Received().Update(Arg.Is<UpdateKPICriteria>(x => x.IsValid()));
+            _kpiService.Repository.Received().ExecuteNonQuery(Arg.Is<UpdateKPICriteria>(x => x.IsValid()));
         }
 
         #endregion UpdateKPI
@@ -170,7 +170,7 @@
             _kpiService.UpdateStatusKPI(criteria);
 
             // Assert
-            _kpiService.Repository.Received().Update(Arg.Is<UpdateStatusKPICriteria>(x => x.IsValid()));
+            _kpiService.Repository.Received().ExecuteNonQuery(Arg.Is<UpdateStatusKPICriteria>(x => x.IsValid()));
         }
 
         #endregion UpdateStatusKPI
@@ -205,7 +205,7 @@
             _kpiService.UpdateRequiredEvaluateKPI(criteria);
 
             // Assert
-            _kpiService.Repository.Received().Update(Arg.Is<UpdateRequiredEvaluateKPICriteria>(x => x.IsValid()));
+            _kpiService.Repository.Received().ExecuteNonQuery(Arg.Is<UpdateRequiredEvaluateKPICriteria>(x => x.IsValid()));
         }
 
         #endregion UpdateRequiredEvaluateKPI
@@ -240,7 +240,7 @@
             _kpiService.DeleteKPI(criteria);
 
             // Assert
-            _kpiService.Repository.Received().Delete(Arg.Is<DeleteKPICriteria>(x => x.IsValid()));
+            _kpiService.Repository.Received().ExecuteNonQuery(Arg.Is<DeleteKPICriteria>(x => x.IsValid()));
         }
 
         #endregion DeleteKPI
@@ -317,35 +317,35 @@
         {
             _baseRepository = FakeBaseRepository();
             _kpiService = GetKPIService(null, _baseRepository);
-            _kpiService.Repository.Insert(Arg.Any<CreateKPICriteria>()).Returns(result ?? new CommandResult());
+            _kpiService.Repository.ExecuteNonQuery(Arg.Any<CreateKPICriteria>()).Returns(result ?? new CommandResult());
         }
 
         private void ArrangeUpdateKPI(CommandResult result = null)
         {
             _baseRepository = FakeBaseRepository();
             _kpiService = GetKPIService(null, _baseRepository);
-            _kpiService.Repository.Update(Arg.Any<UpdateKPICriteria>()).Returns(result ?? new CommandResult());
+            _kpiService.Repository.ExecuteNonQuery(Arg.Any<UpdateKPICriteria>()).Returns(result ?? new CommandResult());
         }
 
         private void ArrangeUpdateStatusKPI(CommandResult result = null)
         {
             _baseRepository = FakeBaseRepository();
             _kpiService = GetKPIService(null, _baseRepository);
-            _kpiService.Repository.Update(Arg.Any<UpdateStatusKPICriteria>()).Returns(result ?? new CommandResult());
+            _kpiService.Repository.ExecuteNonQuery(Arg.Any<UpdateStatusKPICriteria>()).Returns(result ?? new CommandResult());
         }
 
         private void ArrangeUpdateRequiredEvaluateKPI(CommandResult result = null)
         {
             _baseRepository = FakeBaseRepository();
             _kpiService = GetKPIService(null, _baseRepository);
-            _kpiService.Repository.Update(Arg.Any<UpdateRequiredEvaluateKPICriteria>()).Returns(result ?? new CommandResult());
+            _kpiService.Repository.ExecuteNonQuery(Arg.Any<UpdateRequiredEvaluateKPICriteria>()).Returns(result ?? new CommandResult());
         }
 
         private void ArrangeDeleteKPI(CommandResult result = null)
         {
             _baseRepository = FakeBaseRepository();
             _kpiService = GetKPIService(null, _baseRepository);
-            _kpiService.Repository.Delete(Arg.Any<DeleteKPICriteria>()).Returns(result ?? new CommandResult());
+            _kpiService.Repository.ExecuteNonQuery(Arg.Any<DeleteKPICriteria>()).Returns(result ?? new CommandResult());
         }
 
         #endregion Helpers

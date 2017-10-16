@@ -146,7 +146,7 @@
             _targetTemplateService.CreateTargetTemplate(criteria);
 
             // Assert
-            _targetTemplateService.Repository.Received().Insert(Arg.Is<CreateTargetTemplateCriteria>(x => x.IsValid()));
+            _targetTemplateService.Repository.Received().ExecuteNonQuery(Arg.Is<CreateTargetTemplateCriteria>(x => x.IsValid()));
         }
 
         #endregion CreateTargetTemplate
@@ -181,7 +181,7 @@
             _targetTemplateService.UpdateStatusTargetTemplate(criteria);
 
             // Assert
-            _targetTemplateService.Repository.Received().Update(Arg.Is<UpdateStatusTargetTemplateCriteria>(x => x.IsValid()));
+            _targetTemplateService.Repository.Received().ExecuteNonQuery(Arg.Is<UpdateStatusTargetTemplateCriteria>(x => x.IsValid()));
         }
 
         #endregion UpdateStatusTargetTemplate
@@ -216,7 +216,7 @@
             _targetTemplateService.UpdateTargetTemplate(criteria);
 
             // Assert
-            _targetTemplateService.Repository.Received().Update(Arg.Is<UpdateTargetTemplateCriteria>(x => x.IsValid()));
+            _targetTemplateService.Repository.Received().ExecuteNonQuery(Arg.Is<UpdateTargetTemplateCriteria>(x => x.IsValid()));
         }
 
         #endregion UpdateTargetTemplate
@@ -255,7 +255,7 @@
             _targetTemplateService.UpdateTargetTemplateBasicInfo(criteria);
 
             // Assert
-            _targetTemplateService.Repository.Received().Update(Arg.Is<UpdateTargetTemplateBasicInfoCriteria>(x => x.IsValid()));
+            _targetTemplateService.Repository.Received().ExecuteNonQuery(Arg.Is<UpdateTargetTemplateBasicInfoCriteria>(x => x.IsValid()));
         }
 
         #endregion UpdateTargetTemplateBasicInfo
@@ -290,7 +290,7 @@
             _targetTemplateService.DeleteTargetTemplate(criteria);
 
             // Assert
-            _targetTemplateService.Repository.Received().Delete(Arg.Is<DeleteTargetTemplateCriteria>(x => x.IsValid()));
+            _targetTemplateService.Repository.Received().ExecuteNonQuery(Arg.Is<DeleteTargetTemplateCriteria>(x => x.IsValid()));
         }
 
         #endregion DeleteTargetTemplate
@@ -326,7 +326,7 @@
             _targetTemplateService.DeleteKPIGroup(criteria);
 
             // Assert
-            _targetTemplateService.Repository.Received().Delete(Arg.Is<DeleteKPIGroupOfTargetTemplateCriteria>(x => x.IsValid()));
+            _targetTemplateService.Repository.Received().ExecuteNonQuery(Arg.Is<DeleteKPIGroupOfTargetTemplateCriteria>(x => x.IsValid()));
         }
 
         #endregion DeleteKPIGroup
@@ -361,7 +361,7 @@
             _targetTemplateService.AddKPIGroupWeight(criteria);
 
             // Assert
-            _targetTemplateService.Repository.Received().Insert(Arg.Is<SetKPIGroupOfTargetTemplateCriteria>(x => x.IsValid()));
+            _targetTemplateService.Repository.Received().ExecuteNonQuery(Arg.Is<SetKPIGroupOfTargetTemplateCriteria>(x => x.IsValid()));
         }
 
         #endregion AddKPIGroupWeight
@@ -460,49 +460,49 @@
         {
             _baseRepository = FakeBaseRepository();
             _targetTemplateService = GetTargetTemplateService(_baseRepository);
-            _targetTemplateService.Repository.Insert(Arg.Any<CreateTargetTemplateCriteria>()).Returns(result ?? new CommandResult());
+            _targetTemplateService.Repository.ExecuteNonQuery(Arg.Any<CreateTargetTemplateCriteria>()).Returns(result ?? new CommandResult());
         }
 
         private void ArrangeUpdateStatusTargetTemplate(CommandResult result = null)
         {
             _baseRepository = FakeBaseRepository();
             _targetTemplateService = GetTargetTemplateService(_baseRepository);
-            _targetTemplateService.Repository.Update(Arg.Any<UpdateStatusTargetTemplateCriteria>()).Returns(result ?? new CommandResult());
+            _targetTemplateService.Repository.ExecuteNonQuery(Arg.Any<UpdateStatusTargetTemplateCriteria>()).Returns(result ?? new CommandResult());
         }
 
         private void ArrangeUpdateTargetTemplate(CommandResult result = null)
         {
             _baseRepository = FakeBaseRepository();
             _targetTemplateService = GetTargetTemplateService(_baseRepository);
-            _targetTemplateService.Repository.Update(Arg.Any<UpdateTargetTemplateCriteria>()).Returns(result ?? new CommandResult());
+            _targetTemplateService.Repository.ExecuteNonQuery(Arg.Any<UpdateTargetTemplateCriteria>()).Returns(result ?? new CommandResult());
         }
 
         private void ArrangeUpdateTargetTemplateBasicInfo(CommandResult result = null)
         {
             _baseRepository = FakeBaseRepository();
             _targetTemplateService = GetTargetTemplateService(_baseRepository);
-            _targetTemplateService.Repository.Update(Arg.Any<UpdateTargetTemplateBasicInfoCriteria>()).Returns(result ?? new CommandResult());
+            _targetTemplateService.Repository.ExecuteNonQuery(Arg.Any<UpdateTargetTemplateBasicInfoCriteria>()).Returns(result ?? new CommandResult());
         }
 
         private void ArrangeDeleteTargetTemplate(CommandResult result = null)
         {
             _baseRepository = FakeBaseRepository();
             _targetTemplateService = GetTargetTemplateService(_baseRepository);
-            _targetTemplateService.Repository.Delete(Arg.Any<DeleteTargetTemplateCriteria>()).Returns(result ?? new CommandResult());
+            _targetTemplateService.Repository.ExecuteNonQuery(Arg.Any<DeleteTargetTemplateCriteria>()).Returns(result ?? new CommandResult());
         }
 
         private void ArrangeDeleteKPIGroup(CommandResult result = null)
         {
             _baseRepository = FakeBaseRepository();
             _targetTemplateService = GetTargetTemplateService(_baseRepository);
-            _targetTemplateService.Repository.Delete(Arg.Any<DeleteKPIGroupOfTargetTemplateCriteria>()).Returns(result ?? new CommandResult());
+            _targetTemplateService.Repository.ExecuteNonQuery(Arg.Any<DeleteKPIGroupOfTargetTemplateCriteria>()).Returns(result ?? new CommandResult());
         }
 
         private void ArrangeAddKPIGroupWeight(CommandResult result = null)
         {
             _baseRepository = FakeBaseRepository();
             _targetTemplateService = GetTargetTemplateService(_baseRepository);
-            _targetTemplateService.Repository.Insert(Arg.Any<SetKPIGroupOfTargetTemplateCriteria>()).Returns(result ?? new CommandResult());
+            _targetTemplateService.Repository.ExecuteNonQuery(Arg.Any<SetKPIGroupOfTargetTemplateCriteria>()).Returns(result ?? new CommandResult());
         }
 
         private void ArrangeGetKPIGroupOfTargetTemplate(IEnumerable<KPIGroupModel> result = null)

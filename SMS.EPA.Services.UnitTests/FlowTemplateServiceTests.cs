@@ -147,7 +147,7 @@
             _flowTemplateService.CreateFlowTemplate(criteria);
 
             // Assert
-            _flowTemplateService.Repository.Received().Insert(Arg.Is<CreateFlowTemplateCriteria>(x => x.IsValid()));
+            _flowTemplateService.Repository.Received().ExecuteNonQuery(Arg.Is<CreateFlowTemplateCriteria>(x => x.IsValid()));
         }
 
         #endregion CreateFlowTemplate
@@ -184,7 +184,7 @@
             _flowTemplateService.UpdateFlowTemplate(criteria);
 
             // Assert
-            _flowTemplateService.Repository.Received().Update(Arg.Is<UpdateFlowTemplateCriteria>(x => x.IsValid()));
+            _flowTemplateService.Repository.Received().ExecuteNonQuery(Arg.Is<UpdateFlowTemplateCriteria>(x => x.IsValid()));
         }
 
         #endregion UpdateFlowTemplate
@@ -219,7 +219,7 @@
             _flowTemplateService.UpdateStatusFlowTemplate(criteria);
 
             // Assert
-            _flowTemplateService.Repository.Received().Update(Arg.Is<UpdateStatusFlowTemplateCriteria>(x => x.IsValid()));
+            _flowTemplateService.Repository.Received().ExecuteNonQuery(Arg.Is<UpdateStatusFlowTemplateCriteria>(x => x.IsValid()));
         }
 
         #endregion UpdateStatusFlowTemplate
@@ -254,7 +254,7 @@
             _flowTemplateService.DeleteFlowTemplate(criteria);
 
             // Assert
-            _flowTemplateService.Repository.Received().Delete(Arg.Is<DeleteFlowTemplateCriteria>(x => x.IsValid()));
+            _flowTemplateService.Repository.Received().ExecuteNonQuery(Arg.Is<DeleteFlowTemplateCriteria>(x => x.IsValid()));
         }
 
         #endregion DeleteFlowTemplate
@@ -332,28 +332,28 @@
         {
             _baseRepository = FakeBaseRepository();
             _flowTemplateService = GetFlowTemplateService(null, _baseRepository);
-            _flowTemplateService.Repository.Insert(Arg.Any<CreateFlowTemplateCriteria>()).Returns(result ?? new CommandResult());
+            _flowTemplateService.Repository.ExecuteNonQuery(Arg.Any<CreateFlowTemplateCriteria>()).Returns(result ?? new CommandResult());
         }
 
         private void ArrangeUpdateFlowTemplate(CommandResult result = null)
         {
             _baseRepository = FakeBaseRepository();
             _flowTemplateService = GetFlowTemplateService(null, _baseRepository);
-            _flowTemplateService.Repository.Update(Arg.Any<UpdateFlowTemplateCriteria>()).Returns(result ?? new CommandResult());
+            _flowTemplateService.Repository.ExecuteNonQuery(Arg.Any<UpdateFlowTemplateCriteria>()).Returns(result ?? new CommandResult());
         }
 
         private void ArrangeUpdateStatusFlowTemplate(CommandResult result = null)
         {
             _baseRepository = FakeBaseRepository();
             _flowTemplateService = GetFlowTemplateService(null, _baseRepository);
-            _flowTemplateService.Repository.Update(Arg.Any<UpdateStatusFlowTemplateCriteria>()).Returns(result ?? new CommandResult());
+            _flowTemplateService.Repository.ExecuteNonQuery(Arg.Any<UpdateStatusFlowTemplateCriteria>()).Returns(result ?? new CommandResult());
         }
 
         private void ArrangeDeleteFlowTemplate(CommandResult result = null)
         {
             _baseRepository = FakeBaseRepository();
             _flowTemplateService = GetFlowTemplateService(null, _baseRepository);
-            _flowTemplateService.Repository.Delete(Arg.Any<DeleteFlowTemplateCriteria>()).Returns(result ?? new CommandResult());
+            _flowTemplateService.Repository.ExecuteNonQuery(Arg.Any<DeleteFlowTemplateCriteria>()).Returns(result ?? new CommandResult());
         }
 
         #endregion Helpers
