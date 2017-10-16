@@ -1,10 +1,10 @@
 ﻿namespace SMS.EPA.Model.Email
 {
+    using System;
     using Core.Constants;
     using Core.Enumerations;
     using Core.Services;
     using Resources;
-    using System;
 
     public class MailReminder
     {
@@ -16,10 +16,6 @@
         public static string SenderName => ConfigurationManagerService.GetAppSetting("Email.SenderName");
 
         public static string SiteLink => ConfigurationManagerService.GetAppSetting("url");
-
-        public string PeriodName { get; private set; }
-
-        public MailModel Email { get; }
 
         public MailReminder(PeriodFlowModel employeeSetting, string bodyTemplate, string periodName, int mailMode)
         {
@@ -48,6 +44,10 @@
                 ReceiverEmail = employeeSetting.EvaluatorInfo.Email
             };
         }
+
+        public string PeriodName { get; private set; }
+
+        public MailModel Email { get; }
 
         private static string ChangeStartDate(DateTime startDate)
         {

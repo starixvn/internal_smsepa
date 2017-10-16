@@ -3,9 +3,9 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Text;
-    using Model.API;
     using Fanex.Data;
     using Fanex.Data.Repository;
+    using Model.API;
 
     public class UpdateDisciplineSummaryCriteria : CriteriaBase
     {
