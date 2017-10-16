@@ -1,18 +1,18 @@
 ﻿namespace SMS.EPA.ServicesAPI.Criteria.EmployeeDiscipline
 {
-    using EPA.Model.API;
-    using Fanex.Data;
-    using Fanex.Data.Repository;
     using System.Collections.Generic;
     using System.Linq;
     using System.Text;
+    using Model.API;
+    using Fanex.Data;
+    using Fanex.Data.Repository;
 
     public class UpdateDisciplineSummaryCriteria : CriteriaBase
     {
         private const string DisciplineTpl =
-            "<Discipline EmpId='{0}' Period='{1}' ChangeShift='{2}' MissingCheckInOut='{3}' LateIn='{4}' EarlyOut='{5}'"
+            "<Discipline EmpId='{0}' WorkDate='{1}' ChangeShift='{2}' MissingCheckInOut='{3}' LateIn='{4}' EarlyOut='{5}'"
             + " Absent='{6}' UnpaidLeave='{7}' UnplannedLeave='{8}' WeekendLeave='{9}' WorkingUndertime='{10}' UnpaidLeaveAbsent='{11}'"
-            + " OtherDisciplines='{12}' SystemSubtractScore='{13}' ModifiedDate='{14}'></Discipline>";
+            + " OtherDisciplines='{12}' SystemSubtractScore='{13}' ModifiedDate='{14}' IsDeleted='{15}'></Discipline>";
 
         [SpParam(Ignored = true)]
         public IList<DisciplineSummary> Disciplines { get; set; }
@@ -30,7 +30,7 @@
                         value.AppendFormat(
                             DisciplineTpl,
                             discipline.EmployeeId,
-                            discipline.Period,
+                            discipline.WorkDate,
                             discipline.ChangeShift,
                             discipline.MissingCheckInOut,
                             discipline.LateIn,
@@ -43,7 +43,8 @@
                             discipline.UnpaidLeaveAbsent,
                             discipline.OtherDisciplines,
                             discipline.SystemSubtractScore,
-                            discipline.ModifiedDate);
+                            discipline.ModifiedDate,
+                            discipline.IsDeleted);
                     }
                 }
 
@@ -51,14 +52,8 @@
             }
         }
 
-        public override string GetSettingKey()
-        {
-            return "Sync_DisciplineSummary";
-        }
+        public override string GetSettingKey() => "Sync_DisciplineSummary";
 
-        public override bool IsValid()
-        {
-            return Disciplines != null && Disciplines.Any();
-        }
+        public override bool IsValid() => Disciplines != null && Disciplines.Any();
     }
 }

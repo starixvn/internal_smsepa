@@ -1,12 +1,39 @@
 ﻿namespace SMS.EPA.Model.API
 {
-    using Model.Discipline;
     using System;
 
-    public class DisciplineSummary : DisciplineSummaryBase
+    public class DisciplineSummary
     {
         public int EmployeeId { get; set; }
 
-        public DateTime Period { get; set; }
+        public DateTime WorkDate { get; set; }
+
+        public decimal MissingCheckInOut { get; set; }
+
+        public decimal LateIn { get; set; }
+
+        public decimal EarlyOut { get; set; }
+
+        public decimal ChangeShift { get; set; }
+
+        public decimal Absent { get; set; }
+
+        public decimal UnpaidLeave { get; set; }
+
+        public decimal UnplannedLeave { get; set; }
+
+        public decimal WeekendLeave { get; set; }
+
+        public decimal WorkingUndertime { get; set; }
+
+        public decimal UnpaidLeaveAbsent { get; set; }
+
+        public decimal OtherDisciplines { get; set; }
+
+        public decimal SystemSubtractScore { get; set; }
+
+        public bool IsDeleted { get; set; }
+
+        public DateTime ModifiedDate { get; set; }
     }
 }

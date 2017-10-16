@@ -14,7 +14,6 @@
         private readonly ITeamService _teamService;
         private readonly IJobTitleService _jobTitleService;
         private readonly ISupervisorService _supervisorService;
-        private readonly IDisciplineService _disciplineService;
         private readonly IDisciplineSummaryService _disciplineSummaryService;
         private readonly IPhotoService _photoService;
 
@@ -27,7 +26,6 @@
             ITeamService teamService,
             IJobTitleService jobtitleService,
             ISupervisorService supervisorService,
-            IDisciplineService disciplineService,
             IDisciplineSummaryService disciplineSummaryService,
             IPhotoService photoService)
         {
@@ -37,7 +35,6 @@
             _teamService = teamService;
             _jobTitleService = jobtitleService;
             _supervisorService = supervisorService;
-            _disciplineService = disciplineService;
             _disciplineSummaryService = disciplineSummaryService;
             _photoService = photoService;
         }
@@ -50,7 +47,6 @@
             SynchronizeJobTitle();
             SynchronizeEmployeeDisciplinePermission();
             SynchronizeGroupDisciplinePermission();
-            SynchronizeDiscipline();
             SynchronizeDisciplineSummary();
             SynchronizePhoto();
         }
@@ -140,22 +136,6 @@
                 if (groups.Any())
                 {
                     _supervisorService.UpdateGroups(groups, _token);
-                }
-            }
-        }
-
-        private void SynchronizeDiscipline()
-        {
-            InitToken();
-
-            if (_token.IsValid())
-            {
-                DateTime fromDate = _disciplineService.GetFromDateDiscipline(_token);
-                DateTime lastModifiedDate = _disciplineService.GetLastModifiedDate(_token);
-                IEnumerable<Discipline> disciplines = _disciplineService.GetDiscipline(fromDate, lastModifiedDate);
-                if (disciplines.Any())
-                {
-                    _disciplineService.Update(disciplines, _token);
                 }
             }
         }

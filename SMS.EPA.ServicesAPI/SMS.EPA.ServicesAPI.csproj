@@ -237,13 +237,9 @@
     <Compile Include="Criteria\DisciplineSummary\UpdateDisciplineSummaryCriteria.cs" />
     <Compile Include="Criteria\TeamDisciplinePermission\GetLastModifiedDateForTeamDisciplinePermissionCriteria.cs" />
     <Compile Include="Criteria\TeamDisciplinePermission\UpdateTeamSupervisorCriteria.cs" />
-    <Compile Include="Controllers\DisciplineController.cs" />
     <Compile Include="Controllers\EmployeeDisciplinePermissionController.cs" />
     <Compile Include="Controllers\JobTitleController.cs" />
     <Compile Include="Controllers\TeamController.cs" />
-    <Compile Include="Criteria\EmployeeDiscipline\GetFromDateForDisciplineCriteria.cs" />
-    <Compile Include="Criteria\EmployeeDiscipline\GetLastModifiedDateForDisciplineCriteria.cs" />
-    <Compile Include="Criteria\EmployeeDiscipline\UpdateDisciplineCriteria.cs" />
     <Compile Include="Criteria\JobTitle\UpdateJobTitleCriteria.cs" />
     <Compile Include="Criteria\EmployeeDisciplinePermission\GetLastModifiedDateForEmployeeDisciplinePermissionCriteria.cs" />
     <Compile Include="Criteria\EmployeeDisciplinePermission\UpdateEmployeeSupervisorCriteria.cs" />

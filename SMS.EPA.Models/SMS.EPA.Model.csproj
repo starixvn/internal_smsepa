@@ -59,7 +59,6 @@
       <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
     </Compile>
     <Compile Include="API\Department.cs" />
-    <Compile Include="API\Discipline.cs" />
     <Compile Include="API\DisciplineSummary.cs" />
     <Compile Include="API\Employee.cs" />
     <Compile Include="API\EmployeeDisciplinePermission.cs" />

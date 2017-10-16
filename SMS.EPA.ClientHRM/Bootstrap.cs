@@ -15,7 +15,6 @@
             Container = new Container();
 
             Container.Register<IDepartmentService, DepartmentService>(Lifestyle.Singleton);
-            Container.Register<IDisciplineService, DisciplineService>(Lifestyle.Singleton);
             Container.Register<IDisciplineSummaryService, DisciplineSummaryService>(Lifestyle.Singleton);
             Container.Register<IEmployeeService, EmployeeService>(Lifestyle.Singleton);
             Container.Register<IJobTitleService, JobTitleService>(Lifestyle.Singleton);
@@ -26,7 +25,6 @@
             Container.Register<IPhotoService, PhotoService>(Lifestyle.Singleton);
             Container.Register<IDynamicRepository, DynamicRepository>(Lifestyle.Singleton);
             Container.Register<IDepartmentAPI, DepartmentAPI>(Lifestyle.Singleton);
-            Container.Register<IDisciplineAPI, DisciplineAPI>(Lifestyle.Singleton);
             Container.Register<IDisciplineSummaryAPI, DisciplineSummaryAPI>(Lifestyle.Singleton);
             Container.Register<IEmployeeAPI, EmployeeAPI>(Lifestyle.Singleton);
             Container.Register<IJobTitleAPI, JobTitleAPI>(Lifestyle.Singleton);

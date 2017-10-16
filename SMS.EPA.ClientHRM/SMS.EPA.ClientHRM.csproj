@@ -166,13 +166,9 @@
     <Compile Include="Services\PhotoService.cs" />
     <Compile Include="Services\Interfaces\IPhotoService.cs" />
     <Compile Include="ThirdPartyAPI\DisciplineSummaryAPI.cs" />
-    <Compile Include="ThirdPartyAPI\DisciplineAPI.cs" />
-    <Compile Include="Services\DisciplineService.cs" />
     <Compile Include="ThirdPartyAPI\Interfaces\IDisciplineSummaryAPI.cs" />
     <Compile Include="ThirdPartyAPI\Interfaces\IPhotoAPI.cs" />
     <Compile Include="ThirdPartyAPI\PhotoAPI.cs" />
-    <Compile Include="ThirdPartyAPI\Interfaces\IDisciplineAPI.cs" />
-    <Compile Include="Services\Interfaces\IDisciplineService.cs" />
     <Compile Include="Services\Interfaces\IDisciplinePermissionService.cs" />
     <Compile Include="ThirdPartyAPI\Interfaces\ITeamDisciplinePermissionAPI.cs" />
     <Compile Include="ThirdPartyAPI\Interfaces\IEmployeeDisciplinePermissionAPI.cs" />
