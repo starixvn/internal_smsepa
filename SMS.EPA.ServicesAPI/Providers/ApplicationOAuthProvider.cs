@@ -1,12 +1,12 @@
 ﻿namespace SMS.EPA.ServicesAPI.Providers
 {
-    using Microsoft.Owin.Security.OAuth;
     using System;
     using System.Collections.Generic;
     using System.Diagnostics.CodeAnalysis;
     using System.Linq;
     using System.Security.Claims;
     using System.Threading.Tasks;
+    using Microsoft.Owin.Security.OAuth;
     using Utilities;
 
     public class ApplicationOAuthProvider : OAuthAuthorizationServerProvider

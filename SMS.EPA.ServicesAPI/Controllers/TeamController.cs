@@ -1,19 +1,20 @@
 ﻿namespace SMS.EPA.ServicesAPI.Controllers
 {
+    using System;
+    using System.Net;
+    using System.Threading.Tasks;
+    using System.Web.Http;
     using Core.Model;
     using Criteria.Team;
     using Model.API;
     using Services;
-    using System;
-    using System.Net;
-    using System.Web.Http;
 
     [Authorize]
     public class TeamController : ApiController
     {
         private readonly IServiceAPI _service;
 
-        public TeamController() : this(null) 
+        public TeamController() : this(null)
         {
         }
 
@@ -22,23 +23,21 @@
             _service = service ?? new ServiceAPI();
         }
 
-        public IHttpActionResult GetLastModifiedDate()
+        public async Task<IHttpActionResult> GetLastModifiedDate()
         {
             var criteria = new GetLastModifiedDateForTeamCriteria();
-
-            DateTime fromDate = _service.GetLastModifiedDate(criteria);
+            DateTime fromDate = await _service.GetLastModifiedDate(criteria);
 
             return Ok(fromDate);
         }
 
-        public IHttpActionResult Update(Team[] teams)
+        public async Task<IHttpActionResult> Update(Team[] teams)
         {
             var criteria = new UpdateTeamCriteria
             {
                 Teams = teams
             };
-
-            CommandResult result = _service.Update(criteria);
+            CommandResult result = await _service.Update(criteria);
 
             return result.IsSuccessful ? StatusCode(HttpStatusCode.OK) : StatusCode(HttpStatusCode.NotModified);
         }

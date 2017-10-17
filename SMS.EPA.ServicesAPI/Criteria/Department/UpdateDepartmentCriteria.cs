@@ -1,13 +1,14 @@
 ﻿namespace SMS.EPA.ServicesAPI.Criteria.Department
 {
-    using Fanex.Data;
-    using Fanex.Data.Repository;
-    using Model.API;
     using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Text;
     using System.Web;
+    using Core.Constants;
+    using Fanex.Data;
+    using Fanex.Data.Repository;
+    using Model.API;
 
     public class UpdateDepartmentCriteria : CriteriaBase
     {
@@ -21,7 +22,7 @@
         {
             get
             {
-                var value = new StringBuilder("<ROOT>");
+                var value = new StringBuilder(Constants.BeginRootTag);
 
                 foreach (Department department in Departments)
                 {
@@ -37,18 +38,12 @@
                         DateTime.Now);
                 }
 
-                return value.Append("</ROOT>").ToString();
+                return value.Append(Constants.EndRootTag).ToString();
             }
         }
 
-        public override string GetSettingKey()
-        {
-            return "Sync_Department";
-        }
+        public override string GetSettingKey() => "Sync_Department";
 
-        public override bool IsValid()
-        {
-            return Departments != null && Departments.Any();
-        }
+        public override bool IsValid() => Departments != null && Departments.Any();
     }
 }

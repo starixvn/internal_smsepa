@@ -1,12 +1,13 @@
 ﻿namespace SMS.EPA.ServicesAPI.Criteria.Team
 {
-    using Fanex.Data;
-    using Fanex.Data.Repository;
-    using Model.API;
     using System.Collections.Generic;
     using System.Linq;
     using System.Text;
     using System.Web;
+    using Core.Constants;
+    using Fanex.Data;
+    using Fanex.Data.Repository;
+    using Model.API;
 
     public class UpdateTeamCriteria : CriteriaBase
     {
@@ -20,7 +21,7 @@
         {
             get
             {
-                var value = new StringBuilder("<ROOT>");
+                var value = new StringBuilder(Constants.BeginRootTag);
 
                 if (Teams != null)
                 {
@@ -40,18 +41,12 @@
                     }
                 }
 
-                return value.Append("</ROOT>").ToString();
+                return value.Append(Constants.EndRootTag).ToString();
             }
         }
 
-        public override string GetSettingKey()
-        {
-            return "Sync_Group";
-        }
+        public override string GetSettingKey() => "Sync_Group";
 
-        public override bool IsValid()
-        {
-            return Teams != null && Teams.Any();
-        }
+        public override bool IsValid() => Teams != null && Teams.Any();
     }
 }

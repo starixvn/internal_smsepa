@@ -1,16 +1,17 @@
 ﻿namespace SMS.EPA.Core.Services
 {
     using System.Collections.Generic;
+    using System.Threading.Tasks;
     using Fanex.Data.Repository;
     using Repositories;
 
     public class BaseService
     {
-        private readonly IDynamicRepository _dynamicRepository;
+        private readonly IDynamicRepository dynamicRepository;
 
         public BaseService(IDynamicRepository dynamicRepository = null, IBaseRepository repository = null)
         {
-            _dynamicRepository = dynamicRepository ?? new DynamicRepository();
+            this.dynamicRepository = dynamicRepository ?? new DynamicRepository();
             Repository = repository ?? new BaseRepository();
         }
 
@@ -20,7 +21,17 @@
         {
             if (criteria != null && criteria.IsValid())
             {
-                return _dynamicRepository.Fetch<T>(criteria);
+                return dynamicRepository.Fetch<T>(criteria);
+            }
+
+            return new List<T>();
+        }
+
+        public virtual async Task<IEnumerable<T>> GetDataAsync<T>(ICriteria criteria)
+        {
+            if (criteria != null && criteria.IsValid())
+            {
+                return await dynamicRepository.FetchAsync<T>(criteria);
             }
 
             return new List<T>();
@@ -30,7 +41,17 @@
         {
             if (criteria != null && criteria.IsValid())
             {
-                return _dynamicRepository.Get<T>(criteria);
+                return dynamicRepository.Get<T>(criteria);
+            }
+
+            return default(T);
+        }
+
+        public virtual async Task<T> GetDataEntityAsync<T>(ICriteria criteria)
+        {
+            if (criteria != null && criteria.IsValid())
+            {
+                return await dynamicRepository.GetAsync<T>(criteria);
             }
 
             return default(T);

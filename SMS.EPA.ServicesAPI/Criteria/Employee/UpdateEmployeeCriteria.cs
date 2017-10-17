@@ -1,16 +1,16 @@
 ﻿namespace SMS.EPA.ServicesAPI.Criteria.Employee
 {
-    using Core.Enumerations;
-    using Core.Security;
-    using Core.Services;
-    using Fanex.Data;
-    using Fanex.Data.Repository;
-    using Model;
     using System.Collections.Generic;
     using System.Linq;
     using System.Text;
     using System.Web;
+    using Core.Constants;
+    using Core.Enumerations;
+    using Core.Security;
+    using Core.Services;
     using EPA.Model.API;
+    using Fanex.Data;
+    using Fanex.Data.Repository;
 
     public class UpdateEmployeeCriteria : CriteriaBase
     {
@@ -27,7 +27,7 @@
         {
             get
             {
-                var value = new StringBuilder("<ROOT>");
+                var value = new StringBuilder(Constants.BeginRootTag);
                 bool encryptedPassword = bool.Parse(ConfigurationManagerService.GetAppSetting("EncryptedPassword"));
 
                 if (Employees != null && Employees.Any())
@@ -63,18 +63,12 @@
                     }
                 }
 
-                return value.Append("</ROOT>").ToString();
+                return value.Append(Constants.EndRootTag).ToString();
             }
         }
 
-        public override string GetSettingKey()
-        {
-            return "Sync_Employee";
-        }
+        public override string GetSettingKey() => "Sync_Employee";
 
-        public override bool IsValid()
-        {
-            return Employees != null && Employees.Any();
-        }
+        public override bool IsValid() => Employees != null && Employees.Any();
     }
 }

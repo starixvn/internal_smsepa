@@ -1,20 +1,21 @@
 ﻿namespace SMS.EPA.ServicesAPI.Controllers
 {
+    using System;
+    using System.Net;
+    using System.Threading.Tasks;
+    using System.Web.Http;
     using Core.Model;
     using Criteria.EmployeeDisciplinePermission;
     using Model.API;
     using Services;
-    using System;
-    using System.Net;
-    using System.Web.Http;
 
     [Authorize]
     public class EmployeeDisciplinePermissionController : ApiController
     {
         private readonly IServiceAPI _service;
 
-        public EmployeeDisciplinePermissionController() : this(null) 
-        { 
+        public EmployeeDisciplinePermissionController() : this(null)
+        {
         }
 
         public EmployeeDisciplinePermissionController(IServiceAPI service)
@@ -22,23 +23,21 @@
             _service = service ?? new ServiceAPI();
         }
 
-        public IHttpActionResult GetLastModifiedDate()
+        public async Task<IHttpActionResult> GetLastModifiedDate()
         {
             var criteria = new GetLastModifiedDateForEmployeeDisciplinePermissionCriteria();
-
-            DateTime fromDate = _service.GetLastModifiedDate(criteria);
+            DateTime fromDate = await _service.GetLastModifiedDate(criteria);
 
             return Ok(fromDate);
         }
 
-        public IHttpActionResult Update(EmployeeDisciplinePermission[] disciplines)
+        public async Task<IHttpActionResult> Update(EmployeeDisciplinePermission[] disciplines)
         {
             var criteria = new UpdateEmployeeSupervisorCriteria
             {
                 EmployeeDisciplines = disciplines
             };
-
-            CommandResult result = _service.Update(criteria);
+            CommandResult result = await _service.Update(criteria);
 
             return result.IsSuccessful ? StatusCode(HttpStatusCode.OK) : StatusCode(HttpStatusCode.NotModified);
         }

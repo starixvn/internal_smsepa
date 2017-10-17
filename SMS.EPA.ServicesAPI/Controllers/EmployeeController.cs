@@ -7,6 +7,7 @@
     using System;
     using System.Net;
     using System.Web.Http;
+    using System.Threading.Tasks;
 
     [Authorize]
     public class EmployeeController : ApiController
@@ -22,23 +23,21 @@
             _service = service ?? new ServiceAPI();
         }
 
-        public IHttpActionResult GetLastModifiedDate()
+        public async Task<IHttpActionResult> GetLastModifiedDate()
         {
             var criteria = new GetLastModifiedDateForEmployeeCriteria();
-
-            DateTime fromDate = _service.GetLastModifiedDate(criteria);
+            DateTime fromDate = await _service.GetLastModifiedDate(criteria);
 
             return Ok(fromDate);
         }
 
-        public IHttpActionResult Update(Employee[] employees)
+        public async Task<IHttpActionResult> Update(Employee[] employees)
         {
             var criteria = new UpdateEmployeeCriteria
             {
                 Employees = employees
             };
-
-            CommandResult result = _service.Update(criteria);
+            CommandResult result = await _service.Update(criteria);
 
             return result.IsSuccessful ? StatusCode(HttpStatusCode.OK) : StatusCode(HttpStatusCode.NotModified);
         }

@@ -4,6 +4,7 @@
     using System.Linq;
     using System.Text;
     using System.Web;
+    using Core.Constants;
     using Fanex.Data;
     using Fanex.Data.Repository;
     using Model.API;
@@ -19,7 +20,7 @@
         {
             get
             {
-                var value = new StringBuilder("<ROOT>");
+                var value = new StringBuilder(Constants.BeginRootTag);
 
                 if (JobTitles != null)
                 {
@@ -33,18 +34,12 @@
                     }
                 }
 
-                return value.Append("</ROOT>").ToString();
+                return value.Append(Constants.EndRootTag).ToString();
             }
         }
 
-        public override string GetSettingKey()
-        {
-            return "Sync_JobTitle";
-        }
+        public override string GetSettingKey() => "Sync_JobTitle";
 
-        public override bool IsValid()
-        {
-            return JobTitles != null && JobTitles.Any();
-        }
+        public override bool IsValid() => JobTitles != null && JobTitles.Any();
     }
 }

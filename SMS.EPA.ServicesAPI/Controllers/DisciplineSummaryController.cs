@@ -1,13 +1,14 @@
 ﻿namespace SMS.EPA.ServicesAPI.Controllers
 {
+    using System;
+    using System.Net;
+    using System.Threading.Tasks;
+    using System.Web.Http;
     using Core.Model;
     using Criteria.DisciplineSummary;
     using Criteria.EmployeeDiscipline;
     using EPA.Model.API;
     using Services;
-    using System;
-    using System.Net;
-    using System.Web.Http;
 
     [Authorize]
     public class DisciplineSummaryController : ApiController
@@ -23,23 +24,21 @@
             _service = service ?? new ServiceAPI();
         }
 
-        public IHttpActionResult GetLastModifiedDate()
+        public async Task<IHttpActionResult> GetLastModifiedDate()
         {
             var criteria = new GetLastModifiedDateForDisciplineSummaryCriteria();
-
-            DateTime fromDate = _service.GetLastModifiedDate(criteria);
+            DateTime fromDate = await _service.GetLastModifiedDate(criteria);
 
             return Ok(fromDate);
         }
 
-        public IHttpActionResult Update(DisciplineSummary[] disciplines)
+        public async Task<IHttpActionResult> Update(DisciplineSummary[] disciplines)
         {
             var criteria = new UpdateDisciplineSummaryCriteria
             {
                 Disciplines = disciplines
             };
-
-            CommandResult result = _service.Update(criteria);
+            CommandResult result = await _service.Update(criteria);
 
             return result.IsSuccessful ? StatusCode(HttpStatusCode.OK) : StatusCode(HttpStatusCode.NotModified);
         }

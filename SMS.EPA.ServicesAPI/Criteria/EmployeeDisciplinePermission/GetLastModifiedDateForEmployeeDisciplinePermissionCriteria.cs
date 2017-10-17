@@ -1,17 +1,11 @@
-﻿using Fanex.Data.Repository;
-
-namespace SMS.EPA.ServicesAPI.Criteria.EmployeeDisciplinePermission
+﻿namespace SMS.EPA.ServicesAPI.Criteria.EmployeeDisciplinePermission
 {
+    using Fanex.Data.Repository;
+
     public class GetLastModifiedDateForEmployeeDisciplinePermissionCriteria : CriteriaBase
     {
-        public override string GetSettingKey()
-        {
-            return "Sync_EmployeeDisciplinePermission_GetMaxModifiedDate";
-        }
+        public override string GetSettingKey() => "Sync_EmployeeDisciplinePermission_GetMaxModifiedDate";
 
-        public override bool IsValid()
-        {
-            return true;
-        }
+        public override bool IsValid() => true;
     }
 }

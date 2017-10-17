@@ -4,14 +4,8 @@
 
     public class GetLastModifiedDateForDisciplineSummaryCriteria : CriteriaBase
     {
-        public override string GetSettingKey()
-        {
-            return "Sync_DisciplineSummary_GetLastModifiedDate";
-        }
+        public override string GetSettingKey() => "Sync_DisciplineSummary_GetLastModifiedDate";
 
-        public override bool IsValid()
-        {
-            return true;
-        }
+        public override bool IsValid() => true;
     }
 }

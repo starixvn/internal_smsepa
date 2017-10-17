@@ -2,6 +2,7 @@
 {
     using System;
     using System.Net;
+    using System.Threading.Tasks;
     using System.Web.Http;
     using Core.Model;
     using Criteria.Department;
@@ -23,22 +24,22 @@
             _service = employeeService ?? new ServiceAPI();
         }
 
-        public IHttpActionResult Update(Department[] departments)
+        public async Task<IHttpActionResult> Update(Department[] departments)
         {
             var criteria = new UpdateDepartmentCriteria
             {
                 Departments = departments
             };
 
-            CommandResult result = _service.Update(criteria);
+            CommandResult result = await _service.Update(criteria);
             return result.IsSuccessful ? StatusCode(HttpStatusCode.OK) : StatusCode(HttpStatusCode.NotModified);
         }
 
-        public IHttpActionResult GetLastModifiedDate()
+        public async Task<IHttpActionResult> GetLastModifiedDate()
         {
             var criteria = new GetLastModifiedDateForDepartmentCriteria();
 
-            DateTime modifiedDate = _service.GetLastModifiedDate(criteria);
+            DateTime modifiedDate = await _service.GetLastModifiedDate(criteria);
 
             return Ok(modifiedDate);
         }

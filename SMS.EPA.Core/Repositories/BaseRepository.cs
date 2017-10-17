@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections;
+    using System.Threading.Tasks;
     using Fanex.Data;
     using Fanex.Data.Repository;
     using Model;
@@ -17,6 +18,21 @@
                 hash.Add("ErrMsg", string.Empty);
 
                 db.ExecuteNonQuery(hash);
+                CommandResult commandResult = GetCommandResult(hash);
+
+                return commandResult;
+            }
+        }
+
+        public virtual async Task<CommandResult> ExecuteNonQueryAsync(ICriteria criteria)
+        {
+            using (var db = new ObjectDb(criteria.GetSettingKey()))
+            {
+                Hashtable hash = criteria.GetSpParams();
+                hash.Add("ErrCode", 0);
+                hash.Add("ErrMsg", string.Empty);
+
+                await db.ExecuteNonQueryAsync(hash);
                 CommandResult commandResult = GetCommandResult(hash);
 
                 return commandResult;

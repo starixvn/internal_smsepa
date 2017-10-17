@@ -8,11 +8,13 @@
     using System.Web.Http.Controllers;
     using System.Web.Http.Filters;
     using Utilities;
+    using System.Threading.Tasks;
+    using System.Threading;
 
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method, AllowMultiple = true)]
     public sealed class IPHostValidationAttribute : ActionFilterAttribute
     {
-        public override void OnActionExecuting(HttpActionContext actionContext)
+        public override Task OnActionExecutingAsync(HttpActionContext actionContext, CancellationToken cancellationToken)
         {
             string userIP = actionContext.Request.GetOwinContext().Request.RemoteIpAddress;
             var supportedIps = AppConfig.SupportedIPs;
@@ -25,8 +27,11 @@
                     response.Content = new StringContent(Lang.BadIPRequest);
 
                     actionContext.Response = response;
+                    return Task.FromResult(0);
                 }
             }
+
+            return base.OnActionExecutingAsync(actionContext, cancellationToken);
         }
     }
 }

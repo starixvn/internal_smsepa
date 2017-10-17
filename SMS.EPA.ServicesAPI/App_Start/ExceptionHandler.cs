@@ -1,8 +1,6 @@
 ﻿namespace SMS.EPA.ServicesAPI
 {
-    using Fanex.Logging;
-    using Resources;
-    using System;
+    using System.Globalization;
     using System.Net;
     using System.Net.Http;
     using System.Threading;
@@ -10,6 +8,8 @@
     using System.Web;
     using System.Web.Http.ExceptionHandling;
     using System.Web.Http.Results;
+    using Fanex.Logging;
+    using Resources;
 
     public class GlobalExceptionHandler : IExceptionHandler
     {
@@ -17,11 +17,15 @@
         {
             var exception = context.Exception;
 
-            string message = exception.Message +
-                         Environment.NewLine + Lang.Source + exception.Source +
-                        Environment.NewLine + Lang.Domain + HttpContext.Current.Request.Headers["Host"] +
-                        Environment.NewLine + Lang.TargetSite + exception.TargetSite +
-                        Environment.NewLine + Lang.StackTrace + exception.StackTrace;
+            string message = string.Format(
+                CultureInfo.InvariantCulture,
+                "{0}\r\nSource: {1}\r\nDomain: {2}\r\nTargetSite: {3}\r\nStackTrace: {4}",
+                exception.Message,
+                exception.Source,
+                HttpContext.Current.Request.Headers["Host"],
+                exception.TargetSite,
+                exception.StackTrace);
+
             LogService.Error(message);
 
             using (var response = new HttpResponseMessage())

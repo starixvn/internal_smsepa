@@ -1,13 +1,14 @@
 ﻿namespace SMS.EPA.ServicesAPI.Services
 {
     using System;
+    using System.Threading.Tasks;
     using Core.Model;
     using Fanex.Data.Repository;
 
     public interface IServiceAPI
     {
-        DateTime GetLastModifiedDate(ICriteria criteria);
+        Task<DateTime> GetLastModifiedDate(ICriteria criteria);
 
-        CommandResult Update(ICriteria criteria);
+        Task<CommandResult> Update(ICriteria criteria);
     }
 }

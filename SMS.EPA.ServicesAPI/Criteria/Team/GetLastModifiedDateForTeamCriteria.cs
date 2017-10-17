@@ -1,17 +1,11 @@
-﻿using Fanex.Data.Repository;
-
-namespace SMS.EPA.ServicesAPI.Criteria.Team
+﻿namespace SMS.EPA.ServicesAPI.Criteria.Team
 {
+    using Fanex.Data.Repository;
+
     public class GetLastModifiedDateForTeamCriteria : CriteriaBase
     {
-        public override string GetSettingKey()
-        {
-            return "Sync_Group_GetMaxModifiedDate";
-        }
+        public override string GetSettingKey() => "Sync_Group_GetMaxModifiedDate";
 
-        public override bool IsValid()
-        {
-            return true;
-        }
+        public override bool IsValid() => true;
     }
 }

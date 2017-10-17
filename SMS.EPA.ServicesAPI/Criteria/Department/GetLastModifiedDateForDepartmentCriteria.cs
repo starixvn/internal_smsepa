@@ -4,14 +4,8 @@
 
     public class GetLastModifiedDateForDepartmentCriteria : CriteriaBase
     {
-        public override bool IsValid()
-        {
-            return true;
-        }
+        public override bool IsValid() => true;
 
-        public override string GetSettingKey()
-        {
-            return "Sync_Department_GetMaxModifiedDate";
-        }
+        public override string GetSettingKey() => "Sync_Department_GetMaxModifiedDate";
     }
 }

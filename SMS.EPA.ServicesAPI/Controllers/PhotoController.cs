@@ -1,12 +1,12 @@
 ﻿namespace SMS.EPA.ServicesAPI.Controllers
 {
-    using Fanex.Logging;
-    using Model.API;
     using System;
     using System.IO;
     using System.Linq;
     using System.Net;
     using System.Web.Http;
+    using Fanex.Logging;
+    using Model.API;
     using Utilities;
 
     [Authorize]

@@ -5,25 +5,26 @@
     using Fanex.Data.Repository;
     using Fanex.Logging;
     using System;
+    using System.Threading.Tasks;
 
     public class ServiceAPI : BaseService, IServiceAPI
     {
-        public CommandResult Update(ICriteria criteria)
+        public async Task<CommandResult> Update(ICriteria criteria)
         {
             LogService.Info(criteria.GetSettingKey());
             var commandResult = new CommandResult();
 
             if (criteria.IsValid())
             {
-                commandResult = Repository.ExecuteNonQuery(criteria);
+                commandResult = await Repository.ExecuteNonQueryAsync(criteria);
             }
 
             return commandResult;
         }
 
-        public DateTime GetLastModifiedDate(ICriteria criteria)
+        public async Task<DateTime> GetLastModifiedDate(ICriteria criteria)
         {
-            var modifiedDate = GetDataEntity<DateTime>(criteria);
+            var modifiedDate = await GetDataEntityAsync<DateTime>(criteria);
 
             return modifiedDate;
         }

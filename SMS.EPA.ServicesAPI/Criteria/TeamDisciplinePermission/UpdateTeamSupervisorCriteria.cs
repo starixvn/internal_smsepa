@@ -1,11 +1,12 @@
 ﻿namespace SMS.EPA.ServicesAPI.Criteria.TeamDisciplinePermission
 {
-    using Fanex.Data;
-    using Fanex.Data.Repository;
-    using Model.API;
     using System.Collections.Generic;
     using System.Linq;
     using System.Text;
+    using Core.Constants;
+    using Fanex.Data;
+    using Fanex.Data.Repository;
+    using Model.API;
 
     public class UpdateTeamDisciplinePermissionCriteria : CriteriaBase
     {
@@ -19,7 +20,7 @@
         {
             get
             {
-                var value = new StringBuilder("<ROOT>");
+                var value = new StringBuilder(Constants.BeginRootTag);
 
                 if (EmployeeDisciplines != null)
                 {
@@ -34,18 +35,12 @@
                     }
                 }
 
-                return value.Append("</ROOT>").ToString();
+                return value.Append(Constants.EndRootTag).ToString();
             }
         }
 
-        public override string GetSettingKey()
-        {
-            return "Sync_TeamDisciplinePermission";
-        }
+        public override string GetSettingKey() => "Sync_TeamDisciplinePermission";
 
-        public override bool IsValid()
-        {
-            return EmployeeDisciplines != null && EmployeeDisciplines.Any();
-        }
+        public override bool IsValid() => EmployeeDisciplines != null && EmployeeDisciplines.Any();
     }
 }
