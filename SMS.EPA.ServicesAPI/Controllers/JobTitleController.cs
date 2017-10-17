@@ -28,7 +28,7 @@
             {
                 JobTitles = titles
             };
-            CommandResult result = await _service.Update(criteria);
+            CommandResult result = await _service.Update(criteria).ConfigureAwait(false);
 
             return result.IsSuccessful ? StatusCode(HttpStatusCode.OK) : StatusCode(HttpStatusCode.NotModified);
         }

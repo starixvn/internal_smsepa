@@ -16,7 +16,7 @@
 
             if (criteria.IsValid())
             {
-                commandResult = await Repository.ExecuteNonQueryAsync(criteria);
+                commandResult = await Repository.ExecuteNonQueryAsync(criteria).ConfigureAwait(false);
             }
 
             return commandResult;
@@ -24,7 +24,7 @@
 
         public async Task<DateTime> GetLastModifiedDate(ICriteria criteria)
         {
-            var modifiedDate = await GetDataEntityAsync<DateTime>(criteria);
+            var modifiedDate = await GetDataEntityAsync<DateTime>(criteria).ConfigureAwait(false);
 
             return modifiedDate;
         }

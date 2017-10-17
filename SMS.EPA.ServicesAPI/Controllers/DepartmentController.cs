@@ -31,7 +31,7 @@
                 Departments = departments
             };
 
-            CommandResult result = await _service.Update(criteria);
+            CommandResult result = await _service.Update(criteria).ConfigureAwait(false);
             return result.IsSuccessful ? StatusCode(HttpStatusCode.OK) : StatusCode(HttpStatusCode.NotModified);
         }
 
@@ -39,7 +39,7 @@
         {
             var criteria = new GetLastModifiedDateForDepartmentCriteria();
 
-            DateTime modifiedDate = await _service.GetLastModifiedDate(criteria);
+            DateTime modifiedDate = await _service.GetLastModifiedDate(criteria).ConfigureAwait(false);
 
             return Ok(modifiedDate);
         }

@@ -31,7 +31,7 @@
         {
             if (criteria != null && criteria.IsValid())
             {
-                return await dynamicRepository.FetchAsync<T>(criteria);
+                return await dynamicRepository.FetchAsync<T>(criteria).ConfigureAwait(false);
             }
 
             return new List<T>();
@@ -51,7 +51,7 @@
         {
             if (criteria != null && criteria.IsValid())
             {
-                return await dynamicRepository.GetAsync<T>(criteria);
+                return await dynamicRepository.GetAsync<T>(criteria).ConfigureAwait(false);
             }
 
             return default(T);
