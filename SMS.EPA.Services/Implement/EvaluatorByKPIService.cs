@@ -1,5 +1,6 @@
 ﻿namespace SMS.EPA.Services.Implement
 {
+    using System.Collections.Generic;
     using Core.Model;
     using Core.Services;
     using Criteria;
@@ -7,7 +8,6 @@
     using Model;
     using Model.Enitites;
     using Repositories;
-    using System.Collections.Generic;
 
     public class EvaluatorByKPIService : BaseService, IEvaluatorByKPIService
     {

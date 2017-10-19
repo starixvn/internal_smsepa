@@ -1,5 +1,7 @@
 ﻿namespace SMS.EPA.Site.UnitTests
 {
+    using System.Collections.Generic;
+    using System.Linq;
     using Core.Model;
     using Core.Services;
     using Criteria;
@@ -8,13 +10,12 @@
     using NUnit.Framework;
     using Services.Interfaces;
     using Site.Controllers.API;
-    using System.Collections.Generic;
-    using System.Linq;
 
     [TestFixture]
     public class FlowTemplateControllerTests
     {
         private IFlowTemplateService _flowTemplateService;
+        private ICommonService commonService;
         private ISessionService _sessionService;
         private FlowTemplateController _flowTemplateController;
 
@@ -69,8 +70,9 @@
             // Arrange
             _flowTemplateService = FakeFlowTemplateService();
             _sessionService = FakeSessionService();
-            _flowTemplateService.CreateFlowTemplate(Arg.Any<CreateFlowTemplateCriteria>()).Returns(new CommandResult());
-            _flowTemplateController = GetFlowTemplateController(_flowTemplateService, _sessionService);
+            commonService = FakeCommonService();
+            commonService.ExecuteNonQuery(Arg.Any<CreateFlowTemplateCriteria>()).Returns(new CommandResult());
+            _flowTemplateController = GetFlowTemplateController(_flowTemplateService, _sessionService, commonService);
 
             // Act
             var actual = _flowTemplateController.CreateFlowTemplate(Arg.Any<CreateFlowTemplateCriteria>());
@@ -89,7 +91,8 @@
             // Arrange
             _flowTemplateService = FakeFlowTemplateService();
             _sessionService = FakeSessionService();
-            _flowTemplateService.UpdateFlowTemplate(Arg.Any<UpdateFlowTemplateCriteria>()).Returns(new CommandResult());
+            commonService = FakeCommonService();
+            commonService.ExecuteNonQuery(Arg.Any<UpdateFlowTemplateCriteria>()).Returns(new CommandResult());
             _flowTemplateController = GetFlowTemplateController(_flowTemplateService, _sessionService);
 
             // Act
@@ -109,7 +112,8 @@
             // Arrange
             _flowTemplateService = FakeFlowTemplateService();
             _sessionService = FakeSessionService();
-            _flowTemplateService.UpdateStatusFlowTemplate(Arg.Any<UpdateStatusFlowTemplateCriteria>()).Returns(new CommandResult());
+            commonService = FakeCommonService();
+            commonService.ExecuteNonQuery(Arg.Any<UpdateStatusFlowTemplateCriteria>()).Returns(new CommandResult());
             _flowTemplateController = GetFlowTemplateController(_flowTemplateService, _sessionService);
 
             // Act
@@ -129,7 +133,8 @@
             // Arrange
             _flowTemplateService = FakeFlowTemplateService();
             _sessionService = FakeSessionService();
-            _flowTemplateService.DeleteFlowTemplate(Arg.Any<DeleteFlowTemplateCriteria>()).Returns(new CommandResult());
+            commonService = FakeCommonService();
+            commonService.ExecuteNonQuery(Arg.Any<DeleteFlowTemplateCriteria>()).Returns(new CommandResult());
             _flowTemplateController = GetFlowTemplateController(_flowTemplateService, _sessionService);
 
             // Act
@@ -151,6 +156,13 @@
             return service;
         }
 
+        private ICommonService FakeCommonService()
+        {
+            var service = Substitute.For<ICommonService>();
+
+            return service;
+        }
+
         private IFlowTemplateService FakeFlowTemplateService()
         {
             var service = Substitute.For<IFlowTemplateService>();
@@ -161,9 +173,10 @@
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Reliability", "CA2000:Dispose objects before losing scope", Justification = "Reviewed")]
         private FlowTemplateController GetFlowTemplateController(
             IFlowTemplateService flowTemplateService,
-            ISessionService sessionService = null)
+            ISessionService sessionService = null,
+            ICommonService commonService = null)
         {
-            var controller = new FlowTemplateController(flowTemplateService);
+            var controller = new FlowTemplateController(flowTemplateService, commonService);
             controller.SessionService = sessionService;
 
             return controller;

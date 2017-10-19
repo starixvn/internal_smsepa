@@ -1,30 +1,32 @@
 ﻿namespace SMS.EPA.Site.Controllers.API
 {
-    using Core.Enumerations;
-    using Core.Model;
-    using Criteria;
-    using Model;
-    using Services.Implement;
-    using Services.Interfaces;
     using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Net;
     using System.Net.Http;
     using System.Web.Http;
+    using Core.Enumerations;
+    using Core.Model;
+    using Criteria;
+    using Model;
+    using Services.Implement;
+    using Services.Interfaces;
 
     public class EvaluationController : BaseController
     {
         private readonly IEmployeeEPAService evaluationService;
+        private readonly ICommonService commonService;
 
         public EvaluationController()
-            : this(null)
+            : this(null, null)
         {
         }
 
-        public EvaluationController(IEmployeeEPAService evaluationService)
+        public EvaluationController(IEmployeeEPAService evaluationService, ICommonService commonService)
         {
             this.evaluationService = evaluationService ?? new EmployeeEPAService();
+            this.commonService = commonService ?? new CommonService();
         }
 
         [HttpGet]
@@ -53,7 +55,7 @@
                 EpaInfos = epaInfos
             };
 
-            CommandResult result = evaluationService.UpdateEPASummaryImport(criteria);
+            CommandResult result = commonService.ExecuteNonQuery(criteria);
             return result;
         }
 
@@ -76,7 +78,7 @@
                     {
                         criteria.EPAInfo = epaInfo;
 
-                        commandResult = evaluationService.ResetScore(criteria);
+                        commandResult = commonService.ExecuteNonQuery(criteria);
                         response = Request.CreateResponse(HttpStatusCode.OK, commandResult);
                     }
                 }
@@ -84,7 +86,7 @@
                 {
                     criteria.EPAInfo = epaInfo;
 
-                    commandResult = evaluationService.ResetScore(criteria);
+                    commandResult = commonService.ExecuteNonQuery(criteria);
                     response = Request.CreateResponse(HttpStatusCode.OK, commandResult);
                 }
             }

@@ -1,5 +1,7 @@
 ﻿namespace SMS.EPA.Site.UnitTests
 {
+    using System.Collections.Generic;
+    using System.Linq;
     using Core.Model;
     using Core.Services;
     using Criteria;
@@ -8,13 +10,12 @@
     using NUnit.Framework;
     using Services.Interfaces;
     using Site.Controllers.API;
-    using System.Collections.Generic;
-    using System.Linq;
 
     [TestFixture]
     public class KPIGroupControllerTests
     {
         private IKPIGroupService _kpiGroupService;
+        private ICommonService commonService;
         private ISessionService _sessionService;
         private KPIGroupController _kpiGroupController;
 
@@ -109,8 +110,9 @@
             // Arrange
             _kpiGroupService = FakeKPIGroupService();
             _sessionService = FakeSessionService();
-            _kpiGroupService.CreateKPIGroup(Arg.Any<CreateKPIGroupCriteria>()).Returns(new CommandResult());
-            _kpiGroupController = GetKPIGroupController(_kpiGroupService, _sessionService);
+            commonService = FakeCommonService();
+            commonService.ExecuteNonQuery(Arg.Any<CreateKPIGroupCriteria>()).Returns(new CommandResult());
+            _kpiGroupController = GetKPIGroupController(_kpiGroupService, _sessionService, commonService);
 
             // Act
             var actual = _kpiGroupController.CreateKPIGroup(Arg.Any<CreateKPIGroupCriteria>());
@@ -142,8 +144,9 @@
             // Arrange
             _kpiGroupService = FakeKPIGroupService();
             _sessionService = FakeSessionService();
-            _kpiGroupService.UpdateKPIGroup(Arg.Any<UpdateKPIGroupCriteria>()).Returns(new CommandResult());
-            _kpiGroupController = GetKPIGroupController(_kpiGroupService, _sessionService);
+            commonService = FakeCommonService();
+            commonService.ExecuteNonQuery(Arg.Any<UpdateKPIGroupCriteria>()).Returns(new CommandResult());
+            _kpiGroupController = GetKPIGroupController(_kpiGroupService, _sessionService, commonService);
 
             // Act
             var actual = _kpiGroupController.UpdateKPIGroup(Arg.Any<UpdateKPIGroupCriteria>());
@@ -175,8 +178,9 @@
             // Arrange
             _kpiGroupService = FakeKPIGroupService();
             _sessionService = FakeSessionService();
-            _kpiGroupService.UpdateStatusKPIGroup(Arg.Any<UpdateStatusKPIGroupCriteria>()).Returns(new CommandResult());
-            _kpiGroupController = GetKPIGroupController(_kpiGroupService, _sessionService);
+            commonService = FakeCommonService();
+            commonService.ExecuteNonQuery(Arg.Any<UpdateStatusKPIGroupCriteria>()).Returns(new CommandResult());
+            _kpiGroupController = GetKPIGroupController(_kpiGroupService, _sessionService, commonService);
 
             // Act
             var actual = _kpiGroupController.UpdateStatusKPIGroup(Arg.Any<UpdateStatusKPIGroupCriteria>());
@@ -208,8 +212,9 @@
             // Arrange
             _kpiGroupService = FakeKPIGroupService();
             _sessionService = FakeSessionService();
-            _kpiGroupService.DeleteKPIGroup(Arg.Any<DeleteKPIGroupCriteria>()).Returns(new CommandResult());
-            _kpiGroupController = GetKPIGroupController(_kpiGroupService, _sessionService);
+            commonService = FakeCommonService();
+            commonService.ExecuteNonQuery(Arg.Any<DeleteKPIGroupCriteria>()).Returns(new CommandResult());
+            _kpiGroupController = GetKPIGroupController(_kpiGroupService, _sessionService, commonService);
 
             // Act
             var actual = _kpiGroupController.DeleteKPIGroup(Arg.Any<int>());
@@ -230,6 +235,13 @@
             return service;
         }
 
+        private ICommonService FakeCommonService()
+        {
+            var service = Substitute.For<ICommonService>();
+
+            return service;
+        }
+
         private IKPIGroupService FakeKPIGroupService()
         {
             var service = Substitute.For<IKPIGroupService>();
@@ -240,9 +252,10 @@
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Reliability", "CA2000:Dispose objects before losing scope", Justification = "Reviewed")]
         private KPIGroupController GetKPIGroupController(
             IKPIGroupService kpiGroupService = null,
-            ISessionService sessionService = null)
+            ISessionService sessionService = null,
+            ICommonService commonService = null)
         {
-            var controller = new KPIGroupController(kpiGroupService);
+            var controller = new KPIGroupController(kpiGroupService, commonService);
             controller.SessionService = sessionService;
 
             return controller;

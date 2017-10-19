@@ -1,15 +1,16 @@
 ﻿namespace SMS.EPA.Site.UnitTests.Controllers
 {
+    using System.Collections.Generic;
     using Core.Model;
     using Core.Services;
     using Criteria;
+    using Fanex.Data.Repository;
     using Model;
     using Model.Enitites;
     using NSubstitute;
     using NUnit.Framework;
     using Services.Interfaces;
     using Site.Controllers.API;
-    using System.Collections.Generic;
 
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1001:TypesThatOwnDisposableFieldsShouldBeDisposable", Justification = "Reviewed")]
     [TestFixture]
@@ -17,6 +18,7 @@
     {
         private IDepartmentFlowService _departmentFlowService;
         private DepartmentFlowController _departmentFlowController;
+        private ICommonService commonService;
 
         #region GetDepartmentFlowByFlowTemplateId
 
@@ -219,44 +221,63 @@
             return service;
         }
 
+        private IDepartmentFlowService FakeDepartmentFlowService()
+        {
+            var service = Substitute.For<IDepartmentFlowService>();
+
+            return service;
+        }
+
+        private ICommonService FakeCommonService()
+        {
+            var service = Substitute.For<ICommonService>();
+
+            return service;
+        }
+
         private void ArrangeGetDepartmentFlowByFlowTemplateId(IList<DepartmentFlowModel> departmentFlows = null)
         {
-            _departmentFlowService = Substitute.For<IDepartmentFlowService>();
+            _departmentFlowService = FakeDepartmentFlowService();
+            commonService = FakeCommonService();
 
             _departmentFlowService.GetDepartmentFlowByFlowTemplateId(Arg.Any<int>()).Returns(departmentFlows ?? new List<DepartmentFlowModel>());
-            _departmentFlowController = new DepartmentFlowController(_departmentFlowService);
+            _departmentFlowController = new DepartmentFlowController(_departmentFlowService, commonService);
         }
 
         private void ArrangeGetDepartmentFlowById(IList<FlowModel> flows = null)
         {
-            _departmentFlowService = Substitute.For<IDepartmentFlowService>();
+            _departmentFlowService = FakeDepartmentFlowService();
+            commonService = FakeCommonService();
 
             _departmentFlowService.GetDepartmentFlowById(Arg.Any<GetDepartmentFlowByIdCriteria>()).Returns(flows ?? new List<FlowModel>());
-            _departmentFlowController = new DepartmentFlowController(_departmentFlowService);
+            _departmentFlowController = new DepartmentFlowController(_departmentFlowService, commonService);
         }
 
         private void ArrangeCreateDepartmentFlow(CommandResult result = null)
         {
-            _departmentFlowService = Substitute.For<IDepartmentFlowService>();
-            _departmentFlowService.CreateDepartmentFlow(Arg.Any<CreateDepartmentFlowCriteria>()).Returns(result ?? new CommandResult());
-            _departmentFlowController = new DepartmentFlowController(_departmentFlowService);
+            _departmentFlowService = FakeDepartmentFlowService();
+            commonService = FakeCommonService();
+            commonService.ExecuteNonQuery(Arg.Any<ICriteria>()).Returns(result ?? new CommandResult());
+            _departmentFlowController = new DepartmentFlowController(_departmentFlowService, commonService);
             _departmentFlowController.SessionService = FakeSessionService();
         }
 
         private void ArrangeDeleteDepartmentFlow(CommandResult result = null)
         {
-            _departmentFlowService = Substitute.For<IDepartmentFlowService>();
-            _departmentFlowService.DeleteDepartmentFlow(Arg.Any<DeleteDepartmentFlowCriteria>()).Returns(result ?? new CommandResult());
-            _departmentFlowController = new DepartmentFlowController(_departmentFlowService);
+            _departmentFlowService = FakeDepartmentFlowService();
+            commonService = FakeCommonService();
+            commonService.ExecuteNonQuery(Arg.Any<ICriteria>()).Returns(result ?? new CommandResult());
+            _departmentFlowController = new DepartmentFlowController(_departmentFlowService, commonService);
             _departmentFlowController.SessionService = FakeSessionService();
         }
 
         private void ArrangeGetDepartmentHasSetting(IList<Department> departments = null)
         {
-            _departmentFlowService = Substitute.For<IDepartmentFlowService>();
+            _departmentFlowService = FakeDepartmentFlowService();
+            commonService = FakeCommonService();
 
             _departmentFlowService.GetDepartmentHasSettingByFlowTemplateId(Arg.Any<int>()).Returns(departments ?? new List<Department>());
-            _departmentFlowController = new DepartmentFlowController(_departmentFlowService);
+            _departmentFlowController = new DepartmentFlowController(_departmentFlowService, commonService);
         }
     }
 }

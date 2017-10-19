@@ -1,11 +1,10 @@
 ﻿namespace SMS.EPA.Services.Interfaces
 {
-    using Core.Model;
+    using System.Collections.Generic;
+    using Core.Services;
     using Criteria;
     using Model;
     using Model.Enitites;
-    using System.Collections.Generic;
-    using Core.Services;
 
     public interface IEmployeeEPAService
     {
@@ -47,16 +46,10 @@
 
         void GroupMonthlyEPABySemi(EPAModel semiEPA, IList<EPAModel> monthlyEPAs);
 
-        CommandResult ResetScore(ResetScoreCriteria criteria);
-
         void SetMaxPerformanceScore(EPAModel epaInfo);
 
         void SetMaxSubtractAndMaxAdditionScore(EPAModel epaInfo);
 
         void SpreadKPIScore(IList<EPAKpiGroupModel> kpiGroups);
-
-        CommandResult UpdateEPASummaryImport(UpdateEPASummaryImportCriteria criteria);
-
-        CommandResult UpdateFinalScoreEPAEndEvaluation(UpdateFinalScoreEPAEndEvaluationCriteria criteria);
     }
 }

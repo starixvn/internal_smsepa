@@ -1,5 +1,9 @@
 ﻿namespace SMS.EPA.Site.Controllers.API
 {
+    using System.Collections.Generic;
+    using System.Net;
+    using System.Net.Http;
+    using System.Web.Http;
     using Core.Attribute;
     using Core.Constants;
     using Core.Enumerations;
@@ -9,26 +13,25 @@
     using Model.Enitites;
     using Services.Implement;
     using Services.Interfaces;
-    using System.Collections.Generic;
-    using System.Net;
-    using System.Net.Http;
-    using System.Web.Http;
 
     public class EvaluatorEPAController : BaseController
     {
         private readonly IEmployeeEPAService evaluationService;
         private readonly IEvaluatorEPAService evaluatorService;
+        private readonly ICommonService commonService;
 
-        public EvaluatorEPAController() : this(null, null)
+        public EvaluatorEPAController() : this(null, null, null)
         {
         }
 
         public EvaluatorEPAController(
             IEmployeeEPAService evaluationService,
-            IEvaluatorEPAService evaluatorService)
+            IEvaluatorEPAService evaluatorService,
+            ICommonService commonService)
         {
             this.evaluationService = evaluationService ?? new EmployeeEPAService();
             this.evaluatorService = evaluatorService ?? new EvaluatorEPAService();
+            this.commonService = commonService ?? new CommonService();
         }
 
         [HttpGet]
@@ -93,9 +96,7 @@
         {
             var epaInfo = new EPAModel();
             var processId = evaluatorId == null ? (int?)ProcessType.Evaluator : null;
-
             var sessionServiceEmployeeId = evaluatorId ?? SessionService.EmployeeId;
-
             int permission = CheckEmployeePermission(epaId, sessionServiceEmployeeId, processId);
 
             if (permission == (int)Policy.None)
@@ -126,7 +127,7 @@
                 criteria.EvaluatorId = SessionService.EmployeeId;
                 criteria.ModifiedBy = SessionService.EmployeeId;
 
-                commandResult = evaluatorService.UpdateEPAScoreByEvaluator(criteria);
+                commandResult = commonService.ExecuteNonQuery(criteria);
             }
 
             return commandResult;

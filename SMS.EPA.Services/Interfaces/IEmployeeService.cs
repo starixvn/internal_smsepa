@@ -1,9 +1,9 @@
 ﻿namespace SMS.EPA.Services.Interfaces
 {
+    using System.Collections.Generic;
     using Core.Model;
     using Criteria;
     using Model.Enitites;
-    using System.Collections.Generic;
 
     public interface IEmployeeService
     {
@@ -17,21 +17,13 @@
 
         CommandResult CreateSpecialEmployee(CreateSpecialEmployeeCriteria criteria);
 
-        CommandResult UpdateSpecialEmployee(UpdateSpecialEmployeeCriteria criteria);
-
         CommandResult ChangePassword(ChangePasswordCriteria criteria);
 
         CommandResult ResetPassword(ResetPasswordCriteria criteria);
 
-        CommandResult AssignRoleToEmployee(AssignRoleToEmployeeCriteria criteria);
-
         IEnumerable<Employee> GetEmployeeByDepartmentId(int? departmentId);
 
         IEnumerable<Employee> GetEmployeeByGroupId(int groupId);
-
-        CommandResult InsertEmployeeIPAddress(InsertEmployeeIPAddressCriteria criteria);
-
-        CommandResult UpdateHasMonthlyEPA(UpdateHasMonthlyEPACriteria criteria);
 
         string GetPasswordByEmployeeId(int employeeId);
     }

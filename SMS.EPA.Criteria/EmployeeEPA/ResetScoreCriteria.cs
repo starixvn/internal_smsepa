@@ -1,16 +1,16 @@
 ﻿namespace SMS.EPA.Criteria
 {
+    using System.Text;
     using Core.Constants;
     using Core.Enumerations;
     using Core.Services;
     using Fanex.Data;
     using Fanex.Data.Repository;
     using Model;
-    using System.Text;
 
     public class ResetScoreCriteria : CriteriaBase
     {
-        private const string EPAXmlTemplate = "<EPA ProcessId='{0}' TotalScore='{1}' AdjustScore='{2}'></EPA>";
+        private const string EPAXmlTemplate = "<EPA ProcessId='{0}' TotalScore='{1}' AdjustScore=''></EPA>";
 
         public int EPAId { get; set; }
 
@@ -31,25 +31,21 @@
                     epaXml.AppendFormat(
                         EPAXmlTemplate,
                         (int)ProcessType.Self,
-                        cryptographyService.Encrypt(EPAInfo.MonthlyEPA.AverageSelfScoreConverted.ToString()),
-                        string.Empty);
+                        cryptographyService.Encrypt(EPAInfo.MonthlyEPA.AverageSelfScoreConverted.ToString()));
 
                     epaXml.AppendFormat(
                         EPAXmlTemplate,
                         (int)ProcessType.Evaluator,
-                        cryptographyService.Encrypt(EPAInfo.MonthlyEPA.AverageEvaluatorScoreConverted.ToString()),
-                        string.Empty);
+                        cryptographyService.Encrypt(EPAInfo.MonthlyEPA.AverageEvaluatorScoreConverted.ToString()));
 
                     epaXml.AppendFormat(
                         EPAXmlTemplate,
                         (int)ProcessType.Reviewer,
-                        cryptographyService.Encrypt(EPAInfo.MonthlyEPA.AverageReviewerScoreConverted.ToString()),
-                        string.Empty);
+                        cryptographyService.Encrypt(EPAInfo.MonthlyEPA.AverageReviewerScoreConverted.ToString()));
 
                     epaXml.AppendFormat(
                         EPAXmlTemplate,
                         (int)ProcessType.Management,
-                        string.Empty,
                         string.Empty);
                 }
                 else
@@ -57,13 +53,11 @@
                     epaXml.AppendFormat(
                         EPAXmlTemplate,
                         (int)ProcessType.Reviewer,
-                        string.Empty,
                         string.Empty);
 
                     epaXml.AppendFormat(
                         EPAXmlTemplate,
                         (int)ProcessType.Management,
-                        string.Empty,
                         string.Empty);
                 }
 

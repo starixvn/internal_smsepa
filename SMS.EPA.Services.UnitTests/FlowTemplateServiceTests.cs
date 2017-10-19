@@ -1,6 +1,7 @@
 ﻿namespace SMS.EPA.Services.UnitTests
 {
-    using Core.Model;
+    using System.Collections.Generic;
+    using System.Linq;
     using Core.Repositories;
     using Criteria;
     using Implement;
@@ -8,15 +9,12 @@
     using NSubstitute;
     using NUnit.Framework;
     using Repositories;
-    using System.Collections.Generic;
-    using System.Linq;
 
     [TestFixture]
     public class FlowTemplateServiceTests
     {
         private FlowTemplateService _flowTemplateService;
         private IFlowTemplateRepository _flowTemplateRepository;
-        private IBaseRepository _baseRepository;
 
         #region GetFlowTemplate
 
@@ -116,149 +114,6 @@
 
         #endregion GetFlowTemplateById
 
-        #region CreateFlowTemplate
-
-        [Test]
-        public void CreateFlowTemplate_AnyArg_ReturnInstanceOfCommandResult()
-        {
-            // Arrange
-            ArrangeCreateFlowTemplate();
-
-            // Act
-            var actual = _flowTemplateService.CreateFlowTemplate(new CreateFlowTemplateCriteria());
-
-            // Assert
-            Assert.IsInstanceOf(typeof(CommandResult), actual);
-        }
-
-        [Test]
-        public void CreateFlowTemplate_ValidArg_ExpectedToExecuteInsert()
-        {
-            // Arrange
-            var criteria = new CreateFlowTemplateCriteria
-            {
-                Name = "test",
-                TargetTypeId = 1,
-                CreatedBy = 1
-            };
-            ArrangeCreateFlowTemplate();
-
-            // Act
-            _flowTemplateService.CreateFlowTemplate(criteria);
-
-            // Assert
-            _flowTemplateService.Repository.Received().ExecuteNonQuery(Arg.Is<CreateFlowTemplateCriteria>(x => x.IsValid()));
-        }
-
-        #endregion CreateFlowTemplate
-
-        #region UpdateFlowTemplate
-
-        [Test]
-        public void UpdateFlowTemplate_AnyArg_ReturnInstanceOfCommandResult()
-        {
-            // Arrange
-            ArrangeUpdateFlowTemplate();
-
-            // Act
-            var actual = _flowTemplateService.UpdateFlowTemplate(new UpdateFlowTemplateCriteria());
-
-            // Assert
-            Assert.IsInstanceOf(typeof(CommandResult), actual);
-        }
-
-        [Test]
-        public void UpdateFlowTemplate_ValidArg_ExpectedToExecuteUpdate()
-        {
-            // Arrange
-            var criteria = new UpdateFlowTemplateCriteria
-            {
-                FlowTemplateId = 1,
-                Name = "test",
-                TargetTypeId = 1,
-                ModifiedBy = 1
-            };
-            ArrangeUpdateFlowTemplate();
-
-            // Act
-            _flowTemplateService.UpdateFlowTemplate(criteria);
-
-            // Assert
-            _flowTemplateService.Repository.Received().ExecuteNonQuery(Arg.Is<UpdateFlowTemplateCriteria>(x => x.IsValid()));
-        }
-
-        #endregion UpdateFlowTemplate
-
-        #region UpdateStatusFlowTemplate
-
-        [Test]
-        public void UpdateStatusFlowTemplate_AnyArg_ReturnInstanceOfCommandResult()
-        {
-            // Arrange
-            ArrangeUpdateStatusFlowTemplate();
-
-            // Act
-            var actual = _flowTemplateService.UpdateStatusFlowTemplate(new UpdateStatusFlowTemplateCriteria());
-
-            // Assert
-            Assert.IsInstanceOf(typeof(CommandResult), actual);
-        }
-
-        [Test]
-        public void UpdateStatusFlowTemplate_ValidArg_ExpectedToExecuteUpdate()
-        {
-            // Arrange
-            var criteria = new UpdateStatusFlowTemplateCriteria
-            {
-                FlowTemplateId = 1,
-                ModifiedBy = 1
-            };
-            ArrangeUpdateStatusFlowTemplate();
-
-            // Act
-            _flowTemplateService.UpdateStatusFlowTemplate(criteria);
-
-            // Assert
-            _flowTemplateService.Repository.Received().ExecuteNonQuery(Arg.Is<UpdateStatusFlowTemplateCriteria>(x => x.IsValid()));
-        }
-
-        #endregion UpdateStatusFlowTemplate
-
-        #region DeleteFlowTemplate
-
-        [Test]
-        public void DeleteFlowTemplate_AnyArg_ReturnInstanceOfCommandResult()
-        {
-            // Arrange
-            ArrangeDeleteFlowTemplate();
-
-            // Act
-            var actual = _flowTemplateService.DeleteFlowTemplate(new DeleteFlowTemplateCriteria());
-
-            // Assert
-            Assert.IsInstanceOf(typeof(CommandResult), actual);
-        }
-
-        [Test]
-        public void DeleteFlowTemplate_ValidArg_ExpectedToExecuteDelete()
-        {
-            // Arrange
-            var criteria = new DeleteFlowTemplateCriteria
-            {
-                FlowTemplateId = 1,
-                ModifiedBy = 1
-            };
-            ArrangeDeleteFlowTemplate();
-
-            // Act
-            _flowTemplateService.DeleteFlowTemplate(criteria);
-
-            // Assert
-            _flowTemplateService.Repository.Received().ExecuteNonQuery(Arg.Is<DeleteFlowTemplateCriteria>(x => x.IsValid()));
-        }
-
-        #endregion DeleteFlowTemplate
-
         #region Helpers
 
         private IBaseRepository FakeBaseRepository()
@@ -326,34 +181,6 @@
             _flowTemplateRepository = FakeFlowTemplateRepository();
             _flowTemplateRepository.GetFlowTemplateById(Arg.Any<GetFlowTemplateByIdCriteria>()).Returns(result ?? new FlowTemplateModel());
             _flowTemplateService = GetFlowTemplateService(_flowTemplateRepository);
-        }
-
-        private void ArrangeCreateFlowTemplate(CommandResult result = null)
-        {
-            _baseRepository = FakeBaseRepository();
-            _flowTemplateService = GetFlowTemplateService(null, _baseRepository);
-            _flowTemplateService.Repository.ExecuteNonQuery(Arg.Any<CreateFlowTemplateCriteria>()).Returns(result ?? new CommandResult());
-        }
-
-        private void ArrangeUpdateFlowTemplate(CommandResult result = null)
-        {
-            _baseRepository = FakeBaseRepository();
-            _flowTemplateService = GetFlowTemplateService(null, _baseRepository);
-            _flowTemplateService.Repository.ExecuteNonQuery(Arg.Any<UpdateFlowTemplateCriteria>()).Returns(result ?? new CommandResult());
-        }
-
-        private void ArrangeUpdateStatusFlowTemplate(CommandResult result = null)
-        {
-            _baseRepository = FakeBaseRepository();
-            _flowTemplateService = GetFlowTemplateService(null, _baseRepository);
-            _flowTemplateService.Repository.ExecuteNonQuery(Arg.Any<UpdateStatusFlowTemplateCriteria>()).Returns(result ?? new CommandResult());
-        }
-
-        private void ArrangeDeleteFlowTemplate(CommandResult result = null)
-        {
-            _baseRepository = FakeBaseRepository();
-            _flowTemplateService = GetFlowTemplateService(null, _baseRepository);
-            _flowTemplateService.Repository.ExecuteNonQuery(Arg.Any<DeleteFlowTemplateCriteria>()).Returns(result ?? new CommandResult());
         }
 
         #endregion Helpers

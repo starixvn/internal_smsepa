@@ -1,12 +1,11 @@
 ﻿namespace SMS.EPA.Services.Implement
 {
-    using Core.Model;
+    using System.Collections.Generic;
     using Core.Services;
     using Criteria;
     using Interfaces;
     using Model;
     using Repositories;
-    using System.Collections.Generic;
 
     public class FlowTemplateService : BaseService, IFlowTemplateService
     {
@@ -47,54 +46,6 @@
             }
 
             return flowTemplate;
-        }
-
-        public CommandResult CreateFlowTemplate(CreateFlowTemplateCriteria criteria)
-        {
-            var result = new CommandResult();
-
-            if (criteria != null && criteria.IsValid())
-            {
-                result = Repository.ExecuteNonQuery(criteria);
-            }
-
-            return result;
-        }
-
-        public CommandResult UpdateFlowTemplate(UpdateFlowTemplateCriteria criteria)
-        {
-            var result = new CommandResult();
-
-            if (criteria != null && criteria.IsValid())
-            {
-                result = Repository.ExecuteNonQuery(criteria);
-            }
-
-            return result;
-        }
-
-        public CommandResult UpdateStatusFlowTemplate(UpdateStatusFlowTemplateCriteria criteria)
-        {
-            var result = new CommandResult();
-
-            if (criteria != null && criteria.IsValid())
-            {
-                result = Repository.ExecuteNonQuery(criteria);
-            }
-
-            return result;
-        }
-
-        public CommandResult DeleteFlowTemplate(DeleteFlowTemplateCriteria criteria)
-        {
-            var result = new CommandResult();
-
-            if (criteria != null && criteria.IsValid())
-            {
-                result = Repository.ExecuteNonQuery(criteria);
-            }
-
-            return result;
         }
     }
 }

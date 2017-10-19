@@ -1,5 +1,7 @@
 ﻿namespace SMS.EPA.Site.Controllers.API
 {
+    using System.Collections.Generic;
+    using System.Web.Http;
     using Core.Attribute;
     using Core.Constants;
     using Core.Enumerations;
@@ -9,20 +11,20 @@
     using Model.Enitites;
     using Services.Implement;
     using Services.Interfaces;
-    using System.Collections.Generic;
-    using System.Web.Http;
 
     public class EvaluatorByKPIController : BaseController
     {
         private readonly IEvaluatorByKPIService evaluatorByKPIService;
+        private readonly ICommonService commonService;
 
-        public EvaluatorByKPIController() : this(null)
+        public EvaluatorByKPIController() : this(null, null)
         {
         }
 
-        public EvaluatorByKPIController(IEvaluatorByKPIService evaluatorByKPIService)
+        public EvaluatorByKPIController(IEvaluatorByKPIService evaluatorByKPIService, ICommonService commonService)
         {
             this.evaluatorByKPIService = evaluatorByKPIService ?? new EvaluatorByKPIService();
+            this.commonService = commonService ?? new CommonService();
         }
 
         [HttpGet]
@@ -174,7 +176,7 @@
                 EpaInfos = epaInfos
             };
 
-            return evaluatorByKPIService.UpdateKPIScore(criteria);
+            return commonService.ExecuteNonQuery(criteria);
         }
 
         public int GetUserPermissionOnRatingByKPI()

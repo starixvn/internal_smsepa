@@ -16,14 +16,16 @@
     public class DepartmentFlowController : BaseController
     {
         private readonly IDepartmentFlowService departmentFlowService;
+        private readonly ICommonService commonService;
 
-        public DepartmentFlowController() : this(null)
+        public DepartmentFlowController() : this(null, null)
         {
         }
 
-        public DepartmentFlowController(IDepartmentFlowService departmentFlowService)
+        public DepartmentFlowController(IDepartmentFlowService departmentFlowService, ICommonService commonService)
         {
             this.departmentFlowService = departmentFlowService ?? new DepartmentFlowService();
+            this.commonService = commonService ?? new CommonService();
         }
 
         [HttpGet]
@@ -58,7 +60,7 @@
                 criteria.DepartmentId = Math.Abs(criteria.DepartmentId);
                 criteria.ModifiedBy = SessionService.EmployeeId;
 
-                commandResult = departmentFlowService.CreateDepartmentFlow(criteria);
+                commandResult = commonService.ExecuteNonQuery(criteria);
             }
 
             return commandResult;
@@ -76,7 +78,7 @@
                 ModifiedBy = SessionService.EmployeeId
             };
 
-            return departmentFlowService.DeleteDepartmentFlow(criteria);
+            return commonService.ExecuteNonQuery(criteria);
         }
 
         [HttpGet]

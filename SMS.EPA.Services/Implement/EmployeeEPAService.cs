@@ -1,8 +1,13 @@
 ﻿namespace SMS.EPA.Services.Implement
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Globalization;
+    using System.IO;
+    using System.Linq;
+    using System.Runtime.Serialization.Formatters.Binary;
     using Core.Constants;
     using Core.Enumerations;
-    using Core.Model;
     using Core.Services;
     using Core.Utilities;
     using Criteria;
@@ -11,12 +16,6 @@
     using Model.Enitites;
     using Repositories;
     using Resources;
-    using System;
-    using System.Collections.Generic;
-    using System.Globalization;
-    using System.IO;
-    using System.Linq;
-    using System.Runtime.Serialization.Formatters.Binary;
 
     public class EmployeeEPAService : BaseService, IEmployeeEPAService
     {
@@ -120,72 +119,6 @@
             CalculateFinalScore(epaInfo);
         }
 
-        private static void CalculateFinalScore(EPAModel epaInfo)
-        {
-            // Discipline Score
-            float disciplineScore = 0;
-            if (epaInfo.HasDisciplineScore)
-            {
-                disciplineScore = epaInfo.DisciplineScore;
-            }
-
-            var validProcess = epaInfo.AllProcesses.Where(x => x.StatusId > (int)ProcessStatusType.Open && x.ProcessId > (int)ProcessType.Self);
-
-            // Because the total score of each process is removed if invalid, do not need to check for permission here
-            var maxProcessTypeId = (int)ProcessType.None;
-
-            if (validProcess.Any())
-            {
-                maxProcessTypeId = validProcess.Max(x => x.ProcessId);
-            }
-
-            switch (maxProcessTypeId)
-            {
-                case (int)ProcessType.Management:
-                    epaInfo.FinalScoreToExport =
-                        GetAverageTotalScore(epaInfo.Process.AverageScoreByManagements, disciplineScore);
-                    break;
-
-                case (int)ProcessType.Reviewer:
-                    epaInfo.FinalScoreToExport =
-                        GetAverageTotalScore(epaInfo.Process.AverageScoreByReviewers, disciplineScore);
-                    break;
-
-                case (int)ProcessType.Evaluator:
-                    epaInfo.FinalScoreToExport =
-                        GetAverageTotalScore(epaInfo.Process.AverageScoreByEvaluators, disciplineScore);
-                    break;
-
-                default:
-                    epaInfo.FinalScoreToExport = Lang.NotAvailable;
-                    break;
-            }
-        }
-
-        private static string GetAverageTotalScore(float? averageScore, float disciplineScore)
-        {
-            if (averageScore != null)
-            {
-                var result = averageScore.Value + disciplineScore;
-
-                return Math.Round((decimal)result, 2).ToString(CultureInfo.InvariantCulture);
-            }
-
-            return Lang.NotAvailable;
-        }
-
-        private static void RemoveSensitiveTotalScoreAndComment(IEnumerable<EPAProcessModel> evaluatorProcessOfOtherActors)
-        {
-            if (evaluatorProcessOfOtherActors.Any())
-            {
-                foreach (EPAProcessModel epaProcessModel in evaluatorProcessOfOtherActors)
-                {
-                    epaProcessModel.TotalScore = string.Empty;
-                    epaProcessModel.Comment = string.Empty;
-                }
-            }
-        }
-
         public IEnumerable<EPAModel> GetEPAEndEvaluationPeriod(GetEPAEndEvaluationPeriodCriteria criteria)
         {
             IEnumerable<EPAModel> epaInfos = new List<EPAModel>();
@@ -264,18 +197,6 @@
             }
 
             return memberEPAs;
-        }
-
-        public CommandResult UpdateEPASummaryImport(UpdateEPASummaryImportCriteria criteria)
-        {
-            var commandResult = new CommandResult();
-
-            if (criteria != null && criteria.IsValid())
-            {
-                commandResult = Repository.ExecuteNonQuery(criteria);
-            }
-
-            return commandResult;
         }
 
         public string ConvertScoreToGrade(
@@ -364,18 +285,6 @@
             return monthlyEPAs;
         }
 
-        public CommandResult ResetScore(ResetScoreCriteria criteria)
-        {
-            var commandResult = new CommandResult();
-
-            if (criteria != null && criteria.IsValid())
-            {
-                commandResult = Repository.ExecuteNonQuery(criteria);
-            }
-
-            return commandResult;
-        }
-
         public IList<EPAPeriodModel> GetPeriodToUpdateFinalScore(GetPeriodToUpdateFinalScoreCriteria criteria)
         {
             IList<EPAPeriodModel> periods = new List<EPAPeriodModel>();
@@ -410,18 +319,6 @@
             }
 
             return epaInfos;
-        }
-
-        public CommandResult UpdateFinalScoreEPAEndEvaluation(UpdateFinalScoreEPAEndEvaluationCriteria criteria)
-        {
-            var commandResult = new CommandResult();
-
-            if (criteria != null && criteria.IsValid())
-            {
-                commandResult = Repository.ExecuteNonQuery(criteria);
-            }
-
-            return commandResult;
         }
 
         public void GroupMonthlyEPABySemi(EPAModel semiEPA, IList<EPAModel> monthlyEPAs)
@@ -575,6 +472,72 @@
 
                 default:
                     throw new ArgumentException("type not in case");
+            }
+        }
+
+        private static void CalculateFinalScore(EPAModel epaInfo)
+        {
+            // Discipline Score
+            float disciplineScore = 0;
+            if (epaInfo.HasDisciplineScore)
+            {
+                disciplineScore = epaInfo.DisciplineScore;
+            }
+
+            var validProcess = epaInfo.AllProcesses.Where(x => x.StatusId > (int)ProcessStatusType.Open && x.ProcessId > (int)ProcessType.Self);
+
+            // Because the total score of each process is removed if invalid, do not need to check for permission here
+            var maxProcessTypeId = (int)ProcessType.None;
+
+            if (validProcess.Any())
+            {
+                maxProcessTypeId = validProcess.Max(x => x.ProcessId);
+            }
+
+            switch (maxProcessTypeId)
+            {
+                case (int)ProcessType.Management:
+                    epaInfo.FinalScoreToExport =
+                        GetAverageTotalScore(epaInfo.Process.AverageScoreByManagements, disciplineScore);
+                    break;
+
+                case (int)ProcessType.Reviewer:
+                    epaInfo.FinalScoreToExport =
+                        GetAverageTotalScore(epaInfo.Process.AverageScoreByReviewers, disciplineScore);
+                    break;
+
+                case (int)ProcessType.Evaluator:
+                    epaInfo.FinalScoreToExport =
+                        GetAverageTotalScore(epaInfo.Process.AverageScoreByEvaluators, disciplineScore);
+                    break;
+
+                default:
+                    epaInfo.FinalScoreToExport = Lang.NotAvailable;
+                    break;
+            }
+        }
+
+        private static string GetAverageTotalScore(float? averageScore, float disciplineScore)
+        {
+            if (averageScore != null)
+            {
+                var result = averageScore.Value + disciplineScore;
+
+                return Math.Round((decimal)result, 2).ToString(CultureInfo.InvariantCulture);
+            }
+
+            return Lang.NotAvailable;
+        }
+
+        private static void RemoveSensitiveTotalScoreAndComment(IEnumerable<EPAProcessModel> evaluatorProcessOfOtherActors)
+        {
+            if (evaluatorProcessOfOtherActors.Any())
+            {
+                foreach (EPAProcessModel epaProcessModel in evaluatorProcessOfOtherActors)
+                {
+                    epaProcessModel.TotalScore = string.Empty;
+                    epaProcessModel.Comment = string.Empty;
+                }
             }
         }
 

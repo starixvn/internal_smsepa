@@ -1,20 +1,18 @@
 ﻿namespace SMS.EPA.Services.UnitTests
 {
-    using Core.Model;
+    using System.Collections.Generic;
+    using System.Linq;
     using Core.Repositories;
     using Criteria;
     using Implement;
     using Model;
     using NSubstitute;
     using NUnit.Framework;
-    using System.Collections.Generic;
-    using System.Linq;
 
     [TestFixture]
     public class KPIGroupServiceTests
     {
         private KPIGroupService _kpiGroupService;
-        private IBaseRepository _baseRepository;
 
         #region GetKPIGroup
 
@@ -84,147 +82,6 @@
 
         #endregion GetKPIGroupById
 
-        #region CreateKPIGroup
-
-        [Test]
-        public void CreateKPIGroup_AnyArg_ReturnInstanceOfCommandResult()
-        {
-            // Arrange
-            ArrangeCreateKPIGroup();
-
-            // Act
-            var actual = _kpiGroupService.CreateKPIGroup(new CreateKPIGroupCriteria());
-
-            // Assert
-            Assert.IsInstanceOf(typeof(CommandResult), actual);
-        }
-
-        [Test]
-        public void CreateKPIGroup_ValidArg_ExpectedToExecuteInsert()
-        {
-            // Arrange
-            var criteria = new CreateKPIGroupCriteria
-            {
-                Name = "test",
-                CreatedBy = 1
-            };
-            ArrangeCreateKPIGroup();
-
-            // Act
-            _kpiGroupService.CreateKPIGroup(criteria);
-
-            // Assert
-            _kpiGroupService.Repository.Received().ExecuteNonQuery(Arg.Is<CreateKPIGroupCriteria>(x => x.IsValid()));
-        }
-
-        #endregion CreateKPIGroup
-
-        #region UpdateKPIGroup
-
-        [Test]
-        public void UpdateKPIGroup_AnyArg_ReturnInstanceOfCommandResult()
-        {
-            // Arrange
-            ArrangeUpdateKPIGroup();
-
-            // Act
-            var actual = _kpiGroupService.UpdateKPIGroup(new UpdateKPIGroupCriteria());
-
-            // Assert
-            Assert.IsInstanceOf(typeof(CommandResult), actual);
-        }
-
-        [Test]
-        public void UpdateKPIGroup_ValidArg_ExpectedToExecuteUpdate()
-        {
-            // Arrange
-            var criteria = new UpdateKPIGroupCriteria
-            {
-                KPIGroupId = 1,
-                Name = "test",
-                ModifiedBy = 1
-            };
-            ArrangeUpdateKPIGroup();
-
-            // Act
-            _kpiGroupService.UpdateKPIGroup(criteria);
-
-            // Assert
-            _kpiGroupService.Repository.Received().ExecuteNonQuery(Arg.Is<UpdateKPIGroupCriteria>(x => x.IsValid()));
-        }
-
-        #endregion UpdateKPIGroup
-
-        #region UpdateStatusKPIGroup
-
-        [Test]
-        public void UpdateStatusKPIGroup_AnyArg_ReturnInstanceOfCommandResult()
-        {
-            // Arrange
-            ArrangeUpdateStatusKPIGroup();
-
-            // Act
-            var actual = _kpiGroupService.UpdateStatusKPIGroup(new UpdateStatusKPIGroupCriteria());
-
-            // Assert
-            Assert.IsInstanceOf(typeof(CommandResult), actual);
-        }
-
-        [Test]
-        public void UpdateStatusKPIGroup_ValidArg_ExpectedToExecuteUpdate()
-        {
-            // Arrange
-            var criteria = new UpdateStatusKPIGroupCriteria
-            {
-                KPIGroupId = 1,
-                ModifiedBy = 1
-            };
-            ArrangeUpdateStatusKPIGroup();
-
-            // Act
-            _kpiGroupService.UpdateStatusKPIGroup(criteria);
-
-            // Assert
-            _kpiGroupService.Repository.Received().ExecuteNonQuery(Arg.Is<UpdateStatusKPIGroupCriteria>(x => x.IsValid()));
-        }
-
-        #endregion UpdateStatusKPIGroup
-
-        #region DeleteKPIGroup
-
-        [Test]
-        public void DeleteKPIGroup_AnyArg_ReturnInstanceOfCommandResult()
-        {
-            // Arrange
-            ArrangeDeleteKPIGroup();
-
-            // Act
-            var actual = _kpiGroupService.DeleteKPIGroup(new DeleteKPIGroupCriteria());
-
-            // Assert
-            Assert.IsInstanceOf(typeof(CommandResult), actual);
-        }
-
-        [Test]
-        public void DeleteKPIGroup_AnyArg_ExpectedToExecuteDelete()
-        {
-            // Arrange
-            var criteria = new DeleteKPIGroupCriteria
-            {
-                KPIGroupId = 1,
-                ModifiedBy = 1
-            };
-            ArrangeDeleteKPIGroup();
-
-            // Act
-            _kpiGroupService.DeleteKPIGroup(criteria);
-
-            // Assert
-            _kpiGroupService.Repository.Received().ExecuteNonQuery(Arg.Is<DeleteKPIGroupCriteria>(x => x.IsValid()));
-        }
-
-        #endregion DeleteKPIGroup
-
         #region Helpers
 
         private IBaseRepository FakeBaseRepository()
@@ -273,34 +130,6 @@
             _kpiGroupService = Substitute.For<KPIGroupService>();
             _kpiGroupService.When(x => x.GetDataEntity<KPIGroupModel>(Arg.Any<GetKPIGroupByIdCriteria>())).DoNotCallBase();
             _kpiGroupService.GetDataEntity<KPIGroupModel>(Arg.Any<GetKPIGroupByIdCriteria>()).Returns(result ?? new KPIGroupModel());
-        }
-
-        private void ArrangeCreateKPIGroup(CommandResult result = null)
-        {
-            _baseRepository = FakeBaseRepository();
-            _kpiGroupService = GetKPIGroupService(_baseRepository);
-            _kpiGroupService.Repository.ExecuteNonQuery(Arg.Any<CreateKPIGroupCriteria>()).Returns(result ?? new CommandResult());
-        }
-
-        private void ArrangeUpdateKPIGroup(CommandResult result = null)
-        {
-            _baseRepository = FakeBaseRepository();
-            _kpiGroupService = GetKPIGroupService(_baseRepository);
-            _kpiGroupService.Repository.ExecuteNonQuery(Arg.Any<UpdateKPIGroupCriteria>()).Returns(result ?? new CommandResult());
-        }
-
-        private void ArrangeUpdateStatusKPIGroup(CommandResult result = null)
-        {
-            _baseRepository = FakeBaseRepository();
-            _kpiGroupService = GetKPIGroupService(_baseRepository);
-            _kpiGroupService.Repository.ExecuteNonQuery(Arg.Any<UpdateStatusKPIGroupCriteria>()).Returns(result ?? new CommandResult());
-        }
-
-        private void ArrangeDeleteKPIGroup(CommandResult result = null)
-        {
-            _baseRepository = FakeBaseRepository();
-            _kpiGroupService = GetKPIGroupService(_baseRepository);
-            _kpiGroupService.Repository.ExecuteNonQuery(Arg.Any<DeleteKPIGroupCriteria>()).Returns(result ?? new CommandResult());
         }
 
         #endregion Helpers

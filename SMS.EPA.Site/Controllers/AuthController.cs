@@ -1,5 +1,7 @@
 ﻿namespace SMS.EPA.Site.Controllers
 {
+    using System.Web.Mvc;
+    using System.Web.Security;
     using Core.Enumerations;
     using Core.Model;
     using Core.Security;
@@ -9,25 +11,26 @@
     using Resources;
     using Services.Implement;
     using Services.Interfaces;
-    using System.Web.Mvc;
-    using System.Web.Security;
 
     public class AuthController : Controller
     {
         private readonly ISessionService _sessionService;
         private readonly IEmployeeService _employeeService;
+        private readonly ICommonService commonService;
 
         public AuthController()
-            : this(null, null)
+            : this(null, null, null)
         {
         }
 
         public AuthController(
             ISessionService sessionService,
-            IEmployeeService employeeService)
+            IEmployeeService employeeService,
+            ICommonService commonService)
         {
             _sessionService = sessionService ?? new SessionService();
             _employeeService = employeeService ?? new EmployeeService();
+            this.commonService = commonService ?? new CommonService();
         }
 
         [HttpGet]
@@ -114,7 +117,8 @@
                 EmployeeId = user.EmployeeId,
                 IPAddress = address
             };
-            _employeeService.InsertEmployeeIPAddress(criteria);
+
+            commonService.ExecuteNonQuery(criteria);
         }
 
         private UserSession GetEmployeeLogin(LoginModel model)

@@ -1,5 +1,11 @@
 ﻿namespace SMS.EPA.Site.Controllers.API
 {
+    using System.Collections.Generic;
+    using System.Globalization;
+    using System.Linq;
+    using System.Net;
+    using System.Net.Http;
+    using System.Web.Http;
     using Core.Attribute;
     using Core.Constants;
     using Core.Enumerations;
@@ -9,28 +15,25 @@
     using Model;
     using Services.Implement;
     using Services.Interfaces;
-    using System.Collections.Generic;
-    using System.Globalization;
-    using System.Linq;
-    using System.Net;
-    using System.Net.Http;
-    using System.Web.Http;
 
     public class UpdateFinalScoreController : BaseController
     {
         private readonly IEmployeeEPAService evaluationService;
         private readonly ICryptographyService cryptographyService;
+        private readonly ICommonService commonService;
 
-        public UpdateFinalScoreController() : this(null, null)
+        public UpdateFinalScoreController() : this(null, null, null)
         {
         }
 
         public UpdateFinalScoreController(
             IEmployeeEPAService evaluationService,
-            ICryptographyService cryptographyService)
+            ICryptographyService cryptographyService,
+            ICommonService commonService)
         {
             this.evaluationService = evaluationService ?? new EmployeeEPAService();
             this.cryptographyService = cryptographyService ?? new CryptographyService();
+            this.commonService = commonService ?? new CommonService();
         }
 
         [ApiAuthorize(FunctionKey = EPAFunctionKey.UpdateFinalScore, Policy = Policy.Read)]
@@ -109,7 +112,7 @@
                 EPAInfos = epaInfos
             };
 
-            CommandResult commandResult = evaluationService.UpdateFinalScoreEPAEndEvaluation(criteria);
+            CommandResult commandResult = commonService.ExecuteNonQuery(criteria);
             HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.OK, commandResult);
 
             return response;

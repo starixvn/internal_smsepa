@@ -115,78 +115,6 @@
 
         #endregion GetDepartmentFlowById
 
-        #region CreateDepartmentFlow
-
-        [Test]
-        public void CreateDepartmentFlow_AnyArg_ReturnInstanceOfCommandResult()
-        {
-            // Arrange
-            ArrangeExecuteDepartmentFlow();
-
-            // Act
-            var actual = departmentFlowService.CreateDepartmentFlow(Arg.Any<CreateDepartmentFlowCriteria>());
-
-            // Assert
-            Assert.IsInstanceOf(typeof(CommandResult), actual);
-        }
-
-        [Test]
-        public void CreateDepartmentFlow_VaidArg_ExpectedToExecuteInsert()
-        {
-            // Arrange
-            var citeria = new CreateDepartmentFlowCriteria()
-            {
-                DepartmentId = 1,
-                FlowTemplateId = 1,
-                ModifiedBy = 1
-            };
-            ArrangeExecuteDepartmentFlow();
-
-            // Act
-            var actual = departmentFlowService.CreateDepartmentFlow(citeria);
-
-            // Assert
-            departmentFlowService.Repository.Received().ExecuteNonQuery(citeria);
-        }
-
-        #endregion CreateDepartmentFlow
-
-        #region DeleteDepartmentFlow
-
-        [Test]
-        public void DeleteDepartmentFlow_AnyArg_ReturnInstanceOfCommandResult()
-        {
-            // Arrange
-            ArrangeExecuteDepartmentFlow();
-
-            // Act
-            var actual = departmentFlowService.DeleteDepartmentFlow(Arg.Any<DeleteDepartmentFlowCriteria>());
-
-            // Assert
-            Assert.IsInstanceOf(typeof(CommandResult), actual);
-        }
-
-        [Test]
-        public void DeleteDepartmentFlow_VaidArg_ExpectedToExecuteDelete()
-        {
-            // Arrange
-            var citeria = new DeleteDepartmentFlowCriteria()
-            {
-                DepartmentId = 1,
-                FlowTemplateId = 1,
-                ModifiedBy = 1
-            };
-            ArrangeExecuteDepartmentFlow();
-
-            // Act
-            var actual = departmentFlowService.DeleteDepartmentFlow(citeria);
-
-            // Assert
-            departmentFlowService.Repository.Received().ExecuteNonQuery(citeria);
-        }
-
-        #endregion DeleteDepartmentFlow
-
         #region GetDepartmentHasSettingByFlowTemplateId
 
         [Test]
@@ -291,13 +219,11 @@
             departmentFlowService = new DepartmentFlowService(flowSettingRepository);
         }
 
-        private void ArrangeExecuteDepartmentFlow(CommandResult result = null)
+        private void ArrangeExecuteNonQuery(CommandResult result = null)
         {
             var baseRepository = FakeBaseRepository();
             departmentFlowService = new DepartmentFlowService(flowSettingRepository);
             departmentFlowService.Repository = baseRepository;
-            departmentFlowService.Repository.ExecuteNonQuery(Arg.Any<ICriteria>()).Returns(result ?? new CommandResult());
-            departmentFlowService.Repository.ExecuteNonQuery(Arg.Any<ICriteria>()).Returns(result ?? new CommandResult());
             departmentFlowService.Repository.ExecuteNonQuery(Arg.Any<ICriteria>()).Returns(result ?? new CommandResult());
         }
 

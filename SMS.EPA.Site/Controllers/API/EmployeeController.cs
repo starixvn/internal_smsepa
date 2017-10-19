@@ -1,5 +1,7 @@
 ﻿namespace SMS.EPA.Site.Controllers.API
 {
+    using System.Collections.Generic;
+    using System.Web.Http;
     using Core.Attribute;
     using Core.Constants;
     using Core.Enumerations;
@@ -9,21 +11,22 @@
     using Model.Enitites;
     using Services.Implement;
     using Services.Interfaces;
-    using System.Collections.Generic;
-    using System.Web.Http;
 
     public class EmployeeController : BaseController
     {
         private readonly IEmployeeService employeeService;
+        private readonly ICommonService commonService;
 
-        public EmployeeController() : this(null)
+        public EmployeeController() : this(null, null)
         {
         }
 
         public EmployeeController(
-            IEmployeeService employeeService)
+            IEmployeeService employeeService,
+            ICommonService commonService)
         {
             this.employeeService = employeeService ?? new EmployeeService();
+            this.commonService = commonService ?? new CommonService();
         }
 
         [ApiAuthorize(FunctionKey = EPAFunctionKey.UserManagement, Policy = Policy.Read)]
@@ -71,7 +74,7 @@
                 criteria.ModifiedBy = SessionService.EmployeeId;
             }
 
-            CommandResult commandResult = employeeService.UpdateSpecialEmployee(criteria);
+            CommandResult commandResult = commonService.ExecuteNonQuery(criteria);
             return commandResult;
         }
 
@@ -98,7 +101,7 @@
                 criteria.ModifiedBy = SessionService.EmployeeId;
             }
 
-            CommandResult commandResult = employeeService.AssignRoleToEmployee(criteria);
+            CommandResult commandResult = commonService.ExecuteNonQuery(criteria);
             return commandResult;
         }
 
@@ -127,7 +130,7 @@
                 criteria.ModifiedBy = SessionService.EmployeeId;
             }
 
-            CommandResult commandResult = employeeService.UpdateHasMonthlyEPA(criteria);
+            CommandResult commandResult = commonService.ExecuteNonQuery(criteria);
             return commandResult;
         }
 

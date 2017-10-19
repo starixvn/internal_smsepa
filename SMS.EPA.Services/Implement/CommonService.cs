@@ -1,14 +1,16 @@
 ﻿namespace SMS.EPA.Services.Implement
 {
+    using System.Collections.Generic;
+    using System.Linq;
+    using Core.Model;
     using Core.Services;
     using Criteria;
     using Criteria.EPAHistory;
     using Criteria.TargetType;
+    using Fanex.Data.Repository;
     using Interfaces;
     using Model;
     using Model.Enitites;
-    using System.Collections.Generic;
-    using System.Linq;
 
     public class CommonService : BaseService, ICommonService
     {
@@ -45,6 +47,18 @@
             this.epaHistoryService = epaHistoryService ?? new EPAHistoryService();
             this.targetTemplateService = targetTemplateService ?? new TargetTemplateService();
             this.menuService = menuService ?? new MenuService();
+        }
+
+        public CommandResult ExecuteNonQuery(ICriteria criteria)
+        {
+            var result = new CommandResult();
+
+            if (criteria != null && criteria.IsValid())
+            {
+                result = Repository.ExecuteNonQuery(criteria);
+            }
+
+            return result;
         }
 
         public IEnumerable<TargetTypeModel> GetTargetType(GetTargetTypeCriteria criteria)

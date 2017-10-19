@@ -1,14 +1,18 @@
 ﻿namespace SMS.EPA.Services.Interfaces
 {
     using System.Collections.Generic;
+    using Core.Model;
     using Criteria;
     using Criteria.EPAHistory;
     using Criteria.TargetType;
+    using Fanex.Data.Repository;
     using Model;
     using Model.Enitites;
 
     public interface ICommonService
     {
+        CommandResult ExecuteNonQuery(ICriteria criteria);
+
         IEnumerable<TargetTypeModel> GetTargetType(GetTargetTypeCriteria criteria);
 
         IEnumerable<KPIModel> GetKPI(GetKPICriteria criteria);

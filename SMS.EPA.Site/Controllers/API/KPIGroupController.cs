@@ -1,5 +1,7 @@
 ﻿namespace SMS.EPA.Site.Controllers.API
 {
+    using System.Collections.Generic;
+    using System.Web.Http;
     using Core.Attribute;
     using Core.Constants;
     using Core.Enumerations;
@@ -8,20 +10,20 @@
     using Model;
     using Services.Implement;
     using Services.Interfaces;
-    using System.Collections.Generic;
-    using System.Web.Http;
 
     public class KPIGroupController : BaseController
     {
         private readonly IKPIGroupService kpiGroupService;
+        private readonly ICommonService commonService;
 
-        public KPIGroupController() : this(null)
+        public KPIGroupController() : this(null, null)
         {
         }
 
-        public KPIGroupController(IKPIGroupService kpiGroupService)
+        public KPIGroupController(IKPIGroupService kpiGroupService, ICommonService commonService)
         {
             this.kpiGroupService = kpiGroupService ?? new KPIGroupService();
+            this.commonService = commonService ?? new CommonService();
         }
 
         [HttpGet]
@@ -52,7 +54,7 @@
                 criteria.CreatedBy = SessionService.EmployeeId;
             }
 
-            CommandResult commandResult = kpiGroupService.CreateKPIGroup(criteria);
+            CommandResult commandResult = commonService.ExecuteNonQuery(criteria);
 
             return commandResult;
         }
@@ -66,7 +68,7 @@
                 criteria.ModifiedBy = SessionService.EmployeeId;
             }
 
-            CommandResult commandResult = kpiGroupService.UpdateKPIGroup(criteria);
+            CommandResult commandResult = commonService.ExecuteNonQuery(criteria);
 
             return commandResult;
         }
@@ -80,7 +82,7 @@
                 criteria.ModifiedBy = SessionService.EmployeeId;
             }
 
-            CommandResult commandResult = kpiGroupService.UpdateStatusKPIGroup(criteria);
+            CommandResult commandResult = commonService.ExecuteNonQuery(criteria);
 
             return commandResult;
         }
@@ -95,7 +97,7 @@
                 ModifiedBy = SessionService.EmployeeId
             };
 
-            CommandResult commandResult = kpiGroupService.DeleteKPIGroup(criteria);
+            CommandResult commandResult = commonService.ExecuteNonQuery(criteria);
 
             return commandResult;
         }

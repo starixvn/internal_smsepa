@@ -1,14 +1,13 @@
 ﻿namespace SMS.EPA.Services.Implement
 {
-    using Core.Model;
+    using System.Collections.Generic;
+    using System.Linq;
     using Core.Services;
     using Criteria;
     using Interfaces;
     using Model;
     using Model.Enitites;
     using Repositories;
-    using System.Collections.Generic;
-    using System.Linq;
 
     public class DepartmentFlowService : BaseService, IDepartmentFlowService
     {
@@ -49,30 +48,6 @@
             }
 
             return flow;
-        }
-
-        public CommandResult CreateDepartmentFlow(CreateDepartmentFlowCriteria criteria)
-        {
-            var result = new CommandResult();
-
-            if (criteria != null && criteria.IsValid())
-            {
-                result = Repository.ExecuteNonQuery(criteria);
-            }
-
-            return result;
-        }
-
-        public CommandResult DeleteDepartmentFlow(DeleteDepartmentFlowCriteria criteria)
-        {
-            var result = new CommandResult();
-
-            if (criteria != null && criteria.IsValid())
-            {
-                result = Repository.ExecuteNonQuery(criteria);
-            }
-
-            return result;
         }
 
         public IList<Department> GetDepartmentHasSettingByFlowTemplateId(int flowTemplateId)

@@ -1,11 +1,10 @@
 ﻿namespace SMS.EPA.Services.Implement
 {
-    using Core.Model;
+    using System.Collections.Generic;
     using Core.Services;
     using Criteria;
     using Interfaces;
     using Model;
-    using System.Collections.Generic;
 
     public class KPIGroupService : BaseService, IKPIGroupService
     {
@@ -35,54 +34,6 @@
             }
 
             return kpiGroup;
-        }
-
-        public CommandResult CreateKPIGroup(CreateKPIGroupCriteria criteria)
-        {
-            var commandResult = new CommandResult();
-
-            if (criteria != null && criteria.IsValid())
-            {
-                commandResult = Repository.ExecuteNonQuery(criteria);
-            }
-
-            return commandResult;
-        }
-
-        public CommandResult UpdateKPIGroup(UpdateKPIGroupCriteria criteria)
-        {
-            var commandResult = new CommandResult();
-
-            if (criteria != null && criteria.IsValid())
-            {
-                commandResult = Repository.ExecuteNonQuery(criteria);
-            }
-
-            return commandResult;
-        }
-
-        public CommandResult UpdateStatusKPIGroup(UpdateStatusKPIGroupCriteria criteria)
-        {
-            var commandResult = new CommandResult();
-
-            if (criteria != null && criteria.IsValid())
-            {
-                commandResult = Repository.ExecuteNonQuery(criteria);
-            }
-
-            return commandResult;
-        }
-
-        public CommandResult DeleteKPIGroup(DeleteKPIGroupCriteria criteria)
-        {
-            var commandResult = new CommandResult();
-
-            if (criteria != null && criteria.IsValid())
-            {
-                commandResult = Repository.ExecuteNonQuery(criteria);
-            }
-
-            return commandResult;
         }
     }
 }

@@ -1,5 +1,7 @@
 ﻿namespace SMS.EPA.Services.UnitTests
 {
+    using System.Collections.Generic;
+    using System.Linq;
     using Core.Enumerations;
     using Core.Model;
     using Core.Repositories;
@@ -10,8 +12,6 @@
     using NSubstitute;
     using NUnit.Framework;
     using Repositories;
-    using System.Collections.Generic;
-    using System.Linq;
 
     [TestFixture]
     public class EmployeeServiceTests
@@ -213,44 +213,6 @@
 
         #endregion CreateSpecialEmployee
 
-        #region UpdateSpecialEmployee
-
-        [Test]
-        public void UpdateSpecialEmployee_AnyArg_ReturnInstanceOfCommandResult()
-        {
-            // Arrange
-            ArrangeUpdateSpecialEmployee();
-
-            // Act
-            var actual = _employeeService.UpdateSpecialEmployee(new UpdateSpecialEmployeeCriteria());
-
-            // Assert
-            Assert.IsInstanceOf(typeof(CommandResult), actual);
-        }
-
-        [Test]
-        public void UpdateSpecialEmployee_ValidArg_ExpectedToExecuteUpdate()
-        {
-            // Arrange
-            var criteria = new UpdateSpecialEmployeeCriteria
-            {
-                EmployeeId = 1,
-                NickName = "test",
-                FullName = "test",
-                Username = "test",
-                ModifiedBy = 1
-            };
-            ArrangeUpdateSpecialEmployee();
-
-            // Act
-            _employeeService.UpdateSpecialEmployee(criteria);
-
-            // Assert
-            _employeeService.Repository.Received().ExecuteNonQuery(Arg.Is<UpdateSpecialEmployeeCriteria>(x => x.IsValid()));
-        }
-
-        #endregion UpdateSpecialEmployee
-
         #region ChangePassword
 
         [Test]
@@ -342,42 +304,6 @@
 
         #endregion ChangePassword
 
-        #region AssignRoleToEmployee
-
-        [Test]
-        public void AssignRoleToEmployee_AnyArg_ReturnInstanceOfCommandResult()
-        {
-            // Arrange
-            ArrangeAssignRoleToEmployee();
-
-            // Act
-            var actual = _employeeService.AssignRoleToEmployee(new AssignRoleToEmployeeCriteria());
-
-            // Assert
-            Assert.IsInstanceOf(typeof(CommandResult), actual);
-        }
-
-        [Test]
-        public void AssignRoleToEmployee_ValidArg_ExpectedToExecuteUpdate()
-        {
-            // Arrange
-            var criteria = new AssignRoleToEmployeeCriteria
-            {
-                EmployeeId = 1,
-                RoleIds = "1,2",
-                ModifiedBy = 1
-            };
-            ArrangeAssignRoleToEmployee();
-
-            // Act
-            _employeeService.AssignRoleToEmployee(criteria);
-
-            // Assert
-            _employeeService.Repository.Received().ExecuteNonQuery(Arg.Is<AssignRoleToEmployeeCriteria>(x => x.IsValid()));
-        }
-
-        #endregion AssignRoleToEmployee
-
         #region GetEmployeeByDepartmentId
 
         [Test]
@@ -455,72 +381,6 @@
         }
 
         #endregion GetEmployeeByGroupId
-
-        #region InsertEmployeeIPAddress
-
-        [Test]
-        public void InsertEmployeeIPAddress_AnyArg_ReturnInstanceOfCommandResult()
-        {
-            // Arrange
-            ArrangeInsertEmployeeIPAddress();
-
-            // Act
-            var actual = _employeeService.InsertEmployeeIPAddress(new InsertEmployeeIPAddressCriteria());
-
-            // Assert
-            Assert.IsInstanceOf(typeof(CommandResult), actual);
-        }
-
-        [Test]
-        public void InsertEmployeeIPAddress_ValidArg_ExpectedToExecuteInsert()
-        {
-            // Arrange
-            var criteria = new InsertEmployeeIPAddressCriteria();
-            ArrangeInsertEmployeeIPAddress();
-
-            // Act
-            _employeeService.InsertEmployeeIPAddress(criteria);
-
-            // Assert
-            _employeeService.Repository.Received().ExecuteNonQuery(Arg.Is<InsertEmployeeIPAddressCriteria>(x => x.IsValid()));
-        }
-
-        #endregion InsertEmployeeIPAddress
-
-        #region UpdateHasMonthlyEPA
-
-        [Test]
-        public void UpdateHasMonthlyEPA_AnyArg_ReturnInstanceOfCommandResult()
-        {
-            // Arrange
-            ArrangeUpdateHasMonthlyEPA();
-
-            // Act
-            var actual = _employeeService.UpdateHasMonthlyEPA(new UpdateHasMonthlyEPACriteria());
-
-            // Assert
-            Assert.IsInstanceOf(typeof(CommandResult), actual);
-        }
-
-        [Test]
-        public void UpdateHasMonthlyEPA_ValidArg_ExpectedToExecuteUpdate()
-        {
-            // Arrange
-            var criteria = new UpdateHasMonthlyEPACriteria
-            {
-                EmployeeId = 1,
-                ModifiedBy = 1
-            };
-            ArrangeUpdateHasMonthlyEPA();
-
-            // Act
-            _employeeService.UpdateHasMonthlyEPA(criteria);
-
-            // Assert
-            _employeeService.Repository.Received().ExecuteNonQuery(Arg.Is<UpdateHasMonthlyEPACriteria>(x => x.IsValid()));
-        }
-
-        #endregion UpdateHasMonthlyEPA
 
         #region ResetPassword
 

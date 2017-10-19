@@ -1,7 +1,6 @@
 ﻿namespace SMS.EPA.Services.Interfaces
 {
     using System.Collections.Generic;
-    using Core.Model;
     using Criteria;
     using Model;
     using Model.Enitites;
@@ -25,7 +24,5 @@
         IEnumerable<RatingByKPIModel> GetEmployeeEPAToView(GetEmployeeEPAToViewCriteria criteria);
 
         IEnumerable<Employee> GetEvaluatorsByTargetTemplate(GetEvaluatorsByTargetTemplateCriteria criteria);
-
-        CommandResult UpdateKPIScore(UpdateKPIScoreCriteria criteria);
     }
 }

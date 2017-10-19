@@ -1,5 +1,7 @@
 ﻿namespace SMS.EPA.Services.Implement
 {
+    using System.Collections.Generic;
+    using System.Linq;
     using Core.Enumerations;
     using Core.Model;
     using Core.Security;
@@ -9,8 +11,6 @@
     using Model.Enitites;
     using Repositories;
     using Resources;
-    using System.Collections.Generic;
-    using System.Linq;
 
     public class EmployeeService : BaseService, IEmployeeService
     {
@@ -84,18 +84,6 @@
             return commandResult;
         }
 
-        public CommandResult UpdateSpecialEmployee(UpdateSpecialEmployeeCriteria criteria)
-        {
-            var commandResult = new CommandResult();
-
-            if (criteria != null && criteria.IsValid())
-            {
-                commandResult = Repository.ExecuteNonQuery(criteria);
-            }
-
-            return commandResult;
-        }
-
         public CommandResult ChangePassword(ChangePasswordCriteria criteria)
         {
             var commandResult = new CommandResult();
@@ -124,18 +112,6 @@
             if (criteria != null && criteria.IsValid())
             {
                 criteria.NewPassword = Encryption.ComputeHash(HashProvider.Sha1, criteria.NewPassword);
-                commandResult = Repository.ExecuteNonQuery(criteria);
-            }
-
-            return commandResult;
-        }
-
-        public CommandResult AssignRoleToEmployee(AssignRoleToEmployeeCriteria criteria)
-        {
-            var commandResult = new CommandResult();
-
-            if (criteria != null && criteria.IsValid())
-            {
                 commandResult = Repository.ExecuteNonQuery(criteria);
             }
 
@@ -172,30 +148,6 @@
             }
 
             return employees;
-        }
-
-        public CommandResult InsertEmployeeIPAddress(InsertEmployeeIPAddressCriteria criteria)
-        {
-            var commandResult = new CommandResult();
-
-            if (criteria != null && criteria.IsValid())
-            {
-                commandResult = Repository.ExecuteNonQuery(criteria);
-            }
-
-            return commandResult;
-        }
-
-        public CommandResult UpdateHasMonthlyEPA(UpdateHasMonthlyEPACriteria criteria)
-        {
-            var commandResult = new CommandResult();
-
-            if (criteria != null && criteria.IsValid())
-            {
-                commandResult = Repository.ExecuteNonQuery(criteria);
-            }
-
-            return commandResult;
         }
 
         public string GetPasswordByEmployeeId(int employeeId)

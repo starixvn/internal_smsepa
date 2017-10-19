@@ -1,12 +1,11 @@
 ﻿namespace SMS.EPA.Services.Implement
 {
-    using Core.Model;
-    using Criteria;
-    using Interfaces;
-    using Model;
     using System.Collections.Generic;
     using System.Linq;
+    using Criteria;
     using Fanex.Data.Repository;
+    using Interfaces;
+    using Model;
 
     public class EvaluatorEPAService : BaseActorEPAService, IEvaluatorEPAService
     {
@@ -70,18 +69,6 @@
             }
 
             return epaInfo;
-        }
-
-        public CommandResult UpdateEPAScoreByEvaluator(UpdateEPAScoreCriteria criteria)
-        {
-            var commandResult = new CommandResult();
-
-            if (criteria != null && criteria.IsValid())
-            {
-                commandResult = Repository.ExecuteNonQuery(criteria);
-            }
-
-            return commandResult;
         }
     }
 }

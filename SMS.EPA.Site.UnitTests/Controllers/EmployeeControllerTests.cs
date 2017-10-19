@@ -1,19 +1,21 @@
 ﻿namespace SMS.EPA.Site.UnitTests
 {
+    using System.Collections.Generic;
     using Core.Model;
     using Core.Services;
     using Criteria;
+    using Fanex.Data.Repository;
     using Model.Enitites;
     using NSubstitute;
     using NUnit.Framework;
     using Services.Interfaces;
     using Site.Controllers.API;
-    using System.Collections.Generic;
 
     [TestFixture]
     public class EmployeeControllerTests
     {
         private IEmployeeService _employeeService;
+        private ICommonService commonService;
         private ISessionService _sessionService;
         private EmployeeController _employeeController;
 
@@ -103,8 +105,9 @@
             // Arrange
             _employeeService = FakeEmployeeService();
             _sessionService = FakeSessionService();
-            _employeeService.UpdateSpecialEmployee(Arg.Any<UpdateSpecialEmployeeCriteria>()).Returns(new CommandResult());
-            _employeeController = GetEmployeeController(_employeeService, _sessionService);
+            commonService = FakeCommonService();
+            commonService.ExecuteNonQuery(Arg.Any<ICriteria>()).Returns(new CommandResult());
+            _employeeController = GetEmployeeController(_employeeService, _sessionService, commonService);
 
             // Act
             var actual = _employeeController.UpdateSpecialEmployee(Arg.Any<UpdateSpecialEmployeeCriteria>());
@@ -136,8 +139,9 @@
             // Arrange
             _employeeService = FakeEmployeeService();
             _sessionService = FakeSessionService();
-            _employeeService.AssignRoleToEmployee(Arg.Any<AssignRoleToEmployeeCriteria>()).Returns(new CommandResult());
-            _employeeController = GetEmployeeController(_employeeService, _sessionService);
+            commonService = FakeCommonService();
+            commonService.ExecuteNonQuery(Arg.Any<ICriteria>()).Returns(new CommandResult());
+            _employeeController = GetEmployeeController(_employeeService, _sessionService, commonService);
 
             // Act
             var actual = _employeeController.AssignRoleToEmployee(Arg.Any<AssignRoleToEmployeeCriteria>());
@@ -181,40 +185,6 @@
 
         #endregion ChangePassword
 
-        #region ResetPassword
-
-        [Test]
-        public void ResetPassword_CheckActionName_ReturnAsExpected()
-        {
-            // Arrange
-            _employeeController = GetEmployeeController();
-
-            // Act
-            var actual = _employeeController.GetType().GetMethod("ResetPassword");
-
-            // Assert
-            Assert.IsNotNull(actual);
-        }
-
-        [Test]
-        public void ResetPassword_WhenCalled_ReturnInstanceOfCommandResult()
-        {
-            // Arrange
-            _employeeService = FakeEmployeeService();
-            _sessionService = FakeSessionService();
-            ConfigurationManagerService.GetAppSetting(Arg.Any<string>()).Returns("123456");
-            _employeeService.ResetPassword(Arg.Any<ResetPasswordCriteria>()).Returns(new CommandResult());
-            _employeeController = GetEmployeeController(_employeeService, _sessionService);
-
-            // Act
-            var actual = _employeeController.ResetPassword(Arg.Any<int>());
-
-            // Assert
-            Assert.IsInstanceOf(typeof(CommandResult), actual);
-        }
-
-        #endregion ResetPassword
-
         #region UpdateHasMonthlyEPA
 
         [Test]
@@ -236,8 +206,9 @@
             // Arrange
             _employeeService = FakeEmployeeService();
             _sessionService = FakeSessionService();
-            _employeeService.UpdateHasMonthlyEPA(Arg.Any<UpdateHasMonthlyEPACriteria>()).Returns(new CommandResult());
-            _employeeController = GetEmployeeController(_employeeService, _sessionService);
+            commonService = FakeCommonService();
+            commonService.ExecuteNonQuery(Arg.Any<ICriteria>()).Returns(new CommandResult());
+            _employeeController = GetEmployeeController(_employeeService, _sessionService, commonService);
 
             // Act
             var actual = _employeeController.UpdateHasMonthlyEPA(Arg.Any<UpdateHasMonthlyEPACriteria>());
@@ -252,7 +223,7 @@
 
         private ISessionService FakeSessionService()
         {
-            ISessionService service = Substitute.For<ISessionService>();
+            var service = Substitute.For<ISessionService>();
             service.EmployeeId = 1;
 
             return service;
@@ -260,7 +231,14 @@
 
         private IEmployeeService FakeEmployeeService()
         {
-            IEmployeeService service = Substitute.For<IEmployeeService>();
+            var service = Substitute.For<IEmployeeService>();
+
+            return service;
+        }
+
+        private ICommonService FakeCommonService()
+        {
+            var service = Substitute.For<ICommonService>();
 
             return service;
         }
@@ -268,9 +246,10 @@
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Reliability", "CA2000:Dispose objects before losing scope", Justification = "Reviewed")]
         private EmployeeController GetEmployeeController(
             IEmployeeService employeeService = null,
-            ISessionService sessionService = null)
+            ISessionService sessionService = null,
+            ICommonService commonService = null)
         {
-            var controller = new EmployeeController(employeeService);
+            var controller = new EmployeeController(employeeService, commonService);
             controller.SessionService = sessionService;
 
             return controller;
