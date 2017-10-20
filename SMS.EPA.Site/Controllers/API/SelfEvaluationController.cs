@@ -17,17 +17,20 @@
     {
         private readonly IEmployeeEPAService evaluationService;
         private readonly ISelfEvaluationService selfEvaluationService;
+        private readonly ICommonService commonService;
 
-        public SelfEvaluationController() : this(null, null)
+        public SelfEvaluationController() : this(null, null, null)
         {
         }
 
         public SelfEvaluationController(
             IEmployeeEPAService evaluationService,
-            ISelfEvaluationService selfEvaluationService)
+            ISelfEvaluationService selfEvaluationService,
+            ICommonService commonService)
         {
             this.evaluationService = evaluationService ?? new EmployeeEPAService();
             this.selfEvaluationService = selfEvaluationService ?? new SelfEvaluationService();
+            this.commonService = commonService ?? new CommonService();
         }
 
         [HttpGet]
@@ -77,7 +80,7 @@
                 criteria.EvaluatorId = SessionService.EmployeeId;
                 criteria.ModifiedBy = SessionService.EmployeeId;
 
-                commandResult = selfEvaluationService.UpdateEPAScoreByEmployee(criteria);
+                commandResult = commonService.ExecuteNonQuery(criteria);
             }
 
             return commandResult;

@@ -1,5 +1,7 @@
 ﻿namespace SMS.EPA.Services.Implement
 {
+    using System;
+    using System.Collections.Generic;
     using Core.Enumerations;
     using Core.Model;
     using Core.Services;
@@ -7,8 +9,6 @@
     using Interfaces;
     using Model;
     using Repositories;
-    using System;
-    using System.Collections.Generic;
 
     public class PeriodService : BaseService, IPeriodService
     {
@@ -80,55 +80,7 @@
             return periods;
         }
 
-        public CommandResult CreatePeriod(CreatePeriodCriteria criteria)
-        {
-            var commandResult = new CommandResult();
-
-            if (criteria != null && criteria.IsValid())
-            {
-                commandResult = Repository.ExecuteNonQuery(criteria);
-            }
-
-            return commandResult;
-        }
-
         public CommandResult AutoCreateMonthlyPeriod(AutoCreateMonthlyPeriodCriteria criteria)
-        {
-            var commandResult = new CommandResult();
-
-            if (criteria != null && criteria.IsValid())
-            {
-                commandResult = Repository.ExecuteNonQuery(criteria);
-            }
-
-            return commandResult;
-        }
-
-        public CommandResult UpdateBasicInformationPeriod(UpdateBasicInformationPeriodCriteria criteria)
-        {
-            var commandResult = new CommandResult();
-
-            if (criteria != null && criteria.IsValid())
-            {
-                commandResult = Repository.ExecuteNonQuery(criteria);
-            }
-
-            return commandResult;
-        }
-
-        public CommandResult UpdateStatusPeriod(UpdateStatusPeriodCriteria criteria)
-        {
-            var commandResult = new CommandResult();
-
-            if (criteria != null && criteria.IsValid())
-            {
-                commandResult = Repository.ExecuteNonQuery(criteria);
-            }
-
-            return commandResult;
-        }
-
-        public CommandResult DeletePeriod(DeletePeriodCriteria criteria)
         {
             var commandResult = new CommandResult();
 
@@ -152,18 +104,6 @@
             return employeeSettings;
         }
 
-        public CommandResult AddEmployeeToPeriod(AddEmployeeToPeriodCriteria criteria)
-        {
-            var commandResult = new CommandResult();
-
-            if (criteria != null && criteria.IsValid())
-            {
-                commandResult = Repository.ExecuteNonQuery(criteria);
-            }
-
-            return commandResult;
-        }
-
         public CommandResult UpdateEmployeeSettingOfPeriod(UpdateEmployeeSettingOfPeriodCriteria criteria)
         {
             var commandResult = new CommandResult();
@@ -177,18 +117,6 @@
                 {
                     GetAndSendEmailToAllRelatedEmployee(MailMode.NotifyChange, criteria.PeriodId, criteria.EmployeeIds, null);
                 }
-            }
-
-            return commandResult;
-        }
-
-        public CommandResult UpdateIncludeStatusEmployeePeriod(UpdateIncludeStatusEmployeePeriodCriteria criteria)
-        {
-            var commandResult = new CommandResult();
-
-            if (criteria != null && criteria.IsValid())
-            {
-                commandResult = Repository.ExecuteNonQuery(criteria);
             }
 
             return commandResult;
@@ -277,18 +205,6 @@
             return processSettings;
         }
 
-        public CommandResult UpdateProcessSettingPeriod(UpdateProcessSettingPeriodCriteria criteria)
-        {
-            var commandResult = new CommandResult();
-
-            if (criteria != null && criteria.IsValid())
-            {
-                commandResult = Repository.ExecuteNonQuery(criteria);
-            }
-
-            return commandResult;
-        }
-
         public bool CheckSelfProcessStarted(CheckSelfProcessStartedCriteria criteria)
         {
             bool hasStarted = false;
@@ -322,7 +238,7 @@
                     break;
 
                 default:
-                    throw new ArgumentOutOfRangeException(nameof(mailMode), mailMode, null);
+                    return;
             }
         }
 

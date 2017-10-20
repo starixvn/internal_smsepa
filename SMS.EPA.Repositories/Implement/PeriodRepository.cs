@@ -1,13 +1,12 @@
 ﻿namespace SMS.EPA.Repositories
 {
+    using System.Collections.Generic;
+    using System.Linq;
     using Core.Enumerations;
     using Fanex.Data;
     using Fanex.Data.Repository;
     using Model;
     using Model.Enitites;
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
 
     public class PeriodRepository : IPeriodRepository
     {
@@ -138,7 +137,7 @@
                     break;
 
                 default:
-                    throw new ArgumentException("type not in case");
+                    return;
             }
         }
 

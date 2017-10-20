@@ -1,5 +1,6 @@
 ﻿namespace SMS.EPA.Site.UnitTests.Controllers
 {
+    using System.Collections.Generic;
     using Core.Model;
     using Core.Services;
     using Criteria;
@@ -8,13 +9,13 @@
     using NUnit.Framework;
     using Services.Interfaces;
     using Site.Controllers.API;
-    using System.Collections.Generic;
 
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1001:TypesThatOwnDisposableFieldsShouldBeDisposable", Justification = "Reviewed")]
     [TestFixture]
     public class TargetEmployeeSettingControllerTests
     {
         private ITargetEmployeeSettingService _targetEmployeeSettingService;
+        private ICommonService commonService;
         private TargetEmployeeSettingController _targetEmployeeSettingController;
 
         #region GetTargetEmployeeSetting
@@ -259,13 +260,31 @@
             return service;
         }
 
+        private ICommonService FakeCommonService()
+        {
+            var service = Substitute.For<ICommonService>();
+
+            return service;
+        }
+
+        private TargetEmployeeSettingController GetTargetEmployeeSettingController(
+            ITargetEmployeeSettingService targetEmployeeSettingService = null,
+            ISessionService sessionService = null,
+            ICommonService commonService = null)
+        {
+            var controller = new TargetEmployeeSettingController(targetEmployeeSettingService, commonService);
+            controller.SessionService = sessionService;
+
+            return controller;
+        }
+
         private void ArrangeGetTargetEmployeeSetting(IList<TargetEmployeeSetting> targetEmployees = null)
         {
             _targetEmployeeSettingService = Substitute.For<ITargetEmployeeSettingService>();
 
             _targetEmployeeSettingService.GetTargetEmployeeSetting(Arg.Any<GetAllTargetEmployeeSettingCriteria>())
                 .Returns(targetEmployees ?? new List<TargetEmployeeSetting>());
-            _targetEmployeeSettingController = new TargetEmployeeSettingController(_targetEmployeeSettingService);
+            _targetEmployeeSettingController = GetTargetEmployeeSettingController(_targetEmployeeSettingService);
         }
 
         private void ArrangeGetTargetDepartmentSetting(IList<TargetDepartmentSetting> targetDepartments = null)
@@ -274,43 +293,39 @@
 
             _targetEmployeeSettingService.GetTargetDepartmentSetting(Arg.Any<GetTargetDepartmentSettingCriteria>())
                 .Returns(targetDepartments ?? new List<TargetDepartmentSetting>());
-            _targetEmployeeSettingController = new TargetEmployeeSettingController(_targetEmployeeSettingService);
+            _targetEmployeeSettingController = GetTargetEmployeeSettingController(_targetEmployeeSettingService);
         }
 
         private void ArrangeAssignTargetTemplateToEmployee(CommandResult result = null)
         {
             _targetEmployeeSettingService = Substitute.For<ITargetEmployeeSettingService>();
-
-            _targetEmployeeSettingService.AssignTargetTemplateToEmployee(Arg.Any<AssignTargetTemplateToEmployeeCriteria>()).Returns(result ?? new CommandResult());
-            _targetEmployeeSettingController = new TargetEmployeeSettingController(_targetEmployeeSettingService);
-            _targetEmployeeSettingController.SessionService = FakeSessionService();
+            commonService = FakeCommonService();
+            commonService.ExecuteNonQuery(Arg.Any<AssignTargetTemplateToEmployeeCriteria>()).Returns(result ?? new CommandResult());
+            _targetEmployeeSettingController = GetTargetEmployeeSettingController(_targetEmployeeSettingService, FakeSessionService(), commonService);
         }
 
         private void ArrangeDeleteTargetEmployeeSetting(CommandResult result = null)
         {
             _targetEmployeeSettingService = Substitute.For<ITargetEmployeeSettingService>();
-
-            _targetEmployeeSettingService.DeleteTargetEmployeeSetting(Arg.Any<DeleteTargetEmployeeSettingCriteria>()).Returns(result ?? new CommandResult());
-            _targetEmployeeSettingController = new TargetEmployeeSettingController(_targetEmployeeSettingService);
-            _targetEmployeeSettingController.SessionService = FakeSessionService();
+            commonService = FakeCommonService();
+            commonService.ExecuteNonQuery(Arg.Any<DeleteTargetEmployeeSettingCriteria>()).Returns(result ?? new CommandResult());
+            _targetEmployeeSettingController = GetTargetEmployeeSettingController(_targetEmployeeSettingService, FakeSessionService(), commonService);
         }
 
         private void ArrangeAssignTargetTemplateToDepartment(CommandResult result = null)
         {
             _targetEmployeeSettingService = Substitute.For<ITargetEmployeeSettingService>();
-
-            _targetEmployeeSettingService.AssignTargetTemplateToDepartment(Arg.Any<AssignTargetDepartmentSettingCriteria>()).Returns(result ?? new CommandResult());
-            _targetEmployeeSettingController = new TargetEmployeeSettingController(_targetEmployeeSettingService);
-            _targetEmployeeSettingController.SessionService = FakeSessionService();
+            commonService = FakeCommonService();
+            commonService.ExecuteNonQuery(Arg.Any<AssignTargetDepartmentSettingCriteria>()).Returns(result ?? new CommandResult());
+            _targetEmployeeSettingController = GetTargetEmployeeSettingController(_targetEmployeeSettingService, FakeSessionService(), commonService);
         }
 
         private void ArrangeDeleteTargetDepartmentSetting(CommandResult result = null)
         {
             _targetEmployeeSettingService = Substitute.For<ITargetEmployeeSettingService>();
-
-            _targetEmployeeSettingService.DeleteTargetDepartmentSetting(Arg.Any<DeleteTargetDepartmentSettingCriteria>()).Returns(result ?? new CommandResult());
-            _targetEmployeeSettingController = new TargetEmployeeSettingController(_targetEmployeeSettingService);
-            _targetEmployeeSettingController.SessionService = FakeSessionService();
+            commonService = FakeCommonService();
+            commonService.ExecuteNonQuery(Arg.Any<DeleteTargetDepartmentSettingCriteria>()).Returns(result ?? new CommandResult());
+            _targetEmployeeSettingController = GetTargetEmployeeSettingController(_targetEmployeeSettingService, FakeSessionService(), commonService);
         }
     }
 }

@@ -1,11 +1,10 @@
 ﻿namespace SMS.EPA.Core.Services
 {
-    using System;
+    using System.Linq;
+    using System.Web;
     using Constants;
     using Enumerations;
     using Model;
-    using System.Linq;
-    using System.Web;
 
     public class SessionService : ISessionService
     {
@@ -57,26 +56,31 @@
         {
             FunctionModel currentFunction =
                 CurrentUser?.Functions.FirstOrDefault(func => func.FunctionKey.Equals(functionKey));
+            var result = false;
 
             if (currentFunction != null)
             {
                 switch (policy)
                 {
                     case Policy.None:
-                        return false;
+                        result = false;
+                        break;
 
                     case Policy.Read:
-                        return currentFunction.IsRead || currentFunction.IsHost;
+                        result = currentFunction.IsRead || currentFunction.IsHost;
+                        break;
 
                     case Policy.Host:
-                        return currentFunction.IsHost;
+                        result = currentFunction.IsHost;
+                        break;
 
                     default:
-                        throw new ArgumentOutOfRangeException(nameof(policy), policy, null);
+                        result = false;
+                        break;
                 }
             }
 
-            return false;
+            return result;
         }
     }
 }

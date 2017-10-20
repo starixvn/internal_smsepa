@@ -1,10 +1,8 @@
 ﻿namespace SMS.EPA.Services.UnitTests
 {
     using System.Collections.Generic;
-    using Fanex.Data.Repository;
     using NSubstitute;
     using NUnit.Framework;
-    using SMS.EPA.Core.Model;
     using SMS.EPA.Core.Repositories;
     using SMS.EPA.Criteria;
     using SMS.EPA.Model;
@@ -115,144 +113,6 @@
 
         #endregion GetTargetDepartmentSetting
 
-        #region AssignTargetTemplateToEmployee
-
-        [Test]
-        public void AssignTargetTemplateToEmployee_AnyArg_ReturnInstanceOfCommandResult()
-        {
-            // Arrange
-            ArrangeTargetTemplateSetting();
-
-            // Act
-            var actual = targetEmployeeSettingService.AssignTargetTemplateToEmployee(Arg.Any<AssignTargetTemplateToEmployeeCriteria>());
-
-            // Assert
-            Assert.IsInstanceOf(typeof(CommandResult), actual);
-        }
-
-        [Test]
-        public void AssignTargetTemplateToEmployee_ValidArg_ExpectedToExecuteUpdate()
-        {
-            // Arrange
-            var criteria = new AssignTargetTemplateToEmployeeCriteria()
-            {
-                TargetTemplateId = 1
-            };
-            ArrangeTargetTemplateSetting();
-
-            // Act
-            targetEmployeeSettingService.AssignTargetTemplateToEmployee(criteria);
-
-            // Assert
-            targetEmployeeSettingService.Repository.Received().ExecuteNonQuery(Arg.Is<AssignTargetTemplateToEmployeeCriteria>(x => x.IsValid()));
-        }
-
-        #endregion AssignTargetTemplateToEmployee
-
-        #region AssignTargetTemplateToDepartment
-
-        [Test]
-        public void AssignTargetTemplateToDepartment_AnyArg_ReturnInstanceOfCommandResult()
-        {
-            // Arrange
-            ArrangeTargetTemplateSetting();
-
-            // Act
-            var actual = targetEmployeeSettingService.AssignTargetTemplateToDepartment(Arg.Any<AssignTargetDepartmentSettingCriteria>());
-
-            // Assert
-            Assert.IsInstanceOf(typeof(CommandResult), actual);
-        }
-
-        [Test]
-        public void AssignTargetTemplateToDepartment_ValidArg_ExpectedToExecuteUpdate()
-        {
-            // Arrange
-            var criteria = new AssignTargetDepartmentSettingCriteria()
-            {
-                TargetTemplateId = 1
-            };
-            ArrangeTargetTemplateSetting();
-
-            // Act
-            targetEmployeeSettingService.AssignTargetTemplateToDepartment(criteria);
-
-            // Assert
-            targetEmployeeSettingService.Repository.Received().ExecuteNonQuery(Arg.Is<AssignTargetDepartmentSettingCriteria>(x => x.IsValid()));
-        }
-
-        #endregion AssignTargetTemplateToDepartment
-
-        #region DeleteTargetEmployeeSetting
-
-        [Test]
-        public void DeleteTargetEmployeeSetting_AnyArg_ReturnInstanceOfCommandResult()
-        {
-            // Arrange
-            ArrangeTargetTemplateSetting();
-
-            // Act
-            var actual = targetEmployeeSettingService.DeleteTargetEmployeeSetting(Arg.Any<DeleteTargetEmployeeSettingCriteria>());
-
-            // Assert
-            Assert.IsInstanceOf(typeof(CommandResult), actual);
-        }
-
-        [Test]
-        public void DeleteTargetEmployeeSetting_ValidArg_ExpectedToExecuteUpdate()
-        {
-            // Arrange
-            var criteria = new DeleteTargetEmployeeSettingCriteria()
-            {
-                EmployeeId = 1,
-                TargetTemplateId = 1
-            };
-            ArrangeTargetTemplateSetting();
-
-            // Act
-            targetEmployeeSettingService.DeleteTargetEmployeeSetting(criteria);
-
-            // Assert
-            targetEmployeeSettingService.Repository.Received().ExecuteNonQuery(Arg.Is<DeleteTargetEmployeeSettingCriteria>(x => x.IsValid()));
-        }
-
-        #endregion DeleteTargetEmployeeSetting
-
-        #region DeleteTargetDepartmentSetting
-
-        [Test]
-        public void DeleteTargetDepartmentSetting_AnyArg_ReturnInstanceOfCommandResult()
-        {
-            // Arrange
-            ArrangeTargetTemplateSetting();
-
-            // Act
-            var actual = targetEmployeeSettingService.DeleteTargetDepartmentSetting(Arg.Any<DeleteTargetDepartmentSettingCriteria>());
-
-            // Assert
-            Assert.IsInstanceOf(typeof(CommandResult), actual);
-        }
-
-        [Test]
-        public void DeleteTargetDepartmentSetting_ValidArg_ExpectedToExecuteUpdate()
-        {
-            // Arrange
-            var criteria = new DeleteTargetDepartmentSettingCriteria()
-            {
-                DepartmentId = 1,
-                TargetTemplateId = 1
-            };
-            ArrangeTargetTemplateSetting();
-
-            // Act
-            targetEmployeeSettingService.DeleteTargetDepartmentSetting(criteria);
-
-            // Assert
-            targetEmployeeSettingService.Repository.Received().ExecuteNonQuery(criteria);
-        }
-
-        #endregion DeleteTargetDepartmentSetting
-
         private IBaseRepository FakeBaseRepository()
         {
             var repository = Substitute.For<IBaseRepository>();
@@ -284,15 +144,6 @@
             targetEmployeeSettingRepository.GetTargetTemplateDepartment(Arg.Any<GetTargetDepartmentSettingCriteria>())
                 .Returns(targetDepartments ?? new List<TargetDepartmentSetting>());
             targetEmployeeSettingService = new TargetEmployeeSettingService(targetEmployeeSettingRepository);
-        }
-
-        private void ArrangeTargetTemplateSetting(CommandResult result = null)
-        {
-            var baseRepository = FakeBaseRepository();
-            targetEmployeeSettingService = GetTargetEmployeeSettingService(baseRepository);
-            targetEmployeeSettingService.Repository.ExecuteNonQuery(Arg.Any<ICriteria>()).Returns(result ?? new CommandResult());
-            targetEmployeeSettingService.Repository.ExecuteNonQuery(Arg.Any<ICriteria>()).Returns(result ?? new CommandResult());
-            targetEmployeeSettingService.Repository.ExecuteNonQuery(Arg.Any<ICriteria>()).Returns(result ?? new CommandResult());
         }
     }
 }

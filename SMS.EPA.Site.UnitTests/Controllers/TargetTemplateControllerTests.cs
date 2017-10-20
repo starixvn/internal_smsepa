@@ -1,5 +1,7 @@
 ﻿namespace SMS.EPA.Site.UnitTests
 {
+    using System.Collections.Generic;
+    using System.Diagnostics.CodeAnalysis;
     using Core.Model;
     using Core.Services;
     using Criteria;
@@ -9,13 +11,13 @@
     using NUnit.Framework;
     using Services.Interfaces;
     using Site.Controllers.API;
-    using System.Collections.Generic;
 
     [TestFixture]
     public class TargetTemplateControllerTests
     {
         private ITargetTemplateService _targetTemplateService;
         private IScoreRatingTypeService _scoreRatingTypeService;
+        private ICommonService commonService;
         private ISessionService _sessionService;
         private TargetTemplateController _targetTemplateController;
 
@@ -104,8 +106,9 @@
             // Arrange
             _targetTemplateService = FakeTargetTemplateService();
             _sessionService = FakeSessionService();
-            _targetTemplateService.CreateTargetTemplate(Arg.Any<CreateTargetTemplateCriteria>()).Returns(new CommandResult());
-            _targetTemplateController = GetTargetTemplateController(_targetTemplateService, null, _sessionService);
+            commonService = FakeCommonService();
+            commonService.ExecuteNonQuery(Arg.Any<CreateTargetTemplateCriteria>()).Returns(new CommandResult());
+            _targetTemplateController = GetTargetTemplateController(_targetTemplateService, null, _sessionService, commonService);
 
             // Act
             var actual = _targetTemplateController.CreateTargetTemplate(Arg.Any<CreateTargetTemplateCriteria>());
@@ -137,8 +140,9 @@
             // Arrange
             _targetTemplateService = FakeTargetTemplateService();
             _sessionService = FakeSessionService();
-            _targetTemplateService.UpdateStatusTargetTemplate(Arg.Any<UpdateStatusTargetTemplateCriteria>()).Returns(new CommandResult());
-            _targetTemplateController = GetTargetTemplateController(_targetTemplateService, null, _sessionService);
+            commonService = FakeCommonService();
+            commonService.ExecuteNonQuery(Arg.Any<UpdateStatusTargetTemplateCriteria>()).Returns(new CommandResult());
+            _targetTemplateController = GetTargetTemplateController(_targetTemplateService, null, _sessionService, commonService);
 
             // Act
             var actual = _targetTemplateController.UpdateStatusTargetTemplate(Arg.Any<UpdateStatusTargetTemplateCriteria>());
@@ -170,8 +174,9 @@
             // Arrange
             _targetTemplateService = FakeTargetTemplateService();
             _sessionService = FakeSessionService();
-            _targetTemplateService.UpdateTargetTemplateBasicInfo(Arg.Any<UpdateTargetTemplateBasicInfoCriteria>()).Returns(new CommandResult());
-            _targetTemplateController = GetTargetTemplateController(_targetTemplateService, null, _sessionService);
+            commonService = FakeCommonService();
+            commonService.ExecuteNonQuery(Arg.Any<UpdateTargetTemplateBasicInfoCriteria>()).Returns(new CommandResult());
+            _targetTemplateController = GetTargetTemplateController(_targetTemplateService, null, _sessionService, commonService);
 
             // Act
             var actual = _targetTemplateController.UpdateTargetTemplateBasicInfo(Arg.Any<UpdateTargetTemplateBasicInfoCriteria>());
@@ -203,8 +208,9 @@
             // Arrange
             _targetTemplateService = FakeTargetTemplateService();
             _sessionService = FakeSessionService();
-            _targetTemplateService.UpdateTargetTemplate(Arg.Any<UpdateTargetTemplateCriteria>()).Returns(new CommandResult());
-            _targetTemplateController = GetTargetTemplateController(_targetTemplateService, null, _sessionService);
+            commonService = FakeCommonService();
+            commonService.ExecuteNonQuery(Arg.Any<UpdateTargetTemplateCriteria>()).Returns(new CommandResult());
+            _targetTemplateController = GetTargetTemplateController(_targetTemplateService, null, _sessionService, commonService);
 
             // Act
             var actual = _targetTemplateController.UpdateTargetTemplate(Arg.Any<UpdateTargetTemplateCriteria>());
@@ -236,8 +242,9 @@
             // Arrange
             _targetTemplateService = FakeTargetTemplateService();
             _sessionService = FakeSessionService();
-            _targetTemplateService.DeleteTargetTemplate(Arg.Any<DeleteTargetTemplateCriteria>()).Returns(new CommandResult());
-            _targetTemplateController = GetTargetTemplateController(_targetTemplateService, null, _sessionService);
+            commonService = FakeCommonService();
+            commonService.ExecuteNonQuery(Arg.Any<DeleteTargetTemplateCriteria>()).Returns(new CommandResult());
+            _targetTemplateController = GetTargetTemplateController(_targetTemplateService, null, _sessionService, commonService);
 
             // Act
             var actual = _targetTemplateController.DeleteTargetTemplate(Arg.Any<int>());
@@ -269,8 +276,9 @@
             // Arrange
             _targetTemplateService = FakeTargetTemplateService();
             _sessionService = FakeSessionService();
-            _targetTemplateService.AddKPIGroupWeight(Arg.Any<SetKPIGroupOfTargetTemplateCriteria>()).Returns(new CommandResult());
-            _targetTemplateController = GetTargetTemplateController(_targetTemplateService, null, _sessionService);
+            commonService = FakeCommonService();
+            commonService.ExecuteNonQuery(Arg.Any<SetKPIGroupOfTargetTemplateCriteria>()).Returns(new CommandResult());
+            _targetTemplateController = GetTargetTemplateController(_targetTemplateService, null, _sessionService, commonService);
 
             // Act
             var actual = _targetTemplateController.AddKPIGroupWeight(Arg.Any<SetKPIGroupOfTargetTemplateCriteria>());
@@ -368,8 +376,9 @@
             // Arrange
             _targetTemplateService = FakeTargetTemplateService();
             _sessionService = FakeSessionService();
-            _targetTemplateService.DeleteKPIGroup(Arg.Any<DeleteKPIGroupOfTargetTemplateCriteria>()).Returns(new CommandResult());
-            _targetTemplateController = GetTargetTemplateController(_targetTemplateService, null, _sessionService);
+            commonService = FakeCommonService();
+            commonService.ExecuteNonQuery(Arg.Any<DeleteKPIGroupOfTargetTemplateCriteria>()).Returns(new CommandResult());
+            _targetTemplateController = GetTargetTemplateController(_targetTemplateService, null, _sessionService, commonService);
 
             // Act
             var actual = _targetTemplateController.DeleteKPIGroupOfTargetTemplate(Arg.Any<int>(), Arg.Any<int>());
@@ -470,13 +479,21 @@
             return service;
         }
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Reliability", "CA2000:Dispose objects before losing scope", Justification = "Reviewed")]
+        private ICommonService FakeCommonService()
+        {
+            var service = Substitute.For<ICommonService>();
+
+            return service;
+        }
+
+        [SuppressMessage("Microsoft.Reliability", "CA2000:Dispose objects before losing scope", Justification = "Reviewed")]
         private TargetTemplateController GetTargetTemplateController(
             ITargetTemplateService targetTemplateService = null,
             IScoreRatingTypeService scoreRatingTypeService = null,
-            ISessionService sessionService = null)
+            ISessionService sessionService = null,
+            ICommonService commonService = null)
         {
-            var controller = new TargetTemplateController(targetTemplateService, scoreRatingTypeService);
+            var controller = new TargetTemplateController(targetTemplateService, scoreRatingTypeService, commonService);
             controller.SessionService = sessionService;
 
             return controller;

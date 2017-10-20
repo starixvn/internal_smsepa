@@ -1,14 +1,13 @@
 ﻿namespace SMS.EPA.Repositories
 {
+    using System.Collections.Generic;
+    using System.Diagnostics.CodeAnalysis;
+    using System.Linq;
     using Core.Enumerations;
     using Core.Services;
     using Fanex.Data;
     using Fanex.Data.Repository;
     using Model;
-    using System;
-    using System.Collections.Generic;
-    using System.Diagnostics.CodeAnalysis;
-    using System.Linq;
 
     public class EmployeeEPARepository : IEmployeeEPARepository
     {
@@ -354,7 +353,7 @@
                         break;
 
                     default:
-                        throw new ArgumentException("type not in case");
+                        continue;
                 }
             }
         }
@@ -400,7 +399,7 @@
                             break;
 
                         default:
-                            throw new ArgumentException("type not in case");
+                            continue;
                     }
                 }
             }

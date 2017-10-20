@@ -1,5 +1,7 @@
 ﻿namespace SMS.EPA.Site.Controllers.API
 {
+    using System.Collections.Generic;
+    using System.Web.Http;
     using Core.Attribute;
     using Core.Constants;
     using Core.Enumerations;
@@ -9,24 +11,25 @@
     using Model.Enitites;
     using Services.Implement;
     using Services.Interfaces;
-    using System.Collections.Generic;
-    using System.Web.Http;
 
     public class TargetTemplateController : BaseController
     {
         private readonly ITargetTemplateService targetTemplateService;
         private readonly IScoreRatingTypeService scoreRatingTypeService;
+        private readonly ICommonService commonService;
 
-        public TargetTemplateController() : this(null, null)
+        public TargetTemplateController() : this(null, null, null)
         {
         }
 
         public TargetTemplateController(
             ITargetTemplateService targetTemplateService,
-            IScoreRatingTypeService scoreRatingTypeService)
+            IScoreRatingTypeService scoreRatingTypeService,
+            ICommonService commonService)
         {
             this.targetTemplateService = targetTemplateService ?? new TargetTemplateService();
             this.scoreRatingTypeService = scoreRatingTypeService ?? new ScoreRatingTypeService();
+            this.commonService = commonService ?? new CommonService();
         }
 
         [ApiAuthorize(FunctionKey = EPAFunctionKey.TargetTemplate, Policy = Policy.Read)]
@@ -63,7 +66,7 @@
                 criteria.CreatedBy = SessionService.EmployeeId;
             }
 
-            CommandResult commandResult = targetTemplateService.CreateTargetTemplate(criteria);
+            CommandResult commandResult = commonService.ExecuteNonQuery(criteria);
             return commandResult;
         }
 
@@ -76,7 +79,7 @@
                 criteria.ModifiedBy = SessionService.EmployeeId;
             }
 
-            CommandResult commandResult = targetTemplateService.UpdateStatusTargetTemplate(criteria);
+            CommandResult commandResult = commonService.ExecuteNonQuery(criteria);
             return commandResult;
         }
 
@@ -89,7 +92,7 @@
                 criteria.ModifiedBy = SessionService.EmployeeId;
             }
 
-            CommandResult commandResult = targetTemplateService.UpdateTargetTemplateBasicInfo(criteria);
+            CommandResult commandResult = commonService.ExecuteNonQuery(criteria);
             return commandResult;
         }
 
@@ -102,7 +105,7 @@
                 criteria.ModifiedBy = SessionService.EmployeeId;
             }
 
-            CommandResult commandResult = targetTemplateService.UpdateTargetTemplate(criteria);
+            CommandResult commandResult = commonService.ExecuteNonQuery(criteria);
             return commandResult;
         }
 
@@ -116,7 +119,7 @@
                 ModifiedBy = SessionService.EmployeeId
             };
 
-            CommandResult commandResult = targetTemplateService.DeleteTargetTemplate(criteria);
+            CommandResult commandResult = commonService.ExecuteNonQuery(criteria);
             return commandResult;
         }
 
@@ -129,7 +132,7 @@
                 criteria.ModifiedBy = SessionService.EmployeeId;
             }
 
-            CommandResult commandResult = targetTemplateService.AddKPIGroupWeight(criteria);
+            CommandResult commandResult = commonService.ExecuteNonQuery(criteria);
             return commandResult;
         }
 
@@ -167,7 +170,7 @@
                 KPIGroupId = kpiGroupId,
                 ModifiedBy = SessionService.EmployeeId
             };
-            CommandResult commandResult = targetTemplateService.DeleteKPIGroup(criteria);
+            CommandResult commandResult = commonService.ExecuteNonQuery(criteria);
 
             return commandResult;
         }

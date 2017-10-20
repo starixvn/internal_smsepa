@@ -1,5 +1,7 @@
 ﻿namespace SMS.EPA.Repositories
 {
+    using System.Collections.Generic;
+    using System.Linq;
     using Core.Enumerations;
     using Core.Services;
     using Fanex.Data;
@@ -7,9 +9,6 @@
     using Model;
     using Model.Enitites;
     using Model.Report.EPASummary;
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
 
     public class ReportRepository : IReportRepository
     {
@@ -184,7 +183,7 @@
                             break;
 
                         default:
-                            throw new ArgumentException("type not in case");
+                            continue;
                     }
                 }
             }

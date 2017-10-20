@@ -1,13 +1,12 @@
 ﻿namespace SMS.EPA.Services.Implement
 {
-    using Core.Model;
+    using System.Collections.Generic;
+    using System.Linq;
     using Core.Services;
     using Criteria;
     using Interfaces;
     using Model;
     using Repositories;
-    using System.Collections.Generic;
-    using System.Linq;
 
     public class SelfEvaluationService : BaseService, ISelfEvaluationService
     {
@@ -67,18 +66,6 @@
             }
 
             return epaInfo;
-        }
-
-        public CommandResult UpdateEPAScoreByEmployee(UpdateEPAScoreCriteria criteria)
-        {
-            CommandResult commandResult = new CommandResult();
-
-            if (criteria != null && criteria.IsValid())
-            {
-                commandResult = Repository.ExecuteNonQuery(criteria);
-            }
-
-            return commandResult;
         }
     }
 }

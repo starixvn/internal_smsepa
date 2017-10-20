@@ -1,20 +1,18 @@
 ﻿namespace SMS.EPA.Services.UnitTests
 {
-    using Core.Model;
+    using System.Collections.Generic;
+    using System.Linq;
     using Core.Repositories;
     using Criteria;
     using Implement;
     using Model;
     using NSubstitute;
     using NUnit.Framework;
-    using System.Collections.Generic;
-    using System.Linq;
 
     [TestFixture]
     public class RoleServiceTests
     {
         private RoleService _roleService;
-        private IBaseRepository _baseRepository;
 
         #region GetFunctionByRoleId
 
@@ -50,42 +48,6 @@
 
         #endregion GetFunctionByRoleId
 
-        #region AssignFunctionToRole
-
-        [Test]
-        public void AssignFunctionToRole_AnyArg_ReturnInstanceOfCommandResult()
-        {
-            // Arrange
-            ArrangeAssignFunctionToRole();
-
-            // Act
-            var actual = _roleService.AssignFunctionToRole(new AssignFunctionToRoleCriteria());
-
-            // Assert
-            Assert.IsInstanceOf(typeof(CommandResult), actual);
-        }
-
-        [Test]
-        public void AssignFunctionToRole_ValidArg_ExpectedToExecuteUpdate()
-        {
-            // Arrange
-            var criteria = new AssignFunctionToRoleCriteria
-            {
-                RoleId = 1,
-                Functions = "<ROOT><Function FunctionId=\"1\" IsRead=\"1\" IsHost=\"0\"></Function></ROOT>",
-                ModifiedBy = 1
-            };
-            ArrangeAssignFunctionToRole();
-
-            // Act
-            _roleService.AssignFunctionToRole(criteria);
-
-            // Assert
-            _roleService.Repository.Received().ExecuteNonQuery(Arg.Is<AssignFunctionToRoleCriteria>(x => x.IsValid()));
-        }
-
-        #endregion AssignFunctionToRole
-
         #region Helpers
 
         private IBaseRepository FakeBaseRepository()
@@ -108,13 +70,6 @@
             _roleService = Substitute.For<RoleService>();
             _roleService.When(x => x.GetData<RoleFunctionModel>(Arg.Any<GetFunctionByRoleIdCriteria>())).DoNotCallBase();
             _roleService.GetData<RoleFunctionModel>(Arg.Any<GetFunctionByRoleIdCriteria>()).Returns(result ?? new List<RoleFunctionModel>());
-        }
-
-        private void ArrangeAssignFunctionToRole(CommandResult result = null)
-        {
-            _baseRepository = FakeBaseRepository();
-            _roleService = GetRoleService(_baseRepository);
-            _roleService.Repository.ExecuteNonQuery(Arg.Any<AssignFunctionToRoleCriteria>()).Returns(result ?? new CommandResult());
         }
 
         private IEnumerable<RoleFunctionModel> GetListOfRoleFunctionModelForTest()

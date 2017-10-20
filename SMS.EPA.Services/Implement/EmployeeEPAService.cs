@@ -416,7 +416,8 @@
                     break;
 
                 default:
-                    throw new ArgumentException("type not in case");
+                    epaInfo.Process.CurrentProcess.MaxPerformanceScore = 0;
+                    break;
             }
 
             epaInfo.Process.Self.MaxPerformanceScore = epaInfo.ScoreRatingType.SelfEvaluated;
@@ -471,7 +472,7 @@
                     break;
 
                 default:
-                    throw new ArgumentException("type not in case");
+                    return;
             }
         }
 

@@ -1,5 +1,7 @@
 ﻿namespace SMS.EPA.Services.UnitTests
 {
+    using System.Collections.Generic;
+    using System.Linq;
     using Core.Enumerations;
     using Core.Model;
     using Core.Repositories;
@@ -10,8 +12,6 @@
     using NSubstitute;
     using NUnit.Framework;
     using Repositories;
-    using System.Collections.Generic;
-    using System.Linq;
 
     [TestFixture]
     public class PeriodServiceTests
@@ -147,42 +147,6 @@
 
         #endregion GetPeriodById
 
-        #region CreatePeriod
-
-        [Test]
-        public void CreatePeriod_AnyArg_ReturnInstanceOfCommandResult()
-        {
-            // Arrange
-            ArrangeCreatePeriod();
-
-            // Act
-            var actual = _periodService.CreatePeriod(new CreatePeriodCriteria());
-
-            // Assert
-            Assert.IsInstanceOf(typeof(CommandResult), actual);
-        }
-
-        [Test]
-        public void CreatePeriod_ValidArg_ExpectedToExecuteInsert()
-        {
-            // Arrange
-            var criteria = new CreatePeriodCriteria
-            {
-                Name = "test",
-                TargetTypeId = 1,
-                CreatedBy = 1
-            };
-            ArrangeCreatePeriod();
-
-            // Act
-            _periodService.CreatePeriod(criteria);
-
-            // Assert
-            _periodService.Repository.Received().ExecuteNonQuery(Arg.Is<CreatePeriodCriteria>(x => x.IsValid()));
-        }
-
-        #endregion CreatePeriod
-
         #region AutoCreateMonthlyPeriod
 
         [Test]
@@ -216,78 +180,6 @@
         }
 
         #endregion AutoCreateMonthlyPeriod
-
-        #region UpdateBasicInformationPeriod
-
-        [Test]
-        public void UpdateBasicInformationPeriod_AnyArg_ReturnInstanceOfCommandResult()
-        {
-            // Arrange
-            ArrangeUpdateBasicInformationPeriod();
-
-            // Act
-            var actual = _periodService.UpdateBasicInformationPeriod(new UpdateBasicInformationPeriodCriteria());
-
-            // Assert
-            Assert.IsInstanceOf(typeof(CommandResult), actual);
-        }
-
-        [Test]
-        public void UpdateBasicInformationPeriod_ValidArg_ExpectedToExecuteUpdate()
-        {
-            // Arrange
-            var criteria = new UpdateBasicInformationPeriodCriteria
-            {
-                PeriodId = 1,
-                Name = "test",
-                TargetTypeId = 1,
-                ModifiedBy = 1
-            };
-            ArrangeAutoCreateMonthlyPeriod();
-
-            // Act
-            _periodService.UpdateBasicInformationPeriod(criteria);
-
-            // Assert
-            _periodService.Repository.Received().ExecuteNonQuery(Arg.Is<UpdateBasicInformationPeriodCriteria>(x => x.IsValid()));
-        }
-
-        #endregion UpdateBasicInformationPeriod
-
-        #region UpdateStatusPeriod
-
-        [Test]
-        public void UpdateStatusPeriod_AnyArg_ReturnInstanceOfCommandResult()
-        {
-            // Arrange
-            ArrangeUpdateStatusPeriod();
-
-            // Act
-            var actual = _periodService.UpdateStatusPeriod(new UpdateStatusPeriodCriteria());
-
-            // Assert
-            Assert.IsInstanceOf(typeof(CommandResult), actual);
-        }
-
-        [Test]
-        public void UpdateStatusPeriod_ValidArg_ExpectedToExecuteUpdate()
-        {
-            // Arrange
-            var criteria = new UpdateStatusPeriodCriteria
-            {
-                PeriodId = 1,
-                ModifiedBy = 1
-            };
-            ArrangeUpdateStatusPeriod();
-
-            // Act
-            _periodService.UpdateStatusPeriod(criteria);
-
-            // Assert
-            _periodService.Repository.Received().ExecuteNonQuery(Arg.Is<UpdateStatusPeriodCriteria>(x => x.IsValid()));
-        }
-
-        #endregion UpdateStatusPeriod
 
         #region GetPeriodEmployeeSettingById
 
@@ -323,76 +215,6 @@
         }
 
         #endregion GetPeriodEmployeeSettingById
-
-        #region DeletePeriod
-
-        [Test]
-        public void DeletePeriod_AnyArg_ReturnInstanceOfCommandResult()
-        {
-            // Arrange
-            ArrangeDeletePeriod();
-
-            // Act
-            var actual = _periodService.DeletePeriod(new DeletePeriodCriteria());
-
-            // Assert
-            Assert.IsInstanceOf(typeof(CommandResult), actual);
-        }
-
-        [Test]
-        public void DeletePeriod_ValidArg_ExpectedToExecuteDelete()
-        {
-            // Arrange
-            var criteria = new DeletePeriodCriteria
-            {
-                PeriodId = 1,
-                ModifiedBy = 1
-            };
-            ArrangeDeletePeriod();
-
-            // Act
-            _periodService.DeletePeriod(criteria);
-
-            // Assert
-            _periodService.Repository.Received().ExecuteNonQuery(Arg.Is<DeletePeriodCriteria>(x => x.IsValid()));
-        }
-
-        #endregion DeletePeriod
-
-        #region AddEmployeeToPeriod
-
-        [Test]
-        public void AddEmployeeToPeriod_AnyArg_ReturnInstanceOfCommandResult()
-        {
-            // Arrange
-            ArrangeAddEmployeeToPeriod();
-
-            // Act
-            var actual = _periodService.AddEmployeeToPeriod(new AddEmployeeToPeriodCriteria());
-
-            // Assert
-            Assert.IsInstanceOf(typeof(CommandResult), actual);
-        }
-
-        [Test]
-        public void AddEmployeeToPeriod_ValidArg_ExpectedToExecuteUpdate()
-        {
-            // Arrange
-            var criteria = new AddEmployeeToPeriodCriteria
-            {
-                PeriodId = 1,
-                ModifiedBy = 1
-            };
-            ArrangeAddEmployeeToPeriod();
-
-            // Act
-            _periodService.AddEmployeeToPeriod(criteria);
-
-            // Assert
-            _periodService.Repository.Received().ExecuteNonQuery(Arg.Is<AddEmployeeToPeriodCriteria>(x => x.IsValid()));
-        }
-
-        #endregion AddEmployeeToPeriod
 
         #region UpdateEmployeeSettingOfPeriod
 
@@ -456,7 +278,7 @@
 
             // Assert
             Assert.AreEqual(commandResult.Code, 0);
-           // _manualMailService.Received().SendNotifyMail(Arg.Any<PeriodModel>(), Arg.Any<List<PeriodFlowModel>>());
+            // _manualMailService.Received().SendNotifyMail(Arg.Any<PeriodModel>(), Arg.Any<List<PeriodFlowModel>>());
         }
 
         [TestCase("true")]
@@ -485,42 +307,6 @@
         }
 
         #endregion UpdateEmployeeSettingOfPeriod
-
-        #region UpdateIncludeStatusEmployeePeriod
-
-        [Test]
-        public void UpdateIncludeStatusEmployeePeriod_AnyArg_ReturnInstanceOfCommandResult()
-        {
-            // Arrange
-            ArrangeUpdateIncludeStatusEmployeePeriod();
-
-            // Act
-            var actual = _periodService.UpdateIncludeStatusEmployeePeriod(new UpdateIncludeStatusEmployeePeriodCriteria());
-
-            // Assert
-            Assert.IsInstanceOf(typeof(CommandResult), actual);
-        }
-
-        [Test]
-        public void UpdateIncludeStatusEmployeePeriod_ValidArg_ExpectedToExecuteUpdate()
-        {
-            // Arrange
-            var criteria = new UpdateIncludeStatusEmployeePeriodCriteria
-            {
-                PeriodId = 1,
-                EmployeeId = 1,
-                ModifiedBy = 1
-            };
-            ArrangeUpdateIncludeStatusEmployeePeriod();
-
-            // Act
-            _periodService.UpdateIncludeStatusEmployeePeriod(criteria);
-
-            // Assert
-            _periodService.Repository.Received().ExecuteNonQuery(Arg.Is<UpdateIncludeStatusEmployeePeriodCriteria>(x => x.IsValid()));
-        }
-
-        #endregion UpdateIncludeStatusEmployeePeriod
 
         #region GenerateEvaluation
 
@@ -638,42 +424,6 @@
         }
 
         #endregion GetEvaluationGlobalSettingByTargetTypeId
-
-        #region UpdateProcessSettingPeriod
-
-        [Test]
-        public void UpdateProcessSettingPeriod_AnyArg_ReturnInstanceOfCommandResult()
-        {
-            // Arrange
-            ArrangeUpdateProcessSettingPeriod();
-
-            // Act
-            var actual = _periodService.UpdateProcessSettingPeriod(Arg.Any<UpdateProcessSettingPeriodCriteria>());
-
-            // Assert
-            Assert.IsInstanceOf(typeof(CommandResult), actual);
-        }
-
-        [Test]
-        public void UpdateProcessSettingPeriod_ValidArg_ExpectedToExecuteUpdate()
-        {
-            // Arrange
-            var criteria = new UpdateProcessSettingPeriodCriteria
-            {
-                PeriodId = 1,
-                ModifiedBy = 1,
-                Processes = new List<FlowModel>()
-            };
-            ArrangeUpdateProcessSettingPeriod();
-
-            // Act
-            _periodService.UpdateProcessSettingPeriod(criteria);
-
-            // Assert
-            _periodService.Repository.Received().ExecuteNonQuery(Arg.Is<UpdateProcessSettingPeriodCriteria>(x => x.IsValid()));
-        }
-
-        #endregion UpdateProcessSettingPeriod
 
         #region CheckSelfProcessStarted
 
@@ -843,13 +593,6 @@
             _periodService = GetPeriodService(null, _periodRepository);
         }
 
-        private void ArrangeCreatePeriod(CommandResult result = null)
-        {
-            _baseRepository = FakeBaseRepository();
-            _periodService = GetPeriodService(_baseRepository);
-            _periodService.Repository.ExecuteNonQuery(Arg.Any<CreatePeriodCriteria>()).Returns(result ?? new CommandResult());
-        }
-
         private void ArrangeAutoCreateMonthlyPeriod(CommandResult result = null)
         {
             _baseRepository = FakeBaseRepository();
@@ -857,46 +600,11 @@
             _periodService.Repository.ExecuteNonQuery(Arg.Any<AutoCreateMonthlyPeriodCriteria>()).Returns(result ?? new CommandResult());
         }
 
-        private void ArrangeUpdateBasicInformationPeriod(CommandResult result = null)
-        {
-            _baseRepository = FakeBaseRepository();
-            _periodService = GetPeriodService(_baseRepository);
-            _periodService.Repository.ExecuteNonQuery(Arg.Any<UpdateBasicInformationPeriodCriteria>()).Returns(result ?? new CommandResult());
-        }
-
-        private void ArrangeUpdateStatusPeriod(CommandResult result = null)
-        {
-            _baseRepository = FakeBaseRepository();
-            _periodService = GetPeriodService(_baseRepository);
-            _periodService.Repository.ExecuteNonQuery(Arg.Any<UpdateStatusPeriodCriteria>()).Returns(result ?? new CommandResult());
-        }
-
-        private void ArrangeDeletePeriod(CommandResult result = null)
-        {
-            _baseRepository = FakeBaseRepository();
-            _periodService = GetPeriodService(_baseRepository);
-            _periodService.Repository.ExecuteNonQuery(Arg.Any<DeletePeriodCriteria>()).Returns(result ?? new CommandResult());
-        }
-
         private void ArrangeGetPeriodEmployeeSettingById(IEnumerable<PeriodEmployeeSettingModel> result = null)
         {
             _periodRepository = FakePeriodRepository();
             _periodRepository.GetPeriodEmployeeSettingById(Arg.Any<GetPeriodEmployeeSettingCriteria>()).Returns(result ?? new List<PeriodEmployeeSettingModel>());
             _periodService = GetPeriodService(null, _periodRepository);
-        }
-
-        private void ArrangeAddEmployeeToPeriod(CommandResult result = null)
-        {
-            _baseRepository = FakeBaseRepository();
-            _periodService = GetPeriodService(_baseRepository);
-            _periodService.Repository.ExecuteNonQuery(Arg.Any<AddEmployeeToPeriodCriteria>()).Returns(result ?? new CommandResult());
-        }
-
-        private void ArrangeUpdateIncludeStatusEmployeePeriod(CommandResult result = null)
-        {
-            _baseRepository = FakeBaseRepository();
-            _periodService = GetPeriodService(_baseRepository);
-            _periodService.Repository.ExecuteNonQuery(Arg.Any<UpdateIncludeStatusEmployeePeriodCriteria>()).Returns(result ?? new CommandResult());
         }
 
         private void ArrangeGenerateEvaluation(CommandResult result = null)
@@ -923,13 +631,6 @@
         {
             _periodService = Substitute.For<PeriodService>();
             _periodService.GetData<FlowModel>(Arg.Any<GetEvaluationGlobalSettingByTargetTypeIdCriteria>()).Returns(result ?? new List<FlowModel>());
-        }
-
-        private void ArrangeUpdateProcessSettingPeriod(CommandResult result = null)
-        {
-            _baseRepository = FakeBaseRepository();
-            _periodService = GetPeriodService(_baseRepository);
-            _periodService.Repository.ExecuteNonQuery(Arg.Any<UpdateProcessSettingPeriodCriteria>()).Returns(result ?? new CommandResult());
         }
 
         private void ArrangeCheckSelfProcessStarted(bool result = false)

@@ -1,10 +1,10 @@
 ﻿namespace SMS.EPA.Model
 {
-    using Core.Constants;
-    using Core.Enumerations;
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using Core.Constants;
+    using Core.Enumerations;
 
     public class MonthlyEPAModel
     {
@@ -66,7 +66,7 @@
                         break;
 
                     default:
-                        throw new ArgumentOutOfRangeException(nameof(processType));
+                        continue;
                 }
             }
 

@@ -1,5 +1,11 @@
 ﻿namespace SMS.EPA.Services.Implement
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Diagnostics.CodeAnalysis;
+    using System.Globalization;
+    using System.IO;
+    using System.Linq;
     using Core.Constants;
     using Core.Enumerations;
     using Core.Services;
@@ -13,12 +19,6 @@
     using NPOI.SS.Util;
     using Repositories;
     using Resources;
-    using System;
-    using System.Collections.Generic;
-    using System.Diagnostics.CodeAnalysis;
-    using System.Globalization;
-    using System.IO;
-    using System.Linq;
 
     public class ReportService : BaseService, IReportService
     {

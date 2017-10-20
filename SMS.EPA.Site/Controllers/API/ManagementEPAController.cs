@@ -18,17 +18,20 @@
     {
         private readonly IEmployeeEPAService evaluationService;
         private readonly IManagementEPAService managementEPAService;
+        private readonly ICommonService commonService;
 
-        public ManagementEPAController() : this(null, null)
+        public ManagementEPAController() : this(null, null, null)
         {
         }
 
         public ManagementEPAController(
             IEmployeeEPAService evaluationService,
-            IManagementEPAService managementEPAService)
+            IManagementEPAService managementEPAService,
+            ICommonService commonService)
         {
             this.evaluationService = evaluationService ?? new EmployeeEPAService();
             this.managementEPAService = managementEPAService ?? new ManagementEPAService();
+            this.commonService = commonService ?? new CommonService();
         }
 
         [HttpGet]
@@ -120,7 +123,7 @@
                 criteria.ProcessId = (int)ProcessType.Management;
                 criteria.ModifiedBy = SessionService.EmployeeId;
 
-                commandResult = managementEPAService.AdjustScoreByManagement(criteria);
+                commandResult = commonService.ExecuteNonQuery(criteria);
             }
 
             return commandResult;

@@ -18,17 +18,20 @@
     {
         private readonly IEmployeeEPAService evaluationService;
         private readonly IReviewerEPAService reviewerEPAService;
+        private readonly ICommonService commonService;
 
-        public ReviewerEPAController() : this(null, null)
+        public ReviewerEPAController() : this(null, null, null)
         {
         }
 
         public ReviewerEPAController(
             IEmployeeEPAService evaluationService,
-            IReviewerEPAService reviewerEPAService)
+            IReviewerEPAService reviewerEPAService,
+            ICommonService commonService)
         {
             this.evaluationService = evaluationService ?? new EmployeeEPAService();
             this.reviewerEPAService = reviewerEPAService ?? new ReviewerEPAService();
+            this.commonService = commonService ?? new CommonService();
         }
 
         [HttpGet]
@@ -121,7 +124,7 @@
                 criteria.ProcessId = (int)ProcessType.Reviewer;
                 criteria.ModifiedBy = SessionService.EmployeeId;
 
-                commandResult = reviewerEPAService.AdjustScoreByReviewer(criteria);
+                commandResult = commonService.ExecuteNonQuery(criteria);
             }
 
             return commandResult;

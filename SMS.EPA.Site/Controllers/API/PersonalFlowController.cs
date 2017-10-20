@@ -1,5 +1,7 @@
 ﻿namespace SMS.EPA.Site.Controllers.API
 {
+    using System.Collections.Generic;
+    using System.Web.Http;
     using Core.Attribute;
     using Core.Constants;
     using Core.Enumerations;
@@ -8,20 +10,20 @@
     using Model;
     using Services.Implement;
     using Services.Interfaces;
-    using System.Collections.Generic;
-    using System.Web.Http;
 
     public class PersonalFlowController : BaseController
     {
         private readonly IPersonalFlowService personalFlowService;
+        private readonly ICommonService commonService;
 
-        public PersonalFlowController() : this(null)
+        public PersonalFlowController() : this(null, null)
         {
         }
 
-        public PersonalFlowController(IPersonalFlowService personalFlowService)
+        public PersonalFlowController(IPersonalFlowService personalFlowService, ICommonService commonService)
         {
             this.personalFlowService = personalFlowService ?? new PersonalFlowService();
+            this.commonService = commonService ?? new CommonService();
         }
 
         [HttpGet]
@@ -54,7 +56,7 @@
             {
                 criteria.ModifiedBy = SessionService.EmployeeId;
 
-                commandResult = personalFlowService.CreatePersonalFlow(criteria);
+                commandResult = commonService.ExecuteNonQuery(criteria);
             }
 
             return commandResult;
@@ -71,7 +73,7 @@
                 ModifiedBy = SessionService.EmployeeId
             };
 
-            return personalFlowService.DeletePersonalFlow(criteria);
+            return commonService.ExecuteNonQuery(criteria);
         }
 
         [HttpGet]

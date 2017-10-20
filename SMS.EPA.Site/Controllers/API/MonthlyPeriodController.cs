@@ -1,5 +1,9 @@
 ﻿namespace SMS.EPA.Site.Controllers.API
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Web.Http;
     using Core.Attribute;
     using Core.Constants;
     using Core.Enumerations;
@@ -8,22 +12,20 @@
     using Model;
     using Services.Implement;
     using Services.Interfaces;
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Web.Http;
 
     public class MonthlyPeriodController : BaseController
     {
         private readonly IPeriodService periodService;
+        private readonly ICommonService commonService;
 
-        public MonthlyPeriodController() : this(null)
+        public MonthlyPeriodController() : this(null, null)
         {
         }
 
-        public MonthlyPeriodController(IPeriodService periodService)
+        public MonthlyPeriodController(IPeriodService periodService, ICommonService commonService)
         {
             this.periodService = periodService ?? new PeriodService();
+            this.commonService = commonService ?? new CommonService();
         }
 
         [ApiAuthorize(FunctionKey = EPAFunctionKey.MonthlyPeriod, Policy = Policy.Read)]
@@ -68,7 +70,8 @@
                 criteria.TargetTypeId = (int)TargetType.Monthly;
                 criteria.IsActive = true;
                 criteria.CreatedBy = SessionService.EmployeeId;
-                commandResult = periodService.CreatePeriod(criteria);
+
+                commandResult = commonService.ExecuteNonQuery(criteria);
             }
 
             return commandResult;
@@ -85,7 +88,8 @@
                 criteria.TargetTypeId = (int)TargetType.Monthly;
                 criteria.IsActive = true;
                 criteria.ModifiedBy = SessionService.EmployeeId;
-                commandResult = periodService.UpdateBasicInformationPeriod(criteria);
+
+                commandResult = commonService.ExecuteNonQuery(criteria);
             }
 
             return commandResult;
@@ -107,7 +111,7 @@
             if (criteria != null)
             {
                 criteria.ModifiedBy = SessionService.EmployeeId;
-                commandResult = periodService.UpdateProcessSettingPeriod(criteria);
+                commandResult = commonService.ExecuteNonQuery(criteria);
             }
 
             return commandResult;
@@ -123,7 +127,7 @@
                 ModifiedBy = SessionService.EmployeeId
             };
 
-            CommandResult commandResult = periodService.DeletePeriod(criteria);
+            CommandResult commandResult = commonService.ExecuteNonQuery(criteria);
 
             return commandResult;
         }
@@ -165,7 +169,7 @@
             if (criteria != null)
             {
                 criteria.ModifiedBy = SessionService.EmployeeId;
-                commandResult = periodService.AddEmployeeToPeriod(criteria);
+                commandResult = commonService.ExecuteNonQuery(criteria);
             }
 
             return commandResult;
@@ -190,11 +194,11 @@
         [ApiAuthorize(FunctionKey = EPAFunctionKey.MonthlyPeriod, Policy = Policy.Host)]
         public CommandResult GenerateEvaluation(AutoGenerateEvaluationCriteria criteria)
         {
-            CommandResult commandResult = new CommandResult();
+            var commandResult = new CommandResult();
 
             if (criteria != null)
             {
-                commandResult = periodService.GenerateEvaluation(criteria);
+                commandResult = commonService.ExecuteNonQuery(criteria);
 
                 if (commandResult.IsSuccessful)
                 {
@@ -214,7 +218,7 @@
             if (criteria != null)
             {
                 criteria.ModifiedBy = SessionService.EmployeeId;
-                commandResult = periodService.UpdateIncludeStatusEmployeePeriod(criteria);
+                commandResult = commonService.ExecuteNonQuery(criteria);
             }
 
             return commandResult;

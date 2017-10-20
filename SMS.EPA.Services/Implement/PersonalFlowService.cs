@@ -1,13 +1,12 @@
 ﻿namespace SMS.EPA.Services.Implement
 {
-    using Core.Model;
+    using System.Collections.Generic;
+    using System.Linq;
     using Core.Services;
     using Criteria;
     using Interfaces;
     using Model;
     using Repositories;
-    using System.Collections.Generic;
-    using System.Linq;
 
     public class PersonalFlowService : BaseService, IPersonalFlowService
     {
@@ -48,30 +47,6 @@
             }
 
             return flow;
-        }
-
-        public CommandResult CreatePersonalFlow(CreatePersonalFlowCriteria criteria)
-        {
-            var result = new CommandResult();
-
-            if (criteria != null && criteria.IsValid())
-            {
-                result = Repository.ExecuteNonQuery(criteria);
-            }
-
-            return result;
-        }
-
-        public CommandResult DeletePersonalFlow(DeletePersonalFlowCriteria criteria)
-        {
-            var result = new CommandResult();
-
-            if (criteria != null && criteria.IsValid())
-            {
-                result = Repository.ExecuteNonQuery(criteria);
-            }
-
-            return result;
         }
 
         public EmployeeFlowSettingModel GetEmployeeFlowSetting(GetEmployeeFlowSettingCriteria criteria)

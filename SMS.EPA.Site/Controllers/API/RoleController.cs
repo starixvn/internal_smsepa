@@ -14,14 +14,16 @@
     public class RoleController : BaseController
     {
         private readonly IRoleService roleService;
+        private readonly ICommonService commonService;
 
-        public RoleController() : this(null)
+        public RoleController() : this(null, null)
         {
         }
 
-        public RoleController(IRoleService roleService)
+        public RoleController(IRoleService roleService, ICommonService commonService)
         {
             this.roleService = roleService ?? new RoleService();
+            this.commonService = commonService ?? new CommonService();
         }
 
         [ApiAuthorize(FunctionKey = EPAFunctionKey.RoleManagement, Policy = Policy.Read)]
@@ -40,7 +42,7 @@
                 criteria.ModifiedBy = SessionService.EmployeeId;
             }
 
-            CommandResult commandResult = roleService.AssignFunctionToRole(criteria);
+            CommandResult commandResult = commonService.ExecuteNonQuery(criteria);
             return commandResult;
         }
     }

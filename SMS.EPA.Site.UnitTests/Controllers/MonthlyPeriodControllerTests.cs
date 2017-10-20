@@ -1,5 +1,6 @@
 ﻿namespace SMS.EPA.Site.UnitTests
 {
+    using System.Diagnostics.CodeAnalysis;
     using Core.Model;
     using Core.Services;
     using Criteria;
@@ -13,6 +14,7 @@
     public class MonthlyPeriodControllerTests
     {
         private IPeriodService _periodService;
+        private ICommonService commonService;
         private ISessionService _sessionService;
         private MonthlyPeriodController _monthlyPeriodController;
 
@@ -45,8 +47,9 @@
             // Arrange
             _periodService = FakePeriodService();
             _sessionService = FakeSessionService();
-            _periodService.CreatePeriod(Arg.Any<CreatePeriodCriteria>()).Returns(new CommandResult());
-            _monthlyPeriodController = GetMonthlyPeriodController(_periodService, _sessionService);
+            commonService = FakeCommonService();
+            commonService.ExecuteNonQuery(Arg.Any<CreatePeriodCriteria>()).Returns(new CommandResult());
+            _monthlyPeriodController = GetMonthlyPeriodController(_periodService, _sessionService, commonService);
 
             // Act
             var actual = _monthlyPeriodController.CreateMonthlyPeriod(Arg.Any<CreatePeriodCriteria>());
@@ -61,8 +64,9 @@
             // Arrange
             _periodService = FakePeriodService();
             _sessionService = FakeSessionService();
-            _periodService.UpdateBasicInformationPeriod(Arg.Any<UpdateBasicInformationPeriodCriteria>()).Returns(new CommandResult());
-            _monthlyPeriodController = GetMonthlyPeriodController(_periodService, _sessionService);
+            commonService = FakeCommonService();
+            commonService.ExecuteNonQuery(Arg.Any<UpdateBasicInformationPeriodCriteria>()).Returns(new CommandResult());
+            _monthlyPeriodController = GetMonthlyPeriodController(_periodService, _sessionService, commonService);
 
             // Act
             var actual = _monthlyPeriodController.UpdateBasicInfoMonthlyPeriod(Arg.Any<UpdateBasicInformationPeriodCriteria>());
@@ -88,10 +92,20 @@
             return service;
         }
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Reliability", "CA2000:Dispose objects before losing scope", Justification = "Reviewed")]
-        private MonthlyPeriodController GetMonthlyPeriodController(IPeriodService periodService = null, ISessionService sessionService = null)
+        private ICommonService FakeCommonService()
         {
-            var controller = new MonthlyPeriodController(periodService);
+            var service = Substitute.For<ICommonService>();
+
+            return service;
+        }
+
+        [SuppressMessage("Microsoft.Reliability", "CA2000:Dispose objects before losing scope", Justification = "Reviewed")]
+        private MonthlyPeriodController GetMonthlyPeriodController(
+            IPeriodService periodService = null,
+            ISessionService sessionService = null,
+            ICommonService commonService = null)
+        {
+            var controller = new MonthlyPeriodController(periodService, commonService);
             controller.SessionService = sessionService;
 
             return controller;

@@ -15,23 +15,11 @@
 
         IEnumerable<PeriodModel> GetAllMonthlyPeriod();
 
-        CommandResult CreatePeriod(CreatePeriodCriteria criteria);
-
         CommandResult AutoCreateMonthlyPeriod(AutoCreateMonthlyPeriodCriteria criteria);
-
-        CommandResult UpdateBasicInformationPeriod(UpdateBasicInformationPeriodCriteria criteria);
-
-        CommandResult UpdateStatusPeriod(UpdateStatusPeriodCriteria criteria);
-
-        CommandResult DeletePeriod(DeletePeriodCriteria criteria);
 
         IEnumerable<PeriodEmployeeSettingModel> GetPeriodEmployeeSettingById(GetPeriodEmployeeSettingCriteria criteria);
 
-        CommandResult AddEmployeeToPeriod(AddEmployeeToPeriodCriteria criteria);
-
         CommandResult UpdateEmployeeSettingOfPeriod(UpdateEmployeeSettingOfPeriodCriteria criteria);
-
-        CommandResult UpdateIncludeStatusEmployeePeriod(UpdateIncludeStatusEmployeePeriodCriteria criteria);
 
         CommandResult GenerateEvaluation(AutoGenerateEvaluationCriteria criteria);
 
@@ -44,8 +32,6 @@
         IEnumerable<FlowModel> GetProcessSettingByPeriodId(int periodId);
 
         IEnumerable<FlowModel> GetEvaluationGlobalSettingByTargetTypeId(int targetTypeId);
-
-        CommandResult UpdateProcessSettingPeriod(UpdateProcessSettingPeriodCriteria criteria);
 
         bool CheckSelfProcessStarted(CheckSelfProcessStartedCriteria criteria);
     }

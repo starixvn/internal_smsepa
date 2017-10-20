@@ -1,13 +1,12 @@
 ﻿namespace SMS.EPA.Repositories
 {
+    using System.Collections.Generic;
+    using System.Linq;
     using Core.Enumerations;
     using Fanex.Data;
     using Fanex.Data.Repository;
     using Model;
     using Model.Enitites;
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
 
     public class FlowSettingRepository : IFlowSettingRepository
     {
@@ -71,11 +70,6 @@
 
         private static void GroupProcessFlowByDepartment(IEnumerable<DepartmentFlowModel> flows, IEnumerable<ProcessFlowModel> processes)
         {
-            if (flows == null || processes == null)
-            {
-                return;
-            }
-
             foreach (DepartmentFlowModel flow in flows)
             {
                 foreach (ProcessFlowModel process in processes.Where(x => x.DepartmentId.Equals(flow.DepartmentId)))
@@ -99,7 +93,7 @@
                             break;
 
                         default:
-                            throw new ArgumentException("type not in case");
+                            continue;
                     }
                 }
             }
@@ -130,7 +124,7 @@
                             break;
 
                         default:
-                            throw new ArgumentException("type not in case");
+                            continue;
                     }
                 }
             }

@@ -1,14 +1,13 @@
 ﻿namespace SMS.EPA.Services.Implement
 {
-    using Core.Model;
+    using System.Collections.Generic;
+    using System.Linq;
     using Core.Services;
     using Criteria;
     using Interfaces;
     using Model;
     using Model.Enitites;
     using Repositories;
-    using System.Collections.Generic;
-    using System.Linq;
 
     public class TargetTemplateService : BaseService, ITargetTemplateService
     {
@@ -47,66 +46,6 @@
             return targetTemplates;
         }
 
-        public CommandResult CreateTargetTemplate(CreateTargetTemplateCriteria criteria)
-        {
-            var result = new CommandResult();
-
-            if (criteria != null && criteria.IsValid())
-            {
-                result = Repository.ExecuteNonQuery(criteria);
-            }
-
-            return result;
-        }
-
-        public CommandResult UpdateTargetTemplate(UpdateTargetTemplateCriteria criteria)
-        {
-            var result = new CommandResult();
-
-            if (criteria != null && criteria.IsValid())
-            {
-                result = Repository.ExecuteNonQuery(criteria);
-            }
-
-            return result;
-        }
-
-        public CommandResult UpdateTargetTemplateBasicInfo(UpdateTargetTemplateBasicInfoCriteria criteria)
-        {
-            var result = new CommandResult();
-
-            if (criteria != null && criteria.IsValid())
-            {
-                result = Repository.ExecuteNonQuery(criteria);
-            }
-
-            return result;
-        }
-
-        public CommandResult DeleteTargetTemplate(DeleteTargetTemplateCriteria criteria)
-        {
-            var result = new CommandResult();
-
-            if (criteria != null && criteria.IsValid())
-            {
-                result = Repository.ExecuteNonQuery(criteria);
-            }
-
-            return result;
-        }
-
-        public CommandResult AddKPIGroupWeight(SetKPIGroupOfTargetTemplateCriteria criteria)
-        {
-            var result = new CommandResult();
-
-            if (criteria != null && criteria.IsValid())
-            {
-                result = Repository.ExecuteNonQuery(criteria);
-            }
-
-            return result;
-        }
-
         public IEnumerable<KPIGroupModel> GetKPIGroupOfTargetTemplate(GetKPIGroupOfTargetTemplateCriteria criteria)
         {
             IEnumerable<KPIGroupModel> groups = new List<KPIGroupModel>();
@@ -122,30 +61,6 @@
             }
 
             return groups;
-        }
-
-        public CommandResult UpdateStatusTargetTemplate(UpdateStatusTargetTemplateCriteria criteria)
-        {
-            var result = new CommandResult();
-
-            if (criteria != null && criteria.IsValid())
-            {
-                result = Repository.ExecuteNonQuery(criteria);
-            }
-
-            return result;
-        }
-
-        public CommandResult DeleteKPIGroup(DeleteKPIGroupOfTargetTemplateCriteria criteria)
-        {
-            var result = new CommandResult();
-
-            if (criteria != null && criteria.IsValid())
-            {
-                result = Repository.ExecuteNonQuery(criteria);
-            }
-
-            return result;
         }
 
         public IEnumerable<TargetTemplateKPIGroupModel> GetKPIOfTargetTemplate(GetKPIOfTargetTemplateCriteria criteria, bool onlyKPISelected)

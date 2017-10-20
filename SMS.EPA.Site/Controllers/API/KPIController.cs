@@ -14,15 +14,17 @@
     public class KPIController : BaseController
     {
         private readonly IKPIService kpiService;
+        private readonly ICommonService commonService;
 
         public KPIController()
-            : this(null)
+            : this(null, null)
         {
         }
 
-        public KPIController(IKPIService kpiService)
+        public KPIController(IKPIService kpiService, ICommonService commonService)
         {
             this.kpiService = kpiService ?? new KPIService();
+            this.commonService = commonService ?? new CommonService();
         }
 
         [HttpGet]
@@ -51,7 +53,7 @@
                 criteria.CreatedBy = SessionService.EmployeeId;
             }
 
-            CommandResult commandResult = kpiService.CreateKPI(criteria);
+            CommandResult commandResult = commonService.ExecuteNonQuery(criteria);
 
             return commandResult;
         }
@@ -65,7 +67,7 @@
                 criteria.ModifiedBy = SessionService.EmployeeId;
             }
 
-            CommandResult commandResult = kpiService.UpdateKPI(criteria);
+            CommandResult commandResult = commonService.ExecuteNonQuery(criteria);
 
             return commandResult;
         }
@@ -79,7 +81,7 @@
                 criteria.ModifiedBy = SessionService.EmployeeId;
             }
 
-            CommandResult commandResult = kpiService.UpdateStatusKPI(criteria);
+            CommandResult commandResult = commonService.ExecuteNonQuery(criteria);
 
             return commandResult;
         }
@@ -93,7 +95,7 @@
                 criteria.ModifiedBy = SessionService.EmployeeId;
             }
 
-            CommandResult commandResult = kpiService.UpdateRequiredEvaluateKPI(criteria);
+            CommandResult commandResult = commonService.ExecuteNonQuery(criteria);
 
             return commandResult;
         }
@@ -108,7 +110,7 @@
                 ModifiedBy = SessionService.EmployeeId
             };
 
-            CommandResult commandResult = kpiService.DeleteKPI(criteria);
+            CommandResult commandResult = commonService.ExecuteNonQuery(criteria);
 
             return commandResult;
         }

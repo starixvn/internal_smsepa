@@ -1,7 +1,6 @@
 ﻿namespace SMS.EPA.Services.Interfaces
 {
     using System.Collections.Generic;
-    using Core.Model;
     using Criteria;
     using Model;
 
@@ -10,7 +9,5 @@
         IEnumerable<EPAModel> GetEPAByManagement(GetEPAByManagementCriteria criteria);
 
         EPAModel GetEPAInfoByManagement(GetEPAInfoByManagementCriteria criteria);
-
-        CommandResult AdjustScoreByManagement(AdjustScoreByReviewerOrManagementCriteria criteria);
     }
 }

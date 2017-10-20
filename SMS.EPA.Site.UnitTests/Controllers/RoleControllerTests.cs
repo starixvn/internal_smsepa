@@ -1,5 +1,7 @@
 ﻿namespace SMS.EPA.Site.UnitTests
 {
+    using System.Collections.Generic;
+    using System.Diagnostics.CodeAnalysis;
     using Core.Model;
     using Core.Services;
     using Criteria;
@@ -8,12 +10,12 @@
     using NUnit.Framework;
     using Services.Interfaces;
     using Site.Controllers.API;
-    using System.Collections.Generic;
 
     [TestFixture]
     public class RoleControllerTests
     {
         private IRoleService _roleService;
+        private ICommonService commonService;
         private ISessionService _sessionService;
         private RoleController _roleController;
 
@@ -52,26 +54,14 @@
         #region AssignFunctionToRole
 
         [Test]
-        public void AssignFunctionToRole_CheckActionName_ReturnAsExpected()
-        {
-            // Arrange
-            _roleController = GetRoleController();
-
-            // Act
-            var actual = _roleController.GetType().GetMethod("AssignFunctionToRole");
-
-            // Assert
-            Assert.IsNotNull(actual);
-        }
-
-        [Test]
         public void AssignFunctionToRole_WhenCalled_ReturnInstanceOfCommandResult()
         {
             // Arrange
             _roleService = FakeRoleService();
             _sessionService = FakeSessionService();
-            _roleService.AssignFunctionToRole(Arg.Any<AssignFunctionToRoleCriteria>()).Returns(new CommandResult());
-            _roleController = GetRoleController(_roleService, _sessionService);
+            commonService = FakeCommonService();
+            commonService.ExecuteNonQuery(Arg.Any<AssignFunctionToRoleCriteria>()).Returns(new CommandResult());
+            _roleController = GetRoleController(_roleService, _sessionService, commonService);
 
             // Act
             var actual = _roleController.AssignFunctionToRole(Arg.Any<AssignFunctionToRoleCriteria>());
@@ -99,10 +89,20 @@
             return service;
         }
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Reliability", "CA2000:Dispose objects before losing scope", Justification = "Reviewed")]
-        private RoleController GetRoleController(IRoleService roleService = null, ISessionService sessionService = null)
+        private ICommonService FakeCommonService()
         {
-            var controller = new RoleController(roleService);
+            var service = Substitute.For<ICommonService>();
+
+            return service;
+        }
+
+        [SuppressMessage("Microsoft.Reliability", "CA2000:Dispose objects before losing scope", Justification = "Reviewed")]
+        private RoleController GetRoleController(
+            IRoleService roleService = null,
+            ISessionService sessionService = null,
+            ICommonService commonService = null)
+        {
+            var controller = new RoleController(roleService, commonService);
             controller.SessionService = sessionService;
 
             return controller;

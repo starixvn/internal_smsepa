@@ -1,12 +1,11 @@
 ﻿namespace SMS.EPA.Services.Implement
 {
-    using Core.Model;
+    using System.Collections.Generic;
+    using System.Linq;
     using Core.Services;
     using Criteria;
     using Interfaces;
     using Model;
-    using System.Collections.Generic;
-    using System.Linq;
 
     public class RoleService : BaseService, IRoleService
     {
@@ -25,18 +24,6 @@
             }
 
             return functions;
-        }
-
-        public CommandResult AssignFunctionToRole(AssignFunctionToRoleCriteria criteria)
-        {
-            var commandResult = new CommandResult();
-
-            if (criteria != null && criteria.IsValid())
-            {
-                commandResult = Repository.ExecuteNonQuery(criteria);
-            }
-
-            return commandResult;
         }
 
         private static IEnumerable<RoleFunctionModel> GroupFunction(IEnumerable<RoleFunctionModel> rawFunctions)
