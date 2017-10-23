@@ -46,5 +46,7 @@
         IEnumerable<JobTitle> GetAllJobTitle();
 
         IEnumerable<JobGradeModel> GetJobGrade(bool? isActive);
+
+        IEnumerable<ScoreRatingTypeModel> GetScoreRatingType(GetScoreRatingTypeCriteria criteria);
     }
 }

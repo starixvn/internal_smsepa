@@ -14,7 +14,6 @@
 
     public class CommonService : BaseService, ICommonService
     {
-        private readonly ITargetTypeService targetTypeService;
         private readonly IKPIService kpiService;
         private readonly IKPIGroupService kpiGroupService;
         private readonly IEmployeeService employeeService;
@@ -26,7 +25,6 @@
         private readonly IMenuService menuService;
 
         public CommonService(
-            ITargetTypeService targetTypeService = null,
             IKPIService kpiService = null,
             IKPIGroupService kpiGroupService = null,
             IEmployeeService employeeService = null,
@@ -37,7 +35,6 @@
             ITargetTemplateService targetTemplateService = null,
             IMenuService menuService = null)
         {
-            this.targetTypeService = targetTypeService ?? new TargetTypeService();
             this.kpiService = kpiService ?? new KPIService();
             this.kpiGroupService = kpiGroupService ?? new KPIGroupService();
             this.employeeService = employeeService ?? new EmployeeService();
@@ -63,7 +60,8 @@
 
         public IEnumerable<TargetTypeModel> GetTargetType(GetTargetTypeCriteria criteria)
         {
-            return targetTypeService.GetTargetType(criteria);
+            var targetTypes = GetData<TargetTypeModel>(criteria);
+            return targetTypes;
         }
 
         public IEnumerable<KPIModel> GetKPI(GetKPICriteria criteria)
@@ -186,6 +184,12 @@
             }
 
             return jobGrades;
+        }
+
+        public IEnumerable<ScoreRatingTypeModel> GetScoreRatingType(GetScoreRatingTypeCriteria criteria)
+        {
+            var scoreRatingTypes = GetData<ScoreRatingTypeModel>(criteria);
+            return scoreRatingTypes;
         }
     }
 }

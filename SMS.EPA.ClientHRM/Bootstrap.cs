@@ -1,5 +1,6 @@
 ﻿namespace SMS.EPA.ClientHrm
 {
+    using System.Diagnostics.CodeAnalysis;
     using Fanex.Data.Repository;
     using Services;
     using SimpleInjector;
@@ -9,7 +10,7 @@
     {
         public static Container Container { get; set; }
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Maintainability", "CA1506:AvoidExcessiveClassCoupling", Justification = "Ok.")]
+        [SuppressMessage("Microsoft.Maintainability", "CA1506:AvoidExcessiveClassCoupling", Justification = "Ok.")]
         public static void Start()
         {
             Container = new Container();

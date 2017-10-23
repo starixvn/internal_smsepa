@@ -139,10 +139,8 @@
     <Compile Include="Implement\PeriodMailService.cs" />
     <Compile Include="Implement\PeriodService.cs" />
     <Compile Include="Implement\ReportService.cs" />
-    <Compile Include="Implement\ScoreRatingTypeService.cs" />
     <Compile Include="Implement\TargetEmployeeSettingService.cs" />
     <Compile Include="Implement\TargetTemplateService.cs" />
-    <Compile Include="Implement\TargetTypeService.cs" />
     <Compile Include="Implement\RoleService.cs" />
     <Compile Include="Interfaces\ExportFile\IExportExcelService.cs" />
     <Compile Include="Interfaces\IDashboardService.cs" />
@@ -169,10 +167,8 @@
     <Compile Include="Interfaces\IMenuService.cs" />
     <Compile Include="Interfaces\IPeriodService.cs" />
     <Compile Include="Interfaces\IReportService.cs" />
-    <Compile Include="Interfaces\IScoreRatingTypeService.cs" />
     <Compile Include="Interfaces\ITargetEmployeeSettingService.cs" />
     <Compile Include="Interfaces\ITargetTemplateService.cs" />
-    <Compile Include="Interfaces\ITargetTypeService.cs" />
     <Compile Include="Interfaces\IRoleService.cs" />
     <Compile Include="Implement\MailService.cs" />
   </ItemGroup>
