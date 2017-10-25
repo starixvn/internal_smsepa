@@ -89,7 +89,6 @@
                 <th data-translate="OtherViolations"></th>
                 <th data-translate="MinusScoringSystem"></th>
                 <th data-translate="MinusScoringApprover"></th>
-                <th data-translate="Action" ng-if="attendanceCtrl.permission >= attendanceCtrl.policyEnum.Read"></th>
             </tr>
         </thead>
         <tbody>
@@ -100,34 +99,57 @@
                 <td>
                     <span ng-bind="employee.Employee.NickName" popover-avatar avatar-src="{{employee.Employee.Avatar}}"></span>
                 </td>
-                <td class="text-right" ng-bind="employee.MissingCheckInOut"></td>
-                <td class="text-right" ng-bind="employee.WorkingUnderTime"></td>
-                <td class="text-right" ng-bind="employee.LateIn"></td>
-                <td class="text-right" ng-bind="employee.EarlyOut"></td>
-                <td class="text-right" ng-bind="employee.Absent"></td>
-                <td class="text-right" ng-bind="employee.UnpaidLeave"></td>
-                <td class="text-right" ng-bind="employee.UnpaidLeaveAbsent"></td>
-                <td class="text-right" ng-bind="employee.ChangeShift"></td>
-                <td class="text-right" ng-bind="employee.UnplannedLeave"></td>
-                <td class="text-right" ng-bind="employee.WeekendLeave"></td>
                 <td class="text-right">
-                    <div ng-show="employee.OtherDisciplines > 0">
-                        <a class="red" href="" ng-click="attendanceCtrl.viewOtherViolations(employee)">
-                            -{{employee.OtherDisciplines | number: 1}}
-                        </a>
-                    </div>
-                    <div ng-show="employee.OtherDisciplines == 0">{{employee.OtherDisciplines | number: 1}}</div>
+                    <span ng-if="employee.MissingCheckInOut > 0" class="red">-{{employee.MissingCheckInOut | number: 1}}</span>
+                    <span ng-if="employee.MissingCheckInOut === 0">{{employee.MissingCheckInOut | number: 1}}</span>
                 </td>
                 <td class="text-right">
-                    <span class="red" ng-show="employee.SystemSubtractScore > 0">-{{employee.SystemSubtractScore | number: 1}}</span>
-                    <span ng-show="employee.SystemSubtractScore == 0">{{employee.SystemSubtractScore | number: 1}}</span>
+                    <span ng-if="employee.WorkingUndertime > 0" class="red">-{{employee.WorkingUndertime | number: 1}}</span>
+                    <span ng-if="employee.WorkingUndertime === 0">{{employee.WorkingUndertime | number: 1}}</span>
                 </td>
                 <td class="text-right">
-                    <span class="red" ng-show="employee.ApproverSubtractScore > 0">-{{employee.ApproverSubtractScore | number: 1}}</span>
-                    <span ng-show="employee.ApproverSubtractScore == 0">{{employee.ApproverSubtractScore | number: 1}}</span>
+                    <span ng-if="employee.LateIn > 0" class="red">-{{employee.LateIn | number: 1}}</span>
+                    <span ng-if="employee.LateIn === 0">{{employee.LateIn | number: 1}}</span>
                 </td>
-                <td class="text-center" ng-if="attendanceCtrl.permission >= attendanceCtrl.policyEnum.Read">
-                    <a class="glyphicon icon-view" title="View" href="{{attendanceCtrl.attendanceDetailUrl}}" ng-click="attendanceCtrl.viewDetail(employee)"></a>
+                <td class="text-right">
+                    <span ng-if="employee.EarlyOut > 0" class="red">-{{employee.EarlyOut | number: 1}}</span>
+                    <span ng-if="employee.EarlyOut === 0">{{employee.EarlyOut | number: 1}}</span>
+                </td>
+                <td class="text-right">
+                    <span ng-if="employee.Absent > 0" class="red">-{{employee.Absent | number: 1}}</span>
+                    <span ng-if="employee.Absent === 0">{{employee.Absent | number: 1}}</span>
+                </td>
+                <td class="text-right">
+                    <span ng-if="employee.UnpaidLeave > 0" class="red">-{{employee.UnpaidLeave | number: 1}}</span>
+                    <span ng-if="employee.UnpaidLeave === 0">{{employee.UnpaidLeave | number: 1}}</span>
+                </td>
+                <td class="text-right">
+                    <span ng-if="employee.UnpaidLeaveAbsent > 0" class="red">-{{employee.UnpaidLeaveAbsent | number: 1}}</span>
+                    <span ng-if="employee.UnpaidLeaveAbsent === 0">{{employee.UnpaidLeaveAbsent | number: 1}}</span>
+                </td>
+                <td class="text-right">
+                    <span ng-if="employee.ChangeShift > 0" class="red">-{{employee.ChangeShift | number: 1}}</span>
+                    <span ng-if="employee.ChangeShift === 0">{{employee.ChangeShift | number: 1}}</span>
+                </td>
+                <td class="text-right">
+                    <span ng-if="employee.UnplannedLeave > 0" class="red">-{{employee.UnplannedLeave | number: 1}}</span>
+                    <span ng-if="employee.UnplannedLeave === 0">{{employee.UnplannedLeave | number: 1}}</span>
+                </td>
+                <td class="text-right">
+                    <span ng-if="employee.WeekendLeave > 0" class="red">-{{employee.WeekendLeave | number: 1}}</span>
+                    <span ng-if="employee.WeekendLeave === 0">{{employee.WeekendLeave | number: 1}}</span>
+                </td>
+                <td class="text-right">
+                    <span ng-if="employee.OtherDisciplines > 0" class="red">-{{employee.OtherDisciplines | number: 1}}</span>
+                    <span ng-if="employee.OtherDisciplines === 0">{{employee.OtherDisciplines | number: 1}}</span>
+                </td>
+                <td class="text-right">
+                    <span ng-if="employee.SystemSubtractScore > 0" class="red">-{{employee.SystemSubtractScore | number: 1}}</span>
+                    <span ng-if="employee.SystemSubtractScore === 0">{{employee.SystemSubtractScore | number: 1}}</span>
+                </td>
+                <td class="text-right">
+                    <span ng-if="employee.ApproverSubtractScore > 0" class="red">-{{employee.ApproverSubtractScore | number: 1}}</span>
+                    <span ng-if="employee.ApproverSubtractScore === 0">{{employee.ApproverSubtractScore | number: 1}}</span>
                 </td>
             </tr>
             <tr ng-show="attendanceCtrl.filteredItems.length == 0">

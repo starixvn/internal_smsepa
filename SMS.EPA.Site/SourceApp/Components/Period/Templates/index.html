@@ -29,7 +29,7 @@
         <thead>
             <tr class="header-table">
                 <th colspan="9">
-                    <a class="pull-left button-icon create-button" href="" ng-click="periodCtrl.create()" ng-show="periodCtrl.permission == periodCtrl.policyEnum.Host">
+                    <a class="pull-left button-icon create-button" href="" ng-click="periodCtrl.create()" ng-show="periodCtrl.permission === periodCtrl.policyEnum.Host">
                         <span class="glyphicon glyphicon-plus icon-add"></span>
                         <span class="button-text" data-translate="CreateEvaluationPeriod"></span>
                     </a>
@@ -62,14 +62,14 @@
                     <a href="{{periodCtrl.viewEmployeeSettingUrl}}" ng-click="periodCtrl.viewEmployeeSetting(period, true)">{{period.TotalEmployeesUnfinished}}</a>
                 </td>
                 <td class="text-center">
-                    <input type="checkbox" ng-checked="period.IsActive" ng-click="periodCtrl.confirmActive(period)" ng-disabled="periodCtrl.permission != periodCtrl.policyEnum.Host" />
+                    <input type="checkbox" ng-checked="period.IsActive" ng-click="periodCtrl.confirmActive(period)" ng-disabled="periodCtrl.permission !== periodCtrl.policyEnum.Host" />
                 </td>
                 <td class="text-center">
                     <div class="btn-group">
                         <a class="glyphicon glyphicon-edit icon-edit" title="Edit" ng-click="periodCtrl.update(period.PeriodId)"
                            href="{{periodCtrl.updatePeriodUrl}}"></a>
                         <a href="javascript:;" class="glyphicon glyphicon-remove icon-remove" title="Delete" ng-click="periodCtrl.delete(period)"
-                           ng-show="periodCtrl.permission == periodCtrl.policyEnum.Host"></a>
+                           ng-show="periodCtrl.permission === periodCtrl.policyEnum.Host"></a>
                     </div>
                 </td>
             </tr>

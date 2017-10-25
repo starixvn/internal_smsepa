@@ -47,5 +47,9 @@
         }
 
         public bool IsSemiAnnual => TargetType.TargetTypeId == (int)Core.Enumerations.TargetType.SemiAnnual;
+
+        public bool IsProbation => TargetType.TargetTypeId == (int)Core.Enumerations.TargetType.Probation;
+
+        public bool IsPromotion => TargetType.TargetTypeId == (int)Core.Enumerations.TargetType.Promotion;
     }
 }

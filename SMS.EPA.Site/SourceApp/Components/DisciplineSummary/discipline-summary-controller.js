@@ -139,22 +139,5 @@
                 }
             }
         };
-
-        vm.viewDetail = function (employee) {
-            var startDate = vm.filter.startDate,
-                endDate = vm.filter.endDate;
-
-            DisciplineSummaryModel.setSummaryPaging(vm.currentPage, vm.pageSize);
-
-            vm.attendanceDetailUrl = baseUrl + 'Discipline/Detail/' + employee.Employee.EmployeeId
-                + '?startDate=' + startDate.toDateString() + '&endDate=' + endDate.toDateString() + '&reasonId='
-                + vm.filter.reasonId + '&isLocal=' + vm.filter.isLocal;
-        };
-
-        vm.viewOtherViolations = function (employee) {
-            DisciplineSummaryModel.openPopupOtherViolation(vm, employee, vm.filter.startDate, vm.filter.endDate).then()['finally'](function () {
-                vm.modalInstance = '';
-            });
-        };
     }
 })(angular);

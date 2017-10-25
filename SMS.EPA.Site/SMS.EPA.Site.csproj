@@ -268,7 +268,9 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="App_Data\SpNames.xml" />
+    <Content Include="App_Data\SpNames.xml">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Avatars\avatar.jpg" />
     <Content Include="Content\Common\angular-multi-select.css" />
     <Content Include="Content\Common\chosen-sprite.png" />
@@ -449,12 +451,8 @@
     <Content Include="SourceApp\app.js" />
     <Content Include="SourceApp\Components\Common\other-violation-detail-controller.js" />
     <Content Include="SourceApp\Components\Dashboard\Templates\todoList.html" />
-    <Content Include="SourceApp\Components\DisciplineSummary\discipline-detail-controller.js" />
-    <Content Include="SourceApp\Components\DisciplineSummary\other-violations-controller.js" />
     <Content Include="SourceApp\Components\DisciplineSummary\discipline-summary-controller.js" />
-    <Content Include="SourceApp\Components\DisciplineSummary\discipline-detail-directive.js" />
     <Content Include="SourceApp\Components\DisciplineSummary\discipline-summary-directive.js" />
-    <Content Include="SourceApp\Components\DisciplineSummary\Templates\detail.html" />
     <Content Include="SourceApp\Components\DisciplineSummary\Templates\index.html" />
     <Content Include="SourceApp\Components\DisciplineSummary\Templates\otherViolation.html" />
     <Content Include="SourceApp\Components\Common\menu-controller.js" />
@@ -836,7 +834,6 @@
     <Content Include="Content\Site\views\_disciplineSummary.less" />
     <Content Include="Content\Site\views\_report.less" />
     <Content Include="ExcelTemplates\DisciplineSummaryReport.xls" />
-    <Content Include="ExcelTemplates\DisciplineDetailReport.xls" />
     <Content Include="Content\Site\views\_ratingByStar.less" />
     <Content Include="Content\Site\views\_epa.less" />
     <Content Include="SMS.EPA.Site.Debug.ruleset" />

@@ -1,5 +1,7 @@
 ﻿namespace SMS.EPA.Site.Controllers.API
 {
+    using System;
+    using System.Collections.Generic;
     using Core.Attribute;
     using Core.Constants;
     using Core.Enumerations;
@@ -8,8 +10,6 @@
     using Model.Discipline;
     using Services.Implement;
     using Services.Interfaces;
-    using System;
-    using System.Collections.Generic;
 
     public class DisciplineSummaryController : BaseController
     {
@@ -50,32 +50,6 @@
             return employeeDisciplines;
         }
 
-        [ApiAuthorize(FunctionKey = EPAFunctionKey.DisciplineSummary, Policy = Policy.Read)]
-        public IEnumerable<DisciplineDetailModel> GetDisciplineDetail(
-            DateTime startDate,
-            DateTime endDate,
-            int? employeeId = null,
-            int? departmentId = null,
-            bool? isLocal = null,
-            int? reasonId = null,
-            bool? hasIgnored = null)
-        {
-            var criteria = new GetDisciplineDetailCriteria
-            {
-                StartDate = startDate,
-                EndDate = endDate,
-                EmployeeId = employeeId,
-                DepartmentId = departmentId,
-                IsLocal = isLocal,
-                ReasonId = reasonId,
-                ApproverId = SessionService.EmployeeId,
-                HasIgnored = hasIgnored
-            };
-            IEnumerable<DisciplineDetailModel> employeeDisciplines = disciplineService.GetDisciplineDetail(criteria);
-
-            return employeeDisciplines;
-        }
-
         [ApiAuthorize(FunctionKey = EPAFunctionKey.DisciplineSummaryByPeriod, Policy = Policy.Read)]
         public IEnumerable<DisciplineSummaryByPeriodModel> GetDisciplineSummaryByPeriod(
             int? periodId = null,
@@ -95,25 +69,6 @@
             IEnumerable<DisciplineSummaryByPeriodModel> employeeDisciplines = disciplineService.GetDisciplineSummaryByPeriod(criteria);
 
             return employeeDisciplines;
-        }
-
-        [ApiAuthorize(FunctionKey = EPAFunctionKey.DisciplineSummary, Policy = Policy.Read)]
-        public IEnumerable<OtherDisciplineModel> GetOtherViolations(
-            int employeeId,
-            DateTime startDate,
-            DateTime endDate,
-            DateTime? workDate = null)
-        {
-            var criteria = new GetOtherViolationsByEmployeeIdCriteria
-            {
-                EmployeeId = employeeId,
-                WorkDate = workDate,
-                StartDate = startDate,
-                EndDate = endDate
-            };
-            IEnumerable<OtherDisciplineModel> violations = disciplineService.GetOtherViolations(criteria);
-
-            return violations;
         }
 
         public IEnumerable<DisciplineTypeModel> GetDisciplineType(

@@ -35,7 +35,7 @@
 
         public override string GetSettingKey()
         {
-            return "EpaAttendanceSummary_Get";
+            return "DisciplineSummary_Get";
         }
     }
 }

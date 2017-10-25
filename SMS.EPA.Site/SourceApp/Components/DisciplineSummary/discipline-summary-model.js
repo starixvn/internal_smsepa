@@ -29,14 +29,12 @@
         var model = {
             disciplineTypes: [],
             employeeDisciplines: [],
-            getDisciplineDetail: getDisciplineDetail,
             getDisciplineSummary: getDisciplineSummary,
             getDisciplineSummaryByPeriod: getDisciplineSummaryByPeriod,
             getDisciplineType: getDisciplineType,
             getOtherViolations: getOtherViolations,
             getRangeDateFilter: getRangeDateFilter,
             getUserPermissionOnDisciplineSummary: getUserPermissionOnDisciplineSummary,
-            openPopupOtherViolation: openPopupOtherViolation,
             otherViolations: [],
             permission: 0,
             rangeDateFilter: rangeDateFilter,
@@ -46,15 +44,6 @@
         };
 
         return model;
-
-        function getDisciplineDetail(startDate, endDate, employeeId, departmentId, isLocal, reasonId, hasIgnored) {
-            return disciplineSummaryFactory.getDisciplineDetail(startDate, endDate, employeeId, departmentId, isLocal, reasonId, hasIgnored)
-            .success(function (employeeDisciplines) {
-                model.employeeDisciplines = employeeDisciplines;
-            }).error(function (response, status) {
-                errorFactory.errorHandle(status);
-            });
-        }
 
         function getDisciplineSummary(startDate, endDate, departmentId, isLocal, employeeId, reasonId, isShowAll) {
             return disciplineSummaryFactory.getDisciplineSummary(startDate, endDate, departmentId, isLocal, employeeId, reasonId, isShowAll)
@@ -119,28 +108,6 @@
             }).error(function (response, status) {
                 errorFactory.errorHandle(status);
             });
-        }
-
-        function openPopupOtherViolation(vm, employee, startDate, endDate) {
-            vm.modalInstance = $modal.open({
-                templateUrl: 'SourceApp/Components/DisciplineSummary/Templates/otherViolation.html',
-                controller: "OtherViolationsController as violationCtrl",
-                resolve: {
-                    employee: function () {
-                        return employee;
-                    },
-                    startDate: function () {
-                        return startDate;
-                    },
-                    endDate: function () {
-                        return endDate;
-                    }
-                },
-                backdrop: 'static',
-                windowClass: "modal-confirm-center period-create-popup"
-            });
-
-            return vm.modalInstance.result;
         }
 
         function resetSummaryPaging() {

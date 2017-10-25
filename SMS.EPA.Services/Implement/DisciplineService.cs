@@ -1,13 +1,13 @@
 ﻿namespace SMS.EPA.Services.Implement
 {
+    using System.Collections.Generic;
+    using System.Linq;
     using Core.Services;
     using Criteria;
     using Interfaces;
     using Model;
     using Model.Discipline;
     using Repositories;
-    using System.Collections.Generic;
-    using System.Linq;
 
     public class DisciplineService : BaseService, IDisciplineService
     {
@@ -35,18 +35,6 @@
             return employeeDisciplines;
         }
 
-        public IEnumerable<OtherDisciplineModel> GetOtherViolations(GetOtherViolationsByEmployeeIdCriteria criteria)
-        {
-            IEnumerable<OtherDisciplineModel> violations = new List<OtherDisciplineModel>();
-
-            if (criteria != null && criteria.IsValid())
-            {
-                violations = GetData<OtherDisciplineModel>(criteria);
-            }
-
-            return violations;
-        }
-
         public IEnumerable<DisciplineTypeModel> GetDisciplineType(GetDisciplineTypeCriteria criteria)
         {
             IEnumerable<DisciplineTypeModel> violations = new List<DisciplineTypeModel>();
@@ -57,21 +45,6 @@
             }
 
             return violations;
-        }
-
-        public IEnumerable<DisciplineDetailModel> GetDisciplineDetail(GetDisciplineDetailCriteria criteria)
-        {
-            IEnumerable<DisciplineDetailModel> employeeDisciplines = new List<DisciplineDetailModel>();
-
-            if (criteria != null && criteria.IsValid())
-            {
-                employeeDisciplines = disciplineSummaryRepository.GetDisciplineDetail(criteria);
-                employeeDisciplines = employeeDisciplines.OrderBy(x => x.Employee.Group.GroupId)
-                    .ThenBy(x => x.Employee.Code)
-                    .ThenByDescending(x => x.WorkDate);
-            }
-
-            return employeeDisciplines;
         }
 
         public IEnumerable<DisciplineSummaryByPeriodModel> GetDisciplineSummaryByPeriod(GetDisciplineSummaryByPeriodCriteria criteria)
