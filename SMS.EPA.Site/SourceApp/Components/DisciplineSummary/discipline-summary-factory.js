@@ -8,8 +8,7 @@
     function disciplineSummaryFactory($http, baseUrl) {
         return {
             getDisciplineSummary: getDisciplineSummary,
-            getDisciplineSummaryByPeriod: getDisciplineSummaryByPeriod,
-            getUserPermissionOnDisciplineSummary: getUserPermissionOnDisciplineSummary,
+            getDisciplineSummaryForOtherSystem: getDisciplineSummaryForOtherSystem,
             getDisciplineType: getDisciplineType
         };
 
@@ -28,8 +27,8 @@
             });
         }
 
-        function getDisciplineSummaryByPeriod(periodId, disciplineTypeId, departmentId, isLocal, employeeId) {
-            return $http.get(baseUrl + 'api/DisciplineSummary/GetDisciplineSummaryByPeriod', {
+        function getDisciplineSummaryForOtherSystem(periodId, disciplineTypeId, departmentId, isLocal, employeeId) {
+            return $http.get(baseUrl + 'api/DisciplineSummary/GetDisciplineSummaryForOtherSystem', {
                 params: {
                     periodId: periodId,
                     disciplineTypeId: disciplineTypeId,
@@ -38,10 +37,6 @@
                     employeeId: employeeId
                 }
             });
-        }
-
-        function getUserPermissionOnDisciplineSummary() {
-            return $http.get(baseUrl + 'api/DisciplineSummary/GetUserPermissionOnDisciplineSummary');
         }
 
         function getDisciplineType(includeOtherViolate, isActive) {

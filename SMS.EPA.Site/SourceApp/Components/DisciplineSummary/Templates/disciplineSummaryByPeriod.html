@@ -1,4 +1,4 @@
-﻿<div class="col-sm-12" ng-controller="DisciplineSummaryByPeriodController as disciplineSummaryByPeriodCtrl">
+﻿<div class="col-sm-12" ng-controller="DisciplineSummaryForOtherSystemController as disciplineCtrl">
     <div class="sub-header">
         <ul class="row breadcrumb">
             <li class="current" data-translate="DisciplineSummary"></li>
@@ -8,14 +8,14 @@
         <div class="form-group">
             <label class="col-sm-1 control-label" data-translate="Department"></label>
             <div class="col-sm-2 field">
-                <select class="department-select form-control" ng-model="disciplineSummaryByPeriodCtrl.filter.departmentId"
-                        ng-options="opt.DepartmentId as opt.Name for opt in disciplineSummaryByPeriodCtrl.treeDepartment">
+                <select class="department-select form-control" ng-model="disciplineCtrl.filter.departmentId"
+                        ng-options="opt.DepartmentId as opt.Name for opt in disciplineCtrl.treeDepartment">
                     <option value="">-- Select a Department / Section --</option>
                 </select>
             </div>
             <label class="col-sm-1 control-label" data-translate="Category"></label>
             <div class="col-sm-2">
-                <select class="form-control" ng-model="disciplineSummaryByPeriodCtrl.filter.isLocal">
+                <select class="form-control" ng-model="disciplineCtrl.filter.isLocal">
                     <option value="">-- {{"All" | translate}} --</option>
                     <option value="false">{{"Expat" | translate}}</option>
                     <option value="true">{{"Local" | translate}}</option>
@@ -23,29 +23,38 @@
             </div>
             <label class="col-sm-1 control-label" data-translate="Employee"></label>
             <div class="col-sm-1 field">
-                <input class="form-control employee-search" ng-model="disciplineSummaryByPeriodCtrl.searchEmployee"
-                       placeholder="Enter full name or nick name" search-auto-complete search-employees="disciplineSummaryByPeriodCtrl.getEmployee()"
-                       ng-change="disciplineSummaryByPeriodCtrl.unSelectEmployee()" employee="disciplineSummaryByPeriodCtrl.filter.employee" />
+                <input class="form-control employee-search" ng-model="disciplineCtrl.searchEmployee"
+                       placeholder="Enter full name or nick name" search-auto-complete search-employees="disciplineCtrl.getEmployee()"
+                       ng-change="disciplineCtrl.unSelectEmployee()" employee="disciplineCtrl.filter.employee" />
             </div>
         </div>
         <div class="form-group">
-            <label class="col-sm-1 control-label" data-translate="Period"></label>
-            <div class="col-sm-2 field">
-                <select class="form-control" ng-model="disciplineSummaryByPeriodCtrl.filter.periodId"
-                        ng-options="opt.PeriodId as opt.Name for opt in disciplineSummaryByPeriodCtrl.periods">
-                    <option value="">-- All --</option>
-                </select>
-            </div>
             <label class="col-sm-1 control-label" data-translate="Reason"></label>
             <div class="col-sm-2 field">
-                <select class="form-control" ng-model="disciplineSummaryByPeriodCtrl.filter.disciplineTypeId"
-                        ng-options="opt.Id as opt.Name for opt in disciplineSummaryByPeriodCtrl.disciplineTypes">
+                <select class="form-control" ng-model="disciplineCtrl.filter.reasonId"
+                        ng-options="opt.Id as opt.Name for opt in disciplineCtrl.disciplineTypes">
                     <option value="">-- Select a Reason --</option>
                 </select>
             </div>
+            <label class="col-sm-1 control-label" data-translate="StartDate"></label>
+            <div class="col-sm-2 field">
+                <input readonly class="calendar-form-control date-detail-discipline" type="text"
+                       ng-model="disciplineCtrl.filter.startDate" datepicker-popup
+                       ng-click="disciplineCtrl.openPopupStartDate($event)"
+                       is-open="disciplineCtrl.calendar.startDateOpened" />
+                <epa-calendar-image class="calendar-image" ng-click="disciplineCtrl.openPopupStartDate($event)"></epa-calendar-image>
+            </div>
+            <label class="col-sm-1 control-label" data-translate="EndDate"></label>
+            <div class="col-sm-2 field">
+                <input readonly class="calendar-form-control date-detail-discipline" type="text"
+                       ng-model="disciplineCtrl.filter.endDate" datepicker-popup
+                       ng-click="disciplineCtrl.openPopupEndDate($event)"
+                       is-open="disciplineCtrl.calendar.endDateOpened" />
+                <epa-calendar-image class="calendar-image" ng-click="disciplineCtrl.openPopupEndDate($event)"></epa-calendar-image>
+            </div>
             <label class="col-sm-1 control-label">&ensp;</label>
             <div class="col-sm-1">
-                <input type="button" value="Search" class="btn btn-primary" ng-click="disciplineSummaryByPeriodCtrl.query(disciplineSummaryByPeriodCtrl.filter)" />
+                <input type="button" value="Search" class="btn btn-primary" ng-click="disciplineCtrl.query(disciplineCtrl.filter)" />
             </div>
         </div>
     </form>
@@ -53,10 +62,10 @@
         <thead>
             <tr class="header-table">
                 <th colspan="13">
-                    <input class="btnExcel pull-right" export-discipline-summary-by-period-report
-                           ng-click="disciplineSummaryByPeriodCtrl.exportReport(disciplineSummaryByPeriodCtrl.filter)"
+                    <input class="btnExcel pull-right" export-discipline-summary-for-other-system-report
+                           ng-click="disciplineCtrl.exportReport(disciplineCtrl.filter)"
                            type="button" title="Export to Excel">
-                    <input type="text" ng-model="disciplineSummaryByPeriodCtrl.searchKey" ng-change="disciplineSummaryByPeriodCtrl.search()" class="search-inline-textbox search pull-right">
+                    <input type="text" ng-model="disciplineCtrl.searchKey" ng-change="disciplineCtrl.search()" class="search-inline-textbox search pull-right">
                 </th>
             </tr>
             <tr class="headerName">
@@ -76,8 +85,8 @@
             </tr>
         </thead>
         <tbody>
-            <tr dir-paginate="discipline in disciplineSummaryByPeriodCtrl.filteredItems | itemsPerPage: disciplineSummaryByPeriodCtrl.pageSize" pagination-id="summary" current-page="disciplineSummaryByPeriodCtrl.currentPage">
-                <td class="text-center" ng-bind="disciplineSummaryByPeriodCtrl.getIndex($index, disciplineSummaryByPeriodCtrl.currentPage, disciplineSummaryByPeriodCtrl.pageSize)"></td>
+            <tr dir-paginate="discipline in disciplineCtrl.filteredItems | itemsPerPage: disciplineCtrl.pageSize" pagination-id="summary" current-page="disciplineCtrl.currentPage">
+                <td class="text-center" ng-bind="disciplineCtrl.getIndex($index, disciplineCtrl.currentPage, disciplineCtrl.pageSize)"></td>
                 <td class="text-left" ng-bind="discipline.Period.Name"></td>
                 <td class="text-left" ng-bind="discipline.Employee.Code"></td>
                 <td>
@@ -117,7 +126,7 @@
                     <span ng-show="discipline.ApproverSubtractScore == 0">{{discipline.ApproverSubtractScore | number: 1}}</span>
                 </td>
             </tr>
-            <tr ng-show="disciplineSummaryByPeriodCtrl.filteredItems.length == 0">
+            <tr ng-show="disciplineCtrl.filteredItems.length == 0">
                 <td class="empty-result" colspan="13" data-translate="EmptyResult"></td>
             </tr>
         </tbody>
@@ -125,8 +134,8 @@
             <tr>
                 <td colspan="13" class="paging">
                     <span data-translate="Show"></span>
-                    <select class="dropdown-entry form-control" ng-model="disciplineSummaryByPeriodCtrl.pageSize"
-                            ng-options="entry for entry in disciplineSummaryByPeriodCtrl.entries"></select>
+                    <select class="dropdown-entry form-control" ng-model="disciplineCtrl.pageSize"
+                            ng-options="entry for entry in disciplineCtrl.entries"></select>
                     <span data-translate="entries"></span>
                     <div class="pull-right custom-paging">
                         <dir-pagination-controls pagination-id="summary" boundary-links="true"></dir-pagination-controls>

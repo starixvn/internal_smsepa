@@ -17,7 +17,6 @@
         };
         vm.currentPage = DisciplineSummaryModel.summaryPaging.currentPage;
         vm.pageSize = DisciplineSummaryModel.summaryPaging.pageSize;
-        vm.permission = DisciplineSummaryModel.permission;
         vm.policyEnum = utilitiesFactory.policy;
         vm.disciplineTypes = [];
 
@@ -69,10 +68,6 @@
 
             DisciplineSummaryModel.getDisciplineType(true, true).then(function () {
                 vm.disciplineTypes = DisciplineSummaryModel.disciplineTypes;
-            });
-
-            DisciplineSummaryModel.getUserPermissionOnDisciplineSummary().then(function () {
-                vm.permission = DisciplineSummaryModel.permission;
             });
 
             getDisciplineSummary(

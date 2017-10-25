@@ -75,18 +75,17 @@
             _personalFlowService = personalFlowService ?? new PersonalFlowService();
         }
 
-        public ActionResult ExportDisciplineSummaryByPeriodReport(GetDisciplineSummaryByPeriodCriteria criteria)
+        public ActionResult ExportDisciplineSummaryForOtherSystemReport(GetDisciplineSummaryForOtherSystemCriteria criteria)
         {
             if (criteria != null)
             {
-                IEnumerable<DisciplineSummaryByPeriodModel> employeeDisciplines =
-                    _disciplineService.GetDisciplineSummaryByPeriod(criteria);
+                IEnumerable<DisciplineSummaryForOtherSystem> employeeDisciplines = _disciplineService.GetDisciplineSummaryForOtherSystem(criteria);
 
                 if (employeeDisciplines != null && employeeDisciplines.Any())
                 {
                     _exportExcelService.FileName = "Discipline_Summary_Report";
                     _exportExcelService.SheetName = "Discipline Summary";
-                    _exportExcelService.Title = GetDisciplineSummaryByPeriodReportTitle(criteria);
+                    _exportExcelService.Title = GetDisciplineSummaryForOtherSystemReportTitle(criteria);
 
                     _exportExcelService.InitializeWithTemplate(Server.MapPath(DisciplineSummaryByPeriodTemplatePath));
 
@@ -117,6 +116,7 @@
 
                     _exportExcelService.InitializeWithTemplate(Server.MapPath(DisciplineSummaryTemplatePath));
                     _exportExcelService.ContentRowStartIndex = 4;
+
                     CreateRedStyleForDisciplineSummaryReport();
 
                     _exportExcelService.ExportWithTemplate(employeeDisciplines, true, true);
@@ -308,7 +308,7 @@
             };
         }
 
-        private static string GetDisciplineSummaryByPeriodReportTitle(GetDisciplineSummaryByPeriodCriteria criteria)
+        private static string GetDisciplineSummaryForOtherSystemReportTitle(GetDisciplineSummaryForOtherSystemCriteria criteria)
         {
             string reportTitle;
 
@@ -379,7 +379,7 @@
             redFont.Color = HSSFColor.Red.Index;
             style.SetFont(redFont);
 
-            for (int i = 9; i <= 16; i++)
+            for (int i = 8; i <= 16; i++)
             {
                 ConditionalCellStyle redStyle = CreateCellStyleIfLessThanZero(redStyleIndex, i);
                 _exportExcelService.ConditionalCellStyles.Add(redStyle);
@@ -395,17 +395,11 @@
             redFont.Color = HSSFColor.Red.Index;
             style.SetFont(redFont);
 
-            int columnIndex = 19;
-            ConditionalCellStyle substractSystemScoreStyle = CreateCellStyleIfLessThanZero(redStyleIndex, columnIndex);
-
-            _exportExcelService.ConditionalCellStyles.Add(substractSystemScoreStyle);
-
-            columnIndex = 20;
-
-            ConditionalCellStyle approverSubstractScoreStyle =
-                CreateCellStyleIfLessThanZero(redStyleIndex, columnIndex);
-
-            _exportExcelService.ConditionalCellStyles.Add(approverSubstractScoreStyle);
+            for (int i = 8; i <= 20; i++)
+            {
+                ConditionalCellStyle redStyle = CreateCellStyleIfLessThanZero(redStyleIndex, i);
+                _exportExcelService.ConditionalCellStyles.Add(redStyle);
+            }
         }
     }
 }

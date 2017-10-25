@@ -1,7 +1,6 @@
 ﻿namespace SMS.EPA.Services.Implement
 {
     using System.Collections.Generic;
-    using System.Linq;
     using Core.Services;
     using Criteria;
     using Interfaces;
@@ -29,7 +28,6 @@
             if (criteria != null && criteria.IsValid())
             {
                 employeeDisciplines = disciplineSummaryRepository.GetDisciplineSummary(criteria);
-                employeeDisciplines = employeeDisciplines.OrderByDescending(x => x.Permission);
             }
 
             return employeeDisciplines;
@@ -47,13 +45,13 @@
             return violations;
         }
 
-        public IEnumerable<DisciplineSummaryByPeriodModel> GetDisciplineSummaryByPeriod(GetDisciplineSummaryByPeriodCriteria criteria)
+        public IEnumerable<DisciplineSummaryForOtherSystem> GetDisciplineSummaryForOtherSystem(GetDisciplineSummaryForOtherSystemCriteria criteria)
         {
-            IEnumerable<DisciplineSummaryByPeriodModel> employeeDisciplines = new List<DisciplineSummaryByPeriodModel>();
+            IEnumerable<DisciplineSummaryForOtherSystem> employeeDisciplines = new List<DisciplineSummaryForOtherSystem>();
 
             if (criteria != null && criteria.IsValid())
             {
-                employeeDisciplines = disciplineSummaryRepository.GetDisciplineSummaryByPeriod(criteria);
+                employeeDisciplines = disciplineSummaryRepository.GetDisciplineSummaryForOtherSystem(criteria);
             }
 
             return employeeDisciplines;

@@ -9,7 +9,7 @@
         return {
             link: function (scope) {
                 scope.$on('exportDisciplineSummaryReport', function () {
-                    var data = $.param(scope.attendanceCtrl.exportCriteria),
+                    var data = $.param(scope.disciplineCtrl.exportCriteria),
                         url = baseUrl + 'ExportReport/ExportDisciplineSummaryReport',
                         downloadUrl = url + "?" + data,
                         iframe = $('body iframe');

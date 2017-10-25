@@ -30,12 +30,9 @@
             disciplineTypes: [],
             employeeDisciplines: [],
             getDisciplineSummary: getDisciplineSummary,
-            getDisciplineSummaryByPeriod: getDisciplineSummaryByPeriod,
+            getDisciplineSummaryForOtherSystem: getDisciplineSummaryForOtherSystem,
             getDisciplineType: getDisciplineType,
-            getOtherViolations: getOtherViolations,
             getRangeDateFilter: getRangeDateFilter,
-            getUserPermissionOnDisciplineSummary: getUserPermissionOnDisciplineSummary,
-            otherViolations: [],
             permission: 0,
             rangeDateFilter: rangeDateFilter,
             resetSummaryPaging: resetSummaryPaging,
@@ -54,8 +51,8 @@
             });
         }
 
-        function getDisciplineSummaryByPeriod(periodId, disciplineTypeId, departmentId, isLocal, employeeId) {
-            return disciplineSummaryFactory.getDisciplineSummaryByPeriod(periodId, disciplineTypeId, departmentId, isLocal, employeeId)
+        function getDisciplineSummaryForOtherSystem(periodId, disciplineTypeId, departmentId, isLocal, employeeId) {
+            return disciplineSummaryFactory.getDisciplineSummaryForOtherSystem(periodId, disciplineTypeId, departmentId, isLocal, employeeId)
             .success(function (employeeDisciplines) {
                 model.employeeDisciplines = employeeDisciplines;
             }).error(function (response, status) {
@@ -66,14 +63,6 @@
         function getDisciplineType(includeOtherViolate, isActive) {
             return disciplineSummaryFactory.getDisciplineType(includeOtherViolate, isActive).success(function (disciplineTypes) {
                 model.disciplineTypes = disciplineTypes;
-            }).error(function (response, status) {
-                errorFactory.errorHandle(status);
-            });
-        }
-
-        function getOtherViolations(employeeId, startDate, endDate, workDate) {
-            return disciplineSummaryFactory.getOtherViolations(employeeId, startDate, endDate, workDate).success(function (violations) {
-                model.otherViolations = violations;
             }).error(function (response, status) {
                 errorFactory.errorHandle(status);
             });
@@ -100,14 +89,6 @@
                 startDate: startDate,
                 endDate: endDate
             };
-        }
-
-        function getUserPermissionOnDisciplineSummary() {
-            return disciplineSummaryFactory.getUserPermissionOnDisciplineSummary().success(function (permission) {
-                model.permission = permission;
-            }).error(function (response, status) {
-                errorFactory.errorHandle(status);
-            });
         }
 
         function resetSummaryPaging() {

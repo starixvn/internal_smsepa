@@ -1,11 +1,14 @@
 ﻿namespace SMS.EPA.Criteria
 {
+    using System;
     using Fanex.Data;
     using Fanex.Data.Repository;
 
-    public class GetDisciplineSummaryByPeriodCriteria : CriteriaBase
+    public class GetDisciplineSummaryForOtherSystemCriteria : CriteriaBase
     {
-        public int? PeriodId { get; set; }
+        public DateTime StartDate { get; set; }
+
+        public DateTime EndDate { get; set; }
 
         public int? DepartmentId { get; set; }
 
@@ -13,7 +16,7 @@
 
         public int? EmployeeId { get; set; }
 
-        public int? DisciplineTypeId { get; set; }
+        public int? ReasonId { get; set; }
 
         [SpParam(Ignored = true)]
         public string EmployeeName { get; set; }
@@ -21,14 +24,11 @@
         [SpParam(Ignored = true)]
         public string DepartmentName { get; set; }
 
-        public override bool IsValid()
-        {
-            return true;
-        }
+        public override bool IsValid() => EndDate >= StartDate;
 
         public override string GetSettingKey()
         {
-            return "EmployeeDisciplineSummary_GetByPeriod";
+            return "DisciplineSummary_GetForOtherSystem";
         }
     }
 }

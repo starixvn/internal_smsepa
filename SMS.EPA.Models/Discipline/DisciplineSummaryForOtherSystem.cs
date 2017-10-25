@@ -4,21 +4,9 @@
     using Enitites;
     using Report;
 
-    public class DisciplineSummaryByPeriodModel : DisciplineSummaryBase, IExcelRecord
+    public class DisciplineSummaryForOtherSystem : DisciplineSummaryBase, IExcelRecord
     {
         public Employee Employee { get; set; }
-
-        public PeriodModel Period { get; set; }
-
-        public override decimal ApproverSubtractScore
-        {
-            get
-            {
-                decimal total = ChangeShift + MissingCheckInOut + LateIn + EarlyOut + Absent + UnpaidLeave +
-                                UnplannedLeave + WeekendLeave + WorkingUndertime + UnpaidLeaveAbsent + OtherDisciplines;
-                return total;
-            }
-        }
 
         public object ConvertToExcelRecord()
         {
@@ -34,7 +22,6 @@
             var record = new
             {
                 Count = 0,
-                Period = Period.Name,
                 Code = Employee.Code,
                 Nick = Employee.NickName,
                 FullName = Employee.FullName,

@@ -2,15 +2,15 @@
     'use strict';
     /* jshint latedef:nofunc */
 
-    angular.module('disciplineModule').directive('exportDisciplineSummaryByPeriodReport', exportDisciplineSummaryByPeriodReport);
-    exportDisciplineSummaryByPeriodReport.$inject = ['baseUrl'];
+    angular.module('disciplineModule').directive('exportDisciplineSummaryForOtherSystemReport', exportDisciplineSummaryForOtherSystemReport);
+    exportDisciplineSummaryForOtherSystemReport.$inject = ['baseUrl'];
 
-    function exportDisciplineSummaryByPeriodReport(baseUrl) {
+    function exportDisciplineSummaryForOtherSystemReport(baseUrl) {
         return {
             link: function (scope) {
-                scope.$on('exportDisciplineSummaryByPeriodReport', function () {
-                    var data = $.param(scope.disciplineSummaryByPeriodCtrl.exportCriteria),
-                        url = baseUrl + 'ExportReport/ExportDisciplineSummaryByPeriodReport',
+                scope.$on('exportDisciplineSummaryForOtherSystemReport', function () {
+                    var data = $.param(scope.disciplineCtrl.exportCriteria),
+                        url = baseUrl + 'ExportReport/ExportDisciplineSummaryForOtherSystemReport',
                         downloadUrl = url + "?" + data,
                         iframe = $('body iframe');
 

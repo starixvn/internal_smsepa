@@ -4,7 +4,6 @@
     using System.Linq;
     using Fanex.Data;
     using Fanex.Data.Repository;
-    using Model;
     using Model.Discipline;
     using Model.Enitites;
 
@@ -15,33 +14,33 @@
             using (var db = new ObjectDb(criteria.GetSettingKey()))
             {
                 return db.Query<DisciplineSummaryModel, Employee, Group, JobTitle, DisciplineSummaryModel>(
-                    (att, emp, gr, job) =>
+                    (discipline, emp, gr, job) =>
                     {
                         emp.JobTitle = job;
                         emp.Group = gr;
-                        att.Employee = emp;
-                        return att;
+                        discipline.Employee = emp;
+
+                        return discipline;
                     },
                     "EmployeeId, GroupId, JobTitleId",
                     criteria.GetSpParams());
             }
         }
 
-        public IEnumerable<DisciplineSummaryByPeriodModel> GetDisciplineSummaryByPeriod(ICriteria criteria)
+        public IEnumerable<DisciplineSummaryForOtherSystem> GetDisciplineSummaryForOtherSystem(ICriteria criteria)
         {
             using (var db = new ObjectDb(criteria.GetSettingKey()))
             {
-                return db.Query<DisciplineSummaryByPeriodModel, PeriodModel, Employee, Group, JobTitle, DisciplineSummaryByPeriodModel>(
-                    (discipline, period, emp, gr, job) =>
+                return db.Query<DisciplineSummaryForOtherSystem, Employee, Group, JobTitle, DisciplineSummaryForOtherSystem>(
+                    (discipline, emp, gr, job) =>
                     {
                         emp.JobTitle = job;
                         emp.Group = gr;
                         discipline.Employee = emp;
-                        discipline.Period = period;
 
                         return discipline;
                     },
-                    "PeriodId, EmployeeId, GroupId, JobTitleId",
+                    "EmployeeId, GroupId, JobTitleId",
                     criteria.GetSpParams()).ToList();
             }
         }

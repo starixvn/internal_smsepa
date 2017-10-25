@@ -1,4 +1,4 @@
-﻿<div class="col-sm-12" ng-controller="AttendanceSummaryController as attendanceCtrl">
+﻿<div class="col-sm-12" ng-controller="AttendanceSummaryController as disciplineCtrl">
     <div class="sub-header">
         <ul class="row breadcrumb">
             <li class="current" data-translate="DisciplineSummary"></li>
@@ -8,14 +8,14 @@
         <div class="form-group">
             <label class="col-sm-1 control-label" data-translate="Department"></label>
             <div class="col-sm-2 field">
-                <select class="department-select form-control" ng-model="attendanceCtrl.filter.departmentId"
-                        ng-options="opt.DepartmentId as opt.Name for opt in attendanceCtrl.treeDepartment">
+                <select class="department-select form-control" ng-model="disciplineCtrl.filter.departmentId"
+                        ng-options="opt.DepartmentId as opt.Name for opt in disciplineCtrl.treeDepartment">
                     <option value="">-- Select a Department / Section --</option>
                 </select>
             </div>
             <label class="col-sm-1 control-label" data-translate="Category"></label>
             <div class="col-sm-2">
-                <select class="form-control" ng-model="attendanceCtrl.filter.isLocal">
+                <select class="form-control" ng-model="disciplineCtrl.filter.isLocal">
                     <option value="">-- {{"All" | translate}} --</option>
                     <option value="false">{{"Expat" | translate}}</option>
                     <option value="true">{{"Local" | translate}}</option>
@@ -23,42 +23,42 @@
             </div>
             <label class="col-sm-1 control-label" data-translate="Employee"></label>
             <div class="col-sm-1 field">
-                <input class="form-control employee-search" ng-model="attendanceCtrl.searchEmployee"
-                       placeholder="Enter full name or nick name" search-auto-complete search-employees="attendanceCtrl.getEmployee()"
-                       ng-change="attendanceCtrl.unSelectEmployee()" employee="attendanceCtrl.filter.employee" />
+                <input class="form-control employee-search" ng-model="disciplineCtrl.searchEmployee"
+                       placeholder="Enter full name or nick name" search-auto-complete search-employees="disciplineCtrl.getEmployee()"
+                       ng-change="disciplineCtrl.unSelectEmployee()" employee="disciplineCtrl.filter.employee" />
             </div>
         </div>
         <div class="form-group">
             <label class="col-sm-1 control-label" data-translate="Reason"></label>
             <div class="col-sm-2 field">
-                <select class="form-control" ng-model="attendanceCtrl.filter.reasonId"
-                        ng-options="opt.ViolationId as opt.Name for opt in attendanceCtrl.disciplineTypes">
+                <select class="form-control" ng-model="disciplineCtrl.filter.reasonId"
+                        ng-options="opt.ViolationId as opt.Name for opt in disciplineCtrl.disciplineTypes">
                     <option value="">-- Select a Reason --</option>
                 </select>
             </div>
             <label class="col-sm-1 control-label" data-translate="StartDate"></label>
             <div class="col-sm-2 field">
                 <input readonly class="calendar-form-control date-detail-discipline" type="text"
-                       ng-model="attendanceCtrl.filter.startDate" datepicker-popup
-                       ng-click="attendanceCtrl.openPopupStartDate($event)"
-                       is-open="attendanceCtrl.calendar.startDateOpened" />
-                <epa-calendar-image class="calendar-image" ng-click="attendanceCtrl.openPopupStartDate($event)"></epa-calendar-image>
+                       ng-model="disciplineCtrl.filter.startDate" datepicker-popup
+                       ng-click="disciplineCtrl.openPopupStartDate($event)"
+                       is-open="disciplineCtrl.calendar.startDateOpened" />
+                <epa-calendar-image class="calendar-image" ng-click="disciplineCtrl.openPopupStartDate($event)"></epa-calendar-image>
             </div>
             <label class="col-sm-1 control-label" data-translate="EndDate"></label>
             <div class="col-sm-2 field">
                 <input readonly class="calendar-form-control date-detail-discipline" type="text"
-                       ng-model="attendanceCtrl.filter.endDate" datepicker-popup
-                       ng-click="attendanceCtrl.openPopupEndDate($event)"
-                       is-open="attendanceCtrl.calendar.endDateOpened" />
-                <epa-calendar-image class="calendar-image" ng-click="attendanceCtrl.openPopupEndDate($event)"></epa-calendar-image>
+                       ng-model="disciplineCtrl.filter.endDate" datepicker-popup
+                       ng-click="disciplineCtrl.openPopupEndDate($event)"
+                       is-open="disciplineCtrl.calendar.endDateOpened" />
+                <epa-calendar-image class="calendar-image" ng-click="disciplineCtrl.openPopupEndDate($event)"></epa-calendar-image>
             </div>
             <div class="checkbox col-sm-1">
                 <label>
-                    <input type="checkbox" ng-model="attendanceCtrl.filter.isShowAll"> Show all
+                    <input type="checkbox" ng-model="disciplineCtrl.filter.isShowAll"> Show all
                 </label>
             </div>
             <div class="col-sm-1">
-                <input type="button" value="Search" class="btn btn-primary" ng-click="attendanceCtrl.query(attendanceCtrl.filter)" />
+                <input type="button" value="Search" class="btn btn-primary" ng-click="disciplineCtrl.query(disciplineCtrl.filter)" />
             </div>
         </div>
     </form>
@@ -67,8 +67,8 @@
             <tr class="header-table">
                 <th colspan="19">
                     <input class="btnExcel pull-right" export-discipline-summary-report
-                           ng-click="attendanceCtrl.exportReport(attendanceCtrl.filter)" type="button" title="Export to Excel">
-                    <input type="text" ng-model="attendanceCtrl.searchKey" ng-change="attendanceCtrl.search()" class="search-inline-textbox search pull-right">
+                           ng-click="disciplineCtrl.exportReport(disciplineCtrl.filter)" type="button" title="Export to Excel">
+                    <input type="text" ng-model="disciplineCtrl.searchKey" ng-change="disciplineCtrl.search()" class="search-inline-textbox search pull-right">
                 </th>
             </tr>
             <tr class="headerName">
@@ -92,8 +92,8 @@
             </tr>
         </thead>
         <tbody>
-            <tr dir-paginate="employee in attendanceCtrl.filteredItems | itemsPerPage: attendanceCtrl.pageSize" pagination-id="summary" current-page="attendanceCtrl.currentPage">
-                <td class="text-center" ng-bind="attendanceCtrl.getIndex($index, attendanceCtrl.currentPage, attendanceCtrl.pageSize)"></td>
+            <tr dir-paginate="employee in disciplineCtrl.filteredItems | itemsPerPage: disciplineCtrl.pageSize" pagination-id="summary" current-page="disciplineCtrl.currentPage">
+                <td class="text-center" ng-bind="disciplineCtrl.getIndex($index, disciplineCtrl.currentPage, disciplineCtrl.pageSize)"></td>
                 <td class="text-left" ng-bind="employee.Employee.Group.GroupName"></td>
                 <td class="text-left" ng-bind="employee.Employee.Code"></td>
                 <td>
@@ -152,7 +152,7 @@
                     <span ng-if="employee.ApproverSubtractScore === 0">{{employee.ApproverSubtractScore | number: 1}}</span>
                 </td>
             </tr>
-            <tr ng-show="attendanceCtrl.filteredItems.length == 0">
+            <tr ng-show="disciplineCtrl.filteredItems.length == 0">
                 <td class="empty-result" colspan="19" data-translate="EmptyResult"></td>
             </tr>
         </tbody>
@@ -160,8 +160,8 @@
             <tr>
                 <td colspan="19" class="paging">
                     <span data-translate="Show"></span>
-                    <select class="dropdown-entry form-control" ng-model="attendanceCtrl.pageSize"
-                            ng-options="entry for entry in attendanceCtrl.entries"></select>
+                    <select class="dropdown-entry form-control" ng-model="disciplineCtrl.pageSize"
+                            ng-options="entry for entry in disciplineCtrl.entries"></select>
                     <span data-translate="entries"></span>
                     <div class="pull-right custom-paging">
                         <dir-pagination-controls pagination-id="summary" boundary-links="true"></dir-pagination-controls>

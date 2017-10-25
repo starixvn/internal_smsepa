@@ -8,6 +8,6 @@
     {
         IEnumerable<DisciplineSummaryModel> GetDisciplineSummary(ICriteria criteria);
 
-        IEnumerable<DisciplineSummaryByPeriodModel> GetDisciplineSummaryByPeriod(ICriteria criteria);
+        IEnumerable<DisciplineSummaryForOtherSystem> GetDisciplineSummaryForOtherSystem(ICriteria criteria);
     }
 }

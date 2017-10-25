@@ -51,22 +51,24 @@
         }
 
         [ApiAuthorize(FunctionKey = EPAFunctionKey.DisciplineSummaryByPeriod, Policy = Policy.Read)]
-        public IEnumerable<DisciplineSummaryByPeriodModel> GetDisciplineSummaryByPeriod(
-            int? periodId = null,
+        public IEnumerable<DisciplineSummaryForOtherSystem> GetDisciplineSummaryForOtherSystem(
+            DateTime startDate,
+            DateTime endDate,
             int? departmentId = null,
             bool? isLocal = null,
             int? employeeId = null,
-            int? disciplineTypeId = null)
+            int? reasonId = null)
         {
-            var criteria = new GetDisciplineSummaryByPeriodCriteria
+            var criteria = new GetDisciplineSummaryForOtherSystemCriteria
             {
-                PeriodId = periodId,
-                DisciplineTypeId = disciplineTypeId,
+                StartDate = startDate,
+                EndDate = endDate,
                 DepartmentId = departmentId,
                 IsLocal = isLocal,
-                EmployeeId = employeeId
+                EmployeeId = employeeId,
+                ReasonId = reasonId
             };
-            IEnumerable<DisciplineSummaryByPeriodModel> employeeDisciplines = disciplineService.GetDisciplineSummaryByPeriod(criteria);
+            IEnumerable<DisciplineSummaryForOtherSystem> employeeDisciplines = disciplineService.GetDisciplineSummaryForOtherSystem(criteria);
 
             return employeeDisciplines;
         }
@@ -83,12 +85,6 @@
             IEnumerable<DisciplineTypeModel> violations = disciplineService.GetDisciplineType(criteria);
 
             return violations;
-        }
-
-        public int GetUserPermissionOnDisciplineSummary()
-        {
-            int permission = SessionService.GetPermission(EPAFunctionKey.DisciplineSummary);
-            return permission;
         }
     }
 }

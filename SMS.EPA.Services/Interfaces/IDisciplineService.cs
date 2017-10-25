@@ -11,6 +11,6 @@
 
         IEnumerable<DisciplineTypeModel> GetDisciplineType(GetDisciplineTypeCriteria criteria);
 
-        IEnumerable<DisciplineSummaryByPeriodModel> GetDisciplineSummaryByPeriod(GetDisciplineSummaryByPeriodCriteria criteria);
+        IEnumerable<DisciplineSummaryForOtherSystem> GetDisciplineSummaryForOtherSystem(GetDisciplineSummaryForOtherSystemCriteria criteria);
     }
 }

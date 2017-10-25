@@ -28,9 +28,7 @@
 
         public decimal SystemSubtractScore { get; set; }
 
-        public decimal ApproverIgnoredScore { get; set; }
-
-        public virtual decimal ApproverSubtractScore { get; set; }
+        public decimal ApproverSubtractScore { get; set; }
 
         public DateTime? ModifiedDate { get; set; }
     }
