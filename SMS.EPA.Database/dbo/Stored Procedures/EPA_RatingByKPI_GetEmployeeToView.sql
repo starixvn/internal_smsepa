@@ -1,4 +1,5 @@
-﻿CREATE PROCEDURE [dbo].[EPA_RatingByKPI_GetEmployeeToView] @PeriodId INT
+﻿
+CREATE PROCEDURE [dbo].[EPA_RatingByKPI_GetEmployeeToView] @PeriodId INT
 	,@TargetTemplateId INT
 	,@KPIId INT
 	,@EvaluatorId INT
@@ -81,10 +82,9 @@ BEGIN
 		,dt.TargetTemplateId
 		,dt.KPIGroupId
 
-	SELECT @RequiredCommentOnMaxScore = CAST(lkd.Value AS BIT)
-	FROM dbo.LookupData AS lkd WITH (NOLOCK)
-		INNER JOIN dbo.[Lookup] AS lk WITH (NOLOCK) ON lkd.LookupId = lk.Id
-		AND lk.Id = 7 -- required comment on max score	
+	SELECT @RequiredCommentOnMaxScore = CAST(Value AS BIT)
+	FROM dbo.RefResource WITH (NOLOCK)
+	WHERE RefName = 'RequiredCommentOnMaxScore'	
 
 	INSERT INTO #tblEPA
 	SELECT DISTINCT epa.EPAId
@@ -124,9 +124,8 @@ BEGIN
 		,gr.[Name] AS GroupName
 		,job.Id AS JobTitleId
 		,job.[Name] AS JobTitleName
-		,CAST(lkd.Value AS TINYINT) AS RatingTypeId
-		,lkd.Code
-		,lkd.[Name]
+		,ref.ResourceId AS RatingTypeId
+		,ref.Value AS [Name]
 		,dt.KPIGroupId
 		,kghis.[Name]
 		,dt.IsSpreadKPI
@@ -144,9 +143,8 @@ BEGIN
 		LEFT JOIN dbo.[Group] AS gr WITH (NOLOCK) ON emp.GroupId = gr.GroupId
 		LEFT JOIN dbo.Department AS dept WITH (NOLOCK) ON gr.DepartmentId = dept.DepartmentId
 		LEFT JOIN dbo.HRMJobTitle AS job WITH (NOLOCK) ON emp.JobTitle = job.Id
-		INNER JOIN dbo.LookupData AS lkd WITH (NOLOCK) ON epa.RatingTypeId = CAST(lkd.Value AS TINYINT)
-		INNER JOIN dbo.[Lookup] AS lk WITH (NOLOCK) ON lkd.LookupId = lk.Id
-		AND lk.Id = 8 -- rating type
+		INNER JOIN dbo.RefResource AS ref WITH (NOLOCK) ON epa.RatingTypeId = ref.ResourceId
+		AND ref.RefName = 'RatingType'
 		INNER JOIN dbo.EPADetail AS dt WITH (NOLOCK) ON tbl.EPAId = dt.EPAId
 		AND tbl.KPIGroupId = dt.KPIGroupId
 		AND dt.ProcessId = @EvaluatorProcessId

@@ -69,7 +69,7 @@ BEGIN
 	BEGIN
 		INSERT INTO @Phases (Id)
 		SELECT DISTINCT val
-		FROM fnc_strSplit(@PhaseIds, ',')
+		FROM dbo.fnc_strSplit(@PhaseIds, ',')
 	END
 
 	INSERT INTO #Periods (
@@ -108,7 +108,7 @@ BEGIN
 		FROM dbo.EPA AS epa WITH (NOLOCK)
 			INNER JOIN dbo.EPAProcess AS pc WITH (NOLOCK) ON epa.EPAId = pc.EPAId
 			AND pc.ProcessId = 2
-			AND CAST(pc.StartDate AS DATE) <= @Today
+			AND pc.StartDate <= @Today
 			INNER JOIN #tblPeriods AS period ON epa.PeriodId = period.PeriodId
 			INNER JOIN dbo.Employee AS emp WITH (NOLOCK) ON epa.EmployeeId = emp.EmployeeId
 			LEFT JOIN dbo.[Group] AS gr WITH (NOLOCK) ON emp.GroupId = gr.GroupId
@@ -151,20 +151,14 @@ BEGIN
 					)
 				)
 			)
-		AND (
-			@IsLocal IS NULL
-			OR tblData.IsLocal = @IsLocal
-			)
-		AND (
-			@EmployeeId IS NULL
-			OR tblData.EmployeeId = @EmployeeId
-			)
+		AND ISNULL(@IsLocal, tblData.IsLocal) = tblData.IsLocal
+		AND ISNULL(@EmployeeId, tblData.EmployeeId) = tblData.EmployeeId
 		AND (
 			EXISTS (
 				SELECT 1
 				FROM dbo.EmployeeRole AS ro WITH (NOLOCK)
-					INNER JOIN dbo.LookupData AS lo WITH (NOLOCK) ON ro.RoleId = lo.Value
-					AND lo.LookupId = 2 -- role
+					INNER JOIN dbo.RefResource AS ref WITH (NOLOCK) ON ro.RoleId = ref.ResourceId
+					AND ref.RefName = 'SystemRole'
 				WHERE ro.EmployeeId = @ActorId
 					AND ro.RoleId IN (1, 2) -- SA, HR can view all member
 				)
@@ -247,10 +241,10 @@ BEGIN
 			,emp.GroupName
 			,(CASE 
 				WHEN tt.TargetTypeId = @SemiId THEN CASE 
-						WHEN MAX(CAST(pc.EndDate AS DATE)) > CAST(period.EndDate AS DATE) THEN MAX(CAST(pc.EndDate AS DATE))
+						WHEN MAX(pc.EndDate) > period.EndDate THEN MAX(pc.EndDate)
 						ELSE period.EndDate
 						END
-				ELSE MAX(CAST(pc.EndDate AS DATE)) END
+				ELSE MAX(pc.EndDate) END
 				) AS EndDate
 		FROM dbo.EPA AS epa WITH (NOLOCK)
 			INNER JOIN dbo.EPAProcess AS pcSelf WITH (NOLOCK) ON epa.EPAId = pcSelf.EPAId
@@ -289,7 +283,7 @@ BEGIN
 		,ApproverSubtractScore
 		,OtherDisciplines
 		)
-	EXECUTE dbo.EmployeeDisciplineSummary_GetByEPA @Ids
+	EXECUTE dbo.DisciplineSummary_GetByEPA @Ids
 
 	INSERT INTO #tblEPAStatus (
 		EPAId
@@ -298,12 +292,12 @@ BEGIN
 	SELECT epa.EPAId
 		,(CASE 
 			WHEN tt.TargetTypeId = @SemiId THEN (CASE 
-					WHEN pc.EndDate >= CAST(period.EndDate AS DATE) THEN (CASE 
+					WHEN pc.EndDate >= period.EndDate THEN (CASE 
 							WHEN pc.EndDate < @ToDay THEN 1
 							ELSE 0 END
 							)
 					ELSE (CASE 
-							WHEN CAST(period.EndDate AS DATE) <= @ToDay THEN 1
+							WHEN period.EndDate <= @ToDay THEN 1
 							ELSE 0 END
 							) END
 					)
@@ -316,7 +310,7 @@ BEGIN
 		INNER JOIN #tblEPAs AS tbl WITH (NOLOCK) ON epa.EPAId = tbl.EPAId
 		INNER JOIN (
 		SELECT pc.EPAId
-			,CAST(MAX(pc.EndDate) AS DATE) AS EndDate
+			,MAX(pc.EndDate) AS EndDate
 		FROM dbo.EPAProcess AS pc WITH (NOLOCK)
 			INNER JOIN #tblEPAs AS tbl1 WITH (NOLOCK) ON pc.EPAId = tbl1.EPAId
 		GROUP BY pc.EPAId
@@ -326,15 +320,16 @@ BEGIN
 		INNER JOIN dbo.TargetType AS tt WITH (NOLOCK) ON period.TargetTypeId = tt.TargetTypeId
 
 	-- Phase selected
-	SELECT CAST(lkd.Value AS TINYINT) AS PhaseId
-		,lkd.[Name] AS PhaseName
-	FROM dbo.[Lookup] AS lk WITH (NOLOCK)
-		INNER JOIN dbo.LookupData AS lkd WITH (NOLOCK) ON lk.Id = lkd.LookupId
-		AND lk.Id = 5 -- evaluation phase
-	WHERE @PhaseIds IS NULL
-		OR CAST(lkd.Value AS TINYINT) IN (
-			SELECT Id
-			FROM @Phases
+	SELECT ResourceId AS PhaseId
+		,Value AS PhaseName
+	FROM dbo.RefResource WITH (NOLOCK)
+	WHERE RefName = 'EvaluationPhase'
+		AND (
+			@PhaseIds IS NULL
+			OR ResourceId IN (
+				SELECT Id
+				FROM @Phases
+				)
 			)
 
 	-- General Info
@@ -363,7 +358,10 @@ BEGIN
 			,emp.FullName
 			,emp.Email
 			,emp.JoinedDate
-			,lkd.[Name] AS Category
+			,(CASE 
+				WHEN emp.IsLocal = 1 THEN 'Local'
+				ELSE 'Expat' END
+				) AS Category
 			,dept.DepartmentId
 			,dept.[Name] AS DepartmentName
 			,gr.GroupId
@@ -391,8 +389,6 @@ BEGIN
 			LEFT JOIN dbo.[Group] AS gr WITH (NOLOCK) ON emp.GroupId = gr.GroupId
 			LEFT JOIN dbo.Department AS dept WITH (NOLOCK) ON gr.DepartmentId = dept.DepartmentId
 			LEFT JOIN dbo.HRMJobTitle AS job WITH (NOLOCK) ON emp.[JobTitle] = job.[Id]
-			LEFT JOIN dbo.LookupData AS lkd WITH (NOLOCK) ON emp.IsLocal = CAST(lkd.Value AS BIT)
-			AND lkd.LookupId = 11 -- employee category
 			LEFT JOIN #tblDisciplineScores AS ds WITH (NOLOCK) ON epa.EPAId = ds.EPAId
 		
 		UNION ALL
@@ -410,7 +406,10 @@ BEGIN
 			,emp.FullName
 			,emp.Email
 			,emp.JoinedDate
-			,lkd.[Name] AS Category
+			,(CASE 
+				WHEN emp.IsLocal = 1 THEN 'Local'
+				ELSE 'Expat' END
+				) AS Category
 			,dept.DepartmentId
 			,dept.[Name] AS DepartmentName
 			,gr.GroupId
@@ -434,8 +433,6 @@ BEGIN
 			LEFT JOIN dbo.[Group] AS gr WITH (NOLOCK) ON emp.GroupId = gr.GroupId
 			LEFT JOIN dbo.Department AS dept WITH (NOLOCK) ON gr.DepartmentId = dept.DepartmentId
 			LEFT JOIN dbo.HRMJobTitle AS job WITH (NOLOCK) ON emp.[JobTitle] = job.[Id]
-			LEFT JOIN dbo.LookupData AS lkd WITH (NOLOCK) ON emp.IsLocal = CAST(lkd.Value AS BIT)
-			AND lkd.LookupId = 11 -- employee category
 		) AS tblData
 	ORDER BY CASE 
 			WHEN ISNULL(@SortColumnName, '') <> ''
@@ -461,10 +458,10 @@ BEGIN
 		,pc.StartDate
 		,pc.EndDate
 		,(CASE 
-			WHEN CAST(pc.StartDate AS DATE) > @Today THEN 1
-			WHEN @Today BETWEEN CAST(pc.StartDate AS DATE)
-					AND CAST(pc.EndDate AS DATE) THEN 2
-			WHEN @Today > CAST(pc.EndDate AS DATE) THEN 3 END
+			WHEN pc.StartDate > @Today THEN 1
+			WHEN @Today BETWEEN pc.StartDate
+					AND pc.EndDate THEN 2
+			WHEN @Today > pc.EndDate THEN 3 END
 			) AS StatusId -- 1:Open; 2:In Progress; 3:Closed
 		,emp.EmployeeId AS EvaluatorId
 		,emp.Code

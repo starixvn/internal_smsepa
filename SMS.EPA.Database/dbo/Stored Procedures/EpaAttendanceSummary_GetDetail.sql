@@ -1,4 +1,5 @@
 ﻿
+
 CREATE PROCEDURE [dbo].[EpaAttendanceSummary_GetDetail] @StartDate DATE
 	,@EndDate DATE
 	,@ApproverId INT
@@ -96,7 +97,7 @@ BEGIN
 		,emp.NickName
 		,emp.FullName
 		,emp.JoinedDate
-		,lk.[Name] AS Category
+		,(CASE WHEN emp.IsLocal = 1 THEN 'Local' ELSE 'Expat' END) AS Category
 		,gr.GroupId
 		,gr.[Name] AS GroupName
 		,gr.Code AS GroupCode
@@ -149,17 +150,12 @@ BEGIN
 		AND emp.[Enabled] = 1
 		AND ISNULL(emp.IsDeleted, 0) = 0
 		INNER JOIN dbo.[Group] AS gr WITH (NOLOCK) ON emp.GroupId = gr.GroupId
-		INNER JOIN [dbo].[LookupData] AS lk WITH (NOLOCK) ON emp.IsLocal = CAST(lk.[Value] AS BIT)
-		AND lk.LookupId = 11
 		LEFT JOIN dbo.HRMJobTitle AS job WITH (NOLOCK) ON emp.JobTitle = job.Id
 	WHERE empV.DisciplineTypeId > 0
 		AND ISNULL(empV.IsDeleted, 0) = 0
 		AND empV.WorkDate BETWEEN @StartDate
 			AND @EndDate
-		AND (
-			ISNULL(@EmployeeId, '') = ''
-			OR emp.EmployeeId = @EmployeeId
-			)
+		AND ISNULL(@EmployeeId, emp.EmployeeId) = emp.EmployeeId
 		AND (
 			ISNULL(@ReasonId, '') = ''
 			OR (
@@ -262,10 +258,7 @@ BEGIN
 					AND empV.EmpId = @ApproverId
 				)
 			)
-		AND (
-			@IsLocal IS NULL
-			OR emp.[IsLocal] = @IsLocal
-			)
+		AND ISNULL(@IsLocal, emp.IsLocal) = emp.IsLocal
 		AND (
 			@HasIgnored IS NULL
 			OR (

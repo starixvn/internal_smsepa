@@ -28,7 +28,7 @@ BEGIN
 		,job.[Name] AS JobTitleName
 		,dept.DepartmentId
 		,dept.Code
-		,dept.NAME
+		,dept.[Name]
 		,gr.[GroupId]
 		,gr.[Name] AS GroupName
 		,gr.[Code] AS GroupCode
@@ -38,10 +38,10 @@ BEGIN
 		LEFT JOIN [dbo].[HRMJobTitle] AS job WITH (NOLOCK) ON emp.[JobTitle] = job.[Id]
 	WHERE emp.[EmployeeId] = @EmployeeId
 
-	SELECT emRo.[RoleId]
-		,loDa.[Code] AS RoleCode
-	FROM [dbo].[EmployeeRole] AS emRo WITH (NOLOCK)
-		INNER JOIN [dbo].[LookupData] loDa WITH (NOLOCK) ON emRo.[RoleId] = loDa.[Value]
-	WHERE emRO.[EmployeeId] = @EmployeeId
-		AND loDa.[LookupId] = 2 -- System Role
+	SELECT ro.RoleId
+		,ref.Value AS RoleCode
+	FROM dbo.EmployeeRole AS ro WITH (NOLOCK)
+		INNER JOIN dbo.RefResource AS ref WITH (NOLOCK) ON ro.RoleId = ref.ResourceId
+		AND ref.RefName = 'SystemRole'
+	WHERE ro.EmployeeId = @EmployeeId
 END

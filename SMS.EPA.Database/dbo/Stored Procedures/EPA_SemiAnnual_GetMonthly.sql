@@ -1,4 +1,5 @@
 ﻿
+
 CREATE PROCEDURE [dbo].[EPA_SemiAnnual_GetMonthly] @EPAIds NVARCHAR(MAX)
 AS
 /*
@@ -17,12 +18,10 @@ BEGIN
 
 	DECLARE @TblEPAId IntId
 		,@MonthlyEPAId IntId
-		,@ToDay DATE
+		,@Today DATE = GETDATE()
 	-- target type
 	DECLARE @MonthlyId INT = 2
 		,@SemiId INT = 3
-
-	SET @ToDay = CAST(GETDATE() AS DATE)
 
 	IF ISNULL(@EPAIds, '') <> ''
 	BEGIN
@@ -83,7 +82,7 @@ BEGIN
 		)
 	SELECT DISTINCT epa.EPAId
 		,(CASE 
-			WHEN pc.EndDate > CAST(period.EndDate AS DATE) THEN pc.EndDate
+			WHEN pc.EndDate > period.EndDate THEN pc.EndDate
 			ELSE period.EndDate END
 			) AS EndDate
 	FROM dbo.EPA AS epa WITH (NOLOCK)
@@ -91,7 +90,7 @@ BEGIN
 		AND period.TargetTypeId = @MonthlyId
 		INNER JOIN (
 		SELECT DISTINCT epa1.EPAId
-			,CAST(MAX(pc.EndDate) AS DATE) AS EndDate
+			,MAX(pc.EndDate) AS EndDate
 		FROM dbo.EPAProcess AS pc WITH (NOLOCK)
 			INNER JOIN dbo.EPA AS epa1 WITH (NOLOCK) ON pc.EPAId = epa1.EPAId
 			INNER JOIN dbo.Period AS period1 WITH (NOLOCK) ON epa1.PeriodId = period1.PeriodId
@@ -128,17 +127,17 @@ BEGIN
 		,epa.FinalScore
 		,(CASE 
 			WHEN tt.TargetTypeId IN (@MonthlyId, @SemiId) THEN (CASE 
-					WHEN CAST(period.EndDate AS DATE) >= CAST(period.EndDate AS DATE) THEN (CASE 
-							WHEN CAST(period.EndDate AS DATE) < @ToDay THEN 1
+					WHEN pc.EndDate >= period.EndDate THEN (CASE 
+							WHEN pc.EndDate < @Today THEN 1
 							ELSE 0 END
 							)
 					ELSE (CASE 
-							WHEN CAST(period.EndDate AS DATE) <= @ToDay THEN 1
+							WHEN period.EndDate <= @Today THEN 1
 							ELSE 0 END
 							) END
 					)
 			ELSE (CASE 
-					WHEN CAST(period.EndDate AS DATE) < @ToDay THEN 1
+					WHEN period.EndDate < @Today THEN 1
 					ELSE 0 END
 					) END
 			) AS StatusId
@@ -147,9 +146,8 @@ BEGIN
 		,emp.NickName
 		,emp.FullName
 		,emp.Email
-		,CAST(lkd.Value AS TINYINT) AS RatingTypeId
-		,lkd.Code
-		,lkd.[Name]
+		,ref.ResourceId AS RatingTypeId
+		,ref.Value AS [Name]
 		,period.PeriodId
 		,period.[Name]
 		,period.StartDate
@@ -165,13 +163,19 @@ BEGIN
 		,srt.Attendance
 	FROM #tblEPA AS tbl WITH (NOLOCK)
 		INNER JOIN dbo.EPA AS epa WITH (NOLOCK) ON tbl.EPAId = epa.EPAId
+		INNER JOIN (
+		SELECT pc.EPAId
+			,MAX(pc.EndDate) AS EndDate
+		FROM dbo.EPAProcess AS pc WITH (NOLOCK)
+			INNER JOIN #tblEPA AS epaId WITH (NOLOCK) ON pc.EPAId = epaId.EPAId
+		GROUP BY pc.EPAId
+		) AS pc ON epa.EPAId = pc.EPAId
 		INNER JOIN dbo.Employee AS emp WITH (NOLOCK) ON epa.EmployeeId = emp.EmployeeId
 		INNER JOIN dbo.Period AS period WITH (NOLOCK) ON epa.PeriodId = period.PeriodId
 		AND period.IsActive = 1
 		INNER JOIN dbo.ScoreRatingType AS srt WITH (NOLOCK) ON epa.ScoreRatingTypeId = srt.ScoreRatingTypeId
-		INNER JOIN dbo.LookupData AS lkd WITH (NOLOCK) ON epa.RatingTypeId = CAST(lkd.Value AS TINYINT)
-		INNER JOIN dbo.[Lookup] AS lk WITH (NOLOCK) ON lkd.LookupId = lk.Id
-		AND lk.Id = 8 -- rating type
+		INNER JOIN dbo.RefResource AS ref WITH (NOLOCK) ON epa.RatingTypeId = ref.ResourceId
+		AND ref.RefName = 'RatingType'
 		INNER JOIN dbo.TargetType AS tt WITH (NOLOCK) ON period.TargetTypeId = tt.TargetTypeId
 	ORDER BY emp.NickName
 		,emp.Code

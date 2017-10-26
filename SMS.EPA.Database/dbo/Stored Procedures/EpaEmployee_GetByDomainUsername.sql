@@ -1,6 +1,5 @@
 ﻿
-CREATE PROCEDURE [dbo].[EpaEmployee_GetByDomainUsername] --'sms\thuthi'
-	@DomainUsername NVARCHAR(50) = NULL
+CREATE PROCEDURE [dbo].[EpaEmployee_GetByDomainUsername] @DomainUsername NVARCHAR(50) = NULL
 AS
 /*
 Created: 2015-06-12@Josh.Phan
@@ -16,13 +15,11 @@ BEGIN
 
 	DECLARE @EmployeeId INT
 
-	SET @EmployeeId = (
-			SELECT EmployeeId AS EmployeeId
-			FROM dbo.Employee
-			WHERE DomainUsername = @DomainUsername
-				AND [Enabled] = 1
-				AND IsDeleted = 0
-			)
+	SELECT @EmployeeId = EmployeeId
+	FROM dbo.Employee WITH (NOLOCK)
+	WHERE DomainUsername = @DomainUsername
+		AND [Enabled] = 1
+		AND IsDeleted = 0
 
 	-- general info
 	SELECT DISTINCT emp.EmployeeId
@@ -53,12 +50,12 @@ BEGIN
 		AND emp.IsDeleted = 0
 
 	-- role
-	SELECT emRo.RoleId
-		,loDa.Code AS RoleCode
-	FROM dbo.EmployeeRole AS emRo WITH (NOLOCK)
-		INNER JOIN dbo.LookupData loDa WITH (NOLOCK) ON emRo.RoleId = loDa.Value
-	WHERE emRO.EmployeeId = @EmployeeId
-		AND loDa.LookupId = 2 -- System Role
+	SELECT ro.RoleId
+		,ref.Value AS RoleCode
+	FROM dbo.EmployeeRole AS ro WITH (NOLOCK)
+		INNER JOIN dbo.RefResource AS ref WITH (NOLOCK) ON ro.RoleId = ref.ResourceId
+		AND ref.RefName = 'SystemRole'
+	WHERE ro.EmployeeId = @EmployeeId
 
 	SELECT f.FunctionId
 		,f.FunctionKey

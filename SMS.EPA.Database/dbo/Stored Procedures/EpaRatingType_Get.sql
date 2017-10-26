@@ -14,8 +14,8 @@ Param's Explanation:
 BEGIN
 	SET NOCOUNT ON;
 
-	SELECT CAST([Value] AS INT) AS RatingTypeId
-		,[Name]
-	FROM [dbo].[LookupData] WITH (NOLOCK)
-	WHERE [LookupId] = 8 -- Rating Type
+	SELECT ResourceId AS RatingTypeId
+		,Value AS [Name]
+	FROM dbo.RefResource WITH (NOLOCK)
+	WHERE RefName = 'RatingType'
 END

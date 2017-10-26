@@ -35,8 +35,8 @@ BEGIN
 	WHERE TargetTypeId = 1 -- Probation
 
 	SELECT @ProbDay = CAST(Value AS INT)
-	FROM dbo.LookupData
-	WHERE [Id] = 7 -- Probation Setting Day
+	FROM dbo.RefResource WITH (NOLOCK)
+	WHERE RefName = 'ProbationSettingDay'
 
 	INSERT INTO @EmployeeIds (Id)
 	SELECT DISTINCT emp.EmployeeId
@@ -64,7 +64,7 @@ BEGIN
 	-- insert period if any
 	IF EXISTS (
 			SELECT 1
-			FROM #EvaluationTimes
+			FROM #EvaluationTimes WITH (NOLOCK)
 			WHERE Times = @CurrentEvaluationTimes
 			)
 	BEGIN
@@ -75,7 +75,7 @@ BEGIN
 		EXEC dbo.EpaAuto_Probation_InsertPeriod @EvaluationTimes
 	END
 
-	UPDATE #EvaluationTimes
+	UPDATE #EvaluationTimes WITH (ROWLOCK, UPDLOCK)
 	SET PeriodId = (
 			SELECT TOP 1 pe.PeriodId
 			FROM dbo.Period AS pe WITH (NOLOCK)
@@ -84,20 +84,24 @@ BEGIN
 			)
 		,Times = Times + 1
 
-	INSERT INTO #EvaluationTimes
+	INSERT INTO #EvaluationTimes (
+		PeriodId
+		,EmployeeId
+		,Times
+		)
 	SELECT @PeriodId
 		,emp.Id
 		,1
 	FROM @EmployeeIds AS emp
 	WHERE NOT EXISTS (
 			SELECT 1
-			FROM #EvaluationTimes
+			FROM #EvaluationTimes WITH (NOLOCK)
 			WHERE emp.Id = EmployeeId
 			)
 
 	SELECT DISTINCT t.PeriodId
 		,t.EmployeeId
-	FROM #EvaluationTimes AS t
+	FROM #EvaluationTimes AS t WITH (NOLOCK)
 	WHERE NOT EXISTS (
 			SELECT 1
 			FROM dbo.Period AS pe WITH (NOLOCK)

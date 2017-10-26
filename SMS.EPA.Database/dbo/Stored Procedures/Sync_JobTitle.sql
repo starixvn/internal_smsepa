@@ -46,8 +46,8 @@ BEGIN
 			)
 		SELECT [JobTitleId]
 			,[Code]
-			,REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(NAME, '&amp;', '&'), '&#39;', ''''), '&lt;', '<'), '&gt;', '>'), '&quot;', '"')
-		FROM OPENXML(@DocHandler, '/ROOT/JobTitle', 1) WITH ([JobTitleId] [int], Code [varchar](20), NAME [nvarchar](100)) AS Data
+			,REPLACE(REPLACE(REPLACE(REPLACE(REPLACE([Name], '&amp;', '&'), '&#39;', ''''), '&lt;', '<'), '&gt;', '>'), '&quot;', '"')
+		FROM OPENXML(@DocHandler, '/ROOT/JobTitle', 1) WITH ([JobTitleId] [int], Code [varchar](20), [Name] [nvarchar](100)) AS Data
 
 		EXEC sp_xml_removedocument @DocHandler
 	END TRY
@@ -61,11 +61,13 @@ BEGIN
 
 	INSERT INTO [dbo].[HRMJobTitle] (
 		[Id]
+		,LookupId
 		,[Code]
 		,[Name]
 		,SyncDate
 		)
 	SELECT new.Id
+		,1
 		,new.[Code]
 		,new.[Name]
 		,@SyncDate

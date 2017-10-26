@@ -1,7 +1,4 @@
 ﻿
-
-/****** Object:  Stored Procedure dbo.EpaEmployee_Get    Script Date: 7/21/2016 3:01:37 PM ******/
-/****** Object:  Stored Procedure dbo.EpaEmployee_Get    Script Date: 7/21/2016 2:45:50 PM ******/
 CREATE PROCEDURE [dbo].[EpaEmployee_Get] @Query NVARCHAR(100) = NULL
 	,@GroupId INT = NULL
 	,@IsLocal BIT = NULL
@@ -33,7 +30,10 @@ BEGIN
 		,emp.[Password]
 		,emp.[Enabled]
 		,emp.IsLocal
-		,lkd.[Name] AS Category
+		,(CASE 
+			WHEN emp.IsLocal = 1 THEN 'Local'
+			ELSE 'Expat' END
+			) AS Category
 		,emp.[Email]
 		,emp.HasMonthlyEPA
 		,emp.JoinedDate
@@ -45,26 +45,15 @@ BEGIN
 	FROM dbo.Employee AS emp WITH (NOLOCK)
 		LEFT JOIN dbo.[Group] AS empGr WITH (NOLOCK) ON emp.GroupId = empGr.GroupId
 		LEFT JOIN dbo.HRMJobTitle AS job WITH (NOLOCK) ON emp.JobTitle = job.Id
-		LEFT JOIN dbo.LookupData AS lkd WITH (NOLOCK) ON emp.IsLocal = CAST(lkd.Value AS BIT)
-		AND lkd.LookupId = 11 -- employee category
 	WHERE emp.IsDeleted = 0
-		AND (
-			ISNULl(@GroupId, '') = ''
-			OR empGr.GroupId = @GroupId
-			)
+		AND ISNULl(@GroupId, empGr.GroupId) = empGr.GroupId
 		AND (
 			ISNULL(@Query, '') = ''
 			OR emp.FullName LIKE '%' + @Query + '%'
 			OR emp.NickName LIKE '%' + @Query + '%'
 			)
-		AND (
-			@IsLocal IS NULL
-			OR emp.IsLocal = @IsLocal
-			)
-		AND (
-			ISNULL(@IsSpecialUser, '') = ''
-			OR emp.IsSpecialUser = @IsSpecialUser
-			)
+		AND ISNULL(@IsLocal, emp.IsLocal) = emp.IsLocal
+		AND ISNULL(@IsSpecialUser, emp.IsSpecialUser) = emp.IsSpecialUser
 		AND (
 			(
 				ISNULL(@IsDisabledUser, '') = ''
@@ -106,23 +95,18 @@ BEGIN
 					)
 				)
 			)
-		AND (
-			@HasMonthlyEPA IS NULL
-			OR emp.HasMonthlyEPA = @HasMonthlyEPA
-			)
+		AND ISNULL(@HasMonthlyEPA, emp.HasMonthlyEPA) = emp.HasMonthlyEPA
 
 	SELECT ro.EmployeeId
 		,ro.RoleId
-		,lo.Code AS RoleCode
+		,ref.Value AS RoleCode
 	FROM dbo.EmployeeRole AS ro WITH (NOLOCK)
-		INNER JOIN dbo.LookupData AS lo WITH (NOLOCK) ON ro.RoleId = lo.[Value]
-	WHERE lo.LookupId = 2
-		AND (
-			ISNULL(@RoleId, '') = ''
-			OR EmployeeId IN (
-				SELECT EmployeeId
-				FROM dbo.EmployeeRole WITH (NOLOCK)
-				WHERE RoleId = @RoleId
-				)
+		INNER JOIN dbo.RefResource AS ref WITH (NOLOCK) ON ro.RoleId = ref.ResourceId
+		AND ref.RefName = 'SystemRole'
+	WHERE ISNULL(@RoleId, '') = ''
+		OR ro.EmployeeId IN (
+			SELECT EmployeeId
+			FROM dbo.EmployeeRole WITH (NOLOCK)
+			WHERE RoleId = @RoleId
 			)
 END

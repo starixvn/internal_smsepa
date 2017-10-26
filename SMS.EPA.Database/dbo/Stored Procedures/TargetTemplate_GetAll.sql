@@ -22,7 +22,7 @@ BEGIN
 		,tg.[TargetTypeId]
 		,tgTy.[Name] AS TargetTypeName
 		,tg.[RatingTypeId]
-		,lk.[Name] AS RatingTypeName
+		,ref.Value AS RatingTypeName
 		,scT.[ScoreRatingTypeId]
 		,scT.[Name] AS ScoreRatingTypeName
 		,ISNULL(tk.KPIs, 0) AS KPIs
@@ -35,14 +35,8 @@ BEGIN
 		) AS tk ON tg.TargetTemplateId = tk.TargetTemplateId
 		INNER JOIN [dbo].[TargetType] AS tgTy WITH (NOLOCK) ON tg.[TargetTypeId] = tgTy.[TargetTypeId]
 		INNER JOIN [dbo].[ScoreRatingType] AS scT WITH (NOLOCK) ON tg.[ScoreRatingTypeId] = scT.[ScoreRatingTypeId]
-		INNER JOIN [dbo].[LookupData] AS lk WITH (NOLOCK) ON tg.[RatingTypeId] = CAST(lk.Value AS INT)
-		AND lk.[LookupId] = 8 -- Rating Type
-	WHERE (
-			@TargetTypeId IS NULL
-			OR tg.TargetTypeId = @TargetTypeId
-			)
-		AND (
-			@IsActive IS NULL
-			OR tg.[IsActive] = @IsActive
-			)
+		INNER JOIN dbo.RefResource AS ref WITH (NOLOCK) ON tg.RatingTypeId = ref.ResourceId
+		AND ref.RefName = 'RatingType'
+	WHERE ISNULL(@TargetTypeId, tg.TargetTypeId) = tg.TargetTypeId
+		AND ISNULL(@IsActive, tg.[IsActive]) = tg.[IsActive]
 END

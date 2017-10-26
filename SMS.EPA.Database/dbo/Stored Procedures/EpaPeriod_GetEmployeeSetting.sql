@@ -21,6 +21,7 @@ BEGIN
 	SET NOCOUNT ON;
 
 	DECLARE @TargetTypeId INT
+		,@Today DATE = GETDATE()
 
 	SELECT @TargetTypeId = TargetTypeId
 	FROM dbo.Period WITH (NOLOCK)
@@ -38,7 +39,7 @@ BEGIN
 		,emp.Code
 		,emp.JoinedDate
 		,emp.HasMonthlyEPA
-		,lkd.[Name] AS Category
+		,(CASE WHEN emp.IsLocal = 1 THEN 'Local' ELSE 'Expat' END) AS Category
 		,dept.DepartmentId
 		,dept.[Name]
 		,gr.GroupId
@@ -79,8 +80,6 @@ BEGIN
 		LEFT JOIN dbo.TargetType AS tar WITH (NOLOCK) ON tarTemp.TargetTypeId = tar.TargetTypeId
 		LEFT JOIN dbo.PeriodExcludedEmployee AS peEx WITH (NOLOCK) ON pe.PeriodId = peEx.PeriodId
 		AND pe.EmployeeId = peEx.EmployeeId
-		LEFT JOIN dbo.LookupData AS lkd WITH (NOLOCK) ON emp.IsLocal = CAST(lkd.Value AS BIT)
-		AND lkd.LookupId = 11 -- employee category
 	WHERE pe.PeriodId = @PeriodId
 		AND period.TargetTypeId = @TargetTypeId
 		AND (
@@ -90,7 +89,7 @@ BEGIN
 				)
 			AND NOT EXISTS (
 				SELECT 1
-				FROM dbo.PeriodExcludedEmployee
+				FROM dbo.PeriodExcludedEmployee WITH (NOLOCK)
 				WHERE PeriodId = pe.PeriodId
 					AND EmployeeId = pe.EmployeeId
 				)
@@ -105,7 +104,7 @@ BEGIN
 				)
 			)
 		AND (
-			ISNULL(@DepartmentId, '') = ''
+			@DepartmentId IS NULL
 			OR (
 				@DepartmentId < 0
 				AND gr.GroupId = - @DepartmentId
@@ -121,10 +120,7 @@ BEGIN
 					)
 				)
 			)
-		AND (
-			@IsLocal IS NULL
-			OR emp.IsLocal = @IsLocal
-			)
+		AND ISNULL(@IsLocal, emp.IsLocal) = emp.IsLocal
 		AND (
 			@IsGeneratedEPA IS NULL
 			OR @IsGeneratedEPA = CASE 
@@ -150,7 +146,7 @@ BEGIN
 							FROM dbo.EPAProcess WITH (NOLOCK)
 							WHERE EPAId = epa.EPAId
 								AND ISNULL(TotalScore, '') = ''
-								AND CAST(StartDate AS DATE) <= CAST(GETDATE() AS DATE)
+								AND CAST(StartDate AS DATE) <= @Today
 								AND ProcessId <> 1
 							)
 					)
@@ -192,28 +188,28 @@ BEGIN
 		,pfs.ProcessId
 		,pfs.StartDate
 		,pfs.EndDate
-		,HasEvaluationGenerated = CASE 
+		,(CASE 
 			WHEN pfs.ProcessId = 2
-				AND ISNULL(epaP.EPAId, '') <> '' THEN 1
-			ELSE 0
-			END
-		,ProcessStatus = CASE 
-			WHEN ISNULL(epa.EPAId, '') <> '' THEN CASE 
-					WHEN epaP.IsEndProcess = 0 THEN CASE 
-							WHEN CAST(pfs.StartDate AS DATE) > CAST(GETDATE() AS DATE) THEN 1 -- Open
-							ELSE 2 -- In Progress
-							END
-					ELSE 3 -- Closed
+				AND epaP.EPAId IS NOT NULL THEN 1
+			ELSE 0 END
+			) AS HasEvaluationGenerated
+		,(CASE 
+			WHEN epa.EPAId IS NOT NULL THEN CASE 
+					WHEN CAST(pfs.StartDate AS DATE) > @Today THEN 1
+					WHEN @Today BETWEEN CAST(pfs.StartDate AS DATE)
+							AND CAST(pfs.EndDate AS DATE) THEN 2
+					ELSE 3
 					END
-			ELSE 0 -- None
-			END
-		,ProcessDetailStatus = CASE 
-			WHEN ISNULL(epaP.EPAId, '') <> '' THEN CASE 
-					WHEN ISNULL(epaP.TotalScore, '') <> '' THEN 2 -- Has Evaluated
-					ELSE 1 -- None Evaluated
+			ELSE 0 END
+			) AS ProcessStatus -- 0:None, 1:Open, 2:In progress, 3:Closed
+		,(CASE 
+			WHEN epaP.EPAId IS NOT NULL THEN CASE 
+					WHEN ISNULL(epaP.TotalScore, '') <> ''
+						AND epaP.EvaluateDate IS NOT NULL THEN 2
+					ELSE 1
 					END
-			ELSE 0
-			END
+			ELSE 0 END
+			) AS ProcessDetailStatus -- 1:None Evaluated, 2:Has Evaluated
 		,eva.EmployeeId AS EvaluatorId
 		,eva.NickName
 		,eva.FullName
@@ -230,26 +226,26 @@ BEGIN
 		AND (
 			@IsGeneratedEPA IS NULL
 			OR @IsGeneratedEPA = CASE 
-			WHEN ISNULL(epaP.EPAId, '') <> '' THEN 1
+			WHEN epaP.EPAId IS NOT NULL THEN 1
 			ELSE 0 END
 			)
 		AND (
 			@IsEvaluated IS NULL
 			OR (
 				@IsEvaluated = 1
-				AND ISNULL(epa.EPAId, '') <> ''
+				AND epa.EPAId IS NOT NULL
 				AND EXISTS (
 					SELECT 1
 					FROM dbo.EPAProcess WITH (NOLOCK)
 					WHERE EPAId = epa.EPAId
 						AND ISNULL(TotalScore, '') = ''
-						AND CAST(StartDate AS DATE) <= CAST(GETDATE() AS DATE)
+						AND CAST(StartDate AS DATE) <= @Today
 						AND ProcessId <> 1
 					)
 				)
 			OR (
 				@IsEvaluated = 2
-				AND ISNULL(epa.EPAId, '') <> ''
+				AND epa.EPAId IS NOT NULL
 				AND EXISTS (
 					SELECT 1
 					FROM dbo.EPAProcess WITH (NOLOCK)

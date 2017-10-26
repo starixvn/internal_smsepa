@@ -1,4 +1,5 @@
-﻿CREATE PROCEDURE [dbo].[EpaAuto_GetEPAEndEvaluationPeriod]
+﻿
+CREATE PROCEDURE [dbo].[EpaAuto_GetEPAEndEvaluationPeriod]
 AS
 /*
 Created: 20160329@Tim.Trinh
@@ -58,7 +59,7 @@ BEGIN
 	FROM dbo.EPAProcess AS epaP WITH (NOLOCK)
 		INNER JOIN dbo.EPA AS epa WITH (NOLOCK) ON epaP.EPAId = epa.EPAId
 		INNER JOIN dbo.Period AS pe WITH (NOLOCK) ON pe.PeriodId = epa.PeriodId
-	WHERE CAST(epaP.EndDate AS DATE) = @Yesterday
+	WHERE epaP.EndDate = @Yesterday
 		AND ProcessId IN (
 			SELECT MAX(ProcessId)
 			FROM dbo.EPAProcess WITH (NOLOCK)
@@ -86,7 +87,7 @@ BEGIN
 		,DisciplineScore
 		,OtherDisciplines
 		)
-	EXECUTE dbo.EmployeeDisciplineSummary_GetByEPA @EPAIds
+	EXECUTE dbo.DisciplineSummary_GetByEPA @EPAIds
 
 	-- General Info
 	SELECT DISTINCT epa.EPAId

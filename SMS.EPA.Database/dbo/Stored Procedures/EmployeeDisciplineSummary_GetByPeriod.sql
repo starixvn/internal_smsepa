@@ -1,4 +1,5 @@
-﻿CREATE PROCEDURE [dbo].[EmployeeDisciplineSummary_GetByPeriod] @PeriodId INT = NULL
+﻿
+CREATE PROCEDURE [dbo].[EmployeeDisciplineSummary_GetByPeriod] @PeriodId INT = NULL
 	,@DepartmentId INT = NULL
 	,@EmployeeId INT = NULL
 	,@DisciplineTypeId INT = NULL
@@ -35,7 +36,7 @@ BEGIN
 		,emp.EmployeeId
 		,emp.NickName
 		,emp.FullName
-		,lk.[Name] AS Category
+		,(CASE WHEN emp.IsLocal = 1 THEN 'Local' ELSE 'Expat' END) AS Category
 		,emp.Code
 		,emp.JoinedDate
 		,gr.GroupId
@@ -48,8 +49,6 @@ BEGIN
 			AND period.AttendanceEndDate
 		AND period.TargetTypeId = 3 -- semi
 		LEFT JOIN dbo.[Group] AS gr WITH (NOLOCK) ON emp.GroupId = gr.GroupId
-		LEFT JOIN dbo.LookupData AS lk WITH (NOLOCK) ON emp.IsLocal = CAST(lk.Value AS BIT)
-		AND lk.LookupId = 11
 		LEFT JOIN dbo.HRMJobTitle AS job WITH (NOLOCK) ON emp.JobTitle = job.Id
 	WHERE emp.[Enabled] = 1
 		AND emp.IsDeleted = 0
@@ -138,7 +137,7 @@ BEGIN
 		,emp.EmployeeId
 		,emp.NickName
 		,emp.FullName
-		,lk.[Name]
+		,emp.IsLocal
 		,emp.Code
 		,emp.JoinedDate
 		,gr.GroupId

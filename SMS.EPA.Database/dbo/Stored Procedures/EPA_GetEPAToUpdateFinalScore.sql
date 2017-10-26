@@ -1,4 +1,5 @@
-﻿CREATE PROCEDURE [dbo].[EPA_GetEPAToUpdateFinalScore] @PeriodId INT
+﻿
+CREATE PROCEDURE [dbo].[EPA_GetEPAToUpdateFinalScore] @PeriodId INT
 	,@DepartmentId INT = NULL
 	,@IsLocal BIT = NULL
 	,@EmployeeId INT = NULL
@@ -171,7 +172,7 @@ BEGIN
 		,DisciplineScore
 		,OtherDisciplines
 		)
-	EXECUTE dbo.EmployeeDisciplineSummary_GetByEPA @EPAIds
+	EXECUTE dbo.DisciplineSummary_GetByEPA @EPAIds
 
 	INSERT INTO #tblEPAStatus (
 		EPAId

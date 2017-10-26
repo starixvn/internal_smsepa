@@ -21,7 +21,7 @@ BEGIN
 		,tg.[TargetTypeId]
 		,tt.[Name] AS TargetTypeName
 		,tg.[RatingTypeId]
-		,lk.[Name] AS RatingTypeName
+		,ref.Value AS RatingTypeName
 		,sco.[ScoreRatingTypeId]
 		,sco.[Name] AS ScoreRatingTypeName
 		,sco.[SelfEvaluated] AS MaxWeightSelf
@@ -36,8 +36,8 @@ BEGIN
 	FROM dbo.TargetTemplate AS tg WITH (NOLOCK)
 		INNER JOIN dbo.TargetType AS tt WITH (NOLOCK) ON tg.TargetTypeId = tt.TargetTypeId
 		INNER JOIN dbo.[ScoreRatingType] AS sco WITH (NOLOCK) ON tg.[ScoreRatingTypeId] = sco.[ScoreRatingTypeId]
-		INNER JOIN [dbo].[LookupData] AS lk WITH (NOLOCK) ON tg.[RatingTypeId] = CAST(lk.Value AS INT)
-		AND lk.[LookupId] = 8 -- Rating Type
+		INNER JOIN dbo.RefResource AS ref WITH (NOLOCK) ON tg.RatingTypeId = ref.ResourceId
+		AND ref.RefName = 'RatingType'
 		LEFT JOIN dbo.Employee AS e WITH (NOLOCK) ON tg.CreatedBy = e.EmployeeId
 		LEFT JOIN dbo.Employee AS ee WITH (NOLOCK) ON tg.ModifiedBy = ee.EmployeeId
 	WHERE tg.TargetTemplateId = @TargetTemplateId

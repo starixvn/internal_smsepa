@@ -1,8 +1,5 @@
-﻿/****** Object:  Stored Procedure dbo.EpaEmployee_GetByCode    Script Date: 7/21/2016 3:01:37 PM ******/
-/****** Object:  Stored Procedure dbo.EpaEmployee_GetByCode    Script Date: 7/21/2016 2:45:50 PM ******/
-
-CREATE PROCEDURE dbo.EpaEmployee_GetByCode --'02597'
-	@Code NVARCHAR(20) = NULL
+﻿
+CREATE PROCEDURE [dbo].[EpaEmployee_GetByCode] @Code NVARCHAR(20) = NULL
 AS
 /*
 Created: 2015-06-12@Josh.Phan
@@ -53,12 +50,12 @@ BEGIN
 		AND emp.IsDeleted = 0
 
 	-- role
-	SELECT emRo.RoleId
-		,loDa.Code AS RoleCode
-	FROM dbo.EmployeeRole AS emRo WITH (NOLOCK)
-		INNER JOIN dbo.LookupData loDa WITH (NOLOCK) ON emRo.RoleId = loDa.Value
-	WHERE emRO.EmployeeId = @EmployeeId
-		AND loDa.LookupId = 2 -- System Role
+	SELECT ro.RoleId
+		,ref.Value AS RoleCode
+	FROM dbo.EmployeeRole AS ro WITH (NOLOCK)
+		INNER JOIN dbo.RefResource AS ref WITH (NOLOCK) ON ro.RoleId = ref.ResourceId
+		AND ref.RefName = 'SystemRole'
+	WHERE ro.EmployeeId = @EmployeeId
 
 	SELECT f.FunctionId
 		,f.FunctionKey

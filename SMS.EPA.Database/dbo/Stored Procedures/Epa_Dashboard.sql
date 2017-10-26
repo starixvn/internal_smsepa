@@ -1,4 +1,5 @@
-﻿CREATE PROCEDURE [dbo].[Epa_Dashboard] @EmployeeId INT
+﻿
+CREATE PROCEDURE [dbo].[Epa_Dashboard] @EmployeeId INT
 AS
 /*
 Created: 20150904@Tim.Trinh
@@ -111,7 +112,7 @@ BEGIN
 		,ApproverSubtractScore
 		,OtherDisciplines
 		)
-	EXECUTE dbo.EmployeeDisciplineSummary_GetByEPA @EPAIds
+	EXECUTE dbo.DisciplineSummary_GetByEPA @EPAIds
 
 	SELECT tblData.*
 	FROM (

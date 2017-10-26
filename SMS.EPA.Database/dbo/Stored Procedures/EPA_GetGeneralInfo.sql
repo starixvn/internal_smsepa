@@ -1,4 +1,5 @@
-﻿CREATE PROCEDURE [dbo].[EPA_GetGeneralInfo] @TblEPAIds IntId READONLY
+﻿
+CREATE PROCEDURE [dbo].[EPA_GetGeneralInfo] @TblEPAIds IntId READONLY
 AS
 /*
 Created: 20150827@Tim.Trinh
@@ -17,6 +18,8 @@ BEGIN
 	DECLARE @EPAIds NVARCHAR(MAX)
 		,@RequiredCommentOnMaxScore BIT
 		,@Today DATE = GETDATE()
+		,@MonthlyTarget TINYINT = 2
+		,@SemiTarget TINYINT = 3
 
 	CREATE TABLE #tblDisciplineScores (
 		EPAId INT
@@ -45,10 +48,9 @@ BEGIN
 		,StatusId TINYINT
 		)
 
-	SELECT @RequiredCommentOnMaxScore = CAST(lkd.Value AS BIT)
-	FROM dbo.LookupData AS lkd WITH (NOLOCK)
-		INNER JOIN dbo.[Lookup] AS lk WITH (NOLOCK) ON lkd.LookupId = lk.Id
-		AND lk.Id = 7 -- required comment on max score
+	SELECT @RequiredCommentOnMaxScore = CAST(Value AS BIT)
+	FROM dbo.RefResource WITH (NOLOCK)
+	WHERE RefName = 'RequiredCommentOnMaxScore'
 
 	SELECT @EPAIds = COALESCE(@EPAIds + ',', '') + CAST(Id AS NVARCHAR)
 	FROM @TblEPAIds
@@ -59,7 +61,7 @@ BEGIN
 		,ApproverSubtractScore
 		,OtherDisciplines
 		)
-	EXECUTE dbo.EmployeeDisciplineSummary_GetByEPA @EPAIds
+	EXECUTE dbo.DisciplineSummary_GetByEPA @EPAIds
 
 	INSERT INTO #tblLastEPA (
 		EPAId
@@ -95,7 +97,7 @@ BEGIN
 		)
 	SELECT epa.EPAId
 		,(CASE 
-			WHEN tt.TargetTypeId IN (2, 3) THEN (CASE 
+			WHEN tt.TargetTypeId IN (@MonthlyTarget, @SemiTarget) THEN (CASE 
 					WHEN pc.EndDate >= period.EndDate THEN (CASE 
 							WHEN pc.EndDate < @Today THEN 1
 							ELSE 0 END
@@ -183,14 +185,13 @@ BEGIN
 		,gr.[Name] AS GroupName
 		,job.Id AS JobTitleId
 		,job.[Name] AS JobTitleName
-		,CAST(lkd.Value AS TINYINT) AS RatingTypeId
-		,lkd.Code
-		,lkd.[Name]
+		,ref.ResourceId AS RatingTypeId
+		,ref.Value AS [Name]
 		,period.PeriodId
 		,period.[Name]
 		,pc.StartDate
 		,(CASE 
-			WHEN tt.TargetTypeId IN (2, 3) THEN CASE 
+			WHEN tt.TargetTypeId IN (@MonthlyTarget, @SemiTarget) THEN CASE 
 					WHEN pc.EndDate >= period.EndDate THEN pc.EndDate
 					ELSE period.EndDate
 					END
@@ -222,9 +223,8 @@ BEGIN
 		INNER JOIN dbo.Period AS period WITH (NOLOCK) ON epa.PeriodId = period.PeriodId
 		AND period.IsActive = 1
 		INNER JOIN dbo.ScoreRatingType AS srt WITH (NOLOCK) ON epa.ScoreRatingTypeId = srt.ScoreRatingTypeId
-		INNER JOIN dbo.LookupData AS lkd WITH (NOLOCK) ON epa.RatingTypeId = CAST(lkd.Value AS TINYINT)
-		INNER JOIN dbo.[Lookup] AS lk WITH (NOLOCK) ON lkd.LookupId = lk.Id
-		AND lk.Id = 8 -- rating type
+		INNER JOIN dbo.RefResource AS ref WITH (NOLOCK) ON epa.RatingTypeId = ref.ResourceId
+		AND ref.RefName = 'RatingType'
 		INNER JOIN dbo.TargetType AS tt WITH (NOLOCK) ON period.TargetTypeId = tt.TargetTypeId
 		INNER JOIN #tblEPAStatus AS tblstatus WITH (NOLOCK) ON epa.EPAId = tblstatus.EPAId
 		LEFT JOIN #tblDisciplineScores AS ds WITH (NOLOCK) ON epa.EPAId = ds.EPAId

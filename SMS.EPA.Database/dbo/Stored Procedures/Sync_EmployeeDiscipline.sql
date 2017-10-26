@@ -251,6 +251,7 @@ BEGIN
 	FROM #Violation new
 		LEFT JOIN [dbo].[EmployeeDiscipline] curr WITH (NOLOCK) ON new.[EmpId] = curr.[EmpId]
 		AND new.[WorkDate] = curr.[WorkDate]
+		AND curr.[DisciplineTypeId] = new.[Type]
 	WHERE curr.[EmpId] IS NULL
 	AND new.IsDeleted = 0
 
@@ -258,6 +259,7 @@ BEGIN
 	FROM #Violation new
 		INNER JOIN [dbo].[EmployeeDiscipline] curr WITH (NOLOCK) ON new.[EmpId] = curr.[EmpId]
 		AND new.[WorkDate] = curr.[WorkDate]
+		AND curr.[DisciplineTypeId] = new.[Type]
 	WHERE curr.[EmpId] IS NULL
 	AND new.IsDeleted = 1
 
@@ -270,7 +272,7 @@ BEGIN
 		,curr.[TotalHours] = new.[TotalHours]
 		,curr.[LateIn] = new.[LateIn]
 		,curr.[EarlyOut] = new.[EarlyOut]
-		,curr.[DisciplineTypeId] = new.[Type]
+		--,curr.[DisciplineTypeId] = new.[Type]
 		,curr.[DisciplineScore] = new.[DisciplineScore]
 		,curr.[EmployeeComment] = new.[EmployeeComment]
 		,curr.[ApproverComment] = new.[ApproverComment]
@@ -300,6 +302,7 @@ BEGIN
 	FROM [dbo].[EmployeeDiscipline] curr WITH (ROWLOCK, UPDLOCK)
 		INNER JOIN #Violation new ON new.[EmpId] = curr.[EmpId]
 		AND new.[WorkDate] = curr.[WorkDate]
+		AND curr.[DisciplineTypeId] = new.[Type]
 
 	IF OBJECT_ID('tempdb..#Violation') IS NOT NULL
 	BEGIN

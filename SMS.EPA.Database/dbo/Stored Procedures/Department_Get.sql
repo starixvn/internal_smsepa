@@ -1,4 +1,5 @@
-﻿CREATE PROCEDURE [dbo].[Department_Get] @ParentId INT = NULL
+﻿
+CREATE PROCEDURE [dbo].[Department_Get] @ParentId INT = NULL
 	,@IsActive BIT = 1
 AS
 /*
@@ -25,7 +26,10 @@ BEGIN
 		,mg.NickName
 	FROM dbo.Department AS dept WITH (NOLOCK)
 		LEFT JOIN dbo.Employee AS mg WITH (NOLOCK) ON dept.[ManagerId] = mg.EmployeeId
-	WHERE ISNULL(@ParentId, dept.ParentId) = dept.ParentId
+	WHERE (
+			@ParentId IS NULL
+			OR dept.ParentId = @ParentId
+			)
 		AND ISNULL(@IsActive, dept.IsActive) = dept.IsActive
 	
 	UNION ALL

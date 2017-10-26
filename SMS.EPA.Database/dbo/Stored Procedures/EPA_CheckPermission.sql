@@ -1,4 +1,5 @@
-﻿CREATE PROCEDURE [dbo].[EPA_CheckPermission] @EPAId INT
+﻿
+CREATE PROCEDURE [dbo].[EPA_CheckPermission] @EPAId INT
 	,@ActorUserId INT
 	,@ProcessId INT = NULL
 AS
@@ -57,9 +58,9 @@ BEGIN
 				EXISTS (
 					SELECT 1
 					FROM dbo.EmployeeRole AS ro WITH (NOLOCK)
-						INNER JOIN dbo.LookupData AS lo WITH (NOLOCK) ON ro.RoleId = lo.Value
-					WHERE lo.LookupId = 2 -- role
-						AND ro.EmployeeId = @ActorUserId
+						INNER JOIN dbo.RefResource AS ref WITH (NOLOCK) ON ro.RoleId = ref.ResourceId
+						AND ref.RefName = 'SystemRole'
+					WHERE ro.EmployeeId = @ActorUserId
 						AND ro.RoleId IN (1, 2) -- SA, HR
 					)
 				OR EXISTS (

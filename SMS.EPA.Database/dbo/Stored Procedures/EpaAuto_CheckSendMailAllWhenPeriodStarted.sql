@@ -14,6 +14,6 @@ BEGIN
 	SET NOCOUNT ON;
 
 	SELECT CAST(Value AS BIT)
-	FROM [dbo].[LookupData] WITH (NOLOCK)
-	WHERE Id = 8 -- Send Mail All
+	FROM dbo.RefResource WITH (NOLOCK)
+	WHERE RefName = 'SendMailToAll'
 END

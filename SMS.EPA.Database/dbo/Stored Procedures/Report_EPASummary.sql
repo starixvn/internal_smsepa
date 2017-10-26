@@ -100,7 +100,7 @@ BEGIN
 		FROM dbo.EPA AS epa WITH (NOLOCK)
 			INNER JOIN dbo.EPAProcess AS pcSelf WITH (NOLOCK) ON epa.EPAId = pcSelf.EPAId
 			AND pcSelf.ProcessId = 2
-			AND CAST(pcSelf.StartDate AS DATE) <= @ToDay
+			AND pcSelf.StartDate <= @ToDay
 			INNER JOIN dbo.EPAProcess AS pc WITH (NOLOCK) ON epa.EPAId = pc.EPAId
 			INNER JOIN #tblPeriodTemp AS period WITH (NOLOCK) ON epa.PeriodId = period.PeriodId
 			INNER JOIN dbo.Employee AS emp WITH (NOLOCK) ON epa.EmployeeId = emp.EmployeeId
@@ -146,14 +146,8 @@ BEGIN
 					)
 				)
 			)
-		AND (
-			@IsLocal IS NULL
-			OR tblData.IsLocal = @IsLocal
-			)
-		AND (
-			@EmployeeId IS NULL
-			OR tblData.EmployeeId = @EmployeeId
-			)
+		AND ISNULL(@IsLocal, tblData.IsLocal) = tblData.IsLocal
+		AND ISNULL(@EmployeeId, tblData.EmployeeId) = tblData.EmployeeId
 		AND (
 			EXISTS (
 				SELECT 1
@@ -231,7 +225,7 @@ BEGIN
 	SELECT DISTINCT epa.EPAId
 		,(CASE 
 			WHEN tt.TargetTypeId = @SemiId THEN CASE 
-					WHEN MAX(CAST(pc.EndDate AS DATE)) > CAST(period1.EndDate AS DATE) THEN MAX(pc.EndDate)
+					WHEN MAX(pc.EndDate) > period1.EndDate THEN MAX(pc.EndDate)
 					ELSE period1.EndDate
 					END
 			ELSE MAX(pc.EndDate) END
@@ -256,7 +250,7 @@ BEGIN
 		,ApproverSubtractScore
 		,OtherDisciplines
 		)
-	EXECUTE dbo.EmployeeDisciplineSummary_GetByEPA @Ids
+	EXECUTE dbo.DisciplineSummary_GetByEPA @Ids
 
 	INSERT INTO #tblEPAStatus (
 		EPAId
@@ -265,12 +259,12 @@ BEGIN
 	SELECT epa.EPAId
 		,(CASE 
 			WHEN tt.TargetTypeId = @SemiId THEN (CASE 
-					WHEN pc.EndDate >= CAST(period.EndDate AS DATE) THEN (CASE 
+					WHEN pc.EndDate >= period.EndDate THEN (CASE 
 							WHEN pc.EndDate < @ToDay THEN 1
 							ELSE 0 END
 							)
 					ELSE (CASE 
-							WHEN CAST(period.EndDate AS DATE) <= @ToDay THEN 1
+							WHEN period.EndDate <= @ToDay THEN 1
 							ELSE 0 END
 							) END
 					)
@@ -283,7 +277,7 @@ BEGIN
 		INNER JOIN #tblEPA AS tbl WITH (NOLOCK) ON epa.EPAId = tbl.EPAId
 		INNER JOIN (
 		SELECT pc.EPAId
-			,CAST(MAX(pc.EndDate) AS DATE) AS EndDate
+			,MAX(pc.EndDate) AS EndDate
 		FROM dbo.EPAProcess AS pc WITH (NOLOCK)
 			INNER JOIN #tblEPA AS tbl1 WITH (NOLOCK) ON pc.EPAId = tbl1.EPAId
 		GROUP BY pc.EPAId
@@ -302,7 +296,10 @@ BEGIN
 		,emp.NickName
 		,emp.FullName
 		,emp.JoinedDate
-		,lkd.[Name] AS Category
+		,(CASE 
+			WHEN emp.IsLocal = 1 THEN 'Local'
+			ELSE 'Expat' END
+			) AS Category
 		,gr.GroupId
 		,gr.Code AS GroupCode
 		,gr.[Name] AS GroupName
@@ -313,8 +310,6 @@ BEGIN
 		LEFT JOIN dbo.[Group] AS gr WITH (NOLOCK) ON emp.GroupId = gr.GroupId
 		LEFT JOIN dbo.Department AS dept WITH (NOLOCK) ON gr.DepartmentId = dept.DepartmentId
 		LEFT JOIN dbo.HRMJobTitle AS job WITH (NOLOCK) ON emp.JobTitle = job.Id
-		LEFT JOIN dbo.LookupData AS lkd WITH (NOLOCK) ON emp.IsLocal = CAST(lkd.Value AS BIT)
-		AND lkd.LookupId = 11 -- employee category
 	ORDER BY CASE 
 			WHEN ISNULL(@SortColumnName, '') <> ''
 				AND ISNULL(@SortDirection, '') <> ''
@@ -383,10 +378,10 @@ BEGIN
 		,pc.EvaluatorId
 		,pc.ProcessId
 		,(CASE 
-			WHEN CAST(pc.StartDate AS DATE) > @Today THEN 1
-			WHEN @Today BETWEEN CAST(pc.StartDate AS DATE)
-					AND CAST(pc.EndDate AS DATE) THEN 2
-			WHEN @Today > CAST(pc.EndDate AS DATE) THEN 3 END
+			WHEN pc.StartDate > @Today THEN 1
+			WHEN @Today BETWEEN pc.StartDate
+					AND pc.EndDate THEN 2
+			WHEN @Today > pc.EndDate THEN 3 END
 			) AS StatusId -- 1:Open; 2:In Progress; 3:Closed
 		,pc.TotalScore
 		,pc.AdjustScore

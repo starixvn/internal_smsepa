@@ -92,8 +92,6 @@
     <Build Include="dbo\Tables\KPIGroup.sql" />
     <Build Include="dbo\Tables\KPIGroupHistory.sql" />
     <Build Include="dbo\Tables\KPIHistory.sql" />
-    <Build Include="dbo\Tables\Lookup.sql" />
-    <Build Include="dbo\Tables\LookupData.sql" />
     <Build Include="dbo\Tables\Menu.sql" />
     <Build Include="dbo\Tables\LogDetail.sql" />
     <Build Include="dbo\Tables\Period.sql" />
@@ -103,7 +101,6 @@
     <Build Include="dbo\Tables\PeriodFlowSetting.sql" />
     <Build Include="dbo\Tables\PeriodProcessSetting.sql" />
     <Build Include="dbo\Tables\PeriodTargetSetting.sql" />
-    <Build Include="dbo\Tables\Process.sql" />
     <Build Include="dbo\Tables\RoleFunction.sql" />
     <Build Include="dbo\Tables\SettingDepartmentFlow.sql" />
     <Build Include="dbo\Tables\SettingEmployeeFlow.sql" />
@@ -310,7 +307,6 @@
     <Build Include="dbo\Stored Procedures\EPA_GetProcess.sql" />
     <Build Include="dbo\Stored Procedures\EPA_GetPeriodToUpdateFinalScore.sql" />
     <Build Include="dbo\Stored Procedures\EPA_GetOtherViolations.sql" />
-    <Build Include="dbo\Stored Procedures\EPA_GetNumberOfRow.sql" />
     <Build Include="dbo\Stored Procedures\Epa_GetMonthlyEPAHistory.sql" />
     <Build Include="dbo\Stored Procedures\EPA_GetMember.sql" />
     <Build Include="dbo\Stored Procedures\EPA_GetLastScoreProcess.sql" />
@@ -346,7 +342,6 @@
     <Build Include="dbo\Stored Procedures\JobGrade_Get.sql" />
     <Build Include="dbo\Stored Procedures\EPA_GetRecommendationById.sql" />
     <Build Include="dbo\Stored Procedures\Dashboard_GetToDoList.sql" />
-    <Build Include="dbo\Tables\OrdinalNumbers.sql" />
     <Build Include="dbo\Stored Procedures\Report_GetEmployees.sql" />
     <Build Include="dbo\Stored Procedures\EpaAuto_Probation_InsertPeriod.sql" />
     <Build Include="dbo\Stored Procedures\EPA_UpdateScoreByReviewerOrManagement.sql" />
@@ -354,5 +349,10 @@
       <AnsiNulls>Off</AnsiNulls>
       <QuotedIdentifier>Off</QuotedIdentifier>
     </Build>
+    <Build Include="dbo\Tables\RefResource.sql" />
+    <Build Include="dbo\Tables\DisciplineSummary.sql" />
+    <Build Include="dbo\Stored Procedures\DisciplineSummary_GetForOtherSystem.sql" />
+    <Build Include="dbo\Stored Procedures\DisciplineSummary_GetByEPA.sql" />
+    <Build Include="dbo\Stored Procedures\DisciplineSummary_Get.sql" />
   </ItemGroup>
 </Project>

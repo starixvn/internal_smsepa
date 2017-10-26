@@ -15,10 +15,12 @@ BEGIN
 
 	DECLARE @PeriodId INT
 		,@Name NVARCHAR(200)
+		,@ProbationTarget TINYINT = 1
 
-	SELECT @Name = Ordinal + ' Probation'
-	FROM dbo.OrdinalNumbers
-	WHERE Number = @EvaluationTimes
+	SELECT @Name = Value + ' Probation'
+	FROM dbo.RefResource WITH (NOLOCK)
+	WHERE RefName = 'EvaluationTimes'
+		AND ResourceId = @EvaluationTimes
 
 	IF EXISTS (
 			SELECT 1
@@ -27,7 +29,7 @@ BEGIN
 					[Name] = @Name
 					OR EvaluationTimes = @EvaluationTimes
 					)
-				AND TargetTypeId = 1 -- probation
+				AND TargetTypeId = @ProbationTarget
 			)
 	BEGIN
 		RETURN
@@ -42,7 +44,7 @@ BEGIN
 		)
 	VALUES (
 		@Name
-		,1 -- probation
+		,@ProbationTarget
 		,1
 		,@EvaluationTimes
 		,GETDATE()
@@ -63,5 +65,5 @@ BEGIN
 		,NoticeAtBegin
 		,RemindDay
 	FROM dbo.EvaluationGlobalSetting WITH (NOLOCK)
-	WHERE TargetTypeId = 1 -- probation
+	WHERE TargetTypeId = @ProbationTarget
 END

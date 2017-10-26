@@ -1,5 +1,4 @@
 ﻿
-
 CREATE PROCEDURE [dbo].[Login_GetEmployee] @Code NVARCHAR(20) = NULL
 	,@DomainUsername NVARCHAR(50) = NULL
 AS
@@ -36,12 +35,12 @@ BEGIN
 	WHERE emp.EmployeeId = @EmployeeId
 
 	-- role
-	SELECT emRo.RoleId
-		,loDa.Code AS RoleCode
-	FROM dbo.EmployeeRole AS emRo WITH (NOLOCK)
-		INNER JOIN dbo.LookupData loDa WITH (NOLOCK) ON emRo.RoleId = loDa.Value
-	WHERE emRO.EmployeeId = @EmployeeId
-		AND loDa.LookupId = 2 -- System Role
+	SELECT ro.RoleId
+		,ref.Value AS RoleCode
+	FROM dbo.EmployeeRole AS ro WITH (NOLOCK)
+		INNER JOIN dbo.RefResource AS ref WITH (NOLOCK) ON ro.RoleId = ref.ResourceId
+		AND ref.RefName = 'SystemRole'
+	WHERE ro.EmployeeId = @EmployeeId
 
 	SELECT f.FunctionId
 		,f.FunctionKey
