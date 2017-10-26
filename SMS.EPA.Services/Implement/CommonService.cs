@@ -140,11 +140,6 @@
             return epaHistoryService.GetAllPeriodIncludeImport(criteria);
         }
 
-        public IEnumerable<EmployeeOtherViolationDetailModel> GetOtherViolationDetailByEPAId(GetOtherViolationDetailByEPAIdCriteria criteria)
-        {
-            return employeeEPAService.GetOtherViolationDetailByEPAId(criteria);
-        }
-
         public IEnumerable<TargetTemplate> GetAllTargetTemplate(GetAllTargetTemplateCriteria criteria)
         {
             return targetTemplateService.GetAllTargetTemplate(criteria);

@@ -1,5 +1,8 @@
 ﻿namespace SMS.EPA.Site.Controllers.API
 {
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Web.Http;
     using Core.Constants;
     using Core.Enumerations;
     using Core.Utilities;
@@ -10,9 +13,6 @@
     using Model.Enitites;
     using Services.Implement;
     using Services.Interfaces;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Web.Http;
 
     public class CommonController : BaseController
     {
@@ -190,17 +190,6 @@
             var criteria = new GetAllPeriodIncludeImportCriteria();
 
             return commonService.GetAllPeriodIncludeImport(criteria);
-        }
-
-        [HttpGet]
-        public IEnumerable<EmployeeOtherViolationDetailModel> GetOtherViolationDetailByEPAId(int epaId)
-        {
-            var criteria = new GetOtherViolationDetailByEPAIdCriteria
-            {
-                EPAId = epaId
-            };
-
-            return commonService.GetOtherViolationDetailByEPAId(criteria);
         }
 
         [HttpGet]

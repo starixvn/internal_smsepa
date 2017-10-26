@@ -259,20 +259,6 @@
             return result;
         }
 
-        public IEnumerable<EmployeeOtherViolationDetailModel> GetOtherViolationDetailByEPAId(
-            GetOtherViolationDetailByEPAIdCriteria criteria)
-        {
-            IEnumerable<EmployeeOtherViolationDetailModel> otherViolationDetails =
-                new List<EmployeeOtherViolationDetailModel>();
-
-            if (criteria != null && criteria.IsValid())
-            {
-                otherViolationDetails = GetData<EmployeeOtherViolationDetailModel>(criteria);
-            }
-
-            return otherViolationDetails;
-        }
-
         public IList<EPAModel> GetMonthlyEPAOfSemi(string epaIds)
         {
             var criteria = new GetMonthlyEPAOfSemiCriteria

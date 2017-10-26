@@ -62,7 +62,6 @@
                             "~/SourceApp/Components/Common/common-factory.js",
                             "~/SourceApp/Components/Common/common-model.js",
                             "~/SourceApp/Components/Common/menu-controller.js",
-                            "~/SourceApp/Components/Common/other-violation-detail-controller.js",
                             "~/SourceApp/Components/Employee/employee-factory.js",
                             "~/SourceApp/Components/Employee/employee-model.js",
                             "~/SourceApp/Components/Employee/get-employee-permission-directive.js",
@@ -221,11 +220,8 @@
                             "~/SourceApp/Components/DisciplineSummary/discipline-summary-factory.js",
                             "~/SourceApp/Components/DisciplineSummary/discipline-summary-model.js",
                              "~/SourceApp/Components/DisciplineSummary/discipline-summary-directive.js",
-                             "~/SourceApp/Components/DisciplineSummary/discipline-detail-directive.js",
                             "~/SourceApp/Components/DisciplineSummary/discipline-summary-by-period-directive.js",
                             "~/SourceApp/Components/DisciplineSummary/discipline-summary-controller.js",
-                            "~/SourceApp/Components/DisciplineSummary/discipline-detail-controller.js",
-                            "~/SourceApp/Components/DisciplineSummary/other-violations-controller.js",
                             "~/SourceApp/Components/DisciplineSummary/discipline-summary-by-period-controller.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/common/js").Include(

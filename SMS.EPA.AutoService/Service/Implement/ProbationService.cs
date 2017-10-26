@@ -1,31 +1,24 @@
 ﻿namespace SMS.EPA.AutoService.Service
 {
+    using System.Collections.Generic;
     using Core.Model;
     using Criteria;
     using Implement;
     using Model;
-    using System.Collections.Generic;
-    using System.Linq;
 
     public class ProbationService : BasePeriodService, IProbationService
     {
         public void CheckProbationPeriod()
         {
-            IEnumerable<AutoEmployeePeriodModel> employeePeriods =
-                GetEmployeeEvaluation(new GetEmployeeProbationEvaluationCriteria());
+            IEnumerable<AutoEmployeePeriodModel> employeePeriods = GetEmployeeEvaluation(new GetEmployeeProbationEvaluationCriteria());
 
-            if (employeePeriods != null && employeePeriods.Any())
+            foreach (AutoEmployeePeriodModel employeePeriod in employeePeriods)
             {
-                foreach (AutoEmployeePeriodModel employeePeriod in employeePeriods)
+                if (!string.IsNullOrWhiteSpace(employeePeriod.EmployeeIds) && employeePeriod.PeriodId > 0)
                 {
-                    if (!string.IsNullOrWhiteSpace(employeePeriod.EmployeeIds) && employeePeriod.PeriodId > 0)
-                    {
-                        InsertEmployeeToPeriod(employeePeriod);
-                        GenerateEPA(
-                            employeePeriod,
-                            "Result of auto generate EPA to all employees of current probation period ");
-                        SendStartEmail(employeePeriod.PeriodId, employeePeriod.EmployeeIds);
-                    }
+                    InsertEmployeeToPeriod(employeePeriod);
+                    GenerateEPA(employeePeriod, "Auto generate EPA for probation period");
+                    SendStartEmail(employeePeriod.PeriodId, employeePeriod.EmployeeIds);
                 }
             }
         }
@@ -37,15 +30,17 @@
                 PeriodId = employeePeriod.PeriodId,
                 EmployeeIds = employeePeriod.EmployeeIds
             };
-            var comandResult = new CommandResult();
+            var commandResult = new CommandResult();
 
             if (criteria.IsValid())
             {
-                comandResult = Repository.ExecuteNonQuery(criteria);
+                commandResult = Repository.ExecuteNonQuery(criteria);
             }
 
-            string messageResult = comandResult.IsSuccessful ? "0" : comandResult.Message;
-            Log.Info("Result of auto add employee to probation period " + employeePeriod.PeriodId + ": " + messageResult);
+            if (!commandResult.IsSuccessful)
+            {
+                Log.Info("Auto add employee to probation period " + employeePeriod.PeriodId + ": " + commandResult.Message);
+            }
         }
     }
 }

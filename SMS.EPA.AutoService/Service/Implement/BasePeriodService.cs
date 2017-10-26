@@ -1,5 +1,9 @@
 ﻿namespace SMS.EPA.AutoService.Service.Implement
 {
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Reflection;
+    using System.Threading.Tasks;
     using Core.Enumerations;
     using Core.Model;
     using Core.Services;
@@ -9,10 +13,6 @@
     using Model;
     using Services.Implement;
     using Services.Interfaces;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Reflection;
-    using System.Threading.Tasks;
 
     public class BasePeriodService : BaseService
     {
@@ -58,8 +58,10 @@
                 commandResult = Repository.ExecuteNonQuery(criteria);
             }
 
-            string messageResult = commandResult.IsSuccessful ? "0" : commandResult.Message;
-            Log.Info($"{messageExplanation} {periodId}: {messageResult}");
+            if (!commandResult.IsSuccessful)
+            {
+                Log.Info($"{messageExplanation} {periodId}: {commandResult.Message}");
+            }
         }
 
         protected void SendStartEmail(int periodId)
@@ -92,9 +94,10 @@
                 commandResult = PeriodService.GenerateEvaluation(criteria);
             }
 
-            string messageResult = commandResult.IsSuccessful ? "0" : commandResult.Message;
-            Log.Info(
-                $"{messageExplanation} {periodId}: {messageResult}");
+            if (!commandResult.IsSuccessful)
+            {
+                Log.Info($"{messageExplanation} {periodId}: {commandResult.Message}");
+            }
         }
 
         protected IEnumerable<int> GetStartedPeriods(ICriteria criteria)
@@ -158,8 +161,10 @@
                 commandResult = PeriodService.GenerateEvaluation(criteria);
             }
 
-            string messageResult = commandResult.IsSuccessful ? "0" : commandResult.Message;
-            Log.Info($"{messageExplanation}{employeePeriod.PeriodId}: {messageResult}");
+            if (!commandResult.IsSuccessful)
+            {
+                Log.Info($"{messageExplanation} {employeePeriod.PeriodId}: {commandResult.Message}");
+            }
         }
 
         protected IEnumerable<AutoEmployeePeriodModel> GetEmployeeEvaluation(ICriteria criteria)

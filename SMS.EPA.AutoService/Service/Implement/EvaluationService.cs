@@ -1,5 +1,6 @@
 ﻿namespace SMS.EPA.AutoService.Service
 {
+    using System.Collections.Generic;
     using Core.Enumerations;
     using Core.Model;
     using Core.Services;
@@ -8,7 +9,6 @@
     using Model;
     using Services.Implement;
     using Services.Interfaces;
-    using System.Collections.Generic;
 
     public class EvaluationService : BaseService, IEvaluationService
     {

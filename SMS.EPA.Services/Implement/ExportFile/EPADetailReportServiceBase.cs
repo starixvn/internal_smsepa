@@ -220,17 +220,16 @@
             return oddStyle;
         }
 
-        protected string GetGrade(EPAModel epaInfo, string finalScoreString)
+        protected string GetGrade(EPAModel epaInfo, string finalScore)
         {
             var standardGrades = commonService.GetStandardGrade().ToList();
 
-            float finalScore;
-            float.TryParse(finalScoreString, out finalScore);
+            float score;
 
             float? performanceScore = null;
-            if (Math.Abs(finalScore) > Constants.Tolerance)
+            if (float.TryParse(finalScore, out score) && Math.Abs(score) > Constants.Tolerance)
             {
-                performanceScore = finalScore - epaInfo.DisciplineScore;
+                performanceScore = score - epaInfo.DisciplineScore;
             }
 
             return employeeEPAService.ConvertScoreToGrade(

@@ -34,7 +34,6 @@
         vm.goToReviewerListing = goToReviewerListing;
         vm.selfEvaluationDetail = selfEvaluationDetail;
         vm.viewEPAResult = viewEPAResult;
-        vm.viewOtherViolationDetail = viewOtherViolationDetail;
 
         initialize();
 
@@ -104,10 +103,6 @@
 
         function viewEPAResult(epa) {
             $location.url(baseUrl + 'EPA/Detail/' + epa.EPAId);
-        }
-
-        function viewOtherViolationDetail(epa) {
-            CommonModel.openPopupViewOtherViolationDetail(epa.EPAId);
         }
     }
 })(angular);

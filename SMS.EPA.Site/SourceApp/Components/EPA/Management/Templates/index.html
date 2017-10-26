@@ -190,23 +190,15 @@
                         </div>
                     </td>
                     <td class="text-center">
-                        <div class="col-percent-60">
-                            <div ng-show="epaInfo.HasDisciplineScore">
-                                <span ng-class="epaInfo.DisciplineScore < 0 ? 'error-message' : ''"
-                                      ng-bind="epaInfo.DisciplineScore | customScore"></span> / <span ng-bind="epaInfo.MaxDisciplineScore | customScore"></span>
-                            </div>
-                            <div ng-show="!epaInfo.HasDisciplineScore">
-                                <span ng-show="epaInfo.DisciplineScore"
-                                      ng-class="epaInfo.DisciplineScore < 0 ? 'error-message' : ''"
-                                      ng-bind="epaInfo.DisciplineScore | customScore"></span>
-                                <span ng-show="!epaInfo.DisciplineScore" ng-bind="'-'"></span>
-                            </div>
+                        <div ng-show="epaInfo.HasDisciplineScore">
+                            <span ng-class="epaInfo.DisciplineScore < 0 ? 'error-message' : ''"
+                                  ng-bind="epaInfo.DisciplineScore | customScore"></span> / <span ng-bind="epaInfo.MaxDisciplineScore | customScore"></span>
                         </div>
-                        <div class="col-percent-40" ng-if="epaInfo.OtherDisciplines > 0">
-                            <a class="glyphicon icon-alert" href="" ng-click="managementCtrl.viewOtherViolationDetail(epaInfo)"
-                               ng-if="epaInfo.HasOtherViolation" ng-attr-title='{{"ViewOtherViolation" | translate}}'></a>
-                            <a class="glyphicon icon-alert" href=""
-                               ng-if="!epaInfo.HasOtherViolation" ng-attr-title='Misconduction: {{epaInfo.OtherDisciplines}}'></a>
+                        <div ng-show="!epaInfo.HasDisciplineScore">
+                            <span ng-show="epaInfo.DisciplineScore"
+                                  ng-class="epaInfo.DisciplineScore < 0 ? 'error-message' : ''"
+                                  ng-bind="epaInfo.DisciplineScore | customScore"></span>
+                            <span ng-show="!epaInfo.DisciplineScore" ng-bind="'-'"></span>
                         </div>
                     </td>
                     <td class="text-center">{{epaInfo.FinalScore | customScore}} / {{epaInfo.Process.CurrentProcess.MaxPerformanceScore | customScore}}</td>

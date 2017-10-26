@@ -97,7 +97,6 @@
     <Compile Include="EmployeeEPA\GetEPAEndEvaluationPeriodCriteria.cs" />
     <Compile Include="EmployeeEPA\GetGroupByEvaluatorOrReviewerOrManagementCriteria.cs" />
     <Compile Include="EmployeeEPA\GetMonthlyEPAOfSemiCriteria.cs" />
-    <Compile Include="EmployeeEPA\GetOtherViolationDetailByEPAIdCriteria.cs" />
     <Compile Include="EmployeeEPA\GetRecommendationByEPAIdCriteria.cs" />
     <Compile Include="EmployeeEPA\GetStandardGradeCriteria.cs" />
     <Compile Include="EmployeeEPA\GetEPASummaryImportCriteria.cs" />

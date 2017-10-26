@@ -237,10 +237,6 @@
             $location.url(baseUrl + 'EPA/Detail/' + epaInfo.EPAId);
         };
 
-        vm.viewOtherViolationDetail = function (epaInfo) {
-            CommonModel.openPopupViewOtherViolationDetail(epaInfo.EPAId);
-        };
-
         vm.checkAll = function (selectedAll) {
             angular.forEach(vm.epaInfos, function (epaInfo) {
                 if (!epaInfo.Process.CurrentProcess.IsEndProcess && (epaInfo.IsSemiAnnual || epaInfo.IsMonthly)) {

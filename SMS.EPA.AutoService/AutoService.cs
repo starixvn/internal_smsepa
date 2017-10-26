@@ -1,16 +1,5 @@
 ﻿namespace SMS.EPA.AutoService
 {
-    using Core.Constants;
-    using Core.Enumerations;
-    using Core.Model;
-    using Core.Services;
-    using Criteria;
-    using EPA.Criteria;
-    using log4net;
-    using Model;
-    using Service;
-    using Services.Implement;
-    using Services.Interfaces;
     using System;
     using System.Collections.Generic;
     using System.Diagnostics.CodeAnalysis;
@@ -20,6 +9,16 @@
     using System.ServiceProcess;
     using System.Threading.Tasks;
     using System.Timers;
+    using Core.Constants;
+    using Core.Enumerations;
+    using Core.Services;
+    using Criteria;
+    using EPA.Criteria;
+    using log4net;
+    using Model;
+    using Service;
+    using Services.Implement;
+    using Services.Interfaces;
 
     public partial class AutoService : ServiceBase
     {
@@ -115,8 +114,7 @@
             Log.Info("Service stopped at " + DateTime.Now);
         }
 
-        [SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes", Justification =
-            "Reviewed. Suppression is OK here.")]
+        [SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes", Justification = "Reviewed.")]
         private void ExecuteJob(object sender, ElapsedEventArgs e)
         {
             try
@@ -144,12 +142,10 @@
         }
 
 #if DEBUG
-
         public void CheckAndExecuteForDebug()
         {
             CheckAndExecute();
         }
-
 #endif
 
         private void CheckAndExecute()
@@ -194,15 +190,11 @@
             {
                 EvaluationProcesses = evaluationProcesses
             };
-            var commandResult = new CommandResult();
 
             if (criteria.IsValid())
             {
-                commandResult = evaluationService.UpdateEndProcess(criteria);
+                evaluationService.UpdateEndProcess(criteria);
             }
-
-            string messageResult = commandResult.IsSuccessful ? "0" : commandResult.Message;
-            Log.Info("Result of update status of processes that ended yesterday: " + messageResult);
         }
 
         private void UpdateTotalScoreOfSemiHasMonthly(IEnumerable<AutoEvaluationProcessModel> evaluationProcesses)
@@ -215,15 +207,11 @@
                     EPAId = evaluationProcess.EPAId,
                     MonthlyEPA = epaInfo.MonthlyEPA
                 };
-                var commandResult = new CommandResult();
 
                 if (criteria.IsValid())
                 {
-                    commandResult = evaluationService.UpdateTotalScoreOfSemiHasMonthly(criteria);
+                    evaluationService.UpdateTotalScoreOfSemiHasMonthly(criteria);
                 }
-
-                var messageResult = commandResult.IsSuccessful ? "0" : commandResult.Message;
-                Log.Info("Result of update total score semi has monthly " + evaluationProcess.EPAId + " : " + messageResult);
             }
         }
 
@@ -236,7 +224,6 @@
                     EPAModel epaInfo = employeeEPAService.GetEPAInfoById(evaluationProcess.EPAId);
 
                     float? averageScore = GetAverageScorePreProcess(epaInfo, evaluationProcess.ProcessId);
-                    Log.Info("Result of get average score of pre-process of EPA " + evaluationProcess.EPAId + " : " + averageScore);
 
                     var criteria = new UpdateTotalScoreOfProcessCriteria
                     {
@@ -247,15 +234,10 @@
                             : string.Empty
                     };
 
-                    var commandResult = new CommandResult();
-
                     if (criteria.IsValid())
                     {
-                        commandResult = evaluationService.UpdateTotalScoreOfProcess(criteria);
+                        evaluationService.UpdateTotalScoreOfProcess(criteria);
                     }
-
-                    var messageResult = commandResult.IsSuccessful ? "0" : commandResult.Message;
-                    Log.Info("Result of update total score of process of EPA " + evaluationProcess.EPAId + " : " + messageResult);
                 }
             }
         }
@@ -279,12 +261,10 @@
             foreach (EPAModel epaInfo in epaInfos)
             {
                 float? performanceScore = GetFinalScoreOfEvalution(epaInfo);
-                Log.Info("Result of get average performance score of EPA " + epaInfo.EPAId + " : " + performanceScore);
 
                 epaInfo.Grade = performanceScore.HasValue
                     ? employeeEPAService.ConvertScoreToGrade(performanceScore, epaInfo.DisciplineScore, epaInfo.HasDisciplineScore, standardGrades)
                     : string.Empty;
-                Log.Info("Result of get grade of final score of EPA " + epaInfo.EPAId + ": " + epaInfo.Grade);
 
                 EncryptAndUpdateFinalScore(performanceScore, epaInfo.DisciplineScore, epaInfo.EPAId, epaInfo.Grade);
 
@@ -324,7 +304,6 @@
                 foreach (int periodId in periods)
                 {
                     int lastestProcessOfPeriod = evaluationService.CheckLastestProcessOfPeriod(periodId);
-                    Log.Info("Result of check the end of period " + periodId + " : " + lastestProcessOfPeriod);
 
                     if (lastestProcessOfPeriod == 1)
                     {
@@ -379,10 +358,8 @@
             string finalScoreEncrypt = finalScore.HasValue
                 ? cryptographyService.Encrypt(finalScore.Value.ToString(CultureInfo.InvariantCulture))
                 : string.Empty;
-            Log.Info("Result of encrypt final score of EPA " + evaluationId + ": " + finalScoreEncrypt);
 
             string gradeEncrypt = cryptographyService.Encrypt(grade);
-            Log.Info("Result of encrypt grade of EPA " + evaluationId + ": " + gradeEncrypt);
 
             var criteria = new UpdateFinalScoreEndEvaluationCriteria
             {
@@ -393,9 +370,7 @@
                     gradeEncrypt)
             };
 
-            CommandResult commandResult = evaluationService.UpdateFinalScoreEndEvaluation(criteria);
-            string messageResult = commandResult.IsSuccessful ? "0" : commandResult.Message;
-            Log.Info("Result of update final score and discipline score of EPA " + evaluationId + ": " + messageResult);
+            evaluationService.UpdateFinalScoreEndEvaluation(criteria);
         }
     }
 }

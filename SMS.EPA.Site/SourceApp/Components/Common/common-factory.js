@@ -74,9 +74,6 @@
             getAllPeriodIncludeImport: function () {
                 return $http.get(baseUrl + 'api/Common/GetAllPeriodIncludeImport');
             },
-            getOtherViolationDetailByEPAId: function (epaId) {
-                return $http.get(baseUrl + 'api/Common/GetOtherViolationDetailByEPAId', { params: { epaId: epaId } });
-            },
             getTargetTemplate: function (targetTypeId, isActive) {
                 return $http.get(baseUrl + 'api/Common/GetAllTargetTemplate', {
                     params: {

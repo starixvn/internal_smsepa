@@ -1,5 +1,8 @@
 ﻿namespace SMS.EPA.AutoService.Service
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
     using Core.Constants;
     using Core.Enumerations;
     using Core.Model;
@@ -7,28 +10,18 @@
     using EPA.Criteria;
     using Implement;
     using Model;
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
 
     public class MonthlyService : BasePeriodService, IMonthlyService
     {
         public void CheckMonthlyPeriod()
         {
             IEnumerable<int> monthlyPeriods = GetStartedPeriods(new GetMonthlyPeriodStartedCriteria());
-            Log.Info($"Result of check the start of monthly period: {string.Join(",", monthlyPeriods)}");
 
-            if (monthlyPeriods.Any())
+            foreach (int periodId in monthlyPeriods)
             {
-                foreach (int periodId in monthlyPeriods)
-                {
-                    InsertEmployeeToPeriod(
-                        periodId,
-                        new InsertEmployeeToMonthlyPeriodCriteria(periodId),
-                        "Result of auto add employee to monthly period");
-                    GenerateEPA(periodId, "Result of auto generate EPA to all employees of current monthly period");
-                    SendStartEmail(periodId);
-                }
+                InsertEmployeeToPeriod(periodId, new InsertEmployeeToMonthlyPeriodCriteria(periodId), "Auto add employee to monthly period");
+                GenerateEPA(periodId, "Auto generate EPA for monthly period");
+                SendStartEmail(periodId);
             }
         }
 
@@ -51,8 +44,11 @@
                     };
 
                     CommandResult commandResult = PeriodService.AutoCreateMonthlyPeriod(criteria);
-                    Log.Info(
-                        $"Result of Create monthly period: {(commandResult.IsSuccessful ? "0" : commandResult.Message)}");
+
+                    if (!commandResult.IsSuccessful)
+                    {
+                        Log.Info($"Error create monthly period: {commandResult.Message}");
+                    }
                 }
             }
         }

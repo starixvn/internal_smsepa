@@ -1,11 +1,11 @@
 ﻿namespace SMS.EPA.Model
 {
+    using System.Collections.Generic;
+    using System.Linq;
     using Core.Constants;
     using Core.Enumerations;
     using Newtonsoft.Json;
     using Report;
-    using System.Collections.Generic;
-    using System.Linq;
 
     public class EPAModel : IExcelRecord
     {
@@ -40,8 +40,6 @@
         public bool HasMaxScoreOnKPI { get; set; }
 
         public bool HasMonthlyEPA { get; set; }
-
-        public bool HasOtherViolation { get; set; }
 
         public bool IsAllowedToEdit
         {
@@ -102,8 +100,6 @@
         public MonthlyEPAModel MonthlyEPA { get; set; }
 
         public string OldFinalScore { get; set; }
-
-        public float OtherDisciplines { get; set; }
 
         public EPAPeriodModel Period { get; set; }
 

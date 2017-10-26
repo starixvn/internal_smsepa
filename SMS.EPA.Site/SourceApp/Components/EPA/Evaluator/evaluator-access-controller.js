@@ -160,10 +160,6 @@
             $location.url(baseUrl + 'EPA/Detail/' + epaInfo.EPAId);
         };
 
-        vm.viewOtherViolationDetail = function (epaInfo) {
-            CommonModel.openPopupViewOtherViolationDetail(epaInfo.EPAId);
-        };
-
         vm.viewEPAHistory = function (employeeId) {
             $location.url(baseUrl + 'EPAHistory/Index?empId=' + employeeId);
         };

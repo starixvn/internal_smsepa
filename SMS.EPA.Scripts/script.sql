@@ -25,9 +25,32 @@ GO
 ALTER TABLE dbo.EPAProcess
 ALTER COLUMN RemindDate DATE NULL
 GO
+------update data------
+UPDATE dbo.Menu WITH (ROWLOCK, UPDLOCK)
+SET Url = '/DisciplineSummary/Index'
+WHERE [Name] = 'Discipline Summary By Period'
+GO
+UPDATE dbo.Menu WITH (ROWLOCK, UPDLOCK)
+SET IsActive = 0
+WHERE [Name] = 'Discipline Detail'
+GO
+------drop sp------
 IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[EPA_GetNumberOfRow]') AND type in (N'P', N'PC'))
 DROP PROCEDURE [dbo].[EPA_GetNumberOfRow]
 GO
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[EPA_GetOtherViolations]') AND type in (N'P', N'PC'))
+DROP PROCEDURE [dbo].[EPA_GetOtherViolations]
+GO
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[OtherViolationType_Get]') AND type in (N'P', N'PC'))
+DROP PROCEDURE [dbo].[OtherViolationType_Get]
+GO
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[EmployeeDisciplineSummary_GetByEPA]') AND type in (N'P', N'PC'))
+DROP PROCEDURE [dbo].[EmployeeDisciplineSummary_GetByEPA]
+GO
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[EmployeeDisciplineSummary_GetByPeriod]') AND type in (N'P', N'PC'))
+DROP PROCEDURE [dbo].[EmployeeDisciplineSummary_GetByPeriod]
+GO
+------drop table------
 IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[Process]') AND type in (N'U'))
 DROP TABLE [dbo].[Process]
 GO
@@ -63,4 +86,53 @@ CREATE TABLE [dbo].[RefResource](
 GO
 SET ANSI_PADDING OFF
 GO
+SET IDENTITY_INSERT [dbo].[RefResource] ON
+INSERT [dbo].[RefResource] ([RefResourceId], [RefName], [ResourceId], [Value]) VALUES (1, N'SystemRole', 1, N'SA')
+INSERT [dbo].[RefResource] ([RefResourceId], [RefName], [ResourceId], [Value]) VALUES (2, N'SystemRole', 2, N'HR')
+INSERT [dbo].[RefResource] ([RefResourceId], [RefName], [ResourceId], [Value]) VALUES (3, N'SystemRole', 3, N'MGT')
+INSERT [dbo].[RefResource] ([RefResourceId], [RefName], [ResourceId], [Value]) VALUES (4, N'SystemRole', 4, N'Reviewer')
+INSERT [dbo].[RefResource] ([RefResourceId], [RefName], [ResourceId], [Value]) VALUES (5, N'SystemRole', 5, N'Evaluator')
+INSERT [dbo].[RefResource] ([RefResourceId], [RefName], [ResourceId], [Value]) VALUES (6, N'SystemRole', 6, N'Employee')
+INSERT [dbo].[RefResource] ([RefResourceId], [RefName], [ResourceId], [Value]) VALUES (7, N'SystemRole', 7, N'Approver')
+INSERT [dbo].[RefResource] ([RefResourceId], [RefName], [ResourceId], [Value]) VALUES (8, N'SystemRole', 8, N'Section Admin')
+INSERT [dbo].[RefResource] ([RefResourceId], [RefName], [ResourceId], [Value]) VALUES (9, N'ProbationSettingDay', 1, N'15')
+INSERT [dbo].[RefResource] ([RefResourceId], [RefName], [ResourceId], [Value]) VALUES (10, N'SendMailToAll', 1, N'0')
+INSERT [dbo].[RefResource] ([RefResourceId], [RefName], [ResourceId], [Value]) VALUES (11, N'RatingType', 1, N'Star')
+INSERT [dbo].[RefResource] ([RefResourceId], [RefName], [ResourceId], [Value]) VALUES (12, N'RatingType', 2, N'Score')
+INSERT [dbo].[RefResource] ([RefResourceId], [RefName], [ResourceId], [Value]) VALUES (13, N'RatingType', 3, N'Half Star')
+INSERT [dbo].[RefResource] ([RefResourceId], [RefName], [ResourceId], [Value]) VALUES (14, N'EmployeeCategory', 0, N'Expat')
+INSERT [dbo].[RefResource] ([RefResourceId], [RefName], [ResourceId], [Value]) VALUES (15, N'EmployeeCategory', 1, N'Local')
+INSERT [dbo].[RefResource] ([RefResourceId], [RefName], [ResourceId], [Value]) VALUES (16, N'ProcessStatus', 0, N'None')
+INSERT [dbo].[RefResource] ([RefResourceId], [RefName], [ResourceId], [Value]) VALUES (17, N'ProcessStatus', 1, N'Open')
+INSERT [dbo].[RefResource] ([RefResourceId], [RefName], [ResourceId], [Value]) VALUES (18, N'ProcessStatus', 2, N'In Progress')
+INSERT [dbo].[RefResource] ([RefResourceId], [RefName], [ResourceId], [Value]) VALUES (19, N'ProcessStatus', 3, N'Closed')
+INSERT [dbo].[RefResource] ([RefResourceId], [RefName], [ResourceId], [Value]) VALUES (20, N'LogObjectType', 1, N'KPI')
+INSERT [dbo].[RefResource] ([RefResourceId], [RefName], [ResourceId], [Value]) VALUES (21, N'LogObjectType', 2, N'KPI Group')
+INSERT [dbo].[RefResource] ([RefResourceId], [RefName], [ResourceId], [Value]) VALUES (22, N'LogObjectType', 3, N'Target Template')
+INSERT [dbo].[RefResource] ([RefResourceId], [RefName], [ResourceId], [Value]) VALUES (23, N'LogObjectType', 4, N'User Management')
+INSERT [dbo].[RefResource] ([RefResourceId], [RefName], [ResourceId], [Value]) VALUES (24, N'LogObjectType', 5, N'Role Mangement')
+INSERT [dbo].[RefResource] ([RefResourceId], [RefName], [ResourceId], [Value]) VALUES (25, N'LogObjectType', 6, N'Flow Template')
+INSERT [dbo].[RefResource] ([RefResourceId], [RefName], [ResourceId], [Value]) VALUES (26, N'LogObjectType', 7, N'Target Employee Setting')
+INSERT [dbo].[RefResource] ([RefResourceId], [RefName], [ResourceId], [Value]) VALUES (27, N'LogObjectType', 8, N'Period')
+INSERT [dbo].[RefResource] ([RefResourceId], [RefName], [ResourceId], [Value]) VALUES (28, N'LogObjectType', 9, N'Discipline')
+INSERT [dbo].[RefResource] ([RefResourceId], [RefName], [ResourceId], [Value]) VALUES (29, N'LogObjectType', 10, N'EPA')
+INSERT [dbo].[RefResource] ([RefResourceId], [RefName], [ResourceId], [Value]) VALUES (30, N'EPAStatus', 0, N'Open')
+INSERT [dbo].[RefResource] ([RefResourceId], [RefName], [ResourceId], [Value]) VALUES (31, N'EPAStatus', 1, N'Closed')
+INSERT [dbo].[RefResource] ([RefResourceId], [RefName], [ResourceId], [Value]) VALUES (32, N'EPAStatus', 2, N'Rejected')
+INSERT [dbo].[RefResource] ([RefResourceId], [RefName], [ResourceId], [Value]) VALUES (33, N'EvaluationTimes', 1, N'1st')
+INSERT [dbo].[RefResource] ([RefResourceId], [RefName], [ResourceId], [Value]) VALUES (34, N'EvaluationTimes', 2, N'2nd')
+INSERT [dbo].[RefResource] ([RefResourceId], [RefName], [ResourceId], [Value]) VALUES (35, N'EvaluationTimes', 3, N'3rd')
+INSERT [dbo].[RefResource] ([RefResourceId], [RefName], [ResourceId], [Value]) VALUES (36, N'EvaluationTimes', 4, N'4th')
+INSERT [dbo].[RefResource] ([RefResourceId], [RefName], [ResourceId], [Value]) VALUES (37, N'EvaluationTimes', 5, N'5th')
+INSERT [dbo].[RefResource] ([RefResourceId], [RefName], [ResourceId], [Value]) VALUES (38, N'EvaluationTimes', 6, N'6th')
+INSERT [dbo].[RefResource] ([RefResourceId], [RefName], [ResourceId], [Value]) VALUES (39, N'EvaluationTimes', 7, N'7th')
+INSERT [dbo].[RefResource] ([RefResourceId], [RefName], [ResourceId], [Value]) VALUES (40, N'EvaluationTimes', 8, N'8th')
+INSERT [dbo].[RefResource] ([RefResourceId], [RefName], [ResourceId], [Value]) VALUES (41, N'EvaluationTimes', 9, N'9th')
+INSERT [dbo].[RefResource] ([RefResourceId], [RefName], [ResourceId], [Value]) VALUES (42, N'EvaluationTimes', 10, N'10th')
+INSERT [dbo].[RefResource] ([RefResourceId], [RefName], [ResourceId], [Value]) VALUES (43, N'RequiredCommentOnMaxScore', 1, N'1')
+INSERT [dbo].[RefResource] ([RefResourceId], [RefName], [ResourceId], [Value]) VALUES (44, N'EvaluationPhase', 2, N'Self')
+INSERT [dbo].[RefResource] ([RefResourceId], [RefName], [ResourceId], [Value]) VALUES (45, N'EvaluationPhase', 3, N'Evaluator')
+INSERT [dbo].[RefResource] ([RefResourceId], [RefName], [ResourceId], [Value]) VALUES (46, N'EvaluationPhase', 4, N'Reviewer')
+INSERT [dbo].[RefResource] ([RefResourceId], [RefName], [ResourceId], [Value]) VALUES (47, N'EvaluationPhase', 5, N'Management')
+SET IDENTITY_INSERT [dbo].[RefResource] OFF
 -----------------------------------

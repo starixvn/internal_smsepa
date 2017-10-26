@@ -36,8 +36,6 @@
 
         IList<EPAModel> GetMonthlyEPAOfSemi(string epaIds);
 
-        IEnumerable<EmployeeOtherViolationDetailModel> GetOtherViolationDetailByEPAId(GetOtherViolationDetailByEPAIdCriteria criteria);
-
         IList<EPAPeriodModel> GetPeriodToUpdateFinalScore(GetPeriodToUpdateFinalScoreCriteria criteria);
 
         EPARecommendationModel GetRecommendationByEPAId(int epaId);

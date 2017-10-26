@@ -89,10 +89,8 @@
             {
                 IEnumerable<StandardGradeModel> standardGrades = _employeeEPAService.GetStandardGrade();
                 float finalScore;
-                float.TryParse(epaInfo.FinalScoreToExport, out finalScore);
-
                 float? performanceScore = null;
-                if (finalScore > 0)
+                if (float.TryParse(epaInfo.FinalScoreToExport, out finalScore) && finalScore > 0)
                 {
                     performanceScore = finalScore - epaInfo.DisciplineScore;
                 }

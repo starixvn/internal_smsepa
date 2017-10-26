@@ -40,12 +40,6 @@
                     <span ng-show="epaInfo.EPAId > 0 && !epaInfo.IsClosed" data-translate="Pending"></span>
                     <span ng-show="epaInfo.EPAId < 0" ng-bind="'-'"></span>
                 </span>
-                <span ng-if="epaInfo.EPAId > 0 && epaInfo.IsClosed && epaInfo.OtherDisciplines > 0">
-                    <a class="glyphicon icon-alert" href="" ng-click="dashboardCtrl.viewOtherViolationDetail(epaInfo)"
-                       ng-if="epaInfo.HasOtherViolation" ng-attr-title='{{"ViewOtherViolation" | translate}}'></a>
-                    <a class="glyphicon icon-alert" href=""
-                       ng-if="!epaInfo.HasOtherViolation" ng-attr-title='Misconduction case: {{epaInfo.OtherDisciplines}}'></a>
-                </span>
             </td>
             <td class="text-center">
                 <div ng-show="epaInfo.IsClosed">

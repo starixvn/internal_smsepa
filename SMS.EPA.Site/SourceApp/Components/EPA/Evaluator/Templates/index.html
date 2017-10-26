@@ -125,24 +125,16 @@
                             <span ng-show="!epaInfo.SystemDisciplineScore" ng-bind="'-'"></span>
                         </div>
                     </td>
-                    <td class="text-center">
-                        <div class="col-percent-60" ng-switch="epaInfo.HasDisciplineScore">
-                            <div ng-switch-when="true">
-                                <span ng-class="epaInfo.DisciplineScore < 0 ? 'red' : ''"
-                                      ng-bind="epaInfo.DisciplineScore | customScore"></span> / <span ng-bind="epaInfo.MaxDisciplineScore | customScore"></span>
-                            </div>
-                            <div ng-switch-default>
-                                <span ng-show="epaInfo.DisciplineScore"
-                                      ng-class="epaInfo.DisciplineScore < 0 ? 'red' : ''"
-                                      ng-bind="epaInfo.DisciplineScore | customScore"></span>
-                                <span ng-show="!epaInfo.DisciplineScore" ng-bind="'-'"></span>
-                            </div>
+                    <td class="text-center" ng-switch="epaInfo.HasDisciplineScore">
+                        <div ng-switch-when="true">
+                            <span ng-class="epaInfo.DisciplineScore < 0 ? 'red' : ''"
+                                  ng-bind="epaInfo.DisciplineScore | customScore"></span> / <span ng-bind="epaInfo.MaxDisciplineScore | customScore"></span>
                         </div>
-                        <div class="col-percent-40" ng-if="epaInfo.OtherDisciplines > 0">
-                            <a class="glyphicon icon-alert" href="" ng-click="evaluatorCtrl.viewOtherViolationDetail(epaInfo)"
-                               ng-if="epaInfo.HasOtherViolation" ng-attr-title='{{"ViewOtherViolation" | translate}}'></a>
-                            <a class="glyphicon icon-alert" href=""
-                               ng-if="!epaInfo.HasOtherViolation" ng-attr-title='Misconduction: {{epaInfo.OtherDisciplines}}'></a>
+                        <div ng-switch-default>
+                            <span ng-show="epaInfo.DisciplineScore"
+                                  ng-class="epaInfo.DisciplineScore < 0 ? 'red' : ''"
+                                  ng-bind="epaInfo.DisciplineScore | customScore"></span>
+                            <span ng-show="!epaInfo.DisciplineScore" ng-bind="'-'"></span>
                         </div>
                     </td>
                     <td class="text-center">

@@ -187,30 +187,6 @@
             });
         };
 
-        model.getOtherViolationDetailByEPAId = function (epaId) {
-            return commonFactory.getOtherViolationDetailByEPAId(epaId).success(function (otherViolationDetails) {
-                model.otherViolationDetails = otherViolationDetails;
-            }).error(function (response, status) {
-                errorFactory.errorHandle(status);
-            });
-        };
-
-        model.openPopupViewOtherViolationDetail = function (epaId) {
-            var modalInstance = $modal.open({
-                templateUrl: 'SourceApp/Components/Common/Templates/modalViewOtherViolationDetail.html',
-                controller: "OtherViolationDetailController as otherViolationCtrl",
-                backdrop: 'static',
-                resolve: {
-                    epaId: function () {
-                        return epaId;
-                    }
-                },
-                windowClass: "modal-confirm-center"
-            });
-
-            return modalInstance.result;
-        };
-
         model.getTargetTemplate = function (targetTypeId, isActive) {
             return commonFactory.getTargetTemplate(targetTypeId, isActive).success(function (targetTemplates) {
                 model.targetTemplates = targetTemplates;

@@ -432,38 +432,6 @@
 
         #endregion GetAllPeriodIncludeImport
 
-        #region GetOtherViolationDetailByEPAId
-
-        [Test]
-        public void GetOtherViolationDetailByEPAId_AnyArg_ReturnInstanceOfListOfEmployeeOtherViolationDetailModel()
-        {
-            // Arrange
-            commonService = Substitute.For<ICommonService>();
-
-            // Act
-            var actual = commonService.GetOtherViolationDetailByEPAId(Arg.Any<GetOtherViolationDetailByEPAIdCriteria>());
-
-            // Assert
-            Assert.IsInstanceOf(typeof(IEnumerable<EmployeeOtherViolationDetailModel>), actual);
-        }
-
-        [Test]
-        public void GetOtherViolationDetailByEPAId_VaidArg_ReturnExpectedOtherViolations()
-        {
-            // Arrange
-            var otherViolations = new List<EmployeeOtherViolationDetailModel>();
-            otherViolations.Add(new EmployeeOtherViolationDetailModel());
-            ArrangeGetOtherViolationDetailByEPAId(otherViolations);
-
-            // Act
-            var actual = commonService.GetOtherViolationDetailByEPAId(Arg.Any<GetOtherViolationDetailByEPAIdCriteria>());
-
-            // Assert
-            Assert.AreEqual(otherViolations, actual);
-        }
-
-        #endregion GetOtherViolationDetailByEPAId
-
         #region GetAllTargetTemplate
 
         [Test]
@@ -705,13 +673,6 @@
         {
             ArrangeCommon();
             epaHistoryService.GetAllPeriodIncludeImport(Arg.Any<GetAllPeriodIncludeImportCriteria>()).Returns(periods ?? new List<PeriodModel>());
-        }
-
-        private void ArrangeGetOtherViolationDetailByEPAId(IEnumerable<EmployeeOtherViolationDetailModel> otherViolations = null)
-        {
-            ArrangeCommon();
-            employeeEPAService.GetOtherViolationDetailByEPAId(Arg.Any<GetOtherViolationDetailByEPAIdCriteria>())
-                .Returns(otherViolations ?? new List<EmployeeOtherViolationDetailModel>());
         }
 
         private void ArrangeGetAllTargetTemplate(IEnumerable<TargetTemplate> targetTemplates = null)
