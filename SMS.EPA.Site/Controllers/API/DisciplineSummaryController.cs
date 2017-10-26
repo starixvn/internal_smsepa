@@ -6,7 +6,6 @@
     using Core.Constants;
     using Core.Enumerations;
     using Criteria;
-    using Model;
     using Model.Discipline;
     using Services.Implement;
     using Services.Interfaces;
@@ -71,20 +70,6 @@
             IEnumerable<DisciplineSummaryForOtherSystem> employeeDisciplines = disciplineService.GetDisciplineSummaryForOtherSystem(criteria);
 
             return employeeDisciplines;
-        }
-
-        public IEnumerable<DisciplineTypeModel> GetDisciplineType(
-            bool includeOtherViolate,
-            bool? isActive = null)
-        {
-            var criteria = new GetDisciplineTypeCriteria
-            {
-                IncludeOtherViolate = includeOtherViolate,
-                IsActive = isActive
-            };
-            IEnumerable<DisciplineTypeModel> violations = disciplineService.GetDisciplineType(criteria);
-
-            return violations;
         }
     }
 }

@@ -7,7 +7,7 @@
 
     public static class RouteConfig
     {
-        [SuppressMessage("StyleCop.CSharp.StylecopPlus.Rules", "SP2101:MethodMustNotContainMoreLinesThan", Justification = "Reviewed. Suppression is OK here.")]
+        [SuppressMessage("StyleCop.CSharp.StylecopPlus.Rules", "SP2101:MethodMustNotContainMoreLinesThan", Justification = "Reviewed.")]
         public static void RegisterRoutes(RouteCollection routes)
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
@@ -49,8 +49,6 @@
                 "Period/Update/{id}",
                 "Discipline/Index",
                 "RatingByKPI/Index",
-                "Discipline/Detail/{id}",
-                "Discipline/Detail",
                 "Report/EPASummaryReport",
                 "Report/EPADetailReport",
                 "Report/MonthlyEPADetailReport",
@@ -62,7 +60,7 @@
                 "ViewEPAByKPI/Index",
                 "UpdateFinalScore/Index",
                 "MonthlyEPAHistory/Index",
-                "DisciplineSummaryByPeriod/Index"
+                "DisciplineSummary/Index"
             };
 
             homeRouteUrls.ForEach(url => routes.MapRoute(

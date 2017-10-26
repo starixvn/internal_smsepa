@@ -50,6 +50,12 @@ GO
 IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[EmployeeDisciplineSummary_GetByPeriod]') AND type in (N'P', N'PC'))
 DROP PROCEDURE [dbo].[EmployeeDisciplineSummary_GetByPeriod]
 GO
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[EpaAttendanceSummary_GetOtherViolations]') AND type in (N'P', N'PC'))
+DROP PROCEDURE [dbo].[EpaAttendanceSummary_GetOtherViolations]
+GO
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[EpaAttendanceSummary_GetViolationType]') AND type in (N'P', N'PC'))
+DROP PROCEDURE [dbo].[EpaAttendanceSummary_GetViolationType]
+GO
 ------drop table------
 IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[Process]') AND type in (N'U'))
 DROP TABLE [dbo].[Process]

@@ -27,11 +27,9 @@
             };
 
         var model = {
-            disciplineTypes: [],
             employeeDisciplines: [],
             getDisciplineSummary: getDisciplineSummary,
             getDisciplineSummaryForOtherSystem: getDisciplineSummaryForOtherSystem,
-            getDisciplineType: getDisciplineType,
             getRangeDateFilter: getRangeDateFilter,
             permission: 0,
             rangeDateFilter: rangeDateFilter,
@@ -55,14 +53,6 @@
             return disciplineSummaryFactory.getDisciplineSummaryForOtherSystem(periodId, disciplineTypeId, departmentId, isLocal, employeeId)
             .success(function (employeeDisciplines) {
                 model.employeeDisciplines = employeeDisciplines;
-            }).error(function (response, status) {
-                errorFactory.errorHandle(status);
-            });
-        }
-
-        function getDisciplineType(includeOtherViolate, isActive) {
-            return disciplineSummaryFactory.getDisciplineType(includeOtherViolate, isActive).success(function (disciplineTypes) {
-                model.disciplineTypes = disciplineTypes;
             }).error(function (response, status) {
                 errorFactory.errorHandle(status);
             });

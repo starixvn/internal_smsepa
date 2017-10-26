@@ -18,7 +18,19 @@
         vm.currentPage = DisciplineSummaryModel.summaryPaging.currentPage;
         vm.pageSize = DisciplineSummaryModel.summaryPaging.pageSize;
         vm.policyEnum = utilitiesFactory.policy;
-        vm.disciplineTypes = [];
+        vm.disciplineTypes = [
+            { Id: 1, Name: 'Change Shift' },
+            { Id: 2, Name: 'Missing Check In/Out' },
+            { Id: 3, Name: 'Late In' },
+            { Id: 4, Name: 'Early Out' },
+            { Id: 5, Name: 'Absent' },
+            { Id: 6, Name: 'Unpaid Leave' },
+            { Id: 7, Name: 'Working Under Time' },
+            { Id: 8, Name: 'Unpaid Leave Absent' },
+            { Id: 9, Name: 'Not Following Leave Procedures' },
+            { Id: 10, Name: 'Weekend Leave' },
+            { Id: -1, Name: 'Other Violations' }
+        ];
 
         utilitiesFactory.numberEntryList(vm);
         utilitiesFactory.getDateFormat(vm);
@@ -64,10 +76,6 @@
             CommonModel.getDepartment().then(function () {
                 vm.departments = CommonModel.departments;
                 vm.treeDepartment = CommonModel.generateTreeDepartment(CommonModel.treeDepartment.Childrens);
-            });
-
-            DisciplineSummaryModel.getDisciplineType(true, true).then(function () {
-                vm.disciplineTypes = DisciplineSummaryModel.disciplineTypes;
             });
 
             getDisciplineSummary(

@@ -22,7 +22,8 @@
             { Id: 6, Name: 'Unpaid leave' },
             { Id: 9, Name: 'Not Following Leave Procedures' },
             { Id: 10, Name: 'Weekend leave' },
-            { Id: 7, Name: 'Undertime' }
+            { Id: 7, Name: 'Undertime' },
+            { Id: -1, Name: 'Misconduction' }
         ];
         vm.employeeDisciplines = [];
         vm.pageSize = 20;

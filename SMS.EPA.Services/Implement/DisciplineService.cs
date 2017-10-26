@@ -4,7 +4,6 @@
     using Core.Services;
     using Criteria;
     using Interfaces;
-    using Model;
     using Model.Discipline;
     using Repositories;
 
@@ -31,18 +30,6 @@
             }
 
             return employeeDisciplines;
-        }
-
-        public IEnumerable<DisciplineTypeModel> GetDisciplineType(GetDisciplineTypeCriteria criteria)
-        {
-            IEnumerable<DisciplineTypeModel> violations = new List<DisciplineTypeModel>();
-
-            if (criteria != null && criteria.IsValid())
-            {
-                violations = GetData<DisciplineTypeModel>(criteria);
-            }
-
-            return violations;
         }
 
         public IEnumerable<DisciplineSummaryForOtherSystem> GetDisciplineSummaryForOtherSystem(GetDisciplineSummaryForOtherSystemCriteria criteria)

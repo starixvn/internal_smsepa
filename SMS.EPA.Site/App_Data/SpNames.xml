@@ -195,7 +195,6 @@
   </Function>
   <Function Name="Discipline Summary">
     <Setting Key="DisciplineSummary_Get" SpName="DisciplineSummary_Get" DbName="SMSEPA" Plain="0"></Setting>
-    <Setting Key="EpaAttendanceSummary_GetViolationType" SpName="EpaAttendanceSummary_GetViolationType" DbName="SMSEPA" Plain="0"></Setting>
     <Setting Key="DisciplineSummary_GetForOtherSystem" SpName="DisciplineSummary_GetForOtherSystem" DbName="SMSEPA" Plain="0"></Setting>
   </Function>
   <Function Name="Rating By KPI">

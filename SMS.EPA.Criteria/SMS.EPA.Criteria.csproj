@@ -85,7 +85,6 @@
     </Compile>
     <Compile Include="Dashboard\GetToDoListCriteria.cs" />
     <Compile Include="DisciplineSummary\GetDisciplineSummaryCriteria.cs" />
-    <Compile Include="DisciplineSummary\GetDisciplineTypeCriteria.cs" />
     <Compile Include="Authentication\GetEmployeeLoginCriteria.cs" />
     <Compile Include="Authentication\InsertEmployeeIPAddressCriteria.cs" />
     <Compile Include="DisciplineSummary\GetDisciplineSummaryForOtherSystemCriteria.cs" />

@@ -84,7 +84,6 @@
     <Compile Include="Department\DepartmentViewModel.cs" />
     <Compile Include="Discipline\DisciplineSummaryBase.cs" />
     <Compile Include="Discipline\DisciplineSummaryModel.cs" />
-    <Compile Include="Discipline\DisciplineTypeModel.cs" />
     <Compile Include="Authentication\LoginModel.cs" />
     <Compile Include="Discipline\DisciplineSummaryForOtherSystem.cs" />
     <Compile Include="EmployeeEPA\AdjustScoreViewModel.cs" />
