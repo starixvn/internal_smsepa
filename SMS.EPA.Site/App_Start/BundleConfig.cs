@@ -218,12 +218,12 @@
                             "~/SourceApp/Components/EPA/UpdateFinalScore/update-final-score-factory.js",
                             "~/SourceApp/Components/EPA/UpdateFinalScore/update-final-score-model.js",
                             "~/SourceApp/Components/EPA/UpdateFinalScore/update-final-score-controller.js",
-                            "~/SourceApp/Components/DisciplineSummary/discipline-summary-factory.js",
-                            "~/SourceApp/Components/DisciplineSummary/discipline-summary-model.js",
-                             "~/SourceApp/Components/DisciplineSummary/discipline-summary-directive.js",
-                            "~/SourceApp/Components/DisciplineSummary/discipline-summary-by-period-directive.js",
-                            "~/SourceApp/Components/DisciplineSummary/discipline-summary-controller.js",
-                            "~/SourceApp/Components/DisciplineSummary/discipline-summary-by-period-controller.js"));
+                            "~/SourceApp/Components/Discipline/discipline-summary-factory.js",
+                            "~/SourceApp/Components/Discipline/discipline-summary-model.js",
+                            "~/SourceApp/Components/Discipline/discipline-summary-directive.js",
+                            "~/SourceApp/Components/Discipline/discipline-summary-by-period-directive.js",
+                            "~/SourceApp/Components/Discipline/discipline-summary-controller.js",
+                            "~/SourceApp/Components/Discipline/discipline-summary-by-period-controller.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/common/js").Include(
                             "~/SourceApp/Shared/Directives/epa-addClassToRoleFilter-directive.js",

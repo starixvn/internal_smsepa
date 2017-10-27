@@ -12,7 +12,7 @@
         };
 
         function getDisciplineSummary(startDate, endDate, departmentId, isLocal, employeeId, reasonId, isShowAll) {
-            return $http.get(baseUrl + 'api/DisciplineSummary/GetDisciplineSummary', {
+            return $http.get(baseUrl + 'api/Discipline/GetDisciplineSummary', {
                 params:
                     {
                         startDate: startDate,
@@ -27,7 +27,7 @@
         }
 
         function getDisciplineSummaryForOtherSystem(periodId, disciplineTypeId, departmentId, isLocal, employeeId) {
-            return $http.get(baseUrl + 'api/DisciplineSummary/GetDisciplineSummaryForOtherSystem', {
+            return $http.get(baseUrl + 'api/Discipline/GetDisciplineSummaryForOtherSystem', {
                 params: {
                     periodId: periodId,
                     disciplineTypeId: disciplineTypeId,

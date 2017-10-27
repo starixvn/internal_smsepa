@@ -4,7 +4,7 @@
     using Fanex.Data.Repository;
     using Model.Discipline;
 
-    public interface IDisciplineSummaryRepository
+    public interface IDisciplineRepository
     {
         IEnumerable<DisciplineSummaryModel> GetDisciplineSummary(ICriteria criteria);
 

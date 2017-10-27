@@ -149,7 +149,7 @@ angular.module('disciplineModule', ['ngRoute'])
 .config(['$routeProvider', function ($routeProvider) {
     var baseUrl = $('base').first().attr('href');
     $routeProvider.when('/Discipline/Index',
-    { templateUrl: baseUrl + 'SourceApp/Components/DisciplineSummary/Templates/index.html', caseInsensitiveMatch: true });
+    { templateUrl: baseUrl + 'SourceApp/Components/Discipline/Templates/index.html', caseInsensitiveMatch: true });
     $routeProvider.when('/DisciplineSummary/Index',
-    { templateUrl: baseUrl + 'SourceApp/Components/DisciplineSummary/Templates/disciplineSummary.html', caseInsensitiveMatch: true });
+    { templateUrl: baseUrl + 'SourceApp/Components/Discipline/Templates/disciplineSummary.html', caseInsensitiveMatch: true });
 }]);

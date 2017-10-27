@@ -7,7 +7,7 @@
     using Model.Discipline;
     using Model.Enitites;
 
-    public class DisciplineSummaryRepository : IDisciplineSummaryRepository
+    public class DisciplineRepository : IDisciplineRepository
     {
         public IEnumerable<DisciplineSummaryModel> GetDisciplineSummary(ICriteria criteria)
         {

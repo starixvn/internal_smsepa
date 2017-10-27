@@ -10,15 +10,15 @@
     using Services.Implement;
     using Services.Interfaces;
 
-    public class DisciplineSummaryController : BaseController
+    public class DisciplineController : BaseController
     {
         private readonly IDisciplineService disciplineService;
 
-        public DisciplineSummaryController() : this(null)
+        public DisciplineController() : this(null)
         {
         }
 
-        public DisciplineSummaryController(IDisciplineService disciplineService)
+        public DisciplineController(IDisciplineService disciplineService)
         {
             this.disciplineService = disciplineService ?? new DisciplineService();
         }

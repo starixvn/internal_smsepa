@@ -9,15 +9,15 @@
 
     public class DisciplineService : BaseService, IDisciplineService
     {
-        private readonly IDisciplineSummaryRepository disciplineSummaryRepository;
+        private readonly IDisciplineRepository disciplineRepository;
 
         public DisciplineService() : this(null)
         {
         }
 
-        public DisciplineService(IDisciplineSummaryRepository disciplineSummaryRepository)
+        public DisciplineService(IDisciplineRepository disciplineRepository)
         {
-            this.disciplineSummaryRepository = disciplineSummaryRepository ?? new DisciplineSummaryRepository();
+            this.disciplineRepository = disciplineRepository ?? new DisciplineRepository();
         }
 
         public IEnumerable<DisciplineSummaryModel> GetDisciplineSummary(GetDisciplineSummaryCriteria criteria)
@@ -26,7 +26,7 @@
 
             if (criteria != null && criteria.IsValid())
             {
-                employeeDisciplines = disciplineSummaryRepository.GetDisciplineSummary(criteria);
+                employeeDisciplines = disciplineRepository.GetDisciplineSummary(criteria);
             }
 
             return employeeDisciplines;
@@ -38,7 +38,7 @@
 
             if (criteria != null && criteria.IsValid())
             {
-                employeeDisciplines = disciplineSummaryRepository.GetDisciplineSummaryForOtherSystem(criteria);
+                employeeDisciplines = disciplineRepository.GetDisciplineSummaryForOtherSystem(criteria);
             }
 
             return employeeDisciplines;
