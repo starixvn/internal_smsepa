@@ -30,7 +30,7 @@
             isExcludedEmployee: null,
             isGeneratedEPA: '',
             isEvaluated: '',
-            epaStatus: $routeParams.inprogress === 'true' ? '0' : ''
+            epaStatus: $routeParams.inprogress ? 0 : ''
         };
 
         vm.filterAssign = {

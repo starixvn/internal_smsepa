@@ -144,7 +144,7 @@
                 event.preventDefault();
 
                 var epaId = parseInt($(this).data('epaid'));
-                $window.location.href = baseUrl + 'EPA/Detail/' + epaId;
+                $window.location.href = baseUrl + '#' + 'EPA/Detail/' + epaId;
             });
         }
 

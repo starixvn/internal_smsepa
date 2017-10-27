@@ -12,7 +12,7 @@
         vm.targetTemplateId = $scope.updateCtrl.targetTemplateId;
         vm.kpiList = TargetTemplateModel.kpiList;
 
-        $scope.$watch(function () { return $scope.updateCtrl.targetTemplate.MaxWeightSelf; },
+        $scope.$watch(function () { return $scope.updateCtrl.targetTemplate && $scope.updateCtrl.targetTemplate.MaxWeightSelf; },
             function (newVal) {
                 vm.maxWeight = newVal;
             });

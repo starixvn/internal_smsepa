@@ -52,7 +52,7 @@
                 groupId: '',
                 isLocal: '',
                 employeeIds: '',
-                statusProcess: $routeParams.statusProcess ? $routeParams.statusProcess : ''
+                statusProcess: $routeParams.statusProcess ? $routeParams.statusProcess ? 'true' : 'false' : ''
             };
         }
 

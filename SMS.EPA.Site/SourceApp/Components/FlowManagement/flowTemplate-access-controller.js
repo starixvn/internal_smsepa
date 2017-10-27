@@ -4,9 +4,9 @@
     /* jshint validthis:true */
 
     angular.module('flowMngModule').controller('FlowTemplateController', flowTemplateController);
-    flowTemplateController.$inject = ['FlowTemplateModel', 'CommonModel', 'utilitiesFactory', 'lockScreenService', 'baseUrl'];
+    flowTemplateController.$inject = ['$location', 'FlowTemplateModel', 'CommonModel', 'utilitiesFactory', 'lockScreenService', 'baseUrl'];
 
-    function flowTemplateController(FlowTemplateModel, CommonModel, utilitiesFactory, lockScreenService, baseUrl) {
+    function flowTemplateController($location, FlowTemplateModel, CommonModel, utilitiesFactory, lockScreenService, baseUrl) {
         var vm = this;
 
         vm.currentPage = 1;
@@ -85,7 +85,7 @@
         }
 
         function updateFlowTemplate(flowTemplate) {
-            vm.updateFlowTemplateUrl = baseUrl + 'Flow/Update/' + flowTemplate.FlowTemplateId;
+            $location.path(baseUrl + 'Flow/Update/' + flowTemplate.FlowTemplateId);
         }
 
         function updateStatusFlowTemplate(flowTemplate) {

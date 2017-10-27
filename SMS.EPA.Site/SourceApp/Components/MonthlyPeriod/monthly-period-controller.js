@@ -94,7 +94,10 @@
         };
 
         vm.viewEmployeeSetting = function (period, inprogress) {
-            $location.path(baseUrl + 'MonthlyPeriod/Update/' + period.PeriodId + '?viewSetting&inprogress=' + inprogress);
+            $location.path(baseUrl + 'MonthlyPeriod/Update/' + period.PeriodId).search({
+                inprogress: inprogress,
+                viewSetting: true
+            });
         };
 
         vm.getIndex = function (index, currentPage, pageSize) {

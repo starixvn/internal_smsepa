@@ -122,7 +122,7 @@
                     event.preventDefault();
 
                     var epaId = parseInt($(this).data("epaid"));
-                    $window.location.href = baseUrl +
+                    $window.location.href = baseUrl + '#' +
                         "EPA/Detail/" +
                         epaId +
                         "?periodId=" +

@@ -18,11 +18,13 @@
 
         vm.back = function () {
             if ($routeParams.detailRpt) {
-                $location.path(baseUrl + 'Report/EPADetailReport?periodId=' + $routeParams.periodId
-                    + '&departmentId=' + $routeParams.departmentId
-                    + '&phaseIds=' + $routeParams.phaseIds
-                    + '&isLocal=' + $routeParams.isLocal
-                    + '&employeeId=' + $routeParams.employeeId);
+                $location.path(baseUrl + 'Report/EPADetailReport').search({
+                        periodId: $routeParams.periodId,
+                        departmentId: $routeParams.departmentId,
+                        phaseIds: $routeParams.phaseIds,
+                        isLocal: $routeParams.isLocal,
+                        employeeId: $routeParams.employeeId
+                    });
             } else {
                 historyFactory.back();
             }

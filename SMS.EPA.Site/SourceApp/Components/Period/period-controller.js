@@ -71,7 +71,10 @@
         };
 
         vm.viewEmployeeSetting = function (period, inprogress) {
-            $location.path(baseUrl + 'Period/Update/' + period.PeriodId + '?viewSetting&inprogress=' + inprogress);
+            $location.path(baseUrl + 'Period/Update/' + period.PeriodId).search({
+                inprogress: inprogress,
+                viewSetting: true
+            });
         };
 
         function initialize() {

@@ -111,7 +111,9 @@
         }
 
         function viewKPI(kpiGroupId) {
-            $location.path(baseUrl + 'KPI/Index' + '?groupId=' + kpiGroupId);
+            $location.path(baseUrl + 'KPI/Index').search({
+                groupId: kpiGroupId
+            });
         }
     }
 })(angular);

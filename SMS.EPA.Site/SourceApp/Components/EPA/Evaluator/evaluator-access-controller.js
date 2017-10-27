@@ -45,7 +45,7 @@
                 : {
                     groupId: '',
                     isLocal: '',
-                    statusProcess: $routeParams.statusProcess ? $routeParams.statusProcess : '',
+                    statusProcess: $routeParams.statusProcess ? $routeParams.statusProcess ? 'true' : 'false' : '',
                     isMonthly: $routeParams.isMonthly ? $routeParams.isMonthly === 'true' : false,
                     employeeIds: ''
                 };
@@ -161,7 +161,9 @@
         };
 
         vm.viewEPAHistory = function (employeeId) {
-            $location.path(baseUrl + 'EPAHistory/Index?empId=' + employeeId);
+            $location.path(baseUrl + 'EPAHistory/Index').search({
+                empId: employeeId
+            });
         };
 
         function initialize() {

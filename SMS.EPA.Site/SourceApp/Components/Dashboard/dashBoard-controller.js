@@ -86,15 +86,23 @@
         }
 
         function goToEvaluatorListing(finished, isMonthly) {
-            $location.path(baseUrl + 'Evaluator/Index?isMonthly=' + isMonthly + '&statusProcess=' + finished);
+            $location.path(baseUrl + 'Evaluator/Index').search({
+                isMonthly: isMonthly,
+                statusProcess: finished
+            });
         }
 
         function goToManagementListing(finished) {
-            $location.path(baseUrl + 'Management/Index?statusProcess=' + finished);
+            $location.path(baseUrl + 'Management/Index').search({
+                statusProcess: finished
+            });
         }
 
         function goToReviewerListing(finished, isMonthly) {
-            $location.path(baseUrl + 'Reviewer/Index?isMonthly=' + isMonthly + '&statusProcess=' + finished);
+            $location.path(baseUrl + 'Reviewer/Index').search({
+                isMonthly: isMonthly,
+                statusProcess: finished
+            });
         }
 
         function selfEvaluationDetail(epa) {

@@ -62,15 +62,12 @@
         };
 
         vm.update = function (targetTemplate, viewKPIs) {
-            var path;
             if (!viewKPIs) {
-                path = 'TargetTemplate/Update/' + targetTemplate.TargetTemplateId + '?viewInfo';
+                $location.path(baseUrl + 'TargetTemplate/Update/' + targetTemplate.TargetTemplateId).search({ viewInfo: true });
             }
             else {
-                path = 'TargetTemplate/Update/' + targetTemplate.TargetTemplateId + '?viewKPIs';
+                $location.path(baseUrl + 'TargetTemplate/Update/' + targetTemplate.TargetTemplateId).search({ viewKPIs: true });
             }
-
-            $location.path(baseUrl + path);
         };
 
         vm.deleteTargetTemplate = function (targetTemplate) {
