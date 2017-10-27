@@ -153,15 +153,15 @@
         };
 
         vm.viewEPADetail = function (epaInfo) {
-            $location.url(baseUrl + 'Evaluator/Detail/' + epaInfo.EPAId);
+            $location.path(baseUrl + 'Evaluator/Detail/' + epaInfo.EPAId);
         };
 
-        vm.viewEPAResult = function (epaInfo) {
-            $location.url(baseUrl + 'EPA/Detail/' + epaInfo.EPAId);
+        vm.viewEPAResult = function (epaId) {
+            $location.path(baseUrl + 'EPA/Detail/' + epaId);
         };
 
         vm.viewEPAHistory = function (employeeId) {
-            $location.url(baseUrl + 'EPAHistory/Index?empId=' + employeeId);
+            $location.path(baseUrl + 'EPAHistory/Index?empId=' + employeeId);
         };
 
         function initialize() {

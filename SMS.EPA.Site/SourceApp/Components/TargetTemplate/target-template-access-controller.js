@@ -4,9 +4,9 @@
     /* jshint validthis:true */
 
     angular.module('targetTemplateModule').controller('TargetTemplateController', targetTemplateController);
-    targetTemplateController.$inject = ['TargetTemplateModel', 'CommonModel', 'utilitiesFactory', 'lockScreenService'];
+    targetTemplateController.$inject = ['$location', 'TargetTemplateModel', 'CommonModel', 'utilitiesFactory', 'lockScreenService', 'baseUrl'];
 
-    function targetTemplateController(TargetTemplateModel, CommonModel, utilitiesFactory, lockScreenService) {
+    function targetTemplateController($location, TargetTemplateModel, CommonModel, utilitiesFactory, lockScreenService, baseUrl) {
         var vm = this;
 
         vm.targetTypes = [];
@@ -62,12 +62,15 @@
         };
 
         vm.update = function (targetTemplate, viewKPIs) {
+            var path;
             if (!viewKPIs) {
-                vm.updateTargetTemplateUrl = '/TargetTemplate/Update/' + targetTemplate.TargetTemplateId + '?viewInfo';
+                path = 'TargetTemplate/Update/' + targetTemplate.TargetTemplateId + '?viewInfo';
             }
             else {
-                vm.updateTargetTemplateUrl = '/TargetTemplate/Update/' + targetTemplate.TargetTemplateId + '?viewKPIs';
+                path = 'TargetTemplate/Update/' + targetTemplate.TargetTemplateId + '?viewKPIs';
             }
+
+            $location.path(baseUrl + path);
         };
 
         vm.deleteTargetTemplate = function (targetTemplate) {
@@ -75,7 +78,7 @@
         };
 
         vm.detail = function (targetTemplate) {
-            vm.detailTargetTemplateUrl = '/TargetTemplate/Detail/' + targetTemplate.TargetTemplateId;
+            $location.path(baseUrl + 'TargetTemplate/Detail/' + targetTemplate.TargetTemplateId);
         };
 
         function initialize() {

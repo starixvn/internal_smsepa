@@ -8,6 +8,7 @@
         '$timeout',
         '$translate',
         '$routeParams',
+        '$location',
         'EvaluationModel',
         'EvaluatorEPAModel',
         'SelfEvalutorModel',
@@ -18,9 +19,11 @@
         'baseUrl'
     ];
 
-    function evaluatorDetailController($timeout,
+    function evaluatorDetailController(
+        $timeout,
         $translate,
         $routeParams,
+        $location,
         EvaluationModel,
         EvaluatorEPAModel,
         SelfEvalutorModel,
@@ -107,6 +110,10 @@
 
         vm.generateRatingStar = function () {
             $timeout(function () { $(".rating-loading").rating(); }, 1);
+        };
+
+        vm.viewEPAResult = function (epaId) {
+            $location.path(baseUrl + 'EPA/Detail/' + epaId);
         };
 
         function checkStatus(epaInfo) {

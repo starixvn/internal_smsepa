@@ -453,8 +453,6 @@
     <Content Include="SourceApp\Components\DisciplineSummary\discipline-summary-controller.js" />
     <Content Include="SourceApp\Components\DisciplineSummary\discipline-summary-directive.js" />
     <Content Include="SourceApp\Components\DisciplineSummary\Templates\index.html" />
-    <Content Include="SourceApp\Components\Common\menu-controller.js" />
-    <Content Include="SourceApp\Components\Common\Templates\topMenu.html" />
     <Content Include="SourceApp\Components\Dashboard\dashboard-controller.js" />
     <Content Include="SourceApp\Components\Dashboard\dashboard-factory.js" />
     <Content Include="SourceApp\Components\Dashboard\dashboard-model.js" />
@@ -565,6 +563,9 @@
     <Content Include="SourceApp\Components\EPA\Evaluator\Templates\listKPIToView.html" />
     <Content Include="SourceApp\Components\EPA\UpdateFinalScore\Templates\index.html" />
     <Content Include="SourceApp\Components\EPA\UpdateFinalScore\update-final-score-controller.js" />
+    <Content Include="SourceApp\Components\Menu\menu-controller.js" />
+    <Content Include="SourceApp\Components\Menu\menu-tab-directive.js" />
+    <Content Include="SourceApp\Components\Menu\Templates\index.html" />
     <Content Include="SourceApp\Components\MonthlyPeriod\update-employee-setting-controller.js" />
     <Content Include="SourceApp\Components\MonthlyPeriod\employee-setting-controller.js" />
     <Content Include="SourceApp\Components\MonthlyPeriod\update-process-setting-controller.js" />

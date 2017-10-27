@@ -18,7 +18,7 @@
 
         vm.back = function () {
             if ($routeParams.detailRpt) {
-                $location.url(baseUrl + 'Report/EPADetailReport?periodId=' + $routeParams.periodId
+                $location.path(baseUrl + 'Report/EPADetailReport?periodId=' + $routeParams.periodId
                     + '&departmentId=' + $routeParams.departmentId
                     + '&phaseIds=' + $routeParams.phaseIds
                     + '&isLocal=' + $routeParams.isLocal

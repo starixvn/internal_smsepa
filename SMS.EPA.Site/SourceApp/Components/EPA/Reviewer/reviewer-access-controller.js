@@ -224,17 +224,17 @@
         vm.viewEPADetail = function (epaInfo) {
             if (ReviewerManagementModel.checkAdjustScoreChanged(vm.epaInfos)) {
                 ReviewerManagementModel.openPopupRemindSaveChange(vm).then(function () {
-                    $location.url(baseUrl + 'Reviewer/Detail/' + epaInfo.EPAId);
+                    $location.path(baseUrl + 'Reviewer/Detail/' + epaInfo.EPAId);
                 })['finally'](function () {
                     vm.modalInstance = '';
                 });
             } else {
-                $location.url(baseUrl + 'Reviewer/Detail/' + epaInfo.EPAId);
+                $location.path(baseUrl + 'Reviewer/Detail/' + epaInfo.EPAId);
             }
         };
 
-        vm.viewEPAResult = function (epaInfo) {
-            $location.url(baseUrl + 'EPA/Detail/' + epaInfo.EPAId);
+        vm.viewEPAResult = function (epaId) {
+            $location.path(baseUrl + 'EPA/Detail/' + epaId);
         };
 
         vm.checkAll = function (selectedAll) {

@@ -1,9 +1,9 @@
 ﻿namespace SMS.EPA.Site
 {
+    using System.Web.Http;
     using Core.Attribute;
     using Newtonsoft.Json;
     using Newtonsoft.Json.Serialization;
-    using System.Web.Http;
 
     public static class WebApiConfig
     {

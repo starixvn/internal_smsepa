@@ -34,7 +34,7 @@
             <tr class="header-table">
                 <th colspan="7">
                     <a class="pull-left button-icon create-button" href="" ng-click="monthlyPeriodCtrl.create()"
-                       ng-show="monthlyPeriodCtrl.permission == monthlyPeriodCtrl.policyEnum.Host">
+                       ng-show="monthlyPeriodCtrl.permission === monthlyPeriodCtrl.policyEnum.Host">
                         <span class="glyphicon glyphicon-plus icon-add"></span>
                         <span class="button-text" data-translate="CreateMonthlyPeriod"></span>
                     </a>
@@ -58,21 +58,20 @@
                 <td class="text-center" ng-bind="period.StartDate | date: monthlyPeriodCtrl.dateFormat"></td>
                 <td class="text-center" ng-bind="period.EndDate | date: monthlyPeriodCtrl.dateFormat"></td>
                 <td class="text-center">
-                    <a href="{{monthlyPeriodCtrl.viewEmployeeSettingUrl}}" ng-click="monthlyPeriodCtrl.viewEmployeeSetting(period, false)">{{period.TotalEmployees}}</a>
+                    <a href="" ng-click="monthlyPeriodCtrl.viewEmployeeSetting(period, false)">{{period.TotalEmployees}}</a>
                 </td>
                 <td class="text-center">
-                    <a href="{{monthlyPeriodCtrl.viewEmployeeSettingUrl}}" ng-click="monthlyPeriodCtrl.viewEmployeeSetting(period, true)">{{period.TotalEmployeesUnfinished}}</a>
+                    <a href="" ng-click="monthlyPeriodCtrl.viewEmployeeSetting(period, true)">{{period.TotalEmployeesUnfinished}}</a>
                 </td>
                 <td class="text-center">
                     <div class="btn-group">
-                        <a class="glyphicon glyphicon-edit icon-edit" title="Edit" ng-click="monthlyPeriodCtrl.update(period.PeriodId)"
-                           href="{{monthlyPeriodCtrl.updatePeriodUrl}}"></a>
+                        <a class="glyphicon glyphicon-edit icon-edit" title="Edit" ng-click="monthlyPeriodCtrl.update(period.PeriodId)" href=""></a>
                         <a href="javascript:;" class="glyphicon glyphicon-remove icon-remove" title="Delete" ng-click="monthlyPeriodCtrl.delete(period)"
-                           ng-show="monthlyPeriodCtrl.permission == monthlyPeriodCtrl.policyEnum.Host"></a>
+                           ng-show="monthlyPeriodCtrl.permission === monthlyPeriodCtrl.policyEnum.Host"></a>
                     </div>
                 </td>
             </tr>
-            <tr ng-show="monthlyPeriodCtrl.filteredItems.length == 0">
+            <tr ng-show="monthlyPeriodCtrl.filteredItems.length === 0">
                 <td class="empty-result" colspan="7" data-translate="EmptyResult"></td>
             </tr>
         </tbody>

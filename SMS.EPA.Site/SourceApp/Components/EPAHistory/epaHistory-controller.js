@@ -4,9 +4,10 @@
     /* jshint validthis:true */
 
     angular.module('epaHistoryModule').controller('EPAHistoryController', epaHistoryController);
-    epaHistoryController.$inject = ['$routeParams', 'EPAHistoryModel', 'CommonModel', 'utilitiesFactory', 'historyFactory', 'lockScreenService', 'baseUrl'];
+    epaHistoryController.$inject = ['$routeParams', '$location', 'EPAHistoryModel', 'CommonModel', 'utilitiesFactory',
+        'historyFactory', 'lockScreenService', 'baseUrl'];
 
-    function epaHistoryController($routeParams, EPAHistoryModel, CommonModel, utilitiesFactory, historyFactory, lockScreenService, baseUrl) {
+    function epaHistoryController($routeParams, $location, EPAHistoryModel, CommonModel, utilitiesFactory, historyFactory, lockScreenService, baseUrl) {
         var vm = this;
 
         vm.currentPage = 1;
@@ -118,7 +119,7 @@
         }
 
         function viewDetailEPA(epa) {
-            vm.viewEPADetailUrl = baseUrl + 'EPA/Detail/' + epa.EPAId;
+            $location.path(baseUrl + 'EPA/Detail/' + epa.EPAId);
         }
     }
 })(angular);

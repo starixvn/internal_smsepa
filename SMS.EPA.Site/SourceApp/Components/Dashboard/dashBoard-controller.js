@@ -86,23 +86,23 @@
         }
 
         function goToEvaluatorListing(finished, isMonthly) {
-            $location.url(baseUrl + 'Evaluator/Index?isMonthly=' + isMonthly + '&statusProcess=' + finished);
+            $location.path(baseUrl + 'Evaluator/Index?isMonthly=' + isMonthly + '&statusProcess=' + finished);
         }
 
         function goToManagementListing(finished) {
-            $location.url(baseUrl + 'Management/Index?statusProcess=' + finished);
+            $location.path(baseUrl + 'Management/Index?statusProcess=' + finished);
         }
 
         function goToReviewerListing(finished, isMonthly) {
-            $location.url(baseUrl + 'Reviewer/Index?isMonthly=' + isMonthly + '&statusProcess=' + finished);
+            $location.path(baseUrl + 'Reviewer/Index?isMonthly=' + isMonthly + '&statusProcess=' + finished);
         }
 
         function selfEvaluationDetail(epa) {
-            $location.url(baseUrl + 'SelfEvaluation/Detail/' + epa.EPAId);
+            $location.path(baseUrl + 'SelfEvaluation/Detail/' + epa.EPAId);
         }
 
         function viewEPAResult(epa) {
-            $location.url(baseUrl + 'EPA/Detail/' + epa.EPAId);
+            $location.path(baseUrl + 'EPA/Detail/' + epa.EPAId);
         }
     }
 })(angular);

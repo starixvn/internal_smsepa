@@ -177,11 +177,11 @@
                         <div ng-if="epaInfo.IsSemiAnnual || epaInfo.IsMonthly">
                             <a class="glyphicon glyphicon-edit icon-edit" href="" ng-attr-title='{{"Edit" | translate}}'
                                ng-click="reviewerCtrl.updateComment(epaInfo, epaInfo.Process.CurrentProcess.Comment, true)"
-                               ng-if="epaInfo.IsAllowedToEdit && reviewerCtrl.permission == reviewerCtrl.policyEnum.Host"></a>
+                               ng-if="epaInfo.IsAllowedToEdit && reviewerCtrl.permission === reviewerCtrl.policyEnum.Host"></a>
 
                             <span class="glyphicon icon-view"
                                   ng-show="epaInfo.Process.CurrentProcess.Comment.length > 0 &&
-                                    (!epaInfo.IsAllowedToEdit || reviewerCtrl.permission != reviewerCtrl.policyEnum.Host)"
+                                    (!epaInfo.IsAllowedToEdit || reviewerCtrl.permission !== reviewerCtrl.policyEnum.Host)"
                                   tooltip="{{epaInfo.Process.CurrentProcess.Comment}}" tooltip-placement="top"></span>
                         </div>
                         <div ng-if="!(epaInfo.IsSemiAnnual || epaInfo.IsMonthly)">
@@ -220,9 +220,8 @@
                         <strong class="error-message" ng-bind="epaInfo.Grade"></strong>
                     </td>
                     <td class="text-center">
-                        <a href="{{'/EPA/Detail/' + epaInfo.LastEPAId}}" ng-show="epaInfo.LastFinalScore != null"
-                           ng-bind="epaInfo.LastFinalScore | customScore"></a>
-                        <!--<div ng-show="epaInfo.LastFinalScore != null" ng-bind="epaInfo.LastFinalScore | customScore"></div>-->
+                        <a href="" ng-show="epaInfo.LastFinalScore != null"
+                           ng-bind="epaInfo.LastFinalScore | customScore" ng-click="reviewerCtrl.viewEPAResult(epaInfo.LastEPAId)"></a>
                         <div ng-show="epaInfo.LastFinalScore == null" ng-bind="'-'"></div>
                     </td>
                     <td class="text-center">
@@ -231,7 +230,7 @@
                     <td class="text-center col-action" ng-switch="epaInfo.IsAllowedToEdit">
                         <a ng-switch-when="true" class="glyphicon glyphicon-edit icon-edit" href="" ng-click="reviewerCtrl.viewEPADetail(epaInfo)"
                            ng-attr-title='{{"EvaluateNow" | translate}}'></a>
-                        <a ng-switch-default class="glyphicon icon-view" href="" ng-click="reviewerCtrl.viewEPAResult(epaInfo)"
+                        <a ng-switch-default class="glyphicon icon-view" href="" ng-click="reviewerCtrl.viewEPAResult(epaInfo.EPAId)"
                            ng-attr-title='{{"ViewEPAResult" | translate}}'></a>
                     </td>
                 </tr>
@@ -243,7 +242,7 @@
                     </td>
                 </tr>
             </tfoot>
-            <tbody ng-show="reviewerCtrl.epaInfos.length == 0">
+            <tbody ng-show="reviewerCtrl.epaInfos.length === 0">
                 <tr>
                     <td class="empty-result" colspan="17" data-translate="EmptyResult"></td>
                 </tr>

@@ -26,11 +26,11 @@
         }
 
         function viewEPADetail(epaInfo) {
-            $location.url(baseUrl + 'SelfEvaluation/Detail/' + epaInfo.EPAId);
+            $location.path(baseUrl + 'SelfEvaluation/Detail/' + epaInfo.EPAId);
         }
 
         function viewEPAResult(epaInfo) {
-            $location.url(baseUrl + 'EPA/Detail/' + epaInfo.EPAId);
+            $location.path(baseUrl + 'EPA/Detail/' + epaInfo.EPAId);
         }
     }
 })(angular);

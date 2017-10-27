@@ -70,7 +70,6 @@
             </tr>
             <tr class="headerName">
                 <th data-translate="SymbolCount"></th>
-                <th data-translate="Period"></th>
                 <th data-translate="Code"></th>
                 <th data-translate="NickName"></th>
                 <th data-translate="Section"></th>
@@ -87,7 +86,6 @@
         <tbody>
             <tr dir-paginate="discipline in disciplineCtrl.filteredItems | itemsPerPage: disciplineCtrl.pageSize" pagination-id="summary" current-page="disciplineCtrl.currentPage">
                 <td class="text-center" ng-bind="disciplineCtrl.getIndex($index, disciplineCtrl.currentPage, disciplineCtrl.pageSize)"></td>
-                <td class="text-left" ng-bind="discipline.Period.Name"></td>
                 <td class="text-left" ng-bind="discipline.Employee.Code"></td>
                 <td>
                     <span ng-bind="discipline.Employee.NickName" popover-avatar avatar-src="{{discipline.Employee.Avatar}}"></span>

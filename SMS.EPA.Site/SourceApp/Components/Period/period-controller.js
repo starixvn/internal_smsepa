@@ -4,9 +4,9 @@
     /* jshint validthis:true */
 
     angular.module('periodModule').controller('PeriodController', periodController);
-    periodController.$inject = ['PeriodModel', 'CommonModel', 'utilitiesFactory', 'historyFactory', 'lockScreenService', 'baseUrl'];
+    periodController.$inject = ['$location', 'PeriodModel', 'CommonModel', 'utilitiesFactory', 'historyFactory', 'lockScreenService', 'baseUrl'];
 
-    function periodController(PeriodModel, CommonModel, utilitiesFactory, historyFactory, lockScreenService, baseUrl) {
+    function periodController($location, PeriodModel, CommonModel, utilitiesFactory, historyFactory, lockScreenService, baseUrl) {
         var vm = this;
 
         vm.periods = [];
@@ -59,7 +59,7 @@
         };
 
         vm.update = function (periodId) {
-            vm.updatePeriodUrl = baseUrl + 'Period/Update/' + periodId;
+            $location.path(baseUrl + 'Period/Update/' + periodId);
         };
 
         vm.confirmActive = function (period) {
@@ -71,7 +71,7 @@
         };
 
         vm.viewEmployeeSetting = function (period, inprogress) {
-            vm.viewEmployeeSettingUrl = baseUrl + 'Period/Update/' + period.PeriodId + '?viewSetting&inprogress=' + inprogress;
+            $location.path(baseUrl + 'Period/Update/' + period.PeriodId + '?viewSetting&inprogress=' + inprogress);
         };
 
         function initialize() {

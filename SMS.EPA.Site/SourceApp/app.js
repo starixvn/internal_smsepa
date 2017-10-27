@@ -59,7 +59,7 @@
                     .when("/Home/PageNotFound", { templateUrl: "/SourceApp/Shared/Templates/PageNotFound.html" })
                     .otherwise({ templateUrl: "/SourceApp/Shared/Templates/PageNotFound.html" });
 
-                $locationProvider.html5Mode(true);
+                $locationProvider.html5Mode(false);
 
                 datepickerConfig.showWeeks = false;
                 datepickerPopupConfig.showButtonBar = false;

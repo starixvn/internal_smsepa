@@ -76,9 +76,9 @@
                 <strong>{{evaluatorDetailCtrl.finalScore | customScore}} / {{evaluatorDetailCtrl.epaInfo.Process.CurrentProcess.MaxPerformanceScore | customScore}}</strong>
             </td>
             <td class="text-center col-score">
-                <a href="{{'/EPA/Detail/' + evaluatorDetailCtrl.epaInfo.LastEPAId}}" ng-show="evaluatorDetailCtrl.epaInfo.LastFinalScore != null"
+                <a href="" ng-show="evaluatorDetailCtrl.epaInfo.LastFinalScore != null"
+                   ng-click="evaluatorDetailCtrl.viewEPAResult(evaluatorDetailCtrl.epaInfo.LastEPAId)"
                    ng-bind="evaluatorDetailCtrl.epaInfo.LastFinalScore | customScore"></a>
-                <!--<strong ng-show="evaluatorDetailCtrl.epaInfo.LastFinalScore != null" ng-bind="evaluatorDetailCtrl.epaInfo.LastFinalScore | customScore"></strong>-->
                 <strong ng-show="evaluatorDetailCtrl.epaInfo.LastFinalScore == null" ng-bind="'-'"></strong>
             </td>
         </tr>

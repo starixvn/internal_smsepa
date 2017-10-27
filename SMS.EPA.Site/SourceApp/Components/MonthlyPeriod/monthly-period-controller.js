@@ -4,9 +4,9 @@
     /* jshint validthis:true */
 
     angular.module('monthlyPeriodModule').controller('MonthlyPeriodController', monthlyPeriodController);
-    monthlyPeriodController.$inject = ['MonthlyPeriodModel', 'CommonModel', 'utilitiesFactory', 'historyFactory', 'lockScreenService', 'baseUrl'];
+    monthlyPeriodController.$inject = ['$location', 'MonthlyPeriodModel', 'CommonModel', 'utilitiesFactory', 'historyFactory', 'lockScreenService', 'baseUrl'];
 
-    function monthlyPeriodController(MonthlyPeriodModel, CommonModel, utilitiesFactory, historyFactory, lockScreenService, baseUrl) {
+    function monthlyPeriodController($location, MonthlyPeriodModel, CommonModel, utilitiesFactory, historyFactory, lockScreenService, baseUrl) {
         var vm = this;
 
         function initFilter() {
@@ -86,7 +86,7 @@
         };
 
         vm.update = function (periodId) {
-            vm.updatePeriodUrl = baseUrl + 'MonthlyPeriod/Update/' + periodId;
+            $location.path(baseUrl + 'MonthlyPeriod/Update/' + periodId);
         };
 
         vm.delete = function (period) {
@@ -94,7 +94,7 @@
         };
 
         vm.viewEmployeeSetting = function (period, inprogress) {
-            vm.viewEmployeeSettingUrl = baseUrl + 'MonthlyPeriod/Update/' + period.PeriodId + '?viewSetting&inprogress=' + inprogress;
+            $location.path(baseUrl + 'MonthlyPeriod/Update/' + period.PeriodId + '?viewSetting&inprogress=' + inprogress);
         };
 
         vm.getIndex = function (index, currentPage, pageSize) {
