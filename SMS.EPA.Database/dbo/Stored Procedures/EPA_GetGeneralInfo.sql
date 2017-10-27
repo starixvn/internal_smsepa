@@ -38,11 +38,6 @@ BEGIN
 		,DisciplineScore FLOAT
 		)
 
-	CREATE TABLE #tblOtherViolation (
-		EPAId INT
-		,NumberOtherViolation INT
-		)
-
 	CREATE TABLE #tblEPAStatus (
 		EPAId INT
 		,StatusId TINYINT
@@ -73,23 +68,6 @@ BEGIN
 		,DisciplineScore
 		)
 	EXECUTE dbo.EPA_GetLastScore @TblEPAIds
-
-	INSERT INTO #tblOtherViolation (
-		EPAId
-		,NumberOtherViolation
-		)
-	SELECT epa.EPAId
-		,COUNT(1) AS NumberOtherViolation
-	FROM dbo.EPA AS epa WITH (NOLOCK)
-		INNER JOIN @TblEPAIds AS epat ON epa.EPAId = epat.Id
-		INNER JOIN dbo.Period AS period WITH (NOLOCK) ON epa.PeriodId = period.PeriodId
-		AND period.IsActive = 1
-		INNER JOIN dbo.EmployeeDiscipline AS dis WITH (NOLOCK) ON epa.EmployeeId = dis.EmpId
-		AND dis.WorkDate BETWEEN period.AttendanceStartDate
-			AND period.AttendanceEndDate
-		INNER JOIN dbo.DisciplineType AS dtype WITH (NOLOCK) ON dis.DisciplineTypeId = dtype.DisciplineTypeId
-		AND dtype.DisciplineTypeId < 0
-	GROUP BY epa.EPAId
 
 	INSERT INTO #tblEPAStatus (
 		EPAId
@@ -151,11 +129,6 @@ BEGIN
 			ELSE ds.SystemDisciplineScore END
 			) AS SystemDisciplineScore
 		,srt.Attendance AS MaxDisciplineScore
-		,ds.OtherDisciplines
-		,(CASE 
-			WHEN tbl1.NumberOtherViolation > 0 THEN 1
-			ELSE 0 END
-			) AS HasOtherViolation
 		,ls.LastEPAId AS LastEPAId
 		,ls.FinalScore AS LastFinalScore
 		,epa.HasMonthlyEPA AS HasMonthlyEPA
@@ -230,15 +203,12 @@ BEGIN
 		LEFT JOIN #tblDisciplineScores AS ds WITH (NOLOCK) ON epa.EPAId = ds.EPAId
 		LEFT JOIN #tblLastEPA AS ls WITH (NOLOCK) ON epa.EPAId = ls.EPAId
 		AND emp.Code = ls.Code
-		LEFT JOIN #tblOtherViolation AS tbl1 WITH (NOLOCK) ON epa.EPAId = tbl1.EPAId
 	ORDER BY emp.NickName
 		,emp.Code
 
 	DROP TABLE #tblDisciplineScores
 
 	DROP TABLE #tblLastEPA
-
-	DROP TABLE #tblOtherViolation
 
 	DROP TABLE #tblEPAStatus
 END

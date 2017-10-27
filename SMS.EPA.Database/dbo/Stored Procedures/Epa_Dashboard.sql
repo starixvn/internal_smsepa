@@ -28,11 +28,6 @@ BEGIN
 		,OtherDisciplines FLOAT
 		)
 
-	CREATE TABLE #tblOtherViolation (
-		EPAId INT
-		,NumberOtherViolation INT
-		)
-
 	CREATE TABLE #tblEPAStatus (
 		EPAId INT
 		,StatusId TINYINT
@@ -51,23 +46,6 @@ BEGIN
 		INNER JOIN dbo.TargetType AS tt WITH (NOLOCK) ON period.TargetTypeId = tt.TargetTypeId
 	WHERE selfpc.StartDate <= @Today
 		AND ISNULL(epa.[Status], 0) IN (0, 1)
-
-	INSERT INTO #tblOtherViolation (
-		EPAId
-		,NumberOtherViolation
-		)
-	SELECT epa.EPAId
-		,COUNT(1) AS NumberOtherViolation
-	FROM dbo.EPA AS epa WITH (NOLOCK)
-		INNER JOIN @TblEPAIds AS epat ON epa.EPAId = epat.Id
-		INNER JOIN dbo.Period AS period WITH (NOLOCK) ON epa.PeriodId = period.PeriodId
-		AND period.IsActive = 1
-		INNER JOIN dbo.EmployeeDiscipline AS dis WITH (NOLOCK) ON epa.EmployeeId = dis.EmpId
-		AND dis.WorkDate BETWEEN period.AttendanceStartDate
-			AND period.AttendanceEndDate
-		INNER JOIN dbo.DisciplineType AS dtype WITH (NOLOCK) ON dis.DisciplineTypeId = dtype.DisciplineTypeId
-		AND dtype.DisciplineTypeId < 0
-	GROUP BY epa.EPAId
 
 	INSERT INTO #tblEPAStatus (
 		EPAId
@@ -130,12 +108,7 @@ BEGIN
 						ELSE ds.ApproverSubtractScore END
 						) END
 				) AS DisciplineScore
-			,ds.OtherDisciplines
 			,srt.Attendance AS MaxDisciplineScore
-			,(CASE 
-				WHEN tbl.NumberOtherViolation > 0 THEN 1
-				ELSE 0 END
-				) AS HasOtherViolation
 			,(CASE 
 				WHEN epa.HasMonthlyEPA = 1
 					AND period.TargetTypeId = @SemiId THEN 1
@@ -189,7 +162,6 @@ BEGIN
 			INNER JOIN dbo.ScoreRatingType AS srt WITH (NOLOCK) ON epa.ScoreRatingTypeId = srt.ScoreRatingTypeId
 			INNER JOIN dbo.#tblEPAStatus AS tblstatus WITH (NOLOCK) ON epa.EPAId = tblstatus.EPAId
 			LEFT JOIN #tblDisciplineScores AS ds WITH (NOLOCK) ON epa.EPAId = ds.EPAId
-			LEFT JOIN #tblOtherViolation AS tbl WITH (NOLOCK) ON epa.EPAId = tbl.EPAId
 		
 		UNION ALL
 		SELECT DISTINCT - epa.Id AS EPAId
@@ -197,9 +169,7 @@ BEGIN
 			,0 AS HasMonthlyEPA
 			,0 AS HasDisciplineScore
 			,0 AS DisciplineScore
-			,0 AS OtherDisciplines
 			,0 AS MaxDisciplineScore
-			,0 AS HasOtherViolation
 			,1 AS IsEndProcessBySelf
 			,1 AS StatusId
 			,emp.EmployeeId
@@ -232,8 +202,6 @@ BEGIN
 	EXECUTE dbo.EPA_GetProcess @TblEPAIds
 
 	DROP TABLE #tblDisciplineScores
-
-	DROP TABLE #tblOtherViolation
 
 	DROP TABLE #tblEPAStatus
 END

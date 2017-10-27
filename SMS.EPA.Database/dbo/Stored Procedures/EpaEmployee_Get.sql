@@ -21,6 +21,67 @@ Param's Explanation:
 BEGIN
 	SET NOCOUNT ON;
 
+	CREATE TABLE #tblEmployee (EmployeeId INT)
+
+	INSERT INTO #tblEmployee (EmployeeId)
+	SELECT DISTINCT emp.EmployeeId
+	FROM dbo.Employee AS emp WITH (NOLOCK)
+		LEFT JOIN dbo.[Group] AS empGr WITH (NOLOCK) ON emp.GroupId = empGr.GroupId
+	WHERE emp.IsDeleted = 0
+		AND ISNULl(@GroupId, empGr.GroupId) = empGr.GroupId
+		AND (
+			@Query IS NULL
+			OR emp.FullName LIKE '%' + @Query + '%'
+			OR emp.NickName LIKE '%' + @Query + '%'
+			)
+		AND ISNULL(@IsLocal, emp.IsLocal) = emp.IsLocal
+		AND ISNULL(@IsSpecialUser, emp.IsSpecialUser) = emp.IsSpecialUser
+		AND (
+			(
+				@IsDisabledUser IS NULL
+				AND emp.[Enabled] = 1
+				)
+			OR (
+				@IsDisabledUser IS NOT NULL
+				AND emp.[Enabled] = ~ @IsDisabledUser
+				)
+			)
+		AND (
+			@ApproverId IS NULL
+			OR (
+				@IncludeVerifier IS NULL
+				AND EXISTS (
+					SELECT 1
+					FROM dbo.HRMGroupSupervisor AS grS WITH (NOLOCK)
+					WHERE empGr.GroupId = grS.GroupId
+						AND @ApproverId = grS.OwnerId
+						AND grS.ActionType = 3 -- Approver
+					)
+				)
+			OR (
+				@IncludeVerifier IS NOT NULL
+				AND (
+					EXISTS (
+						SELECT 1
+						FROM dbo.EmployeeRole AS empR
+						WHERE empR.EmployeeId = @ApproverId
+							AND RoleId IN (1, 2, 3)
+						)
+					OR EXISTS (
+						SELECT 1
+						FROM dbo.HRMGroupSupervisor AS grS WITH (NOLOCK)
+						WHERE empGr.GroupId = grS.GroupId
+							AND @ApproverId = grS.OwnerId
+							AND grS.ActionType IN (2, 3) -- Approver and Verfier
+						)
+					)
+				)
+			)
+		AND (
+			@HasMonthlyEPA IS NULL
+			OR emp.HasMonthlyEPA = @HasMonthlyEPA
+			)
+
 	SELECT DISTINCT emp.EmployeeId
 		,emp.Code
 		,emp.DomainUsername
@@ -43,70 +104,23 @@ BEGIN
 		,empGr.[Name] AS GroupName
 		,empGr.Code AS GroupCode
 	FROM dbo.Employee AS emp WITH (NOLOCK)
+		INNER JOIN #tblEmployee AS tbl WITH (NOLOCK) ON emp.EmployeeId = tbl.EmployeeId
 		LEFT JOIN dbo.[Group] AS empGr WITH (NOLOCK) ON emp.GroupId = empGr.GroupId
 		LEFT JOIN dbo.HRMJobTitle AS job WITH (NOLOCK) ON emp.JobTitle = job.Id
-	WHERE emp.IsDeleted = 0
-		AND ISNULl(@GroupId, empGr.GroupId) = empGr.GroupId
-		AND (
-			ISNULL(@Query, '') = ''
-			OR emp.FullName LIKE '%' + @Query + '%'
-			OR emp.NickName LIKE '%' + @Query + '%'
-			)
-		AND ISNULL(@IsLocal, emp.IsLocal) = emp.IsLocal
-		AND ISNULL(@IsSpecialUser, emp.IsSpecialUser) = emp.IsSpecialUser
-		AND (
-			(
-				ISNULL(@IsDisabledUser, '') = ''
-				AND emp.[Enabled] = 1
-				)
-			OR (
-				ISNULL(@IsDisabledUser, '') <> ''
-				AND emp.[Enabled] = ~ @IsDisabledUser
-				)
-			)
-		AND (
-			ISNULL(@ApproverId, '') = ''
-			OR (
-				ISNULL(@IncludeVerifier, '') = ''
-				AND EXISTS (
-					SELECT 1
-					FROM dbo.HRMGroupSupervisor AS grS WITH (NOLOCK)
-					WHERE empGr.GroupId = grS.GroupId
-						AND @ApproverId = grS.OwnerId
-						AND grS.ActionType = 3 -- Approver
-					)
-				)
-			OR (
-				ISNULL(@IncludeVerifier, '') <> ''
-				AND (
-					EXISTS (
-						SELECT 1
-						FROM dbo.EmployeeRole AS empR
-						WHERE empR.EmployeeId = @ApproverId
-							AND RoleId IN (1, 2, 3)
-						)
-					OR EXISTS (
-						SELECT 1
-						FROM dbo.HRMGroupSupervisor AS grS WITH (NOLOCK)
-						WHERE empGr.GroupId = grS.GroupId
-							AND @ApproverId = grS.OwnerId
-							AND grS.ActionType IN (2, 3) -- Approver and Verfier
-						)
-					)
-				)
-			)
-		AND ISNULL(@HasMonthlyEPA, emp.HasMonthlyEPA) = emp.HasMonthlyEPA
 
 	SELECT ro.EmployeeId
 		,ro.RoleId
 		,ref.Value AS RoleCode
 	FROM dbo.EmployeeRole AS ro WITH (NOLOCK)
+		INNER JOIN #tblEmployee AS emp WITH (NOLOCK) ON ro.EmployeeId = emp.EmployeeId
 		INNER JOIN dbo.RefResource AS ref WITH (NOLOCK) ON ro.RoleId = ref.ResourceId
 		AND ref.RefName = 'SystemRole'
-	WHERE ISNULL(@RoleId, '') = ''
+	WHERE @RoleId IS NULL
 		OR ro.EmployeeId IN (
 			SELECT EmployeeId
 			FROM dbo.EmployeeRole WITH (NOLOCK)
 			WHERE RoleId = @RoleId
 			)
+	
+	DROP TABLE #tblEmployee
 END

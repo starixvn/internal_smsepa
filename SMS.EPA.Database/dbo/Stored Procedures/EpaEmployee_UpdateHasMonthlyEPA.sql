@@ -17,41 +17,42 @@ Param's Explanation:
 BEGIN
 	SET NOCOUNT ON;
 
-	DECLARE @ToDay DATE
+	DECLARE @Today DATE = GETDATE()
 
-	CREATE TABLE #Period (
+	CREATE TABLE #tblPeriod (
 		PeriodId INT
 		,EndDate DATE
 		)
 
-	INSERT INTO #Period
+	INSERT INTO #tblPeriod (
+		PeriodId
+		,EndDate
+		)
 	SELECT pFS.PeriodId
 		,(CASE 
-			WHEN CAST(period.EndDate AS DATE) > pFS.EndDate THEN CAST(period.EndDate AS DATE)
+			WHEN period.EndDate > pFS.EndDate THEN period.EndDate
 			ELSE pFS.EndDate END
 			) AS EndDate
 	FROM dbo.Period AS period WITH (NOLOCK)
 		INNER JOIN (
 		SELECT PeriodId
 			,EmployeeId
-			,CAST(MAX(EndDate) AS DATE) AS EndDate
-		FROM dbo.PeriodFlowSetting
+			,MAX(EndDate) AS EndDate
+		FROM dbo.PeriodFlowSetting WITH (NOLOCK)
 		WHERE EmployeeId = @EmployeeId
 		GROUP BY PeriodId
 			,EmployeeId
 		) AS pFS ON period.PeriodId = pFS.PeriodId
 	WHERE period.TargetTypeId IN (2, 3) -- monthly, semi
 
-	SET @ToDay = CAST(GETDATE() AS DATE)
-
 	IF @HasMonthlyEPA = 0
 	BEGIN
 		IF EXISTS (
 				SELECT 1
-				FROM #Period AS period WITH (NOLOCK)
+				FROM #tblPeriod AS period WITH (NOLOCK)
 					LEFT JOIN dbo.EPA AS epa WITH (NOLOCK) ON period.PeriodId = epa.PeriodId
 					AND epa.EmployeeId = @EmployeeId
-				WHERE period.EndDate >= @ToDay
+				WHERE period.EndDate >= @Today
 					AND NOT EXISTS (
 						SELECT 1
 						FROM dbo.PeriodExcludedEmployee AS pEx WITH (NOLOCK)
@@ -77,24 +78,11 @@ BEGIN
 		END
 	END
 
-	BEGIN TRY
-		BEGIN TRANSACTION
+	UPDATE [dbo].[Employee] WITH (ROWLOCK, UPDLOCK)
+	SET HasMonthlyEPA = @HasMonthlyEPA
+		,[ModifiedBy] = @ModifiedBy
+		,[ModifiedDate] = GETDATE()
+	WHERE [EmployeeId] = @EmployeeId
 
-		UPDATE [dbo].[Employee] WITH (ROWLOCK, UPDLOCK)
-		SET HasMonthlyEPA = @HasMonthlyEPA
-			,[ModifiedBy] = @ModifiedBy
-			,[ModifiedDate] = GETDATE()
-		WHERE [EmployeeId] = @EmployeeId
-
-		COMMIT TRANSACTION
-	END TRY
-
-	BEGIN CATCH
-		ROLLBACK TRANSACTION
-
-		SELECT @ErrCode = 1
-			,@ErrMsg = N'Update employee unsuccessfully.'
-	END CATCH
-
-	DROP TABLE #Period
+	DROP TABLE #tblPeriod
 END

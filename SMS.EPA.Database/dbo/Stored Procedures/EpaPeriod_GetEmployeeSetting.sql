@@ -146,7 +146,7 @@ BEGIN
 							FROM dbo.EPAProcess WITH (NOLOCK)
 							WHERE EPAId = epa.EPAId
 								AND ISNULL(TotalScore, '') = ''
-								AND CAST(StartDate AS DATE) <= @Today
+								AND StartDate <= @Today
 								AND ProcessId <> 1
 							)
 					)
@@ -195,9 +195,9 @@ BEGIN
 			) AS HasEvaluationGenerated
 		,(CASE 
 			WHEN epa.EPAId IS NOT NULL THEN CASE 
-					WHEN CAST(pfs.StartDate AS DATE) > @Today THEN 1
-					WHEN @Today BETWEEN CAST(pfs.StartDate AS DATE)
-							AND CAST(pfs.EndDate AS DATE) THEN 2
+					WHEN pfs.StartDate > @Today THEN 1
+					WHEN @Today BETWEEN pfs.StartDate
+							AND pfs.EndDate THEN 2
 					ELSE 3
 					END
 			ELSE 0 END
@@ -239,7 +239,7 @@ BEGIN
 					FROM dbo.EPAProcess WITH (NOLOCK)
 					WHERE EPAId = epa.EPAId
 						AND ISNULL(TotalScore, '') = ''
-						AND CAST(StartDate AS DATE) <= @Today
+						AND StartDate <= @Today
 						AND ProcessId <> 1
 					)
 				)

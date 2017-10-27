@@ -183,7 +183,6 @@
     <Build Include="dbo\Stored Procedures\Report_MonthlyEPADetail.sql" />
     <Build Include="dbo\Stored Procedures\Report_EPASummary.sql" />
     <Build Include="dbo\Stored Procedures\Report_EPADetail.sql" />
-    <Build Include="dbo\Stored Procedures\OtherViolationType_Get.sql" />
     <Build Include="dbo\Stored Procedures\Menu_GetByEmployeeId.sql" />
     <Build Include="dbo\Stored Procedures\Menu_Get.sql" />
     <Build Include="dbo\Stored Procedures\Login_GetEmployee.sql" />
@@ -280,9 +279,7 @@
     <Build Include="dbo\Stored Procedures\EpaAuto_CheckEndProcess.sql" />
     <Build Include="dbo\Stored Procedures\EpaAuto_CheckEndEvaluationPeriod.sql" />
     <Build Include="dbo\Stored Procedures\EpaAuto_CheckEndEmployeeEvaluationPeriod.sql" />
-    <Build Include="dbo\Stored Procedures\EpaAttendanceSummary_GetViolationType.sql" />
     <Build Include="dbo\Stored Procedures\EpaAttendanceSummary_GetViolations.sql" />
-    <Build Include="dbo\Stored Procedures\EpaAttendanceSummary_GetOtherViolations.sql" />
     <Build Include="dbo\Stored Procedures\EpaAttendanceSummary_GetDetail.sql" />
     <Build Include="dbo\Stored Procedures\EpaAttendanceSummary_GetByEPA.sql" />
     <Build Include="dbo\Stored Procedures\EpaAttendanceSummary_Get.sql" />
@@ -306,7 +303,6 @@
     <Build Include="dbo\Stored Procedures\EPA_GetSemiById.sql" />
     <Build Include="dbo\Stored Procedures\EPA_GetProcess.sql" />
     <Build Include="dbo\Stored Procedures\EPA_GetPeriodToUpdateFinalScore.sql" />
-    <Build Include="dbo\Stored Procedures\EPA_GetOtherViolations.sql" />
     <Build Include="dbo\Stored Procedures\Epa_GetMonthlyEPAHistory.sql" />
     <Build Include="dbo\Stored Procedures\EPA_GetMember.sql" />
     <Build Include="dbo\Stored Procedures\EPA_GetLastScoreProcess.sql" />
@@ -333,8 +329,6 @@
     <Build Include="dbo\Stored Procedures\Epa_Dashboard.sql" />
     <Build Include="dbo\Stored Procedures\EPA_CheckPermission.sql" />
     <Build Include="dbo\Stored Procedures\EPA_AdjustScoreByReviewerOrManagement.sql" />
-    <Build Include="dbo\Stored Procedures\EmployeeDisciplineSummary_GetByPeriod.sql" />
-    <Build Include="dbo\Stored Procedures\EmployeeDisciplineSummary_GetByEPA.sql" />
     <Build Include="dbo\Stored Procedures\Department_Get.sql" />
     <Build Include="dbo\Tables\JobGrade.sql" />
     <Build Include="dbo\Tables\EPARecommendation.sql" />
