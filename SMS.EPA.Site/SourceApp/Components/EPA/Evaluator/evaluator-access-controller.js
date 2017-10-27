@@ -45,7 +45,7 @@
                 : {
                     groupId: '',
                     isLocal: '',
-                    statusProcess: $routeParams.statusProcess ? $routeParams.statusProcess ? 'true' : 'false' : '',
+                    statusProcess: $routeParams.statusProcess ? $routeParams.statusProcess === true ? 'true' : 'false' : '',
                     isMonthly: $routeParams.isMonthly ? $routeParams.isMonthly === 'true' : false,
                     employeeIds: ''
                 };
