@@ -20,8 +20,6 @@
     </Setting>
     <Setting Key="EmployeeDiscipline_GetSummaryByPeriod" SpName="EmployeeDiscipline_GetSummaryByPeriod" DbName="nexhr" Plain="0" >
     </Setting>
-    <Setting Key="EmployeeAttendance_Get" SpName="EmployeeAttendance_Get" DbName="nexhr" Plain="0" >
-    </Setting>
     <Setting Key="EmployeeDiscipline_Get" SpName="EmployeeDiscipline_Get" DbName="nexhr" Plain="0" >
       <Mapping DataField="EmpId" ObjectProperty="EmployeeId" />
       <Mapping DataField="DisciplineType" ObjectProperty="Type" />
