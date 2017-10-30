@@ -50,13 +50,8 @@
                 <epa-calendar-image class="calendar-image" ng-click="createPeriodCtrl.openPopupEndDate($event)"></epa-calendar-image>
             </div>
         </div>
-        <div class="form-group">
-            <label class="col-sm-3 control-label required-label" data-translate="DisciplineStartDate"
-                   ng-show="createPeriodCtrl.period.TargetTypeId === createPeriodCtrl.targetTypeEnum.SemiAnnual">
-            </label>
-            <label class="col-sm-3 control-label" data-translate="DisciplineStartDate"
-                   ng-show="createPeriodCtrl.period.TargetTypeId !== createPeriodCtrl.targetTypeEnum.SemiAnnual">
-            </label>
+        <div class="form-group" ng-if="createPeriodCtrl.period.TargetTypeId === createPeriodCtrl.targetTypeEnum.SemiAnnual">
+            <label class="col-sm-3 control-label required-label" data-translate="DisciplineStartDate"></label>
             <div class="col-sm-3">
                 <input readonly class="calendar-form-control" type="text"
                        ng-model="createPeriodCtrl.period.RawAttendanceStartDate" datepicker-popup
@@ -64,12 +59,7 @@
                        is-open="createPeriodCtrl.calendar.attendanceStartDateOpened" />
                 <epa-calendar-image class="calendar-image" ng-click="createPeriodCtrl.openPopupAttendanceStartDate($event)"></epa-calendar-image>
             </div>
-            <label class="col-sm-3 control-label required-label" data-translate="DisciplineEndDate"
-                   ng-show="createPeriodCtrl.period.TargetTypeId === createPeriodCtrl.targetTypeEnum.SemiAnnual">
-            </label>
-            <label class="col-sm-3 control-label" data-translate="DisciplineEndDate"
-                   ng-show="createPeriodCtrl.period.TargetTypeId !== createPeriodCtrl.targetTypeEnum.SemiAnnual">
-            </label>
+            <label class="col-sm-3 control-label required-label" data-translate="DisciplineEndDate"></label>
             <div class="col-sm-3">
                 <input readonly class="calendar-form-control" type="text"
                        ng-model="createPeriodCtrl.period.RawAttendanceEndDate" datepicker-popup
