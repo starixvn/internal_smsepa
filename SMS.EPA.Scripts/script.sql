@@ -142,3 +142,22 @@ INSERT [dbo].[RefResource] ([RefResourceId], [RefName], [ResourceId], [Value]) V
 INSERT [dbo].[RefResource] ([RefResourceId], [RefName], [ResourceId], [Value]) VALUES (47, N'EvaluationPhase', 5, N'Management')
 SET IDENTITY_INSERT [dbo].[RefResource] OFF
 -----------------------------------
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[PeriodDisciplineSetting]') AND type in (N'U'))
+DROP TABLE [dbo].[PeriodDisciplineSetting]
+GO
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[PeriodDisciplineSetting](
+	[PeriodId] [int] NOT NULL,
+	[EmployeeId] [int] NOT NULL,
+	[StartDate] [date] NOT NULL,
+	[EndDate] [date] NOT NULL,
+ CONSTRAINT [PK_PeriodDisciplineSetting] PRIMARY KEY CLUSTERED 
+(
+	[PeriodId] ASC,
+	[EmployeeId] ASC
+)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+) ON [PRIMARY]
+GO

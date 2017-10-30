@@ -276,6 +276,16 @@
                 }
             }
 
+            if (employeeOptions.disciplineStartDate && employeeOptions.disciplineEndDate) {
+                startDate = new Date(employeeOptions.disciplineStartDate).setHours(0, 0, 0, 0);
+                endDate = new Date(employeeOptions.disciplineStartDate).setHours(0, 0, 0, 0);
+
+                if (startDate > endDate) {
+                    notificationFactory.error("DisciplineStartDateGreaterThanEndDateWarning");
+                    return false;
+                }
+            }
+
             return true;
         };
 
@@ -623,7 +633,9 @@
                 periodId: periodId,
                 targetTemplateId: targetTemplateId,
                 employeeAssignments: employeeAssignments,
-                employeeIds: employeeIds
+                employeeIds: employeeIds,
+                disciplineStartDate: employeeOptions.disciplineStartDate ? employeeOptions.disciplineStartDate.toDateString() : null,
+                disciplineEndDate: employeeOptions.disciplineEndDate ? employeeOptions.disciplineEndDate.toDateString() : null
             };
 
             return employeeSetting;
@@ -954,109 +966,125 @@
                 if (fieldEdit.endDate) {
                     employee = updateEndDateToEmployee(employee, employeeOptions);
                 }
+
+                if (fieldEdit.disciplineStartDate) {
+                    employee.DisciplineStartDate = employeeOptions.disciplineStartDate;
+                }
+
+                if (fieldEdit.disciplineEndDate) {
+                    employee.DisciplineEndDate = employeeOptions.disciplineEndDate;
+                }
             });
 
             return selectedEmployees;
         };
 
         model.validateEmployeeSettingMultipleMode = function (updatedEmployees) {
-            for (var i = 0; i < updatedEmployees.length; i++) {
-                var employee = updatedEmployees[i],
-                    startDate, endDate;
+            var employee = updatedEmployees[0],
+                startDate, endDate;
 
-                if (employee.HumanResources && employee.HumanResources.length > 0) {
-                    startDate = new Date(employee.HumanResources[0].StartDate).setHours(0, 0, 0, 0);
-                    endDate = new Date(employee.HumanResources[0].EndDate).setHours(0, 0, 0, 0);
+            if (employee.HumanResources && employee.HumanResources.length > 0) {
+                startDate = new Date(employee.HumanResources[0].StartDate).setHours(0, 0, 0, 0);
+                endDate = new Date(employee.HumanResources[0].EndDate).setHours(0, 0, 0, 0);
 
-                    if (startDate > endDate) {
-                        notificationFactory.error("StartDateGreaterThanEndDateWarning");
-                        return false;
-                    }
-                } else {
-                    notificationFactory.error("HumanResourcePhaseRequired");
+                if (startDate > endDate) {
+                    notificationFactory.error("StartDateGreaterThanEndDateWarning");
                     return false;
                 }
-
-                if (employee.SelfEvaluators && employee.SelfEvaluators.length > 0) {
-                    startDate = new Date(employee.SelfEvaluators[0].StartDate).setHours(0, 0, 0, 0);
-                    endDate = new Date(employee.SelfEvaluators[0].EndDate).setHours(0, 0, 0, 0);
-
-                    if (startDate > endDate) {
-                        notificationFactory.error("StartDateGreaterThanEndDateWarning");
-                        return false;
-                    }
-
-                    startDate = new Date(employee.HumanResources[0].EndDate).setHours(0, 0, 0, 0);
-                    endDate = new Date(employee.SelfEvaluators[0].StartDate).setHours(0, 0, 0, 0);
-
-                    if (startDate > endDate) {
-                        notificationFactory.error("HRRangeDateGreaterThanSelfRangeDateWarning");
-                        return false;
-                    }
-                }
-
-                if (employee.Evaluators && employee.Evaluators.length > 0) {
-                    startDate = new Date(employee.Evaluators[0].StartDate).setHours(0, 0, 0, 0);
-                    endDate = new Date(employee.Evaluators[0].EndDate).setHours(0, 0, 0, 0);
-
-                    if (startDate > endDate) {
-                        notificationFactory.error("StartDateGreaterThanEndDateWarning");
-                        return false;
-                    }
-
-                    startDate = new Date(employee.SelfEvaluators[0].EndDate).setHours(0, 0, 0, 0);
-                    endDate = new Date(employee.Evaluators[0].StartDate).setHours(0, 0, 0, 0);
-
-                    if (startDate > endDate) {
-                        notificationFactory.error("SelfRangeDateGreaterThanEvaluatorRangeDateWarning");
-                        return false;
-                    }
-                } else {
-                    notificationFactory.error("EvaluatorPhaseRequired");
-                    return false;
-                }
-
-                if (employee.Reviewers && employee.Reviewers.length > 0) {
-                    startDate = new Date(employee.Reviewers[0].StartDate).setHours(0, 0, 0, 0);
-                    endDate = new Date(employee.Reviewers[0].EndDate).setHours(0, 0, 0, 0);
-
-                    if (startDate > endDate) {
-                        notificationFactory.error("StartDateGreaterThanEndDateWarning");
-                        return false;
-                    }
-
-                    startDate = new Date(employee.Evaluators[0].EndDate).setHours(0, 0, 0, 0);
-                    endDate = new Date(employee.Reviewers[0].StartDate).setHours(0, 0, 0, 0);
-
-                    if (startDate > endDate) {
-                        notificationFactory.error("EvaluatorRangeDateGreaterThanReviewerRangeDateWarning");
-                        return false;
-                    }
-                } else {
-                    notificationFactory.error("ReviewerPhaseRequired");
-                    return false;
-                }
-
-                if (employee.Managements && employee.Managements.length > 0) {
-                    startDate = new Date(employee.Managements[0].StartDate).setHours(0, 0, 0, 0);
-                    endDate = new Date(employee.Managements[0].EndDate).setHours(0, 0, 0, 0);
-
-                    if (startDate > endDate) {
-                        notificationFactory.error("StartDateGreaterThanEndDateWarning");
-                        return false;
-                    }
-
-                    startDate = new Date(employee.Reviewers[0].EndDate).setHours(0, 0, 0, 0);
-                    endDate = new Date(employee.Managements[0].StartDate).setHours(0, 0, 0, 0);
-
-                    if (startDate > endDate) {
-                        notificationFactory.error("ReviewerRangeDateGreaterThanManagementRangeDateWarning");
-                        return false;
-                    }
-                }
-
-                return true;
+            } else {
+                notificationFactory.error("HumanResourcePhaseRequired");
+                return false;
             }
+
+            if (employee.SelfEvaluators && employee.SelfEvaluators.length > 0) {
+                startDate = new Date(employee.SelfEvaluators[0].StartDate).setHours(0, 0, 0, 0);
+                endDate = new Date(employee.SelfEvaluators[0].EndDate).setHours(0, 0, 0, 0);
+
+                if (startDate > endDate) {
+                    notificationFactory.error("StartDateGreaterThanEndDateWarning");
+                    return false;
+                }
+
+                startDate = new Date(employee.HumanResources[0].EndDate).setHours(0, 0, 0, 0);
+                endDate = new Date(employee.SelfEvaluators[0].StartDate).setHours(0, 0, 0, 0);
+
+                if (startDate > endDate) {
+                    notificationFactory.error("HRRangeDateGreaterThanSelfRangeDateWarning");
+                    return false;
+                }
+            }
+
+            if (employee.Evaluators && employee.Evaluators.length > 0) {
+                startDate = new Date(employee.Evaluators[0].StartDate).setHours(0, 0, 0, 0);
+                endDate = new Date(employee.Evaluators[0].EndDate).setHours(0, 0, 0, 0);
+
+                if (startDate > endDate) {
+                    notificationFactory.error("StartDateGreaterThanEndDateWarning");
+                    return false;
+                }
+
+                startDate = new Date(employee.SelfEvaluators[0].EndDate).setHours(0, 0, 0, 0);
+                endDate = new Date(employee.Evaluators[0].StartDate).setHours(0, 0, 0, 0);
+
+                if (startDate > endDate) {
+                    notificationFactory.error("SelfRangeDateGreaterThanEvaluatorRangeDateWarning");
+                    return false;
+                }
+            } else {
+                notificationFactory.error("EvaluatorPhaseRequired");
+                return false;
+            }
+
+            if (employee.Reviewers && employee.Reviewers.length > 0) {
+                startDate = new Date(employee.Reviewers[0].StartDate).setHours(0, 0, 0, 0);
+                endDate = new Date(employee.Reviewers[0].EndDate).setHours(0, 0, 0, 0);
+
+                if (startDate > endDate) {
+                    notificationFactory.error("StartDateGreaterThanEndDateWarning");
+                    return false;
+                }
+
+                startDate = new Date(employee.Evaluators[0].EndDate).setHours(0, 0, 0, 0);
+                endDate = new Date(employee.Reviewers[0].StartDate).setHours(0, 0, 0, 0);
+
+                if (startDate > endDate) {
+                    notificationFactory.error("EvaluatorRangeDateGreaterThanReviewerRangeDateWarning");
+                    return false;
+                }
+            } else {
+                notificationFactory.error("ReviewerPhaseRequired");
+                return false;
+            }
+
+            if (employee.Managements && employee.Managements.length > 0) {
+                startDate = new Date(employee.Managements[0].StartDate).setHours(0, 0, 0, 0);
+                endDate = new Date(employee.Managements[0].EndDate).setHours(0, 0, 0, 0);
+
+                if (startDate > endDate) {
+                    notificationFactory.error("StartDateGreaterThanEndDateWarning");
+                    return false;
+                }
+
+                startDate = new Date(employee.Reviewers[0].EndDate).setHours(0, 0, 0, 0);
+                endDate = new Date(employee.Managements[0].StartDate).setHours(0, 0, 0, 0);
+
+                if (startDate > endDate) {
+                    notificationFactory.error("ReviewerRangeDateGreaterThanManagementRangeDateWarning");
+                    return false;
+                }
+            }
+
+            if (employee.DisciplineStartDate && employee.DisciplineEndDate) {
+                startDate = new Date(employee.DisciplineStartDate).setHours(0, 0, 0, 0);
+                endDate = new Date(employee.DisciplineStartDate).setHours(0, 0, 0, 0);
+
+                if (startDate > endDate) {
+                    notificationFactory.error("DisciplineStartDateGreaterThanEndDateWarning");
+                    return false;
+                }
+            }
+
+            return true;
         };
 
         model.createAssignmentSettingsMultipleMode = function (updatedEmployees, vm) {
@@ -1148,6 +1176,8 @@
                 periodId: vm.period.PeriodId,
                 employeeIds: vm.selectedEmployeeIds,
                 targetTemplateId: vm.fieldEdit.targetTemplate ? vm.employeeOptions.targetTemplateId : null,
+                disciplineStartDate: vm.fieldEdit.disciplineStartDate && vm.employeeOptions.disciplineStartDate ? vm.employeeOptions.disciplineStartDate.toDateString() : null,
+                disciplineEndDate: vm.fieldEdit.disciplineEndDate && vm.employeeOptions.disciplineEndDate ? vm.employeeOptions.disciplineEndDate.toDateString() : null,
                 employeeAssignments: employeeAssignments
             };
 
@@ -1157,15 +1187,14 @@
         model.checkHasFieldEdit = function (fieldEdit) {
             var hasEdited = false;
 
-            if (fieldEdit.targetTemplate) {
+            if (fieldEdit.targetTemplate
+                || fieldEdit.evaluator
+                || fieldEdit.startDate
+                || fieldEdit.endDate
+                || fieldEdit.disciplineStartDate
+                || fieldEdit.disciplineEndDate) {
                 hasEdited = true;
-            } else if (fieldEdit.evaluator) {
-                hasEdited = true;
-            } else if (fieldEdit.startDate) {
-                hasEdited = true;
-            } else if (fieldEdit.endDate) {
-                hasEdited = true;
-            } else {
+            } else  {
                 notificationFactory.error("PeriodEditSettingWarning");
             }
 

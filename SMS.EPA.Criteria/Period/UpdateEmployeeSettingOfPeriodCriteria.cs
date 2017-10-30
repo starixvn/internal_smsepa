@@ -1,11 +1,12 @@
 ﻿namespace SMS.EPA.Criteria
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Text;
     using Core.Constants;
     using Fanex.Data;
     using Fanex.Data.Repository;
     using Model;
-    using System.Collections.Generic;
-    using System.Text;
 
     public class UpdateEmployeeSettingOfPeriodCriteria : CriteriaBase
     {
@@ -18,6 +19,10 @@
         public string EmployeeIds { get; set; }
 
         public int? TargetTemplateId { get; set; }
+
+        public DateTime? DisciplineStartDate { get; set; }
+
+        public DateTime? DisciplineEndDate { get; set; }
 
         [SpParam(SqlParamName = "EmployeeAssignments")]
         public string EmployeeAssignmentXml

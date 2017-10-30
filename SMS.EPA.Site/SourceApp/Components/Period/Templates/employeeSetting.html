@@ -61,7 +61,7 @@
     <table class="row table table-bordered table-striped" id="data">
         <thead>
             <tr class="header-table">
-                <th colspan="14">
+                <th colspan="16">
                     <div class="pull-left div-period-department-setting" name="multiSelectOption" ng-show="updateCtrl.permission == updateCtrl.policyEnum.Host">
                         <label class="control-label" data-translate="DepartmentSection"></label>
                         <epa-add-class-to-role-filter multi-select input-model="empSettingCtrl.departmentOptions" button-label="Name" helper-elements="all reset"
@@ -83,7 +83,7 @@
                 </th>
             </tr>
             <tr class="header-table" ng-show="updateCtrl.permission == updateCtrl.policyEnum.Host">
-                <th colspan="14">
+                <th colspan="16">
                     <a class="pull-left button-icon period-create-button" ng-click="empSettingCtrl.manageSetting()">
                         <span class="icon-edit glyphicon glyphicon-edit"></span>
                         <span class="button-text btn-edit-employee-setting" data-translate="EditEmployeeSetting"></span>
@@ -103,6 +103,8 @@
                 <th data-translate="Employee"></th>
                 <th data-translate="TargetType"></th>
                 <th data-translate="TargetTemplate"></th>
+                <th ng-if="empSettingCtrl.period.IsProbation || empSettingCtrl.period.IsPromotion" data-translate="DisciplineStartDate"></th>
+                <th ng-if="empSettingCtrl.period.IsProbation || empSettingCtrl.period.IsPromotion" data-translate="DisciplineEndDate"></th>
                 <th data-translate="Step"></th>
                 <th data-translate="Name"></th>
                 <th data-translate="Status"></th>
@@ -117,7 +119,8 @@
                current-page="empSettingCtrl.currentPage">
             <tr ng-class="{oddRow: $index % 2 == 0, evenRow: $index % 2 != 0}" ng-show="!employee.IsSemiHasMonthly">
                 <td class="text-center" rowspan="{{employee.NumberEvaluators}}">
-                    <input type="checkbox" ng-model="employee.Selected" ng-click="empSettingCtrl.syncSelectedEmployee(employee.Employee.EmployeeId, employee.Selected)" />
+                    <input type="checkbox" ng-model="employee.Selected" 
+                           ng-click="empSettingCtrl.syncSelectedEmployee(employee.Employee.EmployeeId, employee.Selected)" />
                 </td>
                 <td class="text-center" ng-bind="empSettingCtrl.getIndex($index, empSettingCtrl.currentPage, empSettingCtrl.pageSize)"
                     rowspan="{{employee.NumberEvaluators}}"></td>
@@ -132,6 +135,10 @@
                 </td>
                 <td class="text-center" ng-bind="employee.TargetTemplate.TargetTypeName" rowspan="{{employee.NumberEvaluators}}"></td>
                 <td class="width-190" ng-bind="employee.TargetTemplate.Name" rowspan="{{employee.NumberEvaluators}}"></td>
+                <td ng-if="empSettingCtrl.period.IsProbation || empSettingCtrl.period.IsPromotion" rowspan="{{employee.NumberEvaluators}}"
+                    ng-bind="employee.DisciplineStartDate | date: empSettingCtrl.dateFormat"></td>
+                <td ng-if="empSettingCtrl.period.IsProbation || empSettingCtrl.period.IsPromotion" rowspan="{{employee.NumberEvaluators}}"
+                    ng-bind="employee.DisciplineEndDate | date: empSettingCtrl.dateFormat"></td>
                 <td data-translate="SelfEvaluator"></td>
                 <td ng-bind="employee.Employee.NickName"></td>
                 <td class="width-120">
@@ -279,14 +286,14 @@
                     ng-show="$first" rowspan="{{employee.Managements.length}}"></td>
             </tr>
         </tbody>
-        <tbody ng-show="empSettingCtrl.filteredItems.length == 0">
+        <tbody ng-show="empSettingCtrl.filteredItems.length === 0">
             <tr>
-                <td class="empty-result" colspan="14" data-translate="EmptyResult"></td>
+                <td class="empty-result" colspan="16" data-translate="EmptyResult"></td>
             </tr>
         </tbody>
         <tfoot>
             <tr>
-                <td colspan="14" class="paging">
+                <td colspan="16" class="paging">
                     <span data-translate="Show"></span>
                     <select class="dropdown-entry form-control" ng-model="empSettingCtrl.pageSize"
                             ng-options="entry for entry in empSettingCtrl.entries"></select>

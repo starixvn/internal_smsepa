@@ -1,11 +1,11 @@
 ﻿namespace SMS.EPA.Model
 {
-    using Core.Constants;
-    using Core.Enumerations;
-    using Report;
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using Core.Constants;
+    using Core.Enumerations;
+    using Report;
 
     [Serializable]
     public class PeriodEmployeeSettingModel : IExcelRecord
@@ -35,6 +35,10 @@
 
         public IList<PeriodFlowModel> Managements { get; set; }
 
+        public DateTime? DisciplineStartDate { get; set; }
+
+        public DateTime? DisciplineEndDate { get; set; }
+
         public bool IsIncluded { get; set; }
 
         public TargetTemplate TargetTemplate { get; set; }
@@ -63,12 +67,8 @@
             var record = new
             {
                 Count = 0,
-                Department = Employee.Department != null
-                    ? Employee.Department.Name
-                    : string.Empty,
-                Section = Employee.Group != null
-                    ? Employee.Group.GroupName
-                    : string.Empty,
+                Department = Employee.Department != null ? Employee.Department.Name : string.Empty,
+                Section = Employee.Group != null ? Employee.Group.GroupName : string.Empty,
                 Employee.Code,
                 Employee.FullName,
                 Employee.NickName,
@@ -78,9 +78,7 @@
                 Evaluator = GetEvaluator(Evaluators),
                 Reviewer = GetEvaluator(Reviewers),
                 Management = GetEvaluator(Managements),
-                Form = TargetTemplate != null
-                    ? TargetTemplate.TargetTypeName
-                    : string.Empty
+                Form = TargetTemplate != null ? TargetTemplate.TargetTypeName : string.Empty
             };
 
             return record;

@@ -28,12 +28,18 @@
 
         vm.flowCalendar = PeriodModel.flowCalendar;
         vm.hasSelfStarted = PeriodModel.hasSelfStarted;
+        vm.disciplineCalendar = {
+            startDateOpened: false,
+            endDateOpened: false
+        };
 
         vm.fieldEdit = {
             targetTemplate: false,
             evaluator: false,
             startDate: false,
-            endDate: false
+            endDate: false,
+            disciplineStartDate: false,
+            disciplineEndDate: false
         };
 
         vm.employeeOptions = {
@@ -68,7 +74,9 @@
             humanResourceEmployees: [],
             evaluatorEmployees: [],
             reviewerEmployees: [],
-            managementEmployees: []
+            managementEmployees: [],
+            disciplineStartDate: null,
+            disciplineEndDate: null
         };
 
         function createEmployeeIds(evaluators) {
@@ -185,6 +193,8 @@
         CommonModel.getTargetTemplate(vm.period.TargetType.TargetTypeId, true).then(function () {
             vm.targetTemplates = CommonModel.targetTemplates;
             vm.employeeOptions.targetTemplateId = vm.targetTemplates.length > 0 ? vm.targetTemplates[0].TargetTemplateId : null;
+            vm.employeeOptions.disciplineStartDate = vm.selectedEmployees[0].DisciplineStartDate ? new Date(vm.selectedEmployees[0].DisciplineStartDate) : null;
+            vm.employeeOptions.disciplineEndDate = vm.selectedEmployees[0].DisciplineEndDate ? new Date(vm.selectedEmployees[0].DisciplineEndDate) : null;
 
             CommonModel.getAllEmployee().then(function () {
                 vm.employees = CommonModel.employees;
@@ -213,6 +223,22 @@
             PeriodModel.openFlowPopupEndDate(vm, event, evaluatorType);
         };
 
+        vm.openPopupDisciplineStartDate = function (event) {
+            event.preventDefault();
+            event.stopPropagation();
+
+            vm.disciplineCalendar.startDateOpened = true;
+            vm.disciplineCalendar.endDateOpened = false;
+        };
+
+        vm.openPopupDisciplineEndDate = function (event) {
+            event.preventDefault();
+            event.stopPropagation();
+
+            vm.disciplineCalendar.startDateOpened = false;
+            vm.disciplineCalendar.endDateOpened = true;
+        };
+
         PeriodModel.checkSelfProcessStarted(vm.period.PeriodId, vm.selectedEmployeeIds).then(function () {
             vm.hasSelfStarted = PeriodModel.hasSelfStarted;
         });
@@ -224,7 +250,11 @@
                 evaluator = getEvaluators(employeeSetting.Evaluators),
                 reviewer = getEvaluators(employeeSetting.Reviewers),
                 management = getEvaluators(employeeSetting.Managements),
-                originalTargetTemplateId = employeeSetting.TargetTemplate ? employeeSetting.TargetTemplate.TargetTemplateId : null;
+                originalTargetTemplateId = employeeSetting.TargetTemplate ? employeeSetting.TargetTemplate.TargetTemplateId : null,
+                originalDisciplineStartDate = employeeSetting.DisciplineStartDate ? new Date(employeeSetting.DisciplineStartDate).setHours(0, 0, 0, 0) : null,
+                originalDisciplineEndDate = employeeSetting.DisciplineEndDate ? new Date(employeeSetting.DisciplineEndDate).setHours(0, 0, 0, 0) : null,
+                disciplineStartDate = employeeOptions.disciplineStartDate ? new Date(employeeOptions.disciplineStartDate).setHours(0, 0, 0, 0) : null,
+                disciplineEndDate = employeeOptions.disciplineEndDate ? new Date(employeeOptions.disciplineEndDate).setHours(0, 0, 0, 0) : null;
 
             if (vm.employeeOptions.targetTemplateId !== originalTargetTemplateId) {
                 hasEdited = true;
@@ -237,6 +267,8 @@
             } else if (JSON.stringify(reviewer) !== JSON.stringify(employeeOptions.reviewer)) {
                 hasEdited = true;
             } else if (JSON.stringify(management) !== JSON.stringify(employeeOptions.management)) {
+                hasEdited = true;
+            } else if (originalDisciplineStartDate !== disciplineStartDate || originalDisciplineEndDate !== disciplineEndDate) {
                 hasEdited = true;
             }
 
