@@ -878,7 +878,7 @@
     <Content Include="WebConfigs\Web.PRO.hm.config">
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="WebConfigs\Web.PRO.group.config">
+    <Content Include="WebConfigs\Web.PRO.ghr.config">
       <SubType>Designer</SubType>
     </Content>
     <Content Include="WebConfigs\Web.PRO.sms.config">

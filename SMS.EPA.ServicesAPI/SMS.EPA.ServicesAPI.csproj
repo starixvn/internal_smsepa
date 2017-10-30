@@ -300,9 +300,11 @@
     <Content Include="SMS.EPA.ServicesAPI.Debug.ruleset" />
     <Content Include="SMS.EPA.ServicesAPI.ruleset" />
     <None Include="Properties\PublishProfiles\EPA-API.pubxml" />
-    <None Include="Web.pro.gwi.config" />
-    <None Include="Web.pro.hm.config" />
-    <None Include="Web.pro.sms.config" />
+    <None Include="WebConfigs\Web.pro.gwi.config" />
+    <None Include="WebConfigs\Web.pro.hm.config" />
+    <None Include="WebConfigs\Web.pro.cti.config" />
+    <None Include="WebConfigs\Web.pro.lexfin.config" />
+    <None Include="WebConfigs\Web.pro.sms.config" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SMS.EPA.Core\SMS.EPA.Core.csproj">
