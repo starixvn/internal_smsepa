@@ -140,9 +140,9 @@
                                 var index = epaInfo.Periods.map(function(e) { return e.PeriodId; })
                                     .indexOf(periodSelected.PeriodId);
 
-                                var finalScore;
-                                var grade;
-                                var cssClass = "";
+                                var finalScore,
+                                    grade,
+                                    cssClass = "";
 
                                 if (index !== -1) {
                                     // Calculate Final Score and Grade
@@ -154,7 +154,7 @@
                                         grade = status.NotAvailable;
                                     }
 
-                                    if (epaInfo.Periods[index].StatusId === utilitiesFactory.epaStatus.Open) {
+                                    if (!epaInfo.Periods[index].IsClosed) {
                                         cssClass = "red";
                                     }
                                 } else {

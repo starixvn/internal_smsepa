@@ -62,19 +62,6 @@
             }
         }
 
-        private static void AddDetailScoresToPeriods(IList<EPASummaryPeriodModel> periods, IList<EPASummaryDetailScoreModel> detailScores)
-        {
-            foreach (EPASummaryPeriodModel summaryPeriodModel in periods)
-            {
-                var scoresOfPeriod = detailScores.Where(x => x.EmployeeId == summaryPeriodModel.EmployeeId && x.PeriodId == summaryPeriodModel.PeriodId);
-
-                foreach (EPASummaryDetailScoreModel detailScoreModel in scoresOfPeriod)
-                {
-                    summaryPeriodModel.DetailScores.Add(detailScoreModel);
-                }
-            }
-        }
-
         public EPADetailModel GetEPADetail(ICriteria criteria)
         {
             using (var db = new ObjectDb(criteria.GetSettingKey()))
@@ -140,6 +127,16 @@
 
                     return epaDetail;
                 }
+            }
+        }
+
+        private static void AddDetailScoresToPeriods(IList<EPASummaryPeriodModel> periods, IList<EPASummaryDetailScoreModel> detailScores)
+        {
+            foreach (EPASummaryPeriodModel summaryPeriodModel in periods)
+            {
+                summaryPeriodModel.DetailScores = detailScores
+                    .Where(x => x.EmployeeId == summaryPeriodModel.EmployeeId && x.PeriodId == summaryPeriodModel.PeriodId)
+                    .ToList();
             }
         }
 

@@ -471,31 +471,25 @@
                 disciplineScore = epaInfo.DisciplineScore;
             }
 
-            var validProcess = epaInfo.AllProcesses.Where(x => x.StatusId > (int)ProcessStatusType.Open && x.ProcessId > (int)ProcessType.Self);
+            var maxProcessId = epaInfo.AllProcesses
+                .Where(x => x.StatusId > (int)ProcessStatusType.Open && x.ProcessId > (int)ProcessType.Self).Max(x => x.ProcessId);
 
-            // Because the total score of each process is removed if invalid, do not need to check for permission here
-            var maxProcessTypeId = (int)ProcessType.None;
-
-            if (validProcess.Any())
-            {
-                maxProcessTypeId = validProcess.Max(x => x.ProcessId);
-            }
-
-            switch (maxProcessTypeId)
+            switch (maxProcessId)
             {
                 case (int)ProcessType.Management:
-                    epaInfo.FinalScoreToExport =
-                        GetAverageTotalScore(epaInfo.Process.AverageScoreByManagements, disciplineScore);
+                    epaInfo.FinalScoreToExport = epaInfo.Process.AverageScoreByManagements.HasValue
+                        ? GetAverageTotalScore(epaInfo.Process.AverageScoreByManagements, disciplineScore)
+                        : epaInfo.Process.AverageScoreByReviewers.ToString();
                     break;
 
                 case (int)ProcessType.Reviewer:
-                    epaInfo.FinalScoreToExport =
-                        GetAverageTotalScore(epaInfo.Process.AverageScoreByReviewers, disciplineScore);
+                    epaInfo.FinalScoreToExport = epaInfo.Process.AverageScoreByReviewers.HasValue
+                        ? GetAverageTotalScore(epaInfo.Process.AverageScoreByReviewers, disciplineScore)
+                        : epaInfo.Process.AverageScoreByEvaluators.ToString();
                     break;
 
                 case (int)ProcessType.Evaluator:
-                    epaInfo.FinalScoreToExport =
-                        GetAverageTotalScore(epaInfo.Process.AverageScoreByEvaluators, disciplineScore);
+                    epaInfo.FinalScoreToExport = GetAverageTotalScore(epaInfo.Process.AverageScoreByEvaluators, disciplineScore);
                     break;
 
                 default:
@@ -506,11 +500,11 @@
 
         private static string GetAverageTotalScore(float? averageScore, float disciplineScore)
         {
-            if (averageScore != null)
+            if (averageScore.HasValue)
             {
                 var result = averageScore.Value + disciplineScore;
 
-                return Math.Round((decimal)result, 2).ToString(CultureInfo.InvariantCulture);
+                return Math.Round((decimal)result, Constants.NumberOfDecimalDefault).ToString(CultureInfo.InvariantCulture);
             }
 
             return Lang.NotAvailable;

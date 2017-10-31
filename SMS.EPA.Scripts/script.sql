@@ -141,6 +141,7 @@ INSERT [dbo].[RefResource] ([RefResourceId], [RefName], [ResourceId], [Value]) V
 INSERT [dbo].[RefResource] ([RefResourceId], [RefName], [ResourceId], [Value]) VALUES (46, N'EvaluationPhase', 4, N'Reviewer')
 INSERT [dbo].[RefResource] ([RefResourceId], [RefName], [ResourceId], [Value]) VALUES (47, N'EvaluationPhase', 5, N'Management')
 SET IDENTITY_INSERT [dbo].[RefResource] OFF
+GO
 -----------------------------------
 IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[PeriodDisciplineSetting]') AND type in (N'U'))
 DROP TABLE [dbo].[PeriodDisciplineSetting]
@@ -158,6 +159,39 @@ CREATE TABLE [dbo].[PeriodDisciplineSetting](
 (
 	[PeriodId] ASC,
 	[EmployeeId] ASC
+)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+-----------------------------------
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DisciplineSummary]') AND type in (N'U'))
+DROP TABLE [dbo].[DisciplineSummary]
+GO
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[DisciplineSummary](
+	[EmployeeId] [int] NOT NULL,
+	[WorkDate] [date] NOT NULL,
+	[ChangeShift] [decimal](5, 2) NULL,
+	[MissingCheckInOut] [decimal](5, 2) NULL,
+	[LateIn] [decimal](5, 2) NULL,
+	[EarlyOut] [decimal](5, 2) NULL,
+	[Absent] [decimal](5, 2) NULL,
+	[UnpaidLeave] [decimal](5, 2) NULL,
+	[WorkingUndertime] [decimal](5, 2) NULL,
+	[UnpaidLeaveAbsent] [decimal](5, 2) NULL,
+	[UnplannedLeave] [decimal](5, 2) NULL,
+	[WeekendLeave] [decimal](5, 2) NULL,
+	[OtherDisciplines] [decimal](5, 2) NULL,
+	[SystemSubtractScore] [decimal](5, 2) NULL,
+	[ModifiedDate] [datetime] NULL,
+	[IsDeleted] [bit] NULL,
+	[SyncDate] [datetime] NULL,
+ CONSTRAINT [PK_DisciplineSummary] PRIMARY KEY CLUSTERED 
+(
+	[EmployeeId] ASC,
+	[WorkDate] ASC
 )WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO

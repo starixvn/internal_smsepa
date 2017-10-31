@@ -114,18 +114,17 @@
                     employeeEPAService.RemoveSensitiveDataOnEmployeeRole(epaInfo, sessionService);
                 }
 
-                IList<EPAModel> monthlyEPAs = new List<EPAModel>();
-                string epaIds = string.Join(",", result.EpaInfos.Where(x => x.IsSemiHasMonthly).Select(x => x.EPAId));
+                string epaIds = string.Join(",", result.EpaInfos.Where(x => x.IsSemiHasMonthly && x.EPAId > 0).Select(x => x.EPAId));
 
                 if (!string.IsNullOrEmpty(epaIds))
                 {
-                    monthlyEPAs = employeeEPAService.GetMonthlyEPAOfSemi(epaIds);
-                }
+                    IList<EPAModel> monthlyEPAs = employeeEPAService.GetMonthlyEPAOfSemi(epaIds);
 
-                foreach (EPAModel epaInfo in result.EpaInfos)
-                {
-                    employeeEPAService.GroupMonthlyEPABySemi(epaInfo, monthlyEPAs);
-                    employeeEPAService.ConvertAverageMonthlyScore(epaInfo.MonthlyEPA, epaInfo.ScoreRatingType);
+                    foreach (EPAModel epaInfo in result.EpaInfos)
+                    {
+                        employeeEPAService.GroupMonthlyEPABySemi(epaInfo, monthlyEPAs);
+                        employeeEPAService.ConvertAverageMonthlyScore(epaInfo.MonthlyEPA, epaInfo.ScoreRatingType);
+                    }
                 }
             }
 
@@ -144,29 +143,21 @@
 
             result = reportRepository.GetEPASummary(criteria);
 
-            foreach (var epaInfo in result.EPAInfos)
+            foreach (EPASummaryEmployeeModel epaInfo in result.EPAInfos)
             {
-                foreach (var epaInfoPeriod in epaInfo.Periods)
+                foreach (EPASummaryPeriodModel epaInfoPeriod in epaInfo.Periods)
                 {
                     // Get the max EPAProcessId
-                    var lastPhasePerformanceScore = GetLastPhasePerformanceScore(epaInfoPeriod, criteria.ActorId);
-                    float? performanceScore;
-                    if (lastPhasePerformanceScore != null)
-                    {
-                        performanceScore = lastPhasePerformanceScore.Value;
-                    }
-                    else
+                    float? performanceScore = GetPerformanceScore(epaInfoPeriod);
+                    if (!performanceScore.HasValue)
                     {
                         continue;
                     }
 
-                    var tempDisciplineScore = epaInfoPeriod.HasDisciplineScore ? epaInfoPeriod.DisciplineScore : 0;
-
-                    epaInfoPeriod.FinalScore = (performanceScore.Value + tempDisciplineScore).ToString(CultureInfo.InvariantCulture);
-
+                    epaInfoPeriod.FinalScore = (performanceScore.Value + epaInfoPeriod.DisciplineScore).ToString(CultureInfo.InvariantCulture);
                     epaInfoPeriod.Grade = employeeEPAService.ConvertScoreToGrade(
                         performanceScore,
-                        tempDisciplineScore,
+                        epaInfoPeriod.DisciplineScore,
                         epaInfoPeriod.HasDisciplineScore,
                         standardGrades);
                 }
@@ -539,34 +530,20 @@
             sheet.SetColumnWidth(columnIndex, width * ExcelColumnWidth);
         }
 
-        private float? GetLastPhasePerformanceScore(EPASummaryPeriodModel epaInfoPeriod, int actorId)
+        private static float? GetPerformanceScore(EPASummaryPeriodModel epaInfoPeriod)
         {
-            var roles = sessionService.CurrentUser.Roles.Select(x => x.RoleId).ToList();
+            var maxProcessId = epaInfoPeriod.DetailScores.Where(x => !string.IsNullOrEmpty(x.TotalScore)
+                                                            && x.ProcessId > (int)ProcessType.Self
+                                                            && x.StatusId > (int)ProcessStatusType.Open).Max(x => x.ProcessId);
 
-            var validDetailScores = epaInfoPeriod.DetailScores.Where(x => !string.IsNullOrEmpty(x.TotalScore)
-                                                                          && x.ProcessId > (int)ProcessType.Self
-                                                                          && x.StatusId > (int)ProcessStatusType.Open);
-
-            if (!roles.Contains((int)SystemRole.HumanResource) && !roles.Contains((int)SystemRole.SystemAdmin))
-            {
-                validDetailScores = validDetailScores.Where(x => x.EvaluatorId == actorId);
-            }
-
-            if (!validDetailScores.Any())
-            {
-                return null;
-            }
-
-            var maxEPAProcesId = validDetailScores.Max(x => x.ProcessId);
-
-            var lastPhaseScores = epaInfoPeriod.DetailScores.Where(x => x.ProcessId == maxEPAProcesId).Select(x => x.TotalScoreConverted);
+            var lastPhaseScores = epaInfoPeriod.DetailScores.Where(x => x.ProcessId == maxProcessId).Select(x => x.TotalScoreConverted);
 
             if (!lastPhaseScores.Any())
             {
                 return null;
             }
 
-            return lastPhaseScores.Average();
+            return (float)Math.Round(lastPhaseScores.Average(), Constants.NumberOfDecimalDefault);
         }
     }
 }
