@@ -14,7 +14,7 @@
     {
         public override Task OnActionExecutingAsync(HttpActionContext actionContext, CancellationToken cancellationToken)
         {
-            if (!string.Equals(actionContext.Request.RequestUri.Scheme, "https", StringComparison.OrdinalIgnoreCase))
+            if (!string.Equals(actionContext.Request.RequestUri.Scheme, Uri.UriSchemeHttps, StringComparison.OrdinalIgnoreCase))
             {
                 using (var response = new HttpResponseMessage())
                 {
