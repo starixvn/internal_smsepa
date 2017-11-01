@@ -146,15 +146,33 @@
     <None Include="packages.config" />
     <None Include="SMS.EPA.AutoService.Debug.ruleset" />
     <None Include="SMS.EPA.AutoService.ruleset" />
-    <None Include="Views\Emails\EmailNotifyChangeSetting.cshtml" />
-    <None Include="Views\Emails\EndEvaluationEmailToHRByEmployee.cshtml" />
-    <None Include="Views\Emails\EndEvaluationEmailToHRByPeriod.cshtml" />
-    <None Include="Views\Emails\EndEvaluationEmailToSelf.cshtml" />
-    <None Include="Views\Emails\RemindDateEmailToEvaluator.cshtml" />
-    <None Include="Views\Emails\RemindDateEmailToHR.cshtml" />
-    <None Include="Views\Emails\RemindDateEmailToManagement.cshtml" />
-    <None Include="Views\Emails\RemindDateEmailToReviewer.cshtml" />
-    <None Include="Views\Emails\RemindDateEmailToSelf.cshtml" />
+    <Content Include="Views\Emails\EmailNotifyChangeSetting.cshtml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Views\Emails\EndEvaluationEmailToHRByEmployee.cshtml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Views\Emails\EndEvaluationEmailToHRByPeriod.cshtml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Views\Emails\EndEvaluationEmailToSelf.cshtml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Views\Emails\RemindDateEmailToEvaluator.cshtml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Views\Emails\RemindDateEmailToHR.cshtml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Views\Emails\RemindDateEmailToManagement.cshtml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Views\Emails\RemindDateEmailToReviewer.cshtml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Views\Emails\RemindDateEmailToSelf.cshtml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SMS.EPA.Core\SMS.EPA.Core.csproj">
@@ -180,7 +198,9 @@
     <Analyzer Include="..\packages\SonarAnalyzer.CSharp.6.3.0.2862\analyzers\SonarAnalyzer.dll" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="SpNames.xml" />
+    <Content Include="SpNames.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />

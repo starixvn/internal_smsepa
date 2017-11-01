@@ -78,6 +78,11 @@
             }
             catch (Exception ex)
             {
+                if (!string.IsNullOrWhiteSpace(ex.Message))
+                {
+                    LogService.Error(ex.Message, ex);
+                }
+
                 if (ex.InnerException != null)
                 {
                     LogService.Error(ex.InnerException.Message, ex);
