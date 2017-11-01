@@ -57,7 +57,7 @@
 
             if (!commandResult.IsSuccessful)
             {
-                LogService.Error($"{messageExplanation} {periodId}: {commandResult.Message}");
+                LogService.Error(string.Format("{0} {1}: {2}", messageExplanation, periodId, commandResult.Message));
             }
         }
 
@@ -93,7 +93,7 @@
 
             if (!commandResult.IsSuccessful)
             {
-                LogService.Error($"{messageExplanation} {periodId}: {commandResult.Message}");
+                LogService.Error(string.Format("{0} {1}: {2}", messageExplanation, periodId, commandResult.Message));
             }
         }
 
@@ -160,7 +160,7 @@
 
             if (!commandResult.IsSuccessful)
             {
-                LogService.Error($"{messageExplanation} {employeePeriod.PeriodId}: {commandResult.Message}");
+                LogService.Error(string.Format("{0} {1}: {2}", messageExplanation, employeePeriod.PeriodId, commandResult.Message));
             }
         }
 

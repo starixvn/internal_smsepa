@@ -6,6 +6,7 @@
     using System.Globalization;
     using System.IO;
     using System.Linq;
+    using System.Text;
     using Core.Constants;
     using Core.Enumerations;
     using Core.Services;
@@ -143,23 +144,37 @@
 
             result = reportRepository.GetEPASummary(criteria);
 
+            var epaIds = new StringBuilder();
+            foreach (EPASummaryEmployeeModel epaInfo in result.EPAInfos)
+            {
+                epaIds.AppendFormat("{0},", string.Join(",", epaInfo.Periods.Where(x => x.IsSemiHasMonthly && x.EPAId > 0).Select(x => x.EPAId)));
+            }
+
+            IList<EPAModel> monthlyEPAs = epaIds.Length > 0 ? employeeEPAService.GetMonthlyEPAOfSemi(epaIds.ToString()) : new List<EPAModel>();
+
             foreach (EPASummaryEmployeeModel epaInfo in result.EPAInfos)
             {
                 foreach (EPASummaryPeriodModel epaInfoPeriod in epaInfo.Periods)
                 {
-                    // Get the max EPAProcessId
-                    float? performanceScore = GetPerformanceScore(epaInfoPeriod, criteria.ActorId);
-                    if (!performanceScore.HasValue)
+                    float? performanceScore = GetPerformanceScore(epaInfoPeriod);
+
+                    if (epaInfoPeriod.IsSemiHasMonthly && epaInfoPeriod.EPAId > 0)
                     {
-                        continue;
+                        epaInfoPeriod.MonthlyEPA.MonthlyEPAs = monthlyEPAs.Where(x => x.EPAParentId.Equals(epaInfoPeriod.EPAId)).ToList();
+                        employeeEPAService.ConvertAverageMonthlyScore(epaInfoPeriod.MonthlyEPA, epaInfoPeriod.ScoreRatingType);
+
+                        performanceScore = GetPerformanceScoreForSemiHasMonthly(epaInfoPeriod);
                     }
 
-                    epaInfoPeriod.FinalScore = (performanceScore.Value + epaInfoPeriod.DisciplineScore).ToString(CultureInfo.InvariantCulture);
-                    epaInfoPeriod.Grade = employeeEPAService.ConvertScoreToGrade(
-                        performanceScore,
-                        epaInfoPeriod.DisciplineScore,
-                        epaInfoPeriod.HasDisciplineScore,
-                        standardGrades);
+                    if (performanceScore.HasValue)
+                    {
+                        epaInfoPeriod.FinalScore = (performanceScore.Value + epaInfoPeriod.DisciplineScore).ToString(CultureInfo.InvariantCulture);
+                        epaInfoPeriod.Grade = employeeEPAService.ConvertScoreToGrade(
+                            performanceScore,
+                            epaInfoPeriod.DisciplineScore,
+                            epaInfoPeriod.HasDisciplineScore,
+                            standardGrades);
+                    }
                 }
             }
 
@@ -184,7 +199,7 @@
 
             if (criteria != null && criteria.IsValid())
             {
-                result = reportRepository.GetEPASummary(criteria);
+                result = reportRepository.GetMonthlyEPASummary(criteria);
             }
 
             return result;
@@ -530,32 +545,55 @@
             sheet.SetColumnWidth(columnIndex, width * ExcelColumnWidth);
         }
 
-        private float? GetPerformanceScore(EPASummaryPeriodModel epaInfo, int actorId)
+        private static float? GetPerformanceScore(EPASummaryPeriodModel epaInfo)
         {
-            var roles = sessionService.CurrentUser.Roles.Select(x => x.RoleId).ToList();
+            float? performanceScore = null;
             var detailScores = epaInfo.DetailScores.Where(x => !string.IsNullOrEmpty(x.TotalScore)
-                                                        && x.ProcessId > (int)ProcessType.Self
-                                                        && x.StatusId > (int)ProcessStatusType.Open);
+                                                    && x.ProcessId > (int)ProcessType.Self
+                                                    && x.StatusId > (int)ProcessStatusType.Open);
 
-            if (!roles.Contains((int)SystemRole.HumanResource) && !roles.Contains((int)SystemRole.SystemAdmin))
+            if (detailScores.Any())
             {
-                detailScores = detailScores.Where(x => x.EvaluatorId == actorId);
+                var maxProcessId = detailScores.Max(x => x.ProcessId);
+                var lastPhaseScores = epaInfo.DetailScores.Where(x => x.ProcessId == maxProcessId).Select(x => x.TotalScoreConverted);
+                performanceScore = lastPhaseScores.Any() ? (float)Math.Round(lastPhaseScores.Average(), Constants.NumberOfDecimalDefault) : performanceScore;
             }
 
-            if (!detailScores.Any())
+            return performanceScore;
+        }
+
+        private static float? GetPerformanceScoreForSemiHasMonthly(EPASummaryPeriodModel epaInfo)
+        {
+            float? performanceScore = null;
+            var detailScores = epaInfo.DetailScores.Where(x => !string.IsNullOrEmpty(x.TotalScore)
+                                                    && x.ProcessId > (int)ProcessType.Evaluator
+                                                    && x.StatusId > (int)ProcessStatusType.Open);
+
+            if (detailScores.Any())
             {
-                return null;
+                var maxProcessId = detailScores.Max(x => x.ProcessId);
+                IEnumerable<float> lastPhaseScores;
+                switch (maxProcessId)
+                {
+                    case (int)ProcessType.Reviewer:
+                        lastPhaseScores = epaInfo.DetailScores.Where(x => x.ProcessId == maxProcessId).Select(x => x.TotalScoreConverted);
+                        performanceScore = lastPhaseScores.Any()
+                            ? (float)Math.Round(lastPhaseScores.Average(), Constants.NumberOfDecimalDefault)
+                            : epaInfo.MonthlyEPA.AverageReviewerScoreConverted;
+                        break;
+
+                    case (int)ProcessType.Management:
+                        lastPhaseScores = epaInfo.DetailScores.Where(x => x.ProcessId == maxProcessId).Select(x => x.TotalScoreConverted);
+                        performanceScore = lastPhaseScores.Any() ? (float)Math.Round(lastPhaseScores.Average(), Constants.NumberOfDecimalDefault) : performanceScore;
+                        break;
+
+                    default:
+                        performanceScore = null;
+                        break;
+                }
             }
 
-            var maxProcessId = detailScores.Max(x => x.ProcessId);
-            var lastPhaseScores = epaInfo.DetailScores.Where(x => x.ProcessId == maxProcessId).Select(x => x.TotalScoreConverted);
-
-            if (!lastPhaseScores.Any())
-            {
-                return null;
-            }
-
-            return (float)Math.Round(lastPhaseScores.Average(), Constants.NumberOfDecimalDefault);
+            return performanceScore;
         }
     }
 }

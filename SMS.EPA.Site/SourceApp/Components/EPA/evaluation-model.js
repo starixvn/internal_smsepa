@@ -192,7 +192,7 @@
                 case utilitiesFactory.processStatus.Closed:
                     result.ReviewerScore = epaInfo.Process.AverageScoreByReviewers !== null
                         ? epaInfo.Process.AverageScoreByReviewers
-                        : utilitiesFactory.notAvailableString;
+                        : epaInfo.IsSemiHasMonthly && epaInfo.MonthlyEPA.AverageReviewerScoreConverted !== null ? epaInfo.MonthlyEPA.AverageReviewerScoreConverted : utilitiesFactory.notAvailableString;
                     break;
                 }
 

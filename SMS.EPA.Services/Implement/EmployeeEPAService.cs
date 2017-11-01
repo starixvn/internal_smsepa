@@ -77,7 +77,15 @@
 
             if (roles.Contains((int)SystemRole.HumanResource) || roles.Contains((int)SystemRole.SystemAdmin))
             {
-                CalculateFinalScore(epaInfo);
+                if (epaInfo.IsSemiHasMonthly)
+                {
+                    CalculateFinalScoreForSemiHasMonthly(epaInfo);
+                }
+                else
+                {
+                    CalculateFinalScore(epaInfo);
+                }
+
                 return;
             }
 
@@ -112,7 +120,14 @@
                 }
             }
 
-            CalculateFinalScore(epaInfo);
+            if (epaInfo.IsSemiHasMonthly)
+            {
+                CalculateFinalScoreForSemiHasMonthly(epaInfo);
+            }
+            else
+            {
+                CalculateFinalScore(epaInfo);
+            }
         }
 
         public IEnumerable<EPAModel> GetEPAEndEvaluationPeriod(GetEPAEndEvaluationPeriodCriteria criteria)
@@ -211,8 +226,7 @@
             float finalScore = performanceScore.Value + disciplineScore;
 
             StandardGradeModel finalGrade = standardGrades
-                .FirstOrDefault(x => x.Type == (int)GradeType.Final && x.LeftScore <= finalScore &&
-                                     x.RightScore >= finalScore);
+                .FirstOrDefault(x => x.Type == (int)GradeType.Final && x.LeftScore <= finalScore && x.RightScore >= finalScore);
 
             if (finalGrade != null)
             {
@@ -323,8 +337,7 @@
 
                 if (monthlyEPA.AverageSelfScore.HasValue)
                 {
-                    averageScore = monthlyEPA.AverageSelfScore.Value * scoreRatingType.SelfEvaluated /
-                                   monthlyScoreRatingType.SelfEvaluated;
+                    averageScore = monthlyEPA.AverageSelfScore.Value * scoreRatingType.SelfEvaluated / monthlyScoreRatingType.SelfEvaluated;
                     monthlyEPA.AverageSelfScoreConverted = (float)Math.Round(averageScore, 2);
                 }
                 else
@@ -334,8 +347,7 @@
 
                 if (monthlyEPA.AverageEvaluatorScores.HasValue)
                 {
-                    averageScore = monthlyEPA.AverageEvaluatorScores.Value * scoreRatingType.Evaluator /
-                                   monthlyScoreRatingType.Evaluator;
+                    averageScore = monthlyEPA.AverageEvaluatorScores.Value * scoreRatingType.Evaluator / monthlyScoreRatingType.Evaluator;
                     monthlyEPA.AverageEvaluatorScoreConverted = (float)Math.Round(averageScore, 2);
                 }
                 else
@@ -345,8 +357,7 @@
 
                 if (monthlyEPA.AverageReviewerScores.HasValue)
                 {
-                    averageScore = monthlyEPA.AverageReviewerScores.Value * scoreRatingType.Reviewer /
-                                   monthlyScoreRatingType.Reviewer;
+                    averageScore = monthlyEPA.AverageReviewerScores.Value * scoreRatingType.Reviewer / monthlyScoreRatingType.Reviewer;
                     monthlyEPA.AverageReviewerScoreConverted = (float)Math.Round(averageScore, 2);
                 }
                 else
@@ -467,7 +478,8 @@
                 disciplineScore = epaInfo.DisciplineScore;
             }
 
-            var processes = epaInfo.AllProcesses.Where(x => x.StatusId > (int)ProcessStatusType.Open && x.ProcessId > (int)ProcessType.Self);
+            var processes = epaInfo.AllProcesses
+                .Where(x => x.StatusId > (int)ProcessStatusType.Open && x.ProcessId > (int)ProcessType.Self && !string.IsNullOrWhiteSpace(x.TotalScore));
             var maxProcessId = (int)ProcessType.None;
 
             if (processes.Any())
@@ -491,6 +503,45 @@
 
                 case (int)ProcessType.Evaluator:
                     epaInfo.FinalScoreToExport = GetAverageTotalScore(epaInfo.Process.AverageScoreByEvaluators, disciplineScore);
+                    break;
+
+                default:
+                    epaInfo.FinalScoreToExport = Lang.NotAvailable;
+                    break;
+            }
+        }
+
+        private static void CalculateFinalScoreForSemiHasMonthly(EPAModel epaInfo)
+        {
+            // Discipline Score
+            float disciplineScore = 0;
+            if (epaInfo.HasDisciplineScore)
+            {
+                disciplineScore = epaInfo.DisciplineScore;
+            }
+
+            var processes = epaInfo.AllProcesses.Where(x => x.StatusId > (int)ProcessStatusType.Open && x.ProcessId > (int)ProcessType.Evaluator);
+            var maxProcessId = (int)ProcessType.None;
+
+            if (processes.Any())
+            {
+                maxProcessId = processes.Max(x => x.ProcessId);
+            }
+
+            switch (maxProcessId)
+            {
+                case (int)ProcessType.Management:
+                    epaInfo.FinalScoreToExport = epaInfo.Process.AverageScoreByManagements.HasValue
+                        ? GetAverageTotalScore(epaInfo.Process.AverageScoreByManagements, disciplineScore)
+                        : epaInfo.Process.AverageScoreByReviewers.ToString();
+                    break;
+
+                case (int)ProcessType.Reviewer:
+                    epaInfo.FinalScoreToExport = epaInfo.Process.AverageScoreByReviewers.HasValue
+                        ? GetAverageTotalScore(epaInfo.Process.AverageScoreByReviewers, disciplineScore)
+                        : epaInfo.MonthlyEPA.AverageReviewerScoreConverted.HasValue
+                            ? epaInfo.MonthlyEPA.AverageReviewerScoreConverted.Value.ToString(CultureInfo.InvariantCulture)
+                            : Lang.NotAvailable;
                     break;
 
                 default:

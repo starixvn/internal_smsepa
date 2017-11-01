@@ -35,5 +35,11 @@
 
         [JsonIgnore]
         public IList<EPASummaryDetailScoreModel> DetailScores { get; set; } = new List<EPASummaryDetailScoreModel>();
+
+        [JsonIgnore]
+        public MonthlyEPAModel MonthlyEPA { get; set; } = new MonthlyEPAModel();
+
+        [JsonIgnore]
+        public ScoreRatingTypeModel ScoreRatingType { get; set; } = new ScoreRatingTypeModel();
     }
 }

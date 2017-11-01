@@ -9,6 +9,8 @@
 
         EPADetailModel GetEPADetail(ICriteria criteria);
 
+        EPASummaryModel GetMonthlyEPASummary(ICriteria criteria);
+
         EPADetailModel GetMonthlyEPADetail(ICriteria criteria);
     }
 }

@@ -44,6 +44,51 @@
                         },
                         "GroupId, JobTitleId").ToList();
 
+                    IList<EPASummaryPeriodModel> periods = multi.Read<EPASummaryPeriodModel, ScoreRatingTypeModel, EPASummaryPeriodModel>(
+                        (period, scoreRatingType) =>
+                        {
+                            period.ScoreRatingType = scoreRatingType;
+
+                            return period;
+                        },
+                        "ScoreRatingTypeId").ToList();
+
+                    if (!multi.IsEmptyOrClosed)
+                    {
+                        // If not montly Period
+                        IList<EPASummaryDetailScoreModel> detailScores = multi.Read<EPASummaryDetailScoreModel>().ToList();
+                        DecodeDetailScores(detailScores);
+                        AddDetailScoresToPeriods(periods, detailScores);
+                    }
+
+                    GroupPeriodByEmployee(epaSummary.EPAInfos, periods);
+                    DecodeFinalScoreAndGrade(epaSummary.EPAInfos);
+
+                    return epaSummary;
+                }
+            }
+        }
+
+        public EPASummaryModel GetMonthlyEPASummary(ICriteria criteria)
+        {
+            using (var db = new ObjectDb(criteria.GetSettingKey()))
+            {
+                using (IMultiResultReader multi = db.QueryMultiple(criteria.GetSpParams()))
+                {
+                    var epaSummary = new EPASummaryModel();
+
+                    epaSummary.PeriodSelecteds = multi.Read<PeriodModel>().ToList();
+
+                    epaSummary.EPAInfos = multi.Read<EPASummaryEmployeeModel, Group, JobTitle, EPASummaryEmployeeModel>(
+                        (res, gr, job) =>
+                        {
+                            res.Group = gr;
+                            res.JobTitle = job;
+
+                            return res;
+                        },
+                        "GroupId, JobTitleId").ToList();
+
                     IList<EPASummaryPeriodModel> periods = multi.Read<EPASummaryPeriodModel>().ToList();
 
                     if (!multi.IsEmptyOrClosed)

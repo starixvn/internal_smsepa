@@ -48,7 +48,7 @@
 
                     if (!commandResult.IsSuccessful)
                     {
-                        LogService.Error($"Error create monthly period: {commandResult.Message}");
+                        LogService.Error(string.Format("Error create monthly period: {0}", commandResult.Message));
                     }
                 }
             }
