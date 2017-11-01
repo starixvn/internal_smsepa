@@ -1,29 +1,24 @@
-﻿namespace SMS.EPA.AutoService
+﻿namespace SMS.EPA.AutoService.Service.Implement
 {
     using System;
     using System.Collections.Generic;
-    using System.Diagnostics.CodeAnalysis;
     using System.Globalization;
     using System.Linq;
-    using System.Reflection;
-    using System.ServiceProcess;
     using System.Threading.Tasks;
-    using System.Timers;
     using Core.Constants;
     using Core.Enumerations;
     using Core.Services;
     using Criteria;
     using EPA.Criteria;
-    using log4net;
+    using Fanex.Logging;
+    using Interfaces;
     using Model;
     using Service;
     using Services.Implement;
     using Services.Interfaces;
 
-    public partial class AutoService : ServiceBase
+    public class EPAAutoService : IEPAAutoService
     {
-        private static readonly ILog Log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
-        private readonly Timer _updateCounterTimer;
         private readonly IEvaluationService evaluationService;
         private readonly IPeriodService periodService;
         private readonly IPeriodMailService reminderMailService;
@@ -33,28 +28,61 @@
         private readonly IProbationService probationService;
         private readonly IPromotionService promotionService;
         private readonly ICryptographyService cryptographyService;
-        private bool _isBusy;
 
-        [SuppressMessage("Microsoft.Reliability", "CA2000:Dispose objects before losing scope", Justification = "Reviewed")]
-        public AutoService()
+        public EPAAutoService()
+            : this(null, null, null, null, null, null, null, null, null)
         {
-            InitializeComponent();
+        }
 
-            var schedulerTime = DateTime.Today.AddDays(1).AddHours(AppSetting.HoursToStartService);
+#pragma warning disable S107 // Methods should not have too many parameters
+        public EPAAutoService(
+            IEvaluationService evaluationService,
+            IPeriodService periodService,
+            IPeriodMailService reminderMailService,
+            IEmployeeEPAService employeeEPAService,
+            IMonthlyService monthlyService,
+            ISemiAnnualService semiAnnualService,
+            IProbationService probationService,
+            IPromotionService promotionService,
+            ICryptographyService cryptographyService)
+#pragma warning restore S107 // Methods should not have too many parameters
+        {
+            this.cryptographyService = cryptographyService ?? new CryptographyService();
+            this.evaluationService = evaluationService ?? new EvaluationService();
+            this.periodService = periodService ?? new PeriodService();
+            this.reminderMailService = reminderMailService ?? new PeriodMailService();
+            this.employeeEPAService = employeeEPAService ?? new EmployeeEPAService();
+            this.monthlyService = monthlyService ?? new MonthlyService();
+            this.semiAnnualService = semiAnnualService ?? new SemiAnnualService();
+            this.probationService = probationService ?? new ProbationService();
+            this.promotionService = promotionService ?? new PromotionService();
+        }
 
-            _updateCounterTimer = new Timer { Interval = schedulerTime.Subtract(DateTime.Now).TotalSeconds * 1000 };
-            _updateCounterTimer.Elapsed += ExecuteJob;
-            _updateCounterTimer.Enabled = false;
+        public void Run()
+        {
+            try
+            {
+                if (AppSetting.EnableMonthlyPeriod)
+                {
+                    monthlyService.CreateMonthlyPeriod();
+                    monthlyService.CheckMonthlyPeriod();
+                }
 
-            cryptographyService = new CryptographyService();
-            evaluationService = new EvaluationService();
-            periodService = new PeriodService();
-            reminderMailService = new PeriodMailService();
-            employeeEPAService = new EmployeeEPAService();
-            monthlyService = new MonthlyService();
-            semiAnnualService = new SemiAnnualService();
-            probationService = new ProbationService();
-            promotionService = new PromotionService();
+                semiAnnualService.CheckSemiAnnualPeriod();
+                probationService.CheckProbationPeriod();
+                promotionService.CheckPromotionPeriod();
+
+                CheckSendMail();
+                CheckEndProcess();
+                CheckEndEvaluationPeriod();
+            }
+            catch (Exception ex)
+            {
+                if (ex.InnerException != null)
+                {
+                    LogService.Error(ex.InnerException.Message, ex);
+                }
+            }
         }
 
         private static float? GetFinalScoreOfEvalution(EPAModel epaInfo)
@@ -96,73 +124,6 @@
             }
 
             return averageScore;
-        }
-
-        protected override void OnStart(string[] args)
-        {
-            Log.Info("Service started at " + DateTime.Now);
-            _updateCounterTimer.Enabled = true;
-            if (AppSetting.IsRunAtStartService)
-            {
-                CheckAndExecute();
-            }
-        }
-
-        protected override void OnStop()
-        {
-            _updateCounterTimer.Enabled = false;
-            Log.Info("Service stopped at " + DateTime.Now);
-        }
-
-        [SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes", Justification = "Reviewed.")]
-        private void ExecuteJob(object sender, ElapsedEventArgs e)
-        {
-            try
-            {
-                if (Math.Abs(_updateCounterTimer.Interval - (AppSetting.TimerInterval * 1000)) > 0)
-                {
-                    _updateCounterTimer.Interval = AppSetting.TimerInterval * 1000;
-                }
-
-                if (!_isBusy)
-                {
-                    _isBusy = true;
-                    CheckAndExecute();
-                    _isBusy = false;
-                }
-            }
-            catch (Exception ex)
-            {
-                _isBusy = false;
-                if (ex.InnerException != null)
-                {
-                    Log.Error("Error: " + ex.InnerException.Message);
-                }
-            }
-        }
-
-#if DEBUG
-        public void CheckAndExecuteForDebug()
-        {
-            CheckAndExecute();
-        }
-#endif
-
-        private void CheckAndExecute()
-        {
-            if (AppSetting.EnableMonthlyPeriod)
-            {
-                monthlyService.CreateMonthlyPeriod();
-                monthlyService.CheckMonthlyPeriod();
-            }
-
-            semiAnnualService.CheckSemiAnnualPeriod();
-            probationService.CheckProbationPeriod();
-            promotionService.CheckPromotionPeriod();
-
-            CheckSendMail();
-            CheckEndProcess();
-            CheckEndEvaluationPeriod();
         }
 
         private void CheckSendMail()

@@ -2,22 +2,19 @@
 {
     using System.Collections.Generic;
     using System.Linq;
-    using System.Reflection;
     using System.Threading.Tasks;
     using Core.Enumerations;
     using Core.Model;
     using Core.Services;
     using EPA.Criteria;
     using Fanex.Data.Repository;
-    using log4net;
+    using Fanex.Logging;
     using Model;
     using Services.Implement;
     using Services.Interfaces;
 
     public class BasePeriodService : BaseService
     {
-        protected static readonly ILog Log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
-
         protected readonly IPeriodMailService PeriodMailService;
         protected readonly IPeriodService PeriodService;
 
@@ -60,7 +57,7 @@
 
             if (!commandResult.IsSuccessful)
             {
-                Log.Info($"{messageExplanation} {periodId}: {commandResult.Message}");
+                LogService.Error($"{messageExplanation} {periodId}: {commandResult.Message}");
             }
         }
 
@@ -96,7 +93,7 @@
 
             if (!commandResult.IsSuccessful)
             {
-                Log.Info($"{messageExplanation} {periodId}: {commandResult.Message}");
+                LogService.Error($"{messageExplanation} {periodId}: {commandResult.Message}");
             }
         }
 
@@ -163,7 +160,7 @@
 
             if (!commandResult.IsSuccessful)
             {
-                Log.Info($"{messageExplanation} {employeePeriod.PeriodId}: {commandResult.Message}");
+                LogService.Error($"{messageExplanation} {employeePeriod.PeriodId}: {commandResult.Message}");
             }
         }
 

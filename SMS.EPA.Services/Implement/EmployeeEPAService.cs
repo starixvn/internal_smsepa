@@ -69,42 +69,38 @@
             var roles = sessionService.CurrentUser.Roles.Select(x => x.RoleId).ToList();
 
             // Remove all data for open Process (process that not evaluated / already evaluated but are extended
-            var evaluatorProcessOfOtherActors = epaInfo.Process.Managements.Where(x => x.StatusId == (int)ProcessStatusType.Open);
-            evaluatorProcessOfOtherActors =
-                evaluatorProcessOfOtherActors.Concat(epaInfo.Process.Reviewers.Where(x => x.StatusId == (int)ProcessStatusType.Open));
-            evaluatorProcessOfOtherActors =
-                evaluatorProcessOfOtherActors.Concat(epaInfo.Process.Evaluators.Where(x => x.StatusId == (int)ProcessStatusType.Open));
+            var processOfOtherActors = epaInfo.Process.Managements.Where(x => x.StatusId == (int)ProcessStatusType.Open);
+            processOfOtherActors = processOfOtherActors.Concat(epaInfo.Process.Reviewers.Where(x => x.StatusId == (int)ProcessStatusType.Open));
+            processOfOtherActors = processOfOtherActors.Concat(epaInfo.Process.Evaluators.Where(x => x.StatusId == (int)ProcessStatusType.Open));
 
-            RemoveSensitiveTotalScoreAndComment(evaluatorProcessOfOtherActors);
+            RemoveSensitiveTotalScoreAndComment(processOfOtherActors);
 
-            bool isHrSa = roles.Contains((int)SystemRole.HumanResource) || roles.Contains((int)SystemRole.SystemAdmin);
-
-            if (isHrSa)
+            if (roles.Contains((int)SystemRole.HumanResource) || roles.Contains((int)SystemRole.SystemAdmin))
             {
                 CalculateFinalScore(epaInfo);
                 return;
             }
 
             // Remove if user is not the one who evalutate that EPA
-            evaluatorProcessOfOtherActors =
+            processOfOtherActors =
                 epaInfo.Process.Managements.Where(x => x.EvaluatorInfo.EmployeeId != currentEmployeeId && x.StatusId != (int)ProcessStatusType.Closed);
 
-            RemoveSensitiveTotalScoreAndComment(evaluatorProcessOfOtherActors);
+            RemoveSensitiveTotalScoreAndComment(processOfOtherActors);
 
-            evaluatorProcessOfOtherActors =
+            processOfOtherActors =
                 epaInfo.Process.Reviewers.Where(x => x.EvaluatorInfo.EmployeeId != currentEmployeeId && x.StatusId != (int)ProcessStatusType.Closed);
 
-            RemoveSensitiveTotalScoreAndComment(evaluatorProcessOfOtherActors);
+            RemoveSensitiveTotalScoreAndComment(processOfOtherActors);
 
-            evaluatorProcessOfOtherActors =
+            processOfOtherActors =
                 epaInfo.Process.Evaluators.Where(x => x.EvaluatorInfo.EmployeeId != currentEmployeeId && x.StatusId != (int)ProcessStatusType.Closed);
 
-            if (evaluatorProcessOfOtherActors.Any())
+            if (processOfOtherActors.Any())
             {
-                foreach (EPAProcessModel epaProcessModel in evaluatorProcessOfOtherActors)
+                foreach (EPAProcessModel process in processOfOtherActors)
                 {
-                    epaProcessModel.TotalScore = string.Empty;
-                    epaProcessModel.Comment = string.Empty;
+                    process.TotalScore = string.Empty;
+                    process.Comment = string.Empty;
                 }
 
                 var evaluationModels = epaInfo.KPIGroups.SelectMany(x => x.KPIs).SelectMany(x => x.EvaluationByEvaluators);
@@ -471,8 +467,13 @@
                 disciplineScore = epaInfo.DisciplineScore;
             }
 
-            var maxProcessId = epaInfo.AllProcesses
-                .Where(x => x.StatusId > (int)ProcessStatusType.Open && x.ProcessId > (int)ProcessType.Self).Max(x => x.ProcessId);
+            var processes = epaInfo.AllProcesses.Where(x => x.StatusId > (int)ProcessStatusType.Open && x.ProcessId > (int)ProcessType.Self);
+            var maxProcessId = (int)ProcessType.None;
+
+            if (processes.Any())
+            {
+                maxProcessId = processes.Max(x => x.ProcessId);
+            }
 
             switch (maxProcessId)
             {
@@ -510,14 +511,14 @@
             return Lang.NotAvailable;
         }
 
-        private static void RemoveSensitiveTotalScoreAndComment(IEnumerable<EPAProcessModel> evaluatorProcessOfOtherActors)
+        private static void RemoveSensitiveTotalScoreAndComment(IEnumerable<EPAProcessModel> processOfOtherActors)
         {
-            if (evaluatorProcessOfOtherActors.Any())
+            if (processOfOtherActors.Any())
             {
-                foreach (EPAProcessModel epaProcessModel in evaluatorProcessOfOtherActors)
+                foreach (EPAProcessModel process in processOfOtherActors)
                 {
-                    epaProcessModel.TotalScore = string.Empty;
-                    epaProcessModel.Comment = string.Empty;
+                    process.TotalScore = string.Empty;
+                    process.Comment = string.Empty;
                 }
             }
         }

@@ -3,6 +3,7 @@
     using System.Collections.Generic;
     using Core.Model;
     using Criteria;
+    using Fanex.Logging;
     using Implement;
     using Model;
 
@@ -39,7 +40,7 @@
 
             if (!commandResult.IsSuccessful)
             {
-                Log.Info("Auto add employee to probation period " + employeePeriod.PeriodId + ": " + commandResult.Message);
+                LogService.Error("Auto add employee to probation period " + employeePeriod.PeriodId + ": " + commandResult.Message);
             }
         }
     }

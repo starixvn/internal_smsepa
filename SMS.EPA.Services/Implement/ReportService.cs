@@ -148,7 +148,7 @@
                 foreach (EPASummaryPeriodModel epaInfoPeriod in epaInfo.Periods)
                 {
                     // Get the max EPAProcessId
-                    float? performanceScore = GetPerformanceScore(epaInfoPeriod);
+                    float? performanceScore = GetPerformanceScore(epaInfoPeriod, criteria.ActorId);
                     if (!performanceScore.HasValue)
                     {
                         continue;
@@ -530,13 +530,25 @@
             sheet.SetColumnWidth(columnIndex, width * ExcelColumnWidth);
         }
 
-        private static float? GetPerformanceScore(EPASummaryPeriodModel epaInfoPeriod)
+        private float? GetPerformanceScore(EPASummaryPeriodModel epaInfo, int actorId)
         {
-            var maxProcessId = epaInfoPeriod.DetailScores.Where(x => !string.IsNullOrEmpty(x.TotalScore)
-                                                            && x.ProcessId > (int)ProcessType.Self
-                                                            && x.StatusId > (int)ProcessStatusType.Open).Max(x => x.ProcessId);
+            var roles = sessionService.CurrentUser.Roles.Select(x => x.RoleId).ToList();
+            var detailScores = epaInfo.DetailScores.Where(x => !string.IsNullOrEmpty(x.TotalScore)
+                                                        && x.ProcessId > (int)ProcessType.Self
+                                                        && x.StatusId > (int)ProcessStatusType.Open);
 
-            var lastPhaseScores = epaInfoPeriod.DetailScores.Where(x => x.ProcessId == maxProcessId).Select(x => x.TotalScoreConverted);
+            if (!roles.Contains((int)SystemRole.HumanResource) && !roles.Contains((int)SystemRole.SystemAdmin))
+            {
+                detailScores = detailScores.Where(x => x.EvaluatorId == actorId);
+            }
+
+            if (!detailScores.Any())
+            {
+                return null;
+            }
+
+            var maxProcessId = detailScores.Max(x => x.ProcessId);
+            var lastPhaseScores = epaInfo.DetailScores.Where(x => x.ProcessId == maxProcessId).Select(x => x.TotalScoreConverted);
 
             if (!lastPhaseScores.Any())
             {

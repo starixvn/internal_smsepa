@@ -8,6 +8,7 @@
     using Core.Model;
     using Criteria;
     using EPA.Criteria;
+    using Fanex.Logging;
     using Implement;
     using Model;
 
@@ -47,7 +48,7 @@
 
                     if (!commandResult.IsSuccessful)
                     {
-                        Log.Info($"Error create monthly period: {commandResult.Message}");
+                        LogService.Error($"Error create monthly period: {commandResult.Message}");
                     }
                 }
             }

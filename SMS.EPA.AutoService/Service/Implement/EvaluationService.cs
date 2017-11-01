@@ -59,7 +59,7 @@
 
         public CommandResult UpdateEndProcess(UpdateIsEndProcessCriteria criteria)
         {
-            CommandResult comandResult = new CommandResult();
+            var comandResult = new CommandResult();
 
             if (criteria != null && criteria.IsValid())
             {
@@ -71,7 +71,7 @@
 
         public CommandResult UpdateFinalScoreEndEvaluation(UpdateFinalScoreEndEvaluationCriteria criteria)
         {
-            CommandResult comandResult = new CommandResult();
+            var comandResult = new CommandResult();
 
             if (criteria != null && criteria.IsValid())
             {
@@ -99,7 +99,7 @@
 
         public CommandResult UpdateTotalScoreOfProcess(UpdateTotalScoreOfProcessCriteria criteria)
         {
-            CommandResult commandResult = new CommandResult();
+            var commandResult = new CommandResult();
 
             if (criteria != null && criteria.IsValid())
             {
@@ -111,7 +111,7 @@
 
         public CommandResult UpdateTotalScoreOfSemiHasMonthly(UpdateTotalScoreOfSemiHasMonthlyCriteria criteria)
         {
-            CommandResult commandResult = new CommandResult();
+            var commandResult = new CommandResult();
 
             if (criteria != null && criteria.IsValid())
             {

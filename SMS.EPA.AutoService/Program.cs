@@ -1,37 +1,37 @@
 ﻿namespace SMS.EPA.AutoService
 {
+    using System;
     using Fanex.Data;
     using Fanex.Data.OldConnectionStringProvider;
-    using System;
+    using Fanex.Logging;
+    using Service.Implement;
+    using Service.Interfaces;
 
     public static class Program
     {
-        public static void Main()
+        public static void Main(string[] args)
         {
-            DbSettingProviderManager
-            .StartNewSession()
-            .Use(new OldConnectionStringProvider())
-            .UseDefaultDbSettingProvider(
-                resourcePath: "~/",
-                enableWatching: true)
-            .Run();
-            log4net.Config.XmlConfigurator.Configure();
-
-#if DEBUG
-            if (Environment.UserInteractive)
+            try
             {
-                using (var autoService = new AutoService())
+                DbSettingProviderManager
+                .StartNewSession()
+                .UseDefaultConnectionStringProvider()
+                .Use(new OldConnectionStringProvider())
+                .UseDefaultDbSettingProvider(
+                    resourcePath: "~/",
+                    enableWatching: true)
+                .Run();
+
+                IEPAAutoService service = new EPAAutoService();
+                service.Run();
+            }
+            catch (Exception ex)
+            {
+                if (ex.InnerException != null)
                 {
-                    autoService.CheckAndExecuteForDebug();
+                    LogService.Error(ex.InnerException.Message, ex);
                 }
             }
-#else
-            var servicesToRun = new ServiceBase[]
-            {
-                new AutoService()
-            };
-            ServiceBase.Run(servicesToRun);
-#endif
         }
     }
 }
