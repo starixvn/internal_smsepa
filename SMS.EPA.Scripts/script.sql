@@ -27,7 +27,7 @@ ALTER COLUMN RemindDate DATE NULL
 GO
 ------update data------
 UPDATE dbo.Menu WITH (ROWLOCK, UPDLOCK)
-SET Url = '/DisciplineSummary/Index'
+SET Url = '/DisciplineSummary/Index', [Name] = 'Discipline Summary'
 WHERE [Name] = 'Discipline Summary By Period'
 GO
 UPDATE dbo.Menu WITH (ROWLOCK, UPDLOCK)
