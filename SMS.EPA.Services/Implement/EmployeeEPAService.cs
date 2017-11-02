@@ -492,13 +492,13 @@
                 case (int)ProcessType.Management:
                     epaInfo.FinalScoreToExport = epaInfo.Process.AverageScoreByManagements.HasValue
                         ? GetAverageTotalScore(epaInfo.Process.AverageScoreByManagements, disciplineScore)
-                        : epaInfo.Process.AverageScoreByReviewers.ToString();
+                        : GetAverageTotalScore(epaInfo.Process.AverageScoreByReviewers, disciplineScore);
                     break;
 
                 case (int)ProcessType.Reviewer:
                     epaInfo.FinalScoreToExport = epaInfo.Process.AverageScoreByReviewers.HasValue
                         ? GetAverageTotalScore(epaInfo.Process.AverageScoreByReviewers, disciplineScore)
-                        : epaInfo.Process.AverageScoreByEvaluators.ToString();
+                        : GetAverageTotalScore(epaInfo.Process.AverageScoreByEvaluators, disciplineScore);
                     break;
 
                 case (int)ProcessType.Evaluator:
@@ -533,14 +533,14 @@
                 case (int)ProcessType.Management:
                     epaInfo.FinalScoreToExport = epaInfo.Process.AverageScoreByManagements.HasValue
                         ? GetAverageTotalScore(epaInfo.Process.AverageScoreByManagements, disciplineScore)
-                        : epaInfo.Process.AverageScoreByReviewers.ToString();
+                        : GetAverageTotalScore(epaInfo.Process.AverageScoreByReviewers, disciplineScore);
                     break;
 
                 case (int)ProcessType.Reviewer:
                     epaInfo.FinalScoreToExport = epaInfo.Process.AverageScoreByReviewers.HasValue
                         ? GetAverageTotalScore(epaInfo.Process.AverageScoreByReviewers, disciplineScore)
                         : epaInfo.MonthlyEPA.AverageReviewerScoreConverted.HasValue
-                            ? epaInfo.MonthlyEPA.AverageReviewerScoreConverted.Value.ToString(CultureInfo.InvariantCulture)
+                            ? GetAverageTotalScore(epaInfo.MonthlyEPA.AverageReviewerScoreConverted, disciplineScore)
                             : Lang.NotAvailable;
                     break;
 
