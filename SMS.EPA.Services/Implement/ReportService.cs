@@ -188,6 +188,11 @@
             if (criteria != null && criteria.IsValid())
             {
                 result = reportRepository.GetMonthlyEPADetail(criteria);
+
+                foreach (EPAModel epaInfo in result.EpaInfos)
+                {
+                    employeeEPAService.RemoveSensitiveDataOnEmployeeRole(epaInfo, sessionService);
+                }
             }
 
             return result;
