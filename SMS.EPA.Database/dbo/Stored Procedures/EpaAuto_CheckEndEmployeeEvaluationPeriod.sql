@@ -13,14 +13,12 @@ Param's Explanation:
 BEGIN
 	SET NOCOUNT ON;
 
-	DECLARE @Yesterday DATETIME
-
-	SET @Yesterday = DATEADD(DAY, - 1, GETDATE())
+	DECLARE @Yesterday DATE = DATEADD(DAY, - 1, GETDATE())
 
 	SELECT DISTINCT epa.EPAId
 	FROM dbo.EPA AS epa WITH (NOLOCK)
 		INNER JOIN dbo.EPAProcess AS pc WITH (NOLOCK) ON epa.EPAId = pc.EPAId
-	WHERE CAST(EndDate AS DATE) = CAST(@Yesterday AS DATE)
+	WHERE EndDate = @Yesterday
 		AND ProcessId IN (
 			SELECT MAX(pc1.ProcessId)
 			FROM dbo.EPAProcess AS pc1 WITH (NOLOCK)

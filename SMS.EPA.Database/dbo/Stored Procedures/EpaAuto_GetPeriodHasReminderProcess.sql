@@ -25,12 +25,10 @@ BEGIN
 	FROM dbo.EPA AS epa WITH (NOLOCK)
 		INNER JOIN dbo.EPAProcess AS epaP WITH (NOLOCK) ON epa.EPAId = epaP.EPAId
 		INNER JOIN dbo.Period AS pe WITH (NOLOCK) ON epa.PeriodId = pe.PeriodId
-	WHERE CAST(epaP.RemindDate AS DATE) = @Today
-		AND ISNULL(epa.[Status], 0) = 0 -- Open
+	WHERE epaP.RemindDate = @Today
+		AND ISNULL(epa.[Status], 0) <> 2 -- rejected
 		AND pe.TargetTypeId IN (@ProbationId, @PromotionId)
 		AND pe.IsActive = 1
-		--AND ISNULL(pe.EndDate, '') = '' --Probation don't have end date
-		--OR pe.EndDate >= GETDATE() --EndDate is still in the future
 	
 	UNION
 	SELECT DISTINCT period.PeriodId
@@ -40,7 +38,7 @@ BEGIN
 		INNER JOIN dbo.Period AS period WITH (NOLOCK) ON epa.PeriodId = period.PeriodId
 		INNER JOIN dbo.PeriodProcessSetting AS periodPS WITH (NOLOCK) ON period.PeriodId = periodPS.PeriodId
 		AND pc.ProcessId = periodPS.ProcessId
-	WHERE ISNULL(epa.[Status], 0) = 0 -- Open
+	WHERE ISNULL(epa.[Status], 0) <> 2 -- rejected
 		AND period.TargetTypeId IN (@MonthlyId, @SemiId)
 		AND period.IsActive = 1
 		AND CAST(DATEADD(DAY, - periodPS.RemindDay, pc.EndDate) AS DATE) = @Today

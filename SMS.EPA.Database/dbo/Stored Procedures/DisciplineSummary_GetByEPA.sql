@@ -13,7 +13,9 @@ Param's Explanation:
 BEGIN
 	SET NOCOUNT ON;
 
-	DECLARE @SemiTarget TINYINT = 3
+	DECLARE @ProbationTarget TINYINT = 1
+		,@SemiTarget TINYINT = 3
+		,@PromotionTarget TINYINT = 5
 		,@Discipline TINYINT = 1
 		,@NonDicipline TINYINT = 2
 
@@ -54,6 +56,21 @@ BEGIN
 		AND emp.IsDeleted = 0
 		AND emp.[Enabled] = 1
 	WHERE period.TargetTypeId = @SemiTarget
+	
+	UNION
+	SELECT DISTINCT epa.EPAId
+		,epa.EmployeeId
+		,ds.StartDate
+		,ds.EndDate
+	FROM #tblEPAId AS epat WITH (NOLOCK)
+		INNER JOIN dbo.EPA AS epa WITH (NOLOCK) ON epat.EPAId = epa.EPAId
+		INNER JOIN dbo.Period AS period WITH (NOLOCK) ON epa.PeriodId = period.PeriodId
+		INNER JOIN dbo.Employee AS emp WITH (NOLOCK) ON epa.EmployeeId = emp.EmployeeId
+		AND emp.IsDeleted = 0
+		AND emp.[Enabled] = 1
+		INNER JOIN dbo.PeriodDisciplineSetting AS ds WITH (NOLOCK) ON epa.PeriodId = ds.PeriodId
+		AND epa.EmployeeId = ds.EmployeeId
+	WHERE period.TargetTypeId IN (@ProbationTarget, @PromotionTarget)
 
 	INSERT INTO #tblEmployeeDisciplineScore (
 		EPAId

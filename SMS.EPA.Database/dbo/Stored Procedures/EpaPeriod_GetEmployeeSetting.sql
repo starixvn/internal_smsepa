@@ -33,13 +33,18 @@ BEGIN
 			WHEN peEx.PeriodId IS NULL THEN 1
 			ELSE 0 END
 			) AS IsIncluded
+		,dis.StartDate AS DisciplineStartDate
+		,dis.EndDate AS DisciplineEndDate
 		,emp.EmployeeId
 		,emp.NickName
 		,emp.FullName
 		,emp.Code
 		,emp.JoinedDate
 		,emp.HasMonthlyEPA
-		,(CASE WHEN emp.IsLocal = 1 THEN 'Local' ELSE 'Expat' END) AS Category
+		,(CASE 
+			WHEN emp.IsLocal = 1 THEN 'Local'
+			ELSE 'Expat' END
+			) AS Category
 		,dept.DepartmentId
 		,dept.[Name]
 		,gr.GroupId
@@ -80,6 +85,8 @@ BEGIN
 		LEFT JOIN dbo.TargetType AS tar WITH (NOLOCK) ON tarTemp.TargetTypeId = tar.TargetTypeId
 		LEFT JOIN dbo.PeriodExcludedEmployee AS peEx WITH (NOLOCK) ON pe.PeriodId = peEx.PeriodId
 		AND pe.EmployeeId = peEx.EmployeeId
+		LEFT JOIN dbo.PeriodDisciplineSetting AS dis WITH (NOLOCK) ON period.PeriodId = dis.PeriodId
+		AND emp.EmployeeId = dis.EmployeeId
 	WHERE pe.PeriodId = @PeriodId
 		AND period.TargetTypeId = @TargetTypeId
 		AND (
@@ -168,8 +175,7 @@ BEGIN
 				)
 			)
 		AND (
-			@HasMonthlyEPA IS NULL
-			OR @HasMonthlyEPA = 0
+			ISNULL(@HasMonthlyEPA, 0) = 0
 			OR emp.HasMonthlyEPA = @HasMonthlyEPA
 			)
 		AND (

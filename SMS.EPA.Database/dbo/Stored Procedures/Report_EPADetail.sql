@@ -56,7 +56,7 @@ BEGIN
 	CREATE TABLE #tblDisciplineScores (
 		EPAId INT
 		,SystemDisciplineScore FLOAT
-		,ApproverSubtractScore FLOAT
+		,DisciplineScore FLOAT
 		,OtherDisciplines FLOAT
 		)
 
@@ -280,7 +280,7 @@ BEGIN
 	INSERT INTO #tblDisciplineScores (
 		EPAId
 		,SystemDisciplineScore
-		,ApproverSubtractScore
+		,DisciplineScore
 		,OtherDisciplines
 		)
 	EXECUTE dbo.DisciplineSummary_GetByEPA @Ids
@@ -346,8 +346,9 @@ BEGIN
 			,(CASE 
 				WHEN tblstatus.StatusId = 1 THEN epa.DisciplineScore
 				ELSE (CASE 
-						WHEN ds.ApproverSubtractScore IS NULL THEN 0
-						ELSE ds.ApproverSubtractScore END
+						WHEN ds.DisciplineScore IS NULL
+							OR ds.DisciplineScore < 0 THEN 0
+						ELSE ds.DisciplineScore END
 						) END
 				) AS DisciplineScore
 			,srt.Attendance AS MaxDisciplineScore

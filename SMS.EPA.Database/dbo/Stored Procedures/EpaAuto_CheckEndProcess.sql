@@ -12,6 +12,8 @@ Param's Explanation:
 */
 BEGIN
 	SET NOCOUNT ON;
+	
+	DECLARE @Today DATE = GETDATE()
 
 	SELECT DISTINCT epa.EPAId
 		,period.PeriodId
@@ -26,7 +28,7 @@ BEGIN
 	FROM dbo.EPA AS epa WITH (NOLOCK)
 		INNER JOIN dbo.Period AS period WITH (NOLOCK) ON epa.PeriodId = period.PeriodId
 		INNER JOIN dbo.EPAProcess AS pc WITH (NOLOCK) ON epa.EPAId = pc.EPAId
-		AND epa.[Status] = 0 -- open
-	WHERE CAST(pc.EndDate AS DATE) < CAST(GETDATE() AS DATE)
+		AND ISNULL(epa.[Status], 0) = 0
+	WHERE pc.EndDate < @Today
 		AND pc.IsEndProcess = 0
 END

@@ -13,22 +13,20 @@ Param's Explanation:
 BEGIN
 	SET NOCOUNT ON;
 
-	DECLARE @Yesterday DATETIME
-
-	SET @Yesterday = DATEADD(DAY, - 1, GETDATE())
+	DECLARE @Yesterday DATE = DATEADD(DAY, - 1, GETDATE())
 
 	IF EXISTS (
 			SELECT 1
 			FROM [dbo].[EPAProcess] AS epaP WITH (NOLOCK)
 				INNER JOIN [dbo].[EPA] AS epa WITH (NOLOCK) ON epaP.[EPAId] = epa.[EPAId]
 				AND epa.[PeriodId] = @PeriodId
-			WHERE CAST(epaP.[EndDate] AS DATE) > CAST(@Yesterday AS DATE)
+			WHERE epaP.[EndDate] > @Yesterday
 				AND [ProcessId] IN (
 					SELECT MAX([ProcessId])
 					FROM [dbo].[EPAProcess] WITH (NOLOCK)
 					WHERE [EPAId] = epa.[EPAId]
 					)
-				AND epa.[Status] <> 2 -- Rejected
+				AND ISNULL(epa.[Status], 0) <> 2 -- rejected
 			)
 	BEGIN
 		SELECT 0

@@ -58,12 +58,9 @@ BEGIN
 				INNER JOIN dbo.PeriodProcessSetting AS periodPS WITH (NOLOCK) ON period.PeriodId = periodPS.PeriodId
 				AND pc.ProcessId = periodPS.ProcessId
 				LEFT JOIN #tblEmployee AS emp WITH (NOLOCK) ON epa.EmployeeId = emp.EmployeeId
-			WHERE ISNULL(epa.[Status], 0) = 0 -- open
+			WHERE ISNULL(epa.[Status], 0) <> 2 -- rejected
 				AND epa.PeriodId = @PeriodId
-				AND (
-					ISNULL(@ProcessId, '') = ''
-					OR pc.ProcessId = @ProcessId
-					)
+				AND ISNULL(@ProcessId, pc.ProcessId) = pc.ProcessId
 				AND (
 					epa.HasMonthlyEPA = 0
 					OR (
@@ -76,8 +73,8 @@ BEGIN
 					ISNULL(@EmployeeIds, '') = ''
 					OR emp.EmployeeId IS NOT NULL
 					)
-				AND @Today BETWEEN CAST(pc.StartDate AS DATE)
-					AND CAST(pc.EndDate AS DATE)
+				AND @Today BETWEEN pc.StartDate
+					AND pc.EndDate
 		END
 	END
 	ELSE
@@ -94,21 +91,18 @@ BEGIN
 		FROM dbo.EPAProcess AS pc WITH (NOLOCK)
 			INNER JOIN dbo.EPA AS epa WITH (NOLOCK) ON pc.EPAId = epa.EPAId
 			AND epa.PeriodId = @PeriodId
-			AND ISNULL(epa.[Status], 0) = 0 -- open
+			AND ISNULL(epa.[Status], 0) <> 2 -- rejected
 			INNER JOIN dbo.Employee AS eva WITH (NOLOCK) ON pc.EvaluatorId = eva.EmployeeId
 			AND eva.[Enabled] = 1
 			AND eva.IsDeleted = 0
 			LEFT JOIN #tblEmployee AS emp WITH (NOLOCK) ON epa.EmployeeId = emp.EmployeeId
-		WHERE (
-				ISNULL(@ProcessId, '') = ''
-				OR pc.ProcessId = @ProcessId
-				)
+		WHERE ISNULL(@ProcessId, pc.ProcessId) = pc.ProcessId
 			AND (
 				ISNULL(@EmployeeIds, '') = ''
 				OR emp.EmployeeId IS NOT NULL
 				)
-			AND @Today BETWEEN CAST(pc.StartDate AS DATE)
-				AND CAST(pc.EndDate AS DATE)
+			AND @Today BETWEEN pc.StartDate
+				AND pc.EndDate
 	END
 
 	DROP TABLE #tblEmployee

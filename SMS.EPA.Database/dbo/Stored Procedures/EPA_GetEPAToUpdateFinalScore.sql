@@ -217,7 +217,8 @@ BEGIN
 			ELSE 0 END
 			) AS HasDisciplineScore
 		,(CASE 
-			WHEN ds.DisciplineScore IS NULL THEN 0
+			WHEN ds.DisciplineScore IS NULL
+				OR ds.DisciplineScore < 0 THEN 0
 			ELSE ds.DisciplineScore END
 			) AS DisciplineScore
 		,tblstatus.StatusId

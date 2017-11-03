@@ -348,5 +348,6 @@
     <Build Include="dbo\Stored Procedures\DisciplineSummary_GetForOtherSystem.sql" />
     <Build Include="dbo\Stored Procedures\DisciplineSummary_GetByEPA.sql" />
     <Build Include="dbo\Stored Procedures\DisciplineSummary_Get.sql" />
+    <Build Include="dbo\Tables\PeriodDisciplineSetting.sql" />
   </ItemGroup>
 </Project>

@@ -13,17 +13,19 @@ Param's Explanation:
 */
 BEGIN
 	SET NOCOUNT ON;
+	
+	DECLARE @Today DATE = GETDATE()
 
 	SELECT DISTINCT pe.PeriodId
 		,pc.ProcessId
 	FROM dbo.EPA AS epa WITH (NOLOCK)
 		INNER JOIN dbo.EPAProcess AS pc WITH (NOLOCK) ON epa.EPAId = pc.EPAId
 		INNER JOIN dbo.Period AS pe WITH (NOLOCK) ON epa.PeriodId = pe.PeriodId
-	WHERE CAST(pc.StartDate AS DATE) = CAST(GETDATE() AS DATE)
+	WHERE pc.StartDate = @Today
 		AND (
 			ISNULL(@PeriodId, '') = ''
 			OR pe.PeriodId = @PeriodId
 			)
-		AND ISNULL(epa.[Status], 0) = 0 -- Open
+		AND ISNULL(epa.[Status], 0) <> 2 -- rejected
 		AND pe.IsActive = 1
 END

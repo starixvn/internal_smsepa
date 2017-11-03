@@ -3,6 +3,8 @@ CREATE PROCEDURE [dbo].[EpaPeriod_EditEmployeeSetting] @PeriodId INT
 	,@TargetTemplateId INT = NULL
 	,@EmployeeAssignments NVARCHAR(MAX) = NULL
 	,@ModifiedBy INT = NULL
+	,@DisciplineStartDate DATE = NULL
+	,@DisciplineEndDate DATE = NULL
 	,@ErrCode INT = 0 OUTPUT
 	,@ErrMsg NVARCHAR(MAX) = '' OUTPUT
 AS
@@ -17,7 +19,6 @@ Param's Explanation:
 	@EmployeeAssignments = 
 		'<ROOT>
 			<Assignment EmployeeId='' ProcessId='' EvaluatorId='' StartDate='' EndDate='' Priority=''></Assignment>
-			<Assignment EmployeeId=''ProcessId='' EvaluatorId='' StartDate='' EndDate='' Priority=''></Assignment>
 		</ROOT>'
 */
 BEGIN
@@ -29,8 +30,10 @@ BEGIN
 		,@OverlapEmployeeIds IntId
 		,@OverlapEmployees NVARCHAR(MAX)
 		,@Today DATE = GETDATE()
-		,@MonthlyId INT = 2
-		,@SemiId INT = 3
+		,@ProbationTarget TINYINT = 1
+		,@MonthlyTarget TINYINT = 2
+		,@SemiTarget TINYINT = 3
+		,@PromotionTarget TINYINT = 5
 
 	SELECT @TargetTypeId = TargetTypeId
 	FROM dbo.Period WITH (NOLOCK)
@@ -524,7 +527,7 @@ BEGIN
 				,empP.StartDate
 				,empP.EndDate
 				,CASE 
-					WHEN CAST(empP.EndDate AS DATE) < @Today THEN 1 -- end progress
+					WHEN empP.EndDate < @Today THEN 1 -- end progress
 					ELSE 0 -- in progress
 					END
 				,NULL
@@ -557,7 +560,7 @@ BEGIN
 						AND epaP.ProcessId IN (2, 3) -- self
 						AND epa.HasMonthlyEPA = 1 THEN 1 -- end progress
 					ELSE CASE 
-							WHEN CAST(empP.EndDate AS DATE) < @Today THEN 1 -- end progress
+							WHEN empP.EndDate < @Today THEN 1 -- end progress
 							ELSE 0 -- in progress
 							END
 					END
@@ -580,7 +583,7 @@ BEGIN
 				INNER JOIN dbo.Period AS period ON epa.PeriodId = period.PeriodId
 				INNER JOIN (
 				SELECT DISTINCT pc.EPAId
-					,CAST(MAX(pc.EndDate) AS DATE) AS EndDate
+					,MAX(pc.EndDate) AS EndDate
 				FROM dbo.EPAProcess AS pc WITH (NOLOCK)
 					INNER JOIN dbo.EPA AS epa1 WITH (NOLOCK) ON pc.EPAId = epa1.EPAId
 				WHERE epa1.PeriodId = @PeriodId
@@ -590,20 +593,20 @@ BEGIN
 				AND epa.[Status] <> 2 -- reject
 				AND (
 					(
-						period.TargetTypeId IN (@MonthlyId, @SemiId)
+						period.TargetTypeId IN (@MonthlyTarget, @SemiTarget)
 						AND (
 							(
-								CAST(period.EndDate AS DATE) > epaP.EndDate
-								AND CAST(period.EndDate AS DATE) < @Today
+								period.EndDate > epaP.EndDate
+								AND period.EndDate < @Today
 								)
 							OR (
-								CAST(period.EndDate AS DATE) < epaP.EndDate
-								AND CAST(epaP.EndDate AS DATE) < @Today
+								period.EndDate < epaP.EndDate
+								AND epaP.EndDate < @Today
 								)
 							)
 						)
 					OR (
-						period.TargetTypeId NOT IN (@MonthlyId, @SemiId)
+						period.TargetTypeId NOT IN (@MonthlyTarget, @SemiTarget)
 						AND epaP.EndDate < @Today
 						)
 					)
@@ -614,7 +617,7 @@ BEGIN
 				INNER JOIN dbo.Period AS period WITH (NOLOCK) ON epa.PeriodId = period.PeriodId
 				INNER JOIN (
 				SELECT DISTINCT pc.EPAId
-					,CAST(MAX(pc.EndDate) AS DATE) AS EndDate
+					,MAX(pc.EndDate) AS EndDate
 				FROM dbo.EPAProcess AS pc WITH (NOLOCK)
 					INNER JOIN dbo.EPA AS epa1 WITH (NOLOCK) ON pc.EPAId = epa1.EPAId
 				WHERE epa1.PeriodId = @PeriodId
@@ -625,7 +628,7 @@ BEGIN
 				AND (
 					(
 						period.EndDate IS NOT NULL
-						AND CAST(period.EndDate AS DATE) > @Today
+						AND period.EndDate > @Today
 						)
 					OR epaP.EndDate >= @Today
 					)
@@ -633,6 +636,36 @@ BEGIN
 			DROP TABLE #tblProcessNew
 
 			DROP TABLE #tblEmployeeProcess
+		END
+
+		IF (
+				@TargetTypeId = @ProbationTarget
+				OR @TargetTypeId = @PromotionTarget
+				)
+			AND @DisciplineStartDate IS NOT NULL
+			AND @DisciplineEndDate IS NOT NULL
+		BEGIN
+			UPDATE dbo.PeriodDisciplineSetting WITH (ROWLOCK, UPDLOCK)
+			SET StartDate = @DisciplineStartDate
+				,EndDate = @DisciplineEndDate
+			FROM dbo.PeriodDisciplineSetting AS ds WITH (ROWLOCK, UPDLOCK)
+				INNER JOIN #tblEmployeeAssignments AS a WITH (NOLOCK) ON ds.PeriodId = a.PeriodId
+				AND ds.EmployeeId = a.EmployeeId
+
+			INSERT INTO dbo.PeriodDisciplineSetting (
+				PeriodId
+				,EmployeeId
+				,StartDate
+				,EndDate
+				)
+			SELECT DISTINCT a.PeriodId
+				,a.EmployeeId
+				,@DisciplineStartDate
+				,@DisciplineEndDate
+			FROM #tblEmployeeAssignments AS a WITH (NOLOCK)
+				LEFT JOIN dbo.PeriodDisciplineSetting AS ds WITH (NOLOCK) ON a.PeriodId = ds.PeriodId
+				AND a.EmployeeId = ds.EmployeeId
+			WHERE ds.PeriodId IS NULL
 		END
 
 		DECLARE @Data NVARCHAR(MAX)
@@ -694,11 +727,11 @@ BEGIN
 
 			SELECT @ErrCode = 1
 
-			IF @TargetTypeId = @MonthlyId
+			IF @TargetTypeId = @MonthlyTarget
 			BEGIN
 				SELECT @ErrMsg = 'Start Date / End Date of <b>' + @OverlapEmployees + '</b> overlap on semi.'
 			END
-			ELSE IF @TargetTypeId = @SemiId
+			ELSE IF @TargetTypeId = @SemiTarget
 			BEGIN
 				SELECT @ErrMsg = 'Start Date / End Date of <b>' + @OverlapEmployees + '</b> overlap on monthly.'
 			END

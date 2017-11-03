@@ -52,7 +52,7 @@ BEGIN
 	CREATE TABLE #tblDisciplineScore (
 		EPAId INT
 		,SystemDisciplineScore FLOAT
-		,ApproverSubtractScore FLOAT
+		,DisciplineScore FLOAT
 		,OtherDisciplines FLOAT
 		)
 
@@ -247,7 +247,7 @@ BEGIN
 	INSERT INTO #tblDisciplineScore (
 		EPAId
 		,SystemDisciplineScore
-		,ApproverSubtractScore
+		,DisciplineScore
 		,OtherDisciplines
 		)
 	EXECUTE dbo.DisciplineSummary_GetByEPA @Ids
@@ -331,6 +331,9 @@ BEGIN
 	FROM (
 		SELECT DISTINCT emp.EmployeeId
 			,period.PeriodId
+			,period.TargetTypeId
+			,epa.EPAId
+			,epa.HasMonthlyEPA
 			,(CASE srt.ScoreRatingTypeId
 				WHEN 1 THEN 1
 				ELSE 0 END
@@ -338,21 +341,29 @@ BEGIN
 			,(CASE 
 				WHEN tblstatus.StatusId = 1 THEN epa.DisciplineScore
 				ELSE (CASE 
-						WHEN ds.ApproverSubtractScore IS NULL THEN 0
-						ELSE ds.ApproverSubtractScore END
+						WHEN ds.DisciplineScore IS NULL
+							OR ds.DisciplineScore < 0 THEN 0
+						ELSE ds.DisciplineScore END
 						) END
 				) AS DisciplineScore
 			,srt.Attendance AS MaxDisciplineScore
 			,epa.FinalScore
 			,epa.Grade
 			,tblstatus.StatusId
+			,srt.ScoreRatingTypeId
+			,srt.[Name]
+			,srt.SelfEvaluated
+			,srt.Evaluator
+			,srt.Reviewer
+			,srt.Management
+			,srt.Attendance
 		FROM dbo.EPA AS epa WITH (NOLOCK)
 			INNER JOIN #tblEPA AS epa1 WITH (NOLOCK) ON epa.EPAId = epa1.EPAId
 			INNER JOIN dbo.Period AS period WITH (NOLOCK) ON epa.PeriodId = period.PeriodId
 			INNER JOIN dbo.TargetType AS tt WITH (NOLOCK) ON period.TargetTypeId = tt.TargetTypeId
 			INNER JOIN dbo.Employee AS emp WITH (NOLOCK) ON epa.EmployeeId = emp.EmployeeId
 			INNER JOIN #tblEmployee AS tblemp WITH (NOLOCK) ON emp.EmployeeId = tblemp.EmployeeId
-			INNER JOIN #tblPeriod AS period1 WITH (NOLOCK) ON epa.PeriodId = period1.PeriodId
+			INNER JOIN #tblPeriodTemp AS period1 WITH (NOLOCK) ON epa.PeriodId = period1.PeriodId
 			INNER JOIN dbo.ScoreRatingType AS srt WITH (NOLOCK) ON epa.ScoreRatingTypeId = srt.ScoreRatingTypeId
 			INNER JOIN #tblEPAStatus AS tblstatus WITH (NOLOCK) ON epa.EPAId = tblstatus.EPAId
 			LEFT JOIN #tblDisciplineScore AS ds WITH (NOLOCK) ON epa.EPAId = ds.EPAId
@@ -360,14 +371,24 @@ BEGIN
 		UNION ALL
 		SELECT DISTINCT emp.EmployeeId
 			,period.PeriodId
+			,NULL AS TargetTypeId
+			,- epa.Id AS EPAId
+			,0 AS HasMonthlyEPA
 			,0 AS HasDisciplineScore
 			,0 AS DisciplineScore
 			,0 AS MaxDisciplineScore
 			,epa.FinalScore
 			,NULL AS Grade
 			,1 AS StatusId
+			,NULL AS ScoreRatingTypeId
+			,NULL AS [Name]
+			,NULL AS SelfEvaluated
+			,NULL AS Evaluator
+			,NULL AS Reviewer
+			,NULL AS Management
+			,NULL AS Attendance
 		FROM dbo.EPASummaryImport AS epa WITH (NOLOCK)
-			INNER JOIN #tblPeriod AS period WITH (NOLOCK) ON epa.PeriodId = period.PeriodId
+			INNER JOIN #tblPeriodTemp AS period WITH (NOLOCK) ON epa.PeriodId = period.PeriodId
 			INNER JOIN dbo.Employee AS emp WITH (NOLOCK) ON epa.Code = emp.Code
 			INNER JOIN #tblEmployee AS tblemp WITH (NOLOCK) ON emp.EmployeeId = tblemp.EmployeeId
 		) AS tbl

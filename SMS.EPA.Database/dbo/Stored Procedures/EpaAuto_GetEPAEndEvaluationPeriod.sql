@@ -66,7 +66,7 @@ BEGIN
 			WHERE EPAId = epa.EPAId
 			)
 		AND pe.TargetTypeId NOT IN (@MonthlyId, @SemiId)
-		AND ISNULL(epa.[Status], 0) <> 2
+		AND ISNULL(epa.[Status], 0) <> 2 -- rejected
 		AND pe.IsActive = 1
 	
 	UNION
