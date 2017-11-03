@@ -218,6 +218,9 @@
     <Compile Include="Services\Interfaces\ITokenService.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="App.PRO.config">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="App.config">
       <SubType>Designer</SubType>
     </None>

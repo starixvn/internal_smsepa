@@ -1,35 +1,44 @@
 ﻿namespace SMS.EPA.AutoService.Criteria
 {
+    using System.Text;
     using Core.Constants;
     using Fanex.Data;
     using Fanex.Data.Repository;
-    using System.Text;
 
     public class UpdateFinalScoreEndEvaluationCriteria : CriteriaBase
     {
         private const string TemplateXml = "<EPA EPAId='{0}' FinalScore='{1}' DisciplineScore='{2}' Grade='{3}'></EPA>";
 
         [SpParam(SqlParamName = "EPAScores")]
-        public string EvaluationScores { get; set; }
+        public string EvaluationScores => ConvertToXml();
 
-        public static string ConvertToXml(int evaluationId, string finalScore, float disciplineScore, string grade)
-        {
-            var epaXmlBuilder = new StringBuilder(Constants.BeginRootTag);
+        [SpParam(Ignored = true)]
+        public int EPAId { get; set; }
 
-            epaXmlBuilder.AppendFormat(TemplateXml, evaluationId, finalScore, disciplineScore, grade);
-            epaXmlBuilder.Append(Constants.EndRootTag);
+        [SpParam(Ignored = true)]
+        public string FinalScore { get; set; }
 
-            return epaXmlBuilder.ToString();
-        }
+        [SpParam(Ignored = true)]
+        public string Grade { get; set; }
+
+        [SpParam(Ignored = true)]
+        public float DisciplineScore { get; set; }
 
         public override bool IsValid()
         {
-            return !string.IsNullOrWhiteSpace(EvaluationScores);
+            return EPAId > 0 && !string.IsNullOrWhiteSpace(EvaluationScores);
         }
 
-        public override string GetSettingKey()
+        public override string GetSettingKey() => "EpaAuto_UpdateFinalScoreEndEvaluation";
+
+        private string ConvertToXml()
         {
-            return "EpaAuto_UpdateFinalScoreEndEvaluation";
+            var epaXmlBuilder = new StringBuilder(Constants.BeginRootTag);
+
+            epaXmlBuilder.AppendFormat(TemplateXml, EPAId, FinalScore, DisciplineScore, Grade);
+            epaXmlBuilder.Append(Constants.EndRootTag);
+
+            return epaXmlBuilder.ToString();
         }
     }
 }

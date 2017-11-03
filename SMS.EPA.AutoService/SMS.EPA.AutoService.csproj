@@ -28,7 +28,6 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <CodeAnalysisRuleSet>SMS.EPA.AutoService.Debug.ruleset</CodeAnalysisRuleSet>
-    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -39,7 +38,6 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <CodeAnalysisRuleSet>SMS.EPA.AutoService.ruleset</CodeAnalysisRuleSet>
-    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Dapper, Version=1.50.2.0, Culture=neutral, processorArchitecture=MSIL">
@@ -121,22 +119,28 @@
     <Compile Include="Criteria\UpdateTotalScoreOfSemiHasMonthlyCriteria.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Service\Implement\AutoMailService.cs" />
     <Compile Include="Service\Implement\BasePeriodService.cs" />
     <Compile Include="Service\Implement\EPAAutoService.cs" />
-    <Compile Include="Service\Implement\EvaluationService.cs" />
+    <Compile Include="Service\Implement\EvaluationPeriodService.cs" />
     <Compile Include="Service\Implement\MonthlyService.cs" />
     <Compile Include="Service\Implement\ProbationService.cs" />
+    <Compile Include="Service\Implement\ProcessService.cs" />
     <Compile Include="Service\Implement\PromotionService.cs" />
     <Compile Include="Service\Implement\SemiAnnualService.cs" />
+    <Compile Include="Service\Interfaces\IAutoMailService.cs" />
     <Compile Include="Service\Interfaces\IEPAAutoService.cs" />
-    <Compile Include="Service\Interfaces\IEvaluationService.cs" />
+    <Compile Include="Service\Interfaces\IEvaluationPeriodService.cs" />
     <Compile Include="Service\Interfaces\IMonthlyService.cs" />
     <Compile Include="Service\Interfaces\IProbationService.cs" />
+    <Compile Include="Service\Interfaces\IProcessService.cs" />
     <Compile Include="Service\Interfaces\IPromotionService.cs" />
     <Compile Include="Service\Interfaces\ISemiAnnualService.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="AppConfigs\App.PRO.cti.config" />
     <None Include="AppConfigs\App.PRO.ghr.config" />
     <None Include="AppConfigs\App.PRO.gwi.config" />
