@@ -14,7 +14,7 @@
 
             return filter ? filter : {
                 fromDate: new Date(new Date().getFullYear(), 0, 1),
-                toDate: new Date()
+                toDate: new Date(new Date().getFullYear(), 11, 1)
             };
         }
 
