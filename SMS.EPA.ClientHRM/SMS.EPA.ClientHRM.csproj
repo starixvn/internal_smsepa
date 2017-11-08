@@ -155,7 +155,6 @@
     <Compile Include="ApplicationConfig.cs" />
     <Compile Include="Criteria\GetDepartmentCriteria.cs" />
     <Compile Include="Criteria\GetDisciplineSummaryCriteria.cs" />
-    <Compile Include="Criteria\GetDisciplineCriteria.cs" />
     <Compile Include="Criteria\GetEmployeeCriteria.cs" />
     <Compile Include="Criteria\GetEmployeeDisciplinePermissionCriteria.cs" />
     <Compile Include="Criteria\GetGroupDisciplinePermissionCriteria.cs" />
@@ -240,6 +239,7 @@
     </CodeAnalysisDictionary>
     <Content Include="SpName.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
     </Content>
   </ItemGroup>
   <ItemGroup>

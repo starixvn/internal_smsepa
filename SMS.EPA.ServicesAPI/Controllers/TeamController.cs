@@ -31,6 +31,7 @@
             return Ok(fromDate);
         }
 
+        [HttpPost]
         public async Task<IHttpActionResult> Update(Team[] teams)
         {
             var criteria = new UpdateTeamCriteria

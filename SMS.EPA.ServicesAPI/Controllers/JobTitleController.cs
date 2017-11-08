@@ -22,6 +22,7 @@
             _service = service ?? new ServiceAPI();
         }
 
+        [HttpPost]
         public async Task<IHttpActionResult> Update(JobTitle[] titles)
         {
             var criteria = new UpdateJobTitleCriteria

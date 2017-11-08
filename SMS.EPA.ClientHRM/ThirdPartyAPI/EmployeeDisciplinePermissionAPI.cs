@@ -8,6 +8,9 @@
     using System.Linq;
     using System.Net.Http;
     using System.Net.Http.Headers;
+    using System.Net;
+    using Fanex.Logging;
+    using System.Globalization;
 
     public class EmployeeDisciplinePermissionAPI : IEmployeeSupervisorAPI
     {
@@ -30,6 +33,15 @@
                 client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token.Value);
                 var targetURL = ApplicationConfig.ServiceAPI + "EmployeeDisciplinePermission";
                 var result = client.PostAsJsonAsync(targetURL, employeeSupervisors.ToArray()).Result;
+
+                if (result.StatusCode != HttpStatusCode.OK)
+                {
+                    LogService.Error(string.Format(
+                        CultureInfo.InvariantCulture,
+                        "Update EmployeeDisciplinePermission: \r\n StatusCode: {0} \r\n ReasonPhrase: {1}",
+                        (int)result.StatusCode,
+                        result.ReasonPhrase));
+                }
 
                 return new CommandResult { Code = (int)result.StatusCode };
             }

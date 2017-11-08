@@ -31,6 +31,7 @@
             return Ok(fromDate);
         }
 
+        [HttpPost]
         public async Task<IHttpActionResult> Update(EmployeeDisciplinePermission[] disciplines)
         {
             var criteria = new UpdateEmployeeSupervisorCriteria

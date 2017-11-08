@@ -28,6 +28,7 @@
             return Ok(lastModifiedDate);
         }
 
+        [HttpPost]
         public IHttpActionResult Update(Photo[] photos)
         {
             LogService.Info(photos.Length.ToString());

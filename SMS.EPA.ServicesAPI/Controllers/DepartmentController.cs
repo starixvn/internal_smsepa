@@ -24,6 +24,7 @@
             _service = employeeService ?? new ServiceAPI();
         }
 
+        [HttpPost]
         public async Task<IHttpActionResult> Update(Department[] departments)
         {
             var criteria = new UpdateDepartmentCriteria

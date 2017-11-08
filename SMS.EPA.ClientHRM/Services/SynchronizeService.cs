@@ -1,10 +1,10 @@
 ﻿namespace SMS.EPA.ClientHrm.Services
 {
-    using EPA.Model.API;
-    using Model;
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using EPA.Model.API;
+    using Model;
 
     public class SynchronizeService : ISynchronizeService
     {
@@ -41,14 +41,14 @@
 
         public void Synchronize()
         {
-            SynchronizeDepartment();
-            SynchronizeTeam();
-            SynchronizeEmployee();
-            SynchronizeJobTitle();
-            SynchronizeEmployeeDisciplinePermission();
-            SynchronizeGroupDisciplinePermission();
+            //SynchronizeDepartment();
+            //SynchronizeTeam();
+            //SynchronizeEmployee();
+            //SynchronizeJobTitle();
+            //SynchronizeEmployeeDisciplinePermission();
+            //SynchronizeGroupDisciplinePermission();
             SynchronizeDisciplineSummary();
-            SynchronizePhoto();
+            //SynchronizePhoto();
         }
 
         private void SynchronizeDepartment()

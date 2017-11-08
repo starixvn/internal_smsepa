@@ -32,6 +32,7 @@
             return Ok(fromDate);
         }
 
+        [HttpPost]
         public async Task<IHttpActionResult> Update(DisciplineSummary[] disciplines)
         {
             var criteria = new UpdateDisciplineSummaryCriteria

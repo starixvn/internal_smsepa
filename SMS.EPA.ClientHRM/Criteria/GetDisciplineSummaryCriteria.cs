@@ -9,7 +9,7 @@
 
         public override string GetSettingKey()
         {
-            return "EmployeeDiscipline_GetSummaryByPeriod";
+            return "Sync_DisciplineSummary";
         }
 
         public override bool IsValid()

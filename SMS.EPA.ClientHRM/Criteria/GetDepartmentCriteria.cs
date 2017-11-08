@@ -1,7 +1,7 @@
 ﻿namespace SMS.EPA.ClientHrm.Criteria
 {
-    using Fanex.Data.Repository;
     using System;
+    using Fanex.Data.Repository;
 
     public class GetDepartmentCriteria : CriteriaBase
     {
@@ -9,7 +9,7 @@
 
         public override string GetSettingKey()
         {
-            return "Department_Get";
+            return "Sync_Department";
         }
 
         public override bool IsValid()
