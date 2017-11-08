@@ -41,14 +41,14 @@
 
         public void Synchronize()
         {
-            //SynchronizeDepartment();
-            //SynchronizeTeam();
-            //SynchronizeEmployee();
-            //SynchronizeJobTitle();
-            //SynchronizeEmployeeDisciplinePermission();
-            //SynchronizeGroupDisciplinePermission();
+            SynchronizeDepartment();
+            SynchronizeTeam();
+            SynchronizeEmployee();
+            SynchronizeJobTitle();
+            SynchronizeEmployeeDisciplinePermission();
+            SynchronizeGroupDisciplinePermission();
             SynchronizeDisciplineSummary();
-            //SynchronizePhoto();
+            SynchronizePhoto();
         }
 
         private void SynchronizeDepartment()
