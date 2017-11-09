@@ -28,16 +28,14 @@
             }
         }
 
-        .checkBoxContainer  {
+        .checkBoxContainer {
             text-align: left !important;
 
             label {
                 font-weight: normal !important;
             }
         }
-
     }
-
 }
 
 .multiSelect {
@@ -51,8 +49,8 @@
 }
 
 .div-period-employee-setting {
-     margin-left: 5px;
-     text-align: left !important;
+    margin-left: 5px;
+    text-align: left !important;
 
     .period-employee {
         width: 200px !important;
@@ -90,14 +88,25 @@
 }
 
 .table-period-setting {
-    .chosen-container .chosen-choices {
-         border: 1px solid #ccc;
-         border-radius: 0;
-         box-shadow: 0;
+    .chosen-container {
+        .chosen-choices {
+            border: 1px solid #ccc;
+            border-radius: 0;
+            background-image: none;
+        }
 
-         li.search-field input[type="text"] {
-             height: 24px !important;
-         }
+        &.chosen-container-multi {
+            .chosen-choices {
+                border: 1px solid #ccc;
+            }
+        }
+
+        &.chosen-container-active {
+            .chosen-choices {
+                border: 1px solid #5897fb;
+                box-shadow: none;
+            }
+        }
     }
 
     .ckc-email {
@@ -124,7 +133,7 @@
 }
 
 .btn-edit-employee-setting {
-     top: 0 !important;
+    top: 0 !important;
 }
 
 .period-create-button {
