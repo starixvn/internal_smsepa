@@ -29,46 +29,46 @@
                 "purplefox.numeric",
                 "angular.filter"
             ])
-        .config([
-            "$translateProvider",
+        .config(appConfig);
+
+    appConfig.$inject = ["$translateProvider",
             "$locationProvider",
             "paginationTemplateProvider",
             "$routeProvider",
             "$httpProvider",
-            "datepickerConfig",
-            "datepickerPopupConfig",
             "$provide",
-            function (
-                $translateProvider,
+            'datepickerConfig',
+            'datepickerPopupConfig'];
+
+    function appConfig($translateProvider,
                 $locationProvider,
                 paginationTemplateProvider,
                 $routeProvider,
                 $httpProvider,
+                $provide,
                 datepickerConfig,
-                datepickerPopupConfig,
-                $provide) {
-                $translateProvider.useLoader("resourceFactory", {});
-                $translateProvider.preferredLanguage("en");
+                datepickerPopupConfig) {
+        $translateProvider.useLoader("resourceFactory", {});
+        $translateProvider.preferredLanguage("en");
 
-                $httpProvider.defaults.headers.common["X-Requested-With"] = 'XMLHttpRequest';
-                $httpProvider.defaults.headers.common["X-XSRF-Token"] = angular.element('input[name="__RequestVerificationToken"]').attr('value');
+        $httpProvider.defaults.headers.common["X-Requested-With"] = 'XMLHttpRequest';
+        $httpProvider.defaults.headers.common["X-XSRF-Token"] = angular.element('input[name="__RequestVerificationToken"]').attr('value');
 
-                $routeProvider
-                    .when("/Home/AccessDenied", { templateUrl: "/SourceApp/Shared/Templates/AccessDenied.html" })
-                    .when("/Home/InternalError", { templateUrl: "/SourceApp/Shared/Templates/InternalError.html" })
-                    .when("/Home/PageNotFound", { templateUrl: "/SourceApp/Shared/Templates/PageNotFound.html" })
-                    .otherwise({ templateUrl: "/SourceApp/Shared/Templates/PageNotFound.html" });
+        $routeProvider
+            .when("/Home/AccessDenied", { templateUrl: "/SourceApp/Shared/Templates/AccessDenied.html" })
+            .when("/Home/InternalError", { templateUrl: "/SourceApp/Shared/Templates/InternalError.html" })
+            .when("/Home/PageNotFound", { templateUrl: "/SourceApp/Shared/Templates/PageNotFound.html" })
+            .otherwise({ templateUrl: "/SourceApp/Shared/Templates/PageNotFound.html" });
 
-                $locationProvider.html5Mode(false);
+        $locationProvider.html5Mode(false);
 
-                datepickerConfig.showWeeks = false;
-                datepickerPopupConfig.showButtonBar = false;
-                datepickerPopupConfig.datepickerPopup = "dd MMM, yyyy";
+        datepickerConfig.showWeeks = false;
+        datepickerPopupConfig.showButtonBar = false;
+        datepickerPopupConfig.datepickerPopup = "dd MMM, yyyy";
 
-                paginationTemplateProvider.setPath("SourceApp/Shared/Templates/dirPagination.tpl.html");
+        paginationTemplateProvider.setPath("SourceApp/Shared/Templates/dirPagination.tpl.html");
 
-                var baseUrl = $("base").first().attr("href");
-                $provide.value("baseUrl", baseUrl);
-            }
-        ]);
+        var baseUrl = $("base").first().attr("href");
+        $provide.value("baseUrl", baseUrl);
+    }
 })(angular);
