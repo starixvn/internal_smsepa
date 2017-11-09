@@ -2,8 +2,8 @@
 /*global epaModule*/
 
 epaModule.factory('RatingByKPIModel',
-['$modal', 'ratingByKPIFactory', 'utilitiesFactory', 'notificationFactory', 'errorFactory',
-function ($modal, ratingByKPIFactory, utilitiesFactory, notificationFactory, errorFactory) {
+['$uibModal', 'ratingByKPIFactory', 'utilitiesFactory', 'notificationFactory', 'errorFactory',
+function ($uibModal, ratingByKPIFactory, utilitiesFactory, notificationFactory, errorFactory) {
     var ratingByKPIModel = this;
 
     ratingByKPIModel.periods = [];
@@ -53,7 +53,7 @@ function ($modal, ratingByKPIFactory, utilitiesFactory, notificationFactory, err
     };
 
     ratingByKPIModel.openPopupConfirmSaveChanges = function (vm) {
-        vm.modalInstance = $modal.open({
+        vm.modalInstance = $uibModal.open({
             templateUrl: 'SourceApp/Components/EPA/RatingByKPI/Templates/modalConfirmSaveChanges.html',
             controller: "ModalConfirmSaveChangesController as modalConfirmCtrl",
             backdrop: 'static',
@@ -137,7 +137,7 @@ function ($modal, ratingByKPIFactory, utilitiesFactory, notificationFactory, err
     };
 
     var openPopupNotificationComment = function (message) {
-        var modalInstance = $modal.open({
+        var modalInstance = $uibModal.open({
             templateUrl: 'SourceApp/Components/EPA/Templates/modalNotification.html',
             controller: "ModalNotificationController as modalNotificationCtrl",
             backdrop: 'static',

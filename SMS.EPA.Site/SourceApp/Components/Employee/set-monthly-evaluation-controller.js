@@ -4,9 +4,9 @@
     /* jshint validthis:true */
 
     angular.module('employeeModule').controller('ModalConfirmSetUnsetMonthlyEvaluationController', modalConfirmSetUnsetMonthlyEvaluationController);
-    modalConfirmSetUnsetMonthlyEvaluationController.$inject = ['$modalInstance', 'name', 'action'];
+    modalConfirmSetUnsetMonthlyEvaluationController.$inject = ['$uibModalInstance', 'name', 'action'];
 
-    function modalConfirmSetUnsetMonthlyEvaluationController($modalInstance, name, action) {
+    function modalConfirmSetUnsetMonthlyEvaluationController($uibModalInstance, name, action) {
         var vm = this;
 
         vm.action = action;
@@ -16,11 +16,11 @@
         vm.save = save;
 
         function cancel() {
-            $modalInstance.dismiss('cancel');
+            $uibModalInstance.dismiss('cancel');
         }
 
         function save() {
-            $modalInstance.close();
+            $uibModalInstance.close();
         }
     }
 })(angular);

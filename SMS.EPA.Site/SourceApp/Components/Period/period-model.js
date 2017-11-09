@@ -3,9 +3,9 @@
     /* jshint latedef:nofunc */
 
     angular.module('periodModule').factory('PeriodModel', periodModel);
-    periodModel.$inject = ['$modal', 'periodFactory', 'errorFactory', 'notificationFactory', 'utilitiesFactory'];
+    periodModel.$inject = ['$uibModal', 'periodFactory', 'errorFactory', 'notificationFactory', 'utilitiesFactory'];
 
-    function periodModel($modal, periodFactory, errorFactory, notificationFactory, utilitiesFactory) {
+    function periodModel($uibModal, periodFactory, errorFactory, notificationFactory, utilitiesFactory) {
         var model = {};
 
         model.periods = [];
@@ -298,7 +298,7 @@
         };
 
         model.openPopupCreatePeriod = function (vm) {
-            vm.modalInstance = $modal.open({
+            vm.modalInstance = $uibModal.open({
                 templateUrl: 'SourceApp/Components/Period/Templates/create.html',
                 controller: "CreatePeriodController as createPeriodCtrl",
                 backdrop: 'static',
@@ -390,7 +390,7 @@
                 IsActive: period.IsActive
             };
 
-            var modalInstance = $modal.open({
+            var modalInstance = $uibModal.open({
                 templateUrl: '/SourceApp/Shared/Templates/ModalConfirmContent.html',
                 controller: "ModalConfirmController as modalConfirmCtrl",
                 backdrop: 'static',
@@ -434,7 +434,7 @@
         };
 
         model.openPopupDeletePeriod = function (vm, period) {
-            var modalInstance = $modal.open({
+            var modalInstance = $uibModal.open({
                 templateUrl: '/SourceApp/Shared/Templates/ModalConfirmContent.html',
                 controller: "ModalConfirmController as modalConfirmCtrl",
                 backdrop: 'static',
@@ -505,7 +505,7 @@
         };
 
         model.openPopupUpdateEmployeeSetting = function (vm, selectedEmployees) {
-            var modalInstance = $modal.open({
+            var modalInstance = $uibModal.open({
                 templateUrl: 'SourceApp/Components/Period/Templates/editEmployeeSetting.html',
                 controller: "UpdateEmployeeSettingPeriodController as updatePeriodSettingCtrl",
                 backdrop: 'static',
@@ -651,7 +651,7 @@
                 IsIncluded: employee.IsIncluded
             };
 
-            var modalInstance = $modal.open({
+            var modalInstance = $uibModal.open({
                 templateUrl: '/SourceApp/Shared/Templates/ModalConfirmContent.html',
                 controller: "ModalConfirmController as modalConfirmCtrl",
                 backdrop: 'static',
@@ -719,7 +719,7 @@
         };
 
         model.openPopupGenerateEvaluation = function (vm, period) {
-            var modalInstance = $modal.open({
+            var modalInstance = $uibModal.open({
                 templateUrl: '/SourceApp/Shared/Templates/ModalConfirmContent.html',
                 controller: "ModalConfirmController as modalConfirmCtrl",
                 backdrop: 'static',

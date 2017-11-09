@@ -15,19 +15,31 @@
         <div class="form-group">
             <label class="col-sm-3 control-label required-label" data-translate="StartDate"></label>
             <div class="col-sm-3">
-                <input readonly class="calendar-form-control" type="text"
-                       ng-model="createMonthlyPeriodCtrl.period.StartDate" datepicker-popup
-                       ng-click="createMonthlyPeriodCtrl.openPopupStartDate($event)"
-                       is-open="createMonthlyPeriodCtrl.calendar.startDateOpened" />
-                <epa-calendar-image class="calendar-image" ng-click="createMonthlyPeriodCtrl.openPopupStartDate($event)"></epa-calendar-image>
+                <p class="input-group calendar-input-group">
+                    <input readonly class="calendar-form-control" type="text"
+                           ng-model="createMonthlyPeriodCtrl.period.StartDate" uib-datepicker-popup
+                           ng-click="createMonthlyPeriodCtrl.openPopupStartDate($event)"
+                           is-open="createMonthlyPeriodCtrl.calendar.startDateOpened" />
+                    <span class="input-group-btn">
+                        <button type="button" class="btn btn-default" ng-click="createMonthlyPeriodCtrl.openPopupStartDate($event)">
+                            <i class="glyphicon glyphicon-calendar"></i>
+                        </button>
+                    </span>
+                </p>
             </div>
             <label class="col-sm-3 control-label required-label" data-translate="EndDate"></label>
             <div class="col-sm-3">
-                <input readonly class="calendar-form-control" type="text"
-                       ng-model="createMonthlyPeriodCtrl.period.EndDate" datepicker-popup
-                       ng-click="createMonthlyPeriodCtrl.openPopupEndDate($event)"
-                       is-open="createMonthlyPeriodCtrl.calendar.endDateOpened" />
-                <epa-calendar-image class="calendar-image" ng-click="createMonthlyPeriodCtrl.openPopupEndDate($event)"></epa-calendar-image>
+                <p class="input-group calendar-input-group">
+                    <input readonly class="calendar-form-control" type="text"
+                           ng-model="createMonthlyPeriodCtrl.period.EndDate" uib-datepicker-popup
+                           ng-click="createMonthlyPeriodCtrl.openPopupEndDate($event)"
+                           is-open="createMonthlyPeriodCtrl.calendar.endDateOpened" />
+                    <span class="input-group-btn">
+                        <button type="button" class="btn btn-default" ng-click="createMonthlyPeriodCtrl.openPopupEndDate($event)">
+                            <i class="glyphicon glyphicon-calendar"></i>
+                        </button>
+                    </span>
+                </p>
             </div>
         </div>
         <div class="form-group">

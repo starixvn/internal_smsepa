@@ -4,9 +4,9 @@
     /* jshint validthis:true */
 
     angular.module('targetTemplateModule').controller('CreateTargetTemplateController', createTargetTemplateController);
-    createTargetTemplateController.$inject = ['$modalInstance', 'TargetTemplateModel', 'CommonModel'];
+    createTargetTemplateController.$inject = ['$uibModalInstance', 'TargetTemplateModel', 'CommonModel'];
 
-    function createTargetTemplateController($modalInstance, TargetTemplateModel, CommonModel) {
+    function createTargetTemplateController($uibModalInstance, TargetTemplateModel, CommonModel) {
         var vm = this;
 
         vm.permission = 0;
@@ -28,7 +28,7 @@
         initialize();
 
         function cancel() {
-            $modalInstance.dismiss("cancel");
+            $uibModalInstance.dismiss("cancel");
         }
 
         function initialize() {
@@ -47,7 +47,7 @@
 
         function save(targetTemplate) {
             if (TargetTemplateModel.validateTargetTemplate(targetTemplate)) {
-                TargetTemplateModel.createTargetTemplate(targetTemplate, $modalInstance);
+                TargetTemplateModel.createTargetTemplate(targetTemplate, $uibModalInstance);
             }
         }
     }

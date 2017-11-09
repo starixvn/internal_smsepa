@@ -3,9 +3,9 @@
     /* jshint latedef:nofunc */
 
     angular.module('flowMngModule').factory('DeptFlowModel', deptFlowModel);
-    deptFlowModel.$inject = ['$modal', 'FlowSettingModel', 'deptFlowFactory', 'notificationFactory', 'errorFactory', 'baseUrl'];
+    deptFlowModel.$inject = ['$uibModal', 'FlowSettingModel', 'deptFlowFactory', 'notificationFactory', 'errorFactory', 'baseUrl'];
 
-    function deptFlowModel($modal, FlowSettingModel, deptFlowFactory, notificationFactory, errorFactory, baseUrl) {
+    function deptFlowModel($uibModal, FlowSettingModel, deptFlowFactory, notificationFactory, errorFactory, baseUrl) {
         var flowModel = {};
 
         flowModel.selfs = angular.copy(FlowSettingModel.selfs);
@@ -80,7 +80,7 @@
             if (!vm.department || !vm.department.DepartmentId) {
                 notificationFactory.error('', 'Please select a department!');
             } else {
-                var modalInstance = $modal.open({
+                var modalInstance = $uibModal.open({
                     templateUrl: 'SourceApp/Shared/Templates/ModalConfirmContent.html',
                     controller: 'ModalConfirmController as modalConfirmCtrl',
                     backdrop: 'static',

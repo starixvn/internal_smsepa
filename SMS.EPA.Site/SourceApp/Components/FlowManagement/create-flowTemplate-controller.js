@@ -4,9 +4,9 @@
     /* jshint validthis:true */
 
     angular.module('flowMngModule').controller('CreateFlowTemplateController', createFlowTemplateController);
-    createFlowTemplateController.$inject = ['$modalInstance', 'FlowTemplateModel', 'CommonModel', 'utilitiesFactory'];
+    createFlowTemplateController.$inject = ['$uibModalInstance', 'FlowTemplateModel', 'CommonModel', 'utilitiesFactory'];
 
-    function createFlowTemplateController($modalInstance, FlowTemplateModel, CommonModel, utilitiesFactory) {
+    function createFlowTemplateController($uibModalInstance, FlowTemplateModel, CommonModel, utilitiesFactory) {
         var vm = this;
 
         vm.flowTemplate = {
@@ -24,7 +24,7 @@
         initialize();
 
         function cancel() {
-            $modalInstance.dismiss('cancel');
+            $uibModalInstance.dismiss('cancel');
         }
 
         function initialize() {
@@ -35,7 +35,7 @@
 
         function save(flowTemplate) {
             if (FlowTemplateModel.validateFlowTemplate(flowTemplate)) {
-                FlowTemplateModel.createFlowTemplate(flowTemplate, $modalInstance);
+                FlowTemplateModel.createFlowTemplate(flowTemplate, $uibModalInstance);
             }
         }
     }

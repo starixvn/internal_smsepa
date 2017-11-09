@@ -27,6 +27,8 @@
             function (newVal) {
                 if (newVal) {
                     vm.period = $scope.updateCtrl.period;
+                    vm.period.StartDate = vm.period.StartDate ? new Date(vm.period.StartDate) : null;
+                    vm.period.EndDate = vm.period.EndDate ? new Date(vm.period.EndDate) : null;
                 }
             });
 

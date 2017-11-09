@@ -3,7 +3,7 @@
 
 epaModule.controller('ModalAdjustScoreController',
     [
-        '$modalInstance',
+        '$uibModalInstance',
         'EvaluationModel',
         'ReviewerEPAModel',
         'ManagementEPAModel',
@@ -13,7 +13,7 @@ epaModule.controller('ModalAdjustScoreController',
         'selectedEmployees',
         'isReviewer',
         function(
-            $modalInstance,
+            $uibModalInstance,
             EvaluationModel,
             ReviewerEPAModel,
             ManagementEPAModel,
@@ -44,19 +44,19 @@ epaModule.controller('ModalAdjustScoreController',
                         ManagementEPAModel.adjustScoreByManagement(vm, vm.selectedEmployees);
                     }
 
-                    $modalInstance.close(vm.adjust);
+                    $uibModalInstance.close(vm.adjust);
                 }
             };
 
             vm.cancel = function() {
-                $modalInstance.dismiss('cancel');
+                $uibModalInstance.dismiss('cancel');
             };
         }
     ]);
 
 epaModule.controller('ModalUpdateCommentController',
     [
-        '$modalInstance',
+        '$uibModalInstance',
         'EvaluationModel',
         'ReviewerEPAModel',
         'ManagementEPAModel',
@@ -66,7 +66,7 @@ epaModule.controller('ModalUpdateCommentController',
         'comment',
         'isEdit',
         'isReviewer',
-        function($modalInstance,
+        function($uibModalInstance,
             EvaluationModel,
             ReviewerEPAModel,
             ManagementEPAModel,
@@ -104,41 +104,41 @@ epaModule.controller('ModalUpdateCommentController',
                     ManagementEPAModel.adjustScoreByManagement(vm, model);
                 }
 
-                $modalInstance.close(vm.comment);
+                $uibModalInstance.close(vm.comment);
             };
 
             vm.cancel = function() {
-                $modalInstance.dismiss('cancel');
+                $uibModalInstance.dismiss('cancel');
             };
         }
     ]);
 
 epaModule.controller('ModalNotificationController',
     [
-        '$modalInstance', 'message',
-        function($modalInstance, message) {
+        '$uibModalInstance', 'message',
+        function($uibModalInstance, message) {
             var vm = this;
 
             vm.message = message;
 
             vm.cancel = function() {
-                $modalInstance.dismiss('cancel');
+                $uibModalInstance.dismiss('cancel');
             };
         }
     ]);
 
 epaModule.controller("ModalRemindController",
     [
-        '$modalInstance',
-        function($modalInstance) {
+        '$uibModalInstance',
+        function($uibModalInstance) {
             var vm = this;
 
             vm.ok = function() {
-                $modalInstance.close();
+                $uibModalInstance.close();
             };
 
             vm.cancel = function() {
-                $modalInstance.dismiss("cancel");
+                $uibModalInstance.dismiss("cancel");
             };
         }
     ]);

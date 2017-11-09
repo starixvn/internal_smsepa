@@ -4,9 +4,9 @@
     /* jshint validthis:true */
 
     angular.module('monthlyPeriodModule').controller('CreateMonthlyPeriodController', createMonthlyPeriodController);
-    createMonthlyPeriodController.$inject = ['$modalInstance', 'MonthlyPeriodModel'];
+    createMonthlyPeriodController.$inject = ['$uibModalInstance', 'MonthlyPeriodModel'];
 
-    function createMonthlyPeriodController($modalInstance, MonthlyPeriodModel) {
+    function createMonthlyPeriodController($uibModalInstance, MonthlyPeriodModel) {
         var vm = this,
         date = new Date();
 
@@ -35,12 +35,12 @@
                 period.StartDate = period.StartDate.toDateString();
                 period.EndDate = period.EndDate.toDateString();
 
-                MonthlyPeriodModel.createMonthlyPeriod(period, $modalInstance);
+                MonthlyPeriodModel.createMonthlyPeriod(period, $uibModalInstance);
             }
         };
 
         vm.cancel = function () {
-            $modalInstance.dismiss('cancel');
+            $uibModalInstance.dismiss('cancel');
         };
     }
 })(angular);

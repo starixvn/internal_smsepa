@@ -4,9 +4,9 @@
     /* jshint validthis:true */
 
     angular.module('employeeModule').controller('ResetPasswordController', resetPasswordController);
-    resetPasswordController.$inject = ['$modalInstance', 'employee', 'defaultPassword'];
+    resetPasswordController.$inject = ['$uibModalInstance', 'employee', 'defaultPassword'];
 
-    function resetPasswordController($modalInstance, employee, defaultPassword) {
+    function resetPasswordController($uibModalInstance, employee, defaultPassword) {
         var vm = this;
 
         vm.defaultPassword = defaultPassword;
@@ -16,11 +16,11 @@
         vm.save = save;
 
         function cancel() {
-            $modalInstance.dismiss('cancel');
+            $uibModalInstance.dismiss('cancel');
         }
 
         function save() {
-            $modalInstance.close();
+            $uibModalInstance.close();
         }
     }
 })(angular);

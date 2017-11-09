@@ -3,9 +3,9 @@
     /* jshint latedef:nofunc */
 
     angular.module('epaModule').factory('UpdateFinalScoreModel', updateFinalScoreModel);
-    updateFinalScoreModel.$inject = ['$modal', 'updateFinalScoreFactory', 'notificationFactory', 'errorFactory'];
+    updateFinalScoreModel.$inject = ['$uibModal', 'updateFinalScoreFactory', 'notificationFactory', 'errorFactory'];
 
-    function updateFinalScoreModel($modal, updateFinalScoreFactory, notificationFactory, errorFactory) {
+    function updateFinalScoreModel($uibModal, updateFinalScoreFactory, notificationFactory, errorFactory) {
         var model = {};
 
         model.periods = [];
@@ -37,7 +37,7 @@
         };
 
         model.updateFinalScore = function (vm, selectedEPAs) {
-            var modalInstance = $modal.open({
+            var modalInstance = $uibModal.open({
                 templateUrl: '/SourceApp/Shared/Templates/ModalConfirmContent.html',
                 controller: 'ModalConfirmController as modalConfirmCtrl',
                 backdrop: 'static',

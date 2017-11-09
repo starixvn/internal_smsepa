@@ -4,9 +4,9 @@
     /* jshint validthis:true */
 
     angular.module('targetTemplateModule').controller('AddedKPIGroupController', addedKPIGroupController);
-    addedKPIGroupController.$inject = ['$modalInstance', '$translate', 'TargetTemplateModel', 'targetTemplateId', 'maxWeight'];
+    addedKPIGroupController.$inject = ['$uibModalInstance', '$translate', 'TargetTemplateModel', 'targetTemplateId', 'maxWeight'];
 
-    function addedKPIGroupController($modalInstance, $translate, TargetTemplateModel, targetTemplateId, maxWeight) {
+    function addedKPIGroupController($uibModalInstance, $translate, TargetTemplateModel, targetTemplateId, maxWeight) {
         var vm = this;
 
         vm.targetTemplateId = targetTemplateId;
@@ -15,7 +15,7 @@
         vm.selectedAll = false;
 
         vm.cancel = function () {
-            $modalInstance.dismiss("cancel");
+            $uibModalInstance.dismiss("cancel");
         };
 
         vm.checkAll = function (selectedAll) {
@@ -63,7 +63,7 @@
                     KPIGroups: kpiGroups
                 };
                 TargetTemplateModel.addKPIGroupWeight(model).then(function () {
-                    $modalInstance.close();
+                    $uibModalInstance.close();
                 });
             }
         };

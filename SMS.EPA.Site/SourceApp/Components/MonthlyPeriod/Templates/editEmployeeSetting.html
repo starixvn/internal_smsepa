@@ -75,39 +75,60 @@
                     </td>
                     <td data-translate="StartDate"></td>
                     <td class="text-center">
-                        <input readonly class="calendar-form-control" type="text"
-                               ng-model="updatePeriodSettingCtrl.employeeOptions.humanResource.StartDate"
-                               datepicker-popup ng-click="updatePeriodSettingCtrl.openFlowPopupStartDate($event, updatePeriodSettingCtrl.evaluatorType.HumanResources)"
-                               is-open="updatePeriodSettingCtrl.flowCalendar.humanResource.startDateOpened" />
-                        <epa-calendar-image class="calendar-image period-calendar"
-                                            ng-click="updatePeriodSettingCtrl.openFlowPopupStartDate($event, updatePeriodSettingCtrl.evaluatorType.HumanResources)"></epa-calendar-image>
+                        <p class="input-group calendar-input-group">
+                            <input readonly class="calendar-form-control" type="text" uib-datepicker-popup
+                                   ng-model="updatePeriodSettingCtrl.employeeOptions.humanResource.StartDate"
+                                   ng-click="updatePeriodSettingCtrl.openFlowPopupStartDate($event, updatePeriodSettingCtrl.evaluatorType.HumanResources)"
+                                   is-open="updatePeriodSettingCtrl.flowCalendar.humanResource.startDateOpened" />
+                            <span class="input-group-btn">
+                                <button type="button" class="btn btn-default"
+                                        ng-click="updatePeriodSettingCtrl.openFlowPopupStartDate($event, updatePeriodSettingCtrl.evaluatorType.HumanResources)">
+                                    <i class="glyphicon glyphicon-calendar"></i>
+                                </button>
+                            </span>
+                        </p>
                     </td>
                     <td class="text-center">
-                        <input readonly class="calendar-form-control" type="text"
-                               ng-model="updatePeriodSettingCtrl.employeeOptions.selfEvaluator.StartDate"
-                               ng-click="updatePeriodSettingCtrl.openFlowPopupStartDate($event, updatePeriodSettingCtrl.evaluatorType.SelfEvaluator)"
-                               datepicker-popup
-                               is-open="updatePeriodSettingCtrl.flowCalendar.selfEvaluator.startDateOpened" />
-                        <epa-calendar-image class="calendar-image period-calendar"
-                                            ng-click="updatePeriodSettingCtrl.openFlowPopupStartDate($event, updatePeriodSettingCtrl.evaluatorType.SelfEvaluator)"></epa-calendar-image>
+                        <p class="input-group calendar-input-group">
+                            <input readonly class="calendar-form-control" type="text" uib-datepicker-popup
+                                   ng-model="updatePeriodSettingCtrl.employeeOptions.selfEvaluator.StartDate"
+                                   ng-click="updatePeriodSettingCtrl.openFlowPopupStartDate($event, updatePeriodSettingCtrl.evaluatorType.SelfEvaluator)"
+                                   is-open="updatePeriodSettingCtrl.flowCalendar.selfEvaluator.startDateOpened" />
+                            <span class="input-group-btn">
+                                <button type="button" class="btn btn-default"
+                                        ng-click="updatePeriodSettingCtrl.openFlowPopupStartDate($event, updatePeriodSettingCtrl.evaluatorType.SelfEvaluator)">
+                                    <i class="glyphicon glyphicon-calendar"></i>
+                                </button>
+                            </span>
+                        </p>
                     </td>
                     <td class="text-center">
-                        <input readonly class="calendar-form-control" type="text"
-                               ng-model="updatePeriodSettingCtrl.employeeOptions.evaluator.StartDate"
-                               ng-click="updatePeriodSettingCtrl.openFlowPopupStartDate($event, updatePeriodSettingCtrl.evaluatorType.Evaluator)"
-                               datepicker-popup
-                               is-open="updatePeriodSettingCtrl.flowCalendar.evaluator.startDateOpened" />
-                        <epa-calendar-image class="calendar-image period-calendar"
-                                            ng-click="updatePeriodSettingCtrl.openFlowPopupStartDate($event, updatePeriodSettingCtrl.evaluatorType.Evaluator)"></epa-calendar-image>
+                        <p class="input-group calendar-input-group">
+                            <input readonly class="calendar-form-control" type="text" uib-datepicker-popup
+                                   ng-model="updatePeriodSettingCtrl.employeeOptions.evaluator.StartDate"
+                                   ng-click="updatePeriodSettingCtrl.openFlowPopupStartDate($event, updatePeriodSettingCtrl.evaluatorType.Evaluator)"
+                                   is-open="updatePeriodSettingCtrl.flowCalendar.evaluator.startDateOpened" />
+                            <span class="input-group-btn">
+                                <button type="button" class="btn btn-default"
+                                        ng-click="updatePeriodSettingCtrl.openFlowPopupStartDate($event, updatePeriodSettingCtrl.evaluatorType.Evaluator)">
+                                    <i class="glyphicon glyphicon-calendar"></i>
+                                </button>
+                            </span>
+                        </p>
                     </td>
                     <td class="text-center">
-                        <input readonly class="calendar-form-control" type="text"
-                               ng-model="updatePeriodSettingCtrl.employeeOptions.reviewer.StartDate"
-                               ng-click="updatePeriodSettingCtrl.openFlowPopupStartDate($event, updatePeriodSettingCtrl.evaluatorType.Reviewer)"
-                               datepicker-popup
-                               is-open="updatePeriodSettingCtrl.flowCalendar.reviewer.startDateOpened" />
-                        <epa-calendar-image class="calendar-image period-calendar"
-                                            ng-click="updatePeriodSettingCtrl.openFlowPopupStartDate($event, updatePeriodSettingCtrl.evaluatorType.Reviewer)"></epa-calendar-image>
+                        <p class="input-group calendar-input-group">
+                            <input readonly class="calendar-form-control" type="text" uib-datepicker-popup
+                                   ng-model="updatePeriodSettingCtrl.employeeOptions.reviewer.StartDate"
+                                   ng-click="updatePeriodSettingCtrl.openFlowPopupStartDate($event, updatePeriodSettingCtrl.evaluatorType.Reviewer)"
+                                   is-open="updatePeriodSettingCtrl.flowCalendar.reviewer.startDateOpened" />
+                            <span class="input-group-btn">
+                                <button type="button" class="btn btn-default"
+                                        ng-click="updatePeriodSettingCtrl.openFlowPopupStartDate($event, updatePeriodSettingCtrl.evaluatorType.Reviewer)">
+                                    <i class="glyphicon glyphicon-calendar"></i>
+                                </button>
+                            </span>
+                        </p>
                     </td>
                 </tr>
                 <tr>
@@ -116,39 +137,60 @@
                     </td>
                     <td data-translate="EndDate"></td>
                     <td class="text-center">
-                        <input readonly class="calendar-form-control" type="text"
-                               ng-model="updatePeriodSettingCtrl.employeeOptions.humanResource.EndDate"
-                               datepicker-popup ng-click="updatePeriodSettingCtrl.openFlowPopupEndDate($event, updatePeriodSettingCtrl.evaluatorType.HumanResources)"
-                               is-open="updatePeriodSettingCtrl.flowCalendar.humanResource.endDateOpened" />
-                        <epa-calendar-image class="calendar-image period-calendar"
-                                            ng-click="updatePeriodSettingCtrl.openFlowPopupEndDate($event, updatePeriodSettingCtrl.evaluatorType.HumanResources)"></epa-calendar-image>
+                        <p class="input-group calendar-input-group">
+                            <input readonly class="calendar-form-control" type="text" uib-datepicker-popup
+                                   ng-model="updatePeriodSettingCtrl.employeeOptions.humanResource.EndDate"
+                                   ng-click="updatePeriodSettingCtrl.openFlowPopupEndDate($event, updatePeriodSettingCtrl.evaluatorType.HumanResources)"
+                                   is-open="updatePeriodSettingCtrl.flowCalendar.humanResource.endDateOpened" />
+                            <span class="input-group-btn">
+                                <button type="button" class="btn btn-default"
+                                        ng-click="updatePeriodSettingCtrl.openFlowPopupEndDate($event, updatePeriodSettingCtrl.evaluatorType.HumanResources)">
+                                    <i class="glyphicon glyphicon-calendar"></i>
+                                </button>
+                            </span>
+                        </p>
                     </td>
                     <td class="text-center">
-                        <input readonly class="calendar-form-control" type="text"
-                               ng-model="updatePeriodSettingCtrl.employeeOptions.selfEvaluator.EndDate"
-                               ng-click="updatePeriodSettingCtrl.openFlowPopupEndDate($event, updatePeriodSettingCtrl.evaluatorType.SelfEvaluator)"
-                               datepicker-popup
-                               is-open="updatePeriodSettingCtrl.flowCalendar.selfEvaluator.endDateOpened" />
-                        <epa-calendar-image class="calendar-image period-calendar"
-                                            ng-click="updatePeriodSettingCtrl.openFlowPopupEndDate($event, updatePeriodSettingCtrl.evaluatorType.SelfEvaluator)"></epa-calendar-image>
+                        <p class="input-group calendar-input-group">
+                            <input readonly class="calendar-form-control" type="text" uib-datepicker-popup
+                                   ng-model="updatePeriodSettingCtrl.employeeOptions.selfEvaluator.EndDate"
+                                   ng-click="updatePeriodSettingCtrl.openFlowPopupEndDate($event, updatePeriodSettingCtrl.evaluatorType.SelfEvaluator)"
+                                   is-open="updatePeriodSettingCtrl.flowCalendar.selfEvaluator.endDateOpened" />
+                            <span class="input-group-btn">
+                                <button type="button" class="btn btn-default"
+                                        ng-click="updatePeriodSettingCtrl.openFlowPopupEndDate($event, updatePeriodSettingCtrl.evaluatorType.SelfEvaluator)">
+                                    <i class="glyphicon glyphicon-calendar"></i>
+                                </button>
+                            </span>
+                        </p>
                     </td>
                     <td class="text-center">
-                        <input readonly class="calendar-form-control" type="text"
-                               ng-model="updatePeriodSettingCtrl.employeeOptions.evaluator.EndDate"
-                               ng-click="updatePeriodSettingCtrl.openFlowPopupEndDate($event, updatePeriodSettingCtrl.evaluatorType.Evaluator)"
-                               datepicker-popup
-                               is-open="updatePeriodSettingCtrl.flowCalendar.evaluator.endDateOpened" />
-                        <epa-calendar-image class="calendar-image period-calendar"
-                                            ng-click="updatePeriodSettingCtrl.openFlowPopupEndDate($event, updatePeriodSettingCtrl.evaluatorType.Evaluator)"></epa-calendar-image>
+                        <p class="input-group calendar-input-group">
+                            <input readonly class="calendar-form-control" type="text" uib-datepicker-popup
+                                   ng-model="updatePeriodSettingCtrl.employeeOptions.evaluator.EndDate"
+                                   ng-click="updatePeriodSettingCtrl.openFlowPopupEndDate($event, updatePeriodSettingCtrl.evaluatorType.Evaluator)"
+                                   is-open="updatePeriodSettingCtrl.flowCalendar.evaluator.endDateOpened" />
+                            <span class="input-group-btn">
+                                <button type="button" class="btn btn-default"
+                                        ng-click="updatePeriodSettingCtrl.openFlowPopupEndDate($event, updatePeriodSettingCtrl.evaluatorType.Evaluator)">
+                                    <i class="glyphicon glyphicon-calendar"></i>
+                                </button>
+                            </span>
+                        </p>
                     </td>
                     <td class="text-center">
-                        <input readonly class="calendar-form-control" type="text"
-                               ng-model="updatePeriodSettingCtrl.employeeOptions.reviewer.EndDate"
-                               ng-click="updatePeriodSettingCtrl.openFlowPopupEndDate($event, updatePeriodSettingCtrl.evaluatorType.Reviewer)"
-                               datepicker-popup
-                               is-open="updatePeriodSettingCtrl.flowCalendar.reviewer.endDateOpened" />
-                        <epa-calendar-image class="calendar-image period-calendar"
-                                            ng-click="updatePeriodSettingCtrl.openFlowPopupEndDate($event, updatePeriodSettingCtrl.evaluatorType.Reviewer)"></epa-calendar-image>
+                        <p class="input-group calendar-input-group">
+                            <input readonly class="calendar-form-control" type="text" uib-datepicker-popup
+                                   ng-model="updatePeriodSettingCtrl.employeeOptions.reviewer.EndDate"
+                                   ng-click="updatePeriodSettingCtrl.openFlowPopupEndDate($event, updatePeriodSettingCtrl.evaluatorType.Reviewer)"
+                                   is-open="updatePeriodSettingCtrl.flowCalendar.reviewer.endDateOpened" />
+                            <span class="input-group-btn">
+                                <button type="button" class="btn btn-default"
+                                        ng-click="updatePeriodSettingCtrl.openFlowPopupEndDate($event, updatePeriodSettingCtrl.evaluatorType.Reviewer)">
+                                    <i class="glyphicon glyphicon-calendar"></i>
+                                </button>
+                            </span>
+                        </p>
                     </td>
                 </tr>
             </tbody>

@@ -327,7 +327,6 @@
     <Content Include="Content\Site\auth\images\titlebg.png" />
     <Content Include="Content\Site\images\bg-login.png" />
     <Content Include="Content\Site\images\bullet-grey.png" />
-    <Content Include="Content\Site\images\calendar.png" />
     <Content Include="Content\Site\images\checkbox_no.png" />
     <Content Include="Content\Site\images\checkbox_yes.png" />
     <Content Include="Content\Site\images\CTI-logo.png" />
@@ -360,8 +359,8 @@
     <Content Include="Global.asax" />
     <Content Include="Libs\angular-chosen.js" />
     <Content Include="Libs\angular-chosen.min.js" />
-    <Content Include="Libs\angular-filter\dist\angular-filter.js" />
-    <Content Include="Libs\angular-filter\dist\angular-filter.min.js" />
+    <Content Include="Libs\angular-filter\angular-filter.js" />
+    <Content Include="Libs\angular-filter\angular-filter.min.js" />
     <Content Include="Libs\angular-multi-select.js" />
     <Content Include="Libs\angularjs\angular-animate.js" />
     <Content Include="Libs\angularjs\angular-animate.min.js" />
@@ -401,8 +400,6 @@
     <Content Include="Libs\checklist-model.js" />
     <Content Include="Libs\chosen.jquery.js" />
     <Content Include="Libs\chosen.jquery.min.js" />
-    <Content Include="Libs\date.js" />
-    <Content Include="Libs\datepicker.js" />
     <Content Include="Libs\dirPagination.js" />
     <Content Include="Libs\FanexGrid\Fanex.Grid.css" />
     <Content Include="Libs\FanexGrid\Fanex.Grid.js" />
@@ -455,7 +452,8 @@
     <Content Include="Libs\toastr.js" />
     <Content Include="Libs\toastr.min.js" />
     <Content Include="Libs\ui-bootstrap-contextMenu.js" />
-    <Content Include="Libs\ui-bootstrap-tpls-0.13.0.min.js" />
+    <Content Include="Libs\ui-bootstrap-tpls-2.5.0.js" />
+    <Content Include="Libs\ui-bootstrap-tpls-2.5.0.min.js" />
     <Content Include="Libs\_references.js" />
     <Content Include="SourceApp\app.js" />
     <Content Include="SourceApp\Components\Dashboard\Templates\todoList.html" />
@@ -621,9 +619,7 @@
     <Content Include="SourceApp\Components\TargetTemplate\Templates\update.html" />
     <Content Include="SourceApp\Components\TargetTemplate\update-target-template-controller.js" />
     <Content Include="SourceApp\Shared\Directives\popover-avatar-directive.js" />
-    <Content Include="SourceApp\Shared\Directives\epa-datepickerPopup-directive.js" />
     <Content Include="SourceApp\Shared\Directives\epa-numberDot-directive.js" />
-    <Content Include="SourceApp\Shared\Directives\epa-calendarImage-directive.js" />
     <Content Include="SourceApp\Shared\Directives\epa-addClassToRoleFilter-directive.js" />
     <Content Include="SourceApp\Shared\Directives\epa-searchAutoComplete-directive.js" />
     <Content Include="SourceApp\Shared\Factories\error-factory.js" />
@@ -774,12 +770,6 @@
     <Content Include="Content\Site\mixins.less" />
     <Content Include="Content\Site\variables.less" />
     <Content Include="Content\Site\auth\style.less" />
-    <Content Include="Libs\angular-filter\.bower.json" />
-    <Content Include="Libs\angular-filter\.bowerrc" />
-    <Content Include="Libs\angular-filter\.travis.yml" />
-    <Content Include="Libs\angular-filter\bower.json" />
-    <Content Include="Libs\angular-filter\dist\angular-filter.zip" />
-    <Content Include="Libs\angular-filter\license.md" />
     <Content Include="Content\Site\views\_evaluationProcess.less" />
     <Content Include="ExcelTemplates\DisciplineSummaryByPeriodReport.xls" />
     <Content Include="Content\Site\components\_panel.less" />

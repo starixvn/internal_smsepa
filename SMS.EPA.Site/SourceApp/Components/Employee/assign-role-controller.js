@@ -4,9 +4,9 @@
     /* jshint validthis:true */
 
     angular.module('employeeModule').controller('AssignRoleToUserController', assignRoleToUserController);
-    assignRoleToUserController.$inject = ['$modalInstance', 'EmployeeModel', 'CommonModel', 'employee'];
+    assignRoleToUserController.$inject = ['$uibModalInstance', 'EmployeeModel', 'CommonModel', 'employee'];
 
-    function assignRoleToUserController($modalInstance, EmployeeModel, CommonModel, employee) {
+    function assignRoleToUserController($uibModalInstance, EmployeeModel, CommonModel, employee) {
         var vm = this;
 
         vm.employee = employee;
@@ -19,7 +19,7 @@
         initialize();
 
         function cancel() {
-            $modalInstance.dismiss('cancel');
+            $uibModalInstance.dismiss('cancel');
         }
 
         function checkRolePermission(roleId) {
@@ -50,7 +50,7 @@
                 roles: roles,
                 roleIds: roleIds
             };
-            $modalInstance.close(editedRole);
+            $uibModalInstance.close(editedRole);
         }
     }
 })(angular);

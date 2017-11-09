@@ -4,9 +4,9 @@
     /* jshint validthis:true */
 
     angular.module('periodModule').controller('CreatePeriodController', createPeriodController);
-    createPeriodController.$inject = ['$modalInstance', 'PeriodModel', 'CommonModel', 'utilitiesFactory'];
+    createPeriodController.$inject = ['$uibModalInstance', 'PeriodModel', 'CommonModel', 'utilitiesFactory'];
 
-    function createPeriodController($modalInstance, PeriodModel, CommonModel, utilitiesFactory) {
+    function createPeriodController($uibModalInstance, PeriodModel, CommonModel, utilitiesFactory) {
         var vm = this;
 
         vm.calendar = PeriodModel.calendar;
@@ -48,12 +48,12 @@
                 period.AttendanceStartDate = period.RawAttendanceStartDate ? period.RawAttendanceStartDate.toDateString() : null;
                 period.AttendanceEndDate = period.RawAttendanceEndDate ? period.RawAttendanceEndDate.toDateString() : null;
 
-                PeriodModel.createPeriod(period, $modalInstance);
+                PeriodModel.createPeriod(period, $uibModalInstance);
             }
         };
 
         vm.cancel = function () {
-            $modalInstance.dismiss("cancel");
+            $uibModalInstance.dismiss("cancel");
         };
 
         function initialize() {

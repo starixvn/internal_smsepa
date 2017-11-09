@@ -3,9 +3,9 @@
     /* jshint latedef:nofunc */
 
     angular.module('employeeModule').factory('EmployeeModel', employeeModel);
-    employeeModel.$inject = ['$modal', '$window', '$timeout', 'employeeFactory', 'errorFactory', 'notificationFactory'];
+    employeeModel.$inject = ['$uibModal', '$window', '$timeout', 'employeeFactory', 'errorFactory', 'notificationFactory'];
 
-    function employeeModel($modal, $window, $timeout, employeeFactory, errorFactory, notificationFactory) {
+    function employeeModel($uibModal, $window, $timeout, employeeFactory, errorFactory, notificationFactory) {
         var model = {},
             emailPattern = /^([a-zA-Z0-9_\-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([a-zA-Z0-9\-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/;
 
@@ -22,7 +22,7 @@
         };
 
         model.openPopupCreateNewEmployee = function (vm) {
-            vm.modalInstance = $modal.open({
+            vm.modalInstance = $uibModal.open({
                 templateUrl: 'SourceApp/Components/Employee/Templates/create.html',
                 controller: "CreateEmployeeController as employeeCtrl",
                 backdrop: 'static',
@@ -81,7 +81,7 @@
         };
 
         model.openPopupUpdateEmployee = function (vm, employee) {
-            vm.modalInstance = $modal.open({
+            vm.modalInstance = $uibModal.open({
                 templateUrl: 'SourceApp/Components/Employee/Templates/edit.html',
                 controller: "UpdateEmployeeController as employeeCtrl",
                 resolve: {
@@ -144,7 +144,7 @@
         };
 
         model.openPopupChangePassword = function (vm) {
-            vm.modalInstance = $modal.open({
+            vm.modalInstance = $uibModal.open({
                 templateUrl: 'SourceApp/Components/Employee/Templates/changePassword.html',
                 controller: "ChangePasswordEmployeeController as changePasswordEmployeeCtrl",
                 backdrop: 'static',
@@ -195,7 +195,7 @@
         };
 
         model.openPopupAssignRole = function (employee) {
-            var modalInstance = $modal.open({
+            var modalInstance = $uibModal.open({
                 templateUrl: 'SourceApp/Components/Employee/Templates/assignRole.html',
                 controller: "AssignRoleToUserController as assignRoleCtrl",
                 backdrop: 'static',
@@ -257,7 +257,7 @@
         };
 
         model.openPopupResetPassword = function (employee, defaultPassword) {
-            var modalInstance = $modal.open({
+            var modalInstance = $uibModal.open({
                 templateUrl: 'SourceApp/Components/Employee/Templates/resetPassword.html',
                 controller: "ResetPasswordController as resetPasswordCtrl",
                 backdrop: 'static',
@@ -296,7 +296,7 @@
                 HasMonthlyEPA: employee.HasMonthlyEPA
             };
 
-            var modalInstance = $modal.open({
+            var modalInstance = $uibModal.open({
                 templateUrl: 'SourceApp/Components/Employee/Templates/modalConfirmSetUnsetMonthlyEvaluation.html',
                 controller: "ModalConfirmSetUnsetMonthlyEvaluationController as modalConfirmCtrl",
                 backdrop: 'static',

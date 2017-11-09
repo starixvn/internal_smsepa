@@ -5,13 +5,13 @@
         </ul>
     </div>
     <div class="target-tabset">
-        <tabset id="TargetTemplateTab">
-            <tab heading="DEPARTMENT" class="tab-cursor" active="targetCtrl.dataTab.department" select="targetCtrl.tabDepartmentSelect()">
+        <uib-tabset id="TargetTemplateTab">
+            <uib-tab heading="DEPARTMENT" class="tab-cursor" active="targetCtrl.dataTab.department" select="targetCtrl.tabDepartmentSelect()">
                 <div ng-include src="'/SourceApp/Components/TargetEmployeeSetting/Templates/department.html'"></div>
-            </tab>
-            <tab heading="PERSONNEL" class="tab-cursor" active="targetCtrl.dataTab.personnel" select="targetCtrl.tabPersonnelSelect()">
+            </uib-tab>
+            <uib-tab heading="PERSONNEL" class="tab-cursor" active="targetCtrl.dataTab.personnel" select="targetCtrl.tabPersonnelSelect()">
                 <div ng-include src="'/SourceApp/Components/TargetEmployeeSetting/Templates/personnel.html'"></div>
-            </tab>
-        </tabset>
+            </uib-tab>
+        </uib-tabset>
     </div>
 </div>

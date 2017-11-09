@@ -3,9 +3,9 @@
     /* jshint latedef:nofunc */
 
     angular.module('commonModule').factory('CommonModel', commonModel);
-    commonModel.$inject = ['$modal', 'commonFactory', 'errorFactory'];
+    commonModel.$inject = ['$uibModal', 'commonFactory', 'errorFactory'];
 
-    function commonModel($modal, commonFactory, errorFactory) {
+    function commonModel($uibModal, commonFactory, errorFactory) {
         var model = {};
 
         model.targetTypes = [];

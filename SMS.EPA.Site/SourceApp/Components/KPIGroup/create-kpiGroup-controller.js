@@ -4,9 +4,9 @@
     /* jshint validthis:true */
 
     angular.module('kpiGroupModule').controller('CreateKPIGroupController', createKPIGroupController);
-    createKPIGroupController.$inject = ['$modalInstance', 'KPIGroupModel'];
+    createKPIGroupController.$inject = ['$uibModalInstance', 'KPIGroupModel'];
 
-    function createKPIGroupController($modalInstance, KPIGroupModel) {
+    function createKPIGroupController($uibModalInstance, KPIGroupModel) {
         var vm = this;
 
         vm.kpiGroup = {
@@ -19,12 +19,12 @@
         vm.save = save;
 
         function cancel() {
-            $modalInstance.dismiss('cancel');
+            $uibModalInstance.dismiss('cancel');
         }
 
         function save() {
             if (KPIGroupModel.validateKPIGroup(vm.kpiGroup)) {
-                KPIGroupModel.createKPIGroup(vm.kpiGroup, $modalInstance);
+                KPIGroupModel.createKPIGroup(vm.kpiGroup, $uibModalInstance);
             }
         }
     }

@@ -3,9 +3,9 @@
     /* jshint latedef:nofunc */
 
     angular.module('flowMngModule').factory('FlowSettingModel', flowSettingModel);
-    flowSettingModel.$inject = ['$modal', 'notificationFactory', 'baseUrl'];
+    flowSettingModel.$inject = ['$uibModal', 'notificationFactory', 'baseUrl'];
 
-    function flowSettingModel($modal, notificationFactory, baseUrl) {
+    function flowSettingModel($uibModal, notificationFactory, baseUrl) {
         var flowModel = {};
 
         flowModel.selfs = {

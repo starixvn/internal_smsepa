@@ -3,9 +3,9 @@
     /* jshint latedef:nofunc */
 
     angular.module('flowMngModule').factory('FlowTemplateModel', flowTemplateModel);
-    flowTemplateModel.$inject = ['$modal', 'flowTemplateFactory', 'utilitiesFactory', 'notificationFactory', 'errorFactory'];
+    flowTemplateModel.$inject = ['$uibModal', 'flowTemplateFactory', 'utilitiesFactory', 'notificationFactory', 'errorFactory'];
 
-    function flowTemplateModel($modal, flowTemplateFactory, utilitiesFactory, notificationFactory, errorFactory) {
+    function flowTemplateModel($uibModal, flowTemplateFactory, utilitiesFactory, notificationFactory, errorFactory) {
         var flowModel = {};
 
         flowModel.flowTemplates = [];
@@ -29,7 +29,7 @@
         };
 
         flowModel.openPopupCreateFlowTemplate = function (vm) {
-            vm.modalInstance = $modal.open({
+            vm.modalInstance = $uibModal.open({
                 templateUrl: 'SourceApp/Components/FlowManagement/Templates/modalCreateFlowTemplate.html',
                 controller: "CreateFlowTemplateController as createFlowTemplateCtrl",
                 backdrop: 'static',
@@ -87,7 +87,7 @@
                     IsActive: flowTemplate.IsActive
                 };
 
-            var modalInstance = $modal.open({
+            var modalInstance = $uibModal.open({
                 templateUrl: 'SourceApp/Shared/Templates/ModalConfirmContent.html',
                 controller: 'ModalConfirmController as modalConfirmCtrl',
                 backdrop: 'static',
@@ -130,7 +130,7 @@
         };
 
         flowModel.openPopupDeleteFlowTemplate = function (vm, flowTemplate) {
-            var modalInstance = $modal.open({
+            var modalInstance = $uibModal.open({
                 templateUrl: 'SourceApp/Shared/Templates/ModalConfirmContent.html',
                 controller: 'ModalConfirmController as modalConfirmCtrl',
                 backdrop: 'static',

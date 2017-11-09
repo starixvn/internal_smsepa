@@ -3,9 +3,9 @@
     /* jshint latedef:nofunc */
 
     angular.module('kpiGroupModule').factory('KPIGroupModel', kpiGroupModel);
-    kpiGroupModel.$inject = ['$modal', 'kpiGroupFactory', 'utilitiesFactory', 'notificationFactory', 'errorFactory'];
+    kpiGroupModel.$inject = ['$uibModal', 'kpiGroupFactory', 'utilitiesFactory', 'notificationFactory', 'errorFactory'];
 
-    function kpiGroupModel($modal, kpiGroupFactory, utilitiesFactory, notificationFactory, errorFactory) {
+    function kpiGroupModel($uibModal, kpiGroupFactory, utilitiesFactory, notificationFactory, errorFactory) {
         var kpiGroups = [],
             kpiGroup = {},
             permission = 0;
@@ -68,7 +68,7 @@
         }
 
         function openPopupCreateKPIGroup(vm) {
-            vm.modalInstance = $modal.open({
+            vm.modalInstance = $uibModal.open({
                 templateUrl: 'SourceApp/Components/KPIGroup/Templates/create.html',
                 controller: 'CreateKPIGroupController as createKPIGroupCtrl',
                 backdrop: 'static',
@@ -79,7 +79,7 @@
         }
 
         function openPopupDeleteKPIGroup(vm, kpiGroup) {
-            var modalInstance = $modal.open({
+            var modalInstance = $uibModal.open({
                 templateUrl: 'SourceApp/Shared/Templates/ModalConfirmContent.html',
                 controller: 'ModalConfirmController as modalConfirmCtrl',
                 backdrop: 'static',
@@ -114,7 +114,7 @@
         }
 
         function openPopupUpdateKPIGroup(vm, kpiGroup) {
-            vm.modalInstance = $modal.open({
+            vm.modalInstance = $uibModal.open({
                 templateUrl: 'SourceApp/Components/KPIGroup/Templates/edit.html',
                 controller: 'UpdateKPIGroupController as updateKPIGroupCtrl',
                 backdrop: 'static',
@@ -138,7 +138,7 @@
                     IsActive: kpiGroup.IsActive
                 };
 
-            var modalInstance = $modal.open({
+            var modalInstance = $uibModal.open({
                 templateUrl: 'SourceApp/Shared/Templates/ModalConfirmContent.html',
                 controller: 'ModalConfirmController as modalConfirmCtrl',
                 backdrop: 'static',

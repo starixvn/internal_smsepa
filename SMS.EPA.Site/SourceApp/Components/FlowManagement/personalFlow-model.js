@@ -3,9 +3,9 @@
     /* jshint latedef:nofunc */
 
     angular.module('flowMngModule').factory('PersonalFlowModel', personalFlowModel);
-    personalFlowModel.$inject = ['$modal', 'FlowSettingModel', 'personalFlowFactory', 'notificationFactory', 'errorFactory'];
+    personalFlowModel.$inject = ['$uibModal', 'FlowSettingModel', 'personalFlowFactory', 'notificationFactory', 'errorFactory'];
 
-    function personalFlowModel($modal, FlowSettingModel, personalFlowFactory, notificationFactory, errorFactory) {
+    function personalFlowModel($uibModal, FlowSettingModel, personalFlowFactory, notificationFactory, errorFactory) {
         var flowModel = {};
 
         flowModel.selfs = angular.copy(FlowSettingModel.selfs);
@@ -71,7 +71,7 @@
         flowModel.openPopupDeletePersonalFlow = function (vm) {
             var index = -1;
 
-            var modalInstance = $modal.open({
+            var modalInstance = $uibModal.open({
                 templateUrl: 'SourceApp/Shared/Templates/ModalConfirmContent.html',
                 controller: 'ModalConfirmController as modalConfirmCtrl',
                 backdrop: 'static',

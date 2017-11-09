@@ -3,9 +3,9 @@
     /* jshint latedef:nofunc */
 
     angular.module('monthlyPeriodModule').factory('MonthlyPeriodModel', monthlyPeriodModel);
-    monthlyPeriodModel.$inject = ['$modal', 'monthlyPeriodFactory', 'errorFactory', 'notificationFactory', 'utilitiesFactory'];
+    monthlyPeriodModel.$inject = ['$uibModal', 'monthlyPeriodFactory', 'errorFactory', 'notificationFactory', 'utilitiesFactory'];
 
-    function monthlyPeriodModel($modal, monthlyPeriodFactory, errorFactory, notificationFactory, utilitiesFactory) {
+    function monthlyPeriodModel($uibModal, monthlyPeriodFactory, errorFactory, notificationFactory, utilitiesFactory) {
         var model = {};
 
         model.periods = [];
@@ -56,7 +56,7 @@
         };
 
         model.openPopupCreateMonthlyPeriod = function (vm) {
-            vm.modalInstance = $modal.open({
+            vm.modalInstance = $uibModal.open({
                 templateUrl: 'SourceApp/Components/MonthlyPeriod/Templates/create.html',
                 controller: "CreateMonthlyPeriodController as createMonthlyPeriodCtrl",
                 backdrop: 'static',
@@ -136,7 +136,7 @@
         };
 
         model.openPopupDeleteMonthlyPeriod = function (vm, period) {
-            var modalInstance = $modal.open({
+            var modalInstance = $uibModal.open({
                 templateUrl: '/SourceApp/Shared/Templates/ModalConfirmContent.html',
                 controller: "ModalConfirmController as modalConfirmCtrl",
                 backdrop: 'static',
@@ -198,7 +198,7 @@
         };
 
         model.openPopupUpdateEmployeeSetting = function (vm, selectedEmployees) {
-            var modalInstance = $modal.open({
+            var modalInstance = $uibModal.open({
                 templateUrl: 'SourceApp/Components/MonthlyPeriod/Templates/editEmployeeSetting.html',
                 controller: "UpdateEmployeeSettingMonthlyPeriodController as updatePeriodSettingCtrl",
                 backdrop: 'static',
@@ -255,7 +255,7 @@
         };
 
         model.openPopupGenerateEvaluation = function (vm, period) {
-            var modalInstance = $modal.open({
+            var modalInstance = $uibModal.open({
                 templateUrl: '/SourceApp/Shared/Templates/ModalConfirmContent.html',
                 controller: "ModalConfirmController as modalConfirmCtrl",
                 backdrop: 'static',
@@ -513,7 +513,7 @@
                 IsIncluded: employee.IsIncluded
             };
 
-            var modalInstance = $modal.open({
+            var modalInstance = $uibModal.open({
                 templateUrl: '/SourceApp/Shared/Templates/ModalConfirmContent.html',
                 controller: "ModalConfirmController as modalConfirmCtrl",
                 backdrop: 'static',

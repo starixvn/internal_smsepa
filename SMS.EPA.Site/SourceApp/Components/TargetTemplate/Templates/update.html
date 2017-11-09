@@ -8,13 +8,13 @@
         </button>
     </div>
     <div class="target-tabset">
-        <tabset id="TargetTemplateTab">
-            <tab heading="GENERAL INFORMATION" class="tab-cursor" active="updateCtrl.dataTab.information" select="updateCtrl.tabInfoSelect()">
+        <uib-tabset id="TargetTemplateTab">
+            <uib-tab heading="GENERAL INFORMATION" class="tab-cursor" active="updateCtrl.dataTab.information" select="updateCtrl.tabInfoSelect()">
                 <div ng-include src="'/SourceApp/Components/TargetTemplate/Templates/generalInformation.html'"></div>
-            </tab>
-            <tab heading="TARGET KPI LIST" class="tab-cursor" active="updateCtrl.dataTab.kpi" select="updateCtrl.tabKPISelect()">
+            </uib-tab>
+            <uib-tab heading="TARGET KPI LIST" class="tab-cursor" active="updateCtrl.dataTab.kpi" select="updateCtrl.tabKPISelect()">
                 <div ng-include src="'/SourceApp/Components/TargetTemplate/Templates/KPIList.html'"></div>
-            </tab>
-        </tabset>
+            </uib-tab>
+        </uib-tabset>
     </div>
 </div>

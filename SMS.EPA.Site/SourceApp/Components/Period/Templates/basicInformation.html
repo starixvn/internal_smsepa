@@ -24,38 +24,62 @@
                    ng-show="!basicInfoPeriodCtrl.period.IsSemiAnnual && !basicInfoPeriodCtrl.period.IsPromotion">
             </label>
             <div class="col-sm-3">
-                <input readonly class="calendar-form-control" type="text"
-                       ng-model="basicInfoPeriodCtrl.period.RawStartDate" datepicker-popup
-                       ng-click="basicInfoPeriodCtrl.openPopupStartDate($event)" min-date="{{basicInfoPeriodCtrl.calendar.minDate}}"
-                       is-open="basicInfoPeriodCtrl.calendar.startDateOpened" />
-                <epa-calendar-image class="calendar-image" ng-click="basicInfoPeriodCtrl.openPopupStartDate($event)"></epa-calendar-image>
+                <p class="input-group calendar-input-group">
+                    <input readonly class="calendar-form-control" type="text"
+                           ng-model="basicInfoPeriodCtrl.period.RawStartDate" uib-datepicker-popup
+                           ng-click="basicInfoPeriodCtrl.openPopupStartDate($event)" min-date="{{basicInfoPeriodCtrl.calendar.minDate}}"
+                           is-open="basicInfoPeriodCtrl.calendar.startDateOpened" />
+                    <span class="input-group-btn">
+                        <button type="button" class="btn btn-default" ng-click="basicInfoPeriodCtrl.openPopupStartDate($event)">
+                            <i class="glyphicon glyphicon-calendar"></i>
+                        </button>
+                    </span>
+                </p>
             </div>
             <label class="col-sm-3 control-label required-label" data-translate="EndDate" ng-show="basicInfoPeriodCtrl.period.IsSemiAnnual"></label>
             <label class="col-sm-3 control-label" data-translate="EndDate" ng-show="!basicInfoPeriodCtrl.period.IsSemiAnnual"></label>
             <div class="col-sm-3">
-                <input readonly class="calendar-form-control" type="text"
-                       ng-model="basicInfoPeriodCtrl.period.RawEndDate" datepicker-popup
-                       ng-click="basicInfoPeriodCtrl.openPopupEndDate($event)" min-date="{{basicInfoPeriodCtrl.calendar.minDate}}"
-                       is-open="basicInfoPeriodCtrl.calendar.endDateOpened" />
-                <epa-calendar-image class="calendar-image" ng-click="basicInfoPeriodCtrl.openPopupEndDate($event)"></epa-calendar-image>
+                <p class="input-group calendar-input-group">
+                    <input readonly class="calendar-form-control" type="text"
+                           ng-model="basicInfoPeriodCtrl.period.RawEndDate" uib-datepicker-popup
+                           ng-click="basicInfoPeriodCtrl.openPopupEndDate($event)" min-date="{{basicInfoPeriodCtrl.calendar.minDate}}"
+                           is-open="basicInfoPeriodCtrl.calendar.endDateOpened" />
+                    <span class="input-group-btn">
+                        <button type="button" class="btn btn-default" ng-click="basicInfoPeriodCtrl.openPopupEndDate($event)">
+                            <i class="glyphicon glyphicon-calendar"></i>
+                        </button>
+                    </span>
+                </p>
             </div>
         </div>
         <div class="form-group top-buffer" ng-if="basicInfoPeriodCtrl.period.IsSemiAnnual">
             <label class="col-sm-3 control-label required-label" data-translate="DisciplineStartDate"></label>
             <div class="col-sm-3">
-                <input readonly class="calendar-form-control" type="text"
-                       ng-model="basicInfoPeriodCtrl.period.RawAttendanceStartDate" datepicker-popup
-                       ng-click="basicInfoPeriodCtrl.openPopupAttendanceStartDate($event)" min-date="{{basicInfoPeriodCtrl.calendar.minDate}}"
-                       is-open="basicInfoPeriodCtrl.calendar.attendanceStartDateOpened" />
-                <epa-calendar-image class="calendar-image" ng-click="basicInfoPeriodCtrl.openPopupAttendanceStartDate($event)"></epa-calendar-image>
+                <p class="input-group calendar-input-group">
+                    <input readonly class="calendar-form-control" type="text"
+                           ng-model="basicInfoPeriodCtrl.period.RawAttendanceStartDate" uib-datepicker-popup
+                           ng-click="basicInfoPeriodCtrl.openPopupAttendanceStartDate($event)" min-date="{{basicInfoPeriodCtrl.calendar.minDate}}"
+                           is-open="basicInfoPeriodCtrl.calendar.attendanceStartDateOpened" />
+                    <span class="input-group-btn">
+                        <button type="button" class="btn btn-default" ng-click="basicInfoPeriodCtrl.openPopupAttendanceStartDate($event)">
+                            <i class="glyphicon glyphicon-calendar"></i>
+                        </button>
+                    </span>
+                </p>
             </div>
             <label class="col-sm-3 control-label required-label" data-translate="DisciplineEndDate"></label>
             <div class="col-sm-3">
-                <input readonly class="calendar-form-control" type="text"
-                       ng-model="basicInfoPeriodCtrl.period.RawAttendanceEndDate" datepicker-popup
-                       ng-click="basicInfoPeriodCtrl.openPopupAttendanceEndDate($event)" min-date="{{basicInfoPeriodCtrl.calendar.minDate}}"
-                       is-open="basicInfoPeriodCtrl.calendar.attendanceEndDateOpened" />
-                <epa-calendar-image class="calendar-image" ng-click="basicInfoPeriodCtrl.openPopupAttendanceEndDate($event)"></epa-calendar-image>
+                <p class="input-group calendar-input-group">
+                    <input readonly class="calendar-form-control" type="text"
+                           ng-model="basicInfoPeriodCtrl.period.RawAttendanceEndDate" uib-datepicker-popup
+                           ng-click="basicInfoPeriodCtrl.openPopupAttendanceEndDate($event)" min-date="{{basicInfoPeriodCtrl.calendar.minDate}}"
+                           is-open="basicInfoPeriodCtrl.calendar.attendanceEndDateOpened" />
+                    <span class="input-group-btn">
+                        <button type="button" class="btn btn-default" ng-click="basicInfoPeriodCtrl.openPopupAttendanceEndDate($event)">
+                            <i class="glyphicon glyphicon-calendar"></i>
+                        </button>
+                    </span>
+                </p>
             </div>
         </div>
         <div class="form-group top-buffer">

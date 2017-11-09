@@ -4,20 +4,20 @@
     /* jshint validthis:true */
 
     angular.module('appModule').controller('ModalConfirmController', modalConfirmController);
-    modalConfirmController.$inject = ['$modalInstance', 'name', 'action'];
+    modalConfirmController.$inject = ['$uibModalInstance', 'name', 'action'];
 
-    function modalConfirmController($modalInstance, name, action) {
+    function modalConfirmController($uibModalInstance, name, action) {
         var vm = this;
 
         vm.name = name;
         vm.action = action;
 
         vm.ok = function () {
-            $modalInstance.close();
+            $uibModalInstance.close();
         };
 
         vm.cancel = function () {
-            $modalInstance.dismiss('cancel');
+            $uibModalInstance.dismiss('cancel');
         };
     }
 })(angular);

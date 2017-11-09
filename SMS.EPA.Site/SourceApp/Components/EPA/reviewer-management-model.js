@@ -3,9 +3,9 @@
     /* jshint latedef:nofunc */
 
     angular.module('epaModule').factory('ReviewerManagementModel', reviewerManagementModel);
-    reviewerManagementModel.$inject = ['$modal', 'EvaluationModel', 'evaluationFactory', 'utilitiesFactory', 'notificationFactory'];
+    reviewerManagementModel.$inject = ['$uibModal', 'EvaluationModel', 'evaluationFactory', 'utilitiesFactory', 'notificationFactory'];
 
-    function reviewerManagementModel($modal, EvaluationModel, evaluationFactory, utilitiesFactory, notificationFactory) {
+    function reviewerManagementModel($uibModal, EvaluationModel, evaluationFactory, utilitiesFactory, notificationFactory) {
         var model = this;
 
         model.getEPASelected = function (epaInfos) {
@@ -21,7 +21,7 @@
         };
 
         model.openPopupAdjustScore = function (vm, selectedEmployees, isReviewer) {
-            vm.modalInstance = $modal.open({
+            vm.modalInstance = $uibModal.open({
                 templateUrl: 'SourceApp/Components/EPA/Templates/modalAdjustScore.html',
                 controller: "ModalAdjustScoreController as modalAdjustScoreCtrl",
                 backdrop: 'static',
@@ -40,7 +40,7 @@
         };
 
         model.openPopupUpdateComment = function (vm, epaInfo, comment, isEdit, isReviewer) {
-            vm.modalInstance = $modal.open({
+            vm.modalInstance = $uibModal.open({
                 templateUrl: 'SourceApp/Components/EPA/Templates/modalUpdateComment.html',
                 controller: "ModalUpdateCommentController as modalUpdateCommentCtrl",
                 backdrop: 'static',
@@ -82,7 +82,7 @@
         };
 
         model.openPopupRemindSaveChange = function (vm) {
-            vm.modalInstance = $modal.open({
+            vm.modalInstance = $uibModal.open({
                 templateUrl: 'SourceApp/Components/EPA/Templates/modalRemindSaveChange.html',
                 controller: "ModalRemindController as modalRemindCtrl",
                 backdrop: 'static',

@@ -3,9 +3,9 @@
     /* jshint latedef:nofunc */
 
     angular.module('epaModule').factory('SelfEvalutorModel', selfEvalutorModel);
-    selfEvalutorModel.$inject = ['$modal', 'EvaluationModel', 'utilitiesFactory'];
+    selfEvalutorModel.$inject = ['$uibModal', 'EvaluationModel', 'utilitiesFactory'];
 
-    function selfEvalutorModel($modal, EvaluationModel, utilitiesFactory) {
+    function selfEvalutorModel($uibModal, EvaluationModel, utilitiesFactory) {
         var model = {
             calculateScore: calculateScore,
             openPopupNotificationInvalidComment: openPopupNotificationInvalidComment,
@@ -55,7 +55,7 @@
         }
 
         function openPopupNotificationInvalidComment(vm, message) {
-            vm.modalInstance = $modal.open({
+            vm.modalInstance = $uibModal.open({
                 templateUrl: 'SourceApp/Components/EPA/Templates/modalNotification.html',
                 controller: "ModalNotificationController as modalNotificationCtrl",
                 backdrop: 'static',

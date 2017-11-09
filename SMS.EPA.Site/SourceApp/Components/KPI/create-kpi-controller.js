@@ -4,9 +4,9 @@
     /* jshint validthis:true */
 
     angular.module('kpiModule').controller('CreateKPIController', createKPIController);
-    createKPIController.$inject = ['$modalInstance', 'KPIModel', 'CommonModel', 'kpiGroup'];
+    createKPIController.$inject = ['$uibModalInstance', 'KPIModel', 'CommonModel', 'kpiGroup'];
 
-    function createKPIController($modalInstance, KPIModel, CommonModel, kpiGroup) {
+    function createKPIController($uibModalInstance, KPIModel, CommonModel, kpiGroup) {
         var vm = this;
 
         vm.currentChosenKPIGroups = [];
@@ -46,7 +46,7 @@
         }
 
         function cancel() {
-            $modalInstance.dismiss('cancel');
+            $uibModalInstance.dismiss('cancel');
         }
 
         function changeHasComment() {
@@ -58,7 +58,7 @@
         function save(isCreateAndContinued) {
             if (KPIModel.validateKPI(vm.kpi, vm.currentChosenKPIGroups)) {
                 vm.kpi.KPIGroupIds = vm.currentChosenKPIGroups.join(',');
-                KPIModel.createKPI(vm, isCreateAndContinued, kpiGroup, $modalInstance);
+                KPIModel.createKPI(vm, isCreateAndContinued, kpiGroup, $uibModalInstance);
             }
         }
     }

@@ -3,9 +3,9 @@
     /* jshint latedef:nofunc */
 
     angular.module('targetEmployeeSettingModule').factory('TargetEmployeeSettingModel', targetEmployeeSettingModel);
-    targetEmployeeSettingModel.$inject = ['$modal', 'targetEmployeeSettingFactory', 'notificationFactory', 'errorFactory'];
+    targetEmployeeSettingModel.$inject = ['$uibModal', 'targetEmployeeSettingFactory', 'notificationFactory', 'errorFactory'];
 
-    function targetEmployeeSettingModel($modal, targetEmployeeSettingFactory, notificationFactory, errorFactory) {
+    function targetEmployeeSettingModel($uibModal, targetEmployeeSettingFactory, notificationFactory, errorFactory) {
         var model = {
             permission: 0,
             targetDepartmentSettings: [],
@@ -80,7 +80,7 @@
         }
 
         function openPopupDeleteTargetDepartmentSetting(targetTemplate, department) {
-            var modalInstance = $modal.open({
+            var modalInstance = $uibModal.open({
                 templateUrl: '/SourceApp/Shared/Templates/ModalConfirmContent.html',
                 controller: 'ModalConfirmController as modalConfirmCtrl',
                 backdrop: 'static',
@@ -116,7 +116,7 @@
         }
 
         function openPopupDeleteTargetEmployeeSetting(targetTemplate, employee) {
-            var modalInstance = $modal.open({
+            var modalInstance = $uibModal.open({
                 templateUrl: '/SourceApp/Shared/Templates/ModalConfirmContent.html',
                 controller: 'ModalConfirmController as modalConfirmCtrl',
                 backdrop: 'static',

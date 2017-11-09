@@ -4,10 +4,10 @@
 
     angular.module('targetTemplateModule').factory('TargetTemplateModel', targetTemplateModel);
     targetTemplateModel.$inject = [
-        '$modal', 'targetTemplateFactory', 'errorFactory', 'notificationFactory', 'utilitiesFactory'
+        '$uibModal', 'targetTemplateFactory', 'errorFactory', 'notificationFactory', 'utilitiesFactory'
     ];
 
-    function targetTemplateModel($modal, targetTemplateFactory, errorFactory, notificationFactory, utilitiesFactory) {
+    function targetTemplateModel($uibModal, targetTemplateFactory, errorFactory, notificationFactory, utilitiesFactory) {
         var targetTemplates = [],
             targetTemplate = {},
             kpiGroups = [],
@@ -165,7 +165,7 @@
         }
 
         function openPopupAddKPIGroup(vm, targetTemplateId, maxWeight) {
-            vm.modalInstance = $modal.open({
+            vm.modalInstance = $uibModal.open({
                 templateUrl: 'SourceApp/Components/TargetTemplate/Templates/addKPIGroup.html',
                 controller: "AddedKPIGroupController as addKPIGroupCtrl",
                 backdrop: 'static',
@@ -184,7 +184,7 @@
         }
 
         function openPopupCreateTargetTemplate(vm) {
-            vm.modalInstance = $modal.open({
+            vm.modalInstance = $uibModal.open({
                 templateUrl: '/SourceApp/Components/TargetTemplate/Templates/create.html',
                 controller: "CreateTargetTemplateController as createTargetTemplateCtrl",
                 backdrop: 'static',
@@ -195,7 +195,7 @@
         }
 
         function openPopupDeleteKPIGroup(targetTemplateId, kpiGroup) {
-            var modalInstance = $modal.open({
+            var modalInstance = $uibModal.open({
                 templateUrl: '/SourceApp/Shared/Templates/ModalConfirmContent.html',
                 controller: "ModalConfirmController as modalConfirmCtrl",
                 backdrop: 'static',
@@ -227,7 +227,7 @@
         }
 
         function openPopupDeleteTargetTemplate(vm, targetTemplate) {
-            var modalInstance = $modal.open({
+            var modalInstance = $uibModal.open({
                 templateUrl: '/SourceApp/Shared/Templates/ModalConfirmContent.html',
                 controller: "ModalConfirmController as modalConfirmCtrl",
                 backdrop: 'static',
@@ -269,7 +269,7 @@
                     IsActive: targetTemplate.IsActive
                 };
 
-            var modalInstance = $modal.open({
+            var modalInstance = $uibModal.open({
                 templateUrl: '/SourceApp/Shared/Templates/ModalConfirmContent.html',
                 controller: "ModalConfirmController as modalConfirmCtrl",
                 backdrop: 'static',

@@ -4,10 +4,10 @@
     /* jshint validthis:true */
 
     angular.module('monthlyPeriodModule').controller('UpdateEmployeeSettingMonthlyPeriodController', updateEmployeeSettingController);
-    updateEmployeeSettingController.$inject = ['$scope', '$modalInstance', 'MonthlyPeriodModel', 'CommonModel',
+    updateEmployeeSettingController.$inject = ['$scope', '$uibModalInstance', 'MonthlyPeriodModel', 'CommonModel',
         'utilitiesFactory', 'period', 'selectedEmployees', 'permission'];
 
-    function updateEmployeeSettingController($scope, $modalInstance, MonthlyPeriodModel, CommonModel,
+    function updateEmployeeSettingController($scope, $uibModalInstance, MonthlyPeriodModel, CommonModel,
         utilitiesFactory, period, selectedEmployees, permission) {
         var vm = this,
             date = new Date();
@@ -626,10 +626,10 @@
                             vm.selectedEmployeeIds);
 
                         MonthlyPeriodModel.updateEmployeeSettingOfPeriod(employeeAssignmentSetting).then(function () {
-                            $modalInstance.close();
+                            $uibModalInstance.close();
                         });
                     } else {
-                        $modalInstance.dismiss("cancel");
+                        $uibModalInstance.dismiss("cancel");
                     }
                 }
             } else {
@@ -640,7 +640,7 @@
                         employeeAssignmentSetting = createAssignmentSettingsMultipleMode(updatedEmployees);
 
                         MonthlyPeriodModel.updateEmployeeSettingOfPeriod(employeeAssignmentSetting).then(function () {
-                            $modalInstance.close();
+                            $uibModalInstance.close();
                         });
                     }
                 }
@@ -648,7 +648,7 @@
         };
 
         vm.cancel = function () {
-            $modalInstance.dismiss("cancel");
+            $uibModalInstance.dismiss("cancel");
         };
     }
 })(angular);

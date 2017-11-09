@@ -4,10 +4,10 @@
     /* jshint validthis:true */
 
     angular.module('periodModule').controller('UpdateEmployeeSettingPeriodController', updateEmployeeSettingPeriodController);
-    updateEmployeeSettingPeriodController.$inject = ['$scope', '$modalInstance', 'PeriodModel', 'CommonModel',
+    updateEmployeeSettingPeriodController.$inject = ['$scope', '$uibModalInstance', 'PeriodModel', 'CommonModel',
         'utilitiesFactory', 'period', 'selectedEmployees', 'permission'];
 
-    function updateEmployeeSettingPeriodController($scope, $modalInstance, PeriodModel, CommonModel,
+    function updateEmployeeSettingPeriodController($scope, $uibModalInstance, PeriodModel, CommonModel,
         utilitiesFactory, period, selectedEmployees, permission) {
         var vm = this,
             date = new Date();
@@ -295,10 +295,10 @@
                             vm.selectedEmployeeIds);
 
                         PeriodModel.updateEmployeeSettingOfPeriod(employeeAssignmentSetting).then(function () {
-                            $modalInstance.close();
+                            $uibModalInstance.close();
                         });
                     } else {
-                        $modalInstance.dismiss("cancel");
+                        $uibModalInstance.dismiss("cancel");
                     }
                 }
             } else if (PeriodModel.checkHasFieldEdit(vm.fieldEdit)) {
@@ -308,14 +308,14 @@
                     employeeAssignmentSetting = PeriodModel.createAssignmentSettingsMultipleMode(updatedEmployees, vm);
 
                     PeriodModel.updateEmployeeSettingOfPeriod(employeeAssignmentSetting).then(function () {
-                        $modalInstance.close();
+                        $uibModalInstance.close();
                     });
                 }
             }
         };
 
         vm.cancel = function () {
-            $modalInstance.dismiss("cancel");
+            $uibModalInstance.dismiss("cancel");
         };
     }
 })(angular);

@@ -438,8 +438,8 @@ function ($window, $timeout, $translate, RatingByKPIModel, EvaluationModel, Comm
 }]);
 
 epaModule.controller('ModalConfirmSaveChangesController',
-['$translate', '$modalInstance', 'RatingByKPIModel', 'kpiSelected', 'epaInfos',
-function ($translate, $modalInstance, RatingByKPIModel, kpiSelected, epaInfos) {
+['$translate', '$uibModalInstance', 'RatingByKPIModel', 'kpiSelected', 'epaInfos',
+function ($translate, $uibModalInstance, RatingByKPIModel, kpiSelected, epaInfos) {
     var vm = this;
 
     vm.confirmResult = 0;
@@ -449,17 +449,17 @@ function ($translate, $modalInstance, RatingByKPIModel, kpiSelected, epaInfos) {
     vm.save = function () {
         vm.confirmResult = 1;
         if (RatingByKPIModel.validateEPA(vm)) {
-            RatingByKPIModel.updateKPIScore(vm, $modalInstance);
+            RatingByKPIModel.updateKPIScore(vm, $uibModalInstance);
         }
     };
 
     vm.ignore = function () {
         vm.confirmResult = 2;
-        $modalInstance.close(vm);
+        $uibModalInstance.close(vm);
     };
 
     vm.cancel = function () {
-        $modalInstance.close(vm);
+        $uibModalInstance.close(vm);
     };
 
     $translate('EvaluateEPAInvalid').then(function (message) {

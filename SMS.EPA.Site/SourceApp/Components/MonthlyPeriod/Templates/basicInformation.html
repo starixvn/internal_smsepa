@@ -10,19 +10,31 @@
         <div class="form-group top-buffer">
             <label class="col-sm-3 control-label required-label" data-translate="StartDate"></label>
             <div class="col-sm-3">
-                <input readonly class="calendar-form-control" type="text"
-                       ng-model="basicInfoCtrl.period.StartDate" datepicker-popup
-                       ng-click="basicInfoCtrl.openPopupStartDate($event)"
-                       is-open="basicInfoCtrl.calendar.startDateOpened" />
-                <epa-calendar-image class="calendar-image" ng-click="basicInfoCtrl.openPopupStartDate($event)"></epa-calendar-image>
+                <p class="input-group calendar-input-group">
+                    <input readonly class="calendar-form-control" type="text"
+                           ng-model="basicInfoCtrl.period.StartDate" uib-datepicker-popup
+                           ng-click="basicInfoCtrl.openPopupStartDate($event)"
+                           is-open="basicInfoCtrl.calendar.startDateOpened" />
+                    <span class="input-group-btn">
+                        <button type="button" class="btn btn-default" ng-click="basicInfoCtrl.openPopupStartDate($event)">
+                            <i class="glyphicon glyphicon-calendar"></i>
+                        </button>
+                    </span>
+                </p>
             </div>
             <label class="col-sm-3 control-label required-label" data-translate="EndDate"></label>
             <div class="col-sm-3">
-                <input readonly class="calendar-form-control" type="text"
-                       ng-model="basicInfoCtrl.period.EndDate" datepicker-popup
-                       ng-click="basicInfoCtrl.openPopupEndDate($event)"
-                       is-open="basicInfoCtrl.calendar.endDateOpened" />
-                <epa-calendar-image class="calendar-image" ng-click="basicInfoCtrl.openPopupEndDate($event)"></epa-calendar-image>
+                <p class="input-group calendar-input-group">
+                    <input readonly class="calendar-form-control" type="text"
+                           ng-model="basicInfoCtrl.period.EndDate" uib-datepicker-popup
+                           ng-click="basicInfoCtrl.openPopupEndDate($event)"
+                           is-open="basicInfoCtrl.calendar.endDateOpened" />
+                    <span class="input-group-btn">
+                        <button type="button" class="btn btn-default" ng-click="basicInfoCtrl.openPopupEndDate($event)">
+                            <i class="glyphicon glyphicon-calendar"></i>
+                        </button>
+                    </span>
+                </p>
             </div>
         </div>
         <div class="form-group top-buffer">

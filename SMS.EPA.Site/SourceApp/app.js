@@ -25,6 +25,8 @@
                 "pascalprecht.translate",
                 "angularUtils.directives.dirPagination",
                 "ngRoute",
+                'ngAnimate',
+                'ngTouch',
                 "multi-select",
                 "purplefox.numeric",
                 "angular.filter"
@@ -37,8 +39,8 @@
             "$routeProvider",
             "$httpProvider",
             "$provide",
-            'datepickerConfig',
-            'datepickerPopupConfig'];
+            'uibDatepickerConfig',
+            'uibDatepickerPopupConfig'];
 
     function appConfig($translateProvider,
                 $locationProvider,

@@ -8,21 +8,33 @@
         <div class="form-group">
             <label data-translate="From" class="col-sm-1 control-label"></label>
             <div class="col-sm-2">
-                <input readonly class="calendar-form-control" type="text"
-                       ng-model="monthlyPeriodCtrl.filter.fromDate"
-                       datepicker-popup="MMM, yyyy" datepicker-mode="'month'" datepicker-options="monthlyPeriodCtrl.dateOptions"
-                       ng-click="monthlyPeriodCtrl.openPopupFromDate($event)"
-                       is-open="monthlyPeriodCtrl.calendar.fromDateOpened" />
-                <epa-calendar-image class="calendar-image" ng-click="monthlyPeriodCtrl.openPopupFromDate($event)"></epa-calendar-image>
+                <p class="input-group calendar-input-group">
+                    <input readonly class="calendar-form-control" type="text"
+                           ng-model="monthlyPeriodCtrl.filter.fromDate"
+                           uib-datepicker-popup="MMM, yyyy" datepicker-mode="'month'" datepicker-options="monthlyPeriodCtrl.dateOptions"
+                           ng-click="monthlyPeriodCtrl.openPopupFromDate($event)"
+                           is-open="monthlyPeriodCtrl.calendar.fromDateOpened" />
+                    <span class="input-group-btn">
+                        <button type="button" class="btn btn-default" ng-click="monthlyPeriodCtrl.openPopupFromDate($event)">
+                            <i class="glyphicon glyphicon-calendar"></i>
+                        </button>
+                    </span>
+                </p>
             </div>
             <label data-translate="To" class="col-sm-1 control-label"></label>
             <div class="col-sm-2">
-                <input readonly class="calendar-form-control" type="text"
-                       ng-model="monthlyPeriodCtrl.filter.toDate"
-                       datepicker-popup="MMM, yyyy" datepicker-mode="'month'" datepicker-options="monthlyPeriodCtrl.dateOptions"
-                       ng-click="monthlyPeriodCtrl.openPopupToDate($event)"
-                       is-open="monthlyPeriodCtrl.calendar.toDateOpened" />
-                <epa-calendar-image class="calendar-image" ng-click="monthlyPeriodCtrl.openPopupToDate($event)"></epa-calendar-image>
+                <p class="input-group calendar-input-group">
+                    <input readonly class="calendar-form-control" type="text"
+                           ng-model="monthlyPeriodCtrl.filter.toDate"
+                           uib-datepicker-popup="MMM, yyyy" datepicker-mode="'month'" datepicker-options="monthlyPeriodCtrl.dateOptions"
+                           ng-click="monthlyPeriodCtrl.openPopupToDate($event)"
+                           is-open="monthlyPeriodCtrl.calendar.toDateOpened" />
+                    <span class="input-group-btn">
+                        <button type="button" class="btn btn-default" ng-click="monthlyPeriodCtrl.openPopupToDate($event)">
+                            <i class="glyphicon glyphicon-calendar"></i>
+                        </button>
+                    </span>
+                </p>
             </div>
             <div class="col-sm-1">
                 <button class="btn btn-primary" ng-click="monthlyPeriodCtrl.query(monthlyPeriodCtrl.filter)" data-translate="Search"></button>

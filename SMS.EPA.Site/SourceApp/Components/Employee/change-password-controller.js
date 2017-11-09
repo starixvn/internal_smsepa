@@ -4,9 +4,9 @@
     /* jshint validthis:true */
 
     angular.module('employeeModule').controller('ChangePasswordEmployeeController', changePasswordEmployeeController);
-    changePasswordEmployeeController.$inject = ['$modalInstance', 'EmployeeModel'];
+    changePasswordEmployeeController.$inject = ['$uibModalInstance', 'EmployeeModel'];
 
-    function changePasswordEmployeeController($modalInstance, EmployeeModel) {
+    function changePasswordEmployeeController($uibModalInstance, EmployeeModel) {
         var vm = this;
 
         vm.password = {
@@ -19,12 +19,12 @@
         vm.save = save;
 
         function cancel() {
-            $modalInstance.dismiss('cancel');
+            $uibModalInstance.dismiss('cancel');
         }
 
         function save(password) {
             if (EmployeeModel.validatePassword(password)) {
-                EmployeeModel.changePassword(password, $modalInstance);
+                EmployeeModel.changePassword(password, $uibModalInstance);
             }
         }
     }

@@ -4,9 +4,9 @@
     /* jshint validthis:true */
 
     angular.module('employeeModule').controller('CreateEmployeeController', createEmployeeController);
-    createEmployeeController.$inject = ['$modalInstance', 'EmployeeModel', 'CommonModel'];
+    createEmployeeController.$inject = ['$uibModalInstance', 'EmployeeModel', 'CommonModel'];
 
-    function createEmployeeController($modalInstance, EmployeeModel, CommonModel) {
+    function createEmployeeController($uibModalInstance, EmployeeModel, CommonModel) {
         var vm = this;
 
         vm.jobTitleOptions = [];
@@ -30,7 +30,7 @@
         initialize();
 
         function cancel() {
-            $modalInstance.dismiss('cancel');
+            $uibModalInstance.dismiss('cancel');
         }
 
         function initialize() {
@@ -45,7 +45,7 @@
 
         function save(employee) {
             if (EmployeeModel.validateEmployee(employee, 'create')) {
-                EmployeeModel.createEmployee(employee, $modalInstance);
+                EmployeeModel.createEmployee(employee, $uibModalInstance);
             }
         }
     }

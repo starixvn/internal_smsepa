@@ -8,19 +8,19 @@
         </button>
     </div>
     <div class="target-tabset">
-        <tabset id="FlowTemplateTab">
-            <tab heading="GENERAL INFORMATION" class="tab-cursor" select="updateCtrl.tabGeneralInfoSelected()">
+        <uib-tabset id="FlowTemplateTab">
+            <uib-tab heading="GENERAL INFORMATION" class="tab-cursor" select="updateCtrl.tabGeneralInfoSelected()">
                 <div ng-include src="'/SourceApp/Components/FlowManagement/Templates/generalInformation.html'"></div>
-            </tab>
-            <tab heading="DEPARTMENT / SECTION" class="tab-cursor" select="updateCtrl.tabDepartmentSelected()">
+            </uib-tab>
+            <uib-tab heading="DEPARTMENT / SECTION" class="tab-cursor" select="updateCtrl.tabDepartmentSelected()">
                 <div ng-include src="'/SourceApp/Components/FlowManagement/Templates/departmentFlow.html'"></div>
-            </tab>
-            <tab heading="PERSONAL" class="tab-cursor" select="updateCtrl.tabPersonalSelected()">
+            </uib-tab>
+            <uib-tab heading="PERSONAL" class="tab-cursor" select="updateCtrl.tabPersonalSelected()">
                 <div ng-include src="'/SourceApp/Components/FlowManagement/Templates/personalFlow.html'"></div>
-            </tab>
-            <tab heading="RESULT SETTING" class="tab-cursor" select="updateCtrl.tabResultSettingSelected()">
+            </uib-tab>
+            <uib-tab heading="RESULT SETTING" class="tab-cursor" select="updateCtrl.tabResultSettingSelected()">
                 <div ng-include src="'/SourceApp/Components/FlowManagement/Templates/resultSetting.html'"></div>
-            </tab>
-        </tabset>
+            </uib-tab>
+        </uib-tabset>
     </div>
 </div>

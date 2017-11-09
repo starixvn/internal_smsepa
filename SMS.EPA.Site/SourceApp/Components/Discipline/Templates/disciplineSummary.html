@@ -38,19 +38,31 @@
             </div>
             <label class="col-sm-1 control-label" data-translate="StartDate"></label>
             <div class="col-sm-2 field">
-                <input readonly class="calendar-form-control date-detail-discipline" type="text"
-                       ng-model="disciplineCtrl.filter.startDate" datepicker-popup
-                       ng-click="disciplineCtrl.openPopupStartDate($event)"
-                       is-open="disciplineCtrl.calendar.startDateOpened" />
-                <epa-calendar-image class="calendar-image" ng-click="disciplineCtrl.openPopupStartDate($event)"></epa-calendar-image>
+                <p class="input-group calendar-input-group">
+                    <input readonly class="calendar-form-control date-detail-discipline" type="text"
+                           ng-model="disciplineCtrl.filter.startDate" uib-datepicker-popup
+                           ng-click="disciplineCtrl.openPopupStartDate($event)"
+                           is-open="disciplineCtrl.calendar.startDateOpened" />
+                    <span class="input-group-btn">
+                        <button type="button" class="btn btn-default" ng-click="disciplineCtrl.openPopupStartDate($event)">
+                            <i class="glyphicon glyphicon-calendar"></i>
+                        </button>
+                    </span>
+                </p>
             </div>
             <label class="col-sm-1 control-label" data-translate="EndDate"></label>
             <div class="col-sm-2 field">
-                <input readonly class="calendar-form-control date-detail-discipline" type="text"
-                       ng-model="disciplineCtrl.filter.endDate" datepicker-popup
-                       ng-click="disciplineCtrl.openPopupEndDate($event)"
-                       is-open="disciplineCtrl.calendar.endDateOpened" />
-                <epa-calendar-image class="calendar-image" ng-click="disciplineCtrl.openPopupEndDate($event)"></epa-calendar-image>
+                <p class="input-group calendar-input-group">
+                    <input readonly class="calendar-form-control date-detail-discipline" type="text"
+                           ng-model="disciplineCtrl.filter.endDate" uib-datepicker-popup
+                           ng-click="disciplineCtrl.openPopupEndDate($event)"
+                           is-open="disciplineCtrl.calendar.endDateOpened" />
+                    <span class="input-group-btn">
+                        <button type="button" class="btn btn-default" ng-click="disciplineCtrl.openPopupEndDate($event)">
+                            <i class="glyphicon glyphicon-calendar"></i>
+                        </button>
+                    </span>
+                </p>
             </div>
             <label class="col-sm-1 control-label">&ensp;</label>
             <div class="col-sm-1">
