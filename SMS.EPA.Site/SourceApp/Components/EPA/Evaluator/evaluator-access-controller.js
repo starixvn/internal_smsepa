@@ -38,6 +38,11 @@
         vm.filter = {};
         vm.monthlyFilterSelected = false;
 
+        vm.statusProcesses = [
+            { Name: 'Finished', Value: true },
+            { Name: 'Unfinished', Value: false }
+        ];
+
         function initFilter() {
             var filter = historyFactory.getState();
             return filter

@@ -17,8 +17,7 @@
                 </div>
                 <label class="col-sm-1 control-label" data-translate="Category"></label>
                 <div class="col-sm-2">
-                    <select class="form-control" ng-model="evaluatorCtrl.filter.isLocal"
-                            ng-change="evaluatorCtrl.getMember()">
+                    <select class="form-control" ng-model="evaluatorCtrl.filter.isLocal" ng-change="evaluatorCtrl.getMember()">
                         <option value="">-- {{"All" | translate}} --</option>
                         <option value="false">{{"Expat" | translate}}</option>
                         <option value="true">{{"Local" | translate}}</option>
@@ -34,10 +33,9 @@
             <div class="form-group">
                 <label class="col-sm-1 control-label" data-translate="Status"></label>
                 <div class="col-sm-2">
-                    <select class="form-control" ng-model="evaluatorCtrl.filter.statusProcess">
+                    <select class="form-control" ng-model="evaluatorCtrl.filter.statusProcess"
+                            ng-options="opt.Value as opt.Name for opt in evaluatorCtrl.statusProcesses">
                         <option value="">-- {{"All" | translate}} --</option>
-                        <option value="true">{{"Finished" | translate}}</option>
-                        <option value="false">{{"Unfinished" | translate}}</option>
                     </select>
                 </div>
                 <label class="col-sm-1 control-label">&nbsp;</label>
@@ -85,7 +83,7 @@
                     <td class="text-center" ng-bind="$index + 1"></td>
                     <td ng-bind="epaInfo.Period.Name"></td>
                     <td class="text-center">
-                        <span tooltip="{{epaInfo.Employee.GroupName}}" ng-bind="epaInfo.Employee.GroupCode"></span>
+                        <span uib-tooltip="{{epaInfo.Employee.GroupName}}" ng-bind="epaInfo.Employee.GroupCode"></span>
                     </td>
                     <td class="text-center">
                         <span ng-bind="epaInfo.Employee.NickName" popover-avatar avatar-src="{{epaInfo.Employee.Avatar}}"></span>

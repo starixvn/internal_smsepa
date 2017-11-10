@@ -52,7 +52,7 @@
                      class="rating-by-score">
                     <input type="text" maxlength="5" class="form-control text-center kpi-score" ng-readonly="!empDetailCtrl.epaInfo.IsAllowedToEdit"
                            ng-model="kpi.CurrentEvaluation.Score" numeric decimals="2" ng-change="empDetailCtrl.inputScore(kpi)"
-                           tooltip="{{empDetailCtrl.getNotificationInputScore(kpi)}}" tooltip-trigger="focus" />
+                           uib-tooltip="{{empDetailCtrl.getNotificationInputScore(kpi)}}" tooltip-trigger="focus" />
                 </div>
             </td>
         </tr>

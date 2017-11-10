@@ -50,11 +50,10 @@
         <td rowspan="{{performanceResultCtrl.epaInfo.Rowspan}}" class="text-center col-comment" ng-show="$first">
             <span class="glyphicon icon-view"
                   ng-show="performanceResultCtrl.process.Self.IsEndProcess && performanceResultCtrl.process.Self.Comment.length > 0"
-                  tooltip="{{performanceResultCtrl.process.Self.Comment}}" tooltip-placement="right"></span>
-            <!--<span data-translate="Pending" ng-show="!performanceResultCtrl.process.Self.IsEndProcess"></span>-->
+                  uib-tooltip="{{performanceResultCtrl.process.Self.Comment}}" tooltip-placement="right"></span>
             <span class="glyphicon icon-view"
                   ng-show="!performanceResultCtrl.process.Self.IsEndProcess"
-                  tooltip="{{performanceResultCtrl.process.Self.Comment}}" tooltip-placement="right"></span>
+                  uib-tooltip="{{performanceResultCtrl.process.Self.Comment}}" tooltip-placement="right"></span>
         </td>
 
         <!--Evaluators-->
@@ -71,7 +70,7 @@
         <td class="text-center col-comment">
             <span class="glyphicon icon-view {{performanceResultCtrl.EvaluatorsScore[$index].Class}}"
                   ng-show="performanceResultCtrl.EvaluatorsScore[$index].IsCommentShowed"
-                  tooltip="{{performanceResultCtrl.process.Evaluators[$index].Comment}}" tooltip-placement="top"></span>
+                  uib-tooltip="{{performanceResultCtrl.process.Evaluators[$index].Comment}}" tooltip-placement="top"></span>
         </td>
 
         <!--Reviewer-->
@@ -88,7 +87,7 @@
         <td class="text-center col-comment" ng-show="performanceResultCtrl.process.Reviewers.length > 0">
             <span class="glyphicon icon-view {{performanceResultCtrl.ReviewersScore[$index].Class}}"
                   ng-show="performanceResultCtrl.ReviewersScore[$index].IsCommentShowed"
-                  tooltip="{{performanceResultCtrl.process.Reviewers[$index].Comment}}" tooltip-placement="top"></span>
+                  uib-tooltip="{{performanceResultCtrl.process.Reviewers[$index].Comment}}" tooltip-placement="top"></span>
         </td>
 
         <!--Management-->
@@ -105,7 +104,7 @@
         <td class="text-center col-comment" ng-show="performanceResultCtrl.process.Managements.length > 0">
             <span class="glyphicon icon-view {{performanceResultCtrl.ManagementsScore[$index].Class}}"
                   ng-show="performanceResultCtrl.ManagementsScore[$index].IsCommentShowed"
-                  tooltip="{{performanceResultCtrl.process.Managements[$index].Comment}}" tooltip-placement="left"></span>
+                  uib-tooltip="{{performanceResultCtrl.process.Managements[$index].Comment}}" tooltip-placement="left"></span>
         </td>
 
         <!--Discipline-->

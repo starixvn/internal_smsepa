@@ -111,7 +111,7 @@
                                     </div>
                                 </td>
                                 <td class="text-center">
-                                    <span tooltip="{{epaInfo.Employee.GroupName}}" ng-bind="epaInfo.Employee.GroupCode"></span>
+                                    <span uib-tooltip="{{epaInfo.Employee.GroupName}}" ng-bind="epaInfo.Employee.GroupCode"></span>
                                 </td>
                                 <td class="text-center">
                                     <span ng-bind="epaInfo.Employee.NickName" popover-avatar avatar-src="{{epaInfo.Employee.Avatar}}"></span>
@@ -119,7 +119,7 @@
                                 <td class="col-score employee-score">
                                     <div class="row text-center list-star" ng-repeat="kpi in epaInfo.KPIGroup.KPIsBySelf"
                                          ng-if="kpi.KPIId == ratingByKPICtrl.kpiIdOriginal">
-                                        <div tooltip="{{kpi.Comment}}">
+                                        <div uib-tooltip="{{kpi.Comment}}">
                                             <span>{{kpi.Score | splitScore}} pts</span>
                                             <div class="score-star-rating" ng-show="ratingByKPICtrl.showRatingScoreByStar &&
                                                  (epaInfo.RatingType.RatingTypeId == ratingByKPICtrl.ratingTypeEnum.Star

@@ -65,7 +65,7 @@
                                 <li class="alert alert-info nomargin" ng-repeat="humanResource in deptFlowCtrl.humanResources.employees">
                                     <a href="javascript:;" class="glyphicon glyphicon-remove icon-close"
                                        ng-click="deptFlowCtrl.removeItemFromList(humanResource, deptFlowCtrl.humanResources.employees)"></a>
-                                    <img tooltip="{{humanResource.FullName}}" class="img-flow" ng-src="{{humanResource.Avatar}}" />
+                                    <img uib-tooltip="{{humanResource.FullName}}" class="img-flow" ng-src="{{humanResource.Avatar}}" />
                                     <p>{{humanResource.NickName}}</p>
                                 </li>
                             </ul>
@@ -83,7 +83,7 @@
                                 <li class="alert alert-info nomargin" ng-repeat="evaluator in deptFlowCtrl.evaluators.employees">
                                     <a href="javascript:;" class="glyphicon glyphicon-remove icon-close"
                                        ng-click="deptFlowCtrl.removeItemFromList(evaluator, deptFlowCtrl.evaluators.employees)"></a>
-                                    <img tooltip="{{evaluator.FullName}}" class="img-flow" ng-src="{{evaluator.Avatar}}" />
+                                    <img uib-tooltip="{{evaluator.FullName}}" class="img-flow" ng-src="{{evaluator.Avatar}}" />
                                     <p>{{evaluator.NickName}}</p>
                                 </li>
                             </ul>
@@ -93,7 +93,7 @@
                                 <li class="alert alert-info nomargin" ng-repeat="reviewer in deptFlowCtrl.reviewers.employees">
                                     <a href="javascript:;" class="glyphicon glyphicon-remove icon-close"
                                        ng-click="deptFlowCtrl.removeItemFromList(reviewer, deptFlowCtrl.reviewers.employees)"></a>
-                                    <img tooltip="{{reviewer.FullName}}" class="img-flow" ng-src="{{reviewer.Avatar}}" />
+                                    <img uib-tooltip="{{reviewer.FullName}}" class="img-flow" ng-src="{{reviewer.Avatar}}" />
                                     <p>{{reviewer.NickName}}</p>
                                 </li>
                             </ul>
@@ -103,7 +103,7 @@
                                 <li class="alert alert-info nomargin" ng-repeat="management in deptFlowCtrl.managements.employees">
                                     <a href="javascript:;" class="glyphicon glyphicon-remove icon-close"
                                        ng-click="deptFlowCtrl.removeItemFromList(management, deptFlowCtrl.managements.employees)"></a>
-                                    <img tooltip="{{management.FullName}}" class="img-flow" ng-src="{{management.Avatar}}" />
+                                    <img uib-tooltip="{{management.FullName}}" class="img-flow" ng-src="{{management.Avatar}}" />
                                     <p>{{management.NickName}}</p>
                                 </li>
                             </ul>

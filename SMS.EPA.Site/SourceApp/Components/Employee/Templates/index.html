@@ -83,7 +83,7 @@
                     <td ng-bind="employee.FullName"></td>
                     <td ng-bind="employee.JobTitle.JobTitleName"></td>
                     <td class="text-center">
-                        <span tooltip="{{employee.Group.GroupName}}" ng-bind="employee.Group.GroupCode"></span>
+                        <span uib-tooltip="{{employee.Group.GroupName}}" ng-bind="employee.Group.GroupCode"></span>
                     </td>
                     <td class="text-center">
                         <div ng-if="employee.IsSpecialUser">

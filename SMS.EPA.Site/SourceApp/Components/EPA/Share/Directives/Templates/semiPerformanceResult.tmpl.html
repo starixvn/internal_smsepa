@@ -48,7 +48,7 @@
             <td class="text-center col-score" ng-show="performanceResultCtrl.process.Reviewers.length > 0">
                 <span class="glyphicon icon-view {{performanceResultCtrl.ReviewersScore[$index].Class}}"
                       ng-show="performanceResultCtrl.ReviewersScore[$index].IsCommentShowed"
-                      tooltip="{{performanceResultCtrl.process.Reviewers[$index].Comment}}" tooltip-placement="top"></span>
+                      uib-tooltip="{{performanceResultCtrl.process.Reviewers[$index].Comment}}" tooltip-placement="top"></span>
             </td>
 
             <!--Management Score-->
@@ -64,7 +64,7 @@
             <td class="text-center col-score" ng-show="performanceResultCtrl.process.Managements.length > 0">
                 <span class="glyphicon icon-view {{performanceResultCtrl.ManagementsScore[$index].Class}}"
                       ng-show="performanceResultCtrl.ManagementsScore[$index].IsCommentShowed"
-                      tooltip="{{performanceResultCtrl.process.Managements[$index].Comment}}" tooltip-placement="left"></span>
+                      uib-tooltip="{{performanceResultCtrl.process.Managements[$index].Comment}}" tooltip-placement="left"></span>
             </td>
 
             <!--Discipline Score-->

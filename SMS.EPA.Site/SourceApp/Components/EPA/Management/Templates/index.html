@@ -129,7 +129,7 @@
                     <td class="text-center" ng-bind="$index + 1"></td>
                     <td ng-bind="epaInfo.Period.Name"></td>
                     <td class="text-center">
-                        <span tooltip="{{epaInfo.Employee.GroupName}}" ng-bind="epaInfo.Employee.GroupCode"></span>
+                        <span uib-tooltip="{{epaInfo.Employee.GroupName}}" ng-bind="epaInfo.Employee.GroupCode"></span>
                     </td>
                     <td class="text-center">
                         <span ng-bind="epaInfo.Employee.NickName" popover-avatar avatar-src="{{epaInfo.Employee.Avatar}}"></span>
@@ -165,7 +165,7 @@
                         <input type="text" maxlength="7" class="form-control text-center epa-input-score"
                                ng-readonly="!epaInfo.IsAllowedToEdit || managementCtrl.permission !== managementCtrl.policyEnum.Host"
                                ng-model="epaInfo.Process.CurrentProcess.AdjustScore" numeric decimals="2" ng-change="managementCtrl.inputScore(epaInfo)"
-                               tooltip="{{managementCtrl.getNotificationInputScore(epaInfo)}}" tooltip-trigger="focus"
+                               uib-tooltip="{{managementCtrl.getNotificationInputScore(epaInfo)}}" tooltip-trigger="focus"
                                title="Adjusted by {{epaInfo.Process.CurrentProcess.ModifiedBy.NickName}}" />
                     </td>
                     <td class="text-center">
@@ -175,7 +175,7 @@
 
                         <span class="glyphicon icon-view"
                               ng-if="epaInfo.Process.CurrentProcess.Comment.length > 0 && (!epaInfo.IsAllowedToEdit || managementCtrl.permission !== managementCtrl.policyEnum.Host)"
-                              tooltip="{{epaInfo.Process.CurrentProcess.Comment}}" tooltip-placement="top"></span>
+                              uib-tooltip="{{epaInfo.Process.CurrentProcess.Comment}}" tooltip-placement="top"></span>
                     </td>
                     <td class="text-center">
                         <div ng-if="epaInfo.HasDisciplineScore">
