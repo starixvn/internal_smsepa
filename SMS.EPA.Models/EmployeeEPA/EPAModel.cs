@@ -91,6 +91,7 @@
             }
         }
 
+        [JsonIgnore]
         public IList<EPAProcessModel> LastProcesses { get; set; }
 
         public float MaxDisciplineScore { get; set; }

@@ -1933,6 +1933,15 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Last Performance Score.
+        /// </summary>
+        public static string LastPerformanceScore {
+            get {
+                return ResourceManager.GetString("LastPerformanceScore", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Last Rating.
         /// </summary>
         public static string LastRating {

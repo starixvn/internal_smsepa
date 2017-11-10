@@ -1422,4 +1422,7 @@
   <data name="RemindDateEmailToHRSubject" xml:space="preserve">
     <value>Reminder - {0} for confirmation from {1} to {2}</value>
   </data>
+  <data name="LastPerformanceScore" xml:space="preserve">
+    <value>Last Performance Score</value>
+  </data>
 </root>

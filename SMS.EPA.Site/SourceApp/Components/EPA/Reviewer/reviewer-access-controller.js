@@ -72,33 +72,24 @@
             var cssClass = '';
 
             switch (field) {
+                case 'JobTitle':
+                    cssClass = vm.sortBy.jobTitle.ascending ? 'sorting-asc' : (vm.sortBy.jobTitle.descending ? 'sorting-desc' : '');
+                    break;
+
                 case 'SelfScore':
-                    if (vm.sortBy.selfScore.ascending) {
-                        cssClass = 'sorting-asc';
-                    } else if (vm.sortBy.selfScore.descending) {
-                        cssClass = 'sorting-desc';
-                    }
+                    cssClass = vm.sortBy.selfScore.ascending ? 'sorting-asc' : (vm.sortBy.selfScore.descending ? 'sorting-desc' : '');
                     break;
+
                 case 'EvaluatorScore':
-                    if (vm.sortBy.evaluatorScore.ascending) {
-                        cssClass = 'sorting-asc';
-                    } else if (vm.sortBy.evaluatorScore.descending) {
-                        cssClass = 'sorting-desc';
-                    }
+                    cssClass = vm.sortBy.evaluatorScore.ascending ? 'sorting-asc' : (vm.sortBy.evaluatorScore.descending ? 'sorting-desc' : '');
                     break;
+
                 case 'DisciplineScore':
-                    if (vm.sortBy.disciplineScore.ascending) {
-                        cssClass = 'sorting-asc';
-                    } else if (vm.sortBy.disciplineScore.descending) {
-                        cssClass = 'sorting-desc';
-                    }
+                    cssClass = vm.sortBy.disciplineScore.ascending ? 'sorting-asc' : (vm.sortBy.disciplineScore.descending ? 'sorting-desc' : '');
                     break;
+
                 case 'TotalScore':
-                    if (vm.sortBy.totalScore.ascending) {
-                        cssClass = 'sorting-asc';
-                    } else if (vm.sortBy.totalScore.descending) {
-                        cssClass = 'sorting-desc';
-                    }
+                    cssClass = vm.sortBy.totalScore.ascending ? 'sorting-asc' : (vm.sortBy.totalScore.descending ? 'sorting-desc' : '');
                     break;
             }
 
@@ -107,23 +98,19 @@
 
         function resetSorting() {
             vm.sortBy = {
-                selfScore: {
-                    ascending: false,
-                    descending: false
-                },
-                evaluatorScore: {
-                    ascending: false,
-                    descending: false
-                },
-                disciplineScore: {
-                    ascending: false,
-                    descending: false
-                },
-                totalScore: {
-                    ascending: false,
-                    descending: false
-                }
+                jobTitle: { ascending: false, descending: false },
+                selfScore: { ascending: false, descending: false },
+                evaluatorScore: { ascending: false, descending: false },
+                disciplineScore: { ascending: false, descending: false },
+                totalScore: { ascending: false, descending: false }
             };
+        }
+
+        function sortByJobTitle(epaInfo1, epaInfo2) {
+            if (epaInfo1.Employee.JobTitleName < epaInfo2.Employee.JobTitleName) return -1;
+            if (epaInfo1.Employee.JobTitleName > epaInfo2.Employee.JobTitleName) return 1;
+
+            return 0;
         }
 
         function sortBySelfScore(epaInfo1, epaInfo2) {
@@ -166,11 +153,24 @@
 
         vm.changeSorting = function (field) {
             switch (field) {
-                case 'SelfScore':
-                    vm.sortBy.evaluatorScore = { ascending: false, descending: false };
-                    vm.sortBy.disciplineScore = { ascending: false, descending: false };
-                    vm.sortBy.totalScore = { ascending: false, descending: false };
+                case 'JobTitle':
+                    var jobTitle = angular.copy(vm.sortBy.jobTitle);
+                    resetSorting();
+                    vm.sortBy.jobTitle = jobTitle;
+                    if (!vm.sortBy.jobTitle.ascending) {
+                        vm.sortBy.jobTitle = { ascending: true, descending: false };
+                        vm.epaInfos.sort(sortByJobTitle);
+                    } else {
+                        vm.sortBy.jobTitle = { ascending: false, descending: true };
+                        vm.epaInfos.reverse();
+                    }
 
+                    break;
+
+                case 'SelfScore':
+                    var selfScore = angular.copy(vm.sortBy.selfScore);
+                    resetSorting();
+                    vm.sortBy.selfScore = selfScore;
                     if (!vm.sortBy.selfScore.ascending) {
                         vm.sortBy.selfScore = { ascending: true, descending: false };
                         vm.epaInfos.sort(sortBySelfScore);
@@ -178,12 +178,13 @@
                         vm.sortBy.selfScore = { ascending: false, descending: true };
                         vm.epaInfos.reverse();
                     }
-                    break;
-                case 'EvaluatorScore':
-                    vm.sortBy.selfScore = { ascending: false, descending: false };
-                    vm.sortBy.disciplineScore = { ascending: false, descending: false };
-                    vm.sortBy.totalScore = { ascending: false, descending: false };
 
+                    break;
+
+                case 'EvaluatorScore':
+                    var evaluatorScore = angular.copy(vm.sortBy.evaluatorScore);
+                    resetSorting();
+                    vm.sortBy.evaluatorScore = evaluatorScore;
                     if (!vm.sortBy.evaluatorScore.ascending) {
                         vm.sortBy.evaluatorScore = { ascending: true, descending: false };
                         vm.epaInfos.sort(sortByEvaluatorScore);
@@ -191,12 +192,13 @@
                         vm.sortBy.evaluatorScore = { ascending: false, descending: true };
                         vm.epaInfos.reverse();
                     }
-                    break;
-                case 'DisciplineScore':
-                    vm.sortBy.selfScore = { ascending: false, descending: false };
-                    vm.sortBy.evaluatorScore = { ascending: false, descending: false };
-                    vm.sortBy.totalScore = { ascending: false, descending: false };
 
+                    break;
+
+                case 'DisciplineScore':
+                    var disciplineScore = angular.copy(vm.sortBy.disciplineScore);
+                    resetSorting();
+                    vm.sortBy.disciplineScore = disciplineScore;
                     if (!vm.sortBy.disciplineScore.ascending) {
                         vm.sortBy.disciplineScore = { ascending: true, descending: false };
                         vm.epaInfos.sort(sortByDisciplineScore);
@@ -204,12 +206,13 @@
                         vm.sortBy.disciplineScore = { ascending: false, descending: true };
                         vm.epaInfos.reverse();
                     }
-                    break;
-                case 'TotalScore':
-                    vm.sortBy.selfScore = { ascending: false, descending: false };
-                    vm.sortBy.evaluatorScore = { ascending: false, descending: false };
-                    vm.sortBy.disciplineScore = { ascending: false, descending: false };
 
+                    break;
+
+                case 'TotalScore':
+                    var totalScore = angular.copy(vm.sortBy.totalScore);
+                    resetSorting();
+                    vm.sortBy.totalScore = totalScore;
                     if (!vm.sortBy.totalScore.ascending) {
                         vm.sortBy.totalScore = { ascending: true, descending: false };
                         vm.epaInfos.sort(sortByTotalScore);
@@ -217,6 +220,7 @@
                         vm.sortBy.totalScore = { ascending: false, descending: true };
                         vm.epaInfos.reverse();
                     }
+
                     break;
             }
         };
@@ -346,6 +350,8 @@
 
                 var averageScore = 0, countEndProcess = 0;
                 angular.forEach(vm.epaInfos, function (epaInfo) {
+                    var maxPerformanceScore = epaInfo.Process.CurrentProcess.MaxPerformanceScore;
+
                     if (epaInfo.IsSemiHasMonthly && !epaInfo.Process.CurrentProcess.TotalScore) {
                         epaInfo.Process.CurrentProcess.TotalScore = epaInfo.MonthlyEPA.AverageReviewerScoreConverted;
                     } else if (!epaInfo.IsSemiHasMonthly) {
@@ -357,16 +363,17 @@
                     epaInfo.Process.Self.TotalScore = utilitiesFactory.parseFloat(epaInfo.Process.Self.TotalScore);
                     epaInfo.Process.CurrentProcess.TotalScore = utilitiesFactory.parseFloat(epaInfo.Process.CurrentProcess.TotalScore);
                     epaInfo.FinalScore = epaInfo.Process.CurrentProcess.TotalScore + epaInfo.DisciplineScore;
-                    epaInfo.FinalScore = EvaluationModel.checkScore(epaInfo.FinalScore, 0, epaInfo.Process.CurrentProcess.MaxPerformanceScore);
+                    epaInfo.FinalScore = EvaluationModel.checkScore(epaInfo.FinalScore, 0, maxPerformanceScore);
                     epaInfo.Grade = EvaluationModel.convertScoreToGrade(
                         epaInfo.Process.CurrentProcess.TotalScore,
                         epaInfo.DisciplineScore,
                         epaInfo.HasDisciplineScore,
-                        epaInfo.Process.CurrentProcess.MaxPerformanceScore,
+                        maxPerformanceScore,
                         vm.standardGrades);
 
                     if (epaInfo.LastFinalScore.length > 0) {
                         epaInfo.LastFinalScore = utilitiesFactory.parseFloat(epaInfo.LastFinalScore);
+                        epaInfo.LastPerformanceScore = epaInfo.LastFinalScore - epaInfo.LastDisciplineScore;
                     } else {
                         epaInfo.LastFinalScore = null;
                     }
@@ -374,12 +381,14 @@
                     if (epaInfo.Process.CurrentProcess.IsEndProcess || !(epaInfo.IsSemiAnnual || epaInfo.IsMonthly)) {
                         countEndProcess += 1;
                     }
-                    averageScore += epaInfo.Process.AverageScoreByEvaluators;
+
+                    averageScore += epaInfo.IsSemiHasMonthly ? epaInfo.MonthlyEPA.AverageReviewerScoreConverted : epaInfo.Process.AverageScoreByEvaluators;
                 });
 
                 if (countEndProcess === vm.epaInfos.length) {
                     vm.isEndProcessAll = true;
                 }
+
                 vm.averageScore = utilitiesFactory.parseFloat(averageScore / vm.epaInfos.length);
 
                 if (selectedEmployees && selectedEmployees.length > 0) {
