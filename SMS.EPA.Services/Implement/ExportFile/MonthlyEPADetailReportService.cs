@@ -19,8 +19,8 @@
         {
             Lang.SymbolCount,
             Lang.Code,
-            Lang.FullName,
             Lang.NickName,
+            Lang.FullName,
             Lang.Category,
             Lang.Section,
             Lang.JobTitle,

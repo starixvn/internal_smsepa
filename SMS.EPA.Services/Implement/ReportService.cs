@@ -263,17 +263,17 @@
             cellBody.SetCellValue(epaInfo.Code);
             SetColumnWidth(ref sheet, 1, 10);
 
-            bodyStyle = rowIndex % 2 == 0 ? bodyStyle4 : bodyStyle3;
+            bodyStyle = rowIndex % 2 == 0 ? bodyStyle2 : bodyStyle1;
             cellBody = row.CreateCell(2);
             cellBody.CellStyle = bodyStyle;
-            cellBody.SetCellValue(epaInfo.FullName);
-            SetColumnWidth(ref sheet, 2, 20);
+            cellBody.SetCellValue(epaInfo.NickName);
+            SetColumnWidth(ref sheet, 2, 12);
 
-            bodyStyle = rowIndex % 2 == 0 ? bodyStyle2 : bodyStyle1;
+            bodyStyle = rowIndex % 2 == 0 ? bodyStyle4 : bodyStyle3;
             cellBody = row.CreateCell(3);
             cellBody.CellStyle = bodyStyle;
-            cellBody.SetCellValue(epaInfo.NickName);
-            SetColumnWidth(ref sheet, 3, 12);
+            cellBody.SetCellValue(epaInfo.FullName);
+            SetColumnWidth(ref sheet, 3, 20);
 
             bodyStyle = rowIndex % 2 == 0 ? bodyStyle4 : bodyStyle3;
             cellBody = row.CreateCell(4);
@@ -306,8 +306,8 @@
             {
                 Lang.SymbolCount,
                 Lang.Code,
-                Lang.FullName,
                 Lang.NickName,
+                Lang.FullName,
                 Lang.Category,
                 Lang.Section,
                 Lang.JobTitle,

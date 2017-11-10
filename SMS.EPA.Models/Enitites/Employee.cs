@@ -1,11 +1,11 @@
 ﻿namespace SMS.EPA.Model.Enitites
 {
-    using Core.Services;
     using System;
     using System.Collections.Generic;
     using System.Linq;
     using Core.Constants;
     using Core.Model;
+    using Core.Services;
     using Report;
 
     [Serializable]
@@ -74,8 +74,8 @@
                 Count = 0,
                 Code,
                 Username,
-                FullName,
                 NickName,
+                FullName,
                 Section = Group != null ? Group.GroupName : string.Empty,
                 JobTitle = JobTitle.JobTitleName,
                 Category,

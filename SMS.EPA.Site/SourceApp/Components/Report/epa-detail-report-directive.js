@@ -23,8 +23,8 @@
                     SortDirection: sortCode,
                     SortType: "string"
                 },
-                { HeaderText: "Full Name", Width: 140, Name: "FullName", HeaderAlign: "center", CellAlign: "left", CanResize: true },
                 { HeaderText: "Nick Name", Width: 100, Name: "NickName", HeaderAlign: "center", CellAlign: "left", AllowTruncate: true },
+                { HeaderText: "Full Name", Width: 140, Name: "FullName", HeaderAlign: "center", CellAlign: "left", CanResize: true },
                 {
                     HeaderText: "Section",
                     Width: 120,
@@ -88,8 +88,8 @@
                             Columns: [
                                 { Name: "No", Value: rowIndex + index + 1 },
                                 { Name: "Code", Value: epaInfo.Employee.Code },
-                                { Name: "FullName", Value: epaInfo.Employee.FullName },
                                 { Name: "NickName", Value: epaInfo.Employee.NickName },
+                                { Name: "FullName", Value: epaInfo.Employee.FullName },
                                 { Name: "Section", Value: epaInfo.Employee.GroupName },
                                 { Name: "JobTitle", Value: epaInfo.Employee.JobTitleName },
                                 { Name: "GroupDate", Value: epaInfo.Employee.JoinedDate },

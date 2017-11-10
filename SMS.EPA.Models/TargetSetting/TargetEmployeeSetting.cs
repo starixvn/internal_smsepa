@@ -33,9 +33,9 @@
             {
                 No = 0,
                 Code = Employee.Code,
-                Section = Employee.Group != null ? Employee.Group.GroupName : string.Empty,
                 NickName = Employee.NickName,
                 FullName = Employee.FullName,
+                Section = Employee.Group != null ? Employee.Group.GroupName : string.Empty,
                 TargetType = TargetTemplates.FirstOrDefault()?.TargetTypeName,
                 TargetTemplate = TargetTemplates.FirstOrDefault()?.Name
             };

@@ -262,19 +262,19 @@
             cell.SetCellValue(epaInfo.Employee.Code);
             SetColumnWidth(currentColumn++, 10);
 
-            BodyStyle = ApplyEvenOddBodyStyle(EvenStyleLeft, OddStyleLeft);
-
-            cell = row.CreateCell(currentColumn);
-            cell.CellStyle = BodyStyle;
-            cell.SetCellValue(epaInfo.Employee.FullName);
-            SetColumnWidth(currentColumn++, 20);
-
             BodyStyle = ApplyEvenOddBodyStyle(EvenStyleCenter, OddStyleCenter);
 
             cell = row.CreateCell(currentColumn);
             cell.CellStyle = BodyStyle;
             cell.SetCellValue(epaInfo.Employee.NickName);
             SetColumnWidth(currentColumn++, 12);
+
+            BodyStyle = ApplyEvenOddBodyStyle(EvenStyleLeft, OddStyleLeft);
+
+            cell = row.CreateCell(currentColumn);
+            cell.CellStyle = BodyStyle;
+            cell.SetCellValue(epaInfo.Employee.FullName);
+            SetColumnWidth(currentColumn++, 20);
 
             BodyStyle = ApplyEvenOddBodyStyle(EvenStyleLeft, OddStyleLeft);
 

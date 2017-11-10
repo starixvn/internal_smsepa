@@ -273,13 +273,14 @@
         {
             if (criteria != null)
             {
-                var datas = _targetEmployeeSettingService.GetTargetEmployeeSetting(criteria);
+                IList<TargetEmployeeSetting> datas = _targetEmployeeSettingService.GetTargetEmployeeSetting(criteria);
 
                 _exportExcelService.FileName = "Target_Personnel_Setting";
                 _exportExcelService.SheetName = "Target Personnel Setting";
                 _exportExcelService.Title = "Target Personnel Setting";
 
                 _exportExcelService.InitializeWithTemplate(Server.MapPath(TargetPersonnelSettingTemplate));
+                _exportExcelService.ContentRowStartIndex = 3;
 
                 _exportExcelService.ExportWithTemplate(datas, true);
             }

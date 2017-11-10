@@ -21,8 +21,8 @@
                     HeaderText: "Code", Width: 60, Name: "Code", HeaderAlign: "center", CellAlign: "center",
                     Sort: true, SortDirection: sortCode, SortType: 'string'
                 },
-                { HeaderText: "Full Name", Width: 160, Name: "FullName", HeaderAlign: "center", CellAlign: "left", CanResize: true },
                 { HeaderText: "Nick Name", Width: 120, Name: "NickName", HeaderAlign: "center", CellAlign: "center", AllowTruncate: true },
+                { HeaderText: "Full Name", Width: 160, Name: "FullName", HeaderAlign: "center", CellAlign: "left", CanResize: true },
                 {
                     HeaderText: "Section", Width: 150, Name: "Section", HeaderAlign: "center", CellAlign: "left",
                     Sort: true, SortDirection: sortSection, SortType: 'string'
@@ -116,8 +116,8 @@
                         Columns: [
                             { Name: "No", Value: rowIndex + index + 1 },
                             { Name: "Code", Value: epaInfo.Employee.Code },
-                            { Name: "FullName", Value: epaInfo.Employee.FullName },
                             { Name: "NickName", Value: epaInfo.Employee.NickName },
+                            { Name: "FullName", Value: epaInfo.Employee.FullName },
                             { Name: "Section", Value: epaInfo.Employee.GroupName },
                             { Name: "JobTitle", Value: epaInfo.Employee.JobTitleName },
                             { Name: "GroupDate", Value: epaInfo.Employee.JoinedDate },
