@@ -163,7 +163,7 @@
             getEmployeeById(val.sender, val.id, val.to);
         });
 
-        $scope.$watch(function () { return $scope.updateCtrl.flowTemplate && $scope.updateCtrl.dataTab.personal; },
+        $scope.$watch(function () { return $scope.updateCtrl.flowTemplate && $scope.updateCtrl.dataTab === 3; },
         function (newVal) {
             if (newVal && vm.isFirstLoad) {
                 lockScreenService.start();

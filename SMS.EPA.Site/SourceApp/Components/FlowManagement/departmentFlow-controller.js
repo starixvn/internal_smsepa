@@ -134,7 +134,7 @@
             });
         }
 
-        $scope.$watch(function () { return $scope.updateCtrl.dataTab.department && $scope.updateCtrl.flowTemplate; },
+        $scope.$watch(function () { return $scope.updateCtrl.dataTab === 2 && $scope.updateCtrl.flowTemplate; },
         function (newVal) {
             if (newVal && vm.isFirstLoad) {
                 initialize();

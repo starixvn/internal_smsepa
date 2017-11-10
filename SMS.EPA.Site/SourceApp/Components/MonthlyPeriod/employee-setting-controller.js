@@ -58,7 +58,7 @@
         }
 
         $scope.$watch(function () {
-            return $scope.updateCtrl.period && $scope.updateCtrl.permission && $scope.updateCtrl.dataTab.employeeSetting;
+            return $scope.updateCtrl.period && $scope.updateCtrl.permission && $scope.updateCtrl.dataTab === 3;
         },
         function (newVal) {
             if (newVal && vm.isFirstLoad) {

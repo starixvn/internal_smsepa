@@ -13,10 +13,7 @@
         vm.targetTemplate = null;
         vm.originalScoreTypeId = '';
 
-        vm.dataTab = {
-            information: $routeParams.viewInfo ? true : false,
-            kpi: $routeParams.viewKPIs ? true : false
-        };
+        vm.dataTab = $routeParams.viewKPIs ? 2 : 1;
 
         vm.getTargetTemplateById = function (targetTemplateId) {
             TargetTemplateModel.getTargetTemplateById(targetTemplateId).then(function () {
@@ -26,16 +23,6 @@
         };
 
         vm.getTargetTemplateById(vm.targetTemplateId);
-
-        vm.tabInfoSelect = function () {
-            vm.dataTab.information = true;
-            vm.dataTab.kpi = false;
-        };
-
-        vm.tabKPISelect = function () {
-            vm.dataTab.information = false;
-            vm.dataTab.kpi = true;
-        };
 
         vm.backToList = function () {
             historyFactory.back();

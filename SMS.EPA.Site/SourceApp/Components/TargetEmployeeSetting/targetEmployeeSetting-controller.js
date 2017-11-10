@@ -9,15 +9,9 @@
     function targetSettingTemplateController(TargetEmployeeSettingModel, utilitiesFactory) {
         var vm = this;
 
-        vm.dataTab = {
-            department: true,
-            personnel: false
-        };
+        vm.dataTab = 1;
         vm.permission = 0;
         vm.policyEnum = utilitiesFactory.policy;
-
-        vm.tabDepartmentSelect = tabDepartmentSelect;
-        vm.tabPersonnelSelect = tabPersonnelSelect;
 
         initialize();
 
@@ -25,16 +19,6 @@
             TargetEmployeeSettingModel.getPermissionOnTargetEmployeeSetting().then(function () {
                 vm.permission = TargetEmployeeSettingModel.permission;
             });
-        }
-
-        function tabDepartmentSelect() {
-            vm.dataTab.department = true;
-            vm.dataTab.personnel = false;
-        }
-
-        function tabPersonnelSelect() {
-            vm.dataTab.department = false;
-            vm.dataTab.personnel = true;
         }
     }
 })(angular);

@@ -34,7 +34,7 @@
         vm.updateIsGroup = updateIsGroup;
 
         utilitiesFactory.numberEntryList(vm);
-        $scope.$watch(function () { return $scope.targetCtrl.dataTab.department; },
+        $scope.$watch(function () { return $scope.targetCtrl.dataTab === 1; },
             function (newVal) {
                 if (newVal && vm.isFirstLoad) {
                     initialize();

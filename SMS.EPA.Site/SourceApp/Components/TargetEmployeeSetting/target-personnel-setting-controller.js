@@ -52,7 +52,7 @@
 
         utilitiesFactory.numberEntryList(vm);
 
-        $scope.$watch(function() { return $scope.targetCtrl.dataTab.personnel; },
+        $scope.$watch(function() { return $scope.targetCtrl.dataTab === 2; },
             function(newVal) {
                 if (newVal && vm.isFirstLoad) {
                     initialize();

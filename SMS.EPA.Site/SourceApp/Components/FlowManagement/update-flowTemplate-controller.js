@@ -9,12 +9,7 @@
     function updateFlowTemplateController($routeParams, FlowTemplateModel, CommonModel, utilitiesFactory, historyFactory) {
         var vm = this;
 
-        vm.dataTab = {
-            generalInfo: true,
-            department: false,
-            personal: false,
-            result: false
-        };
+        vm.dataTab = 1;
         vm.departments = CommonModel.departments;
         vm.flowTemplateId = parseInt($routeParams.id);
         vm.permission = 0;
@@ -22,34 +17,6 @@
         vm.remindDay = CommonModel.remindDay;
         vm.targetTypeEnum = utilitiesFactory.targetType;
         vm.treeDepartment = CommonModel.treeDepartment;
-
-        vm.tabGeneralInfoSelected = function () {
-            vm.dataTab.generalInfo = true;
-            vm.dataTab.department = false;
-            vm.dataTab.personal = false;
-            vm.dataTab.result = false;
-        };
-
-        vm.tabDepartmentSelected = function () {
-            vm.dataTab.generalInfo = false;
-            vm.dataTab.department = true;
-            vm.dataTab.personal = false;
-            vm.dataTab.result = false;
-        };
-
-        vm.tabPersonalSelected = function () {
-            vm.dataTab.generalInfo = false;
-            vm.dataTab.department = false;
-            vm.dataTab.personal = true;
-            vm.dataTab.result = false;
-        };
-
-        vm.tabResultSettingSelected = function () {
-            vm.dataTab.generalInfo = false;
-            vm.dataTab.department = false;
-            vm.dataTab.personal = false;
-            vm.dataTab.result = true;
-        };
 
         vm.backToList = function () {
             historyFactory.back();

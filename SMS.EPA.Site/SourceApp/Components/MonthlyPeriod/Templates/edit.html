@@ -8,14 +8,14 @@
         </button>
     </div>
     <div class="target-tabset">
-        <uib-tabset id="MonthlyPeriodTab">
-            <uib-tab heading="BASIC INFORMATION" class="tab-cursor" active="updateCtrl.dataTab.basicInformation" select="updateCtrl.tabBasicSelect()">
+        <uib-tabset id="MonthlyPeriodTab" active="updateCtrl.dataTab">
+            <uib-tab heading="BASIC INFORMATION" class="tab-cursor" index="1" select="updateCtrl.dataTab = 1">
                 <div ng-include src="'/SourceApp/Components/MonthlyPeriod/Templates/basicInformation.html'"></div>
             </uib-tab>
-            <uib-tab heading="PROCESS SETTING" class="tab-cursor" active="updateCtrl.dataTab.processSetting" select="updateCtrl.tabProcessSettingSelect()">
+            <uib-tab heading="PROCESS SETTING" class="tab-cursor" index="2" select="updateCtrl.dataTab = 2">
                 <div ng-include src="'/SourceApp/Components/MonthlyPeriod/Templates/processSetting.html'"></div>
             </uib-tab>
-            <uib-tab heading="EMPLOYEE SETTING" class="tab-cursor" active="updateCtrl.dataTab.employeeSetting" select="updateCtrl.tabEmployeeSettingSelect()">
+            <uib-tab heading="EMPLOYEE SETTING" class="tab-cursor" index="3" select="updateCtrl.dataTab = 3">
                 <div ng-include src="'/SourceApp/Components/MonthlyPeriod/Templates/employeeSetting.html'"></div>
             </uib-tab>
         </uib-tabset>

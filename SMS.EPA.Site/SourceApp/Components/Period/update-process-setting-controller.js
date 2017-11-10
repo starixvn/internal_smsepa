@@ -24,7 +24,7 @@
             });
         }
 
-        $scope.$watch(function () { return $scope.updateCtrl.period && $scope.updateCtrl.dataTab.processSetting; },
+        $scope.$watch(function () { return $scope.updateCtrl.period && $scope.updateCtrl.dataTab === 2; },
             function (newVal) {
                 if (newVal) {
                     vm.period = $scope.updateCtrl.period;

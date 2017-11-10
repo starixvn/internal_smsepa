@@ -13,7 +13,7 @@
         vm.isFirstLoad = true;
         vm.targetTypes = [];
 
-        $scope.$watch(function () { return $scope.updateCtrl.dataTab.generalInfo && $scope.updateCtrl.flowTemplate; },
+        $scope.$watch(function () { return $scope.updateCtrl.dataTab === 1 && $scope.updateCtrl.flowTemplate; },
             function (newVal) {
                 if (newVal && vm.isFirstLoad) {
                     lockScreenService.start();

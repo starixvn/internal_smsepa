@@ -1,6 +1,6 @@
 ﻿<div class="result-setting-flow" ng-controller="ResultFlowSettingController as resultFlowSettingCtrl">
-    <uib-tabset id="ResultSettingTab">
-        <uib-tab heading="DEPARTMENT / SECTION" class="tab-cursor" select="resultFlowSettingCtrl.tabDepartmentSelected()">
+    <uib-tabset id="ResultSettingTab" active="resultFlowSettingCtrl.dataTab">
+        <uib-tab heading="DEPARTMENT / SECTION" class="tab-cursor" index="1" select="resultFlowSettingCtrl.tabDepartmentSelected()">
             <table class="row table table-bordered table-striped">
                 <thead>
                     <tr>
@@ -55,7 +55,7 @@
                 </tbody>
             </table>
         </uib-tab>
-        <uib-tab heading="PERSONAL" class="tab-cursor" select="resultFlowSettingCtrl.tabPersonalSelected()">
+        <uib-tab heading="PERSONAL" class="tab-cursor" index="2" select="resultFlowSettingCtrl.tabPersonalSelected()">
             <table table class="row table table-bordered table-striped">
                 <thead>
                     <tr class="header-table">

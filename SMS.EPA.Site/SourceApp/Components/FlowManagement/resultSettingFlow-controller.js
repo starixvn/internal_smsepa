@@ -9,10 +9,7 @@
     function resultFlowSettingController($scope, $routeParams, DeptFlowModel, PersonalFlowModel) {
         var vm = this;
 
-        vm.dataTab = {
-            department: true,
-            personal: false
-        };
+        vm.dataTab = 1;
         vm.flowSettings = [];
         vm.flowTemplateId = parseInt($routeParams.id);
 
@@ -30,8 +27,7 @@
         }
 
         function tabDepartmentSelected() {
-            vm.dataTab.department = true;
-            vm.dataTab.personal = false;
+            vm.dataTab = 1;
 
             DeptFlowModel.getDepartmentFlow(vm.flowTemplateId).then(function () {
                 vm.flowSettings = DeptFlowModel.flowSettings;
@@ -39,20 +35,19 @@
         }
 
         function tabPersonalSelected() {
-            vm.dataTab.department = false;
-            vm.dataTab.personal = true;
+            vm.dataTab = 2;
 
             PersonalFlowModel.getPersonalFlow(vm.flowTemplateId).then(function () {
                 vm.flowSettings = PersonalFlowModel.flowSettings;
             });
         }
 
-        $scope.$watch(function () { return $scope.updateCtrl.flowTemplate && $scope.updateCtrl.dataTab.result; },
+        $scope.$watch(function () { return $scope.updateCtrl.flowTemplate && $scope.updateCtrl.dataTab === 4; },
             function (newVal) {
                 if (newVal) {
-                    if (vm.dataTab.department) {
+                    if (vm.dataTab === 1) {
                         tabDepartmentSelected();
-                    } else if (vm.dataTab.personal) {
+                    } else if (vm.dataTab === 2) {
                         tabPersonalSelected();
                     }
 
