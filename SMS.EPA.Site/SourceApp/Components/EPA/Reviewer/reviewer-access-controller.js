@@ -54,7 +54,7 @@
                 : {
                     groupId: '',
                     isLocal: '',
-                    isMonthly: $routeParams.isMonthly ? $routeParams.isMonthly === 'true' : false,
+                    isMonthly: $routeParams.isMonthly ? $routeParams.isMonthly === true : false,
                     employeeIds: '',
                     statusProcess: $routeParams.statusProcess ? $routeParams.statusProcess === true ? 'true' : 'false' : ''
                 };

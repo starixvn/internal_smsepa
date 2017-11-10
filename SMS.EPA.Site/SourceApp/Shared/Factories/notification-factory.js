@@ -13,7 +13,7 @@
         errorOptions = {
             timeOut: 7000,
             extendedTimeOut: 500,
-            escapeHtml: true
+            escapeHtml: false
         };
 
         return {
