@@ -44,14 +44,19 @@
         ];
 
         function initFilter() {
-            var filter = historyFactory.getState();
+            var filter = historyFactory.getState(),
+                statusProcess = $routeParams.statusProcess !== undefined
+                    ? (($routeParams.statusProcess === true || $routeParams.statusProcess === 'true') ? true : false)
+                    : '',
+                isMonthly = $routeParams.isMonthly !== undefined ? ($routeParams.isMonthly === true || $routeParams.isMonthly === 'true') : false;
+
             return filter
                 ? filter
                 : {
                     groupId: '',
                     isLocal: '',
-                    statusProcess: $routeParams.statusProcess ? $routeParams.statusProcess === true ? 'true' : 'false' : '',
-                    isMonthly: $routeParams.isMonthly ? $routeParams.isMonthly === true : false,
+                    statusProcess: statusProcess,
+                    isMonthly: isMonthly,
                     employeeIds: ''
                 };
         }

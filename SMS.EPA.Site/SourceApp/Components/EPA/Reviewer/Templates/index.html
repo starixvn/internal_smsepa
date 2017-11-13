@@ -34,10 +34,9 @@
             <div class="form-group">
                 <label class="col-sm-1 control-label" data-translate="Status"></label>
                 <div class="col-sm-2">
-                    <select class="form-control" ng-model="reviewerCtrl.filter.statusProcess">
+                    <select class="form-control" ng-model="reviewerCtrl.filter.statusProcess"
+                            ng-options="opt.Value as opt.Name for opt in reviewerCtrl.statusProcesses">
                         <option value="">-- {{"All" | translate}} --</option>
-                        <option value="true">{{"Finished" | translate}}</option>
-                        <option value="false">{{"Unfinished" | translate}}</option>
                     </select>
                 </div>
                 <label class="col-sm-1 control-label">&nbsp;</label>

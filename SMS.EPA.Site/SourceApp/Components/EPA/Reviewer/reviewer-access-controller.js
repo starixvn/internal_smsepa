@@ -45,18 +45,26 @@
         vm.targetTypeEnum = utilitiesFactory.targetType;
         vm.monthlyFilterSelected = false;
         vm.filter = {};
+        vm.statusProcesses = [
+            { Name: 'Finished', Value: true },
+            { Name: 'Unfinished', Value: false }
+        ];
 
         function initFilter() {
-            var filter = historyFactory.getState();
+            var filter = historyFactory.getState(),
+                statusProcess = $routeParams.statusProcess !== undefined
+                    ? (($routeParams.statusProcess === true || $routeParams.statusProcess === 'true') ? true : false)
+                    : '',
+                isMonthly = $routeParams.isMonthly !== undefined ? ($routeParams.isMonthly === true || $routeParams.isMonthly === 'true') : false;
 
             return filter
                 ? filter
                 : {
                     groupId: '',
                     isLocal: '',
-                    isMonthly: $routeParams.isMonthly ? $routeParams.isMonthly === true : false,
+                    isMonthly: isMonthly,
                     employeeIds: '',
-                    statusProcess: $routeParams.statusProcess ? $routeParams.statusProcess === true ? 'true' : 'false' : ''
+                    statusProcess: statusProcess
                 };
         }
 

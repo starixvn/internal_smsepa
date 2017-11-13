@@ -25,7 +25,7 @@
                             .Include("~/Libs/BootstrapStarRating/css/star-rating.min.css", new CssRewriteUrlTransform()));
 
             bundles.Add(new ScriptBundle("~/bundles/vendor").Include(
-                            "~/Libs/jquery-2.1.0.min.js",
+                            "~/Libs/jquery-3.2.1.min.js",
                             "~/Libs/bootstrap-3.3.7/js/bootstrap.min.js",
                             "~/Libs/angularjs/angular.js",
                             "~/Libs/angularjs/angular-resource.js",

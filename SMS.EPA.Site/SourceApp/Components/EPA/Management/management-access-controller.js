@@ -43,16 +43,23 @@
         vm.isEndProcessAll = false;
         vm.policyEnum = utilitiesFactory.policy;
         vm.targetTypeEnum = utilitiesFactory.targetType;
-
         vm.filter = {};
+        vm.statusProcesses = [
+            { Name: 'Finished', Value: true },
+            { Name: 'Unfinished', Value: false }
+        ];
 
         function initFilter() {
-            var filter = historyFactory.getState();
+            var filter = historyFactory.getState(),
+                statusProcess = $routeParams.statusProcess !== undefined
+                    ? (($routeParams.statusProcess === true || $routeParams.statusProcess === 'true') ? true : false)
+                    : '';
+
             return filter ? filter : {
                 groupId: '',
                 isLocal: '',
                 employeeIds: '',
-                statusProcess: $routeParams.statusProcess ? $routeParams.statusProcess === true ? 'true' : 'false' : ''
+                statusProcess: statusProcess
             };
         }
 
