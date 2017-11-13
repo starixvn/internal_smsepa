@@ -42,7 +42,7 @@
                                 {{key}}
                             </a>
                             <ul>
-                                <li ng-repeat="kpi in ratingByKPICtrl.kpis" ng-if="kpi.KPIGroup.Name == key">
+                                <li ng-repeat="kpi in ratingByKPICtrl.kpis" ng-if="kpi.KPIGroup.Name === key">
                                     <span class="glyphicon glyphicon-ok" ng-if="kpi.Evaluated"></span>
                                     <a href="javascript:;" ng-click="ratingByKPICtrl.KPIChange(kpi.KPIId)" ng-class="ratingByKPICtrl.getCSSSelected(kpi.KPIId)">
                                         {{kpi.Name}}
@@ -71,7 +71,7 @@
                                     <div class="col-sm-12">
                                         <label class="kpi-selected">
                                             {{ratingByKPICtrl.kpiSelected.Name}}
-                                            <label ng-show="ratingByKPICtrl.kpiSelected.KPIGroup.NumberKPIOptional == 0"> ({{ratingByKPICtrl.kpiSelected.Weight | splitScore}} pts)</label>
+                                            <label ng-show="ratingByKPICtrl.kpiSelected.KPIGroup.NumberKPIOptional === 0"> ({{ratingByKPICtrl.kpiSelected.Weight | splitScore}} pts)</label>
                                             <label class="note" ng-show="ratingByKPICtrl.kpiSelected.IsRequiredEvaluate" data-translate="(*)"></label>
                                         </label>
                                         <input type="text" ng-model="ratingByKPICtrl.searchKey" ng-change="ratingByKPICtrl.search()"
@@ -106,7 +106,7 @@
                             <tr dir-paginate="epaInfo in ratingByKPICtrl.filteredItems | itemsPerPage: ratingByKPICtrl.pageSize"
                                 current-page="ratingByKPICtrl.currentPage" repeat-end="ratingByKPICtrl.generateRatingStar()">
                                 <td class="text-center">
-                                    <div ng-repeat="kpi in epaInfo.KPIGroup.KPIs" ng-show="kpi.KPIId == ratingByKPICtrl.kpiIdOriginal">
+                                    <div ng-repeat="kpi in epaInfo.KPIGroup.KPIs" ng-show="kpi.KPIId === ratingByKPICtrl.kpiIdOriginal">
                                         <span class="glyphicon glyphicon-ok" ng-if="kpi.Score != ''"></span>
                                     </div>
                                 </td>
@@ -118,13 +118,10 @@
                                 </td>
                                 <td class="col-score employee-score">
                                     <div class="row text-center list-star" ng-repeat="kpi in epaInfo.KPIGroup.KPIsBySelf"
-                                         ng-if="kpi.KPIId == ratingByKPICtrl.kpiIdOriginal">
+                                         ng-if="kpi.KPIId === ratingByKPICtrl.kpiIdOriginal">
                                         <div uib-tooltip="{{kpi.Comment}}">
                                             <span>{{kpi.Score | splitScore}} pts</span>
-                                            <div class="score-star-rating" ng-show="ratingByKPICtrl.showRatingScoreByStar &&
-                                                 (epaInfo.RatingType.RatingTypeId == ratingByKPICtrl.ratingTypeEnum.Star
-                                                 || epaInfo.RatingType.RatingTypeId == ratingByKPICtrl.ratingTypeEnum.HalfStar
-                                                 || (epaInfo.RatingType.RatingTypeId == ratingByKPICtrl.ratingTypeEnum.Score && epaInfo.KPIGroup.NumberKPIOptional > 0))">
+                                            <div class="score-star-rating" ng-show="ratingByKPICtrl.showRatingScoreByStar && (epaInfo.RatingType.RatingTypeId === ratingByKPICtrl.ratingTypeEnum.Star || epaInfo.RatingType.RatingTypeId === ratingByKPICtrl.ratingTypeEnum.HalfStar || (epaInfo.RatingType.RatingTypeId === ratingByKPICtrl.ratingTypeEnum.Score && epaInfo.KPIGroup.NumberKPIOptional > 0))">
                                                 / <span ng-show="kpi.Rate || kpi.Rate == 0" ng-bind="kpi.Rate | splitScore"></span>
                                                 <input type="number" class="rating-loading" ng-readonly="true" data-size="xs"
                                                        value="1" data-min="0" data-max="1" data-stars="1"
@@ -134,39 +131,38 @@
                                     </div>
                                 </td>
                                 <td class="text-center col-score">
-                                    <div ng-repeat="kpi in epaInfo.KPIGroup.KPIs" ng-show="kpi.KPIId == ratingByKPICtrl.kpiIdOriginal">
-                                        <span ng-show="kpi.Score != ''" ng-bind="kpi.Score | splitScore"></span>
-                                        <span ng-show="kpi.Score == ''" data-translate="NotAvailable"></span>
+                                    <div ng-repeat="kpi in epaInfo.KPIGroup.KPIs" ng-show="kpi.KPIId === ratingByKPICtrl.kpiIdOriginal">
+                                        <span ng-show="kpi.Score !== ''" ng-bind="kpi.Score | splitScore"></span>
+                                        <span ng-show="kpi.Score === ''" data-translate="NotAvailable"></span>
                                     </div>
                                 </td>
                                 <td class="col-adjust-score">
                                     <div class="row text-center list-star" ng-repeat="kpi in epaInfo.KPIGroup.KPIs"
-                                         ng-if="kpi.KPIId == ratingByKPICtrl.kpiIdOriginal">
-                                        <div ng-if="epaInfo.RatingType.RatingTypeId == ratingByKPICtrl.ratingTypeEnum.Star
-                                                || (epaInfo.RatingType.RatingTypeId == ratingByKPICtrl.ratingTypeEnum.Score && epaInfo.KPIGroup.NumberKPIOptional > 0)">
+                                         ng-if="kpi.KPIId === ratingByKPICtrl.kpiIdOriginal">
+                                        <div ng-if="epaInfo.RatingType.RatingTypeId === ratingByKPICtrl.ratingTypeEnum.Star || (epaInfo.RatingType.RatingTypeId === ratingByKPICtrl.ratingTypeEnum.Score && epaInfo.KPIGroup.NumberKPIOptional > 0)">
                                             <div class="col-sm-2 cancel-rating">
                                                 <a ng-show="kpi.AdjustRate > 0" class="glyphicon glyphicon-remove-circle remove-star"
                                                    title="Cancel" href="javascript:;" ng-click="ratingByKPICtrl.cancelRating(epaInfo, kpi)"></a>
                                             </div>
                                             <div class="col-sm-7 rating-form">
                                                 <input id="star_{{epaInfo.Employee.EmployeeId}}" type="number" class="rating-loading"
-                                                       ng-readonly="ratingByKPICtrl.permission != ratingByKPICtrl.policyEnum.Host" data-size="xs"
+                                                       ng-readonly="ratingByKPICtrl.permission !== ratingByKPICtrl.policyEnum.Host" data-size="xs"
                                                        data-min=0 data-max={{ratingByKPICtrl.maxStar}} data-step=1 ng-model="kpi.AdjustRate"
                                                        data-show-caption="false" data-show-clear="false"
                                                        ng-change="ratingByKPICtrl.hoveringLeave(epaInfo, kpi)">
                                             </div>
                                             <div class="col-sm-3 percent-rating">
-                                                <span class="badge percent" ng-show="epaInfo.KPIGroup.NumberKPIOptional == 0 && kpi.AdjustRate > 0">
+                                                <span class="badge percent" ng-show="epaInfo.KPIGroup.NumberKPIOptional === 0 && kpi.AdjustRate > 0">
                                                     {{kpi.AdjustScore | splitScore}} pts
                                                 </span>
                                             </div>
                                         </div>
-                                        <div ng-if="epaInfo.RatingType.RatingTypeId == ratingByKPICtrl.ratingTypeEnum.Score && epaInfo.KPIGroup.NumberKPIOptional == 0" class="input-score">
+                                        <div ng-if="epaInfo.RatingType.RatingTypeId === ratingByKPICtrl.ratingTypeEnum.Score && epaInfo.KPIGroup.NumberKPIOptional === 0" class="input-score">
                                             <input type="text" maxlength="5" class="form-control text-center epa-input-score"
                                                    ng-readonly="ratingByKPICtrl.permission != ratingByKPICtrl.policyEnum.Host" ng-model="kpi.AdjustScore" numeric decimals="2"
                                                    ng-change="ratingByKPICtrl.inputScore(epaInfo, kpi)" />
                                         </div>
-                                        <div ng-if="epaInfo.RatingType.RatingTypeId == ratingByKPICtrl.ratingTypeEnum.HalfStar">
+                                        <div ng-if="epaInfo.RatingType.RatingTypeId === ratingByKPICtrl.ratingTypeEnum.HalfStar">
                                             <div class="col-sm-2 cancel-rating">
                                                 <a ng-show="kpi.AdjustRate > 0" class="glyphicon glyphicon-remove-circle remove-star"
                                                    title="Cancel" href="javascript:;" ng-click="ratingByKPICtrl.cancelRating(epaInfo, kpi)"></a>
@@ -179,7 +175,7 @@
                                                        ng-change="ratingByKPICtrl.hoveringLeave(epaInfo, kpi)">
                                             </div>
                                             <div class="col-sm-3 percent-rating">
-                                                <span class="badge percent" ng-show="epaInfo.KPIGroup.NumberKPIOptional == 0 && kpi.AdjustRate > 0">
+                                                <span class="badge percent" ng-show="epaInfo.KPIGroup.NumberKPIOptional === 0 && kpi.AdjustRate > 0">
                                                     {{kpi.AdjustScore | splitScore}} pts
                                                 </span>
                                             </div>
@@ -187,35 +183,33 @@
                                     </div>
                                 </td>
                                 <td class="col-comment">
-                                    <div ng-repeat="kpi in epaInfo.KPIGroup.KPIs" ng-if="kpi.KPIId == ratingByKPICtrl.kpiIdOriginal">
+                                    <div ng-repeat="kpi in epaInfo.KPIGroup.KPIs" ng-if="kpi.KPIId === ratingByKPICtrl.kpiIdOriginal">
                                         <div class="required-comment" ng-show="kpi.HasComment && kpi.IsRequiredComment">
                                             <div class="textarea">
-                                                <textarea class="form-control" maxlength="2000"
-                                                          ng-show="kpi.HasComment" ng-model="kpi.Comment"
-                                                          ng-readonly="ratingByKPICtrl.permission != ratingByKPICtrl.policyEnum.Host"></textarea>
+                                                <textarea class="form-control" maxlength="2000" ng-show="kpi.HasComment" ng-model="kpi.Comment"
+                                                          ng-readonly="ratingByKPICtrl.permission !== ratingByKPICtrl.policyEnum.Host"></textarea>
                                             </div>
                                             <div class="note" data-translate="(*)"></div>
                                         </div>
                                         <div class="optional-comment" ng-show="kpi.HasComment && !kpi.IsRequiredComment">
-                                            <textarea class="form-control" maxlength="2000"
-                                                      ng-show="kpi.HasComment" ng-model="kpi.Comment"
-                                                      ng-readonly="ratingByKPICtrl.permission != ratingByKPICtrl.policyEnum.Host"></textarea>
+                                            <textarea class="form-control" maxlength="2000" ng-show="kpi.HasComment" ng-model="kpi.Comment"
+                                                      ng-readonly="ratingByKPICtrl.permission !== ratingByKPICtrl.policyEnum.Host"></textarea>
                                         </div>
                                     </div>
                                 </td>
                                 <td class="text-center col-score">
                                     <strong>
-                                        <a ng-show="epaInfo.TotalScore != ''" href="" ng-bind="epaInfo.TotalScore | customScore"
+                                        <a ng-show="epaInfo.TotalScore !== ''" href="" ng-bind="epaInfo.TotalScore | customScore"
                                            ng-click="ratingByKPICtrl.viewDetail(epaInfo)"></a>
                                     </strong>
                                     <strong>
-                                        <a ng-show="epaInfo.TotalScore == ''" href="" data-translate="NotAvailable"
+                                        <a ng-show="epaInfo.TotalScore === ''" href="" data-translate="NotAvailable"
                                            ng-click="ratingByKPICtrl.viewDetail(epaInfo)"></a>
                                     </strong>
                                 </td>
                             </tr>
                         </tbody>
-                        <tbody ng-show="!ratingByKPICtrl.filteredItems || ratingByKPICtrl.filteredItems.length == 0">
+                        <tbody ng-show="!ratingByKPICtrl.filteredItems || ratingByKPICtrl.filteredItems.length === 0">
                             <tr>
                                 <td class="empty-result" colspan="8" data-translate="EmptyResult"></td>
                             </tr>
@@ -228,7 +222,9 @@
                                             ng-options="entry for entry in ratingByKPICtrl.entries"></select>
                                     <span data-translate="entries"></span>
                                     <div class="pull-right custom-paging">
-                                        <dir-pagination-controls boundary-links="true"></dir-pagination-controls>
+                                        <ul uib-pagination total-items="ratingByKPICtrl.filteredItems.length" items-per-page="ratingByKPICtrl.pageSize"
+                                            boundary-links="true" max-size="5" boundary-link-numbers="true" ng-model="disciplineCtrl.currentPage"
+                                            class="pagination-sm" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></ul>
                                     </div>
                                 </td>
                             </tr>
@@ -237,7 +233,7 @@
                     <div class="navbar navbar-default navbar-fixed-bottom action-section">
                         <div class="container text-center">
                             <button class="btn btn-primary" ng-click="ratingByKPICtrl.save()"
-                                    ng-if="ratingByKPICtrl.filteredItems.length > 0 && ratingByKPICtrl.permission == ratingByKPICtrl.policyEnum.Host" data-translate="Save"></button>
+                                    ng-if="ratingByKPICtrl.filteredItems.length > 0 && ratingByKPICtrl.permission === ratingByKPICtrl.policyEnum.Host" data-translate="Save"></button>
                             <button class="btn btn-warning" ng-click="ratingByKPICtrl.back()" data-translate="Back"></button>
                         </div>
                     </div>

@@ -82,7 +82,9 @@
                                 ng-options="entry for entry in flowTemplateCtrl.entries"></select>
                         <span data-translate="entries"></span>
                         <div class="pull-right custom-paging">
-                            <dir-pagination-controls boundary-links="true"></dir-pagination-controls>
+                            <ul uib-pagination total-items="flowTemplateCtrl.filteredItems.length" items-per-page="flowTemplateCtrl.pageSize"
+                                boundary-links="true" max-size="5" boundary-link-numbers="true" ng-model="flowTemplateCtrl.currentPage"
+                                class="pagination-sm" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></ul>
                         </div>
                     </td>
                 </tr>

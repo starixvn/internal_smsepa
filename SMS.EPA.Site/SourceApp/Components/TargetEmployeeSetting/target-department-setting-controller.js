@@ -14,7 +14,7 @@
         vm.departments = CommonModel.departments;
         vm.filter = {};
         vm.isFirstLoad = true;
-        vm.pageSize = 15;
+        vm.pageSize = 20;
         vm.selectedAll = false;
         vm.targetDepartmentSetting = {
             targetTemplateId: null,

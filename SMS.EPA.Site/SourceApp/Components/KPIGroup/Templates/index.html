@@ -36,7 +36,7 @@
                     <th class="text-center" data-translate="KPIs"></th>
                     <th class="text-center col-active" data-translate="Active"></th>
                     <th class="text-center col-description" data-translate="Description"></th>
-                    <th class="text-center col-action" data-translate="Action" ng-if="kpiGroupCtrl.permission == kpiGroupCtrl.policyEnum.Host"></th>
+                    <th class="text-center col-action" data-translate="Action" ng-if="kpiGroupCtrl.permission === kpiGroupCtrl.policyEnum.Host"></th>
                 </tr>
             </thead>
             <tbody class="table-body">
@@ -46,7 +46,7 @@
                     <td class="text-center col-number-kpis">
                         <a href="" ng-if="kpiGroup.NumberKPI > 0 && kpiGroupCtrl.permissionOnKPI > 0" ng-click="kpiGroupCtrl.viewKPI(kpiGroup.KPIGroupId)"
                            ng-bind="kpiGroup.NumberKPI" class="number-kpi"></a>
-                        <span ng-if="kpiGroup.NumberKPI === 0 || kpiGroupCtrl.permissionOnKPI != kpiGroupCtrl.policyEnum.Host" ng-bind="kpiGroup.NumberKPI"></span>
+                        <span ng-if="kpiGroup.NumberKPI === 0 || kpiGroupCtrl.permissionOnKPI !== kpiGroupCtrl.policyEnum.Host" ng-bind="kpiGroup.NumberKPI"></span>
                     </td>
                     <td class="text-center col-active">
                         <input type="checkbox" ng-checked="kpiGroup.IsActive"
@@ -60,14 +60,14 @@
                         <a ng-if="kpiGroup.showReadMore && (kpiGroup.Description.length >= kpiGroupCtrl.maxLengthDescription)"
                            href="javascript:;" ng-click="kpiGroupCtrl.readLess(kpiGroup)" data-translate="ReadLess"></a>
                     </td>
-                    <td class="text-center col-action" ng-if="kpiGroupCtrl.permission == kpiGroupCtrl.policyEnum.Host">
+                    <td class="text-center col-action" ng-if="kpiGroupCtrl.permission === kpiGroupCtrl.policyEnum.Host">
                         <a class="glyphicon glyphicon-edit icon-edit" href="" ng-click="kpiGroupCtrl.updateKPIGroup(kpiGroup)" ng-attr-title='{{"Edit" | translate}}'></a>
                         <a class="glyphicon glyphicon-remove icon-remove" href="" ng-click="kpiGroupCtrl.deleteKPIGroup(kpiGroup)" ng-attr-title='{{"Delete" | translate}}'></a>
-                        <a class="glyphicon glyphicon-plus icon-add" href="" ng-if="kpiGroupCtrl.permissionOnKPI == kpiGroupCtrl.policyEnum.Host"
+                        <a class="glyphicon glyphicon-plus icon-add" href="" ng-if="kpiGroupCtrl.permissionOnKPI === kpiGroupCtrl.policyEnum.Host"
                            ng-click="kpiGroupCtrl.addKPI(kpiGroup)" ng-attr-title='{{"AddKPI" | translate}}'></a>
                     </td>
                 </tr>
-                <tr ng-show="kpiGroupCtrl.filteredItems.length == 0">
+                <tr ng-show="kpiGroupCtrl.filteredItems.length === 0">
                     <td class="empty-result" colspan="6" data-translate="EmptyResult"></td>
                 </tr>
             </tbody>
@@ -79,7 +79,9 @@
                                 ng-options="entry for entry in kpiGroupCtrl.entries"></select>
                         <span data-translate="entries"></span>
                         <div class="pull-right custom-paging">
-                            <dir-pagination-controls boundary-links="true"></dir-pagination-controls>
+                            <ul uib-pagination total-items="kpiGroupCtrl.filteredItems.length" items-per-page="kpiGroupCtrl.pageSize"
+                                boundary-links="true" max-size="5" boundary-link-numbers="true" ng-model="kpiGroupCtrl.currentPage"
+                                class="pagination-sm" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></ul>
                         </div>
                     </td>
                 </tr>

@@ -30,7 +30,7 @@
         vm.filter = {};
         vm.groupOptions = [];
         vm.isFirstLoad = true;
-        vm.pageSize = 15;
+        vm.pageSize = 20;
         vm.selectedAll = false;
         vm.targetEmployeeSetting = {
             targetTemplateId: null,

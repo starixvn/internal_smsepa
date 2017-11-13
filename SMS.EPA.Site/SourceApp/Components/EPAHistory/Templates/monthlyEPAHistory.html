@@ -78,7 +78,9 @@
                             ng-options="entry for entry in epaHistoryCtrl.entries"></select>
                     <span data-translate="entries"></span>
                     <div class="pull-right custom-paging">
-                        <dir-pagination-controls boundary-links="true"></dir-pagination-controls>
+                        <ul uib-pagination total-items="epaHistoryCtrl.filteredItems.length" items-per-page="epaHistoryCtrl.pageSize"
+                            boundary-links="true" max-size="5" boundary-link-numbers="true" ng-model="epaHistoryCtrl.currentPage"
+                            class="pagination-sm" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></ul>
                     </div>
                 </td>
             </tr>

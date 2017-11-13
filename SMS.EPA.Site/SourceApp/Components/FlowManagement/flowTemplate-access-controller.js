@@ -15,7 +15,7 @@
             targetTypeId: '',
             isActive: 'true'
         };
-        vm.pageSize = 15;
+        vm.pageSize = 20;
         vm.permission = 0;
         vm.policyEnum = utilitiesFactory.policy;
         vm.targetTypes = [];

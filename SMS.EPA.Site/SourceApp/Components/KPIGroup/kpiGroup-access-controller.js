@@ -13,7 +13,7 @@
         vm.currentPage = 1;
         vm.filter = {};
         vm.kpiGroups = [];
-        vm.pageSize = 15;
+        vm.pageSize = 20;
         vm.permission = 0;
         vm.policyEnum = utilitiesFactory.policy;
 

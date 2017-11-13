@@ -47,11 +47,11 @@
                 <th data-translate="DepartmentSection"></th>
                 <th data-translate="TargetType"></th>
                 <th data-translate="TargetTemplate"></th>
-                <th data-translate="Delete" ng-show="targetCtrl.permission == targetCtrl.policyEnum.Host"></th>
+                <th data-translate="Delete" ng-show="targetCtrl.permission === targetCtrl.policyEnum.Host"></th>
             </tr>
         </thead>
         <tbody class="table-body" dir-paginate="department in departmentCtrl.filteredItems | itemsPerPage: departmentCtrl.pageSize"
-               pagination-id="department" current-page="departmentCtrl.currentPage" ng-class="{oddRow: $index % 2 == 0, evenRow: $index % 2 != 0}">
+               pagination-id="department" current-page="departmentCtrl.currentPage" ng-class="{oddRow: $index % 2 === 0, evenRow: $index % 2 !== 0}">
             <tr ng-repeat="targetTemplate in department.TargetTemplates" ng-show="department.TargetTemplates.length > 0">
                 <td class="text-center" rowspan="{{department.NumberTargetTemplates}}" ng-show="$first">
                     <input type="checkbox" ng-model="department.Selected" ng-click="departmentCtrl.syncSelectedDepartment(department, department.Selected)" />
@@ -61,12 +61,12 @@
                 <td class="text-center" ng-bind="department.Department.Name" ng-show="$first" rowspan="{{department.NumberTargetTemplates}}"></td>
                 <td ng-bind="targetTemplate.TargetTypeName"></td>
                 <td ng-bind="targetTemplate.Name"></td>
-                <td class="text-center" ng-show="targetCtrl.permission == targetCtrl.policyEnum.Host">
+                <td class="text-center" ng-show="targetCtrl.permission === targetCtrl.policyEnum.Host">
                     <a class="glyphicon glyphicon-remove icon-remove" href="" ng-click="departmentCtrl.deleteTargetTemplate(department, targetTemplate)"
                        ng-attr-title='{{"Delete" | translate}}'></a>
                 </td>
             </tr>
-            <tr ng-show="department.TargetTemplates.length == 0">
+            <tr ng-show="department.TargetTemplates.length === 0">
                 <td class="text-center">
                     <input type="checkbox" ng-model="department.Selected" ng-click="departmentCtrl.syncSelectedDepartment(department, department.Selected)" />
                 </td>
@@ -77,7 +77,7 @@
                 <td></td>
             </tr>
         </tbody>
-        <tbody ng-show="departmentCtrl.filteredItems.length == 0">
+        <tbody ng-show="departmentCtrl.filteredItems.length === 0">
             <tr>
                 <td class="empty-result" colspan="6" data-translate="EmptyResult"></td>
             </tr>
@@ -90,7 +90,9 @@
                             ng-options="entry for entry in departmentCtrl.entries"></select>
                     <span data-translate="entries"></span>
                     <div class="pull-right custom-paging">
-                        <dir-pagination-controls boundary-links="true" pagination-id="department"></dir-pagination-controls>
+                        <ul uib-pagination total-items="departmentCtrl.filteredItems.length" items-per-page="departmentCtrl.pageSize"
+                            boundary-links="true" max-size="5" boundary-link-numbers="true" ng-model="departmentCtrl.currentPage"
+                            class="pagination-sm" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></ul>
                     </div>
                 </td>
             </tr>

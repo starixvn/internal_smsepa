@@ -19,7 +19,7 @@
         vm.kpiGroups = [];
         vm.kpis = [];
         vm.policyEnum = utilitiesFactory.policy;
-        vm.pageSize = 15;
+        vm.pageSize = 20;
         vm.permission = 0;
         vm.routeParam = {
             kpiGroupId: $routeParams.groupId
