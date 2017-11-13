@@ -12,12 +12,11 @@ Task: Add employee to evaluation period.
 DB: SMSEPA
 Original: 
 
-Revisions:  
+Revisions:
+    2017-04-13@Hunter.Tran: don't add employee if employee has [Enable] = 0 or ResignDate not null
+    2017-11-10@Tim.Trinh: don't add employee to semi if employee has JoinedDate > 15-Mar or 15-Sep 
 Param's Explanation:
 	@Departments = <ROOT><Department DepartmentId='1' IsGroup='1'></Department</ROOT>
-	
-Edited: 2017-04-13@hunter.tran
-Issue: 75171: Web - Enhance - Do not add employee to Semi-annual if Employee's Group Date < Discipline Start Date
 
 */
 BEGIN
@@ -35,25 +34,26 @@ BEGIN
 		RETURN
 	END
 
-	DECLARE @DocHandler INT,
-			@TargetTypeId INT,
-			@StartDate DATETIME,
-			@EmployeeIds IntId,
-			@ExistedEmployeeIds IntId,
-			@NoneSettingEmployeeIds NVARCHAR(MAX),
-			@OverlapEmployeeIds IntId,
-			@NumberEmployeeSuccessfully INT,
-			@NoneSettingEmployees NVARCHAR(MAX),
-			@OverlapEmployees NVARCHAR(MAX),
-			@AttendanceStartDate datetime
+	DECLARE @DocHandler INT
+		,@TargetTypeId INT
+		,@StartDate DATE
+		,@EmployeeIds IntId
+		,@ExistedEmployeeIds IntId
+		,@NoneSettingEmployeeIds NVARCHAR(MAX)
+		,@OverlapEmployeeIds IntId
+		,@NumberEmployeeSuccessfully INT
+		,@NoneSettingEmployees NVARCHAR(MAX)
+		,@OverlapEmployees NVARCHAR(MAX)
+		,@AttendanceStartDate DATE
+		,@ProbationTarget TINYINT = 1
+		,@MonthlyTarget TINYINT = 2
+		,@SemiTarget TINYINT = 3
+		,@PromotionTarget TINYINT = 5
 
 	SELECT @TargetTypeId = TargetTypeId
 		,@StartDate = StartDate
+		,@AttendanceStartDate = AttendanceStartDate
 	FROM dbo.Period WITH (NOLOCK)
-	WHERE PeriodId = @PeriodId
-
-	SELECT @AttendanceStartDate = AttendanceStartDate
-	FROM dbo.[Period]
 	WHERE PeriodId = @PeriodId
 
 	CREATE TABLE #Department (
@@ -68,10 +68,16 @@ BEGIN
 		,TargetTemplateId INT
 		)
 
-	INSERT INTO #DeptFlowAndTargetTemplate
-	EXEC GetFlowAndTargetTemplateSetting @TargetTypeId
+	INSERT INTO #DeptFlowAndTargetTemplate (
+		DepartmentId
+		,EmployeeId
+		,FlowTemplateId
+		,TargetTemplateId
+		)
+	EXEC dbo.GetFlowAndTargetTemplateSetting @TargetTypeId
 
-	EXEC sp_xml_preparedocument @DocHandler OUTPUT, @Departments
+	EXEC sp_xml_preparedocument @DocHandler OUTPUT
+		,@Departments
 
 	IF ISNULL(@Departments, '') <> ''
 	BEGIN
@@ -95,12 +101,21 @@ BEGIN
 				INNER JOIN dbo.[Group] AS gr WITH (NOLOCK) ON gr.lft >= dept.lft
 				AND gr.rgt <= dept.rgt
 				AND gr.IsDeleted = 0
-				INNER JOIN dbo.Employee AS emp WITH (NOLOCK) ON gr.GroupId = emp.GroupId				
-				INNER JOIN dbo.Period AS pe WITH (NOLOCK) ON CAST(pe.AttendanceStartDate AS DATE) >= CAST(emp.JoinedDate AS DATE)
+				INNER JOIN dbo.Employee AS emp WITH (NOLOCK) ON gr.GroupId = emp.GroupId
 			WHERE emp.IsDeleted = 0
 				AND emp.[Enabled] = 1
-				AND PeriodId = @PeriodId
 				AND emp.ResignedDate IS NULL
+				AND (
+					(
+						@TargetTypeId = @SemiTarget
+						AND (
+							CAST(emp.JoinedDate AS DATE) <= CAST(CAST(YEAR(GETDATE()) AS NVARCHAR(5)) + '-03-15' AS DATE)
+							OR CAST(emp.JoinedDate AS DATE) <= CAST(CAST(YEAR(GETDATE()) AS NVARCHAR(5)) + '-09-15' AS DATE)
+							)
+						)
+					OR @TargetTypeId <> @SemiTarget
+					)
+			
 			UNION
 			SELECT DISTINCT emp.EmployeeId
 			FROM #Department AS deptT WITH (NOLOCK)
@@ -108,44 +123,66 @@ BEGIN
 				AND deptT.IsGroup = 1
 				AND gr.IsDeleted = 0
 				INNER JOIN dbo.Employee AS emp WITH (NOLOCK) ON gr.GroupId = emp.GroupId
-				INNER JOIN dbo.Period AS pe WITH (NOLOCK) ON CAST(pe.AttendanceStartDate AS DATE) >= CAST(emp.JoinedDate AS DATE)
 			WHERE emp.IsDeleted = 0
 				AND emp.[Enabled] = 1
-				AND PeriodId = @PeriodId
 				AND emp.ResignedDate IS NULL
+				AND (
+					(
+						@TargetTypeId = @SemiTarget
+						AND (
+							CAST(emp.JoinedDate AS DATE) < CAST(CAST(YEAR(GETDATE()) AS NVARCHAR(5)) + '-03-15' AS DATE)
+							OR CAST(emp.JoinedDate AS DATE) < CAST(CAST(YEAR(GETDATE()) AS NVARCHAR(5)) + '-09-15' AS DATE)
+							)
+						)
+					OR @TargetTypeId <> @SemiTarget
+					)
 			) AS tblEmp
-		WHERE ISNULL(@EmployeeId, '') = ''
+		WHERE @EmployeeId IS NULL
 			OR tblEmp.EmployeeId <> @EmployeeId
 	END
 
-	IF ISNULL(@EmployeeId, '') <> ''
+	IF @EmployeeId IS NOT NULL
 	BEGIN
-		--No department selected / Single EmployeeId
-		
-		--check if employee JoinDate > Discipline Start Date
-		IF NOT EXISTS
-		(
-			SELECT distinct 1
-			FROM dbo.Employee
-			WHERE [Enabled] = 1
-				AND IsDeleted = 0
-				AND EmployeeId = @EmployeeId
-				AND ResignedDate IS NULL
-				AND @AttendanceStartDate >= JoinedDate
-				OR @AttendanceStartDate is NULL
-		)
+		IF EXISTS (
+				SELECT 1
+				FROM dbo.Employee WITH (NOLOCK)
+				WHERE [Enabled] = 1
+					AND IsDeleted = 0
+					AND EmployeeId = @EmployeeId
+					AND ResignedDate IS NOT NULL
+				)
 		BEGIN
 			SELECT @ErrCode = 1
-				,@ErrMsg = N'Employee Group Date < Discipline Start Date or Employee resigned'
+				,@ErrMsg = N'Employee resigned'
 
 			RETURN
 		END
+
+		IF NOT EXISTS (
+				SELECT 1
+				FROM dbo.Employee WITH (NOLOCK)
+				WHERE [Enabled] = 1
+					AND IsDeleted = 0
+					AND EmployeeId = @EmployeeId
+					AND ResignedDate IS NULL
+					AND @TargetTypeId = @SemiTarget
+					AND (
+						CAST(JoinedDate AS DATE) < CAST(CAST(YEAR(GETDATE()) AS NVARCHAR(5)) + '-03-15' AS DATE)
+						OR CAST(JoinedDate AS DATE) < CAST(CAST(YEAR(GETDATE()) AS NVARCHAR(5)) + '-09-15' AS DATE)
+						)
+				)
+		BEGIN
+			SELECT @ErrCode = 1
+				,@ErrMsg = N'Employee Group Date must be <= 15-Mar(H1) or <= 15-Sep(H2)'
+
+			RETURN
+		END
+
 		INSERT INTO @EmployeeIds (Id)
 		VALUES (@EmployeeId)
 	END
-	
-	-- check employees has set monthly EPA
-	IF @TargetTypeId = 2
+
+	IF @TargetTypeId = @MonthlyTarget
 	BEGIN
 		DELETE emp
 		FROM @EmployeeIds AS emp
@@ -178,22 +215,22 @@ BEGIN
 					UNION
 					SELECT DISTINCT emp.EmployeeId
 					FROM dbo.SettingDepartmentFlow AS deptFS WITH (NOLOCK)
-						INNER JOIN dbo.[Group] AS gr ON deptFS.DepartmentId = gr.GroupId
+						INNER JOIN dbo.[Group] AS gr WITH (NOLOCK) ON deptFS.DepartmentId = gr.GroupId
 						AND deptFS.IsGroup = 1
-						INNER JOIN dbo.Employee AS emp ON emp.GroupId = gr.GroupId
+						INNER JOIN dbo.Employee AS emp WITH (NOLOCK) ON emp.GroupId = gr.GroupId
 						INNER JOIN dbo.FlowTemplate AS fT WITH (NOLOCK) ON deptFS.FlowTemplateId = fT.FlowTemplateId
 					WHERE fT.TargetTypeId = @TargetTypeId
 					
 					UNION
 					SELECT DISTINCT emp.EmployeeId
-					FROM #DeptFlowAndTargetTemplate AS emp
+					FROM #DeptFlowAndTargetTemplate AS emp WITH (NOLOCK)
 					WHERE emp.FlowTemplateId IS NOT NULL
 					) AS empF
 				WHERE empF.EmployeeId = empS.Id
 				)
 			)
 		OR (
-			@TargetTypeId <> 5 -- Not Promotion
+			@TargetTypeId <> @PromotionTarget
 			AND (
 				NOT EXISTS (
 					SELECT 1
@@ -206,15 +243,15 @@ BEGIN
 						UNION
 						SELECT DISTINCT emp.EmployeeId
 						FROM dbo.TargetTemplateDepartment AS deptTar WITH (NOLOCK)
-							INNER JOIN dbo.[Group] AS gr ON deptTar.DepartmentId = gr.GroupId
+							INNER JOIN dbo.[Group] AS gr WITH (NOLOCK) ON deptTar.DepartmentId = gr.GroupId
 							AND deptTar.IsGroup = 1
-							INNER JOIN dbo.Employee AS emp ON emp.GroupId = gr.GroupId
+							INNER JOIN dbo.Employee AS emp WITH (NOLOCK) ON emp.GroupId = gr.GroupId
 							INNER JOIN dbo.TargetTemplate AS tarT WITH (NOLOCK) ON deptTar.TargetTemplateId = tarT.TargetTemplateId
 						WHERE tarT.TargetTypeId = @TargetTypeId
 						
 						UNION
 						SELECT DISTINCT emp.EmployeeId
-						FROM #DeptFlowAndTargetTemplate AS emp
+						FROM #DeptFlowAndTargetTemplate AS emp WITH (NOLOCK)
 						WHERE emp.TargetTemplateId IS NOT NULL
 						) AS empTS
 					WHERE empTS.EmployeeId = empS.Id
@@ -294,9 +331,9 @@ BEGIN
 				END
 			,deptFS.[Priority]
 		FROM dbo.SettingDepartmentFlow AS deptFS WITH (NOLOCK)
-			INNER JOIN dbo.[Group] AS gr ON deptFS.DepartmentId = gr.GroupId
+			INNER JOIN dbo.[Group] AS gr WITH (NOLOCK) ON deptFS.DepartmentId = gr.GroupId
 			AND deptFS.IsGroup = 1
-			INNER JOIN dbo.Employee AS emp ON emp.GroupId = gr.GroupId
+			INNER JOIN dbo.Employee AS emp WITH (NOLOCK) ON emp.GroupId = gr.GroupId
 			INNER JOIN @EmployeeIds AS empt ON emp.EmployeeId = empt.Id
 			LEFT JOIN dbo.Employee AS eva ON deptFS.EvaluatorId = eva.EmployeeId
 			INNER JOIN dbo.FlowTemplate AS flowT WITH (NOLOCK) ON deptFS.FlowTemplateId = flowT.FlowTemplateId
@@ -324,10 +361,10 @@ BEGIN
 				END
 			,deptFS.[Priority]
 		FROM dbo.SettingDepartmentFlow AS deptFS WITH (NOLOCK)
-			INNER JOIN #DeptFlowAndTargetTemplate AS deptFS1 ON deptFS.DepartmentId = deptFS1.DepartmentId
+			INNER JOIN #DeptFlowAndTargetTemplate AS deptFS1 WITH (NOLOCK) ON deptFS.DepartmentId = deptFS1.DepartmentId
 			AND deptFS.FlowTemplateId = deptFS1.FlowTemplateId
 			AND deptFS.IsGroup = 0
-			INNER JOIN dbo.Employee AS emp ON deptFS1.EmployeeId = emp.EmployeeId
+			INNER JOIN dbo.Employee AS emp WITH (NOLOCK) ON deptFS1.EmployeeId = emp.EmployeeId
 			INNER JOIN @EmployeeIds AS empt ON emp.EmployeeId = empt.Id
 		WHERE NOT EXISTS (
 				SELECT 1
@@ -337,7 +374,7 @@ BEGIN
 				)
 
 		-- insert employee target setting
-		IF @TargetTypeId <> 5 -- Not Promotion
+		IF @TargetTypeId <> @PromotionTarget
 		BEGIN
 			INSERT INTO dbo.PeriodTargetSetting (
 				PeriodId
@@ -375,9 +412,9 @@ BEGIN
 				,@ModifiedBy
 				,GETDATE()
 			FROM dbo.TargetTemplateDepartment AS deptTS WITH (NOLOCK)
-				INNER JOIN dbo.[Group] AS gr ON deptTS.DepartmentId = gr.GroupId
+				INNER JOIN dbo.[Group] AS gr WITH (NOLOCK) ON deptTS.DepartmentId = gr.GroupId
 				AND deptTS.IsGroup = 1
-				INNER JOIN dbo.Employee AS emp ON emp.GroupId = gr.GroupId
+				INNER JOIN dbo.Employee AS emp WITH (NOLOCK) ON emp.GroupId = gr.GroupId
 				INNER JOIN @EmployeeIds AS empt ON emp.EmployeeId = empt.Id
 				INNER JOIN dbo.TargetTemplate AS tarT WITH (NOLOCK) ON deptTS.TargetTemplateId = tarT.TargetTemplateId
 				AND tarT.TargetTypeId = @TargetTypeId
@@ -401,7 +438,7 @@ BEGIN
 				,@ModifiedBy
 				,GETDATE()
 			FROM dbo.TargetTemplateDepartment AS deptTS WITH (NOLOCK)
-				INNER JOIN #DeptFlowAndTargetTemplate AS deptTS1 ON deptTS.DepartmentId = deptTS1.DepartmentId
+				INNER JOIN #DeptFlowAndTargetTemplate AS deptTS1 WITH (NOLOCK) ON deptTS.DepartmentId = deptTS1.DepartmentId
 				AND deptTS.TargetTemplateId = deptTS1.TargetTemplateId
 				AND deptTS.IsGroup = 0
 				INNER JOIN dbo.Employee AS emp WITH (NOLOCK) ON deptTS1.EmployeeId = emp.EmployeeId
@@ -414,8 +451,7 @@ BEGIN
 					)
 		END
 
-		-- Only update start date and end date for employee of period that has target type is monthly, semi annual
-		IF @TargetTypeId IN (2, 3, 5) -- Monthly, Semi-Annual and Promotion
+		IF @TargetTypeId IN (@MonthlyTarget, @SemiTarget, @PromotionTarget)
 		BEGIN
 			IF ISNULL(@StartDate, '') <> ''
 			BEGIN
@@ -425,8 +461,8 @@ BEGIN
 							WHEN ISNULL(aa.Duration, 0) - 1 < 0 THEN 0
 							ELSE ISNULL(aa.Duration, 0) - 1 END
 							), @StartDate)
-				FROM dbo.PeriodFlowSetting AS pe
-					INNER JOIN dbo.PeriodProcessSetting AS peP ON pe.PeriodId = peP.PeriodId
+				FROM dbo.PeriodFlowSetting AS pe WITH (NOLOCK)
+					INNER JOIN dbo.PeriodProcessSetting AS peP WITH (NOLOCK) ON pe.PeriodId = peP.PeriodId
 					AND pe.ProcessId = peP.ProcessId
 					INNER JOIN (
 					SELECT set1.PeriodId
@@ -493,11 +529,11 @@ BEGIN
 					FROM @OverlapEmployeeIds
 					)
 			BEGIN
-				IF @TargetTypeId = 2 -- monthly
+				IF @TargetTypeId = @MonthlyTarget
 				BEGIN
 					SET @ErrMsg = @ErrMsg + '<br/>Start Date / End Date of <b>' + @OverlapEmployees + '</b> overlap on semi.'
 				END
-				ELSE IF @TargetTypeId = 3 -- monthly
+				ELSE IF @TargetTypeId = @SemiTarget
 				BEGIN
 					SET @ErrMsg = @ErrMsg + '<br/>Start Date / End Date of <b>' + @OverlapEmployees + '</b> overlap on monthly.'
 				END
@@ -513,11 +549,11 @@ BEGIN
 					FROM @OverlapEmployeeIds
 					)
 			BEGIN
-				IF @TargetTypeId = 2 -- monthly
+				IF @TargetTypeId = @MonthlyTarget
 				BEGIN
 					SET @ErrMsg = @ErrMsg + '<br/>Start Date / End Date of <b>' + @OverlapEmployees + '</b> overlap on semi.'
 				END
-				ELSE IF @TargetTypeId = 3 -- monthly
+				ELSE IF @TargetTypeId = @SemiTarget
 				BEGIN
 					SET @ErrMsg = @ErrMsg + '<br/>Start Date / End Date of <b>' + @OverlapEmployees + '</b> overlap on monthly.'
 				END
@@ -530,11 +566,11 @@ BEGIN
 		BEGIN
 			SET @ErrCode = 1
 
-			IF @TargetTypeId = 2 -- monthly
+			IF @TargetTypeId = @MonthlyTarget
 			BEGIN
 				SET @ErrMsg = 'Start Date / End Date of <b>' + @OverlapEmployees + '</b> overlap on semi.'
 			END
-			ELSE IF @TargetTypeId = 3 -- monthly
+			ELSE IF @TargetTypeId = @SemiTarget
 			BEGIN
 				SET @ErrMsg = 'Start Date / End Date of <b>' + @OverlapEmployees + '</b> overlap on monthly.'
 			END

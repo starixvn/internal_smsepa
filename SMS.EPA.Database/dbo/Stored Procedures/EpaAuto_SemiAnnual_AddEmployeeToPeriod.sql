@@ -1,7 +1,4 @@
-﻿/****** Object:  Stored Procedure dbo.EpaAuto_SemiAnnual_AddEmployeeToPeriod    Script Date: 7/21/2016 3:01:36 PM ******/
-/****** Object:  Stored Procedure dbo.EpaAuto_SemiAnnual_AddEmployeeToPeriod    Script Date: 7/21/2016 2:45:49 PM ******/
-
---dbo.EpaAuto_SemiAnnual_AddEmployeeToPeriod 3
+﻿
 CREATE PROCEDURE [dbo].[EpaAuto_SemiAnnual_AddEmployeeToPeriod] @PeriodId INT
 	,@ErrCode INT = 0 OUTPUT
 	,@ErrMsg NVARCHAR(MAX) = '' OUTPUT
@@ -12,19 +9,21 @@ Task: Auto add employee to period that has start date is today.
 DB: SMSEPA
 Original: 
 
-Revisions:  
+Revisions:
+    2017-04-13@Hunter.Tran: Don't add Employees that have [Enable] = 0 or ResignDate not null
+    2017-11-10@Tim.Trinh: don't add employees that have JoinedDate > 15-Mar or 15-Sep
 Param's Explanation:
 
-Edited: 2017-04-13: Hunter.Tran
-Do not add Employees that have [Enable] = 0 or ResignDate not null
 */
 BEGIN
 	SET NOCOUNT ON;
 
+	DECLARE @Today DATE = GETDATE()
+
 	IF NOT EXISTS (
 			SELECT 1
 			FROM dbo.Period WITH (NOLOCK)
-			WHERE CAST(GETDATE() AS DATE) = CAST(StartDate AS DATE)
+			WHERE @Today = StartDate
 				AND IsActive = 1
 				AND PeriodId = @PeriodId
 			)
@@ -52,11 +51,15 @@ BEGIN
 	INSERT INTO @EmployeeIds (Id)
 	SELECT DISTINCT emp.EmployeeId
 	FROM dbo.Period AS pe WITH (NOLOCK)
-		INNER JOIN dbo.Employee AS emp WITH (NOLOCK) ON CAST(pe.AttendanceStartDate AS DATE) >= CAST(emp.JoinedDate AS DATE)
+		,dbo.Employee AS emp WITH (NOLOCK)
 	WHERE emp.[Enabled] = 1
 		AND emp.IsDeleted = 0
 		AND PeriodId = @PeriodId
 		AND emp.ResignedDate IS NULL
+		AND (
+			CAST(emp.JoinedDate AS DATE) <= CAST(CAST(YEAR(GETDATE()) AS NVARCHAR(5)) + '-03-15' AS DATE)
+			OR CAST(emp.JoinedDate AS DATE) <= CAST(CAST(YEAR(GETDATE()) AS NVARCHAR(5)) + '-09-15' AS DATE)
+			)
 
 	CREATE TABLE #DeptFlowAndTargetTemplate (
 		DepartmentId INT
@@ -135,7 +138,7 @@ BEGIN
 		FROM @EmployeeIds
 		WHERE Id IN (
 				SELECT DISTINCT val
-				FROM fnc_strSplit(@NoneSettingEmployeeIds, ',')
+				FROM dbo.fnc_strSplit(@NoneSettingEmployeeIds, ',')
 				)
 	END
 

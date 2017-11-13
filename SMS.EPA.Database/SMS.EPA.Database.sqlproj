@@ -300,7 +300,6 @@
     <Build Include="dbo\Stored Procedures\EPA_RatingByKPI_GetEmployeeToView.sql" />
     <Build Include="dbo\Stored Procedures\EPA_RatingByKPI_Get.sql" />
     <Build Include="dbo\Stored Procedures\EPA_GetStandardGrade.sql" />
-    <Build Include="dbo\Stored Procedures\EPA_GetSemiById.sql" />
     <Build Include="dbo\Stored Procedures\EPA_GetProcess.sql" />
     <Build Include="dbo\Stored Procedures\EPA_GetPeriodToUpdateFinalScore.sql" />
     <Build Include="dbo\Stored Procedures\Epa_GetMonthlyEPAHistory.sql" />

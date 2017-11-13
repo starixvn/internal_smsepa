@@ -20,14 +20,16 @@ BEGIN
 
 	DECLARE @Data NVARCHAR(MAX)
 		,@OldData NVARCHAR(MAX)
-		,@TargetTypeId INT
+		,@TargetTypeId TINYINT
+		,@MonthlyTarget TINYINT = 1
+		,@SemiTarget TINYINT = 3
 
 	SELECT @TargetTypeId = TargetTypeId
 	FROM dbo.Period WITH (NOLOCK)
 	WHERE PeriodId = @PeriodId
 
 	IF @IsIncluded = 1
-		AND @TargetTypeId = 2 -- monthly
+		AND @TargetTypeId = @MonthlyTarget
 		AND EXISTS (
 			SELECT 1
 			FROM dbo.PeriodExcludedEmployee AS pEx WITH (NOLOCK)
@@ -49,6 +51,44 @@ BEGIN
 			,@ErrMsg = 'Cannot include <b>' + @NickName + '</b> to monthly period because <b>' + @NickName + '</b> has not been set monthly evaluation!'
 
 		RETURN
+	END
+
+	IF @IsIncluded = 1
+		AND @TargetTypeId = @SemiTarget
+	BEGIN
+		IF EXISTS (
+				SELECT 1
+				FROM dbo.Employee WITH (NOLOCK)
+				WHERE [Enabled] = 1
+					AND IsDeleted = 0
+					AND EmployeeId = @EmployeeId
+					AND ResignedDate IS NOT NULL
+				)
+		BEGIN
+			SELECT @ErrCode = 1
+				,@ErrMsg = N'Employee resigned'
+
+			RETURN
+		END
+
+		IF NOT EXISTS (
+				SELECT 1
+				FROM dbo.Employee WITH (NOLOCK)
+				WHERE [Enabled] = 1
+					AND IsDeleted = 0
+					AND EmployeeId = @EmployeeId
+					AND ResignedDate IS NULL
+					AND (
+						CAST(JoinedDate AS DATE) <= CAST(CAST(YEAR(GETDATE()) AS NVARCHAR(5)) + '-03-15' AS DATE)
+						OR CAST(JoinedDate AS DATE) <= CAST(CAST(YEAR(GETDATE()) AS NVARCHAR(5)) + '-09-15' AS DATE)
+						)
+				)
+		BEGIN
+			SELECT @ErrCode = 1
+				,@ErrMsg = N'Employee Group Date must be <= 15-Mar(H1) or <= 15-Sep(H2)'
+
+			RETURN
+		END
 	END
 
 	EXEC @OldData = dbo.fncGetDataForWriteLog_Period_IncludeExcludeEmployee @PeriodId = @PeriodId
@@ -119,7 +159,7 @@ BEGIN
 						SELECT 1
 						FROM dbo.EPAProcess WITH (NOLOCK)
 						WHERE EPAId = @EPAId
-							AND CAST(EndDate AS DATE) >= CAST(GETDATE() AS DATE)
+							AND EndDate >= CAST(GETDATE() AS DATE)
 						)
 				BEGIN
 					UPDATE dbo.EPA WITH (ROWLOCK, UPDLOCK)

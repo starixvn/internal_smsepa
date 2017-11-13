@@ -1,6 +1,7 @@
 ﻿
 CREATE PROCEDURE [dbo].[EpaEmployee_Get] @Query NVARCHAR(100) = NULL
 	,@GroupId INT = NULL
+	,@DepartmentId INT = NULL
 	,@IsLocal BIT = NULL
 	,@IsSpecialUser BIT = NULL
 	,@RoleId INT = NULL
@@ -26,9 +27,9 @@ BEGIN
 	INSERT INTO #tblEmployee (EmployeeId)
 	SELECT DISTINCT emp.EmployeeId
 	FROM dbo.Employee AS emp WITH (NOLOCK)
-		LEFT JOIN dbo.[Group] AS empGr WITH (NOLOCK) ON emp.GroupId = empGr.GroupId
+		LEFT JOIN dbo.[Group] AS gr WITH (NOLOCK) ON emp.GroupId = gr.GroupId
 	WHERE emp.IsDeleted = 0
-		AND ISNULl(@GroupId, empGr.GroupId) = empGr.GroupId
+		AND ISNULl(@GroupId, gr.GroupId) = gr.GroupId
 		AND (
 			@Query IS NULL
 			OR emp.FullName LIKE '%' + @Query + '%'
@@ -36,6 +37,23 @@ BEGIN
 			)
 		AND ISNULL(@IsLocal, emp.IsLocal) = emp.IsLocal
 		AND ISNULL(@IsSpecialUser, emp.IsSpecialUser) = emp.IsSpecialUser
+		AND (
+			@DepartmentId IS NULL
+			OR (
+				@DepartmentId < 0
+				AND gr.GroupId = - @DepartmentId
+				)
+			OR (
+				@DepartmentId > 0
+				AND EXISTS (
+					SELECT 1
+					FROM dbo.Department AS dept WITH (NOLOCK)
+					WHERE dept.DepartmentId = @DepartmentId
+						AND dept.lft <= gr.lft
+						AND dept.rgt >= gr.rgt
+					)
+				)
+			)
 		AND (
 			(
 				@IsDisabledUser IS NULL
@@ -53,7 +71,7 @@ BEGIN
 				AND EXISTS (
 					SELECT 1
 					FROM dbo.HRMGroupSupervisor AS grS WITH (NOLOCK)
-					WHERE empGr.GroupId = grS.GroupId
+					WHERE gr.GroupId = grS.GroupId
 						AND @ApproverId = grS.OwnerId
 						AND grS.ActionType = 3 -- Approver
 					)
@@ -70,7 +88,7 @@ BEGIN
 					OR EXISTS (
 						SELECT 1
 						FROM dbo.HRMGroupSupervisor AS grS WITH (NOLOCK)
-						WHERE empGr.GroupId = grS.GroupId
+						WHERE gr.GroupId = grS.GroupId
 							AND @ApproverId = grS.OwnerId
 							AND grS.ActionType IN (2, 3) -- Approver and Verfier
 						)
@@ -100,12 +118,16 @@ BEGIN
 		,emp.JoinedDate
 		,emp.JobTitle AS JobTitleId
 		,job.[Name] AS JobTitleName
-		,empGr.GroupId
-		,empGr.[Name] AS GroupName
-		,empGr.Code AS GroupCode
+		,gr.GroupId
+		,gr.[Name] AS GroupName
+		,gr.Code AS GroupCode
+		,dept.DepartmentId
+		,dept.Code
+		,dept.[Name]
 	FROM dbo.Employee AS emp WITH (NOLOCK)
 		INNER JOIN #tblEmployee AS tbl WITH (NOLOCK) ON emp.EmployeeId = tbl.EmployeeId
-		LEFT JOIN dbo.[Group] AS empGr WITH (NOLOCK) ON emp.GroupId = empGr.GroupId
+		LEFT JOIN dbo.[Group] AS gr WITH (NOLOCK) ON emp.GroupId = gr.GroupId
+		LEFT JOIN dbo.Department AS dept WITH (NOLOCK) ON gr.DepartmentId = dept.DepartmentId
 		LEFT JOIN dbo.HRMJobTitle AS job WITH (NOLOCK) ON emp.JobTitle = job.Id
 
 	SELECT ro.EmployeeId
@@ -121,6 +143,6 @@ BEGIN
 			FROM dbo.EmployeeRole WITH (NOLOCK)
 			WHERE RoleId = @RoleId
 			)
-	
+
 	DROP TABLE #tblEmployee
 END

@@ -738,7 +738,6 @@
     <Content Include="SourceApp\Shared\Directives\epa-numberOnly-directives.js" />
     <Content Include="SourceApp\Shared\Factories\notification-factory.js" />
     <Content Include="SourceApp\Shared\Templates\AccessDenied.html" />
-    <Content Include="SourceApp\Shared\Templates\dirPagination.tpl.html" />
     <Content Include="SourceApp\Shared\Templates\InternalError.html" />
     <Content Include="SourceApp\Shared\Templates\ModalConfirmContent.html" />
     <Content Include="SourceApp\Shared\Templates\PageNotFound.html" />

@@ -1,4 +1,5 @@
-﻿CREATE PROCEDURE [dbo].[Dashboard_GetToDoList] @EmployeeId INT
+﻿
+CREATE PROCEDURE [dbo].[Dashboard_GetToDoList] @EmployeeId INT
 AS
 /*
 Created: 20160928@Tim.Trinh
@@ -14,110 +15,94 @@ BEGIN
 	SET NOCOUNT ON
 
 	DECLARE @PeriodIds IntId
-		,@ToDay DATE = GETDATE()
-		,@NumberOfEmployeesFinishedByEvaluator INT
-		,@NumberOfEmployeesUnfinishedByEvaluator INT
-		,@NumberOfEmployeesFinishedByReviewer INT
-		,@NumberOfEmployeesUnfinishedByReviewer INT
-		,@NumberOfEmployeesFinishedByManagement INT
-		,@NumberOfEmployeesUnfinishedByManagement INT
+		,@Today DATE = GETDATE()
+		,@ProcessBySelf TINYINT = 2
+		,@ProcessByEvaluator TINYINT = 3
+		,@ProcessByReviewer TINYINT = 4
+		,@ProcessByManageMent TINYINT = 5
 		,@Inprogress TINYINT = 0
+		,@ProbationTargetType TINYINT = 1
+		,@MonthlyTargetType TINYINT = 2
+		,@SemiTargetType TINYINT = 3
+		,@PromotionTargetType TINYINT = 5
 
-	INSERT INTO @PeriodIds (Id)
-	SELECT DISTINCT period.PeriodId
-	FROM dbo.EPA AS epa WITH (NOLOCK)
-		INNER JOIN dbo.Period AS period WITH (NOLOCK) ON epa.PeriodId = period.PeriodId
-		AND period.IsActive = 1
-		INNER JOIN dbo.EPAProcess AS pc WITH (NOLOCK) ON epa.EPAId = pc.EPAId
-		AND pc.ProcessId IN (3, 4, 5) -- evaluator, reviewer, management
-		AND @ToDay >= pc.StartDate
-	WHERE pc.EvaluatorId = @EmployeeId
-		AND ISNULL(epa.[Status], 0) = @Inprogress
+	CREATE TABLE #tblTodo (
+		Period INT
+		,[Name] NVARCHAR(200)
+		,TargetTypeId TINYINT
+		,FinishedByEvaluator SMALLINT
+		,UnfinishedByEvaluator SMALLINT
+		,FinishedByReviewer SMALLINT
+		,UnfinishedByReviewer SMALLINT
+		,FinishedByManagement SMALLINT
+		,UnfinishedByManagement SMALLINT
+		)
 
-	-- evaluator
-	SELECT @NumberOfEmployeesFinishedByEvaluator = COUNT(1)
-	FROM dbo.EPA AS epa WITH (NOLOCK)
-		INNER JOIN dbo.Period AS period WITH (NOLOCK) ON epa.PeriodId = period.PeriodId
-		AND period.IsActive = 1
-		INNER JOIN dbo.EPAProcess AS pc WITH (NOLOCK) ON epa.EPAId = pc.EPAId
-		AND pc.ProcessId = 3 -- evaluator
-	WHERE ISNULL(epa.[Status], 0) = @Inprogress
-		AND pc.EvaluatorId = @EmployeeId
-		AND @ToDay > pc.EndDate
-	GROUP BY period.PeriodId
-
-	SELECT @NumberOfEmployeesUnfinishedByEvaluator = COUNT(1)
-	FROM dbo.EPA AS epa WITH (NOLOCK)
-		INNER JOIN dbo.Period AS period WITH (NOLOCK) ON epa.PeriodId = period.PeriodId
-		AND period.IsActive = 1
-		INNER JOIN dbo.EPAProcess AS pc WITH (NOLOCK) ON epa.EPAId = pc.EPAId
-		AND pc.ProcessId = 3 -- evaluator
-	WHERE ISNULL(epa.[Status], 0) = @Inprogress
-		AND pc.EvaluatorId = @EmployeeId
-		AND epa.HasMonthlyEPA = 0
-		AND @ToDay BETWEEN pc.StartDate
-			AND pc.EndDate
-	GROUP BY period.PeriodId
-
-	-- reviewer
-	SELECT @NumberOfEmployeesFinishedByReviewer = COUNT(1)
-	FROM dbo.EPA AS epa WITH (NOLOCK)
-		INNER JOIN dbo.Period AS period WITH (NOLOCK) ON epa.PeriodId = period.PeriodId
-		AND period.IsActive = 1
-		INNER JOIN dbo.EPAProcess AS pc WITH (NOLOCK) ON epa.EPAId = pc.EPAId
-		AND pc.ProcessId = 4 -- reviewer
-	WHERE ISNULL(epa.[Status], 0) = @Inprogress
-		AND pc.EvaluatorId = @EmployeeId
-		AND @ToDay > pc.EndDate
-	GROUP BY period.PeriodId
-
-	SELECT @NumberOfEmployeesUnfinishedByReviewer = COUNT(1)
-	FROM dbo.EPA AS epa WITH (NOLOCK)
-		INNER JOIN dbo.Period AS period WITH (NOLOCK) ON epa.PeriodId = period.PeriodId
-		AND period.IsActive = 1
-		INNER JOIN dbo.EPAProcess AS pc WITH (NOLOCK) ON epa.EPAId = pc.EPAId
-		AND pc.ProcessId = 4 -- reviewer
-	WHERE ISNULL(epa.[Status], 0) = @Inprogress
-		AND pc.EvaluatorId = @EmployeeId
-		AND @ToDay BETWEEN pc.StartDate
-			AND pc.EndDate
-	GROUP BY period.PeriodId
-
-	-- management
-	SELECT @NumberOfEmployeesFinishedByManagement = COUNT(1)
-	FROM dbo.EPA AS epa WITH (NOLOCK)
-		INNER JOIN dbo.Period AS period WITH (NOLOCK) ON epa.PeriodId = period.PeriodId
-		AND period.IsActive = 1
-		INNER JOIN dbo.EPAProcess AS pc WITH (NOLOCK) ON epa.EPAId = pc.EPAId
-		AND pc.ProcessId = 5 -- management
-	WHERE ISNULL(epa.[Status], 0) = @Inprogress
-		AND pc.EvaluatorId = @EmployeeId
-		AND @ToDay > pc.EndDate
-	GROUP BY period.PeriodId
-
-	SELECT @NumberOfEmployeesUnfinishedByManagement = COUNT(1)
-	FROM dbo.EPA AS epa WITH (NOLOCK)
-		INNER JOIN dbo.Period AS period WITH (NOLOCK) ON epa.PeriodId = period.PeriodId
-		AND period.IsActive = 1
-		INNER JOIN dbo.EPAProcess AS pc WITH (NOLOCK) ON epa.EPAId = pc.EPAId
-		AND pc.ProcessId = 5 -- management
-	WHERE ISNULL(epa.[Status], 0) = @Inprogress
-		AND pc.EvaluatorId = @EmployeeId
-		AND @ToDay BETWEEN pc.StartDate
-			AND pc.EndDate
-	GROUP BY period.PeriodId
-
-	SELECT @NumberOfEmployeesFinishedByEvaluator AS NumberOfEmployeesFinishedByEvaluator
-		,@NumberOfEmployeesUnfinishedByEvaluator AS NumberOfEmployeesUnfinishedByEvaluator
-		,@NumberOfEmployeesFinishedByReviewer AS NumberOfEmployeesFinishedByReviewer
-		,@NumberOfEmployeesUnfinishedByReviewer AS NumberOfEmployeesUnfinishedByReviewer
-		,@NumberOfEmployeesFinishedByManagement AS NumberOfEmployeesFinishedByManagement
-		,@NumberOfEmployeesUnfinishedByManagement AS NumberOfEmployeesUnfinishedByManagement
-		,period.PeriodId
+	INSERT INTO #tblTodo (
+		Period
+		,[Name]
+		,TargetTypeId
+		,FinishedByEvaluator
+		,UnfinishedByEvaluator
+		,FinishedByReviewer
+		,UnfinishedByReviewer
+		,FinishedByManagement
+		,UnfinishedByManagement
+		)
+	SELECT period.PeriodId
 		,period.[Name]
-		,ttype.TargetTypeId
-		,ttype.[Name]
-	FROM @PeriodIds AS tbl
-		INNER JOIN dbo.Period AS period WITH (NOLOCK) ON tbl.Id = period.PeriodId
-		INNER JOIN dbo.TargetType AS ttype WITH (NOLOCK) ON period.TargetTypeId = ttype.TargetTypeId
+		,period.TargetTypeId
+		,SUM(CASE 
+				WHEN pc.ProcessId = @ProcessByEvaluator
+					AND @Today > pc.EndDate THEN 1
+				ELSE 0
+				END)
+		,SUM(CASE 
+				WHEN pc.ProcessId = @ProcessByEvaluator
+					AND @Today BETWEEN pc.StartDate
+						AND pc.EndDate THEN 1
+				ELSE 0
+				END)
+		,SUM(CASE 
+				WHEN pc.ProcessId = @ProcessByReviewer
+					AND @Today > pc.EndDate THEN 1
+				ELSE 0
+				END)
+		,SUM(CASE 
+				WHEN pc.ProcessId = @ProcessByReviewer
+					AND @Today BETWEEN pc.StartDate
+						AND pc.EndDate THEN 1
+				ELSE 0
+				END)
+		,SUM(CASE 
+				WHEN pc.ProcessId = @ProcessByManageMent
+					AND @Today > pc.EndDate THEN 1
+				ELSE 0
+				END)
+		,SUM(CASE 
+				WHEN pc.ProcessId = @ProcessByManageMent
+					AND @Today BETWEEN pc.StartDate
+						AND pc.EndDate THEN 1
+				ELSE 0
+				END)
+	FROM dbo.EPA AS epa WITH (NOLOCK)
+		INNER JOIN dbo.Period AS period WITH (NOLOCK) ON epa.PeriodId = period.PeriodId
+		AND period.IsActive = 1
+		INNER JOIN dbo.EPAProcess AS pc WITH (NOLOCK) ON epa.EPAId = pc.EPAId
+		AND pc.EvaluatorId = @EmployeeId
+		AND pc.ProcessId >= @ProcessByEvaluator
+		AND @Today >= pc.StartDate
+	WHERE ISNULL(epa.[Status], 0) = @Inprogress
+	GROUP BY period.PeriodId
+		,period.[Name]
+		,period.TargetTypeId
+
+	SELECT *
+	FROM #tblTodo WITH (NOLOCK)
+	ORDER BY CASE 
+			WHEN TargetTypeId = @ProbationTargetType THEN 1
+			WHEN TargetTypeId = @SemiTargetType THEN 2
+			WHEN TargetTypeId = @PromotionTargetType THEN 3
+			ELSE 4
+			END
 END
