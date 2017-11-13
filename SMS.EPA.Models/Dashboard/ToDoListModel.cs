@@ -4,20 +4,24 @@
 
     public class ToDoListModel
     {
-        public PeriodModel Period { get; set; }
+        public int PeriodId { get; set; }
 
-        public int NumberOfEmployeesFinishedByEvaluator { get; set; }
+        public string Name { get; set; }
 
-        public int NumberOfEmployeesUnfinishedByEvaluator { get; set; }
+        public int TargetTypeId { get; set; }
 
-        public int NumberOfEmployeesFinishedByReviewer { get; set; }
+        public int FinishedByEvaluator { get; set; }
 
-        public int NumberOfEmployeesUnfinishedByReviewer { get; set; }
+        public int UnfinishedByEvaluator { get; set; }
 
-        public int NumberOfEmployeesFinishedByManagement { get; set; }
+        public int FinishedByReviewer { get; set; }
 
-        public int NumberOfEmployeesUnfinishedByManagement { get; set; }
+        public int UnfinishedByReviewer { get; set; }
 
-        public bool IsMonthly => Period.TargetType.TargetTypeId == (int)TargetType.Monthly;
+        public int FinishedByManagement { get; set; }
+
+        public int UnfinishedByManagement { get; set; }
+
+        public bool IsMonthly => TargetTypeId == (int)TargetType.Monthly;
     }
 }

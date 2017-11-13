@@ -13,8 +13,9 @@
         model.defaultPassword = null;
         model.permission = 0;
 
-        model.getAllEmployee = function (query, groupId, isLocal, isSpecialUser, isDisabledUser, hasMonthlyEPA) {
-            return employeeFactory.getAllEmployee(query, groupId, isLocal, isSpecialUser, isDisabledUser, hasMonthlyEPA).success(function (employees) {
+        model.getAllEmployee = function (query, departmentId, isLocal, isSpecialUser, isDisabledUser, hasMonthlyEPA) {
+            return employeeFactory.getAllEmployee(query, departmentId, isLocal, isSpecialUser, isDisabledUser, hasMonthlyEPA)
+            .success(function (employees) {
                 model.employees = employees;
             }).error(function (response, status) {
                 errorFactory.errorHandle(status);

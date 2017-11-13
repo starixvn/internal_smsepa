@@ -6,6 +6,8 @@
     {
         public string Query { get; set; }
 
+        public int? DepartmentId { get; set; }
+
         public int? GroupId { get; set; }
 
         public bool? IsLocal { get; set; }
@@ -22,14 +24,8 @@
 
         public bool? IncludeVerifier { get; set; }
 
-        public override bool IsValid()
-        {
-            return true;
-        }
+        public override bool IsValid() => true;
 
-        public override string GetSettingKey()
-        {
-            return "EpaEmployee_Get";
-        }
+        public override string GetSettingKey() => "EpaEmployee_Get";
     }
 }

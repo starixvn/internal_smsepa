@@ -16,7 +16,7 @@
         <div class="form-group required">
             <label class="col-sm-3 control-label" data-translate="TargetType"></label>
             <div class="col-sm-8 field">
-                <select class="form-control lstBox-limit" ng-model="createPeriodCtrl.period.TargetTypeId"
+                <select class="form-control" ng-model="createPeriodCtrl.period.TargetTypeId"
                         ng-options="opt.TargetTypeId as opt.Name for opt in createPeriodCtrl.targetTypes">
                     <option value="">-- {{"All" | translate}} --</option>
                 </select>

@@ -10,7 +10,7 @@
         <div class="form-group top-buffer required">
             <label class="col-sm-3 control-label" data-translate="TargetType"></label>
             <div class="col-sm-8 field">
-                <select class="form-control lstBox-limit" ng-model="basicInfoPeriodCtrl.period.TargetTypeId" ng-disabled="true"
+                <select class="form-control" ng-model="basicInfoPeriodCtrl.period.TargetTypeId" ng-disabled="true"
                         ng-options="opt.TargetTypeId as opt.Name for opt in basicInfoPeriodCtrl.targetTypes">
                     <option value="">-- {{"All" | translate}} --</option>
                 </select>

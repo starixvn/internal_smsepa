@@ -16,14 +16,14 @@
                         </select>
                     </div>
                 </div>
-                <label class="col-sm-1 control-label" data-translate="DepartmentSection"></label>
+                <label class="col-sm-2 control-label" data-translate="DepartmentSection"></label>
                 <div class="col-sm-2">
-                    <select class="form-control lstBox-limit" ng-model="updateFinalScoreCtrl.filter.departmentId"
+                    <select class="form-control" ng-model="updateFinalScoreCtrl.filter.departmentId"
                             ng-options="opt.DepartmentId as opt.Name for opt in updateFinalScoreCtrl.treeDepartment">
                         <option value="">-- {{"All" | translate}} --</option>
                     </select>
                 </div>
-                <label class="col-sm-2 control-label" data-translate="Category"></label>
+                <label class="col-sm-1 control-label" data-translate="Category"></label>
                 <div class="col-sm-2">
                     <select class="form-control" ng-model="updateFinalScoreCtrl.filter.isLocal">
                         <option value="">-- {{"All" | translate}} --</option>

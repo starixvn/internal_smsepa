@@ -76,6 +76,7 @@
                 Username,
                 NickName,
                 FullName,
+                Department = Department != null ? Department.Name : string.Empty,
                 Section = Group != null ? Group.GroupName : string.Empty,
                 JobTitle = JobTitle.JobTitleName,
                 Category,

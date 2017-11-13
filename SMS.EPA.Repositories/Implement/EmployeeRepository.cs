@@ -1,12 +1,12 @@
 ﻿namespace SMS.EPA.Repositories
 {
+    using System.Collections.Generic;
+    using System.Linq;
     using Core.Model;
     using Fanex.Data;
     using Fanex.Data.Repository;
     using Model;
     using Model.Enitites;
-    using System.Collections.Generic;
-    using System.Linq;
 
     public class EmployeeRepository : IEmployeeRepository
     {
@@ -16,15 +16,16 @@
             {
                 using (IMultiResultReader multi = db.QueryMultiple(criteria.GetSpParams()))
                 {
-                    var employees = multi.Read<Employee, JobTitle, Group, Employee>(
-                           (emp, jb, gr) =>
+                    var employees = multi.Read<Employee, JobTitle, Group, Department, Employee>(
+                           (emp, jb, gr, dept) =>
                            {
                                emp.JobTitle = jb;
                                emp.Group = gr;
+                               emp.Department = dept;
 
                                return emp;
                            },
-                           "JobTitleId, GroupId");
+                           "JobTitleId, GroupId, DepartmentId");
 
                     var roles = multi.Read<EmployeeRoleModel>();
 

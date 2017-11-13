@@ -34,12 +34,12 @@
             return $http.get(baseUrl + 'api/Employee/GetDefaultPassword');
         }
 
-        function getAllEmployee(query, groupId, isLocal, isSpecialUser, isDisabledUser, hasMonthlyEPA) {
+        function getAllEmployee(query, departmentId, isLocal, isSpecialUser, isDisabledUser, hasMonthlyEPA) {
             return $http.get(baseUrl + 'api/Employee/GetAllEmployee',
                 {
                     params: {
                         query: query,
-                        groupId: groupId,
+                        departmentId: departmentId,
                         isLocal: isLocal,
                         isSpecialUser: isSpecialUser,
                         isDisabledUser: isDisabledUser,

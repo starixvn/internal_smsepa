@@ -5,30 +5,12 @@
 
     public class ToDoListViewModel
     {
-        public List<ToDoListModel> ToDoList { get; set; }
+        public IEnumerable<ToDoListModel> ToDoList { get; set; } = new List<ToDoListModel>();
 
-        public bool HasEvaluator
-        {
-            get
-            {
-                return ToDoList.Any(x => x.NumberOfEmployeesFinishedByEvaluator > 0 || x.NumberOfEmployeesUnfinishedByEvaluator > 0);
-            }
-        }
+        public bool HasEvaluator => ToDoList.Any(x => x.UnfinishedByEvaluator > 0);
 
-        public bool HasReviewer
-        {
-            get
-            {
-                return ToDoList.Any(x => x.NumberOfEmployeesFinishedByReviewer > 0 || x.NumberOfEmployeesUnfinishedByReviewer > 0);
-            }
-        }
+        public bool HasReviewer => ToDoList.Any(x => x.UnfinishedByReviewer > 0);
 
-        public bool HasManagement
-        {
-            get
-            {
-                return ToDoList.Any(x => x.NumberOfEmployeesFinishedByManagement > 0 || x.NumberOfEmployeesUnfinishedByManagement > 0);
-            }
-        }
+        public bool HasManagement => ToDoList.Any(x => x.UnfinishedByManagement > 0);
     }
 }

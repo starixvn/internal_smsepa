@@ -32,7 +32,7 @@
         [ApiAuthorize(FunctionKey = EPAFunctionKey.UserManagement, Policy = Policy.Read)]
         public IEnumerable<Employee> GetAllEmployee(
             string query = "",
-            int? groupId = null,
+            int? departmentId = null,
             bool? isLocal = null,
             bool? isSpecialUser = null,
             bool? isDisabledUser = null,
@@ -41,7 +41,7 @@
             var criteria = new GetAllEmployeeCriteria
             {
                 Query = query,
-                GroupId = groupId,
+                DepartmentId = departmentId,
                 IsLocal = isLocal,
                 IsSpecialUser = isSpecialUser,
                 IsDisabledUser = isDisabledUser,
