@@ -23,6 +23,10 @@
         utilitiesFactory.getDateFormat(vm);
         vm.selectedAll = false;
         vm.targetTypeEnum = utilitiesFactory.targetType;
+        vm.epaStatuses = [
+            { Value: 0, Name: 'In Progress' },
+            { Value: 1, Name: 'Closed' }
+        ];
 
         vm.filter = {
             periodId: null,
@@ -32,7 +36,7 @@
             isGeneratedEPA: '',
             isEvaluated: '',
             hasMonthlyEPA: '',
-            epaStatus: $routeParams.inprogress === true ? 0 : ''
+            epaStatus: $routeParams.inprogress !== undefined ? ($routeParams.inprogress === true || $routeParams.inprogress === 'true' ? 0 : '') : ''
         };
 
         vm.filterAssign = {

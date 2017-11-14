@@ -19,6 +19,10 @@
         vm.selectedAll = false;
         vm.currentPage = 1;
         vm.pageSize = 20;
+        vm.epaStatuses = [
+            { Value: 0, Name: 'In Progress' },
+            { Value: 1, Name: 'Closed' }
+        ];
 
         utilitiesFactory.numberEntryList(vm);
         utilitiesFactory.getDateFormat(vm);
@@ -30,7 +34,7 @@
             isExcludedEmployee: null,
             isGeneratedEPA: '',
             isEvaluated: '',
-            epaStatus: $routeParams.inprogress ? 0 : ''
+            epaStatus: $routeParams.inprogress !== undefined ? ($routeParams.inprogress === true || $routeParams.inprogress === 'true' ? 0 : '') : ''
         };
 
         vm.filterAssign = {

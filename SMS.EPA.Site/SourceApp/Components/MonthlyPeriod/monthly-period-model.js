@@ -302,8 +302,10 @@
                 selectedEmployeeNames = '';
 
             angular.forEach(employeeSettings, function (employeeSetting) {
+                var name = employeeSetting.Employee.FullName + ' (' + employeeSetting.Employee.NickName + ')';
+
                 selectedEmployeeIds += selectedEmployeeIds ? ', ' + employeeSetting.Employee.EmployeeId : employeeSetting.Employee.EmployeeId;
-                selectedEmployeeNames += selectedEmployeeNames ? ', ' + employeeSetting.Employee.NickName : employeeSetting.Employee.NickName;
+                selectedEmployeeNames += selectedEmployeeNames ? ', ' + name : name;
             });
 
             return {

@@ -84,6 +84,7 @@
                 <th data-translate="SymbolCount"></th>
                 <th data-translate="Code"></th>
                 <th data-translate="NickName"></th>
+                <th data-translate="FullName"></th>
                 <th data-translate="Section"></th>
                 <th>Missing check in/out</th>
                 <th>Tardiness</th>
@@ -102,41 +103,42 @@
                 <td>
                     <span ng-bind="discipline.Employee.NickName" popover-avatar avatar-src="{{discipline.Employee.Avatar}}"></span>
                 </td>
+                <td ng-bind="discipline.Employee.FullName"></td>
                 <td class="text-left" ng-bind="discipline.Employee.Group.GroupName"></td>
                 <td class="text-right">
                     <span class="red" ng-show="discipline.MissingCheckInOut > 0">-{{discipline.MissingCheckInOut | number: 1}}</span>
-                    <span ng-show="discipline.MissingCheckInOut == 0">{{discipline.MissingCheckInOut | number: 1}}</span>
+                    <span ng-show="discipline.MissingCheckInOut === 0">{{discipline.MissingCheckInOut | number: 1}}</span>
                 </td>
                 <td class="text-right">
                     <span class="red" ng-show="discipline.LateIn > 0">-{{discipline.LateIn | number: 1}}</span>
-                    <span ng-show="discipline.LateIn == 0">{{discipline.LateIn | number: 1}}</span>
+                    <span ng-show="discipline.LateIn === 0">{{discipline.LateIn | number: 1}}</span>
                 </td>
                 <td class="text-right">
                     <span class="red" ng-show="discipline.UnpaidLeave > 0">-{{discipline.UnpaidLeave | number: 1}}</span>
-                    <span ng-show="discipline.UnpaidLeave == 0">{{discipline.UnpaidLeave | number: 1}}</span>
+                    <span ng-show="discipline.UnpaidLeave === 0">{{discipline.UnpaidLeave | number: 1}}</span>
                 </td>
                 <td class="text-right">
                     <span class="red" ng-show="discipline.UnplannedLeave > 0">-{{discipline.UnplannedLeave | number: 1}}</span>
-                    <span ng-show="discipline.UnplannedLeave == 0">{{discipline.UnplannedLeave | number: 1}}</span>
+                    <span ng-show="discipline.UnplannedLeave === 0">{{discipline.UnplannedLeave | number: 1}}</span>
                 </td>
                 <td class="text-right">
                     <span class="red" ng-show="discipline.WeekendLeave > 0">-{{discipline.WeekendLeave | number: 1}}</span>
-                    <span ng-show="discipline.WeekendLeave == 0">{{discipline.WeekendLeave | number: 1}}</span>
+                    <span ng-show="discipline.WeekendLeave === 0">{{discipline.WeekendLeave | number: 1}}</span>
                 </td>
                 <td class="text-right">
                     <span class="red" ng-show="discipline.WorkingUndertime > 0">-{{discipline.WorkingUndertime | number: 1}}</span>
-                    <span ng-show="discipline.WorkingUndertime == 0">{{discipline.WorkingUndertime | number: 1}}</span>
+                    <span ng-show="discipline.WorkingUndertime === 0">{{discipline.WorkingUndertime | number: 1}}</span>
                 </td>
                 <td class="text-right">
                     <span class="red" ng-show="discipline.OtherDisciplines > 0">-{{discipline.OtherDisciplines | number: 1}}</span>
-                    <span ng-show="discipline.OtherDisciplines == 0">{{discipline.OtherDisciplines | number: 1}}</span>
+                    <span ng-show="discipline.OtherDisciplines === 0">{{discipline.OtherDisciplines | number: 1}}</span>
                 </td>
                 <td class="text-right">
                     <span class="red" ng-show="discipline.ApproverSubtractScore > 0">-{{discipline.ApproverSubtractScore | number: 1}}</span>
-                    <span ng-show="discipline.ApproverSubtractScore == 0">{{discipline.ApproverSubtractScore | number: 1}}</span>
+                    <span ng-show="discipline.ApproverSubtractScore === 0">{{discipline.ApproverSubtractScore | number: 1}}</span>
                 </td>
             </tr>
-            <tr ng-show="disciplineCtrl.filteredItems.length == 0">
+            <tr ng-show="disciplineCtrl.filteredItems.length === 0">
                 <td class="empty-result" colspan="13" data-translate="EmptyResult"></td>
             </tr>
         </tbody>

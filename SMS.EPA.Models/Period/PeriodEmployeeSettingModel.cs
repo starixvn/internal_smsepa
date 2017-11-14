@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Globalization;
     using System.Linq;
     using Core.Constants;
     using Core.Enumerations;
@@ -54,8 +55,8 @@
         private static string GetEvaluator(IList<PeriodFlowModel> evaluators)
         {
             IEnumerable<string> nickNames = evaluators
-                .Where(x => !string.IsNullOrEmpty(x.EvaluatorInfo.NickName))
-                .Select(x => x.EvaluatorInfo.NickName);
+                .Where(x => !string.IsNullOrEmpty(x.EvaluatorInfo.FullName) || !string.IsNullOrEmpty(x.EvaluatorInfo.NickName))
+                .Select(x => string.Format(CultureInfo.InvariantCulture, "{0} ({1})", x.EvaluatorInfo.FullName, x.EvaluatorInfo.NickName));
 
             string evaluatorNames = string.Join(", ", nickNames);
 
@@ -64,21 +65,25 @@
 
         public object ConvertToExcelRecord()
         {
+            string department = Employee.Department != null ? Employee.Department.Name : string.Empty;
+            string group = Employee.Group != null ? Employee.Group.GroupName : string.Empty;
+            string form = TargetTemplate != null ? TargetTemplate.TargetTypeName : string.Empty;
+
             var record = new
             {
                 Count = 0,
-                Department = Employee.Department != null ? Employee.Department.Name : string.Empty,
-                Section = Employee.Group != null ? Employee.Group.GroupName : string.Empty,
+                Department = department,
+                Section = group,
                 Employee.Code,
                 Employee.FullName,
                 Employee.NickName,
                 JobTitle = Employee.JobTitle.JobTitleName,
                 JoinedDate = Employee.JoinedDate.ToString(Constants.DateFormat),
                 Employee.Category,
-                Evaluator = GetEvaluator(Evaluators),
+                Evaluator = IsSemiHasMonthly ? string.Empty : GetEvaluator(Evaluators),
                 Reviewer = GetEvaluator(Reviewers),
                 Management = GetEvaluator(Managements),
-                Form = TargetTemplate != null ? TargetTemplate.TargetTypeName : string.Empty
+                Form = form
             };
 
             return record;
