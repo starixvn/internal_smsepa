@@ -31,6 +31,8 @@
         var vm = this;
 
         vm.epaInfos = [];
+        vm.periodOptions = [];
+        vm.groupOptions = [];
         vm.members = [];
         vm.standardGrades = CommonModel.standardGrades;
         vm.targetTypeEnum = utilitiesFactory.targetType;
@@ -46,13 +48,15 @@
         function initFilter() {
             var filter = historyFactory.getState(),
                 statusProcess = $routeParams.statusProcess !== undefined
-                    ? (($routeParams.statusProcess === true || $routeParams.statusProcess === 'true') ? true : false)
+                    ? ($routeParams.statusProcess === true || $routeParams.statusProcess === 'true') ? true : false
                     : '',
-                isMonthly = $routeParams.isMonthly !== undefined ? ($routeParams.isMonthly === true || $routeParams.isMonthly === 'true') : false;
+                isMonthly = $routeParams.isMonthly !== undefined ? ($routeParams.isMonthly === true || $routeParams.isMonthly === 'true') : false,
+                periodId = $routeParams.periodId !== undefined ? parseInt($routeParams.periodId, 10) : '';
 
             return filter
                 ? filter
                 : {
+                    periodId: periodId,
                     groupId: '',
                     isLocal: '',
                     statusProcess: statusProcess,
@@ -88,12 +92,20 @@
             }
         };
 
+        vm.getGroup = function () {
+            EvaluatorEPAModel.getGroupByEvaluator(vm.filter.periodId).then(function () {
+                vm.groupOptions = EvaluatorEPAModel.groups;
+
+                vm.getMember();
+            });
+        };
+
         vm.getMember = function () {
-            EvaluatorEPAModel.getMemberByEvaluator(vm.filter.groupId, vm.filter.isLocal, vm.filter.isMonthly).then(
-                function () {
+            EvaluatorEPAModel.getMemberByEvaluator(vm.filter.periodId, vm.filter.groupId, vm.filter.isLocal, vm.filter.isMonthly)
+            .then(function () {
                     vm.members = EvaluatorEPAModel.members;
                     utilitiesFactory.setSelectedItem(vm.members, "EmployeeId", vm.filter.employeeIds);
-                });
+            });
         };
 
         vm.selectedCls = function () {
@@ -105,11 +117,11 @@
             return 'sorting-asc';
         };
 
-        function getEPAByEvaluator(groupId, isLocal, isMonthly, employeeIds, statusProcess) {
+        function getEPAByEvaluator(periodId, groupId, isLocal, isMonthly, employeeIds, statusProcess) {
             lockScreenService.start();
             vm.sortBySelfScore = { ascending: false, descending: false };
 
-            EvaluatorEPAModel.getEPAByEvaluator(groupId, isLocal, isMonthly, employeeIds, statusProcess).then(
+            EvaluatorEPAModel.getEPAByEvaluator(periodId, groupId, isLocal, isMonthly, employeeIds, statusProcess).then(
                 function () {
                     vm.epaInfos = EvaluatorEPAModel.epaInfos;
 
@@ -155,7 +167,9 @@
 
         vm.query = function (filter) {
             filter.employeeIds = utilitiesFactory.getSelectedData(vm.members, 'EmployeeId');
-            getEPAByEvaluator(filter.groupId,
+            getEPAByEvaluator(
+                filter.periodId,
+                filter.groupId,
                 filter.isLocal,
                 filter.isMonthly,
                 filter.employeeIds,
@@ -178,19 +192,28 @@
 
         function initialize() {
             vm.filter = initFilter();
-            EvaluatorEPAModel.getGroupByEvaluator().then(function () {
-                vm.groupOptions = EvaluatorEPAModel.groups;
-            });
 
-            vm.getMember();
 
-            CommonModel.getStandardGrade().then(function () {
-                vm.standardGrades = CommonModel.standardGrades;
-                getEPAByEvaluator(vm.filter.groupId,
-                    vm.filter.isLocal,
-                    vm.filter.isMonthly,
-                    vm.filter.employeeIds,
-                    vm.filter.statusProcess);
+            EvaluatorEPAModel.getPeriodByEvaluator().then(function () {
+                vm.periodOptions = EvaluatorEPAModel.periods;
+
+                if (vm.periodOptions.length > 0 && !vm.filter.periodId) {
+                    vm.filter.periodId = vm.periodOptions[0].PeriodId;
+                }
+
+                vm.getGroup();
+
+                CommonModel.getStandardGrade().then(function () {
+                    vm.standardGrades = CommonModel.standardGrades;
+
+                    getEPAByEvaluator(
+                        vm.filter.periodId,
+                        vm.filter.groupId,
+                        vm.filter.isLocal,
+                        vm.filter.isMonthly,
+                        vm.filter.employeeIds,
+                        vm.filter.statusProcess);
+                });
             });
         }
 

@@ -9,15 +9,17 @@
         return {
             getEPAByEvaluator: getEPAByEvaluator,
             getEPAInfoByEvaluator: getEPAInfoByEvaluator,
+            getPeriodByEvaluator: getPeriodByEvaluator,
             getGroupByEvaluator: getGroupByEvaluator,
             getMemberByEvaluator: getMemberByEvaluator,
             getUserPermissionOnEvaluator: getUserPermissionOnEvaluator,
             updateEPAScoreByEvaluator: updateEPAScoreByEvaluator
         };
 
-        function getEPAByEvaluator(groupId, isLocal, isMonthly, employeeIds, statusProcess) {
+        function getEPAByEvaluator(periodId, groupId, isLocal, isMonthly, employeeIds, statusProcess) {
             return $http.get(baseUrl + 'api/EvaluatorEPA/GetEPAByEvaluator', {
                 params: {
+                    periodId: periodId,
                     groupId: groupId,
                     isLocal: isLocal,
                     isMonthly: isMonthly,
@@ -36,13 +38,18 @@
             });
         }
 
-        function getGroupByEvaluator() {
-            return $http.get(baseUrl + 'api/EvaluatorEPA/GetGroupByEvaluator');
+        function getPeriodByEvaluator() {
+            return $http.get(baseUrl + 'api/EvaluatorEPA/GetPeriodByEvaluator');
         }
 
-        function getMemberByEvaluator(groupId, isLocal, isMonthly) {
+        function getGroupByEvaluator(periodId) {
+            return $http.get(baseUrl + 'api/EvaluatorEPA/GetGroupByEvaluator', { params: { periodId: periodId } });
+        }
+
+        function getMemberByEvaluator(periodId, groupId, isLocal, isMonthly) {
             return $http.get(baseUrl + 'api/EvaluatorEPA/GetMemberByEvaluator', {
                 params: {
+                    periodId: periodId,
                     groupId: groupId,
                     isLocal: isLocal,
                     isMonthly: isMonthly

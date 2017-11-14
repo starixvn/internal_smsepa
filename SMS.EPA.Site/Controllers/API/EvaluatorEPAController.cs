@@ -36,39 +36,56 @@
 
         [HttpGet]
         [ApiAuthorize(FunctionKey = EPAFunctionKey.Evaluator, Policy = Policy.Read)]
-        public IEnumerable<Group> GetGroupByEvaluator()
+        public IEnumerable<EPAPeriodModel> GetPeriodByEvaluator()
         {
-            var criteria = new GetGroupByEvaluatorOrReviewerOrManagementCriteria
+            var criteria = new GetPeriodByActorIdCriteria
             {
-                ActorUserId = SessionService.EmployeeId,
+                ActorId = SessionService.EmployeeId,
                 ProcessId = (int)ProcessType.Evaluator
             };
 
-            return evaluationService.GetGroupByEvaluatorOrReviewerOrManagement(criteria);
+            return evaluationService.GetPeriodByActorId(criteria);
+        }
+
+        [HttpGet]
+        [ApiAuthorize(FunctionKey = EPAFunctionKey.Evaluator, Policy = Policy.Read)]
+        public IEnumerable<Group> GetGroupByEvaluator(int? periodId = null)
+        {
+            var criteria = new GetGroupByActorIdCriteria
+            {
+                ActorUserId = SessionService.EmployeeId,
+                ProcessId = (int)ProcessType.Evaluator,
+                PeriodId = periodId
+            };
+
+            return evaluationService.GetGroupByActorId(criteria);
         }
 
         [HttpGet]
         [ApiAuthorize(FunctionKey = EPAFunctionKey.Evaluator, Policy = Policy.Read)]
         public IEnumerable<Employee> GetMemberByEvaluator(
+            int? periodId = null,
             int? groupId = null,
             bool? isLocal = null,
             bool? isMonthly = null)
         {
-            var criteria = new GetMemberByEvaluatorOrReviewerOrManagementCriteria
+            var criteria = new GetMemberByActorIdCriteria
             {
                 ActorUserId = SessionService.EmployeeId,
                 ProcessId = (int)ProcessType.Evaluator,
+                PeriodId = periodId,
                 GroupId = groupId,
                 IsLocal = isLocal,
                 IsMonthly = isMonthly
             };
 
-            return evaluationService.GetMemberByEvaluatorOrReviewerOrManagement(criteria);
+            return evaluationService.GetMemberByActorId(criteria);
         }
 
         [HttpGet]
         [ApiAuthorize(FunctionKey = EPAFunctionKey.Evaluator, Policy = Policy.Read)]
         public IEnumerable<EPAModel> GetEPAByEvaluator(
+            int? periodId = null,
             int? groupId = null,
             bool? isLocal = null,
             bool isMonthly = false,
@@ -78,6 +95,7 @@
             var criteria = new GetEPAByEvaluatorCriteria
             {
                 EvaluatorId = SessionService.EmployeeId,
+                PeriodId = periodId,
                 GroupId = groupId,
                 IsLocal = isLocal,
                 IsMonthly = isMonthly,

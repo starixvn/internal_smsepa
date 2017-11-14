@@ -28,9 +28,11 @@
 
         IList<EPAModel> GetEPAToUpdateFinalScore(GetEPAToUpdateFinalScoreCriteria criteria);
 
-        IEnumerable<Group> GetGroupByEvaluatorOrReviewerOrManagement(GetGroupByEvaluatorOrReviewerOrManagementCriteria criteria);
+        IEnumerable<EPAPeriodModel> GetPeriodByActorId(GetPeriodByActorIdCriteria criteria);
 
-        IEnumerable<Employee> GetMemberByEvaluatorOrReviewerOrManagement(GetMemberByEvaluatorOrReviewerOrManagementCriteria criteria);
+        IEnumerable<Group> GetGroupByActorId(GetGroupByActorIdCriteria criteria);
+
+        IEnumerable<Employee> GetMemberByActorId(GetMemberByActorIdCriteria criteria);
 
         IEnumerable<EPASummaryImportModel> GetMemberEPASummaryImport();
 

@@ -8,6 +8,7 @@
     function managementEPAModel(managementEPAFactory, utilitiesFactory, notificationFactory, errorFactory) {
         var epaInfo = {},
             epaInfos = [],
+            periods = [],
             groups = [],
             members = [],
             permission = 0;
@@ -15,12 +16,14 @@
         var model = {
             epaInfo: epaInfo,
             epaInfos: epaInfos,
+            periods: periods,
             groups: groups,
             members: members,
             permission: permission,
             adjustScoreByManagement: adjustScoreByManagement,
             getEPAByManagement: getEPAByManagement,
             getEPAInfoByManagement: getEPAInfoByManagement,
+            getPeriodByManagement: getPeriodByManagement,
             getGroupByManagement: getGroupByManagement,
             getMemberByManagement: getMemberByManagement,
             getUserPermissionOnManagement: getUserPermissionOnManagement
@@ -59,8 +62,8 @@
             });
         }
 
-        function getEPAByManagement(groupId, isLocal, employeeIds, statusProcess) {
-            return managementEPAFactory.getEPAByManagement(groupId, isLocal, employeeIds, statusProcess).success(function (epaInfos) {
+        function getEPAByManagement(periodId, groupId, isLocal, employeeIds, statusProcess) {
+            return managementEPAFactory.getEPAByManagement(periodId, groupId, isLocal, employeeIds, statusProcess).success(function (epaInfos) {
                 model.epaInfos = epaInfos;
             }).error(function (response, status) {
                 errorFactory.errorHandle(status);
@@ -75,16 +78,24 @@
             });
         }
 
-        function getGroupByManagement() {
-            return managementEPAFactory.getGroupByManagement().success(function (groups) {
+        function getPeriodByManagement() {
+            return managementEPAFactory.getPeriodByManagement().success(function (periods) {
+                model.periods = periods;
+            }).error(function (response, status) {
+                errorFactory.errorHandle(status);
+            });
+        }
+
+        function getGroupByManagement(periodId) {
+            return managementEPAFactory.getGroupByManagement(periodId).success(function (groups) {
                 model.groups = groups;
             }).error(function (response, status) {
                 errorFactory.errorHandle(status);
             });
         }
 
-        function getMemberByManagement(groupId, isLocal) {
-            return managementEPAFactory.getMemberByManagement(groupId, isLocal).success(function (members) {
+        function getMemberByManagement(periodId, groupId, isLocal) {
+            return managementEPAFactory.getMemberByManagement(periodId, groupId, isLocal).success(function (members) {
                 model.members = members;
             }).error(function (response, status) {
                 errorFactory.errorHandle(status);

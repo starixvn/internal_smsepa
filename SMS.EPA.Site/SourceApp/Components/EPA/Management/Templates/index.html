@@ -7,18 +7,26 @@
     <div class="col-sm-12">
         <form novalidate class="row filter form-horizontal" role="form">
             <div class="form-group">
+                <label class="col-sm-1 control-label" data-translate="Period"></label>
+                <div class="col-sm-2">
+                    <select class="form-control" ng-model="managementCtrl.filter.periodId"
+                            ng-options="opt.PeriodId as opt.Name for opt in managementCtrl.periodOptions" ng-change="managementCtrl.getGroup()">
+                        <option value="" style="display: none">-- {{"All" | translate}} --</option>
+                    </select>
+                </div>
                 <label class="col-sm-1 control-label" data-translate="Section"></label>
                 <div class="col-sm-2">
                     <select class="form-control" ng-model="managementCtrl.filter.groupId"
-                            ng-options="opt.GroupId as opt.GroupName for opt in managementCtrl.groupOptions"
-                            ng-change="managementCtrl.getMember(managementCtrl.filter.groupId, managementCtrl.filter.isLocal)">
+                            ng-options="opt.GroupId as opt.GroupName for opt in managementCtrl.groupOptions" ng-change="managementCtrl.getMember()">
                         <option value="">-- {{"All" | translate}} --</option>
                     </select>
                 </div>
+            </div>
+            <div class="form-group">
                 <label class="col-sm-1 control-label" data-translate="Category"></label>
                 <div class="col-sm-2">
                     <select class="form-control" ng-model="managementCtrl.filter.isLocal"
-                            ng-change="managementCtrl.getMember(managementCtrl.filter.groupId, managementCtrl.filter.isLocal)">
+                            ng-change="managementCtrl.getMember()">
                         <option value="">-- {{"All" | translate}} --</option>
                         <option value="false">{{"Expat" | translate}}</option>
                         <option value="true">{{"Local" | translate}}</option>

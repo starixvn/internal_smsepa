@@ -10,6 +10,7 @@
             adjustScoreByManagement: adjustScoreByManagement,
             getEPAByManagement: getEPAByManagement,
             getEPAInfoByManagement: getEPAInfoByManagement,
+            getPeriodByManagement: getPeriodByManagement,
             getGroupByManagement: getGroupByManagement,
             getMemberByManagement: getMemberByManagement,
             getUserPermissionOnManagement: getUserPermissionOnManagement
@@ -19,9 +20,10 @@
             return $http.put(baseUrl + 'api/ManagementEPA/AdjustScoreByManagement', criteria);
         }
 
-        function getEPAByManagement(groupId, isLocal, employeeIds, statusProcess) {
+        function getEPAByManagement(periodId, groupId, isLocal, employeeIds, statusProcess) {
             return $http.get(baseUrl + 'api/ManagementEPA/GetEPAByManagement', {
                 params: {
+                    periodId: periodId,
                     groupId: groupId,
                     isLocal: isLocal,
                     employeeIds: employeeIds,
@@ -34,13 +36,18 @@
             return $http.get(baseUrl + 'api/ManagementEPA/GetEPAInfoByManagement', { params: { epaId: epaId, managementId: managementId } });
         }
 
-        function getGroupByManagement() {
-            return $http.get(baseUrl + 'api/ManagementEPA/GetGroupByManagement');
+        function getPeriodByManagement() {
+            return $http.get(baseUrl + 'api/ManagementEPA/GetPeriodByManagement');
         }
 
-        function getMemberByManagement(groupId, isLocal) {
+        function getGroupByManagement(periodId) {
+            return $http.get(baseUrl + 'api/ManagementEPA/GetGroupByManagement', { params: { periodId: periodId } });
+        }
+
+        function getMemberByManagement(periodId, groupId, isLocal) {
             return $http.get(baseUrl + 'api/ManagementEPA/GetMemberByManagement', {
                 params: {
+                    periodId: periodId,
                     groupId: groupId,
                     isLocal: isLocal
                 }

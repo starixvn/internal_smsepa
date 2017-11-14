@@ -1,5 +1,9 @@
 ﻿namespace SMS.EPA.Site.Controllers.API
 {
+    using System.Collections.Generic;
+    using System.Net;
+    using System.Net.Http;
+    using System.Web.Http;
     using Core.Attribute;
     using Core.Constants;
     using Core.Enumerations;
@@ -9,10 +13,6 @@
     using Model.Enitites;
     using Services.Implement;
     using Services.Interfaces;
-    using System.Collections.Generic;
-    using System.Net;
-    using System.Net.Http;
-    using System.Web.Http;
 
     public class ManagementEPAController : BaseController
     {
@@ -36,38 +36,55 @@
 
         [HttpGet]
         [ApiAuthorize(FunctionKey = EPAFunctionKey.Management, Policy = Policy.Read)]
-        public IEnumerable<Group> GetGroupByManagement()
+        public IEnumerable<EPAPeriodModel> GetPeriodByManagement()
         {
-            var criteria = new GetGroupByEvaluatorOrReviewerOrManagementCriteria
+            var criteria = new GetPeriodByActorIdCriteria
             {
-                ActorUserId = SessionService.EmployeeId,
+                ActorId = SessionService.EmployeeId,
                 ProcessId = (int)ProcessType.Management
             };
 
-            return evaluationService.GetGroupByEvaluatorOrReviewerOrManagement(criteria);
+            return evaluationService.GetPeriodByActorId(criteria);
+        }
+
+        [HttpGet]
+        [ApiAuthorize(FunctionKey = EPAFunctionKey.Management, Policy = Policy.Read)]
+        public IEnumerable<Group> GetGroupByManagement(int? periodId = null)
+        {
+            var criteria = new GetGroupByActorIdCriteria
+            {
+                ActorUserId = SessionService.EmployeeId,
+                ProcessId = (int)ProcessType.Management,
+                PeriodId = periodId
+            };
+
+            return evaluationService.GetGroupByActorId(criteria);
         }
 
         [HttpGet]
         [ApiAuthorize(FunctionKey = EPAFunctionKey.Management, Policy = Policy.Read)]
         public IEnumerable<Employee> GetMemberByManagement(
+            int? periodId = null,
             int? groupId = null,
             bool? isLocal = null)
         {
-            var criteria = new GetMemberByEvaluatorOrReviewerOrManagementCriteria
+            var criteria = new GetMemberByActorIdCriteria
             {
                 ActorUserId = SessionService.EmployeeId,
                 ProcessId = (int)ProcessType.Management,
+                PeriodId = periodId,
                 GroupId = groupId,
                 IsLocal = isLocal,
                 IsMonthly = false
             };
 
-            return evaluationService.GetMemberByEvaluatorOrReviewerOrManagement(criteria);
+            return evaluationService.GetMemberByActorId(criteria);
         }
 
         [HttpGet]
         [ApiAuthorize(FunctionKey = EPAFunctionKey.Management, Policy = Policy.Read)]
         public IEnumerable<EPAModel> GetEPAByManagement(
+            int? periodId = null,
             int? groupId = null,
             bool? isLocal = null,
             string employeeIds = null,
@@ -76,6 +93,7 @@
             var criteria = new GetEPAByManagementCriteria
             {
                 ManagementId = SessionService.EmployeeId,
+                PeriodId = periodId,
                 GroupId = groupId,
                 IsLocal = isLocal,
                 EmployeeIds = employeeIds,

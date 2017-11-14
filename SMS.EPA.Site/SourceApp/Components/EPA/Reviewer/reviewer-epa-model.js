@@ -8,6 +8,7 @@
     function reviewerEPAModel(reviewerEPAFactory, utilitiesFactory, notificationFactory, errorFactory) {
         var epaInfo = {},
             epaInfos = [],
+            periods = [],
             groups = [],
             members = [],
             permission = 0;
@@ -15,12 +16,14 @@
         var model = {
             epaInfo: epaInfo,
             epaInfos: epaInfos,
+            periods: periods,
             groups: groups,
             members: members,
             permission: permission,
             adjustScoreByReviewer: adjustScoreByReviewer,
             getEPAByReviewer: getEPAByReviewer,
             getEPAInfoByReviewer: getEPAInfoByReviewer,
+            getPeriodByReviewer: getPeriodByReviewer,
             getGroupByReviewer: getGroupByReviewer,
             getMemberByReviewer: getMemberByReviewer,
             getUserPermissionOnReviewer: getUserPermissionOnReviewer,
@@ -65,8 +68,8 @@
             });
         }
 
-        function getEPAByReviewer(groupId, isLocal, isMonthly, employeeIds, statusProcess) {
-            return reviewerEPAFactory.getEPAByReviewer(groupId, isLocal, isMonthly, employeeIds, statusProcess).success(function (epaInfos) {
+        function getEPAByReviewer(periodId, groupId, isLocal, isMonthly, employeeIds, statusProcess) {
+            return reviewerEPAFactory.getEPAByReviewer(periodId, groupId, isLocal, isMonthly, employeeIds, statusProcess).success(function (epaInfos) {
                 model.epaInfos = epaInfos;
             }).error(function (response, status) {
                 errorFactory.errorHandle(status);
@@ -81,16 +84,24 @@
             });
         }
 
-        function getGroupByReviewer() {
-            return reviewerEPAFactory.getGroupByReviewer().success(function (groups) {
+        function getPeriodByReviewer() {
+            return reviewerEPAFactory.getPeriodByReviewer().success(function (periods) {
+                model.periods = periods;
+            }).error(function (response, status) {
+                errorFactory.errorHandle(status);
+            });
+        }
+
+        function getGroupByReviewer(periodId) {
+            return reviewerEPAFactory.getGroupByReviewer(periodId).success(function (groups) {
                 model.groups = groups;
             }).error(function (response, status) {
                 errorFactory.errorHandle(status);
             });
         }
 
-        function getMemberByReviewer(groupId, isLocal, isMonthly) {
-            return reviewerEPAFactory.getMemberByReviewer(groupId, isLocal, isMonthly).success(function (members) {
+        function getMemberByReviewer(periodId, groupId, isLocal, isMonthly) {
+            return reviewerEPAFactory.getMemberByReviewer(periodId, groupId, isLocal, isMonthly).success(function (members) {
                 model.members = members;
             }).error(function (response, status) {
                 errorFactory.errorHandle(status);

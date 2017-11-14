@@ -158,8 +158,19 @@
             return recommendation;
         }
 
-        public IEnumerable<Employee> GetMemberByEvaluatorOrReviewerOrManagement(
-            GetMemberByEvaluatorOrReviewerOrManagementCriteria criteria)
+        public IEnumerable<EPAPeriodModel> GetPeriodByActorId(GetPeriodByActorIdCriteria criteria)
+        {
+            IEnumerable<EPAPeriodModel> periods = new List<EPAPeriodModel>();
+
+            if (criteria != null && criteria.IsValid())
+            {
+                periods = GetData<EPAPeriodModel>(criteria);
+            }
+
+            return periods;
+        }
+
+        public IEnumerable<Employee> GetMemberByActorId(GetMemberByActorIdCriteria criteria)
         {
             IEnumerable<Employee> employees = new List<Employee>();
 
@@ -171,8 +182,7 @@
             return employees;
         }
 
-        public IEnumerable<Group> GetGroupByEvaluatorOrReviewerOrManagement(
-            GetGroupByEvaluatorOrReviewerOrManagementCriteria criteria)
+        public IEnumerable<Group> GetGroupByActorId(GetGroupByActorIdCriteria criteria)
         {
             IEnumerable<Group> groups = new List<Group>();
 

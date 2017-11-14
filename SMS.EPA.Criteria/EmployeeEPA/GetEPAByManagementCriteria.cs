@@ -8,20 +8,16 @@
 
         public string EmployeeIds { get; set; }
 
+        public int? PeriodId { get; set; }
+
         public int? GroupId { get; set; }
 
         public bool? IsLocal { get; set; }
 
         public bool? StatusProcess { get; set; }
 
-        public override string GetSettingKey()
-        {
-            return "EPA_GetByManagement";
-        }
+        public override string GetSettingKey() => "EPA_GetByManagement";
 
-        public override bool IsValid()
-        {
-            return ManagementId > 0;
-        }
+        public override bool IsValid() => ManagementId > 0;
     }
 }

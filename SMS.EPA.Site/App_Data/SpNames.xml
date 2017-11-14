@@ -154,6 +154,7 @@
     <Setting Key="EPA_GetEmployeeToUpdateFinalScore" SpName="EPA_GetEmployeeToUpdateFinalScore" DbName="SMSEPA" Plain="0"></Setting>
     <Setting Key="EPA_GetPeriodToUpdateFinalScore" SpName="EPA_GetPeriodToUpdateFinalScore" DbName="SMSEPA" Plain="0"></Setting>
     <Setting Key="EPA_GetRecommendationById" SpName="EPA_GetRecommendationById" DbName="SMSEPA" Plain="0"></Setting>
+    <Setting Key="EPA_GetPeriodByActorId" SpName="EPA_GetPeriodByActorId" DbName="SMSEPA" Plain="0"></Setting>
   </Function>
   <Function Name="Period">
     <Setting Key="EpaPeriod_Get" SpName="EpaPeriod_Get" DbName="SMSEPA" Plain="0"></Setting>

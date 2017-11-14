@@ -7,14 +7,22 @@
     <div class="col-sm-12">
         <form novalidate class="row filter form-horizontal" role="form">
             <div class="form-group">
+                <label class="col-sm-1 control-label" data-translate="Period"></label>
+                <div class="col-sm-2">
+                    <select class="form-control" ng-model="reviewerCtrl.filter.periodId"
+                            ng-options="opt.PeriodId as opt.Name for opt in reviewerCtrl.periodOptions" ng-change="reviewerCtrl.getGroup()">
+                        <option value="" style="display: none">-- {{"All" | translate}} --</option>
+                    </select>
+                </div>
                 <label class="col-sm-1 control-label" data-translate="Section"></label>
                 <div class="col-sm-2">
                     <select class="form-control" ng-model="reviewerCtrl.filter.groupId"
-                            ng-options="opt.GroupId as opt.GroupName for opt in reviewerCtrl.groupOptions"
-                            ng-change="reviewerCtrl.getMember()">
+                            ng-options="opt.GroupId as opt.GroupName for opt in reviewerCtrl.groupOptions" ng-change="reviewerCtrl.getMember()">
                         <option value="">-- {{"All" | translate}} --</option>
                     </select>
                 </div>
+            </div>
+            <div class="form-group">
                 <label class="col-sm-1 control-label" data-translate="Category"></label>
                 <div class="col-sm-2">
                     <select class="form-control" ng-model="reviewerCtrl.filter.isLocal"

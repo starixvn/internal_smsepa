@@ -10,6 +10,7 @@
             adjustScoreByReviewer: adjustScoreByReviewer,
             getEPAByReviewer: getEPAByReviewer,
             getEPAInfoByReviewer: getEPAInfoByReviewer,
+            getPeriodByReviewer: getPeriodByReviewer,
             getGroupByReviewer: getGroupByReviewer,
             getMemberByReviewer: getMemberByReviewer,
             getUserPermissionOnReviewer: getUserPermissionOnReviewer
@@ -19,9 +20,10 @@
             return $http.put(baseUrl + 'api/ReviewerEPA/AdjustScoreByReviewer', criteria);
         }
 
-        function getEPAByReviewer(groupId, isLocal, isMonthly, employeeIds, statusProcess) {
+        function getEPAByReviewer(periodId, groupId, isLocal, isMonthly, employeeIds, statusProcess) {
             return $http.get(baseUrl + 'api/ReviewerEPA/GetEPAByReviewer', {
                 params: {
+                    periodId: periodId,
                     groupId: groupId,
                     isLocal: isLocal,
                     isMonthly: isMonthly,
@@ -35,13 +37,18 @@
             return $http.get(baseUrl + 'api/ReviewerEPA/GetEPAInfoByReviewer', { params: { epaId: epaId, reviewerId: reviewerId} });
         }
 
-        function getGroupByReviewer() {
-            return $http.get(baseUrl + 'api/ReviewerEPA/GetGroupByReviewer');
+        function getPeriodByReviewer() {
+            return $http.get(baseUrl + 'api/ReviewerEPA/GetPeriodByReviewer');
         }
 
-        function getMemberByReviewer(groupId, isLocal, isMonthly) {
+        function getGroupByReviewer(periodId) {
+            return $http.get(baseUrl + 'api/ReviewerEPA/GetGroupByReviewer', { params: { periodId: periodId } });
+        }
+
+        function getMemberByReviewer(periodId, groupId, isLocal, isMonthly) {
             return $http.get(baseUrl + 'api/ReviewerEPA/GetMemberByReviewer', {
                 params: {
+                    periodId: periodId,
                     groupId: groupId,
                     isLocal: isLocal,
                     isMonthly: isMonthly

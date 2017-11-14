@@ -85,21 +85,24 @@
             }
         }
 
-        function goToEvaluatorListing(finished, isMonthly) {
+        function goToEvaluatorListing(periodId, finished, isMonthly) {
             $location.path(baseUrl + 'Evaluator/Index').search({
+                periodId: periodId,
                 isMonthly: isMonthly,
                 statusProcess: finished
             });
         }
 
-        function goToManagementListing(finished) {
+        function goToManagementListing(periodId, finished) {
             $location.path(baseUrl + 'Management/Index').search({
+                periodId: periodId,
                 statusProcess: finished
             });
         }
 
-        function goToReviewerListing(finished, isMonthly) {
+        function goToReviewerListing(periodId, finished, isMonthly) {
             $location.path(baseUrl + 'Reviewer/Index').search({
+                periodId: periodId,
                 isMonthly: isMonthly,
                 statusProcess: finished
             });

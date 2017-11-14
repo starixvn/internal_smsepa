@@ -36,6 +36,8 @@
 
         vm.permission = 0;
         vm.epaInfos = [];
+        vm.periodOptions = [];
+        vm.groupOptions = [];
         vm.members = [];
         vm.standardGrades = CommonModel.standardGrades;
         vm.selectedAll = false;
@@ -52,10 +54,12 @@
         function initFilter() {
             var filter = historyFactory.getState(),
                 statusProcess = $routeParams.statusProcess !== undefined
-                    ? (($routeParams.statusProcess === true || $routeParams.statusProcess === 'true') ? true : false)
-                    : '';
+                    ? ($routeParams.statusProcess === true || $routeParams.statusProcess === 'true') ? true : false
+                    : '',
+                periodId = $routeParams.periodId !== undefined ? parseInt($routeParams.periodId, 10) : '';
 
             return filter ? filter : {
+                periodId: periodId,
                 groupId: '',
                 isLocal: '',
                 employeeIds: '',
@@ -243,8 +247,16 @@
             }
         };
 
-        vm.getMember = function (groupId, isLocal) {
-            ManagementEPAModel.getMemberByManagement(groupId, isLocal).then(function () {
+        vm.getGroup = function () {
+            ManagementEPAModel.getGroupByManagement(vm.filter.periodId).then(function () {
+                vm.groupOptions = ManagementEPAModel.groups;
+
+                vm.getMember();
+            });
+        };
+
+        vm.getMember = function () {
+            ManagementEPAModel.getMemberByManagement(vm.filter.periodId, vm.filter.groupId, vm.filter.isLocal).then(function () {
                 vm.members = ManagementEPAModel.members;
                 utilitiesFactory.setSelectedItem(vm.members, "EmployeeId", vm.filter.employeeIds);
             });
@@ -331,7 +343,7 @@
             } else {
                 ReviewerManagementModel.calculateAdjustScore(epaInfos, false);
                 ManagementEPAModel.adjustScoreByManagement(vm, epaInfos)['finally'](function () {
-                    getEPAByManagement(vm.filter.groupId, vm.filter.isLocal, vm.filter.employeeIds, epaInfos, vm.filter.statusProcess);
+                    getEPAByManagement(vm.filter.periodId, vm.filter.groupId, vm.filter.isLocal, vm.filter.employeeIds, epaInfos, vm.filter.statusProcess);
                 });
             }
         };
@@ -359,12 +371,12 @@
             });
         };
 
-        function getEPAByManagement(groupId, isLocal, employeeIds, selectedEmployees, statusProcess) {
+        function getEPAByManagement(periodId, groupId, isLocal, employeeIds, selectedEmployees, statusProcess) {
             lockScreenService.start();
             vm.isEndProcessAll = false;
             resetSorting();
 
-            ManagementEPAModel.getEPAByManagement(groupId, isLocal, employeeIds, statusProcess).then(function () {
+            ManagementEPAModel.getEPAByManagement(periodId, groupId, isLocal, employeeIds, statusProcess).then(function () {
                 vm.epaInfos = ManagementEPAModel.epaInfos;
 
                 var averageScore = 0, countEndProcess = 0;
@@ -416,7 +428,7 @@
 
         vm.query = function (filter) {
             filter.employeeIds = utilitiesFactory.getSelectedData(vm.members, 'EmployeeId');
-            getEPAByManagement(filter.groupId, filter.isLocal, filter.employeeIds, null, filter.statusProcess);
+            getEPAByManagement(filter.periodId, filter.groupId, filter.isLocal, filter.employeeIds, null, filter.statusProcess);
         };
 
         function initialize() {
@@ -435,16 +447,20 @@
                 vm.permission = ManagementEPAModel.permission;
             });
 
-            ManagementEPAModel.getGroupByManagement().then(function () {
-                vm.groupOptions = ManagementEPAModel.groups;
-            });
+            ManagementEPAModel.getPeriodByManagement().then(function () {
+                vm.periodOptions = ManagementEPAModel.periods;
 
-            vm.getMember(vm.filter.groupId, vm.filter.isLocal);
+                if (vm.periodOptions.length > 0 && !vm.filter.periodId) {
+                    vm.filter.periodId = vm.periodOptions[0].PeriodId;
+                }
 
-            CommonModel.getStandardGrade().then(function () {
-                vm.standardGrades = CommonModel.standardGrades;
+                vm.getGroup();
 
-                getEPAByManagement(vm.filter.groupId, vm.filter.isLocal, vm.filter.employeeIds, vm.filter.statusProcess);
+                CommonModel.getStandardGrade().then(function () {
+                    vm.standardGrades = CommonModel.standardGrades;
+
+                    getEPAByManagement(vm.filter.periodId, vm.filter.groupId, vm.filter.isLocal, vm.filter.employeeIds, vm.filter.statusProcess);
+                });
             });
         }
 

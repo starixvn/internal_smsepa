@@ -75,6 +75,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="EmployeeEPA\GetPeriodByActorIdCriteria.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <!-- Exclude the file from analysis -->
       <SonarQubeExclude>true</SonarQubeExclude>
@@ -94,7 +95,7 @@
     <Compile Include="EmployeeEPA\GetEmployeeToUpdateFinalScoreCriteria.cs" />
     <Compile Include="EmployeeEPA\GetEPAToUpdateFinalScoreCriteria.cs" />
     <Compile Include="EmployeeEPA\GetEPAEndEvaluationPeriodCriteria.cs" />
-    <Compile Include="EmployeeEPA\GetGroupByEvaluatorOrReviewerOrManagementCriteria.cs" />
+    <Compile Include="EmployeeEPA\GetGroupByActorIdCriteria.cs" />
     <Compile Include="EmployeeEPA\GetMonthlyEPAOfSemiCriteria.cs" />
     <Compile Include="EmployeeEPA\GetRecommendationByEPAIdCriteria.cs" />
     <Compile Include="EmployeeEPA\GetStandardGradeCriteria.cs" />
@@ -143,7 +144,7 @@
     <Compile Include="EmployeeEPA\GetEPAInfoByReviewerCriteria.cs" />
     <Compile Include="EmployeeEPA\GetEPAInfoByEmployeeCriteria.cs" />
     <Compile Include="EmployeeEPA\GetEPAByEvaluatorCriteria.cs" />
-    <Compile Include="EmployeeEPA\GetMemberByEvaluatorOrReviewerOrManagementCriteria.cs" />
+    <Compile Include="EmployeeEPA\GetMemberByActorIdCriteria.cs" />
     <Compile Include="EmployeeEPA\UpdateEPAScoreCriteria.cs" />
     <Compile Include="Employee\AssignRoleToEmployeeCriteria.cs" />
     <Compile Include="Employee\ChangePasswordCriteria.cs">
