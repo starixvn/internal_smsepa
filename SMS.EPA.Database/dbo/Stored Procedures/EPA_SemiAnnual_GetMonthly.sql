@@ -23,7 +23,7 @@ BEGIN
 	DECLARE @MonthlyId INT = 2
 		,@SemiId INT = 3
 
-	IF ISNULL(@EPAIds, '') <> ''
+	IF @EPAIds IS NOT NULL
 	BEGIN
 		INSERT INTO @TblEPAId (Id)
 		SELECT DISTINCT val

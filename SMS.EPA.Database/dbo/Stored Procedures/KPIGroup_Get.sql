@@ -1,8 +1,5 @@
-﻿/****** Object:  Stored Procedure dbo.KPIGroup_Get    Script Date: 7/21/2016 3:01:43 PM ******/
-/****** Object:  Stored Procedure dbo.KPIGroup_Get    Script Date: 7/21/2016 2:45:57 PM ******/
-
-CREATE PROCEDURE [dbo].[KPIGroup_Get] 
-     @IsActive BIT = NULL
+﻿
+CREATE PROCEDURE [dbo].[KPIGroup_Get] @IsActive BIT = NULL
 AS
 /*
 Created: 20150708@Tim.Trinh
@@ -18,7 +15,7 @@ BEGIN
 	SET NOCOUNT ON;
 
 	SELECT g.KPIGroupId
-		,g.NAME
+		,g.[Name]
 		,g.[Description]
 		,k.NumberKPI
 		,g.IsActive
@@ -34,8 +31,5 @@ BEGIN
 			INNER JOIN dbo.KPIDetail AS kg WITH (NOLOCK) ON k.KPIId = kg.KPIId
 		GROUP BY kg.KPIGroupId
 		) AS k ON g.KPIGroupId = k.KPIGroupId
-	WHERE (
-			@IsActive IS NULL
-			OR g.IsActive = @IsActive
-			)
+	WHERE ISNULL(@IsActive, g.IsActive) = g.IsActive
 END

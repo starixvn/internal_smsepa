@@ -21,13 +21,13 @@ BEGIN
 		INNER JOIN dbo.Employee AS emp WITH (NOLOCK) ON empS.Id = emp.EmployeeId
 	WHERE EXISTS (
 			SELECT 1
-			FROM dbo.PeriodFlowSetting AS peFS
+			FROM dbo.PeriodFlowSetting AS peFS WITH (NOLOCK)
 			WHERE peFS.EmployeeId = empS.Id
 				AND @PeriodId = peFS.PeriodId
 			)
 		OR EXISTS (
 			SELECT 1
-			FROM dbo.PeriodTargetSetting AS peTS
+			FROM dbo.PeriodTargetSetting AS peTS WITH (NOLOCK)
 			WHERE peTS.EmployeeId = empS.Id
 				AND @PeriodId = peTS.PeriodId
 			)
@@ -35,6 +35,6 @@ BEGIN
 	IF ISNULL(@ExistedEmployeeIds, '') <> ''
 	BEGIN
 		SELECT DISTINCT val
-		FROM fnc_strSplit(@ExistedEmployeeIds, ',')
+		FROM dbo.fnc_strSplit(@ExistedEmployeeIds, ',')
 	END
 END

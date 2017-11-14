@@ -1,6 +1,4 @@
-﻿/****** Object:  Stored Procedure dbo.KPIGroup_GetById    Script Date: 7/21/2016 3:01:43 PM ******/
-/****** Object:  Stored Procedure dbo.KPIGroup_GetById    Script Date: 7/21/2016 2:45:57 PM ******/
-
+﻿
 CREATE PROCEDURE [dbo].[KPIGroup_GetById] @KPIGroupId INT
 AS
 /*
@@ -24,8 +22,8 @@ BEGIN
 	WHERE kd.KPIGroupId = @KPIGroupId
 
 	SELECT g.KPIGroupId
-		,g.NAME
-		,g.Description
+		,g.[Name]
+		,g.[Description]
 		,@NumberKPI AS NumberKPI
 		,g.IsActive
 	FROM dbo.KPIGroup AS g WITH (NOLOCK)

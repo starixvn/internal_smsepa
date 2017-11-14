@@ -18,11 +18,11 @@ Original:
 
 Revisions:  
 Param's Explanation:
-• @KPIGroupIds: List KPI groups id.
-• @ErrCode:
-	= 0: Transaction recorded successfully.
-	> 0: Specific Error.
-• @ErrMsg: Error description.
+    @KPIGroupIds: List KPI groups id.
+    @ErrCode:
+	   = 0: Transaction recorded successfully.
+	   > 0: Specific Error.
+    @ErrMsg: Error description.
 
 */
 BEGIN
@@ -40,16 +40,11 @@ BEGIN
 		RETURN
 	END
 
-	IF OBJECT_ID('tempdb..#KPIGroup') IS NOT NULL
-	BEGIN
-		DROP TABLE #KPIGroup
-	END
-
-	CREATE TABLE #KPIGroup (KPIGroupId INT)
+	CREATE TABLE #tblKPIGroup (KPIGroupId INT)
 
 	IF ISNULL(@KPIGroupIds, '') <> ''
 	BEGIN
-		INSERT INTO #KPIGroup (KPIGroupId)
+		INSERT INTO #tblKPIGroup (KPIGroupId)
 		SELECT DISTINCT val
 		FROM dbo.fnc_strSplit(@KPIGroupIds, ',')
 	END
@@ -94,7 +89,7 @@ BEGIN
 			)
 		SELECT KPIGroupId
 			,@KPIId
-		FROM #KPIGroup
+		FROM #tblKPIGroup WITH (NOLOCK)
 
 		INSERT INTO dbo.KPIHistory (
 			[KPIId]
@@ -144,5 +139,5 @@ BEGIN
 			,@ErrMsg = N'Insert KPI unsuccessfully.'
 	END CATCH
 
-	DROP TABLE #KPIGroup
+	DROP TABLE #tblKPIGroup
 END

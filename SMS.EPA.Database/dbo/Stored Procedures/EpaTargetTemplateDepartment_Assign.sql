@@ -14,9 +14,9 @@ Original:
 Revisions:  
 Param's Explanation:
 	@Departments = <ROOT>
-					<Department DepartmentId='1' IsGroup='1'></Department>
-					<Department DepartmentId='1' IsGroup='0'></Department>
-					</ROOT>
+			<Department DepartmentId='1' IsGroup='1'></Department>
+			<Department DepartmentId='1' IsGroup='0'></Department>
+		</ROOT>
 */
 BEGIN
 	SET NOCOUNT ON
@@ -68,7 +68,7 @@ BEGIN
 
 	SELECT DepartmentId
 		,IsGroup
-	FROM #DepartmentSetting
+	FROM #DepartmentSetting WITH (NOLOCK)
 
 	OPEN @Dept
 
@@ -105,27 +105,27 @@ BEGIN
 
 		IF @AllowMultiple = 1
 		BEGIN
-			DELETE
-			FROM [dbo].[TargetTemplateDepartment]
+			DELETE tt
+			FROM [dbo].[TargetTemplateDepartment] AS tt
 			WHERE EXISTS (
 					SELECT 1
-					FROM #DepartmentSetting AS deptSet
-					WHERE [dbo].[TargetTemplateDepartment].[DepartmentId] = deptSet.DepartmentId
-						AND [dbo].[TargetTemplateDepartment].[IsGroup] = deptSet.IsGroup
-						AND [dbo].[TargetTemplateDepartment].TargetTemplateId = @TargetTemplateId
+					FROM #DepartmentSetting AS deptSet WITH (NOLOCK)
+					WHERE tt.[DepartmentId] = deptSet.DepartmentId
+						AND tt.[IsGroup] = deptSet.IsGroup
+						AND tt.TargetTemplateId = @TargetTemplateId
 					)
 		END
 
 		IF ISNULL(@AllowMultiple, '') = ''
 		BEGIN
-			DELETE
-			FROM [dbo].[TargetTemplateDepartment]
+			DELETE tt
+			FROM [dbo].[TargetTemplateDepartment] AS tt
 			WHERE EXISTS (
 					SELECT 1
-					FROM #DepartmentSetting AS deptSet
-					WHERE [dbo].[TargetTemplateDepartment].[DepartmentId] = deptSet.[DepartmentId]
-						AND [dbo].[TargetTemplateDepartment].[IsGroup] = deptSet.[IsGroup]
-						AND [dbo].[TargetTemplateDepartment].[TargetTemplateId] IN (
+					FROM #DepartmentSetting AS deptSet WITH (NOLOCK)
+					WHERE tt.[DepartmentId] = deptSet.[DepartmentId]
+						AND tt.[IsGroup] = deptSet.[IsGroup]
+						AND tt.[TargetTemplateId] IN (
 							SELECT [TargetTemplateId]
 							FROM [dbo].[TargetTemplate] WITH (NOLOCK)
 							WHERE [TargetTypeId] = @TargetTypeId
@@ -145,7 +145,7 @@ BEGIN
 			,[IsGroup]
 			,@ModifiedBy
 			,GETDATE()
-		FROM #DepartmentSetting
+		FROM #DepartmentSetting WITH (NOLOCK)
 
 		DECLARE @Data NVARCHAR(MAX)
 
@@ -155,7 +155,7 @@ BEGIN
 
 		SELECT [DepartmentId]
 			,[IsGroup]
-		FROM #DepartmentSetting
+		FROM #DepartmentSetting WITH (NOLOCK)
 
 		OPEN @Dept
 

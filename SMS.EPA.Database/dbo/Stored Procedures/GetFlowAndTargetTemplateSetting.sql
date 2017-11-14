@@ -1,5 +1,4 @@
-﻿
-CREATE PROCEDURE [dbo].[GetFlowAndTargetTemplateSetting] @TargetTypeId INT
+﻿CREATE PROCEDURE [dbo].[GetFlowAndTargetTemplateSetting] @TargetTypeId INT
 AS
 /*
 Created: 20160225@Tim.Trinh
@@ -116,7 +115,7 @@ BEGIN
 									FROM FlowAndTargetTemplate
 									WHERE DepartmentId IN (
 											SELECT DISTINCT val
-											FROM fnc_strSplit(ft.ParentIds, ',')
+											FROM dbo.fnc_strSplit(ft.ParentIds, ',')
 											)
 										AND TargetTemplateId IS NOT NULL
 									)
@@ -130,7 +129,7 @@ BEGIN
 		,emp.EmployeeId
 		,ft.FlowTemplateId
 		,ft.TargetTemplateId
-	FROM #FlowAndTargetTemplate AS ft
+	FROM #FlowAndTargetTemplate AS ft WITH (NOLOCK)
 		LEFT JOIN dbo.[Group] AS gr WITH (NOLOCK) ON ft.DepartmentId = gr.DepartmentId
 		AND gr.IsDeleted = 0
 		INNER JOIN dbo.Employee AS emp WITH (NOLOCK) ON gr.GroupId = emp.GroupId

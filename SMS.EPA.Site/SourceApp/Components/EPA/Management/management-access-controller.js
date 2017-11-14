@@ -388,7 +388,6 @@
 
                     if (epaInfo.LastFinalScore.length > 0) {
                         epaInfo.LastFinalScore = utilitiesFactory.parseFloat(epaInfo.LastFinalScore);
-                        epaInfo.LastPerformanceScore = epaInfo.LastFinalScore - epaInfo.LastDisciplineScore;
                     } else {
                         epaInfo.LastFinalScore = null;
                     }

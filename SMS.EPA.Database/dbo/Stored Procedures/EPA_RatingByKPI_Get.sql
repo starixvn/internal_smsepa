@@ -95,11 +95,11 @@ BEGIN
 	FROM dbo.RefResource WITH (NOLOCK)
 	WHERE RefName = 'RequiredCommentOnMaxScore'
 
-	IF ISNULL(@EmployeeIds, '') <> ''
+	IF @EmployeeIds IS NOT NULL
 	BEGIN
 		INSERT INTO @Employees (Id)
 		SELECT DISTINCT val
-		FROM fnc_strSplit(@EmployeeIds, ',')
+		FROM dbo.fnc_strSplit(@EmployeeIds, ',')
 	END
 
 	INSERT INTO #tblEPA (

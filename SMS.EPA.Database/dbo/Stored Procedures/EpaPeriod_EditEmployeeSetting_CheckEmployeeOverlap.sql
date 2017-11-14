@@ -1,4 +1,5 @@
-﻿CREATE PROCEDURE [dbo].[EpaPeriod_EditEmployeeSetting_CheckEmployeeOverlap] @PeriodId INT
+﻿
+CREATE PROCEDURE [dbo].[EpaPeriod_EditEmployeeSetting_CheckEmployeeOverlap] @PeriodId INT
 	,@TargetTypeId INT
 	,@EmployeeAssignments NVARCHAR(MAX)
 AS
@@ -20,20 +21,23 @@ BEGIN
 	SET NOCOUNT ON;
 
 	DECLARE @OverlapEmployeeIds NVARCHAR(MAX)
+		,@MonthlyTarget TINYINT = 2
+		,@SemiTarget TINYINT = 3
+		,@ReviewerProcessId TINYINT = 4
 
-	CREATE TABLE #EmployeeAssignments (
+	CREATE TABLE #tblEmployeeAssignments (
 		PeriodId INT
 		,EmployeeId INT
 		,EvaluatorId INT
-		,ProcessId INT
+		,ProcessId TINYINT
 		,StartDate DATE NULL
 		,EndDate DATE NULL
-		,[Priority] INT
+		,[Priority] TINYINT
 		)
 
-	CREATE TABLE #SemiPeriodSetting (
+	CREATE TABLE #tblSemiPeriodSetting (
 		PeriodId INT
-		,[Month] INT
+		,[Month] TINYINT
 		,[Year] INT
 		)
 
@@ -42,7 +46,7 @@ BEGIN
 	EXEC sp_xml_preparedocument @DocHandler OUTPUT
 		,@EmployeeAssignments
 
-	INSERT INTO #EmployeeAssignments (
+	INSERT INTO #tblEmployeeAssignments (
 		PeriodId
 		,EmployeeId
 		,EvaluatorId
@@ -64,18 +68,22 @@ BEGIN
 			ELSE EndDate
 			END
 		,[Priority]
-	FROM OPENXML(@DocHandler, '/ROOT/Assignment', 1) WITH (EmployeeId INT, EvaluatorId INT, ProcessId INT, StartDate DATETIME, EndDate DATETIME, [Priority] INT) AS Data
+	FROM OPENXML(@DocHandler, '/ROOT/Assignment', 1) WITH (EmployeeId INT, EvaluatorId INT, ProcessId TINYINT, StartDate DATE, EndDate DATE, [Priority] TINYINT) AS Data
 
 	EXEC sp_xml_removedocument @DocHandler
 
-	IF @TargetTypeId = 2 -- monthly
+	IF @TargetTypeId = @MonthlyTarget
 	BEGIN
 		DELETE
-		FROM #EmployeeAssignments
-		WHERE #EmployeeAssignments.ProcessId <> 4 -- reviewer
-			OR CAST(#EmployeeAssignments.EndDate AS DATE) < CAST(GETDATE() AS DATE)
+		FROM #tblEmployeeAssignments
+		WHERE ProcessId <> @ReviewerProcessId
+			OR EndDate < CAST(GETDATE() AS DATE)
 
-		INSERT INTO #SemiPeriodSetting
+		INSERT INTO #tblSemiPeriodSetting (
+			PeriodId
+			,[Month]
+			,[Year]
+			)
 		SELECT period.PeriodId
 			,semiSD.[Month]
 			,(CASE 
@@ -87,43 +95,44 @@ BEGIN
 				AND CAST(CAST(YEAR(period.StartDate) AS VARCHAR) + '-' + semiS.ToDate AS DATE)
 			INNER JOIN dbo.SemiPeriodSettingDetail AS semiSD WITH (NOLOCK) ON semiS.SemiPeriodSettingId = semiSD.SemiPeriodSettingId
 			AND semiSD.IsActive = 1
-		WHERE period.TargetTypeId = 3 -- semi
+		WHERE period.TargetTypeId = @SemiTarget
 
 		SELECT @OverlapEmployeeIds = COALESCE(@OverlapEmployeeIds + ',', '') + CAST(semiFS.EmployeeId AS NVARCHAR)
 		FROM dbo.Period AS period WITH (NOLOCK)
-			INNER JOIN #SemiPeriodSetting AS setting ON period.PeriodId = setting.PeriodId
+			INNER JOIN #tblSemiPeriodSetting AS setting ON period.PeriodId = setting.PeriodId
 			INNER JOIN dbo.PeriodFlowSetting AS semiFS WITH (NOLOCK) ON period.PeriodId = semiFS.PeriodId
-			AND semiFS.ProcessId = 4 -- reviewer
+			AND semiFS.ProcessId = @ReviewerProcessId
 			LEFT JOIN dbo.EPA AS epa WITH (NOLOCK) ON semiFS.PeriodId = epa.PeriodId
 			AND epa.EmployeeId = semiFS.EmployeeId
-		WHERE period.TargetTypeId = 3 -- semi
+		WHERE period.TargetTypeId = @SemiTarget
 			AND period.PeriodId <> @PeriodId
-			AND CAST(semiFS.StartDate AS DATE) <= (
+			AND semiFS.StartDate <= (
 				SELECT TOP 1 flow.EndDate
-				FROM #EmployeeAssignments AS flow
+				FROM #tblEmployeeAssignments AS flow WITH (NOLOCK)
 				WHERE flow.EmployeeId = semiFS.EmployeeId
 				)
 			AND EXISTS (
 				SELECT 1
-				FROM #EmployeeAssignments AS flow
-				WHERE flow.ProcessId = 4 -- reviewer
+				FROM #tblEmployeeAssignments AS flow WITH (NOLOCK)
+				WHERE flow.ProcessId = @ReviewerProcessId
 					AND flow.EmployeeId = semiFS.EmployeeId
 					AND MONTH(flow.EndDate) = setting.[Month]
 					AND YEAR(flow.EndDate) = setting.[Year]
 				)
-			AND (
-				epa.[Status] IS NULL
-				OR epa.[Status] = 0 -- in progress
-				)
+			AND ISNULL(epa.[Status], 0) = 0
 	END
-	ELSE IF @TargetTypeId = 3 -- semi
+	ELSE IF @TargetTypeId = @SemiTarget
 	BEGIN
 		DELETE
-		FROM #EmployeeAssignments
-		WHERE ProcessId <> 4 -- reviewer
-			OR CAST(EndDate AS DATE) < CAST(GETDATE() AS DATE)
+		FROM #tblEmployeeAssignments
+		WHERE ProcessId <> @ReviewerProcessId
+			OR EndDate < CAST(GETDATE() AS DATE)
 
-		INSERT INTO #SemiPeriodSetting
+		INSERT INTO #tblSemiPeriodSetting (
+			PeriodId
+			,[Month]
+			,[Year]
+			)
 		SELECT period.PeriodId
 			,semiSD.[Month]
 			,(CASE 
@@ -135,41 +144,38 @@ BEGIN
 				AND CAST(CAST(YEAR(period.StartDate) AS VARCHAR) + '-' + semiS.ToDate AS DATE)
 			INNER JOIN dbo.SemiPeriodSettingDetail AS semiSD WITH (NOLOCK) ON semiS.SemiPeriodSettingId = semiSD.SemiPeriodSettingId
 			AND semiSD.IsActive = 1
-		WHERE period.TargetTypeId = 3 -- semi
+		WHERE period.TargetTypeId = @SemiTarget
 			AND period.PeriodId = @PeriodId
 
 		SELECT @OverlapEmployeeIds = COALESCE(@OverlapEmployeeIds + ',', '') + CAST(monthlyFS.EmployeeId AS NVARCHAR)
 		FROM dbo.Period AS period WITH (NOLOCK)
 			INNER JOIN dbo.PeriodFlowSetting AS monthlyFS WITH (NOLOCK) ON period.PeriodId = monthlyFS.PeriodId
-			AND monthlyFS.ProcessId = 4 -- reviewer
+			AND monthlyFS.ProcessId = @ReviewerProcessId
 			LEFT JOIN dbo.EPA AS epa WITH (NOLOCK) ON monthlyFS.PeriodId = epa.PeriodId
 			AND epa.EmployeeId = monthlyFS.EmployeeId
-		WHERE period.TargetTypeId = 2 -- monthly
+		WHERE period.TargetTypeId = @MonthlyTarget
 			AND period.PeriodId <> @PeriodId
-			AND CAST(monthlyFS.EndDate AS DATE) >= (
+			AND monthlyFS.EndDate >= (
 				SELECT TOP 1 flow.StartDate
-				FROM #EmployeeAssignments AS flow
+				FROM #tblEmployeeAssignments AS flow WITH (NOLOCK)
 				WHERE flow.EmployeeId = monthlyFS.EmployeeId
 				)
 			AND EXISTS (
 				SELECT 1
-				FROM #SemiPeriodSetting AS setting
+				FROM #tblSemiPeriodSetting AS setting WITH (NOLOCK)
 				WHERE MONTH(monthlyFS.EndDate) = setting.[Month]
 					AND YEAR(monthlyFS.EndDate) = setting.[Year]
 				)
-			AND (
-				epa.[Status] IS NULL
-				OR epa.[Status] = 0 -- in progress
-				)
+			AND ISNULL(epa.[Status], 0) = 0
 	END
 
 	IF ISNULL(@OverlapEmployeeIds, '') <> ''
 	BEGIN
-		SELECT DISTINCT fnc_strSplit.val
+		SELECT DISTINCT val
 		FROM dbo.fnc_strSplit(@OverlapEmployeeIds, ',')
 	END
 
-	DROP TABLE #EmployeeAssignments
+	DROP TABLE #tblEmployeeAssignments
 
-	DROP TABLE #SemiPeriodSetting
+	DROP TABLE #tblSemiPeriodSetting
 END

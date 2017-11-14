@@ -15,13 +15,13 @@ Param's Explanation:
 BEGIN
 	SET NOCOUNT ON;
 
-	IF ISNULL(@EPAIds, '') <> ''
+	IF @EPAIds IS NOT NULL
 	BEGIN
 		UPDATE dbo.EPA WITH (ROWLOCK, UPDLOCK)
 		SET [Status] = 1 -- Closed
 		WHERE EPAId IN (
 				SELECT DISTINCT val
-				FROM fnc_strSplit(@EPAIds, ',')
+				FROM dbo.fnc_strSplit(@EPAIds, ',')
 				)
 	END
 END

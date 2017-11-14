@@ -19,11 +19,11 @@ Original:
 
 Revisions:  
 Param's Explanation:
-• @KPIGroupIds: List KPI groups id.
-• @ErrCode:
-	= 0: Transaction recorded successfully.
-	> 0: Specific Error.
-• @ErrMsg: Error description.
+    @KPIGroupIds: List KPI groups id.
+    @ErrCode:
+	   = 0: Transaction recorded successfully.
+	   > 0: Specific Error.
+    @ErrMsg: Error description.
 
 */
 BEGIN
@@ -45,18 +45,13 @@ BEGIN
 	DECLARE @Data NVARCHAR(MAX)
 		,@OldData NVARCHAR(MAX)
 
-	IF OBJECT_ID('tempdb..#KPIGroup') IS NOT NULL
-	BEGIN
-		DROP TABLE #KPIGroup
-	END
-
-	CREATE TABLE #KPIGroup (KPIGroupId INT)
+	CREATE TABLE #tblKPIGroup (KPIGroupId INT)
 
 	IF ISNULL(@KPIGroupIds, '') <> ''
 	BEGIN
-		INSERT INTO #KPIGroup (KPIGroupId)
+		INSERT INTO #tblKPIGroup (KPIGroupId)
 		SELECT DISTINCT val
-		FROM fnc_strSplit(@KPIGroupIds, ',')
+		FROM dbo.fnc_strSplit(@KPIGroupIds, ',')
 	END
 
 	EXEC @OldData = [dbo].[fncGetDataForWriteLog] @ObjectId = @KPIId
@@ -65,11 +60,8 @@ BEGIN
 	BEGIN TRY
 		BEGIN TRANSACTION;
 
-		DECLARE @LogNo VARCHAR(20)
-			,@ModifiedDate DATETIME
-
-		SET @LogNo = CONVERT(VARCHAR(8), GETDATE(), 112) + REPLACE(CONVERT(VARCHAR(12), GETDATE(), 114), ':', '')
-		SET @ModifiedDate = GETDATE()
+		DECLARE @LogNo VARCHAR(20) = CONVERT(VARCHAR(8), GETDATE(), 112) + REPLACE(CONVERT(VARCHAR(12), GETDATE(), 114), ':', '')
+			,@ModifiedDate DATETIME = GETDATE()
 
 		UPDATE dbo.KPI WITH (ROWLOCK, UPDLOCK)
 		SET [Name] = @Name
@@ -88,11 +80,11 @@ BEGIN
 		WHERE KPIId = @KPIId
 			AND KPIGroupId NOT IN (
 				SELECT KPIGroupId
-				FROM #KPIGroup
+				FROM #tblKPIGroup WITH (NOLOCK)
 				)
 
 		DELETE
-		FROM #KPIGroup
+		FROM #tblKPIGroup
 		WHERE KPIGroupId IN (
 				SELECT KPIGroupId
 				FROM dbo.KPIDetail WITH (NOLOCK)
@@ -105,7 +97,7 @@ BEGIN
 			)
 		SELECT KPIGroupId
 			,@KPIId
-		FROM #KPIGroup
+		FROM #tblKPIGroup WITH (NOLOCK)
 
 		INSERT INTO dbo.KPIHistory (
 			[KPIId]
@@ -153,5 +145,5 @@ BEGIN
 			,@ErrMsg = N'Update KPI unsuccessfully.'
 	END CATCH
 
-	DROP TABLE #KPIGroup
+	DROP TABLE #tblKPIGroup
 END

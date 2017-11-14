@@ -16,16 +16,14 @@ Param's Explanation:
 
 */
 BEGIN
-	SET NOCOUNT ON
+	SET NOCOUNT ON;
 
-	DECLARE @Today DATE
-
-	SET @Today = CAST(GETDATE() AS DATE)
+	DECLARE @Today DATE = GETDATE()
 
 	CREATE TABLE #Period (
 		PeriodId INT
 		,[Name] NVARCHAR(200)
-		,StartDate DATETIME
+		,StartDate DATE
 		)
 
 	CREATE TABLE #PeriodTemp (
@@ -33,17 +31,24 @@ BEGIN
 		,[Name] NVARCHAR(200)
 		)
 
-	INSERT INTO #Period
+	INSERT INTO #Period (
+		PeriodId
+		,[Name]
+		,StartDate
+		)
 	EXECUTE dbo.EpaPeriod_GetAllPeriodIncludeImport
 
-	INSERT INTO #PeriodTemp
+	INSERT INTO #PeriodTemp (
+		PeriodId
+		,[Name]
+		)
 	SELECT PeriodId
 		,[Name]
-	FROM #Period
+	FROM #Period WITH (NOLOCK)
 	WHERE @PeriodIds IS NULL
 		OR PeriodId IN (
 			SELECT DISTINCT val
-			FROM fnc_strSplit(@PeriodIds, ',')
+			FROM dbo.fnc_strSplit(@PeriodIds, ',')
 			)
 
 	SELECT DISTINCT tblData.EmployeeId
@@ -62,7 +67,7 @@ BEGIN
 		FROM dbo.EPA AS epa WITH (NOLOCK)
 			INNER JOIN dbo.EPAProcess AS pcSelf WITH (NOLOCK) ON epa.EPAId = pcSelf.EPAId
 			AND pcSelf.ProcessId = 2
-			AND CAST(pcSelf.StartDate AS DATE) <= @Today
+			AND pcSelf.StartDate <= @Today
 			INNER JOIN dbo.EPAProcess AS pc WITH (NOLOCK) ON epa.EPAId = pc.EPAId
 			INNER JOIN #PeriodTemp AS period ON epa.PeriodId = period.PeriodId
 			INNER JOIN dbo.Employee AS emp WITH (NOLOCK) ON epa.EmployeeId = emp.EmployeeId
@@ -114,10 +119,7 @@ BEGIN
 					)
 				)
 			)
-		AND (
-			@IsLocal IS NULL
-			OR tblData.IsLocal = @IsLocal
-			)
+		AND ISNULL(@IsLocal, tblData.IsLocal) = tblData.IsLocal
 		AND (
 			EXISTS (
 				SELECT 1

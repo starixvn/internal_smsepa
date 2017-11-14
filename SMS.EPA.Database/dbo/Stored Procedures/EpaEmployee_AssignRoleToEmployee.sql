@@ -1,6 +1,4 @@
 ﻿
-/****** Object:  Stored Procedure dbo.EpaEmployee_AssignRoleToEmployee    Script Date: 7/21/2016 3:01:37 PM ******/
-/****** Object:  Stored Procedure dbo.EpaEmployee_AssignRoleToEmployee    Script Date: 7/21/2016 2:45:50 PM ******/
 CREATE PROCEDURE [dbo].[EpaEmployee_AssignRoleToEmployee] @EmployeeId INT
 	,@RoleIds NVARCHAR(500) = ''
 	,@ModifiedBy INT = NULL
@@ -35,6 +33,6 @@ BEGIN
 			,val
 			,@ModifiedBy
 			,GETDATE()
-		FROM fnc_strSplit(@RoleIds, ',')
+		FROM dbo.fnc_strSplit(@RoleIds, ',')
 	END
 END

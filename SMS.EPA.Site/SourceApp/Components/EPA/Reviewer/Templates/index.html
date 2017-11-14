@@ -113,7 +113,6 @@
                         </div>
                     </th>
                     <th data-translate="Grade"></th>
-                    <th data-translate="LastPerformanceScore"></th>
                     <th>
                         <span ng-show="!reviewerCtrl.monthlyFilterSelected" data-translate="LastFinalScore"></span>
                         <span ng-show="reviewerCtrl.monthlyFilterSelected" data-translate="LastMonthScore"></span>
@@ -220,10 +219,6 @@
                     </td>
                     <td class="text-center">
                         <strong class="error-message" ng-bind="epaInfo.Grade"></strong>
-                    </td>
-                    <td class="text-center">
-                        <span ng-show="epaInfo.LastPerformanceScore !== null" ng-bind="epaInfo.LastPerformanceScore | customScore"></span>
-                        <span ng-show="epaInfo.LastPerformanceScore === null" ng-bind="'-'"></span>
                     </td>
                     <td class="text-center">
                         <a href="" ng-if="epaInfo.LastFinalScore !== null"

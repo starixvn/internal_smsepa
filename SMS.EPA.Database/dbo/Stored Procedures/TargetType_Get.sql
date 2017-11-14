@@ -15,25 +15,24 @@ Param's Explanation:
 BEGIN
 	SET NOCOUNT ON
 
-	DECLARE @TargetTypeIds IntId
+	CREATE TABLE #tblTargetTypeIds (Id TINYINT)
 
 	IF ISNULL(@ExcludeTargetTypeIds, '') <> ''
 	BEGIN
-		INSERT INTO @TargetTypeIds (Id)
+		INSERT INTO #tblTargetTypeIds (Id)
 		SELECT DISTINCT val
-		FROM fnc_strSplit(@ExcludeTargetTypeIds, ',')
+		FROM dbo.fnc_strSplit(@ExcludeTargetTypeIds, ',')
 	END
 
 	SELECT TargetTypeId
 		,[Name]
 	FROM dbo.TargetType WITH (NOLOCK)
-	WHERE (
-			@IsActive IS NULL
-			OR IsActive = @IsActive
-			)
+	WHERE ISNULL(@IsActive, IsActive) = IsActive
 		AND TargetTypeId NOT IN (
 			SELECT DISTINCT Id
-			FROM @TargetTypeIds
+			FROM #tblTargetTypeIds
 			)
 	ORDER BY DisplayOrder
+
+	DROP TABLE #tblTargetTypeIds
 END

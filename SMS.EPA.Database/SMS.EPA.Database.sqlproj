@@ -131,7 +131,6 @@
     <Build Include="dbo\Functions\fncGetDataForWriteLog_TargetTemplateSetting_Department.sql" />
     <Build Include="dbo\Functions\fncGetDataForWriteLog_TargetTemplateSetting_Employee.sql" />
     <Build Include="dbo\Functions\fncGetDataForWriteLog_UpdateKPIRequiredEvaluate.sql" />
-    <Build Include="dbo\Functions\fnc_strSplit.sql" />
     <Build Include="dbo\Functions\RelatedDepartment.sql" />
     <Build Include="dbo\User Defined Types\IntId.sql" />
     <Build Include="dbo\User Defined Types\ProcessTable.sql" />
@@ -348,5 +347,6 @@
     <Build Include="dbo\Stored Procedures\DisciplineSummary_GetByEPA.sql" />
     <Build Include="dbo\Stored Procedures\DisciplineSummary_Get.sql" />
     <Build Include="dbo\Tables\PeriodDisciplineSetting.sql" />
+    <Build Include="dbo\Functions\fnc_strSplit.sql" />
   </ItemGroup>
 </Project>
