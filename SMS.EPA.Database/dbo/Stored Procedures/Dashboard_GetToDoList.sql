@@ -27,7 +27,7 @@ BEGIN
 		,@PromotionTargetType TINYINT = 5
 
 	CREATE TABLE #tblTodo (
-		Period INT
+		PeriodId INT
 		,[Name] NVARCHAR(200)
 		,TargetTypeId TINYINT
 		,FinishedByEvaluator SMALLINT
@@ -39,7 +39,7 @@ BEGIN
 		)
 
 	INSERT INTO #tblTodo (
-		Period
+		PeriodId
 		,[Name]
 		,TargetTypeId
 		,FinishedByEvaluator

@@ -1,9 +1,11 @@
-﻿CREATE PROCEDURE [dbo].[EPA_GetGroup] @ActorUserId INT
-	,@ProcessId INT
+﻿
+CREATE PROCEDURE [dbo].[EPA_GetGroup] @ActorUserId INT
+	,@ProcessId TINYINT
+	,@PeriodId INT = NULL
 AS
 /*
 Created: 20151109@Tim.Trinh
-Task: Get Group by Evaluator or Reviewer or Management.
+Task: Get Group by Evaluator/Reviewer/Management.
 DB: SMSEPA
 Original: 
  
@@ -23,12 +25,11 @@ BEGIN
 		AND pc.EvaluatorId = @ActorUserId
 		AND pc.ProcessId = @ProcessId
 		AND pc.StartDate <= @Today
-		--AND pc.EndDate >= @Today
-		--AND pc.IsEndProcess = 0
 		INNER JOIN dbo.Period AS period WITH (NOLOCK) ON epa.PeriodId = period.PeriodId
 		AND period.IsActive = 1
 		INNER JOIN dbo.Employee AS emp WITH (NOLOCK) ON epa.EmployeeId = emp.EmployeeId
 		LEFT JOIN dbo.[Group] AS gr WITH (NOLOCK) ON emp.GroupId = gr.GroupId
 		AND gr.IsDeleted = 0
-	WHERE epa.[Status] = 0 -- open
+	WHERE ISNULL(epa.[Status], 0) = 0 -- open
+		AND ISNULL(@PeriodId, period.PeriodId) = period.PeriodId
 END

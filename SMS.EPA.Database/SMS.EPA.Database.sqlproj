@@ -348,5 +348,6 @@
     <Build Include="dbo\Stored Procedures\DisciplineSummary_Get.sql" />
     <Build Include="dbo\Tables\PeriodDisciplineSetting.sql" />
     <Build Include="dbo\Functions\fnc_strSplit.sql" />
+    <Build Include="dbo\Stored Procedures\EPA_GetPeriodByActorId.sql" />
   </ItemGroup>
 </Project>
