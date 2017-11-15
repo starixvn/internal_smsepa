@@ -13,6 +13,8 @@
 
         public static int StartDayCreateMonthlyPeriod => Convert.ToInt32(ConfigurationManager.AppSettings["StartDayCreateMonthlyPeriod"]);
 
+        public static bool AutoAddStaffIntoSemiPeriod => Convert.ToBoolean(ConfigurationManager.AppSettings["AutoAddStaffIntoSemiPeriod"]);
+
         public static string RelativeEmailPath => ConfigurationManager.AppSettings["RelativeEmailPath"];
     }
 }
