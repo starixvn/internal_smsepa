@@ -219,11 +219,11 @@
                                 <td colspan="8" class="paging">
                                     <span data-translate="Show"></span>
                                     <select class="dropdown-entry form-control" ng-model="ratingByKPICtrl.pageSize"
-                                            ng-options="entry for entry in ratingByKPICtrl.entries"></select>
+                                            ng-options="entry for entry in ratingByKPICtrl.entries" ng-change="ratingByKPICtrl.currentPage = 1"></select>
                                     <span data-translate="entries"></span>
                                     <div class="pull-right custom-paging">
                                         <ul uib-pagination total-items="ratingByKPICtrl.filteredItems.length" items-per-page="ratingByKPICtrl.pageSize"
-                                            boundary-links="true" max-size="5" boundary-link-numbers="true" ng-model="disciplineCtrl.currentPage"
+                                            boundary-links="true" max-size="5" boundary-link-numbers="true" ng-model="ratingByKPICtrl.currentPage"
                                             class="pagination-sm" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></ul>
                                     </div>
                                 </td>

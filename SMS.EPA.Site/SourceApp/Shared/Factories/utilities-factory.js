@@ -140,7 +140,7 @@
         }
 
         function numberEntryList(vm) {
-            vm.entries = [5, 10, 15, 20, 50, 100, 200];
+            vm.entries = [20, 50, 100, 200];
         }
 
         function openPopupEndDate($event, vm) {

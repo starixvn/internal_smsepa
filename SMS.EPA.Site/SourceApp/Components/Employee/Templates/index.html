@@ -107,7 +107,7 @@
                     <td class="text-center authority-employee-action" ng-if="employeeCtrl.permission === employeeCtrl.policyEnum.Host">
                         <a class="glyphicon glyphicon-edit icon-edit" href="" title="Assign role to user" ng-click="employeeCtrl.assignRole(employee)" />
                     </td>
-                    <td class="text-center col-reset-password" ng-if="employeeCtrl.permission == employeeCtrl.policyEnum.Host">
+                    <td class="text-center col-reset-password" ng-if="employeeCtrl.permission === employeeCtrl.policyEnum.Host">
                         <a class="glyphicon glyphicon-refresh icon-refresh" href="" title="Reset Password"
                            ng-if="employee.IsSpecialUser" ng-click="employeeCtrl.resetPassword(employee)" />
                         <a class="glyphicon glyphicon-ban-circle icon-ban-circle disabled" href="" ng-if="!employee.IsSpecialUser"></a>
@@ -122,7 +122,7 @@
                     <td colspan="13" class="paging">
                         <span data-translate="Show"></span>
                         <select class="dropdown-entry form-control" ng-model="employeeCtrl.pageSize"
-                                ng-options="entry for entry in employeeCtrl.entries"></select>
+                                ng-options="entry for entry in employeeCtrl.entries" ng-change="employeeCtrl.currentPage = 1"></select>
                         <span data-translate="entries"></span>
                         <div class="pull-right custom-paging">
                             <ul uib-pagination total-items="employeeCtrl.filteredItems.length" items-per-page="employeeCtrl.pageSize"

@@ -79,7 +79,7 @@
                     <td colspan="6" class="paging">
                         <span data-translate="Show"></span>
                         <select class="dropdown-entry form-control" ng-model="flowTemplateCtrl.pageSize"
-                                ng-options="entry for entry in flowTemplateCtrl.entries"></select>
+                                ng-options="entry for entry in flowTemplateCtrl.entries" ng-change="flowTemplateCtrl.currentPage = 1"></select>
                         <span data-translate="entries"></span>
                         <div class="pull-right custom-paging">
                             <ul uib-pagination total-items="flowTemplateCtrl.filteredItems.length" items-per-page="flowTemplateCtrl.pageSize"

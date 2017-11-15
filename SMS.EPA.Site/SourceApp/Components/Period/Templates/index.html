@@ -82,7 +82,7 @@
                 <td colspan="9" class="paging">
                     <span data-translate="Show"></span>
                     <select class="dropdown-entry form-control" ng-model="periodCtrl.pageSize"
-                            ng-options="entry for entry in periodCtrl.entries"></select>
+                            ng-options="entry for entry in periodCtrl.entries" ng-change="periodCtrl.currentPage = 1"></select>
                     <span data-translate="entries"></span>
                     <div class="pull-right custom-paging">
                         <ul uib-pagination total-items="periodCtrl.filteredItems.length" items-per-page="periodCtrl.pageSize"

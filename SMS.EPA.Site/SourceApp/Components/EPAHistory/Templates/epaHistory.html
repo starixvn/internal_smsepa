@@ -92,7 +92,7 @@
                 <td colspan="9" class="paging">
                     <span data-translate="Show"></span>
                     <select class="dropdown-entry form-control" ng-model="epaHistoryCtrl.pageSize"
-                            ng-options="entry for entry in epaHistoryCtrl.entries"></select>
+                            ng-options="entry for entry in epaHistoryCtrl.entries" ng-change="epaHistoryCtrl.currentPage = 1"></select>
                     <span data-translate="entries"></span>
                     <div class="pull-right custom-paging">
                         <ul uib-pagination total-items="epaHistoryCtrl.filteredItems.length" items-per-page="epaHistoryCtrl.pageSize"

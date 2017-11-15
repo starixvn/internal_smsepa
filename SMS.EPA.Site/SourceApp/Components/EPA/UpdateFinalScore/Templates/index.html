@@ -105,7 +105,7 @@
                     <td colspan="8" class="paging">
                         <span data-translate="Show"></span>
                         <select class="dropdown-entry form-control" ng-model="updateFinalScoreCtrl.pageSize"
-                                ng-options="entry for entry in updateFinalScoreCtrl.entries"></select>
+                                ng-options="entry for entry in updateFinalScoreCtrl.entries" ng-change="updateFinalScoreCtrl.currentPage = 1"></select>
                         <span data-translate="entries"></span>
                         <div class="pull-right custom-paging">
                             <ul uib-pagination total-items="updateFinalScoreCtrl.filteredItems.length" items-per-page="updateFinalScoreCtrl.pageSize"
