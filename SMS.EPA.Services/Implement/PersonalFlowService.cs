@@ -2,13 +2,12 @@
 {
     using System.Collections.Generic;
     using System.Linq;
-    using Core.Services;
     using Criteria;
     using Interfaces;
     using Model;
     using Repositories;
 
-    public class PersonalFlowService : BaseService, IPersonalFlowService
+    public class PersonalFlowService : IPersonalFlowService
     {
         private readonly IFlowSettingRepository flowSettingRepository;
 
@@ -47,20 +46,6 @@
             }
 
             return flow;
-        }
-
-        public EmployeeFlowSettingModel GetEmployeeFlowSetting(GetEmployeeFlowSettingCriteria criteria)
-        {
-            var result = new EmployeeFlowSettingModel();
-
-            if (criteria != null && criteria.IsValid())
-            {
-                var data = GetData<EvaluatorInfoViewModel>(criteria).OrderBy(i => i.NickName);
-                result.DefaultFlowSettings = data.Where(x => !x.IsExistsSetting);
-                result.PersonalFlowSettings = data.Where(x => x.IsExistsSetting);
-            }
-
-            return result;
         }
     }
 }

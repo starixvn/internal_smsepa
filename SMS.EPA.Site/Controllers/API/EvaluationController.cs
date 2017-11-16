@@ -8,6 +8,7 @@
     using System.Web.Http;
     using Core.Enumerations;
     using Core.Model;
+    using Core.Services;
     using Criteria;
     using Model;
     using Services.Implement;
@@ -16,17 +17,17 @@
     public class EvaluationController : BaseController
     {
         private readonly IEmployeeEPAService evaluationService;
-        private readonly ICommonService commonService;
+        private readonly IBaseService baseService;
 
         public EvaluationController()
             : this(null, null)
         {
         }
 
-        public EvaluationController(IEmployeeEPAService evaluationService, ICommonService commonService)
+        public EvaluationController(IEmployeeEPAService evaluationService, IBaseService baseService)
         {
             this.evaluationService = evaluationService ?? new EmployeeEPAService();
-            this.commonService = commonService ?? new CommonService();
+            this.baseService = baseService ?? new BaseService();
         }
 
         [HttpGet]
@@ -49,13 +50,13 @@
         [HttpPut]
         public CommandResult ConvertEPA()
         {
-            IEnumerable<EPASummaryImportModel> epaInfos = evaluationService.GetMemberEPASummaryImport();
+            IEnumerable<EPASummaryImportModel> epaInfos = baseService.GetData<EPASummaryImportModel>(new GetEPASummaryImportCriteria());
             var criteria = new UpdateEPASummaryImportCriteria
             {
                 EpaInfos = epaInfos
             };
 
-            CommandResult result = commonService.ExecuteNonQuery(criteria);
+            CommandResult result = baseService.ExecuteNonQuery(criteria);
             return result;
         }
 
@@ -78,7 +79,7 @@
                     {
                         criteria.EPAInfo = epaInfo;
 
-                        commandResult = commonService.ExecuteNonQuery(criteria);
+                        commandResult = baseService.ExecuteNonQuery(criteria);
                         response = Request.CreateResponse(HttpStatusCode.OK, commandResult);
                     }
                 }
@@ -86,7 +87,7 @@
                 {
                     criteria.EPAInfo = epaInfo;
 
-                    commandResult = commonService.ExecuteNonQuery(criteria);
+                    commandResult = baseService.ExecuteNonQuery(criteria);
                     response = Request.CreateResponse(HttpStatusCode.OK, commandResult);
                 }
             }
@@ -106,7 +107,7 @@
                 ActorUserId = SessionService.EmployeeId
             };
 
-            return evaluationService.CheckEmployeePermission(criteria);
+            return baseService.GetDataEntity<int>(criteria);
         }
     }
 }

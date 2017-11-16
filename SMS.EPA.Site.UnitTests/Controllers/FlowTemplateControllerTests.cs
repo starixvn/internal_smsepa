@@ -15,7 +15,7 @@
     public class FlowTemplateControllerTests
     {
         private IFlowTemplateService _flowTemplateService;
-        private ICommonService commonService;
+        private IBaseService baseService;
         private ISessionService _sessionService;
         private FlowTemplateController _flowTemplateController;
 
@@ -70,9 +70,9 @@
             // Arrange
             _flowTemplateService = FakeFlowTemplateService();
             _sessionService = FakeSessionService();
-            commonService = FakeCommonService();
-            commonService.ExecuteNonQuery(Arg.Any<CreateFlowTemplateCriteria>()).Returns(new CommandResult());
-            _flowTemplateController = GetFlowTemplateController(_flowTemplateService, _sessionService, commonService);
+            baseService = FakeBaseService();
+            baseService.ExecuteNonQuery(Arg.Any<CreateFlowTemplateCriteria>()).Returns(new CommandResult());
+            _flowTemplateController = GetFlowTemplateController(_flowTemplateService, _sessionService, baseService);
 
             // Act
             var actual = _flowTemplateController.CreateFlowTemplate(Arg.Any<CreateFlowTemplateCriteria>());
@@ -91,8 +91,8 @@
             // Arrange
             _flowTemplateService = FakeFlowTemplateService();
             _sessionService = FakeSessionService();
-            commonService = FakeCommonService();
-            commonService.ExecuteNonQuery(Arg.Any<UpdateFlowTemplateCriteria>()).Returns(new CommandResult());
+            baseService = FakeBaseService();
+            baseService.ExecuteNonQuery(Arg.Any<UpdateFlowTemplateCriteria>()).Returns(new CommandResult());
             _flowTemplateController = GetFlowTemplateController(_flowTemplateService, _sessionService);
 
             // Act
@@ -112,8 +112,8 @@
             // Arrange
             _flowTemplateService = FakeFlowTemplateService();
             _sessionService = FakeSessionService();
-            commonService = FakeCommonService();
-            commonService.ExecuteNonQuery(Arg.Any<UpdateStatusFlowTemplateCriteria>()).Returns(new CommandResult());
+            baseService = FakeBaseService();
+            baseService.ExecuteNonQuery(Arg.Any<UpdateStatusFlowTemplateCriteria>()).Returns(new CommandResult());
             _flowTemplateController = GetFlowTemplateController(_flowTemplateService, _sessionService);
 
             // Act
@@ -133,8 +133,8 @@
             // Arrange
             _flowTemplateService = FakeFlowTemplateService();
             _sessionService = FakeSessionService();
-            commonService = FakeCommonService();
-            commonService.ExecuteNonQuery(Arg.Any<DeleteFlowTemplateCriteria>()).Returns(new CommandResult());
+            baseService = FakeBaseService();
+            baseService.ExecuteNonQuery(Arg.Any<DeleteFlowTemplateCriteria>()).Returns(new CommandResult());
             _flowTemplateController = GetFlowTemplateController(_flowTemplateService, _sessionService);
 
             // Act
@@ -156,9 +156,9 @@
             return service;
         }
 
-        private ICommonService FakeCommonService()
+        private IBaseService FakeBaseService()
         {
-            var service = Substitute.For<ICommonService>();
+            var service = Substitute.For<IBaseService>();
 
             return service;
         }
@@ -170,13 +170,12 @@
             return service;
         }
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Reliability", "CA2000:Dispose objects before losing scope", Justification = "Reviewed")]
         private FlowTemplateController GetFlowTemplateController(
             IFlowTemplateService flowTemplateService,
             ISessionService sessionService = null,
-            ICommonService commonService = null)
+            IBaseService baseService = null)
         {
-            var controller = new FlowTemplateController(flowTemplateService, commonService);
+            var controller = new FlowTemplateController(flowTemplateService, baseService);
             controller.SessionService = sessionService;
 
             return controller;

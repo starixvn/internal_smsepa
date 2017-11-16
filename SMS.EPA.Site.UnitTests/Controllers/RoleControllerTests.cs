@@ -15,7 +15,7 @@
     public class RoleControllerTests
     {
         private IRoleService _roleService;
-        private ICommonService commonService;
+        private IBaseService baseService;
         private ISessionService _sessionService;
         private RoleController _roleController;
 
@@ -59,9 +59,9 @@
             // Arrange
             _roleService = FakeRoleService();
             _sessionService = FakeSessionService();
-            commonService = FakeCommonService();
-            commonService.ExecuteNonQuery(Arg.Any<AssignFunctionToRoleCriteria>()).Returns(new CommandResult());
-            _roleController = GetRoleController(_roleService, _sessionService, commonService);
+            baseService = FakeBaseService();
+            baseService.ExecuteNonQuery(Arg.Any<AssignFunctionToRoleCriteria>()).Returns(new CommandResult());
+            _roleController = GetRoleController(_roleService, _sessionService, baseService);
 
             // Act
             var actual = _roleController.AssignFunctionToRole(Arg.Any<AssignFunctionToRoleCriteria>());
@@ -89,9 +89,9 @@
             return service;
         }
 
-        private ICommonService FakeCommonService()
+        private IBaseService FakeBaseService()
         {
-            var service = Substitute.For<ICommonService>();
+            var service = Substitute.For<IBaseService>();
 
             return service;
         }
@@ -100,9 +100,9 @@
         private RoleController GetRoleController(
             IRoleService roleService = null,
             ISessionService sessionService = null,
-            ICommonService commonService = null)
+            IBaseService baseService = null)
         {
-            var controller = new RoleController(roleService, commonService);
+            var controller = new RoleController(roleService, baseService);
             controller.SessionService = sessionService;
 
             return controller;

@@ -1,5 +1,8 @@
 ﻿namespace SMS.EPA.Site.Controllers
 {
+    using System.Collections.Generic;
+    using System.Web.Hosting;
+    using System.Web.Mvc;
     using Core.Enumerations;
     using Core.Services;
     using Core.Services.Interfaces;
@@ -9,9 +12,6 @@
     using Resources;
     using Services.Implement;
     using Services.Interfaces;
-    using System.Collections.Generic;
-    using System.Web.Hosting;
-    using System.Web.Mvc;
 
     public class ExportPdfController : Controller
     {
@@ -22,20 +22,22 @@
         private readonly IEmployeeEPAService _employeeEPAService;
         private readonly IRazorRenderService _razorRenderService;
         private readonly ISessionService _sessionService;
+        private readonly IBaseService baseService;
 
-        public ExportPdfController()
-            : this(null, null, null)
+        public ExportPdfController() : this(null, null, null, null)
         {
         }
 
         public ExportPdfController(
             IEmployeeEPAService employeeEPAService,
             IRazorRenderService razorRenderService,
-            ISessionService sessionService)
+            ISessionService sessionService,
+            IBaseService baseService)
         {
             _employeeEPAService = employeeEPAService ?? new EmployeeEPAService();
             _razorRenderService = razorRenderService ?? new RazorRenderService();
             _sessionService = sessionService ?? new SessionService();
+            this.baseService = baseService ?? new BaseService();
         }
 
         public ActionResult ExportPdf(int id)
@@ -46,7 +48,7 @@
                 ActorUserId = _sessionService.EmployeeId
             };
 
-            int permission = _employeeEPAService.CheckEmployeePermission(criteria);
+            int permission = baseService.GetDataEntity<int>(criteria);
 
             if (permission == (int)Policy.None)
             {
@@ -87,7 +89,7 @@
 
             if (epaInfo.StatusId == (int)EPAStatus.Open)
             {
-                IEnumerable<StandardGradeModel> standardGrades = _employeeEPAService.GetStandardGrade();
+                IEnumerable<StandardGradeModel> standardGrades = baseService.GetData<StandardGradeModel>(new GetStandardGradeCriteria());
                 float finalScore;
                 float? performanceScore = null;
                 if (float.TryParse(epaInfo.FinalScoreToExport, out finalScore) && finalScore > 0)

@@ -31,12 +31,7 @@
                 PeriodId = employeePeriod.PeriodId,
                 EmployeeIds = employeePeriod.EmployeeIds
             };
-            var commandResult = new CommandResult();
-
-            if (criteria.IsValid())
-            {
-                commandResult = Repository.ExecuteNonQuery(criteria);
-            }
+            CommandResult commandResult = BaseService.ExecuteNonQuery(criteria);
 
             if (!commandResult.IsSuccessful)
             {

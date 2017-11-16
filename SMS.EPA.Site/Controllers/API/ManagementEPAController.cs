@@ -8,6 +8,7 @@
     using Core.Constants;
     using Core.Enumerations;
     using Core.Model;
+    using Core.Services;
     using Criteria;
     using Model;
     using Model.Enitites;
@@ -16,22 +17,19 @@
 
     public class ManagementEPAController : BaseController
     {
-        private readonly IEmployeeEPAService evaluationService;
         private readonly IManagementEPAService managementEPAService;
-        private readonly ICommonService commonService;
+        private readonly IBaseService baseService;
 
-        public ManagementEPAController() : this(null, null, null)
+        public ManagementEPAController() : this(null, null)
         {
         }
 
         public ManagementEPAController(
-            IEmployeeEPAService evaluationService,
             IManagementEPAService managementEPAService,
-            ICommonService commonService)
+            IBaseService baseService)
         {
-            this.evaluationService = evaluationService ?? new EmployeeEPAService();
             this.managementEPAService = managementEPAService ?? new ManagementEPAService();
-            this.commonService = commonService ?? new CommonService();
+            this.baseService = baseService ?? new BaseService();
         }
 
         [HttpGet]
@@ -44,7 +42,7 @@
                 ProcessId = (int)ProcessType.Management
             };
 
-            return evaluationService.GetPeriodByActorId(criteria);
+            return baseService.GetData<EPAPeriodModel>(criteria);
         }
 
         [HttpGet]
@@ -58,12 +56,12 @@
                 PeriodId = periodId
             };
 
-            return evaluationService.GetGroupByActorId(criteria);
+            return baseService.GetData<Group>(criteria);
         }
 
         [HttpGet]
         [ApiAuthorize(FunctionKey = EPAFunctionKey.Management, Policy = Policy.Read)]
-        public IEnumerable<Employee> GetMemberByManagement(
+        public IEnumerable<EPAEmployeeModel> GetMemberByManagement(
             int? periodId = null,
             int? groupId = null,
             bool? isLocal = null)
@@ -78,7 +76,7 @@
                 IsMonthly = false
             };
 
-            return evaluationService.GetMemberByActorId(criteria);
+            return baseService.GetData<EPAEmployeeModel>(criteria);
         }
 
         [HttpGet]
@@ -141,7 +139,7 @@
                 criteria.ProcessId = (int)ProcessType.Management;
                 criteria.ModifiedBy = SessionService.EmployeeId;
 
-                commandResult = commonService.ExecuteNonQuery(criteria);
+                commandResult = baseService.ExecuteNonQuery(criteria);
             }
 
             return commandResult;
@@ -165,7 +163,7 @@
                 ProcessId = processId
             };
 
-            return evaluationService.CheckEmployeePermission(criteria);
+            return baseService.GetDataEntity<int>(criteria);
         }
     }
 }

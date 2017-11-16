@@ -2,13 +2,12 @@
 {
     using System.Collections.Generic;
     using System.Linq;
-    using Core.Services;
     using Criteria;
     using Interfaces;
     using Model;
     using Repositories;
 
-    public class ManagementEPAService : BaseService, IManagementEPAService
+    public class ManagementEPAService : IManagementEPAService
     {
         private readonly IEmployeeEPARepository evaluationRepository;
         private readonly IEmployeeEPAService evaluationService;
@@ -57,7 +56,7 @@
 
         public EPAModel GetEPAInfoByManagement(GetEPAInfoByManagementCriteria criteria)
         {
-            EPAModel epaInfo = new EPAModel();
+            var epaInfo = new EPAModel();
 
             if (criteria != null && criteria.IsValid())
             {

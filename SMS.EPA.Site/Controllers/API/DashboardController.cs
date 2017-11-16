@@ -1,18 +1,20 @@
 ﻿namespace SMS.EPA.Site.Controllers.API
 {
+    using System.Web.Http;
     using Core.Attribute;
     using Core.Constants;
     using Core.Enumerations;
+    using Core.Services;
+    using Criteria;
     using Model;
     using Services.Implement;
     using Services.Interfaces;
-    using System.Web.Http;
 
     public class DashboardController : BaseController
     {
         private readonly IEmployeeService employeeService;
         private readonly IReportService reportService;
-        private readonly IDashboardService dashboardService;
+        private readonly IBaseService baseService;
 
         public DashboardController() : this(null, null, null)
         {
@@ -21,11 +23,11 @@
         public DashboardController(
             IEmployeeService employeeService,
             IReportService reportService,
-            IDashboardService dashboardService)
+            IBaseService baseService)
         {
             this.employeeService = employeeService ?? new EmployeeService();
             this.reportService = reportService ?? new ReportService();
-            this.dashboardService = dashboardService ?? new DashboardService();
+            this.baseService = baseService ?? new BaseService();
         }
 
         [HttpGet]
@@ -42,9 +44,14 @@
         [ApiAuthorize(FunctionKey = EPAFunctionKey.Home, Policy = Policy.Read)]
         public ToDoListViewModel GetToDoList()
         {
-            ToDoListViewModel todoList = dashboardService.GetToDoList(SessionService.EmployeeId);
+            var criteria = new GetToDoListCriteria
+            {
+                EmployeeId = SessionService.EmployeeId
+            };
+            var result = new ToDoListViewModel();
+            result.ToDoList = baseService.GetData<ToDoListModel>(criteria);
 
-            return todoList;
+            return result;
         }
     }
 }

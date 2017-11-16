@@ -1,15 +1,12 @@
 ﻿namespace SMS.EPA.Services.Implement
 {
     using System.Collections.Generic;
-    using Core.Model;
-    using Core.Services;
     using Criteria;
     using Interfaces;
     using Model;
-    using Model.Enitites;
     using Repositories;
 
-    public class EvaluatorByKPIService : BaseService, IEvaluatorByKPIService
+    public class EvaluatorByKPIService : IEvaluatorByKPIService
     {
         private readonly IEmployeeEPARepository evaluationRepository;
 
@@ -20,54 +17,6 @@
         public EvaluatorByKPIService(IEmployeeEPARepository evaluationRepository)
         {
             this.evaluationRepository = evaluationRepository ?? new EmployeeEPARepository();
-        }
-
-        public IEnumerable<EPAPeriodModel> GetPeriodByEvaluator(GetPeriodByEvaluatorCriteria criteria)
-        {
-            IEnumerable<EPAPeriodModel> periods = new List<EPAPeriodModel>();
-
-            if (criteria != null && criteria.IsValid())
-            {
-                periods = GetData<EPAPeriodModel>(criteria);
-            }
-
-            return periods;
-        }
-
-        public IEnumerable<TargetTemplate> GetTargetTemplateByEvaluator(GetTargetTemplateByEvaluatorCriteria criteria)
-        {
-            IEnumerable<TargetTemplate> targetTemplates = new List<TargetTemplate>();
-
-            if (criteria != null && criteria.IsValid())
-            {
-                targetTemplates = GetData<TargetTemplate>(criteria);
-            }
-
-            return targetTemplates;
-        }
-
-        public IEnumerable<EPAPeriodModel> GetPeriodToView(GetPeriodToViewCriteria criteria)
-        {
-            IEnumerable<EPAPeriodModel> periods = new List<EPAPeriodModel>();
-
-            if (criteria != null && criteria.IsValid())
-            {
-                periods = GetData<EPAPeriodModel>(criteria);
-            }
-
-            return periods;
-        }
-
-        public IEnumerable<TargetTemplate> GetTargetTemplateToView(GetTargetTemplateToViewCriteria criteria)
-        {
-            IEnumerable<TargetTemplate> targetTemplates = new List<TargetTemplate>();
-
-            if (criteria != null && criteria.IsValid())
-            {
-                targetTemplates = GetData<TargetTemplate>(criteria);
-            }
-
-            return targetTemplates;
         }
 
         public IEnumerable<TemporaryKPIModel> GetKPIByTargetTemplate(GetKPIByTargetTemplateCriteria criteria)
@@ -116,30 +65,6 @@
             }
 
             return epas;
-        }
-
-        public CommandResult UpdateKPIScore(UpdateKPIScoreCriteria criteria)
-        {
-            var commandResult = new CommandResult();
-
-            if (criteria != null && criteria.IsValid())
-            {
-                commandResult = Repository.ExecuteNonQuery(criteria);
-            }
-
-            return commandResult;
-        }
-
-        public IEnumerable<Employee> GetEvaluatorsByTargetTemplate(GetEvaluatorsByTargetTemplateCriteria criteria)
-        {
-            IEnumerable<Employee> employees = new List<Employee>();
-
-            if (criteria != null && criteria.IsValid())
-            {
-                employees = GetData<Employee>(criteria);
-            }
-
-            return employees;
         }
     }
 }

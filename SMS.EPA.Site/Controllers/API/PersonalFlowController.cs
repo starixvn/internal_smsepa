@@ -1,11 +1,13 @@
 ﻿namespace SMS.EPA.Site.Controllers.API
 {
     using System.Collections.Generic;
+    using System.Linq;
     using System.Web.Http;
     using Core.Attribute;
     using Core.Constants;
     using Core.Enumerations;
     using Core.Model;
+    using Core.Services;
     using Criteria;
     using Model;
     using Services.Implement;
@@ -14,16 +16,16 @@
     public class PersonalFlowController : BaseController
     {
         private readonly IPersonalFlowService personalFlowService;
-        private readonly ICommonService commonService;
+        private readonly IBaseService baseService;
 
         public PersonalFlowController() : this(null, null)
         {
         }
 
-        public PersonalFlowController(IPersonalFlowService personalFlowService, ICommonService commonService)
+        public PersonalFlowController(IPersonalFlowService personalFlowService, IBaseService baseService)
         {
             this.personalFlowService = personalFlowService ?? new PersonalFlowService();
-            this.commonService = commonService ?? new CommonService();
+            this.baseService = baseService ?? new BaseService();
         }
 
         [HttpGet]
@@ -56,7 +58,7 @@
             {
                 criteria.ModifiedBy = SessionService.EmployeeId;
 
-                commandResult = commonService.ExecuteNonQuery(criteria);
+                commandResult = baseService.ExecuteNonQuery(criteria);
             }
 
             return commandResult;
@@ -73,7 +75,7 @@
                 ModifiedBy = SessionService.EmployeeId
             };
 
-            return commonService.ExecuteNonQuery(criteria);
+            return baseService.ExecuteNonQuery(criteria);
         }
 
         [HttpGet]
@@ -92,7 +94,11 @@
                 IsMonthlyPeriod = isMonthlyPeriod
             };
 
-            EmployeeFlowSettingModel result = personalFlowService.GetEmployeeFlowSetting(criteria);
+            var result = new EmployeeFlowSettingModel();
+            var data = baseService.GetData<EvaluatorInfoViewModel>(criteria).OrderBy(i => i.NickName);
+            result.DefaultFlowSettings = data.Where(x => !x.IsExistsSetting);
+            result.PersonalFlowSettings = data.Where(x => x.IsExistsSetting);
+
             return result;
         }
     }

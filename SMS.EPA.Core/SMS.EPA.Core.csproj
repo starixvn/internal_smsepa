@@ -217,6 +217,7 @@
     <Compile Include="Services\BaseService.cs" />
     <Compile Include="Services\ConfigurationManagerService.cs" />
     <Compile Include="Services\CryptographyService.cs" />
+    <Compile Include="Services\Interfaces\IBaseService.cs" />
     <Compile Include="Services\Interfaces\IConfigurationManagerService.cs" />
     <Compile Include="Services\Interfaces\ICryptographyService.cs" />
     <Compile Include="Services\Interfaces\IRazorRenderService.cs" />

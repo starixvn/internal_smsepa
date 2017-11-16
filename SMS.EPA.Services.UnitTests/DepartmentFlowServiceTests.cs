@@ -1,16 +1,15 @@
 ﻿namespace SMS.EPA.Services.UnitTests
 {
     using System.Collections.Generic;
+    using Core.Model;
+    using Core.Repositories;
+    using Criteria;
     using Fanex.Data.Repository;
+    using Implement;
+    using Model;
     using NSubstitute;
     using NUnit.Framework;
-    using SMS.EPA.Core.Model;
-    using SMS.EPA.Core.Repositories;
-    using SMS.EPA.Criteria;
-    using SMS.EPA.Model;
-    using SMS.EPA.Model.Enitites;
-    using SMS.EPA.Repositories;
-    using SMS.EPA.Services.Implement;
+    using Repositories;
 
     [TestFixture]
     public class DepartmentFlowServiceTests
@@ -115,38 +114,6 @@
 
         #endregion GetDepartmentFlowById
 
-        #region GetDepartmentHasSettingByFlowTemplateId
-
-        [Test]
-        public void GetDepartmentHasSettingByFlowTemplateId_AnyArg_ReturnInstanceOfListOfDepartment()
-        {
-            // Arrange
-            ArrangeGetDepartmentHasSettingByFlowTemplateId();
-
-            // Act
-            var actual = departmentFlowService.GetDepartmentHasSettingByFlowTemplateId(Arg.Any<int>());
-
-            // Assert
-            Assert.IsInstanceOf(typeof(IList<Department>), actual);
-        }
-
-        [Test]
-        public void GetDepartmentHasSettingByFlowTemplateId_VaidArg_ReturnExpectedDepartments()
-        {
-            // Arrange
-            var expectedDepartments = new List<Department>();
-            expectedDepartments.Add(new Department());
-            ArrangeGetDepartmentHasSettingByFlowTemplateId(expectedDepartments);
-
-            // Act
-            var actual = departmentFlowService.GetDepartmentHasSettingByFlowTemplateId(Arg.Any<int>());
-
-            // Assert
-            Assert.AreEqual(expectedDepartments, actual);
-        }
-
-        #endregion GetDepartmentHasSettingByFlowTemplateId
-
         #region Helpers
 
         private IBaseRepository FakeBaseRepository()
@@ -217,20 +184,6 @@
             flowSettingRepository.GetFlowSettingByFlowTemplateId(Arg.Any<GetDepartmentFlowByIdCriteria>())
                 .Returns(departmentFlows ?? new List<FlowModel>());
             departmentFlowService = new DepartmentFlowService(flowSettingRepository);
-        }
-
-        private void ArrangeExecuteNonQuery(CommandResult result = null)
-        {
-            var baseRepository = FakeBaseRepository();
-            departmentFlowService = new DepartmentFlowService(flowSettingRepository);
-            departmentFlowService.Repository = baseRepository;
-            departmentFlowService.Repository.ExecuteNonQuery(Arg.Any<ICriteria>()).Returns(result ?? new CommandResult());
-        }
-
-        private void ArrangeGetDepartmentHasSettingByFlowTemplateId(IList<Department> departments = null)
-        {
-            departmentFlowService = Substitute.For<DepartmentFlowService>();
-            departmentFlowService.GetData<Department>(Arg.Any<GetDepartmentSectionHasSettingCriteria>()).Returns(departments ?? new List<Department>());
         }
 
         #endregion Helpers

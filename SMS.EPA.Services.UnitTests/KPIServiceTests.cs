@@ -2,7 +2,6 @@
 {
     using System.Collections.Generic;
     using System.Linq;
-    using Core.Repositories;
     using Criteria;
     using Implement;
     using Model;
@@ -67,13 +66,6 @@
 
         #region Helpers
 
-        private IBaseRepository FakeBaseRepository()
-        {
-            var repository = Substitute.For<IBaseRepository>();
-
-            return repository;
-        }
-
         private IKPIRepository FakeKPIRepository()
         {
             var repository = Substitute.For<IKPIRepository>();
@@ -81,12 +73,9 @@
             return repository;
         }
 
-        private KPIService GetKPIService(IKPIRepository kpiRepository = null, IBaseRepository baseRepository = null)
+        private KPIService GetKPIService(IKPIRepository kpiRepository = null)
         {
-            var service = new KPIService(kpiRepository)
-            {
-                Repository = baseRepository
-            };
+            var service = new KPIService(kpiRepository);
 
             return service;
         }

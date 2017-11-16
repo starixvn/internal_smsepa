@@ -1,7 +1,6 @@
 ﻿namespace SMS.EPA.Services.Implement
 {
     using System.Collections.Generic;
-    using System.Linq;
     using Core.Enumerations;
     using Core.Model;
     using Core.Security;
@@ -12,17 +11,19 @@
     using Repositories;
     using Resources;
 
-    public class EmployeeService : BaseService, IEmployeeService
+    public class EmployeeService : IEmployeeService
     {
         private readonly IEmployeeRepository employeeRepository;
+        private readonly IBaseService baseService;
 
-        public EmployeeService() : this(null)
+        public EmployeeService() : this(null, null)
         {
         }
 
-        public EmployeeService(IEmployeeRepository employeeRepository)
+        public EmployeeService(IEmployeeRepository employeeRepository, IBaseService baseService)
         {
             this.employeeRepository = employeeRepository ?? new EmployeeRepository();
+            this.baseService = baseService ?? new BaseService();
         }
 
         public UserSession GetEmployeeLogin(GetEmployeeLoginCriteria criteria)
@@ -78,7 +79,7 @@
             if (criteria != null && criteria.IsValid())
             {
                 criteria.Password = Encryption.ComputeHash(HashProvider.Sha1, criteria.Password);
-                commandResult = Repository.ExecuteNonQuery(criteria);
+                commandResult = baseService.ExecuteNonQuery(criteria);
             }
 
             return commandResult;
@@ -94,7 +95,7 @@
                 if (ValidatePassword(criteria.OldPassword, oldPassword))
                 {
                     criteria.NewPassword = Encryption.ComputeHash(HashProvider.Sha1, criteria.NewPassword);
-                    commandResult = Repository.ExecuteNonQuery(criteria);
+                    commandResult = baseService.ExecuteNonQuery(criteria);
                 }
                 else
                 {
@@ -112,42 +113,10 @@
             if (criteria != null && criteria.IsValid())
             {
                 criteria.NewPassword = Encryption.ComputeHash(HashProvider.Sha1, criteria.NewPassword);
-                commandResult = Repository.ExecuteNonQuery(criteria);
+                commandResult = baseService.ExecuteNonQuery(criteria);
             }
 
             return commandResult;
-        }
-
-        public IEnumerable<Employee> GetEmployeeByDepartmentId(int? departmentId)
-        {
-            var criteria = new GetEmployeeByDepartmentIdCriteria
-            {
-                DepartmentId = departmentId
-            };
-            IEnumerable<Employee> employees = new List<Employee>();
-
-            if (criteria.IsValid())
-            {
-                employees = GetData<Employee>(criteria).OrderBy(i => i.NickName);
-            }
-
-            return employees;
-        }
-
-        public IEnumerable<Employee> GetEmployeeByGroupId(int groupId)
-        {
-            var criteria = new GetEmployeeByGroupIdCriteria
-            {
-                GroupId = groupId
-            };
-            IEnumerable<Employee> employees = new List<Employee>();
-
-            if (criteria.IsValid())
-            {
-                employees = GetData<Employee>(criteria);
-            }
-
-            return employees;
         }
 
         public string GetPasswordByEmployeeId(int employeeId)
@@ -160,7 +129,7 @@
 
             if (criteria.IsValid())
             {
-                password = GetDataEntity<string>(criteria);
+                password = baseService.GetDataEntity<string>(criteria);
             }
 
             return password;

@@ -10,21 +10,24 @@
     using Model;
     using Repositories;
 
-    public class PeriodService : BaseService, IPeriodService
+    public class PeriodService : IPeriodService
     {
         private readonly IPeriodRepository periodRepository;
         private readonly IPeriodMailService manualMailService;
+        private readonly IBaseService baseService;
 
-        public PeriodService() : this(null, null)
+        public PeriodService() : this(null, null, null)
         {
         }
 
         public PeriodService(
             IPeriodRepository periodRepository,
-            IPeriodMailService manualMailService)
+            IPeriodMailService manualMailService,
+            IBaseService baseService)
         {
             this.periodRepository = periodRepository ?? new PeriodRepository();
             this.manualMailService = manualMailService ?? new PeriodMailService();
+            this.baseService = baseService ?? new BaseService();
         }
 
         public IEnumerable<PeriodModel> GetPeriod(GetPeriodCriteria criteria)
@@ -55,43 +58,6 @@
             return period;
         }
 
-        public IEnumerable<PeriodModel> GetMonthlyPeriod(GetMonthlyPeriodCriteria criteria)
-        {
-            IEnumerable<PeriodModel> periods = new List<PeriodModel>();
-
-            if (criteria != null && criteria.IsValid())
-            {
-                periods = GetData<PeriodModel>(criteria);
-            }
-
-            return periods;
-        }
-
-        public IEnumerable<PeriodModel> GetAllMonthlyPeriod()
-        {
-            var criteria = new GetAllMonthlyPeriodCriteria();
-            IEnumerable<PeriodModel> periods = new List<PeriodModel>();
-
-            if (criteria.IsValid())
-            {
-                periods = GetData<PeriodModel>(criteria);
-            }
-
-            return periods;
-        }
-
-        public CommandResult AutoCreateMonthlyPeriod(AutoCreateMonthlyPeriodCriteria criteria)
-        {
-            var commandResult = new CommandResult();
-
-            if (criteria != null && criteria.IsValid())
-            {
-                commandResult = Repository.ExecuteNonQuery(criteria);
-            }
-
-            return commandResult;
-        }
-
         public IEnumerable<PeriodEmployeeSettingModel> GetPeriodEmployeeSettingById(GetPeriodEmployeeSettingCriteria criteria)
         {
             IEnumerable<PeriodEmployeeSettingModel> employeeSettings = new List<PeriodEmployeeSettingModel>();
@@ -106,29 +72,12 @@
 
         public CommandResult UpdateEmployeeSettingOfPeriod(UpdateEmployeeSettingOfPeriodCriteria criteria)
         {
-            var commandResult = new CommandResult();
+            CommandResult commandResult = baseService.ExecuteNonQuery(criteria);
+            string sendMailWhenEditEmployeeSetting = ConfigurationManagerService.GetAppSetting("SendMailWhenEditEmployeeSetting");
 
-            if (criteria != null && criteria.IsValid())
+            if (commandResult.IsSuccessful && sendMailWhenEditEmployeeSetting.Equals("true", StringComparison.OrdinalIgnoreCase))
             {
-                commandResult = Repository.ExecuteNonQuery(criteria);
-                string sendMailWhenEditEmployeeSetting = ConfigurationManagerService.GetAppSetting("SendMailWhenEditEmployeeSetting");
-
-                if (commandResult.IsSuccessful && sendMailWhenEditEmployeeSetting.Equals("true", StringComparison.OrdinalIgnoreCase))
-                {
-                    GetAndSendEmailToAllRelatedEmployee(MailMode.NotifyChange, criteria.PeriodId, criteria.EmployeeIds, null);
-                }
-            }
-
-            return commandResult;
-        }
-
-        public CommandResult GenerateEvaluation(AutoGenerateEvaluationCriteria criteria)
-        {
-            var commandResult = new CommandResult();
-
-            if (criteria != null && criteria.IsValid())
-            {
-                commandResult = Repository.ExecuteNonQuery(criteria);
+                GetAndSendEmailToAllRelatedEmployee(MailMode.NotifyChange, criteria.PeriodId, criteria.EmployeeIds, null);
             }
 
             return commandResult;
@@ -136,7 +85,11 @@
 
         public void SendEmailNoticeAtBegin(int? periodId)
         {
-            IEnumerable<AutoEmployeePeriodModel> startedProcess = GetPeriodHasStartedProcess(periodId);
+            var criteria = new GetPeriodHasStartedProcessCriteria
+            {
+                PeriodId = periodId
+            };
+            IEnumerable<AutoEmployeePeriodModel> startedProcess = baseService.GetData<AutoEmployeePeriodModel>(criteria);
 
             foreach (AutoEmployeePeriodModel periodProcess in startedProcess)
             {
@@ -154,67 +107,6 @@
             }
 
             return employeeSettings;
-        }
-
-        public IEnumerable<AutoEmployeePeriodModel> GetPeriodHasStartedProcess(int? periodId = null)
-        {
-            var criteria = new GetPeriodHasStartedProcessCriteria
-            {
-                PeriodId = periodId
-            };
-
-            IEnumerable<AutoEmployeePeriodModel> startedPeriods = new List<AutoEmployeePeriodModel>();
-
-            if (criteria.IsValid())
-            {
-                startedPeriods = GetData<AutoEmployeePeriodModel>(criteria);
-            }
-
-            return startedPeriods;
-        }
-
-        public IEnumerable<FlowModel> GetProcessSettingByPeriodId(int periodId)
-        {
-            var criteria = new GetProcessSettingPeriodCriteria
-            {
-                PeriodId = periodId
-            };
-            IEnumerable<FlowModel> processSettings = new List<FlowModel>();
-
-            if (criteria.IsValid())
-            {
-                processSettings = GetData<FlowModel>(criteria);
-            }
-
-            return processSettings;
-        }
-
-        public IEnumerable<FlowModel> GetEvaluationGlobalSettingByTargetTypeId(int targetTypeId)
-        {
-            var criteria = new GetEvaluationGlobalSettingByTargetTypeIdCriteria
-            {
-                TargetTypeId = targetTypeId
-            };
-            IEnumerable<FlowModel> processSettings = new List<FlowModel>();
-
-            if (criteria.IsValid())
-            {
-                processSettings = GetData<FlowModel>(criteria);
-            }
-
-            return processSettings;
-        }
-
-        public bool CheckSelfProcessStarted(CheckSelfProcessStartedCriteria criteria)
-        {
-            bool hasStarted = false;
-
-            if (criteria != null && criteria.IsValid())
-            {
-                hasStarted = GetDataEntity<bool>(criteria);
-            }
-
-            return hasStarted;
         }
 
         private void GetAndSendEmailToAllRelatedEmployee(MailMode mailMode, int periodId, string employeeIds, int? processId)

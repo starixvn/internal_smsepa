@@ -7,6 +7,7 @@
     using Core.Constants;
     using Core.Enumerations;
     using Core.Model;
+    using Core.Services;
     using Criteria;
     using Model;
     using Services.Implement;
@@ -15,16 +16,16 @@
     public class PeriodController : BaseController
     {
         private readonly IPeriodService periodService;
-        private readonly ICommonService commonService;
+        private readonly IBaseService baseService;
 
         public PeriodController() : this(null, null)
         {
         }
 
-        public PeriodController(IPeriodService periodService, ICommonService commonService)
+        public PeriodController(IPeriodService periodService, IBaseService baseService)
         {
             this.periodService = periodService ?? new PeriodService();
-            this.commonService = commonService ?? new CommonService();
+            this.baseService = baseService ?? new BaseService();
         }
 
         [ApiAuthorize(FunctionKey = EPAFunctionKey.Period, Policy = Policy.Read)]
@@ -38,11 +39,9 @@
 
             IEnumerable<PeriodModel> periods = periodService.GetPeriod(criteria);
             IEnumerable<PeriodModel> probationPeriods = periods.Where(x => x.TargetType.TargetTypeId == (int)TargetType.Probation);
-            IEnumerable<PeriodModel> promotionPeriods = periods.Where(
-                x => x.TargetType.TargetTypeId == (int)TargetType.Promotion)
+            IEnumerable<PeriodModel> promotionPeriods = periods.Where(x => x.TargetType.TargetTypeId == (int)TargetType.Promotion)
                 .OrderByDescending(x => x.StartDate);
-            IEnumerable<PeriodModel> semiPeriods = periods.Where(
-                x => x.TargetType.TargetTypeId == (int)TargetType.SemiAnnual)
+            IEnumerable<PeriodModel> semiPeriods = periods.Where(x => x.TargetType.TargetTypeId == (int)TargetType.SemiAnnual)
                 .OrderByDescending(x => x.StartDate);
 
             IEnumerable<PeriodModel> periodList = new List<PeriodModel>();
@@ -74,7 +73,7 @@
             if (criteria != null)
             {
                 criteria.CreatedBy = SessionService.EmployeeId;
-                commandResult = commonService.ExecuteNonQuery(criteria);
+                commandResult = baseService.ExecuteNonQuery(criteria);
             }
 
             return commandResult;
@@ -89,7 +88,7 @@
             if (criteria != null)
             {
                 criteria.ModifiedBy = SessionService.EmployeeId;
-                commandResult = commonService.ExecuteNonQuery(criteria);
+                commandResult = baseService.ExecuteNonQuery(criteria);
             }
 
             return commandResult;
@@ -112,7 +111,7 @@
             if (criteria != null)
             {
                 criteria.ModifiedBy = SessionService.EmployeeId;
-                commandResult = commonService.ExecuteNonQuery(criteria);
+                commandResult = baseService.ExecuteNonQuery(criteria);
             }
 
             return commandResult;
@@ -128,7 +127,7 @@
                 ModifiedBy = SessionService.EmployeeId
             };
 
-            CommandResult commandResult = commonService.ExecuteNonQuery(criteria);
+            CommandResult commandResult = baseService.ExecuteNonQuery(criteria);
             return commandResult;
         }
 
@@ -191,7 +190,7 @@
             if (criteria != null)
             {
                 criteria.ModifiedBy = SessionService.EmployeeId;
-                commandResult = commonService.ExecuteNonQuery(criteria);
+                commandResult = baseService.ExecuteNonQuery(criteria);
             }
 
             return commandResult;
@@ -221,7 +220,7 @@
             if (criteria != null)
             {
                 criteria.ModifiedBy = SessionService.EmployeeId;
-                commandResult = commonService.ExecuteNonQuery(criteria);
+                commandResult = baseService.ExecuteNonQuery(criteria);
             }
 
             return commandResult;
@@ -235,7 +234,7 @@
 
             if (criteria != null)
             {
-                commandResult = commonService.ExecuteNonQuery(criteria);
+                commandResult = baseService.ExecuteNonQuery(criteria);
 
                 if (commandResult.IsSuccessful)
                 {
@@ -249,7 +248,11 @@
         [ApiAuthorize(FunctionKey = EPAFunctionKey.Period, Policy = Policy.Read)]
         public IEnumerable<FlowModel> GetProcessSettingByPeriodId(int periodId)
         {
-            IEnumerable<FlowModel> processSettings = periodService.GetProcessSettingByPeriodId(periodId);
+            var criteria = new GetProcessSettingPeriodCriteria
+            {
+                PeriodId = periodId
+            };
+            IEnumerable<FlowModel> processSettings = baseService.GetData<FlowModel>(criteria);
             return processSettings;
         }
 
@@ -262,7 +265,7 @@
             if (criteria != null)
             {
                 criteria.ModifiedBy = SessionService.EmployeeId;
-                commandResult = commonService.ExecuteNonQuery(criteria);
+                commandResult = baseService.ExecuteNonQuery(criteria);
             }
 
             return commandResult;
@@ -277,7 +280,7 @@
                 EmployeeIds = employeeIds
             };
 
-            bool hasStarted = periodService.CheckSelfProcessStarted(criteria);
+            bool hasStarted = baseService.GetDataEntity<bool>(criteria);
             return hasStarted;
         }
 

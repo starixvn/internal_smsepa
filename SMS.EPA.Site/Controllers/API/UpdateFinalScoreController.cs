@@ -20,7 +20,7 @@
     {
         private readonly IEmployeeEPAService evaluationService;
         private readonly ICryptographyService cryptographyService;
-        private readonly ICommonService commonService;
+        private readonly IBaseService baseService;
 
         public UpdateFinalScoreController() : this(null, null, null)
         {
@@ -29,18 +29,18 @@
         public UpdateFinalScoreController(
             IEmployeeEPAService evaluationService,
             ICryptographyService cryptographyService,
-            ICommonService commonService)
+            IBaseService baseService)
         {
             this.evaluationService = evaluationService ?? new EmployeeEPAService();
             this.cryptographyService = cryptographyService ?? new CryptographyService();
-            this.commonService = commonService ?? new CommonService();
+            this.baseService = baseService ?? new BaseService();
         }
 
         [ApiAuthorize(FunctionKey = EPAFunctionKey.UpdateFinalScore, Policy = Policy.Read)]
         public HttpResponseMessage GetPeriodToUpdateFinalScore()
         {
             var criteria = new GetPeriodToUpdateFinalScoreCriteria();
-            IList<EPAPeriodModel> periods = evaluationService.GetPeriodToUpdateFinalScore(criteria);
+            IEnumerable<EPAPeriodModel> periods = baseService.GetData<EPAPeriodModel>(criteria);
 
             return Request.CreateResponse(HttpStatusCode.OK, periods);
         }
@@ -60,7 +60,7 @@
                 Query = query
             };
 
-            IList<EPAEmployeeModel> employees = evaluationService.GetEmployeeToUpdateFinalScore(criteria);
+            IEnumerable<EPAEmployeeModel> employees = baseService.GetData<EPAEmployeeModel>(criteria);
 
             return Request.CreateResponse(HttpStatusCode.OK, employees);
         }
@@ -89,7 +89,7 @@
         [ApiAuthorize(FunctionKey = EPAFunctionKey.UpdateFinalScore, Policy = Policy.Host)]
         public HttpResponseMessage UpdateFinalScore(List<EPAModel> epaInfos)
         {
-            IEnumerable<StandardGradeModel> standardGrades = evaluationService.GetStandardGrade();
+            IEnumerable<StandardGradeModel> standardGrades = baseService.GetData<StandardGradeModel>(new GetStandardGradeCriteria());
 
             foreach (EPAModel epaInfo in epaInfos)
             {
@@ -112,7 +112,7 @@
                 EPAInfos = epaInfos
             };
 
-            CommandResult commandResult = commonService.ExecuteNonQuery(criteria);
+            CommandResult commandResult = baseService.ExecuteNonQuery(criteria);
             HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.OK, commandResult);
 
             return response;

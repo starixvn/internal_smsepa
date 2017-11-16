@@ -1,36 +1,34 @@
 ﻿namespace SMS.EPA.Site.Controllers.API
 {
-    using Core.Attribute;
-    using Core.Constants;
-    using Core.Enumerations;
-    using Core.Model;
-    using Criteria;
-    using Model;
-    using Services.Implement;
-    using Services.Interfaces;
     using System.Collections.Generic;
     using System.Net;
     using System.Net.Http;
     using System.Web.Http;
+    using Core.Attribute;
+    using Core.Constants;
+    using Core.Enumerations;
+    using Core.Model;
+    using Core.Services;
+    using Criteria;
+    using Model;
+    using Services.Implement;
+    using Services.Interfaces;
 
     public class SelfEvaluationController : BaseController
     {
-        private readonly IEmployeeEPAService evaluationService;
         private readonly ISelfEvaluationService selfEvaluationService;
-        private readonly ICommonService commonService;
+        private readonly IBaseService baseService;
 
-        public SelfEvaluationController() : this(null, null, null)
+        public SelfEvaluationController() : this(null, null)
         {
         }
 
         public SelfEvaluationController(
-            IEmployeeEPAService evaluationService,
             ISelfEvaluationService selfEvaluationService,
-            ICommonService commonService)
+            IBaseService baseService)
         {
-            this.evaluationService = evaluationService ?? new EmployeeEPAService();
             this.selfEvaluationService = selfEvaluationService ?? new SelfEvaluationService();
-            this.commonService = commonService ?? new CommonService();
+            this.baseService = baseService ?? new BaseService();
         }
 
         [HttpGet]
@@ -80,7 +78,7 @@
                 criteria.EvaluatorId = SessionService.EmployeeId;
                 criteria.ModifiedBy = SessionService.EmployeeId;
 
-                commandResult = commonService.ExecuteNonQuery(criteria);
+                commandResult = baseService.ExecuteNonQuery(criteria);
             }
 
             return commandResult;
@@ -101,7 +99,7 @@
                 ProcessId = (int)ProcessType.Self
             };
 
-            return evaluationService.CheckEmployeePermission(criteria);
+            return baseService.GetDataEntity<int>(criteria);
         }
     }
 }

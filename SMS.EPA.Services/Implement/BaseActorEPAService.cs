@@ -2,13 +2,12 @@
 {
     using System.Collections.Generic;
     using System.Linq;
-    using Core.Services;
     using Fanex.Data.Repository;
     using Interfaces;
     using Model;
     using Repositories;
 
-    public abstract class BaseActorEPAService : BaseService
+    public abstract class BaseActorEPAService
     {
         protected BaseActorEPAService()
             : this(null, null)

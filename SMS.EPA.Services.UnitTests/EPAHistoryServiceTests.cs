@@ -1,15 +1,14 @@
 ﻿namespace SMS.EPA.Services.UnitTests
 {
+    using System.Collections.Generic;
     using Core.Services;
     using Criteria.EPAHistory;
     using Implement;
     using Interfaces;
-    using Model;
     using Model.EPAHistory;
     using NSubstitute;
     using NUnit.Framework;
     using Repositories;
-    using System.Collections.Generic;
 
     [TestFixture]
     public class EPAHistoryServiceTests
@@ -122,39 +121,6 @@
 
         #endregion GetMonthlyEPAHistory
 
-        #region GetAllPeriodIncludeImport
-
-        [Test]
-        public void GetAllPeriodIncludeImport_AnyArg_ReturnInstanceOfListOfPeriodModel()
-        {
-            // Arrange
-            _epaHistoryService = Substitute.For<IEPAHistoryService>();
-
-            // Act
-            var actual = _epaHistoryService.GetAllPeriodIncludeImport(Arg.Any<GetAllPeriodIncludeImportCriteria>());
-
-            // Assert
-            Assert.IsInstanceOf(typeof(IList<PeriodModel>), actual);
-        }
-
-        [Test]
-        public void GetAllPeriodIncludeImport_VaidArg_ReturnExpectedEPAHistory()
-        {
-            // Arrange
-            var criteria = new GetAllPeriodIncludeImportCriteria();
-            var expectedPeriods = new List<PeriodModel>();
-            expectedPeriods.Add(new PeriodModel());
-            var epaHistoryService = ArrangeGetAllPeriodIncludeImport(expectedPeriods);
-
-            // Act
-            var actual = epaHistoryService.GetAllPeriodIncludeImport(criteria);
-
-            // Assert
-            Assert.AreEqual(expectedPeriods, actual);
-        }
-
-        #endregion GetAllPeriodIncludeImport
-
         private IEPAHistoryRepository FakeEPAHistoryRepository()
         {
             var repository = Substitute.For<IEPAHistoryRepository>();
@@ -183,13 +149,6 @@
             _cryptographyService = FakeCryptographyService();
             _epaHistoryRepository.GetMonthlyEPAHistory(Arg.Any<GetMonthlyEPAHistoryCriteria>()).Returns(expectedEPAs ?? new List<EPAHistoryModel>());
             _epaHistoryService = new EPAHistoryService(_epaHistoryRepository, _cryptographyService);
-        }
-
-        private EPAHistoryService ArrangeGetAllPeriodIncludeImport(IList<PeriodModel> periods = null)
-        {
-            var epaHistoryService = Substitute.For<EPAHistoryService>();
-            epaHistoryService.GetData<PeriodModel>(Arg.Any<GetAllPeriodIncludeImportCriteria>()).Returns(periods ?? new List<PeriodModel>());
-            return epaHistoryService;
         }
     }
 }

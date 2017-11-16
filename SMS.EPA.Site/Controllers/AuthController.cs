@@ -16,7 +16,7 @@
     {
         private readonly ISessionService _sessionService;
         private readonly IEmployeeService _employeeService;
-        private readonly ICommonService commonService;
+        private readonly IBaseService baseService;
 
         public AuthController()
             : this(null, null, null)
@@ -26,11 +26,11 @@
         public AuthController(
             ISessionService sessionService,
             IEmployeeService employeeService,
-            ICommonService commonService)
+            IBaseService baseService)
         {
             _sessionService = sessionService ?? new SessionService();
             _employeeService = employeeService ?? new EmployeeService();
-            this.commonService = commonService ?? new CommonService();
+            this.baseService = baseService ?? new BaseService();
         }
 
         [HttpGet]
@@ -118,7 +118,7 @@
                 IPAddress = address
             };
 
-            commonService.ExecuteNonQuery(criteria);
+            baseService.ExecuteNonQuery(criteria);
         }
 
         private UserSession GetEmployeeLogin(LoginModel model)

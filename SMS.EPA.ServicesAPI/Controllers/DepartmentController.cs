@@ -19,9 +19,9 @@
         {
         }
 
-        public DepartmentController(IServiceAPI employeeService)
+        public DepartmentController(IServiceAPI service)
         {
-            _service = employeeService ?? new ServiceAPI();
+            _service = service ?? new ServiceAPI();
         }
 
         [HttpPost]

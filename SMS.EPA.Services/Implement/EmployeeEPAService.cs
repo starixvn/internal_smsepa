@@ -13,11 +13,10 @@
     using Criteria;
     using Interfaces;
     using Model;
-    using Model.Enitites;
     using Repositories;
     using Resources;
 
-    public class EmployeeEPAService : BaseService, IEmployeeEPAService
+    public class EmployeeEPAService : IEmployeeEPAService
     {
         private readonly IEmployeeEPARepository employeeEPARepository;
 
@@ -158,68 +157,6 @@
             return recommendation;
         }
 
-        public IEnumerable<EPAPeriodModel> GetPeriodByActorId(GetPeriodByActorIdCriteria criteria)
-        {
-            IEnumerable<EPAPeriodModel> periods = new List<EPAPeriodModel>();
-
-            if (criteria != null && criteria.IsValid())
-            {
-                periods = GetData<EPAPeriodModel>(criteria);
-            }
-
-            return periods;
-        }
-
-        public IEnumerable<Employee> GetMemberByActorId(GetMemberByActorIdCriteria criteria)
-        {
-            IEnumerable<Employee> employees = new List<Employee>();
-
-            if (criteria != null && criteria.IsValid())
-            {
-                employees = GetData<Employee>(criteria);
-            }
-
-            return employees;
-        }
-
-        public IEnumerable<Group> GetGroupByActorId(GetGroupByActorIdCriteria criteria)
-        {
-            IEnumerable<Group> groups = new List<Group>();
-
-            if (criteria != null && criteria.IsValid())
-            {
-                groups = GetData<Group>(criteria);
-            }
-
-            return groups;
-        }
-
-        public IEnumerable<StandardGradeModel> GetStandardGrade()
-        {
-            var criteria = new GetStandardGradeCriteria();
-            IEnumerable<StandardGradeModel> standardGrades = new List<StandardGradeModel>();
-
-            if (criteria.IsValid())
-            {
-                standardGrades = GetData<StandardGradeModel>(criteria);
-            }
-
-            return standardGrades;
-        }
-
-        public IEnumerable<EPASummaryImportModel> GetMemberEPASummaryImport()
-        {
-            var criteria = new GetEPASummaryImportCriteria();
-            IEnumerable<EPASummaryImportModel> memberEPAs = new List<EPASummaryImportModel>();
-
-            if (criteria.IsValid())
-            {
-                memberEPAs = GetData<EPASummaryImportModel>(criteria);
-            }
-
-            return memberEPAs;
-        }
-
         public string ConvertScoreToGrade(
             float? performanceScore,
             float disciplineScore,
@@ -267,18 +204,6 @@
             return grade;
         }
 
-        public int CheckEmployeePermission(GetEmployeePermissionCriteria criteria)
-        {
-            int result = -1;
-
-            if (criteria != null && criteria.IsValid())
-            {
-                result = GetDataEntity<int>(criteria);
-            }
-
-            return result;
-        }
-
         public IList<EPAModel> GetMonthlyEPAOfSemi(string epaIds)
         {
             var criteria = new GetMonthlyEPAOfSemiCriteria
@@ -289,30 +214,6 @@
             IList<EPAModel> monthlyEPAs = employeeEPARepository.GetEPA(criteria).ToList();
 
             return monthlyEPAs;
-        }
-
-        public IList<EPAPeriodModel> GetPeriodToUpdateFinalScore(GetPeriodToUpdateFinalScoreCriteria criteria)
-        {
-            IList<EPAPeriodModel> periods = new List<EPAPeriodModel>();
-
-            if (criteria != null && criteria.IsValid())
-            {
-                periods = GetData<EPAPeriodModel>(criteria).ToList();
-            }
-
-            return periods;
-        }
-
-        public IList<EPAEmployeeModel> GetEmployeeToUpdateFinalScore(GetEmployeeToUpdateFinalScoreCriteria criteria)
-        {
-            IList<EPAEmployeeModel> employees = new List<EPAEmployeeModel>();
-
-            if (criteria != null && criteria.IsValid())
-            {
-                employees = GetData<EPAEmployeeModel>(criteria).ToList();
-            }
-
-            return employees;
         }
 
         public IList<EPAModel> GetEPAToUpdateFinalScore(GetEPAToUpdateFinalScoreCriteria criteria)

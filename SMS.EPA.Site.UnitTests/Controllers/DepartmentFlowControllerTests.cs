@@ -12,13 +12,12 @@
     using Services.Interfaces;
     using Site.Controllers.API;
 
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1001:TypesThatOwnDisposableFieldsShouldBeDisposable", Justification = "Reviewed")]
     [TestFixture]
     public class DepartmentFlowControllerTests
     {
         private IDepartmentFlowService _departmentFlowService;
         private DepartmentFlowController _departmentFlowController;
-        private ICommonService commonService;
+        private IBaseService baseService;
 
         #region GetDepartmentFlowByFlowTemplateId
 
@@ -228,9 +227,9 @@
             return service;
         }
 
-        private ICommonService FakeCommonService()
+        private IBaseService FakeBaseService()
         {
-            var service = Substitute.For<ICommonService>();
+            var service = Substitute.For<IBaseService>();
 
             return service;
         }
@@ -238,46 +237,46 @@
         private void ArrangeGetDepartmentFlowByFlowTemplateId(IList<DepartmentFlowModel> departmentFlows = null)
         {
             _departmentFlowService = FakeDepartmentFlowService();
-            commonService = FakeCommonService();
+            baseService = FakeBaseService();
 
             _departmentFlowService.GetDepartmentFlowByFlowTemplateId(Arg.Any<int>()).Returns(departmentFlows ?? new List<DepartmentFlowModel>());
-            _departmentFlowController = new DepartmentFlowController(_departmentFlowService, commonService);
+            _departmentFlowController = new DepartmentFlowController(_departmentFlowService, baseService);
         }
 
         private void ArrangeGetDepartmentFlowById(IList<FlowModel> flows = null)
         {
             _departmentFlowService = FakeDepartmentFlowService();
-            commonService = FakeCommonService();
+            baseService = FakeBaseService();
 
             _departmentFlowService.GetDepartmentFlowById(Arg.Any<GetDepartmentFlowByIdCriteria>()).Returns(flows ?? new List<FlowModel>());
-            _departmentFlowController = new DepartmentFlowController(_departmentFlowService, commonService);
+            _departmentFlowController = new DepartmentFlowController(_departmentFlowService, baseService);
         }
 
         private void ArrangeCreateDepartmentFlow(CommandResult result = null)
         {
             _departmentFlowService = FakeDepartmentFlowService();
-            commonService = FakeCommonService();
-            commonService.ExecuteNonQuery(Arg.Any<ICriteria>()).Returns(result ?? new CommandResult());
-            _departmentFlowController = new DepartmentFlowController(_departmentFlowService, commonService);
+            baseService = FakeBaseService();
+            baseService.ExecuteNonQuery(Arg.Any<ICriteria>()).Returns(result ?? new CommandResult());
+            _departmentFlowController = new DepartmentFlowController(_departmentFlowService, baseService);
             _departmentFlowController.SessionService = FakeSessionService();
         }
 
         private void ArrangeDeleteDepartmentFlow(CommandResult result = null)
         {
             _departmentFlowService = FakeDepartmentFlowService();
-            commonService = FakeCommonService();
-            commonService.ExecuteNonQuery(Arg.Any<ICriteria>()).Returns(result ?? new CommandResult());
-            _departmentFlowController = new DepartmentFlowController(_departmentFlowService, commonService);
+            baseService = FakeBaseService();
+            baseService.ExecuteNonQuery(Arg.Any<ICriteria>()).Returns(result ?? new CommandResult());
+            _departmentFlowController = new DepartmentFlowController(_departmentFlowService, baseService);
             _departmentFlowController.SessionService = FakeSessionService();
         }
 
         private void ArrangeGetDepartmentHasSetting(IList<Department> departments = null)
         {
             _departmentFlowService = FakeDepartmentFlowService();
-            commonService = FakeCommonService();
+            baseService = FakeBaseService();
 
-            _departmentFlowService.GetDepartmentHasSettingByFlowTemplateId(Arg.Any<int>()).Returns(departments ?? new List<Department>());
-            _departmentFlowController = new DepartmentFlowController(_departmentFlowService, commonService);
+            baseService.GetData<Department>(Arg.Any<GetDepartmentSectionHasSettingCriteria>()).Returns(departments ?? new List<Department>());
+            _departmentFlowController = new DepartmentFlowController(_departmentFlowService, baseService);
         }
     }
 }

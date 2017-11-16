@@ -114,7 +114,6 @@
       <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
     </Compile>
     <Compile Include="Implement\BaseActorEPAService.cs" />
-    <Compile Include="Implement\DashboardService.cs" />
     <Compile Include="Implement\DisciplineService.cs" />
     <Compile Include="Implement\CommonService.cs" />
     <Compile Include="Implement\DepartmentService.cs" />
@@ -129,11 +128,9 @@
     <Compile Include="Implement\EPAHistoryService.cs" />
     <Compile Include="Implement\DepartmentFlowService.cs" />
     <Compile Include="Implement\FlowTemplateService.cs" />
-    <Compile Include="Implement\MenuService.cs" />
     <Compile Include="Implement\ExportFile\MonthlyEPADetailReportService.cs" />
     <Compile Include="Implement\ExportFile\EPADetailReportService.cs" />
     <Compile Include="Implement\PersonalFlowService.cs" />
-    <Compile Include="Implement\KPIGroupService.cs" />
     <Compile Include="Implement\KPIService.cs" />
     <Compile Include="Implement\EmployeeEPAService.cs" />
     <Compile Include="Implement\PeriodMailService.cs" />
@@ -143,7 +140,6 @@
     <Compile Include="Implement\TargetTemplateService.cs" />
     <Compile Include="Implement\RoleService.cs" />
     <Compile Include="Interfaces\ExportFile\IExportExcelService.cs" />
-    <Compile Include="Interfaces\IDashboardService.cs" />
     <Compile Include="Interfaces\IDisciplineService.cs" />
     <Compile Include="Interfaces\ICommonService.cs" />
     <Compile Include="Interfaces\IDepartmentService.cs" />
@@ -159,12 +155,10 @@
     <Compile Include="Interfaces\IDepartmentFlowService.cs" />
     <Compile Include="Interfaces\IFlowTemplateService.cs" />
     <Compile Include="Interfaces\IPersonalFlowService.cs" />
-    <Compile Include="Interfaces\IKPIGroupService.cs" />
     <Compile Include="Interfaces\IKPIService.cs" />
     <Compile Include="Interfaces\IEmployeeEPAService.cs" />
     <Compile Include="Interfaces\IMailService.cs" />
     <Compile Include="Interfaces\IPeriodMailService.cs" />
-    <Compile Include="Interfaces\IMenuService.cs" />
     <Compile Include="Interfaces\IPeriodService.cs" />
     <Compile Include="Interfaces\IReportService.cs" />
     <Compile Include="Interfaces\ITargetEmployeeSettingService.cs" />
@@ -192,7 +186,7 @@
       <Name>SMS.EPA.Model</Name>
     </ProjectReference>
     <ProjectReference Include="..\SMS.EPA.Repositories\SMS.EPA.Repositories.csproj">
-      <Project>{45A93EB3-8D1E-41FD-92CD-0875399FBF42}</Project>
+      <Project>{45a93eb3-8d1e-41fd-92cd-0875399fbf42}</Project>
       <Name>SMS.EPA.Repositories</Name>
     </ProjectReference>
     <ProjectReference Include="..\SMS.EPA.Resources\SMS.EPA.Resources.csproj">

@@ -1,14 +1,13 @@
 ﻿namespace SMS.EPA.Services.Implement
 {
-    using Core.Services;
+    using System.Collections.Generic;
+    using System.Linq;
     using Criteria;
     using Interfaces;
     using Model.Enitites;
     using Repositories;
-    using System.Collections.Generic;
-    using System.Linq;
 
-    public class DepartmentService : BaseService, IDepartmentService
+    public class DepartmentService : IDepartmentService
     {
         private readonly IDepartmentRepository departmentRepository;
 

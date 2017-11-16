@@ -1,16 +1,15 @@
 ﻿namespace SMS.EPA.Services.Implement
 {
-    using Core.Services;
-    using Criteria.EPAHistory;
-    using Interfaces;
-    using Model;
-    using Model.EPAHistory;
-    using Repositories;
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using Core.Services;
+    using Criteria.EPAHistory;
+    using Interfaces;
+    using Model.EPAHistory;
+    using Repositories;
 
-    public class EPAHistoryService : BaseService, IEPAHistoryService
+    public class EPAHistoryService : IEPAHistoryService
     {
         private readonly IEPAHistoryRepository epaHistoryRepository;
         private readonly ICryptographyService cryptographyService;
@@ -78,12 +77,6 @@
 
                 epa.Grade = !string.IsNullOrWhiteSpace(epa.EncodeGrade) ? cryptographyService.Decrypt(epa.EncodeGrade) : string.Empty;
             }
-        }
-
-        public IList<PeriodModel> GetAllPeriodIncludeImport(GetAllPeriodIncludeImportCriteria criteria)
-        {
-            var periods = GetData<PeriodModel>(criteria).ToList();
-            return periods;
         }
     }
 }

@@ -14,7 +14,7 @@
     public class MonthlyPeriodControllerTests
     {
         private IPeriodService _periodService;
-        private ICommonService commonService;
+        private IBaseService baseService;
         private ISessionService _sessionService;
         private MonthlyPeriodController _monthlyPeriodController;
 
@@ -47,9 +47,9 @@
             // Arrange
             _periodService = FakePeriodService();
             _sessionService = FakeSessionService();
-            commonService = FakeCommonService();
-            commonService.ExecuteNonQuery(Arg.Any<CreatePeriodCriteria>()).Returns(new CommandResult());
-            _monthlyPeriodController = GetMonthlyPeriodController(_periodService, _sessionService, commonService);
+            baseService = FakeBaseService();
+            baseService.ExecuteNonQuery(Arg.Any<CreatePeriodCriteria>()).Returns(new CommandResult());
+            _monthlyPeriodController = GetMonthlyPeriodController(_periodService, _sessionService, baseService);
 
             // Act
             var actual = _monthlyPeriodController.CreateMonthlyPeriod(Arg.Any<CreatePeriodCriteria>());
@@ -64,9 +64,9 @@
             // Arrange
             _periodService = FakePeriodService();
             _sessionService = FakeSessionService();
-            commonService = FakeCommonService();
-            commonService.ExecuteNonQuery(Arg.Any<UpdateBasicInformationPeriodCriteria>()).Returns(new CommandResult());
-            _monthlyPeriodController = GetMonthlyPeriodController(_periodService, _sessionService, commonService);
+            baseService = FakeBaseService();
+            baseService.ExecuteNonQuery(Arg.Any<UpdateBasicInformationPeriodCriteria>()).Returns(new CommandResult());
+            _monthlyPeriodController = GetMonthlyPeriodController(_periodService, _sessionService, baseService);
 
             // Act
             var actual = _monthlyPeriodController.UpdateBasicInfoMonthlyPeriod(Arg.Any<UpdateBasicInformationPeriodCriteria>());
@@ -92,9 +92,9 @@
             return service;
         }
 
-        private ICommonService FakeCommonService()
+        private IBaseService FakeBaseService()
         {
-            var service = Substitute.For<ICommonService>();
+            var service = Substitute.For<IBaseService>();
 
             return service;
         }
@@ -103,9 +103,9 @@
         private MonthlyPeriodController GetMonthlyPeriodController(
             IPeriodService periodService = null,
             ISessionService sessionService = null,
-            ICommonService commonService = null)
+            IBaseService baseService = null)
         {
-            var controller = new MonthlyPeriodController(periodService, commonService);
+            var controller = new MonthlyPeriodController(periodService, baseService);
             controller.SessionService = sessionService;
 
             return controller;

@@ -1,29 +1,30 @@
 ﻿namespace SMS.EPA.Site.Controllers.API
 {
+    using System.Collections.Generic;
+    using System.Web.Http;
     using Core.Attribute;
     using Core.Constants;
     using Core.Enumerations;
     using Core.Model;
+    using Core.Services;
     using Criteria;
     using Model;
     using Services.Implement;
     using Services.Interfaces;
-    using System.Collections.Generic;
-    using System.Web.Http;
 
     public class RoleController : BaseController
     {
         private readonly IRoleService roleService;
-        private readonly ICommonService commonService;
+        private readonly IBaseService baseService;
 
         public RoleController() : this(null, null)
         {
         }
 
-        public RoleController(IRoleService roleService, ICommonService commonService)
+        public RoleController(IRoleService roleService, IBaseService baseService)
         {
             this.roleService = roleService ?? new RoleService();
-            this.commonService = commonService ?? new CommonService();
+            this.baseService = baseService ?? new BaseService();
         }
 
         [ApiAuthorize(FunctionKey = EPAFunctionKey.RoleManagement, Policy = Policy.Read)]
@@ -42,7 +43,7 @@
                 criteria.ModifiedBy = SessionService.EmployeeId;
             }
 
-            CommandResult commandResult = commonService.ExecuteNonQuery(criteria);
+            CommandResult commandResult = baseService.ExecuteNonQuery(criteria);
             return commandResult;
         }
     }

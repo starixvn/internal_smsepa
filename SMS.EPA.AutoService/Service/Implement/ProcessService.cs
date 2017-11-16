@@ -10,21 +10,24 @@
     using Services.Implement;
     using Services.Interfaces;
 
-    public class ProcessService : BaseService, IProcessService
+    public class ProcessService : IProcessService
     {
         private readonly IEmployeeEPAService employeeEPAService;
         private readonly ICryptographyService cryptographyService;
+        private readonly IBaseService baseService;
 
-        public ProcessService() : this(null, null)
+        public ProcessService() : this(null, null, null)
         {
         }
 
         public ProcessService(
             ICryptographyService cryptographyService,
-            IEmployeeEPAService employeeEPAService)
+            IEmployeeEPAService employeeEPAService,
+            IBaseService baseService)
         {
             this.cryptographyService = cryptographyService ?? new CryptographyService();
             this.employeeEPAService = employeeEPAService ?? new EmployeeEPAService();
+            this.baseService = baseService ?? new BaseService();
         }
 
         public void UpdateInfomationOfProcess()
@@ -67,11 +70,7 @@
             {
                 EvaluationProcesses = evaluationProcesses
             };
-
-            if (criteria.IsValid())
-            {
-                Repository.ExecuteNonQuery(criteria);
-            }
+            baseService.ExecuteNonQuery(criteria);
         }
 
         private void UpdateTotalScoreOfSemiHasMonthly(IEnumerable<AutoEvaluationProcessModel> evaluationProcesses)
@@ -84,11 +83,7 @@
                     EPAId = evaluationProcess.EPAId,
                     MonthlyEPA = epaInfo.MonthlyEPA
                 };
-
-                if (criteria.IsValid())
-                {
-                    Repository.ExecuteNonQuery(criteria);
-                }
+                baseService.ExecuteNonQuery(criteria);
             }
         }
 
@@ -110,11 +105,7 @@
                             ? cryptographyService.Encrypt(averageScore.Value.ToString(CultureInfo.InvariantCulture))
                             : string.Empty
                     };
-
-                    if (criteria.IsValid())
-                    {
-                        Repository.ExecuteNonQuery(criteria);
-                    }
+                    baseService.ExecuteNonQuery(criteria);
                 }
             }
         }
@@ -122,13 +113,8 @@
         private IEnumerable<AutoEvaluationProcessModel> CheckEndProcess()
         {
             var criteria = new CheckEndProcessCriteria();
-            IEnumerable<AutoEvaluationProcessModel> evaluationProcesses = new List<AutoEvaluationProcessModel>();
-
-            if (criteria.IsValid())
-            {
-                evaluationProcesses = GetData<AutoEvaluationProcessModel>(criteria);
-                DecryptTotalScore(evaluationProcesses);
-            }
+            IEnumerable<AutoEvaluationProcessModel> evaluationProcesses = baseService.GetData<AutoEvaluationProcessModel>(criteria);
+            DecryptTotalScore(evaluationProcesses);
 
             return evaluationProcesses;
         }

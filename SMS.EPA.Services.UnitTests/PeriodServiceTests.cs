@@ -4,7 +4,7 @@
     using System.Linq;
     using Core.Enumerations;
     using Core.Model;
-    using Core.Repositories;
+    using Core.Services;
     using Criteria;
     using Implement;
     using Interfaces;
@@ -17,7 +17,7 @@
     public class PeriodServiceTests
     {
         private PeriodService _periodService;
-        private IBaseRepository _baseRepository;
+        private IBaseService baseService;
         private IPeriodRepository _periodRepository;
         private IPeriodMailService _manualMailService;
 
@@ -147,40 +147,6 @@
 
         #endregion GetPeriodById
 
-        #region AutoCreateMonthlyPeriod
-
-        [Test]
-        public void AutoCreateMonthlyPeriod_AnyArg_ReturnInstanceOfCommandResult()
-        {
-            // Arrange
-            ArrangeAutoCreateMonthlyPeriod();
-
-            // Act
-            var actual = _periodService.AutoCreateMonthlyPeriod(new AutoCreateMonthlyPeriodCriteria());
-
-            // Assert
-            Assert.IsInstanceOf(typeof(CommandResult), actual);
-        }
-
-        [Test]
-        public void AutoCreateMonthlyPeriod_ValidArg_ExpectedToExecuteInsert()
-        {
-            // Arrange
-            var criteria = new AutoCreateMonthlyPeriodCriteria
-            {
-                Name = "test"
-            };
-            ArrangeAutoCreateMonthlyPeriod();
-
-            // Act
-            _periodService.AutoCreateMonthlyPeriod(criteria);
-
-            // Assert
-            _periodService.Repository.Received().ExecuteNonQuery(Arg.Is<AutoCreateMonthlyPeriodCriteria>(x => x.IsValid()));
-        }
-
-        #endregion AutoCreateMonthlyPeriod
-
         #region GetPeriodEmployeeSettingById
 
         [Test]
@@ -308,40 +274,6 @@
 
         #endregion UpdateEmployeeSettingOfPeriod
 
-        #region GenerateEvaluation
-
-        [Test]
-        public void GenerateEvaluation_AnyArg_ReturnInstanceOfCommandResult()
-        {
-            // Arrange
-            ArrangeGenerateEvaluation();
-
-            // Act
-            var actual = _periodService.GenerateEvaluation(new AutoGenerateEvaluationCriteria());
-
-            // Assert
-            Assert.IsInstanceOf(typeof(CommandResult), actual);
-        }
-
-        [Test]
-        public void GenerateEvaluation_ValidArg_ExpectedToExecuteInsert()
-        {
-            // Arrange
-            var criteria = new AutoGenerateEvaluationCriteria
-            {
-                PeriodId = 1
-            };
-            ArrangeGenerateEvaluation();
-
-            // Act
-            _periodService.GenerateEvaluation(criteria);
-
-            // Assert
-            _periodService.Repository.Received().ExecuteNonQuery(Arg.Is<AutoGenerateEvaluationCriteria>(x => x.IsValid()));
-        }
-
-        #endregion GenerateEvaluation
-
         #region GetEmployeeSettingByPeriodId
 
         [Test]
@@ -359,112 +291,11 @@
 
         #endregion GetEmployeeSettingByPeriodId
 
-        #region GetProcessSettingByPeriodId
-
-        [Test]
-        public void GetProcessSettingByPeriodId_AnyArg_ReturnInstanceOfListOfFlowModel()
-        {
-            // Arrange
-            int periodId = 1;
-            ArrangeGetProcessSettingByPeriodId();
-
-            // Act
-            var actual = _periodService.GetProcessSettingByPeriodId(periodId);
-
-            // Assert
-            Assert.IsInstanceOf(typeof(IEnumerable<FlowModel>), actual);
-        }
-
-        [Test]
-        public void GetProcessSettingByPeriodId_ValidArg_ReturnExpectedSettings()
-        {
-            // Arrange
-            int periodId = 1;
-            IEnumerable<FlowModel> result = GetProcessSettingForTest();
-            ArrangeGetProcessSettingByPeriodId(result);
-
-            // Act
-            var actual = _periodService.GetProcessSettingByPeriodId(periodId);
-
-            // Assert
-            Assert.AreEqual(result, actual);
-        }
-
-        #endregion GetProcessSettingByPeriodId
-
-        #region GetEvaluationGlobalSettingByTargetTypeId
-
-        [Test]
-        public void GetEvaluationGlobalSettingByTargetTypeId_AnyArg_ReturnInstanceOfListOfFlowModel()
-        {
-            // Arrange
-            int targetTypeId = 1;
-            ArrangeGetEvaluationGlobalSettingByTargetTypeId();
-
-            // Act
-            var actual = _periodService.GetEvaluationGlobalSettingByTargetTypeId(targetTypeId);
-
-            // Assert
-            Assert.IsInstanceOf(typeof(IEnumerable<FlowModel>), actual);
-        }
-
-        [Test]
-        public void GetEvaluationGlobalSettingByTargetTypeId_ValidArg_ReturnExpectedFlows()
-        {
-            // Arrange
-            int targetTypeId = 1;
-            IEnumerable<FlowModel> result = GetEvaluationGlobalSettingForTest();
-            ArrangeGetEvaluationGlobalSettingByTargetTypeId(result);
-
-            // Act
-            var actual = _periodService.GetEvaluationGlobalSettingByTargetTypeId(targetTypeId);
-
-            // Assert
-            Assert.AreEqual(result, actual);
-        }
-
-        #endregion GetEvaluationGlobalSettingByTargetTypeId
-
-        #region CheckSelfProcessStarted
-
-        [Test]
-        public void CheckSelfProcessStarted_AnyArg_ReturnIntanceOfBoolean()
-        {
-            // Arrange
-            ArrangeCheckSelfProcessStarted();
-
-            // Act
-            var actual = _periodService.CheckSelfProcessStarted(Arg.Any<CheckSelfProcessStartedCriteria>());
-
-            // Assert
-            Assert.IsInstanceOf(typeof(bool), actual);
-        }
-
-        [Test]
-        public void CheckSelfProcessStarted_ValidArg_ReturnAsExpected()
-        {
-            // Arrange
-            var criteria = new CheckSelfProcessStartedCriteria
-            {
-                PeriodId = 1,
-                EmployeeIds = "1,2"
-            };
-            ArrangeCheckSelfProcessStarted(true);
-
-            // Act
-            var actual = _periodService.CheckSelfProcessStarted(criteria);
-
-            // Assert
-            Assert.IsTrue(actual);
-        }
-
-        #endregion CheckSelfProcessStarted
-
         #region Helpers
 
-        private IBaseRepository FakeBaseRepository()
+        private IBaseService FakeBaseService()
         {
-            IBaseRepository repository = Substitute.For<IBaseRepository>();
+            IBaseService repository = Substitute.For<IBaseService>();
 
             return repository;
         }
@@ -484,12 +315,11 @@
         }
 
         private PeriodService GetPeriodService(
-            IBaseRepository baseRepository = null,
+            IBaseService baseService = null,
             IPeriodRepository periodRepository = null,
             IPeriodMailService manualMailService = null)
         {
-            var service = new PeriodService(periodRepository, manualMailService);
-            service.Repository = baseRepository;
+            var service = new PeriodService(periodRepository, manualMailService, baseService);
 
             return service;
         }
@@ -593,25 +423,11 @@
             _periodService = GetPeriodService(null, _periodRepository);
         }
 
-        private void ArrangeAutoCreateMonthlyPeriod(CommandResult result = null)
-        {
-            _baseRepository = FakeBaseRepository();
-            _periodService = GetPeriodService(_baseRepository);
-            _periodService.Repository.ExecuteNonQuery(Arg.Any<AutoCreateMonthlyPeriodCriteria>()).Returns(result ?? new CommandResult());
-        }
-
         private void ArrangeGetPeriodEmployeeSettingById(IEnumerable<PeriodEmployeeSettingModel> result = null)
         {
             _periodRepository = FakePeriodRepository();
             _periodRepository.GetPeriodEmployeeSettingById(Arg.Any<GetPeriodEmployeeSettingCriteria>()).Returns(result ?? new List<PeriodEmployeeSettingModel>());
             _periodService = GetPeriodService(null, _periodRepository);
-        }
-
-        private void ArrangeGenerateEvaluation(CommandResult result = null)
-        {
-            _baseRepository = FakeBaseRepository();
-            _periodService = GetPeriodService(_baseRepository);
-            _periodService.Repository.ExecuteNonQuery(Arg.Any<AutoGenerateEvaluationCriteria>()).Returns(result ?? new CommandResult());
         }
 
         private void ArrangeGetEmployeeSettingByPeriodId(IEnumerable<PeriodFlowModel> result = null)
@@ -621,37 +437,18 @@
             _periodService = GetPeriodService(null, _periodRepository);
         }
 
-        private void ArrangeGetProcessSettingByPeriodId(IEnumerable<FlowModel> result = null)
-        {
-            _periodService = Substitute.For<PeriodService>();
-            _periodService.GetData<FlowModel>(Arg.Any<GetProcessSettingPeriodCriteria>()).Returns(result ?? new List<FlowModel>());
-        }
-
-        private void ArrangeGetEvaluationGlobalSettingByTargetTypeId(IEnumerable<FlowModel> result = null)
-        {
-            _periodService = Substitute.For<PeriodService>();
-            _periodService.GetData<FlowModel>(Arg.Any<GetEvaluationGlobalSettingByTargetTypeIdCriteria>()).Returns(result ?? new List<FlowModel>());
-        }
-
-        private void ArrangeCheckSelfProcessStarted(bool result = false)
-        {
-            _periodService = Substitute.For<PeriodService>();
-            _periodService.GetDataEntity<bool>(Arg.Any<CheckSelfProcessStartedCriteria>()).Returns(result);
-        }
-
         private void ArrangeUpdateEmployeeSettingOfPeriod(CommandResult result = null, string appSetting = null)
         {
             var period = new PeriodModel();
             var employeeSettings = new List<PeriodFlowModel>();
 
-            _baseRepository = FakeBaseRepository();
+            baseService = FakeBaseService();
             _manualMailService = FakeManualMailService();
             _periodRepository = FakePeriodRepository();
-
-            _periodService = GetPeriodService(_baseRepository, _periodRepository, _manualMailService);
-            _periodService.Repository.ExecuteNonQuery(Arg.Any<UpdateEmployeeSettingOfPeriodCriteria>()).Returns(result ?? new CommandResult());
+            baseService.ExecuteNonQuery(Arg.Any<UpdateEmployeeSettingOfPeriodCriteria>()).Returns(result ?? new CommandResult());
             _periodRepository.GetPeriodById(Arg.Any<GetPeriodByIdCriteria>()).Returns(period);
             _periodRepository.GetEmployeeSettingByPeriodId(Arg.Any<GetEmployeeSettingByPeriodIdCriteria>()).Returns(employeeSettings);
+            _periodService = GetPeriodService(baseService, _periodRepository, _manualMailService);
         }
 
         #endregion Helpers

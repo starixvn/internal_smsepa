@@ -1,13 +1,12 @@
 ﻿namespace SMS.EPA.Services.Implement
 {
     using System.Collections.Generic;
-    using Core.Services;
     using Criteria;
     using Interfaces;
     using Model;
     using Repositories;
 
-    public class KPIService : BaseService, IKPIService
+    public class KPIService : IKPIService
     {
         private readonly IKPIRepository kpiRepository;
 

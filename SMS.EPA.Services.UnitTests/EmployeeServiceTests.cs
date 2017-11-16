@@ -1,11 +1,10 @@
 ﻿namespace SMS.EPA.Services.UnitTests
 {
     using System.Collections.Generic;
-    using System.Linq;
     using Core.Enumerations;
     using Core.Model;
-    using Core.Repositories;
     using Core.Security;
+    using Core.Services;
     using Criteria;
     using Implement;
     using Model.Enitites;
@@ -17,7 +16,7 @@
     public class EmployeeServiceTests
     {
         private IEmployeeRepository _employeeRepository;
-        private IBaseRepository _baseRepository;
+        private IBaseService baseService;
         private EmployeeService _employeeService;
 
         #region GetAllEmployee
@@ -208,7 +207,7 @@
             _employeeService.CreateSpecialEmployee(criteria);
 
             // Assert
-            _employeeService.Repository.Received().ExecuteNonQuery(Arg.Is<CreateSpecialEmployeeCriteria>(x => x.IsValid()));
+            baseService.Received().ExecuteNonQuery(Arg.Is<CreateSpecialEmployeeCriteria>(x => x.IsValid()));
         }
 
         #endregion CreateSpecialEmployee
@@ -304,84 +303,6 @@
 
         #endregion ChangePassword
 
-        #region GetEmployeeByDepartmentId
-
-        [Test]
-        public void GetEmployeeByDepartmentId_AnyArg_ReturnInstanceOfListOfEmployeeModel()
-        {
-            // Arrange
-            ArrangeGetEmployeeByDepartmentId();
-
-            // Act
-            var actual = _employeeService.GetEmployeeByDepartmentId(Arg.Any<int?>());
-
-            // Assert
-            Assert.IsInstanceOf(typeof(IEnumerable<Employee>), actual);
-        }
-
-        [Test]
-        public void GetEmployeeByDepartmentId_ValidArg_ExpectedToExecuteGetData()
-        {
-            // Arrange
-            int? departmentId = null;
-            ArrangeGetEmployeeByDepartmentId();
-
-            // Act
-            _employeeService.GetEmployeeByDepartmentId(departmentId);
-
-            // Assert
-            _employeeService.Received().GetData<Employee>(Arg.Is<GetEmployeeByDepartmentIdCriteria>(x => x.IsValid()));
-        }
-
-        [Test]
-        public void GetEmployeeByDepartmentId_ValidArg_ExpectedToOrderDataByNickName()
-        {
-            // Arrange
-            int? departmentId = null;
-            var result = GetListOfEmployeeModelForTest();
-            ArrangeGetEmployeeByDepartmentId(result);
-
-            // Act
-            var actual = _employeeService.GetEmployeeByDepartmentId(departmentId);
-
-            // Assert
-            Assert.IsTrue(actual.SequenceEqual(result.OrderBy(x => x.NickName)));
-        }
-
-        #endregion GetEmployeeByDepartmentId
-
-        #region GetEmployeeByGroupId
-
-        [Test]
-        public void GetEmployeeByGroupId_AnyArg_ReturnInstanceOfListOfEmployeeModel()
-        {
-            // Arrange
-            int groupId = 1;
-            ArrangeGetEmployeeByGroupId();
-
-            // Act
-            var actual = _employeeService.GetEmployeeByGroupId(groupId);
-
-            // Assert
-            Assert.IsInstanceOf(typeof(IEnumerable<Employee>), actual);
-        }
-
-        [Test]
-        public void GetEmployeeByGroupId_ValidArg_ExpectedToExecuteGetData()
-        {
-            // Arrange
-            int groupId = 1;
-            ArrangeGetEmployeeByGroupId();
-
-            // Act
-            _employeeService.GetEmployeeByGroupId(groupId);
-
-            // Assert
-            _employeeService.Received().GetData<Employee>(Arg.Is<GetEmployeeByGroupIdCriteria>(x => x.IsValid()));
-        }
-
-        #endregion GetEmployeeByGroupId
-
         #region ResetPassword
 
         [Test]
@@ -423,9 +344,9 @@
 
         #region Helpers
 
-        private IBaseRepository FakeBaseRepository()
+        private IBaseService FakeBaseService()
         {
-            var repository = Substitute.For<IBaseRepository>();
+            var repository = Substitute.For<IBaseService>();
 
             return repository;
         }
@@ -439,10 +360,9 @@
 
         private EmployeeService GetEmployeeService(
             IEmployeeRepository employeeRepository = null,
-            IBaseRepository baseRepository = null)
+            IBaseService baseService = null)
         {
-            var service = new EmployeeService(employeeRepository);
-            service.Repository = baseRepository;
+            var service = new EmployeeService(employeeRepository, baseService);
             return service;
         }
 
@@ -488,68 +408,52 @@
 
         private void ArrangeCreateSpecialEmployee(CommandResult result = null)
         {
-            _baseRepository = FakeBaseRepository();
-            _employeeService = GetEmployeeService(null, _baseRepository);
-            _employeeService.Repository.ExecuteNonQuery(Arg.Any<CreateSpecialEmployeeCriteria>()).Returns(result ?? new CommandResult());
+            baseService = FakeBaseService();
+            baseService.ExecuteNonQuery(Arg.Any<CreateSpecialEmployeeCriteria>()).Returns(result ?? new CommandResult());
+            _employeeService = GetEmployeeService(null, baseService);
         }
 
         private void ArrangeUpdateSpecialEmployee(CommandResult result = null)
         {
-            _baseRepository = FakeBaseRepository();
-            _employeeService = GetEmployeeService(null, _baseRepository);
-            _employeeService.Repository.ExecuteNonQuery(Arg.Any<UpdateSpecialEmployeeCriteria>()).Returns(result ?? new CommandResult());
+            baseService = FakeBaseService();
+            baseService.ExecuteNonQuery(Arg.Any<UpdateSpecialEmployeeCriteria>()).Returns(result ?? new CommandResult());
+            _employeeService = GetEmployeeService(null, baseService);
         }
 
         private void ArrangeChangePassword(CommandResult result = null)
         {
-            _baseRepository = FakeBaseRepository();
-            _employeeService = Substitute.For<EmployeeService>();
-            _employeeService.Repository = _baseRepository;
-            _employeeService.GetDataEntity<string>(Arg.Any<GetPasswordByEmpIdCriteria>()).Returns(Encryption.ComputeHash(HashProvider.Sha1, "123456"));
-            _employeeService.Repository.ExecuteNonQuery(Arg.Any<ChangePasswordCriteria>()).Returns(result ?? new CommandResult());
+            baseService = FakeBaseService();
+            baseService.GetDataEntity<string>(Arg.Any<GetPasswordByEmpIdCriteria>()).Returns(Encryption.ComputeHash(HashProvider.Sha1, "123456"));
+            baseService.ExecuteNonQuery(Arg.Any<ChangePasswordCriteria>()).Returns(result ?? new CommandResult());
+            _employeeService = GetEmployeeService(null, baseService);
         }
 
         private void ArrangeResetPassword(CommandResult result = null)
         {
-            _baseRepository = FakeBaseRepository();
-            _employeeService = Substitute.For<EmployeeService>();
-            _employeeService.Repository = _baseRepository;
-            _employeeService.Repository.ExecuteNonQuery(Arg.Any<ResetPasswordCriteria>()).Returns(result ?? new CommandResult());
+            baseService = FakeBaseService();
+            baseService.ExecuteNonQuery(Arg.Any<ResetPasswordCriteria>()).Returns(result ?? new CommandResult());
+            _employeeService = GetEmployeeService(null, baseService);
         }
 
         private void ArrangeAssignRoleToEmployee(CommandResult result = null)
         {
-            _baseRepository = FakeBaseRepository();
-            _employeeService = GetEmployeeService(null, _baseRepository);
-            _employeeService.Repository.ExecuteNonQuery(Arg.Any<AssignRoleToEmployeeCriteria>()).Returns(result ?? new CommandResult());
-        }
-
-        private void ArrangeGetEmployeeByDepartmentId(IEnumerable<Employee> result = null)
-        {
-            _employeeService = Substitute.For<EmployeeService>();
-            _employeeService.When(x => x.GetData<Employee>(Arg.Any<GetEmployeeByDepartmentIdCriteria>())).DoNotCallBase();
-            _employeeService.GetData<Employee>(Arg.Any<GetEmployeeByDepartmentIdCriteria>()).Returns(result ?? new List<Employee>());
-        }
-
-        private void ArrangeGetEmployeeByGroupId(IEnumerable<Employee> result = null)
-        {
-            _employeeService = Substitute.For<EmployeeService>();
-            _employeeService.When(x => x.GetData<Employee>(Arg.Any<GetEmployeeByGroupIdCriteria>())).DoNotCallBase();
-            _employeeService.GetData<Employee>(Arg.Any<GetEmployeeByGroupIdCriteria>()).Returns(result ?? new List<Employee>());
+            baseService = FakeBaseService();
+            baseService.ExecuteNonQuery(Arg.Any<AssignRoleToEmployeeCriteria>()).Returns(result ?? new CommandResult());
+            _employeeService = GetEmployeeService(null, baseService);
         }
 
         private void ArrangeInsertEmployeeIPAddress(CommandResult result = null)
         {
-            _baseRepository = FakeBaseRepository();
-            _employeeService = GetEmployeeService(null, _baseRepository);
-            _employeeService.Repository.ExecuteNonQuery(Arg.Any<InsertEmployeeIPAddressCriteria>()).Returns(result ?? new CommandResult());
+            baseService = FakeBaseService();
+            baseService.ExecuteNonQuery(Arg.Any<InsertEmployeeIPAddressCriteria>()).Returns(result ?? new CommandResult());
+            _employeeService = GetEmployeeService(null, baseService);
         }
 
         private void ArrangeUpdateHasMonthlyEPA(CommandResult result = null)
         {
-            _baseRepository = FakeBaseRepository();
-            _employeeService = GetEmployeeService(null, _baseRepository);
-            _employeeService.Repository.ExecuteNonQuery(Arg.Any<UpdateHasMonthlyEPACriteria>()).Returns(result ?? new CommandResult());
+            baseService = FakeBaseService();
+            baseService.ExecuteNonQuery(Arg.Any<UpdateHasMonthlyEPACriteria>()).Returns(result ?? new CommandResult());
+            _employeeService = GetEmployeeService(null, baseService);
         }
 
         #endregion Helpers

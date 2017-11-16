@@ -6,6 +6,7 @@
     using Core.Constants;
     using Core.Enumerations;
     using Core.Model;
+    using Core.Services;
     using Criteria;
     using Model;
     using Model.Enitites;
@@ -15,16 +16,16 @@
     public class EvaluatorByKPIController : BaseController
     {
         private readonly IEvaluatorByKPIService evaluatorByKPIService;
-        private readonly ICommonService commonService;
+        private readonly IBaseService baseService;
 
         public EvaluatorByKPIController() : this(null, null)
         {
         }
 
-        public EvaluatorByKPIController(IEvaluatorByKPIService evaluatorByKPIService, ICommonService commonService)
+        public EvaluatorByKPIController(IEvaluatorByKPIService evaluatorByKPIService, IBaseService baseService)
         {
             this.evaluatorByKPIService = evaluatorByKPIService ?? new EvaluatorByKPIService();
-            this.commonService = commonService ?? new CommonService();
+            this.baseService = baseService ?? new BaseService();
         }
 
         [HttpGet]
@@ -36,7 +37,7 @@
                 EvaluatorId = SessionService.EmployeeId
             };
 
-            return evaluatorByKPIService.GetPeriodByEvaluator(criteria);
+            return baseService.GetData<EPAPeriodModel>(criteria);
         }
 
         [HttpGet]
@@ -49,7 +50,7 @@
                 PeriodId = periodId
             };
 
-            return evaluatorByKPIService.GetTargetTemplateByEvaluator(criteria);
+            return baseService.GetData<TargetTemplate>(criteria);
         }
 
         [HttpGet]
@@ -61,7 +62,7 @@
                 EvaluatorId = SessionService.EmployeeId
             };
 
-            return evaluatorByKPIService.GetPeriodToView(criteria);
+            return baseService.GetData<EPAPeriodModel>(criteria);
         }
 
         [HttpGet]
@@ -74,7 +75,7 @@
                 PeriodId = periodId
             };
 
-            return evaluatorByKPIService.GetTargetTemplateToView(criteria);
+            return baseService.GetData<TargetTemplate>(criteria);
         }
 
         [HttpGet]
@@ -89,7 +90,7 @@
                 TargetTemplateId = targetTemplateId
             };
 
-            return evaluatorByKPIService.GetEvaluatorsByTargetTemplate(criteria);
+            return baseService.GetData<Employee>(criteria);
         }
 
         [HttpGet]
@@ -176,7 +177,7 @@
                 EpaInfos = epaInfos
             };
 
-            return commonService.ExecuteNonQuery(criteria);
+            return baseService.ExecuteNonQuery(criteria);
         }
 
         public int GetUserPermissionOnRatingByKPI()

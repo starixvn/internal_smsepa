@@ -7,8 +7,15 @@
     using Interfaces;
     using Model;
 
-    public class RoleService : BaseService, IRoleService
+    public class RoleService : IRoleService
     {
+        private readonly IBaseService baseService;
+
+        public RoleService(IBaseService baseService = null)
+        {
+            this.baseService = baseService ?? new BaseService();
+        }
+
         public IEnumerable<RoleFunctionModel> GetFunctionByRoleId(int roleId)
         {
             var criteria = new GetFunctionByRoleIdCriteria
@@ -19,7 +26,7 @@
 
             if (criteria.IsValid())
             {
-                IEnumerable<RoleFunctionModel> rawFunctions = GetData<RoleFunctionModel>(criteria);
+                IEnumerable<RoleFunctionModel> rawFunctions = baseService.GetData<RoleFunctionModel>(criteria);
                 functions = GroupFunction(rawFunctions);
             }
 

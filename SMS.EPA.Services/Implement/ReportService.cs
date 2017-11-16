@@ -21,15 +21,16 @@
     using Repositories;
     using Resources;
 
-    public class ReportService : BaseService, IReportService
+    public class ReportService : IReportService
     {
         private const int ExcelColumnWidth = 256;
         private readonly IEmployeeEPARepository employeeEPARepository;
         private readonly IEmployeeEPAService employeeEPAService;
         private readonly IReportRepository reportRepository;
         private readonly ISessionService sessionService;
+        private readonly IBaseService baseService;
 
-        public ReportService() : this(null, null, null, null)
+        public ReportService() : this(null, null, null, null, null)
         {
         }
 
@@ -37,12 +38,14 @@
             IReportRepository reportRepository,
             IEmployeeEPARepository employeeEPARepository,
             IEmployeeEPAService employeeEPAService,
-            ISessionService sessionService)
+            ISessionService sessionService,
+            IBaseService baseService)
         {
             this.reportRepository = reportRepository ?? new ReportRepository();
             this.employeeEPARepository = employeeEPARepository ?? new EmployeeEPARepository();
             this.employeeEPAService = employeeEPAService ?? new EmployeeEPAService();
             this.sessionService = sessionService ?? new SessionService();
+            this.baseService = baseService ?? new BaseService();
         }
 
         public MemoryStream ExportEPASummaryReport(EPASummaryModel epaSummary)
@@ -79,7 +82,7 @@
 
             if (criteria != null && criteria.IsValid())
             {
-                employees = GetData<EmployeeViewModel>(criteria);
+                employees = baseService.GetData<EmployeeViewModel>(criteria);
             }
 
             return employees;
@@ -96,7 +99,7 @@
                     PeriodId = id
                 };
 
-                return GetDataEntity<PeriodModel>(criteria);
+                return baseService.GetDataEntity<PeriodModel>(criteria);
             }
 
             return null;
@@ -135,7 +138,7 @@
         public EPASummaryModel GetEPASummaryReport(GetEPASummaryCriteria criteria)
         {
             var result = new EPASummaryModel();
-            IEnumerable<StandardGradeModel> standardGrades = employeeEPAService.GetStandardGrade();
+            IEnumerable<StandardGradeModel> standardGrades = baseService.GetData<StandardGradeModel>(new GetStandardGradeCriteria());
 
             if (criteria == null || !criteria.IsValid())
             {

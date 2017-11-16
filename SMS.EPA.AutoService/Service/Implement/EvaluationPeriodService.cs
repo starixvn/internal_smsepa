@@ -12,14 +12,15 @@
     using Services.Implement;
     using Services.Interfaces;
 
-    public class EvaluationPeriodService : BaseService, IEvaluationPeriodService
+    public class EvaluationPeriodService : IEvaluationPeriodService
     {
         private readonly IEmployeeEPAService employeeEPAService;
         private readonly ICryptographyService cryptographyService;
         private readonly IPeriodService periodService;
         private readonly IPeriodMailService periodMailService;
+        private readonly IBaseService baseService;
 
-        public EvaluationPeriodService() : this(null, null, null, null)
+        public EvaluationPeriodService() : this(null, null, null, null, null)
         {
         }
 
@@ -27,12 +28,14 @@
             ICryptographyService cryptographyService,
             IEmployeeEPAService employeeEPAService,
             IPeriodService periodService,
-            IPeriodMailService periodMailService)
+            IPeriodMailService periodMailService,
+            IBaseService baseService)
         {
             this.cryptographyService = cryptographyService ?? new CryptographyService();
             this.employeeEPAService = employeeEPAService ?? new EmployeeEPAService();
             this.periodService = periodService ?? new PeriodService();
             this.periodMailService = periodMailService ?? new PeriodMailService();
+            this.baseService = baseService ?? new BaseService();
         }
 
         public void CheckEndEvaluationPeriod()
@@ -68,7 +71,7 @@
         private void UpdateFinalScoreAndSendMail(IEnumerable<EPAModel> epaInfos)
         {
             IList<int> periods = new List<int>();
-            IEnumerable<StandardGradeModel> standardGrades = employeeEPAService.GetStandardGrade();
+            IEnumerable<StandardGradeModel> standardGrades = baseService.GetData<StandardGradeModel>(new GetStandardGradeCriteria());
 
             foreach (EPAModel epaInfo in epaInfos)
             {
@@ -154,7 +157,7 @@
 
             if (criteria.IsValid())
             {
-                Repository.ExecuteNonQuery(criteria);
+                baseService.ExecuteNonQuery(criteria);
             }
         }
 
@@ -168,7 +171,7 @@
 
             if (criteria.IsValid())
             {
-                lastestProcess = GetDataEntity<int>(criteria);
+                lastestProcess = baseService.GetDataEntity<int>(criteria);
             }
 
             return lastestProcess;

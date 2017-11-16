@@ -6,58 +6,29 @@
     using Criteria;
     using Interfaces;
     using Model;
-    using Model.Enitites;
     using Repositories;
 
-    public class TargetTemplateService : BaseService, ITargetTemplateService
+    public class TargetTemplateService : ITargetTemplateService
     {
         private readonly ITargetTemplateRepository targetTemplateRepository;
+        private readonly IBaseService baseService;
 
-        public TargetTemplateService() : this(null)
+        public TargetTemplateService() : this(null, null)
         {
         }
 
-        public TargetTemplateService(ITargetTemplateRepository targetTemplateRepository)
+        public TargetTemplateService(ITargetTemplateRepository targetTemplateRepository, IBaseService baseService)
         {
             this.targetTemplateRepository = targetTemplateRepository ?? new TargetTemplateRepository();
-        }
-
-        public TargetTemplate GetTargetTemplateById(GetTargetTemplateByIdCriteria criteria)
-        {
-            var targetTemplate = new TargetTemplate();
-
-            if (criteria != null && criteria.IsValid())
-            {
-                targetTemplate = GetDataEntity<TargetTemplate>(criteria);
-            }
-
-            return targetTemplate;
-        }
-
-        public IEnumerable<TargetTemplate> GetAllTargetTemplate(GetAllTargetTemplateCriteria criteria)
-        {
-            IEnumerable<TargetTemplate> targetTemplates = new List<TargetTemplate>();
-
-            if (criteria != null && criteria.IsValid())
-            {
-                targetTemplates = GetData<TargetTemplate>(criteria);
-            }
-
-            return targetTemplates;
+            this.baseService = baseService ?? new BaseService();
         }
 
         public IEnumerable<KPIGroupModel> GetKPIGroupOfTargetTemplate(GetKPIGroupOfTargetTemplateCriteria criteria)
         {
-            IEnumerable<KPIGroupModel> groups = new List<KPIGroupModel>();
-
-            if (criteria != null && criteria.IsValid())
+            IEnumerable<KPIGroupModel> groups = baseService.GetData<KPIGroupModel>(criteria);
+            foreach (KPIGroupModel group in groups.Where(x => x.Weight.HasValue && x.Weight.Value > 0))
             {
-                groups = GetData<KPIGroupModel>(criteria);
-
-                foreach (KPIGroupModel group in groups.Where(x => x.Weight.HasValue && x.Weight.Value > 0))
-                {
-                    group.Selected = true;
-                }
+                group.Selected = true;
             }
 
             return groups;
@@ -79,18 +50,6 @@
             }
 
             return kpiGroups;
-        }
-
-        public IEnumerable<RatingType> GetRatingType(GetRatingTypeCriteria criteria)
-        {
-            IEnumerable<RatingType> ratingTypes = new List<RatingType>();
-
-            if (criteria != null && criteria.IsValid())
-            {
-                ratingTypes = GetData<RatingType>(criteria);
-            }
-
-            return ratingTypes;
         }
 
         private static IEnumerable<TargetTemplateKPIGroupModel> GroupKPI(IEnumerable<KPIModel> kpiList)

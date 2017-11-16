@@ -2,14 +2,12 @@
 {
     using System.Collections.Generic;
     using System.Linq;
-    using Core.Services;
     using Criteria;
     using Interfaces;
     using Model;
-    using Model.Enitites;
     using Repositories;
 
-    public class DepartmentFlowService : BaseService, IDepartmentFlowService
+    public class DepartmentFlowService : IDepartmentFlowService
     {
         private readonly IFlowSettingRepository flowSettingRepository;
 
@@ -48,17 +46,6 @@
             }
 
             return flow;
-        }
-
-        public IList<Department> GetDepartmentHasSettingByFlowTemplateId(int flowTemplateId)
-        {
-            var criteria = new GetDepartmentSectionHasSettingCriteria
-            {
-                FlowTemplateId = flowTemplateId
-            };
-            IList<Department> departments = GetData<Department>(criteria).ToList();
-
-            return departments;
         }
     }
 }

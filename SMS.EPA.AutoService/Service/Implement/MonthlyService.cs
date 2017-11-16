@@ -28,7 +28,7 @@
 
         public void CreateMonthlyPeriod()
         {
-            IEnumerable<FlowModel> processSettings = PeriodService.GetEvaluationGlobalSettingByTargetTypeId((int)TargetType.Monthly);
+            IEnumerable<FlowModel> processSettings = GetEvaluationGlobalSetting();
 
             if (processSettings != null && processSettings.Any())
             {
@@ -44,7 +44,7 @@
                         EndDate = today.AddDays(processSettings.Sum(p => p.Duration))
                     };
 
-                    CommandResult commandResult = PeriodService.AutoCreateMonthlyPeriod(criteria);
+                    CommandResult commandResult = BaseService.ExecuteNonQuery(criteria);
 
                     if (!commandResult.IsSuccessful)
                     {
@@ -52,6 +52,17 @@
                     }
                 }
             }
+        }
+
+        private IEnumerable<FlowModel> GetEvaluationGlobalSetting()
+        {
+            var criteria = new GetEvaluationGlobalSettingByTargetTypeIdCriteria
+            {
+                TargetTypeId = (int)TargetType.Monthly
+            };
+            IEnumerable<FlowModel> processSettings = BaseService.GetData<FlowModel>(criteria);
+
+            return processSettings;
         }
     }
 }

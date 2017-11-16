@@ -6,6 +6,7 @@
     using Core.Constants;
     using Core.Enumerations;
     using Core.Model;
+    using Core.Services;
     using Criteria;
     using Model;
     using Services.Implement;
@@ -14,16 +15,16 @@
     public class FlowTemplateController : BaseController
     {
         private readonly IFlowTemplateService flowTemplateService;
-        private readonly ICommonService commonService;
+        private readonly IBaseService baseService;
 
         public FlowTemplateController() : this(null, null)
         {
         }
 
-        public FlowTemplateController(IFlowTemplateService flowTemplateService, ICommonService commonService)
+        public FlowTemplateController(IFlowTemplateService flowTemplateService, IBaseService baseService)
         {
             this.flowTemplateService = flowTemplateService ?? new FlowTemplateService();
-            this.commonService = commonService ?? new CommonService();
+            this.baseService = baseService ?? new BaseService();
         }
 
         [HttpGet]
@@ -57,7 +58,7 @@
                 criteria.CreatedBy = SessionService.EmployeeId;
             }
 
-            return commonService.ExecuteNonQuery(criteria);
+            return baseService.ExecuteNonQuery(criteria);
         }
 
         [HttpPut]
@@ -69,7 +70,7 @@
                 criteria.ModifiedBy = SessionService.EmployeeId;
             }
 
-            return commonService.ExecuteNonQuery(criteria);
+            return baseService.ExecuteNonQuery(criteria);
         }
 
         [HttpPut]
@@ -81,7 +82,7 @@
                 criteria.ModifiedBy = SessionService.EmployeeId;
             }
 
-            return commonService.ExecuteNonQuery(criteria);
+            return baseService.ExecuteNonQuery(criteria);
         }
 
         [HttpDelete]
@@ -94,7 +95,7 @@
                 ModifiedBy = SessionService.EmployeeId
             };
 
-            return commonService.ExecuteNonQuery(criteria);
+            return baseService.ExecuteNonQuery(criteria);
         }
     }
 }

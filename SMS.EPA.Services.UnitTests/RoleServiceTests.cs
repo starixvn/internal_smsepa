@@ -2,7 +2,7 @@
 {
     using System.Collections.Generic;
     using System.Linq;
-    using Core.Repositories;
+    using Core.Services;
     using Criteria;
     using Implement;
     using Model;
@@ -13,6 +13,7 @@
     public class RoleServiceTests
     {
         private RoleService _roleService;
+        private IBaseService baseService;
 
         #region GetFunctionByRoleId
 
@@ -50,26 +51,25 @@
 
         #region Helpers
 
-        private IBaseRepository FakeBaseRepository()
+        private IBaseService FakeBaseService()
         {
-            var repository = Substitute.For<IBaseRepository>();
+            var service = Substitute.For<IBaseService>();
 
-            return repository;
+            return service;
         }
 
-        private RoleService GetRoleService(IBaseRepository baseRepository = null)
+        private RoleService GetRoleService(IBaseService baseService = null)
         {
-            var service = new RoleService();
-            service.Repository = baseRepository;
+            var service = new RoleService(baseService);
 
             return service;
         }
 
         private void ArrangeGetFunctionByRoleId(IEnumerable<RoleFunctionModel> result = null)
         {
-            _roleService = Substitute.For<RoleService>();
-            _roleService.When(x => x.GetData<RoleFunctionModel>(Arg.Any<GetFunctionByRoleIdCriteria>())).DoNotCallBase();
-            _roleService.GetData<RoleFunctionModel>(Arg.Any<GetFunctionByRoleIdCriteria>()).Returns(result ?? new List<RoleFunctionModel>());
+            baseService = FakeBaseService();
+            baseService.GetData<RoleFunctionModel>(Arg.Any<GetFunctionByRoleIdCriteria>()).Returns(result ?? new List<RoleFunctionModel>());
+            _roleService = GetRoleService(baseService);
         }
 
         private IEnumerable<RoleFunctionModel> GetListOfRoleFunctionModelForTest()

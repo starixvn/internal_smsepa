@@ -14,7 +14,7 @@
     public class KPIControllerTests
     {
         private IKPIService _kpiService;
-        private ICommonService commonService;
+        private IBaseService baseService;
         private ISessionService _sessionService;
         private KPIController _kpiController;
 
@@ -71,9 +71,9 @@
             // Arrange
             _kpiService = FakeKPIService();
             _sessionService = FakeSessionService();
-            commonService = FakeCommonService();
-            commonService.ExecuteNonQuery(Arg.Any<CreateKPICriteria>()).Returns(new CommandResult());
-            _kpiController = GetKPIController(_kpiService, _sessionService, commonService);
+            baseService = FakeBaseService();
+            baseService.ExecuteNonQuery(Arg.Any<CreateKPICriteria>()).Returns(new CommandResult());
+            _kpiController = GetKPIController(_kpiService, _sessionService, baseService);
 
             // Act
             var actual = _kpiController.CreateKPI(Arg.Any<CreateKPICriteria>());
@@ -105,9 +105,9 @@
             // Arrange
             _kpiService = FakeKPIService();
             _sessionService = FakeSessionService();
-            commonService = FakeCommonService();
-            commonService.ExecuteNonQuery(Arg.Any<UpdateKPICriteria>()).Returns(new CommandResult());
-            _kpiController = GetKPIController(_kpiService, _sessionService, commonService);
+            baseService = FakeBaseService();
+            baseService.ExecuteNonQuery(Arg.Any<UpdateKPICriteria>()).Returns(new CommandResult());
+            _kpiController = GetKPIController(_kpiService, _sessionService, baseService);
 
             // Act
             var actual = _kpiController.UpdateKPI(Arg.Any<UpdateKPICriteria>());
@@ -139,9 +139,9 @@
             // Arrange
             _kpiService = FakeKPIService();
             _sessionService = FakeSessionService();
-            commonService = FakeCommonService();
-            commonService.ExecuteNonQuery(Arg.Any<UpdateStatusKPICriteria>()).Returns(new CommandResult());
-            _kpiController = GetKPIController(_kpiService, _sessionService, commonService);
+            baseService = FakeBaseService();
+            baseService.ExecuteNonQuery(Arg.Any<UpdateStatusKPICriteria>()).Returns(new CommandResult());
+            _kpiController = GetKPIController(_kpiService, _sessionService, baseService);
 
             // Act
             var actual = _kpiController.UpdateStatusKPI(Arg.Any<UpdateStatusKPICriteria>());
@@ -173,9 +173,9 @@
             // Arrange
             _kpiService = FakeKPIService();
             _sessionService = FakeSessionService();
-            commonService = FakeCommonService();
-            commonService.ExecuteNonQuery(Arg.Any<UpdateRequiredEvaluateKPICriteria>()).Returns(new CommandResult());
-            _kpiController = GetKPIController(_kpiService, _sessionService, commonService);
+            baseService = FakeBaseService();
+            baseService.ExecuteNonQuery(Arg.Any<UpdateRequiredEvaluateKPICriteria>()).Returns(new CommandResult());
+            _kpiController = GetKPIController(_kpiService, _sessionService, baseService);
 
             // Act
             var actual = _kpiController.UpdateRequiredEvaluateKPI(Arg.Any<UpdateRequiredEvaluateKPICriteria>());
@@ -207,9 +207,9 @@
             // Arrange
             _kpiService = FakeKPIService();
             _sessionService = FakeSessionService();
-            commonService = FakeCommonService();
-            commonService.ExecuteNonQuery(Arg.Any<DeleteKPICriteria>()).Returns(new CommandResult());
-            _kpiController = GetKPIController(_kpiService, _sessionService, commonService);
+            baseService = FakeBaseService();
+            baseService.ExecuteNonQuery(Arg.Any<DeleteKPICriteria>()).Returns(new CommandResult());
+            _kpiController = GetKPIController(_kpiService, _sessionService, baseService);
 
             // Act
             var actual = _kpiController.DeleteKPI(Arg.Any<int>());
@@ -230,9 +230,9 @@
             return service;
         }
 
-        private ICommonService FakeCommonService()
+        private IBaseService FakeBaseService()
         {
-            var service = Substitute.For<ICommonService>();
+            var service = Substitute.For<IBaseService>();
 
             return service;
         }
@@ -248,9 +248,9 @@
         private KPIController GetKPIController(
             IKPIService kpiService = null,
             ISessionService sessionService = null,
-            ICommonService commonService = null)
+            IBaseService baseService = null)
         {
-            var controller = new KPIController(kpiService, commonService);
+            var controller = new KPIController(kpiService, baseService);
             controller.SessionService = sessionService;
 
             return controller;

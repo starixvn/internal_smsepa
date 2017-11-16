@@ -15,7 +15,7 @@
     public class EmployeeControllerTests
     {
         private IEmployeeService _employeeService;
-        private ICommonService commonService;
+        private IBaseService baseService;
         private ISessionService _sessionService;
         private EmployeeController _employeeController;
 
@@ -105,9 +105,9 @@
             // Arrange
             _employeeService = FakeEmployeeService();
             _sessionService = FakeSessionService();
-            commonService = FakeCommonService();
-            commonService.ExecuteNonQuery(Arg.Any<ICriteria>()).Returns(new CommandResult());
-            _employeeController = GetEmployeeController(_employeeService, _sessionService, commonService);
+            baseService = FakeBaseService();
+            baseService.ExecuteNonQuery(Arg.Any<ICriteria>()).Returns(new CommandResult());
+            _employeeController = GetEmployeeController(_employeeService, _sessionService, baseService);
 
             // Act
             var actual = _employeeController.UpdateSpecialEmployee(Arg.Any<UpdateSpecialEmployeeCriteria>());
@@ -139,9 +139,9 @@
             // Arrange
             _employeeService = FakeEmployeeService();
             _sessionService = FakeSessionService();
-            commonService = FakeCommonService();
-            commonService.ExecuteNonQuery(Arg.Any<ICriteria>()).Returns(new CommandResult());
-            _employeeController = GetEmployeeController(_employeeService, _sessionService, commonService);
+            baseService = FakeBaseService();
+            baseService.ExecuteNonQuery(Arg.Any<ICriteria>()).Returns(new CommandResult());
+            _employeeController = GetEmployeeController(_employeeService, _sessionService, baseService);
 
             // Act
             var actual = _employeeController.AssignRoleToEmployee(Arg.Any<AssignRoleToEmployeeCriteria>());
@@ -206,9 +206,9 @@
             // Arrange
             _employeeService = FakeEmployeeService();
             _sessionService = FakeSessionService();
-            commonService = FakeCommonService();
-            commonService.ExecuteNonQuery(Arg.Any<ICriteria>()).Returns(new CommandResult());
-            _employeeController = GetEmployeeController(_employeeService, _sessionService, commonService);
+            baseService = FakeBaseService();
+            baseService.ExecuteNonQuery(Arg.Any<ICriteria>()).Returns(new CommandResult());
+            _employeeController = GetEmployeeController(_employeeService, _sessionService, baseService);
 
             // Act
             var actual = _employeeController.UpdateHasMonthlyEPA(Arg.Any<UpdateHasMonthlyEPACriteria>());
@@ -236,20 +236,19 @@
             return service;
         }
 
-        private ICommonService FakeCommonService()
+        private IBaseService FakeBaseService()
         {
-            var service = Substitute.For<ICommonService>();
+            var service = Substitute.For<IBaseService>();
 
             return service;
         }
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Reliability", "CA2000:Dispose objects before losing scope", Justification = "Reviewed")]
         private EmployeeController GetEmployeeController(
             IEmployeeService employeeService = null,
             ISessionService sessionService = null,
-            ICommonService commonService = null)
+            IBaseService baseService = null)
         {
-            var controller = new EmployeeController(employeeService, commonService);
+            var controller = new EmployeeController(employeeService, baseService);
             controller.SessionService = sessionService;
 
             return controller;

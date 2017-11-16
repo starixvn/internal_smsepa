@@ -185,7 +185,7 @@
         }
 
         [HttpGet]
-        public IList<PeriodModel> GetAllPeriodIncludeImport()
+        public IEnumerable<PeriodModel> GetAllPeriodIncludeImport()
         {
             var criteria = new GetAllPeriodIncludeImportCriteria();
 

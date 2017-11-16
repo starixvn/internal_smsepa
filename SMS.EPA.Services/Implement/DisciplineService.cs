@@ -1,13 +1,12 @@
 ﻿namespace SMS.EPA.Services.Implement
 {
     using System.Collections.Generic;
-    using Core.Services;
     using Criteria;
     using Interfaces;
     using Model.Discipline;
     using Repositories;
 
-    public class DisciplineService : BaseService, IDisciplineService
+    public class DisciplineService : IDisciplineService
     {
         private readonly IDisciplineRepository disciplineRepository;
 

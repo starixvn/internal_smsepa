@@ -2,11 +2,10 @@
 {
     using System.Collections.Generic;
     using System.Linq;
-    using Core.Repositories;
+    using Core.Services;
     using Criteria;
     using Implement;
     using Model;
-    using Model.Enitites;
     using NSubstitute;
     using NUnit.Framework;
 
@@ -14,102 +13,7 @@
     public class TargetTemplateServiceTests
     {
         private TargetTemplateService _targetTemplateService;
-
-        #region GetTargetTemplateById
-
-        [Test]
-        public void GetTargetTemplateById_AnyArg_ReturnInstanceOfTargetTemplateModel()
-        {
-            // Arrange
-            ArrangeGetTargetTemplateById();
-
-            // Act
-            var actual = _targetTemplateService.GetTargetTemplateById(new GetTargetTemplateByIdCriteria());
-
-            // Assert
-            Assert.IsInstanceOf(typeof(TargetTemplate), actual);
-        }
-
-        [Test]
-        public void GetTargetTemplateById_ValidArg_ExpectedToExecuteGetDataEntity()
-        {
-            // Arrange
-            var criteria = new GetTargetTemplateByIdCriteria
-            {
-                TargetTemplateId = 1
-            };
-            ArrangeGetTargetTemplateById();
-
-            // Act
-            _targetTemplateService.GetTargetTemplateById(criteria);
-
-            // Assert
-            _targetTemplateService.Received().GetDataEntity<TargetTemplate>(Arg.Is<GetTargetTemplateByIdCriteria>(x => x.IsValid()));
-        }
-
-        #endregion GetTargetTemplateById
-
-        #region GetAllTargetTemplate
-
-        [Test]
-        public void GetAllTargetTemplate_AnyArg_ReturnInstanceOfListOfTargetTemplateModel()
-        {
-            // Arrange
-            ArrangeGetAllTargetTemplate();
-
-            // Act
-            var actual = _targetTemplateService.GetAllTargetTemplate(new GetAllTargetTemplateCriteria());
-
-            // Assert
-            Assert.IsInstanceOf(typeof(IEnumerable<TargetTemplate>), actual);
-        }
-
-        [Test]
-        public void GetAllTargetTemplate_ValidArg_ExpectedToExecuteGetData()
-        {
-            // Arrange
-            var criteria = new GetAllTargetTemplateCriteria();
-            ArrangeGetAllTargetTemplate();
-
-            // Act
-            _targetTemplateService.GetAllTargetTemplate(criteria);
-
-            // Assert
-            _targetTemplateService.Received().GetData<TargetTemplate>(Arg.Is<GetAllTargetTemplateCriteria>(x => x.IsValid()));
-        }
-
-        #endregion GetAllTargetTemplate
-
-        #region GetRatingType
-
-        [Test]
-        public void GetRatingType_AnyArg_ReturnInstanceOfListOfRatingType()
-        {
-            // Arrange
-            ArrangeGetRatingType();
-
-            // Act
-            var actual = _targetTemplateService.GetRatingType(new GetRatingTypeCriteria());
-
-            // Assert
-            Assert.IsInstanceOf(typeof(IEnumerable<RatingType>), actual);
-        }
-
-        [Test]
-        public void GetRatingType_ValidArg_ExpectedToExecuteGetData()
-        {
-            // Arrange
-            var criteria = new GetRatingTypeCriteria();
-            ArrangeGetRatingType();
-
-            // Act
-            _targetTemplateService.GetRatingType(criteria);
-
-            // Assert
-            _targetTemplateService.Received().GetData<RatingType>(Arg.Is<GetRatingTypeCriteria>(x => x.IsValid()));
-        }
-
-        #endregion GetRatingType
+        private IBaseService baseService;
 
         #region GetKPIGroupOfTargetTemplate
 
@@ -140,7 +44,7 @@
             _targetTemplateService.GetKPIGroupOfTargetTemplate(criteria);
 
             // Assert
-            _targetTemplateService.Received().GetData<KPIGroupModel>(Arg.Is<GetKPIGroupOfTargetTemplateCriteria>(x => x.IsValid()));
+            baseService.Received().GetData<KPIGroupModel>(Arg.Is<GetKPIGroupOfTargetTemplateCriteria>(x => x.IsValid()));
         }
 
         [Test]
@@ -165,47 +69,26 @@
 
         #region Helpers
 
-        private IBaseRepository FakeBaseRepository()
+        private IBaseService FakeBaseService()
         {
-            var repository = Substitute.For<IBaseRepository>();
+            var repository = Substitute.For<IBaseService>();
 
             return repository;
         }
 
-        private TargetTemplateService GetTargetTemplateService(IBaseRepository baseRepository = null)
+        private TargetTemplateService GetTargetTemplateService(
+            IBaseService baseService = null)
         {
-            var service = new TargetTemplateService();
-            service.Repository = baseRepository;
+            var service = new TargetTemplateService(null, baseService);
 
             return service;
         }
 
-        private void ArrangeGetTargetTemplateById(TargetTemplate result = null)
-        {
-            _targetTemplateService = Substitute.For<TargetTemplateService>();
-            _targetTemplateService.When(x => x.GetDataEntity<TargetTemplate>(Arg.Any<GetTargetTemplateByIdCriteria>())).DoNotCallBase();
-            _targetTemplateService.GetDataEntity<TargetTemplate>(Arg.Any<GetTargetTemplateByIdCriteria>()).Returns(result ?? new TargetTemplate());
-        }
-
-        private void ArrangeGetAllTargetTemplate(IEnumerable<TargetTemplate> result = null)
-        {
-            _targetTemplateService = Substitute.For<TargetTemplateService>();
-            _targetTemplateService.When(x => x.GetData<TargetTemplate>(Arg.Any<GetAllTargetTemplateCriteria>())).DoNotCallBase();
-            _targetTemplateService.GetData<TargetTemplate>(Arg.Any<GetAllTargetTemplateCriteria>()).Returns(result ?? new List<TargetTemplate>());
-        }
-
-        private void ArrangeGetRatingType(IEnumerable<RatingType> result = null)
-        {
-            _targetTemplateService = Substitute.For<TargetTemplateService>();
-            _targetTemplateService.When(x => x.GetData<RatingType>(Arg.Any<GetRatingTypeCriteria>())).DoNotCallBase();
-            _targetTemplateService.GetData<RatingType>(Arg.Any<GetRatingTypeCriteria>()).Returns(result ?? new List<RatingType>());
-        }
-
         private void ArrangeGetKPIGroupOfTargetTemplate(IEnumerable<KPIGroupModel> result = null)
         {
-            _targetTemplateService = Substitute.For<TargetTemplateService>();
-            _targetTemplateService.When(x => x.GetData<KPIGroupModel>(Arg.Any<GetKPIGroupOfTargetTemplateCriteria>())).DoNotCallBase();
-            _targetTemplateService.GetData<KPIGroupModel>(Arg.Any<GetKPIGroupOfTargetTemplateCriteria>()).Returns(result ?? new List<KPIGroupModel>());
+            baseService = FakeBaseService();
+            baseService.GetData<KPIGroupModel>(Arg.Any<GetKPIGroupOfTargetTemplateCriteria>()).Returns(result ?? new List<KPIGroupModel>());
+            _targetTemplateService = GetTargetTemplateService(baseService);
         }
 
         private IEnumerable<KPIGroupModel> GetListOfKPIGroupModelForTest()

@@ -1,13 +1,12 @@
 ﻿namespace SMS.EPA.Services.UnitTests
 {
     using System.Collections.Generic;
+    using Criteria;
+    using Implement;
+    using Model;
     using NSubstitute;
     using NUnit.Framework;
-    using SMS.EPA.Core.Repositories;
-    using SMS.EPA.Criteria;
-    using SMS.EPA.Model;
-    using SMS.EPA.Repositories;
-    using SMS.EPA.Services.Implement;
+    using Repositories;
 
     [TestFixture]
     public class TargetEmployeeSettingServiceTests
@@ -112,21 +111,6 @@
         }
 
         #endregion GetTargetDepartmentSetting
-
-        private IBaseRepository FakeBaseRepository()
-        {
-            var repository = Substitute.For<IBaseRepository>();
-
-            return repository;
-        }
-
-        private TargetEmployeeSettingService GetTargetEmployeeSettingService(IBaseRepository baseRepository = null)
-        {
-            var service = new TargetEmployeeSettingService();
-            service.Repository = baseRepository;
-
-            return service;
-        }
 
         private void ArrangeGetTargetEmployeeSetting(IEnumerable<TargetEmployeeSetting> targetEmployees = null)
         {

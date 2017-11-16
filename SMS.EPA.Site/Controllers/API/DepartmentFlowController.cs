@@ -1,31 +1,32 @@
 ﻿namespace SMS.EPA.Site.Controllers.API
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Web.Http;
     using Core.Attribute;
     using Core.Constants;
     using Core.Enumerations;
     using Core.Model;
+    using Core.Services;
     using Criteria;
     using Model;
     using Model.Enitites;
     using Services.Implement;
     using Services.Interfaces;
-    using System;
-    using System.Collections.Generic;
-    using System.Web.Http;
 
     public class DepartmentFlowController : BaseController
     {
         private readonly IDepartmentFlowService departmentFlowService;
-        private readonly ICommonService commonService;
+        private readonly IBaseService baseService;
 
         public DepartmentFlowController() : this(null, null)
         {
         }
 
-        public DepartmentFlowController(IDepartmentFlowService departmentFlowService, ICommonService commonService)
+        public DepartmentFlowController(IDepartmentFlowService departmentFlowService, IBaseService baseService)
         {
             this.departmentFlowService = departmentFlowService ?? new DepartmentFlowService();
-            this.commonService = commonService ?? new CommonService();
+            this.baseService = baseService ?? new BaseService();
         }
 
         [HttpGet]
@@ -60,7 +61,7 @@
                 criteria.DepartmentId = Math.Abs(criteria.DepartmentId);
                 criteria.ModifiedBy = SessionService.EmployeeId;
 
-                commandResult = commonService.ExecuteNonQuery(criteria);
+                commandResult = baseService.ExecuteNonQuery(criteria);
             }
 
             return commandResult;
@@ -78,13 +79,18 @@
                 ModifiedBy = SessionService.EmployeeId
             };
 
-            return commonService.ExecuteNonQuery(criteria);
+            return baseService.ExecuteNonQuery(criteria);
         }
 
         [HttpGet]
-        public IList<Department> GetDepartmentHasSetting(int flowTemplateId)
+        public IEnumerable<Department> GetDepartmentHasSetting(int flowTemplateId)
         {
-            return departmentFlowService.GetDepartmentHasSettingByFlowTemplateId(flowTemplateId);
+            var criteria = new GetDepartmentSectionHasSettingCriteria
+            {
+                FlowTemplateId = flowTemplateId
+            };
+
+            return baseService.GetData<Department>(criteria);
         }
     }
 }

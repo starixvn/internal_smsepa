@@ -1,13 +1,12 @@
 ﻿namespace SMS.EPA.Services.Implement
 {
     using System.Collections.Generic;
-    using Core.Services;
     using Criteria;
     using Interfaces;
     using Model;
     using Repositories;
 
-    public class FlowTemplateService : BaseService, IFlowTemplateService
+    public class FlowTemplateService : IFlowTemplateService
     {
         private readonly IFlowTemplateRepository flowTemplateRepository;
 

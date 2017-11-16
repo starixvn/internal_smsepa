@@ -6,6 +6,7 @@
     using Core.Constants;
     using Core.Enumerations;
     using Core.Model;
+    using Core.Services;
     using Criteria;
     using Model;
     using Model.Enitites;
@@ -15,7 +16,7 @@
     public class TargetTemplateController : BaseController
     {
         private readonly ITargetTemplateService targetTemplateService;
-        private readonly ICommonService commonService;
+        private readonly IBaseService baseService;
 
         public TargetTemplateController() : this(null, null)
         {
@@ -23,10 +24,10 @@
 
         public TargetTemplateController(
             ITargetTemplateService targetTemplateService,
-            ICommonService commonService)
+            IBaseService baseService)
         {
             this.targetTemplateService = targetTemplateService ?? new TargetTemplateService();
-            this.commonService = commonService ?? new CommonService();
+            this.baseService = baseService ?? new BaseService();
         }
 
         [ApiAuthorize(FunctionKey = EPAFunctionKey.TargetTemplate, Policy = Policy.Read)]
@@ -37,7 +38,7 @@
                 TargetTypeId = targetTypeId,
                 IsActive = isActive
             };
-            IEnumerable<TargetTemplate> targetTemplates = targetTemplateService.GetAllTargetTemplate(criteria);
+            IEnumerable<TargetTemplate> targetTemplates = baseService.GetData<TargetTemplate>(criteria);
 
             return targetTemplates;
         }
@@ -49,7 +50,7 @@
             {
                 TargetTemplateId = targetTemplateId
             };
-            TargetTemplate targetTemplate = targetTemplateService.GetTargetTemplateById(criteria);
+            TargetTemplate targetTemplate = baseService.GetDataEntity<TargetTemplate>(criteria);
 
             return targetTemplate;
         }
@@ -63,7 +64,7 @@
                 criteria.CreatedBy = SessionService.EmployeeId;
             }
 
-            CommandResult commandResult = commonService.ExecuteNonQuery(criteria);
+            CommandResult commandResult = baseService.ExecuteNonQuery(criteria);
             return commandResult;
         }
 
@@ -76,7 +77,7 @@
                 criteria.ModifiedBy = SessionService.EmployeeId;
             }
 
-            CommandResult commandResult = commonService.ExecuteNonQuery(criteria);
+            CommandResult commandResult = baseService.ExecuteNonQuery(criteria);
             return commandResult;
         }
 
@@ -89,7 +90,7 @@
                 criteria.ModifiedBy = SessionService.EmployeeId;
             }
 
-            CommandResult commandResult = commonService.ExecuteNonQuery(criteria);
+            CommandResult commandResult = baseService.ExecuteNonQuery(criteria);
             return commandResult;
         }
 
@@ -102,7 +103,7 @@
                 criteria.ModifiedBy = SessionService.EmployeeId;
             }
 
-            CommandResult commandResult = commonService.ExecuteNonQuery(criteria);
+            CommandResult commandResult = baseService.ExecuteNonQuery(criteria);
             return commandResult;
         }
 
@@ -116,7 +117,7 @@
                 ModifiedBy = SessionService.EmployeeId
             };
 
-            CommandResult commandResult = commonService.ExecuteNonQuery(criteria);
+            CommandResult commandResult = baseService.ExecuteNonQuery(criteria);
             return commandResult;
         }
 
@@ -129,7 +130,7 @@
                 criteria.ModifiedBy = SessionService.EmployeeId;
             }
 
-            CommandResult commandResult = commonService.ExecuteNonQuery(criteria);
+            CommandResult commandResult = baseService.ExecuteNonQuery(criteria);
             return commandResult;
         }
 
@@ -167,7 +168,7 @@
                 KPIGroupId = kpiGroupId,
                 ModifiedBy = SessionService.EmployeeId
             };
-            CommandResult commandResult = commonService.ExecuteNonQuery(criteria);
+            CommandResult commandResult = baseService.ExecuteNonQuery(criteria);
 
             return commandResult;
         }
@@ -185,7 +186,7 @@
                 ScoreRatingTypeId = scoreRatingTypeId,
                 IsActive = isActive
             };
-            IEnumerable<ScoreRatingTypeModel> scoreRatingTypes = commonService.GetScoreRatingType(criteria);
+            IEnumerable<ScoreRatingTypeModel> scoreRatingTypes = baseService.GetData<ScoreRatingTypeModel>(criteria);
 
             return scoreRatingTypes;
         }
@@ -193,7 +194,7 @@
         public IEnumerable<RatingType> GetRatingType()
         {
             var criteria = new GetRatingTypeCriteria();
-            IEnumerable<RatingType> ratingTypes = targetTemplateService.GetRatingType(criteria);
+            IEnumerable<RatingType> ratingTypes = baseService.GetData<RatingType>(criteria);
 
             return ratingTypes;
         }

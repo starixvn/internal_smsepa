@@ -13,21 +13,24 @@
     using Services.Implement;
     using Services.Interfaces;
 
-    public class BasePeriodService : BaseService
+    public class BasePeriodService
     {
         protected readonly IPeriodMailService PeriodMailService;
         protected readonly IPeriodService PeriodService;
+        protected readonly IBaseService BaseService;
 
-        public BasePeriodService() : this(null, null)
+        public BasePeriodService() : this(null, null, null)
         {
         }
 
         public BasePeriodService(
             IPeriodService periodService,
-            IPeriodMailService periodMailService)
+            IPeriodMailService periodMailService,
+            IBaseService baseService)
         {
             PeriodService = periodService ?? new PeriodService();
             PeriodMailService = periodMailService ?? new PeriodMailService();
+            BaseService = baseService ?? new BaseService();
         }
 
         protected IEnumerable<PeriodFlowModel> GetEmployeeSettings(int periodId)
@@ -52,7 +55,7 @@
 
             if (criteria.IsValid())
             {
-                commandResult = Repository.ExecuteNonQuery(criteria);
+                commandResult = BaseService.ExecuteNonQuery(criteria);
             }
 
             if (!commandResult.IsSuccessful)
@@ -84,12 +87,7 @@
             {
                 PeriodId = periodId
             };
-            var commandResult = new CommandResult();
-
-            if (criteria.IsValid())
-            {
-                commandResult = PeriodService.GenerateEvaluation(criteria);
-            }
+            CommandResult commandResult = BaseService.ExecuteNonQuery(criteria);
 
             if (!commandResult.IsSuccessful)
             {
@@ -103,7 +101,7 @@
 
             if (criteria.IsValid())
             {
-                startedPeriods = GetData<int>(criteria);
+                startedPeriods = BaseService.GetData<int>(criteria);
             }
 
             return startedPeriods;
@@ -150,13 +148,7 @@
                 PeriodId = employeePeriod.PeriodId,
                 EmployeeIds = employeePeriod.EmployeeIds
             };
-
-            var commandResult = new CommandResult();
-
-            if (criteria.IsValid())
-            {
-                commandResult = PeriodService.GenerateEvaluation(criteria);
-            }
+            CommandResult commandResult = BaseService.ExecuteNonQuery(criteria);
 
             if (!commandResult.IsSuccessful)
             {
@@ -170,7 +162,7 @@
 
             if (criteria.IsValid())
             {
-                employeePeriods = GetData<AutoEmployeePeriodModel>(criteria);
+                employeePeriods = BaseService.GetData<AutoEmployeePeriodModel>(criteria);
                 employeePeriods = employeePeriods.GroupBy(x => x.PeriodId).Select(x => new AutoEmployeePeriodModel
                 {
                     PeriodId = x.Key,

@@ -21,10 +21,6 @@
 
         CommandResult ResetPassword(ResetPasswordCriteria criteria);
 
-        IEnumerable<Employee> GetEmployeeByDepartmentId(int? departmentId);
-
-        IEnumerable<Employee> GetEmployeeByGroupId(int groupId);
-
         string GetPasswordByEmployeeId(int employeeId);
     }
 }

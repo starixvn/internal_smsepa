@@ -2,65 +2,39 @@
 {
     using System.Collections.Generic;
     using System.Linq;
-    using Core.Model;
     using Core.Services;
     using Criteria;
     using Criteria.EPAHistory;
     using Criteria.TargetType;
-    using Fanex.Data.Repository;
     using Interfaces;
     using Model;
     using Model.Enitites;
 
-    public class CommonService : BaseService, ICommonService
+    public class CommonService : ICommonService
     {
         private readonly IKPIService kpiService;
-        private readonly IKPIGroupService kpiGroupService;
+        private readonly IBaseService baseService;
         private readonly IEmployeeService employeeService;
         private readonly IDepartmentService departmentService;
         private readonly IPeriodService periodService;
-        private readonly IEmployeeEPAService employeeEPAService;
-        private readonly IEPAHistoryService epaHistoryService;
-        private readonly ITargetTemplateService targetTemplateService;
-        private readonly IMenuService menuService;
 
         public CommonService(
             IKPIService kpiService = null,
-            IKPIGroupService kpiGroupService = null,
+            IBaseService baseService = null,
             IEmployeeService employeeService = null,
             IDepartmentService departmentService = null,
-            IPeriodService periodService = null,
-            IEmployeeEPAService employeeEPAService = null,
-            IEPAHistoryService epaHistoryService = null,
-            ITargetTemplateService targetTemplateService = null,
-            IMenuService menuService = null)
+            IPeriodService periodService = null)
         {
             this.kpiService = kpiService ?? new KPIService();
-            this.kpiGroupService = kpiGroupService ?? new KPIGroupService();
+            this.baseService = baseService ?? new BaseService();
             this.employeeService = employeeService ?? new EmployeeService();
             this.departmentService = departmentService ?? new DepartmentService();
             this.periodService = periodService ?? new PeriodService();
-            this.employeeEPAService = employeeEPAService ?? new EmployeeEPAService();
-            this.epaHistoryService = epaHistoryService ?? new EPAHistoryService();
-            this.targetTemplateService = targetTemplateService ?? new TargetTemplateService();
-            this.menuService = menuService ?? new MenuService();
-        }
-
-        public CommandResult ExecuteNonQuery(ICriteria criteria)
-        {
-            var result = new CommandResult();
-
-            if (criteria != null && criteria.IsValid())
-            {
-                result = Repository.ExecuteNonQuery(criteria);
-            }
-
-            return result;
         }
 
         public IEnumerable<TargetTypeModel> GetTargetType(GetTargetTypeCriteria criteria)
         {
-            var targetTypes = GetData<TargetTypeModel>(criteria);
+            var targetTypes = baseService.GetData<TargetTypeModel>(criteria);
             return targetTypes;
         }
 
@@ -71,7 +45,7 @@
 
         public IEnumerable<KPIGroupModel> GetKPIGroup(GetKPIGroupCriteria criteria)
         {
-            return kpiGroupService.GetKPIGroup(criteria);
+            return baseService.GetData<KPIGroupModel>(criteria);
         }
 
         public IEnumerable<Employee> GetAllEmployee(GetAllEmployeeCriteria criteria)
@@ -81,12 +55,24 @@
 
         public IEnumerable<Employee> GetEmployeeByDepartmentId(int? departmentId)
         {
-            return employeeService.GetEmployeeByDepartmentId(departmentId);
+            var criteria = new GetEmployeeByDepartmentIdCriteria
+            {
+                DepartmentId = departmentId
+            };
+            IEnumerable<Employee> employees = baseService.GetData<Employee>(criteria).OrderBy(i => i.NickName);
+
+            return employees;
         }
 
         public IEnumerable<Employee> GetEmployeeByGroupId(int groupId)
         {
-            return employeeService.GetEmployeeByGroupId(groupId);
+            var criteria = new GetEmployeeByGroupIdCriteria
+            {
+                GroupId = groupId
+            };
+            IEnumerable<Employee> employees = baseService.GetData<Employee>(criteria);
+
+            return employees;
         }
 
         public Employee GetEmployeeById(int employeeId)
@@ -96,7 +82,7 @@
 
         public IEnumerable<Group> GetAllGroup(GetAllGroupCriteria criteria)
         {
-            var groups = GetData<Group>(criteria);
+            var groups = baseService.GetData<Group>(criteria);
             return groups;
         }
 
@@ -132,22 +118,29 @@
 
         public IEnumerable<StandardGradeModel> GetStandardGrade()
         {
-            return employeeEPAService.GetStandardGrade();
+            return baseService.GetData<StandardGradeModel>(new GetStandardGradeCriteria());
         }
 
-        public IList<PeriodModel> GetAllPeriodIncludeImport(GetAllPeriodIncludeImportCriteria criteria)
+        public IEnumerable<PeriodModel> GetAllPeriodIncludeImport(GetAllPeriodIncludeImportCriteria criteria)
         {
-            return epaHistoryService.GetAllPeriodIncludeImport(criteria);
+            return baseService.GetData<PeriodModel>(criteria);
         }
 
         public IEnumerable<TargetTemplate> GetAllTargetTemplate(GetAllTargetTemplateCriteria criteria)
         {
-            return targetTemplateService.GetAllTargetTemplate(criteria);
+            IEnumerable<TargetTemplate> targetTemplates = baseService.GetData<TargetTemplate>(criteria);
+            return targetTemplates;
         }
 
         public IEnumerable<MenuGroupModel> GetMenusByEmployeeId(int employeeId)
         {
-            var menus = menuService.GetMenusByEmployeeId(employeeId);
+            var criteria = new GetMenusByEmployeeIdCriteria
+            {
+                EmployeeId = employeeId
+            };
+
+            var menuItems = baseService.GetData<MenuItemModel>(criteria);
+            IList<MenuGroupModel> menus = GroupMenuItem(menuItems);
 
             return menus;
         }
@@ -155,12 +148,7 @@
         public IEnumerable<JobTitle> GetAllJobTitle()
         {
             var criteria = new GetAllJobTitleCriteria();
-            IEnumerable<JobTitle> jobTitles = new List<JobTitle>();
-
-            if (criteria.IsValid())
-            {
-                jobTitles = GetData<JobTitle>(criteria);
-            }
+            IEnumerable<JobTitle> jobTitles = baseService.GetData<JobTitle>(criteria);
 
             return jobTitles;
         }
@@ -171,20 +159,38 @@
             {
                 IsActive = isActive
             };
-            IEnumerable<JobGradeModel> jobGrades = new List<JobGradeModel>();
-
-            if (criteria.IsValid())
-            {
-                jobGrades = GetData<JobGradeModel>(criteria);
-            }
+            IEnumerable<JobGradeModel> jobGrades = baseService.GetData<JobGradeModel>(criteria);
 
             return jobGrades;
         }
 
         public IEnumerable<ScoreRatingTypeModel> GetScoreRatingType(GetScoreRatingTypeCriteria criteria)
         {
-            var scoreRatingTypes = GetData<ScoreRatingTypeModel>(criteria);
+            var scoreRatingTypes = baseService.GetData<ScoreRatingTypeModel>(criteria);
             return scoreRatingTypes;
+        }
+
+        private IList<MenuGroupModel> GroupMenuItem(IEnumerable<MenuItemModel> menuItems)
+        {
+            var menuGroups = new List<MenuGroupModel>();
+            IEnumerable<MenuItemModel> parentMenu = menuItems.Where(item => item.ParentId == null).OrderBy(item => item.DisplayOrder).ToList();
+
+            foreach (MenuItemModel parent in parentMenu)
+            {
+                var menuGroupItem = new MenuGroupModel
+                {
+                    MenuId = parent.MenuId,
+                    MenuName = parent.MenuName,
+                    MenuLink = parent.MenuLink
+                };
+
+                menuGroupItem.MenuItems = menuItems.Where(menuItem => menuItem.ParentId == menuGroupItem.MenuId)
+                    .OrderBy(menuItem => menuItem.DisplayOrder).ToList();
+
+                menuGroups.Add(menuGroupItem);
+            }
+
+            return menuGroups;
         }
     }
 }

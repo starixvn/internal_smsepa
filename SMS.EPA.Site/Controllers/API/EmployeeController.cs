@@ -15,7 +15,7 @@
     public class EmployeeController : BaseController
     {
         private readonly IEmployeeService employeeService;
-        private readonly ICommonService commonService;
+        private readonly IBaseService baseService;
 
         public EmployeeController() : this(null, null)
         {
@@ -23,10 +23,10 @@
 
         public EmployeeController(
             IEmployeeService employeeService,
-            ICommonService commonService)
+            IBaseService baseService)
         {
             this.employeeService = employeeService ?? new EmployeeService();
-            this.commonService = commonService ?? new CommonService();
+            this.baseService = baseService ?? new BaseService();
         }
 
         [ApiAuthorize(FunctionKey = EPAFunctionKey.UserManagement, Policy = Policy.Read)]
@@ -74,7 +74,7 @@
                 criteria.ModifiedBy = SessionService.EmployeeId;
             }
 
-            CommandResult commandResult = commonService.ExecuteNonQuery(criteria);
+            CommandResult commandResult = baseService.ExecuteNonQuery(criteria);
             return commandResult;
         }
 
@@ -101,7 +101,7 @@
                 criteria.ModifiedBy = SessionService.EmployeeId;
             }
 
-            CommandResult commandResult = commonService.ExecuteNonQuery(criteria);
+            CommandResult commandResult = baseService.ExecuteNonQuery(criteria);
             return commandResult;
         }
 
@@ -130,7 +130,7 @@
                 criteria.ModifiedBy = SessionService.EmployeeId;
             }
 
-            CommandResult commandResult = commonService.ExecuteNonQuery(criteria);
+            CommandResult commandResult = baseService.ExecuteNonQuery(criteria);
             return commandResult;
         }
 

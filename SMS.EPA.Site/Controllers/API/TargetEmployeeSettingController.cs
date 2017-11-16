@@ -6,6 +6,7 @@
     using Core.Constants;
     using Core.Enumerations;
     using Core.Model;
+    using Core.Services;
     using Criteria;
     using Model;
     using Services.Implement;
@@ -14,7 +15,7 @@
     public class TargetEmployeeSettingController : BaseController
     {
         private readonly ITargetEmployeeSettingService targetEmployeeSettingService;
-        private readonly ICommonService commonService;
+        private readonly IBaseService baseService;
 
         public TargetEmployeeSettingController() : this(null, null)
         {
@@ -22,10 +23,10 @@
 
         public TargetEmployeeSettingController(
             ITargetEmployeeSettingService targetEmployeeSettingService,
-            ICommonService commonService)
+            IBaseService baseService)
         {
             this.targetEmployeeSettingService = targetEmployeeSettingService ?? new TargetEmployeeSettingService();
-            this.commonService = commonService ?? new CommonService();
+            this.baseService = baseService ?? new BaseService();
         }
 
         [ApiAuthorize(FunctionKey = EPAFunctionKey.TargetEmployeeSetting, Policy = Policy.Read)]
@@ -56,7 +57,7 @@
                 criteria.ModifiedBy = SessionService.EmployeeId;
             }
 
-            CommandResult commandResult = commonService.ExecuteNonQuery(criteria);
+            CommandResult commandResult = baseService.ExecuteNonQuery(criteria);
             return commandResult;
         }
 
@@ -71,7 +72,7 @@
                 ModifiedBy = SessionService.EmployeeId
             };
 
-            CommandResult commandResult = commonService.ExecuteNonQuery(criteria);
+            CommandResult commandResult = baseService.ExecuteNonQuery(criteria);
             return commandResult;
         }
 
@@ -108,7 +109,7 @@
                     ModifiedBy = SessionService.EmployeeId
                 };
 
-                commandResult = commonService.ExecuteNonQuery(criteria);
+                commandResult = baseService.ExecuteNonQuery(criteria);
             }
 
             return commandResult;
@@ -129,7 +130,7 @@
                 ModifiedBy = SessionService.EmployeeId
             };
 
-            CommandResult commandResult = commonService.ExecuteNonQuery(criteria);
+            CommandResult commandResult = baseService.ExecuteNonQuery(criteria);
             return commandResult;
         }
 

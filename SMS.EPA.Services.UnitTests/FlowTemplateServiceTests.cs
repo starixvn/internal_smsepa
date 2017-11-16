@@ -135,7 +135,6 @@
             IBaseRepository baseRepository = null)
         {
             var service = new FlowTemplateService(flowTemplateRepository);
-            service.Repository = baseRepository;
 
             return service;
         }

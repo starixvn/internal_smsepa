@@ -3,16 +3,21 @@
     using System.Collections.Generic;
     using System.Threading.Tasks;
     using Fanex.Data.Repository;
+    using Model;
     using Repositories;
 
-    public class BaseService
+    public class BaseService : IBaseService
     {
         private readonly IDynamicRepository dynamicRepository;
+        private readonly IBaseRepository baseRepository;
 
-        public BaseService(IDynamicRepository dynamicRepository = null, IBaseRepository repository = null)
+        public BaseService(
+            IDynamicRepository dynamicRepository = null,
+            IBaseRepository baseRepository = null)
         {
             this.dynamicRepository = dynamicRepository ?? new DynamicRepository();
-            Repository = repository ?? new BaseRepository();
+            this.baseRepository = baseRepository ?? new BaseRepository();
+            Repository = baseRepository ?? new BaseRepository();
         }
 
         public IBaseRepository Repository { get; set; }
@@ -55,6 +60,30 @@
             }
 
             return default(T);
+        }
+
+        public virtual CommandResult ExecuteNonQuery(ICriteria criteria)
+        {
+            var commandResult = new CommandResult();
+
+            if (criteria != null && criteria.IsValid())
+            {
+                commandResult = baseRepository.ExecuteNonQuery(criteria);
+            }
+
+            return commandResult;
+        }
+
+        public virtual async Task<CommandResult> ExecuteNonQueryAsync(ICriteria criteria)
+        {
+            var commandResult = new CommandResult();
+
+            if (criteria != null && criteria.IsValid())
+            {
+                commandResult = await baseRepository.ExecuteNonQueryAsync(criteria).ConfigureAwait(false);
+            }
+
+            return commandResult;
         }
     }
 }

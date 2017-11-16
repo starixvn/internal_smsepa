@@ -1,6 +1,8 @@
 ﻿namespace SMS.EPA.Services.UnitTests
 {
     using System.Collections.Generic;
+    using System.Linq;
+    using Core.Services;
     using NSubstitute;
     using NUnit.Framework;
     using SMS.EPA.Criteria;
@@ -15,14 +17,10 @@
     public class CommonServiceTests
     {
         private IKPIService kpiService;
-        private IKPIGroupService kpiGroupService;
+        private IBaseService baseService;
         private IEmployeeService employeeService;
         private IDepartmentService departmentService;
         private IPeriodService periodService;
-        private IEmployeeEPAService employeeEPAService;
-        private IEPAHistoryService epaHistoryService;
-        private ITargetTemplateService targetTemplateService;
-        private IMenuService menuService;
         private ICommonService commonService;
 
         #region GetTargetType
@@ -47,10 +45,10 @@
             var criteria = new GetTargetTypeCriteria();
             var expectedTargetTypes = new List<TargetTypeModel>();
             expectedTargetTypes.Add(new TargetTypeModel());
-            var service = ArrangeGetTargetType(expectedTargetTypes);
+            ArrangeGetTargetType(expectedTargetTypes);
 
             // Act
-            var actual = service.GetTargetType(criteria);
+            var actual = commonService.GetTargetType(criteria);
 
             // Assert
             Assert.AreEqual(expectedTargetTypes, actual);
@@ -260,10 +258,10 @@
             // Arrange
             var criteria = new GetAllGroupCriteria();
             var expectedGroups = new List<Group> { new Group() };
-            var localCommonService = ArrangeGetAllGroup(expectedGroups);
+            ArrangeGetAllGroup(expectedGroups);
 
             // Act
-            var actual = localCommonService.GetAllGroup(criteria);
+            var actual = commonService.GetAllGroup(criteria);
 
             // Assert
             Assert.AreEqual(expectedGroups, actual);
@@ -412,7 +410,7 @@
             var actual = commonService.GetAllPeriodIncludeImport(Arg.Any<GetAllPeriodIncludeImportCriteria>());
 
             // Assert
-            Assert.IsInstanceOf(typeof(IList<PeriodModel>), actual);
+            Assert.IsInstanceOf(typeof(IEnumerable<PeriodModel>), actual);
         }
 
         [Test]
@@ -483,8 +481,10 @@
         public void GetMenusByEmployeeId_VaidArg_ReturnExpectedMenuGroups()
         {
             // Arrange
-            var expectedMenuGroups = new List<MenuGroupModel>();
-            expectedMenuGroups.Add(new MenuGroupModel());
+            IEnumerable<MenuGroupModel> expectedMenuGroups = new List<MenuGroupModel>
+            {
+                new MenuGroupModel()
+            };
             ArrangeGetMenusByEmployeeId(expectedMenuGroups);
 
             // Act
@@ -516,10 +516,10 @@
         {
             // Arrange
             var expectedJobTitles = new List<JobTitle> { new JobTitle() };
-            var localCommonService = ArrangeGetAllJobTitle(expectedJobTitles);
+            ArrangeGetAllJobTitle(expectedJobTitles);
 
             // Act
-            var actual = localCommonService.GetAllJobTitle();
+            var actual = commonService.GetAllJobTitle();
 
             // Assert
             Assert.AreEqual(expectedJobTitles, actual);
@@ -533,10 +533,10 @@
         public void GetJobGrade_AnyArg_ReturnInstanceOfListOfJobGradeModel()
         {
             // Arrange
-            CommonService service = ArrangeGetJobGrade();
+            ArrangeGetJobGrade();
 
             // Act
-            var actual = service.GetJobGrade(Arg.Any<bool?>());
+            var actual = commonService.GetJobGrade(Arg.Any<bool?>());
 
             // Assert
             Assert.IsInstanceOf(typeof(IEnumerable<JobGradeModel>), actual);
@@ -548,10 +548,10 @@
             // Arrange
             bool? isActive = false;
             IEnumerable<JobGradeModel> result = GetListOfJobGradeForTest();
-            CommonService service = ArrangeGetJobGrade(result);
+            ArrangeGetJobGrade(result);
 
             // Act
-            var actual = service.GetJobGrade(isActive);
+            var actual = commonService.GetJobGrade(isActive);
 
             // Assert
             Assert.IsNotNull(actual);
@@ -566,10 +566,10 @@
             // Arrange
             var expectedRatingTypes = new List<ScoreRatingTypeModel>();
             expectedRatingTypes.Add(new ScoreRatingTypeModel());
-            var service = ArrangeGetScoreRatingType(expectedRatingTypes);
+            ArrangeGetScoreRatingType(expectedRatingTypes);
 
             // Act
-            var actual = service.GetScoreRatingType(Arg.Any<GetScoreRatingTypeCriteria>());
+            var actual = commonService.GetScoreRatingType(Arg.Any<GetScoreRatingTypeCriteria>());
 
             // Assert
             Assert.AreEqual(expectedRatingTypes, actual);
@@ -580,32 +580,23 @@
         private void ArrangeCommon()
         {
             kpiService = Substitute.For<IKPIService>();
-            kpiGroupService = Substitute.For<IKPIGroupService>();
+            baseService = Substitute.For<IBaseService>();
             employeeService = Substitute.For<IEmployeeService>();
             departmentService = Substitute.For<IDepartmentService>();
             periodService = Substitute.For<IPeriodService>();
-            employeeEPAService = Substitute.For<IEmployeeEPAService>();
-            epaHistoryService = Substitute.For<IEPAHistoryService>();
-            targetTemplateService = Substitute.For<ITargetTemplateService>();
-            menuService = Substitute.For<IMenuService>();
+
             commonService = new CommonService(
                 kpiService,
-                kpiGroupService,
+                baseService,
                 employeeService,
                 departmentService,
-                periodService,
-                employeeEPAService,
-                epaHistoryService,
-                targetTemplateService,
-                menuService);
+                periodService);
         }
 
-        private CommonService ArrangeGetTargetType(IEnumerable<TargetTypeModel> targetTypes = null)
+        private void ArrangeGetTargetType(IEnumerable<TargetTypeModel> targetTypes = null)
         {
-            var service = Substitute.For<CommonService>(null, null, null, null, null, null, null, null, null);
-            service.GetData<TargetTypeModel>(Arg.Any<GetTargetTypeCriteria>()).Returns(targetTypes);
-
-            return service;
+            ArrangeCommon();
+            baseService.GetData<TargetTypeModel>(Arg.Any<GetTargetTypeCriteria>()).Returns(targetTypes ?? new List<TargetTypeModel>());
         }
 
         private void ArrangeGetKPI(IEnumerable<KPIModel> kpis = null)
@@ -617,7 +608,7 @@
         private void ArrangeGetKPIGroup(IEnumerable<KPIGroupModel> kpiGroups = null)
         {
             ArrangeCommon();
-            kpiGroupService.GetKPIGroup(Arg.Any<GetKPIGroupCriteria>()).Returns(kpiGroups ?? new List<KPIGroupModel>());
+            baseService.GetData<KPIGroupModel>(Arg.Any<GetKPIGroupCriteria>()).Returns(kpiGroups ?? new List<KPIGroupModel>());
         }
 
         private void ArrangeGetAllEmployee(IEnumerable<Employee> employees = null)
@@ -629,13 +620,13 @@
         private void ArrangeGetEmployeeByDepartmentId(IEnumerable<Employee> employees = null)
         {
             ArrangeCommon();
-            employeeService.GetEmployeeByDepartmentId(Arg.Any<int>()).Returns(employees ?? new List<Employee>());
+            baseService.GetData<Employee>(Arg.Any<GetEmployeeByDepartmentIdCriteria>()).Returns(employees ?? new List<Employee>());
         }
 
         private void ArrangeGetEmployeeByGroupId(IEnumerable<Employee> employees = null)
         {
             ArrangeCommon();
-            employeeService.GetEmployeeByGroupId(Arg.Any<int>()).Returns(employees ?? new List<Employee>());
+            baseService.GetData<Employee>(Arg.Any<GetEmployeeByGroupIdCriteria>()).Returns(employees ?? new List<Employee>());
         }
 
         private void ArrangeGetEmployeeById(Employee employee = null)
@@ -644,11 +635,10 @@
             employeeService.GetEmployeeById(Arg.Any<int>()).Returns(employee ?? new Employee());
         }
 
-        private CommonService ArrangeGetAllGroup(IEnumerable<Group> groups = null)
+        private void ArrangeGetAllGroup(IEnumerable<Group> groups = null)
         {
-            var service = Substitute.For<CommonService>(null, null, null, null, null, null, null, null, null);
-            service.GetData<Group>(Arg.Any<GetAllGroupCriteria>()).Returns(groups ?? new List<Group>());
-            return service;
+            ArrangeCommon();
+            baseService.GetData<Group>(Arg.Any<GetAllGroupCriteria>()).Returns(groups ?? new List<Group>());
         }
 
         private void ArrangeGetDepartment(IList<Department> departments = null)
@@ -666,32 +656,31 @@
         private void ArrangeGetStandardGrade(IEnumerable<StandardGradeModel> grades = null)
         {
             ArrangeCommon();
-            employeeEPAService.GetStandardGrade().Returns(grades ?? new List<StandardGradeModel>());
+            baseService.GetData<StandardGradeModel>(Arg.Any<GetStandardGradeCriteria>()).Returns(grades ?? new List<StandardGradeModel>());
         }
 
-        private void ArrangeGetAllPeriodIncludeImport(IList<PeriodModel> periods = null)
+        private void ArrangeGetAllPeriodIncludeImport(IEnumerable<PeriodModel> periods = null)
         {
             ArrangeCommon();
-            epaHistoryService.GetAllPeriodIncludeImport(Arg.Any<GetAllPeriodIncludeImportCriteria>()).Returns(periods ?? new List<PeriodModel>());
+            baseService.GetData<PeriodModel>(Arg.Any<GetAllPeriodIncludeImportCriteria>()).Returns(periods ?? new List<PeriodModel>());
         }
 
         private void ArrangeGetAllTargetTemplate(IEnumerable<TargetTemplate> targetTemplates = null)
         {
             ArrangeCommon();
-            targetTemplateService.GetAllTargetTemplate(Arg.Any<GetAllTargetTemplateCriteria>()).Returns(targetTemplates ?? new List<TargetTemplate>());
+            baseService.GetData<TargetTemplate>(Arg.Any<GetAllTargetTemplateCriteria>()).Returns(targetTemplates ?? new List<TargetTemplate>());
         }
 
         private void ArrangeGetMenusByEmployeeId(IEnumerable<MenuGroupModel> menuGroups = null)
         {
             ArrangeCommon();
-            menuService.GetMenusByEmployeeId(Arg.Any<int>()).Returns(menuGroups ?? new List<MenuGroupModel>());
+            commonService.GetMenusByEmployeeId(Arg.Any<int>()).Returns(menuGroups ?? new List<MenuGroupModel>());
         }
 
-        private CommonService ArrangeGetAllJobTitle(IEnumerable<JobTitle> jobTitles = null)
+        private void ArrangeGetAllJobTitle(IEnumerable<JobTitle> jobTitles = null)
         {
-            var service = Substitute.For<CommonService>(null, null, null, null, null, null, null, null, null);
-            service.GetData<JobTitle>(Arg.Any<GetAllJobTitleCriteria>()).Returns(jobTitles ?? new List<JobTitle>());
-            return service;
+            ArrangeCommon();
+            baseService.GetData<JobTitle>(Arg.Any<GetAllJobTitleCriteria>()).Returns(jobTitles ?? new List<JobTitle>());
         }
 
         private IEnumerable<JobGradeModel> GetListOfJobGradeForTest()
@@ -713,20 +702,16 @@
             return jobGrades;
         }
 
-        private CommonService ArrangeGetJobGrade(IEnumerable<JobGradeModel> result = null)
+        private void ArrangeGetJobGrade(IEnumerable<JobGradeModel> result = null)
         {
-            var service = Substitute.For<CommonService>(null, null, null, null, null, null, null, null, null);
-            service.When(x => x.GetData<JobGradeModel>(Arg.Any<GetJobGradeCriteria>())).DoNotCallBase();
-            service.GetData<JobGradeModel>(Arg.Any<GetJobGradeCriteria>()).Returns(result ?? new List<JobGradeModel>());
-
-            return service;
+            ArrangeCommon();
+            baseService.GetData<JobGradeModel>(Arg.Any<GetJobGradeCriteria>()).Returns(result ?? new List<JobGradeModel>());
         }
 
-        private CommonService ArrangeGetScoreRatingType(IEnumerable<ScoreRatingTypeModel> ratingTypes = null)
+        private void ArrangeGetScoreRatingType(IEnumerable<ScoreRatingTypeModel> ratingTypes = null)
         {
-            var service = Substitute.For<CommonService>(null, null, null, null, null, null, null, null, null);
-            service.GetData<ScoreRatingTypeModel>(Arg.Any<GetScoreRatingTypeCriteria>()).Returns(ratingTypes ?? new List<ScoreRatingTypeModel>());
-            return service;
+            ArrangeCommon();
+            baseService.GetData<ScoreRatingTypeModel>(Arg.Any<GetScoreRatingTypeCriteria>()).Returns(ratingTypes ?? new List<ScoreRatingTypeModel>());
         }
 
         #endregion Helpers

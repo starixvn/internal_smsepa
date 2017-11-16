@@ -9,21 +9,24 @@
     using Services.Implement;
     using Services.Interfaces;
 
-    public class AutoMailService : BaseService, IAutoMailService
+    public class AutoMailService : IAutoMailService
     {
         private readonly IPeriodService periodService;
         private readonly IPeriodMailService periodMailService;
+        private readonly IBaseService baseService;
 
-        public AutoMailService() : this(null, null)
+        public AutoMailService() : this(null, null, null)
         {
         }
 
         public AutoMailService(
             IPeriodService periodService,
-            IPeriodMailService periodMailService)
+            IPeriodMailService periodMailService,
+            IBaseService baseService)
         {
             this.periodService = periodService ?? new PeriodService();
             this.periodMailService = periodMailService ?? new PeriodMailService();
+            this.baseService = baseService ?? new BaseService();
         }
 
         public void CheckAndSendMail()
@@ -35,7 +38,7 @@
 
         private void CheckSendNoticeAtBeginEmail()
         {
-            IEnumerable<AutoEmployeePeriodModel> startedProcess = periodService.GetPeriodHasStartedProcess();
+            IEnumerable<AutoEmployeePeriodModel> startedProcess = baseService.GetData<AutoEmployeePeriodModel>(new GetPeriodHasStartedProcessCriteria());
 
             foreach (AutoEmployeePeriodModel periodProcess in startedProcess)
             {
@@ -64,12 +67,7 @@
 
         private IEnumerable<AutoEmployeePeriodModel> GetPeriodHasReminderProcess(GetPeriodHasReminderProcessCriteria criteria)
         {
-            IEnumerable<AutoEmployeePeriodModel> reminderPeriods = new List<AutoEmployeePeriodModel>();
-
-            if (criteria != null && criteria.IsValid())
-            {
-                reminderPeriods = GetData<AutoEmployeePeriodModel>(criteria);
-            }
+            IEnumerable<AutoEmployeePeriodModel> reminderPeriods = baseService.GetData<AutoEmployeePeriodModel>(criteria);
 
             return reminderPeriods;
         }

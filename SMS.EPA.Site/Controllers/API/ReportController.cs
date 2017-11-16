@@ -1,5 +1,10 @@
 ﻿namespace SMS.EPA.Site.Controllers.API
 {
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Net;
+    using System.Net.Http;
+    using System.Web.Http;
     using Core.Attribute;
     using Core.Constants;
     using Core.Enumerations;
@@ -7,11 +12,6 @@
     using Model;
     using Services.Implement;
     using Services.Interfaces;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Net;
-    using System.Net.Http;
-    using System.Web.Http;
 
     public class ReportController : BaseController
     {
@@ -141,11 +141,11 @@
         }
 
         [HttpGet]
-        public IList<PeriodModel> GetAllPeriodIncludeImport()
+        public IEnumerable<PeriodModel> GetAllPeriodIncludeImport()
         {
-            IList<PeriodModel> periods = commonController.GetAllPeriodIncludeImport();
+            IEnumerable<PeriodModel> periods = commonController.GetAllPeriodIncludeImport();
 
-            if (periods.Count > 0)
+            if (periods.Any())
             {
                 periods = periods.OrderByDescending(x => x.Year).ToList();
             }

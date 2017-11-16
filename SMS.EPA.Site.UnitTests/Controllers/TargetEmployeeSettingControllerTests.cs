@@ -10,12 +10,12 @@
     using Services.Interfaces;
     using Site.Controllers.API;
 
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1001:TypesThatOwnDisposableFieldsShouldBeDisposable", Justification = "Reviewed")]
+    
     [TestFixture]
     public class TargetEmployeeSettingControllerTests
     {
         private ITargetEmployeeSettingService _targetEmployeeSettingService;
-        private ICommonService commonService;
+        private IBaseService baseService;
         private TargetEmployeeSettingController _targetEmployeeSettingController;
 
         #region GetTargetEmployeeSetting
@@ -260,9 +260,9 @@
             return service;
         }
 
-        private ICommonService FakeCommonService()
+        private IBaseService FakeBaseService()
         {
-            var service = Substitute.For<ICommonService>();
+            var service = Substitute.For<IBaseService>();
 
             return service;
         }
@@ -270,9 +270,9 @@
         private TargetEmployeeSettingController GetTargetEmployeeSettingController(
             ITargetEmployeeSettingService targetEmployeeSettingService = null,
             ISessionService sessionService = null,
-            ICommonService commonService = null)
+            IBaseService baseService = null)
         {
-            var controller = new TargetEmployeeSettingController(targetEmployeeSettingService, commonService);
+            var controller = new TargetEmployeeSettingController(targetEmployeeSettingService, baseService);
             controller.SessionService = sessionService;
 
             return controller;
@@ -299,33 +299,33 @@
         private void ArrangeAssignTargetTemplateToEmployee(CommandResult result = null)
         {
             _targetEmployeeSettingService = Substitute.For<ITargetEmployeeSettingService>();
-            commonService = FakeCommonService();
-            commonService.ExecuteNonQuery(Arg.Any<AssignTargetTemplateToEmployeeCriteria>()).Returns(result ?? new CommandResult());
-            _targetEmployeeSettingController = GetTargetEmployeeSettingController(_targetEmployeeSettingService, FakeSessionService(), commonService);
+            baseService = FakeBaseService();
+            baseService.ExecuteNonQuery(Arg.Any<AssignTargetTemplateToEmployeeCriteria>()).Returns(result ?? new CommandResult());
+            _targetEmployeeSettingController = GetTargetEmployeeSettingController(_targetEmployeeSettingService, FakeSessionService(), baseService);
         }
 
         private void ArrangeDeleteTargetEmployeeSetting(CommandResult result = null)
         {
             _targetEmployeeSettingService = Substitute.For<ITargetEmployeeSettingService>();
-            commonService = FakeCommonService();
-            commonService.ExecuteNonQuery(Arg.Any<DeleteTargetEmployeeSettingCriteria>()).Returns(result ?? new CommandResult());
-            _targetEmployeeSettingController = GetTargetEmployeeSettingController(_targetEmployeeSettingService, FakeSessionService(), commonService);
+            baseService = FakeBaseService();
+            baseService.ExecuteNonQuery(Arg.Any<DeleteTargetEmployeeSettingCriteria>()).Returns(result ?? new CommandResult());
+            _targetEmployeeSettingController = GetTargetEmployeeSettingController(_targetEmployeeSettingService, FakeSessionService(), baseService);
         }
 
         private void ArrangeAssignTargetTemplateToDepartment(CommandResult result = null)
         {
             _targetEmployeeSettingService = Substitute.For<ITargetEmployeeSettingService>();
-            commonService = FakeCommonService();
-            commonService.ExecuteNonQuery(Arg.Any<AssignTargetDepartmentSettingCriteria>()).Returns(result ?? new CommandResult());
-            _targetEmployeeSettingController = GetTargetEmployeeSettingController(_targetEmployeeSettingService, FakeSessionService(), commonService);
+            baseService = FakeBaseService();
+            baseService.ExecuteNonQuery(Arg.Any<AssignTargetDepartmentSettingCriteria>()).Returns(result ?? new CommandResult());
+            _targetEmployeeSettingController = GetTargetEmployeeSettingController(_targetEmployeeSettingService, FakeSessionService(), baseService);
         }
 
         private void ArrangeDeleteTargetDepartmentSetting(CommandResult result = null)
         {
             _targetEmployeeSettingService = Substitute.For<ITargetEmployeeSettingService>();
-            commonService = FakeCommonService();
-            commonService.ExecuteNonQuery(Arg.Any<DeleteTargetDepartmentSettingCriteria>()).Returns(result ?? new CommandResult());
-            _targetEmployeeSettingController = GetTargetEmployeeSettingController(_targetEmployeeSettingService, FakeSessionService(), commonService);
+            baseService = FakeBaseService();
+            baseService.ExecuteNonQuery(Arg.Any<DeleteTargetDepartmentSettingCriteria>()).Returns(result ?? new CommandResult());
+            _targetEmployeeSettingController = GetTargetEmployeeSettingController(_targetEmployeeSettingService, FakeSessionService(), baseService);
         }
     }
 }

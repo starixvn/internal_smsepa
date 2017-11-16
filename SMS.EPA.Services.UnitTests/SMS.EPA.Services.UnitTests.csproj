@@ -167,12 +167,10 @@
     <Compile Include="CommonServiceTests.cs" />
     <Compile Include="ManualMailServiceTests.cs" />
     <Compile Include="MailServiceTests.cs" />
-    <Compile Include="MenuServiceTests.cs" />
     <Compile Include="EPAHistoryServiceTests.cs" />
     <Compile Include="DepartmentServiceTests.cs" />
     <Compile Include="EmployeeServiceTests.cs" />
     <Compile Include="FlowTemplateServiceTests.cs" />
-    <Compile Include="KPIGroupServiceTests.cs" />
     <Compile Include="KPIServiceTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RoleServiceTests.cs" />

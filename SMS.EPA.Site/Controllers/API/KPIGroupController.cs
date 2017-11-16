@@ -6,24 +6,21 @@
     using Core.Constants;
     using Core.Enumerations;
     using Core.Model;
+    using Core.Services;
     using Criteria;
     using Model;
-    using Services.Implement;
-    using Services.Interfaces;
 
     public class KPIGroupController : BaseController
     {
-        private readonly IKPIGroupService kpiGroupService;
-        private readonly ICommonService commonService;
+        private readonly IBaseService baseService;
 
-        public KPIGroupController() : this(null, null)
+        public KPIGroupController() : this(null)
         {
         }
 
-        public KPIGroupController(IKPIGroupService kpiGroupService, ICommonService commonService)
+        public KPIGroupController(IBaseService baseService)
         {
-            this.kpiGroupService = kpiGroupService ?? new KPIGroupService();
-            this.commonService = commonService ?? new CommonService();
+            this.baseService = baseService ?? new BaseService();
         }
 
         [HttpGet]
@@ -35,14 +32,19 @@
                 IsActive = isActive
             };
 
-            return kpiGroupService.GetKPIGroup(criteria);
+            return baseService.GetData<KPIGroupModel>(criteria);
         }
 
         [HttpGet]
         [ApiAuthorize(FunctionKey = EPAFunctionKey.KPIGroup, Policy = Policy.Read)]
         public KPIGroupModel GetKPIGroupById(int kpiGroupId)
         {
-            return kpiGroupService.GetKPIGroupById(kpiGroupId);
+            var criteria = new GetKPIGroupByIdCriteria
+            {
+                KPIGroupId = kpiGroupId
+            };
+
+            return baseService.GetDataEntity<KPIGroupModel>(criteria);
         }
 
         [HttpPost]
@@ -54,7 +56,7 @@
                 criteria.CreatedBy = SessionService.EmployeeId;
             }
 
-            CommandResult commandResult = commonService.ExecuteNonQuery(criteria);
+            CommandResult commandResult = baseService.ExecuteNonQuery(criteria);
 
             return commandResult;
         }
@@ -68,7 +70,7 @@
                 criteria.ModifiedBy = SessionService.EmployeeId;
             }
 
-            CommandResult commandResult = commonService.ExecuteNonQuery(criteria);
+            CommandResult commandResult = baseService.ExecuteNonQuery(criteria);
 
             return commandResult;
         }
@@ -82,7 +84,7 @@
                 criteria.ModifiedBy = SessionService.EmployeeId;
             }
 
-            CommandResult commandResult = commonService.ExecuteNonQuery(criteria);
+            CommandResult commandResult = baseService.ExecuteNonQuery(criteria);
 
             return commandResult;
         }
@@ -97,7 +99,7 @@
                 ModifiedBy = SessionService.EmployeeId
             };
 
-            CommandResult commandResult = commonService.ExecuteNonQuery(criteria);
+            CommandResult commandResult = baseService.ExecuteNonQuery(criteria);
 
             return commandResult;
         }

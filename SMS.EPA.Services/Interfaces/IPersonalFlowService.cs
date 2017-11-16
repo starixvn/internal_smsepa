@@ -9,7 +9,5 @@
         IEnumerable<PersonalFlowModel> GetPersonalFlowByFlowTemplateId(int flowTemplateId);
 
         IEnumerable<FlowModel> GetPersonalFlowById(GetPersonalFlowByIdCriteria criteria);
-
-        EmployeeFlowSettingModel GetEmployeeFlowSetting(GetEmployeeFlowSettingCriteria criteria);
     }
 }
