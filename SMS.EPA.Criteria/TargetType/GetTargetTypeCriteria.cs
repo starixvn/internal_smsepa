@@ -8,14 +8,8 @@
 
         public string ExcludeTargetTypeIds { get; set; }
 
-        public override string GetSettingKey()
-        {
-            return "TargetType_Get";
-        }
+        public override string GetSettingKey() => "TargetType_Get";
 
-        public override bool IsValid()
-        {
-            return true;
-        }
+        public override bool IsValid() => true;
     }
 }

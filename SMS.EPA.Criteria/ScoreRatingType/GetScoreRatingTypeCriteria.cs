@@ -8,14 +8,8 @@
 
         public bool IsActive { get; set; }
 
-        public override bool IsValid()
-        {
-            return true;
-        }
+        public override bool IsValid() => true;
 
-        public override string GetSettingKey()
-        {
-            return "EpaScoreRatingType_Get";
-        }
+        public override string GetSettingKey() => "EpaScoreRatingType_Get";
     }
 }

@@ -93,6 +93,7 @@
     <Compile Include="FlowSetting\GetDepartmentSectionHasSettingCriteriaTests.cs" />
     <Compile Include="FlowSetting\GetDepartmentFlowByIdCriteriaTests.cs" />
     <Compile Include="FlowSetting\GetDepartmentFlowByFlowTemplateIdCriteriaTests.cs" />
+    <Compile Include="JobGrade\GetJobGradeCriteriaTests.cs" />
     <Compile Include="KPIGroup\CreateKPIGroupCriteriaTests.cs" />
     <Compile Include="KPIGroup\DeleteKPIGroupCriteriaTests.cs" />
     <Compile Include="KPIGroup\GetKPIGroupByIdCriteriaTests.cs" />
@@ -105,15 +106,18 @@
     <Compile Include="KPI\UpdateKPICriteriaTests.cs" />
     <Compile Include="KPI\UpdateRequiredEvaluateKPICriteriaTests.cs" />
     <Compile Include="KPI\UpdateStatusKPICriteriaTests.cs" />
+    <Compile Include="Menu\GetMenusByEmployeeIdCriteriaTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RoleManagement\AssignFunctionToRoleCriteriaTests.cs" />
     <Compile Include="RoleManagement\GetFunctionByRoleIdCriteriaTests.cs" />
+    <Compile Include="ScoreRatingType\GetScoreRatingTypeCriteriaTests.cs" />
     <Compile Include="TargetEmployeeSetting\GetTargetDepartmentSettingCriteriaTests.cs" />
     <Compile Include="TargetEmployeeSetting\GetAllTargetEmployeeSettingCriteriaTests.cs" />
     <Compile Include="TargetEmployeeSetting\DeleteTargetEmployeeSettingCriteriaTests.cs" />
     <Compile Include="TargetEmployeeSetting\DeleteTargetDepartmentSettingCriteriaTests.cs" />
     <Compile Include="TargetEmployeeSetting\AssignTargetTemplateToEmployeeCriteriaTests.cs" />
     <Compile Include="TargetEmployeeSetting\AssignTargetDepartmentSettingCriteriaTests.cs" />
+    <Compile Include="TargetType\GetTargetTypeCriteriaTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SMS.EPA.Criteria\SMS.EPA.Criteria.csproj">
