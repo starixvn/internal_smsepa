@@ -8,14 +8,8 @@
 
         public int FlowTemplateId { get; set; }
 
-        public override bool IsValid()
-        {
-            return EmployeeId > 0 && FlowTemplateId > 0;
-        }
+        public override bool IsValid() => EmployeeId > 0 && FlowTemplateId > 0;
 
-        public override string GetSettingKey()
-        {
-            return "SettingEmployeeFlow_GetById";
-        }
+        public override string GetSettingKey() => "SettingEmployeeFlow_GetById";
     }
 }

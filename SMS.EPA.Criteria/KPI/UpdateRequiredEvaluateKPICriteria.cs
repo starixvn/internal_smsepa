@@ -10,14 +10,8 @@
 
         public int ModifiedBy { get; set; }
 
-        public override string GetSettingKey()
-        {
-            return "KPI_UpdateRequiredEvaluate";
-        }
+        public override string GetSettingKey() => "KPI_UpdateRequiredEvaluate";
 
-        public override bool IsValid()
-        {
-            return KPIId > 0 && ModifiedBy > 0;
-        }
+        public override bool IsValid() => KPIId > 0 && ModifiedBy > 0;
     }
 }

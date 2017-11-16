@@ -10,14 +10,8 @@
 
         public bool? IsRequiredEvaluate { get; set; }
 
-        public override bool IsValid()
-        {
-            return true;
-        }
+        public override bool IsValid() => true;
 
-        public override string GetSettingKey()
-        {
-            return "KPI_Get";
-        }
+        public override string GetSettingKey() => "KPI_Get";
     }
 }

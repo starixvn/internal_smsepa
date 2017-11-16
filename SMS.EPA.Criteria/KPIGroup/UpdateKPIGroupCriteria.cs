@@ -14,14 +14,8 @@
 
         public int ModifiedBy { get; set; }
 
-        public override string GetSettingKey()
-        {
-            return "KPIGroup_Update";
-        }
+        public override string GetSettingKey() => "KPIGroup_Update";
 
-        public override bool IsValid()
-        {
-            return KPIGroupId > 0 && !string.IsNullOrWhiteSpace(Name) && ModifiedBy > 0;
-        }
+        public override bool IsValid() => KPIGroupId > 0 && !string.IsNullOrWhiteSpace(Name) && ModifiedBy > 0;
     }
 }

@@ -1,5 +1,6 @@
 ﻿namespace SMS.EPA.Criteria.UnitTests
 {
+    using Criteria;
     using NUnit.Framework;
 
     [TestFixture]
@@ -19,12 +20,9 @@
             Assert.AreEqual(expected, actual);
         }
 
-        // return true if roleId > 0
-        // else return false
         [TestCase(1, true)]
         [TestCase(0, false)]
-        [TestCase(-1, false)]
-        public void IsValid_VariousValues_ChecksThem(int roleId, bool expected)
+        public void IsValid_CheckParameter_ReturnAsExpected(int roleId, bool expected)
         {
             // Arrange
             var criteria = new GetFunctionByRoleIdCriteria

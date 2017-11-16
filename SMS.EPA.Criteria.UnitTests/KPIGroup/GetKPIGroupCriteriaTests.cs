@@ -1,5 +1,6 @@
 ﻿namespace SMS.EPA.Criteria.UnitTests
 {
+    using Criteria;
     using NUnit.Framework;
 
     [TestFixture]
@@ -10,13 +11,26 @@
         {
             // Arrange
             var criteria = new GetKPIGroupCriteria();
-            string expected = "KPIGroup_Get";
+            var expected = "KPIGroup_Get";
 
             // Act
-            string actual = criteria.GetSettingKey();
+            var actual = criteria.GetSettingKey();
 
             // Assert
             Assert.AreEqual(expected, actual);
+        }
+
+        [Test]
+        public void IsValid_ReturnTrue()
+        {
+            // Arrange
+            var criteria = new GetKPIGroupCriteria();
+
+            // Act
+            var actual = criteria.IsValid();
+
+            // Assert
+            Assert.IsTrue(actual);
         }
     }
 }

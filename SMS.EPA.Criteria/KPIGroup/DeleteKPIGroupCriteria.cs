@@ -8,14 +8,8 @@
 
         public int ModifiedBy { get; set; }
 
-        public override string GetSettingKey()
-        {
-            return "KPIGroup_Delete";
-        }
+        public override string GetSettingKey() => "KPIGroup_Delete";
 
-        public override bool IsValid()
-        {
-            return KPIGroupId > 0 && ModifiedBy > 0;
-        }
+        public override bool IsValid() => KPIGroupId > 0 && ModifiedBy > 0;
     }
 }

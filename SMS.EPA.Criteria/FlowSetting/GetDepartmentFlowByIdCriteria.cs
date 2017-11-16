@@ -10,14 +10,8 @@
 
         public bool IsGroup { get; set; }
 
-        public override bool IsValid()
-        {
-            return DepartmentId > 0 && FlowTemplateId > 0;
-        }
+        public override bool IsValid() => DepartmentId > 0 && FlowTemplateId > 0;
 
-        public override string GetSettingKey()
-        {
-            return "SettingDepartmentFlow_GetById";
-        }
+        public override string GetSettingKey() => "SettingDepartmentFlow_GetById";
     }
 }

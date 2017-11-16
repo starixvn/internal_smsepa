@@ -10,14 +10,8 @@
 
         public int ModifiedBy { get; set; }
 
-        public override string GetSettingKey()
-        {
-            return "FlowTemplate_UpdateStatus";
-        }
+        public override string GetSettingKey() => "FlowTemplate_UpdateStatus";
 
-        public override bool IsValid()
-        {
-            return FlowTemplateId > 0 && ModifiedBy > 0;
-        }
+        public override bool IsValid() => FlowTemplateId > 0 && ModifiedBy > 0;
     }
 }

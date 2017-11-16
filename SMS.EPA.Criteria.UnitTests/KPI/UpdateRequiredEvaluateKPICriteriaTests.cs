@@ -1,5 +1,6 @@
 ﻿namespace SMS.EPA.Criteria.UnitTests
 {
+    using Criteria;
     using NUnit.Framework;
 
     [TestFixture]
@@ -19,13 +20,9 @@
             Assert.AreEqual(expected, actual);
         }
 
-        // return true if kpiId > 0 and modifiedBy > 0.
-        // else return false
         [TestCase(1, 1, true)]
         [TestCase(0, 0, false)]
-        [TestCase(1, 0, false)]
-        [TestCase(0, 1, false)]
-        public void IsValid_VariousValues_ChecksThem(int kpiId, int modifiedBy, bool expected)
+        public void IsValid_CheckParameter_ReturnAsExpected(int kpiId, int modifiedBy, bool expected)
         {
             // Arrange
             var criteria = new UpdateRequiredEvaluateKPICriteria

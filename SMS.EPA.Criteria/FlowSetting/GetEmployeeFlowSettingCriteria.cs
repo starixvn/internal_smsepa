@@ -12,14 +12,8 @@
 
         public bool? IsMonthlyPeriod { get; set; }
 
-        public override bool IsValid()
-        {
-            return FlowTemplateId > 0;
-        }
+        public override bool IsValid() => FlowTemplateId > 0;
 
-        public override string GetSettingKey()
-        {
-            return "EpaEmployeeFlowSetting_Get";
-        }
+        public override string GetSettingKey() => "EpaEmployeeFlowSetting_Get";
     }
 }

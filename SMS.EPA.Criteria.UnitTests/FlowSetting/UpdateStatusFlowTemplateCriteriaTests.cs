@@ -1,7 +1,7 @@
 ﻿namespace SMS.EPA.Criteria.UnitTests
 {
+    using Criteria;
     using NUnit.Framework;
-    using SMS.EPA.Criteria;
 
     [TestFixture]
     public class UpdateStatusFlowTemplateCriteriaTests
@@ -20,55 +20,22 @@
             Assert.AreEqual(expected, actual);
         }
 
-        [Test]
-        public void IsValid_ModifiedByAndFlowTemplateIdGreaterThanZero_ReturnTrue()
+        [TestCase(1, 1, true)]
+        [TestCase(0, 0, false)]
+        public void IsValid_CheckParameter_ReturnAsExpected(int flowTemplateId, int modifiedBy, bool expected)
         {
             // Arrange
-            var criteria = new UpdateStatusFlowTemplateCriteria()
+            var criteria = new UpdateStatusFlowTemplateCriteria
             {
-                FlowTemplateId = 1,
-                ModifiedBy = 1
+                FlowTemplateId = flowTemplateId,
+                ModifiedBy = modifiedBy
             };
 
             // Act
             bool actual = criteria.IsValid();
 
             // Assert
-            Assert.IsTrue(actual);
-        }
-
-        [Test]
-        public void IsValid_FlowTemplateIdLessThanZero_ReturnFalse()
-        {
-            // Arrange
-            var criteria = new UpdateStatusFlowTemplateCriteria()
-            {
-                FlowTemplateId = -1,
-                ModifiedBy = 1
-            };
-
-            // Act
-            bool actual = criteria.IsValid();
-
-            // Assert
-            Assert.IsFalse(actual);
-        }
-
-        [Test]
-        public void IsValid_ModifiedByLessThanZero_ReturnFalse()
-        {
-            // Arrange
-            var criteria = new UpdateStatusFlowTemplateCriteria()
-            {
-                FlowTemplateId = 1,
-                ModifiedBy = -1
-            };
-
-            // Act
-            bool actual = criteria.IsValid();
-
-            // Assert
-            Assert.IsFalse(actual);
+            Assert.AreEqual(expected, actual);
         }
     }
 }

@@ -1,9 +1,7 @@
 ﻿namespace SMS.EPA.Criteria.UnitTests
 {
-    using System.Collections.Generic;
+    using Criteria;
     using NUnit.Framework;
-    using SMS.EPA.Criteria;
-    using SMS.EPA.Model;
 
     [TestFixture]
     public class CreatePersonalFlowCriteriaTests
@@ -22,85 +20,23 @@
             Assert.AreEqual(expected, actual);
         }
 
-        [Test]
-        public void IsValid_ModifiedByAndEmployeeIdAndFlowTemplateIdGreaterThanZero_ReturnTrue()
+        [TestCase(1, "1", 1, true)]
+        [TestCase(0, "", 0, false)]
+        public void IsValid_CheckParameter_ReturnAsExpected(int flowTemplateId, string employeeIds, int modifiedId, bool expected)
         {
             // Arrange
-            var criteria = new CreatePersonalFlowCriteria()
+            var criteria = new CreatePersonalFlowCriteria
             {
-                FlowTemplateId = 1,
-                ModifiedBy = 1,
-                Selfs = GetSelf(employeeId: 1)
+                FlowTemplateId = flowTemplateId,
+                ModifiedBy = modifiedId,
+                EmployeeIds = employeeIds
             };
 
             // Act
             bool actual = criteria.IsValid();
 
             // Assert
-            Assert.IsTrue(actual);
-        }
-
-        [Test]
-        public void IsValid_EmployeeIdLessThanZero_ReturnFalse()
-        {
-            // Arrange
-            var criteria = new CreatePersonalFlowCriteria()
-            {
-                Selfs = GetSelf(employeeId: -1),
-                FlowTemplateId = 1,
-                ModifiedBy = 1
-            };
-
-            // Act
-            bool actual = criteria.IsValid();
-
-            // Assert
-            Assert.IsFalse(actual);
-        }
-
-        [Test]
-        public void IsValid_FlowTemplateIdLessThanZero_ReturnFalse()
-        {
-            // Arrange
-            var criteria = new CreatePersonalFlowCriteria()
-            {
-                FlowTemplateId = -1,
-                Selfs = GetSelf(employeeId: 1),
-                ModifiedBy = 1
-            };
-
-            // Act
-            bool actual = criteria.IsValid();
-
-            // Assert
-            Assert.IsFalse(actual);
-        }
-
-        [Test]
-        public void IsValid_ModifiedByLessThanZero_ReturnFalse()
-        {
-            // Arrange
-            var criteria = new CreatePersonalFlowCriteria()
-            {
-                FlowTemplateId = 1,
-                Selfs = GetSelf(employeeId: 1),
-                ModifiedBy = -1
-            };
-
-            // Act
-            bool actual = criteria.IsValid();
-
-            // Assert
-            Assert.IsFalse(actual);
-        }
-
-        private FlowItemModel GetSelf(int employeeId)
-        {
-            var flowItem = new FlowItemModel();
-            var employees = new List<EvaluatorInfoViewModel>();
-            employees.Add(new EvaluatorInfoViewModel() { EmployeeId = employeeId });
-            flowItem.Employees = employees;
-            return flowItem;
+            Assert.AreEqual(expected, actual);
         }
     }
 }

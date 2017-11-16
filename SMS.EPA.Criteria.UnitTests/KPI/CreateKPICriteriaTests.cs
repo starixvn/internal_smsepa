@@ -1,5 +1,6 @@
 ﻿namespace SMS.EPA.Criteria.UnitTests
 {
+    using Criteria;
     using NUnit.Framework;
 
     [TestFixture]
@@ -19,17 +20,9 @@
             Assert.AreEqual(expected, actual);
         }
 
-        // return true if
-        // name and kpiGroupIds are not empty and not null and not consists only of white-space characters
-        // and createdBy > 0.
-        // else return false
         [TestCase("test", "1", 1, true)]
         [TestCase("test", "1", 0, false)]
-        [TestCase("test", "1", -1, false)]
-        [TestCase("", "", 0, false)]
-        [TestCase("test", "", 0, false)]
-        [TestCase("", "1", 0, false)]
-        public void IsValid_VariousValues_ChecksThem(string name, string kpiGroupIds, int createdBy, bool expected)
+        public void IsValid_CheckParameter_ReturnAsExpected(string name, string kpiGroupIds, int createdBy, bool expected)
         {
             // Arrange
             var criteria = new CreateKPICriteria

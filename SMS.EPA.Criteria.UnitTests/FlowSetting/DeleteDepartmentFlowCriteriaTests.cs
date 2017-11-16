@@ -1,7 +1,7 @@
 ﻿namespace SMS.EPA.Criteria.UnitTests
 {
+    using Criteria;
     using NUnit.Framework;
-    using SMS.EPA.Criteria;
 
     [TestFixture]
     public class DeleteDepartmentFlowCriteriaTests
@@ -20,76 +20,23 @@
             Assert.AreEqual(expected, actual);
         }
 
-        [Test]
-        public void IsValid_ModifiedByAndDepartmentIdAndFlowTemplateIdGreaterThanZero_ReturnTrue()
+        [TestCase(1, 1, 1, true)]
+        [TestCase(0, 0, 0, false)]
+        public void IsValid_CheckParameter_ReturnAsExpected(int flowTemplateId, int departmentId, int modifiedId, bool expected)
         {
             // Arrange
-            var criteria = new DeleteDepartmentFlowCriteria()
+            var criteria = new DeleteDepartmentFlowCriteria
             {
-                FlowTemplateId = 1,
-                DepartmentId = 1,
-                ModifiedBy = 1
+                FlowTemplateId = flowTemplateId,
+                DepartmentId = departmentId,
+                ModifiedBy = modifiedId
             };
 
             // Act
             bool actual = criteria.IsValid();
 
             // Assert
-            Assert.IsTrue(actual);
-        }
-
-        [Test]
-        public void IsValid_DepartmentIdLessThanZero_ReturnFalse()
-        {
-            // Arrange
-            var criteria = new DeleteDepartmentFlowCriteria()
-            {
-                DepartmentId = -1,
-                FlowTemplateId = 1,
-                ModifiedBy = 1
-            };
-
-            // Act
-            bool actual = criteria.IsValid();
-
-            // Assert
-            Assert.IsFalse(actual);
-        }
-
-        [Test]
-        public void IsValid_FlowTemplateIdLessThanZero_ReturnFalse()
-        {
-            // Arrange
-            var criteria = new DeleteDepartmentFlowCriteria()
-            {
-                FlowTemplateId = -1,
-                DepartmentId = 1,
-                ModifiedBy = 1
-            };
-
-            // Act
-            bool actual = criteria.IsValid();
-
-            // Assert
-            Assert.IsFalse(actual);
-        }
-
-        [Test]
-        public void IsValid_ModifiedByLessThanZero_ReturnFalse()
-        {
-            // Arrange
-            var criteria = new DeleteDepartmentFlowCriteria()
-            {
-                FlowTemplateId = 1,
-                DepartmentId = 1,
-                ModifiedBy = -1
-            };
-
-            // Act
-            bool actual = criteria.IsValid();
-
-            // Assert
-            Assert.IsFalse(actual);
+            Assert.AreEqual(expected, actual);
         }
     }
 }

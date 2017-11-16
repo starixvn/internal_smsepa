@@ -1,7 +1,7 @@
 ﻿namespace SMS.EPA.Criteria.UnitTests
 {
+    using Criteria;
     using NUnit.Framework;
-    using SMS.EPA.Criteria;
 
     [TestFixture]
     public class GetPersonalFlowByIdCriteriaTests
@@ -20,55 +20,22 @@
             Assert.AreEqual(expected, actual);
         }
 
-        [Test]
-        public void IsValid_EmployeeIdFlowAndTemplateIdGreaterThanZero_ReturnTrue()
+        [TestCase(1, 1, true)]
+        [TestCase(0, 0, false)]
+        public void IsValid_CheckParameter_ReturnAsExpected(int flowTemplateId, int employeeId, bool expected)
         {
             // Arrange
-            var criteria = new GetPersonalFlowByIdCriteria()
+            var criteria = new GetPersonalFlowByIdCriteria
             {
-                FlowTemplateId = 1,
-                EmployeeId = 1
+                FlowTemplateId = flowTemplateId,
+                EmployeeId = employeeId
             };
 
             // Act
             bool actual = criteria.IsValid();
 
             // Assert
-            Assert.IsTrue(actual);
-        }
-
-        [Test]
-        public void IsValid_FlowTemplateIdLessThanZero_ReturnFalse()
-        {
-            // Arrange
-            var criteria = new GetPersonalFlowByIdCriteria()
-            {
-                FlowTemplateId = -1,
-                EmployeeId = 1
-            };
-
-            // Act
-            bool actual = criteria.IsValid();
-
-            // Assert
-            Assert.IsFalse(actual);
-        }
-
-        [Test]
-        public void IsValid_EmployeeIdLessThanZero_ReturnFalse()
-        {
-            // Arrange
-            var criteria = new GetPersonalFlowByIdCriteria()
-            {
-                FlowTemplateId = 1,
-                EmployeeId = -1
-            };
-
-            // Act
-            bool actual = criteria.IsValid();
-
-            // Assert
-            Assert.IsFalse(actual);
+            Assert.AreEqual(expected, actual);
         }
     }
 }

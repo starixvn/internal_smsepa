@@ -1,5 +1,6 @@
 ﻿namespace SMS.EPA.Criteria.UnitTests
 {
+    using Criteria;
     using NUnit.Framework;
 
     [TestFixture]
@@ -17,6 +18,19 @@
 
             // Assert
             Assert.AreEqual(expected, actual);
+        }
+
+        [Test]
+        public void IsValid_ReturnTrue()
+        {
+            // Arrange
+            var criteria = new GetKPICriteria();
+
+            // Act
+            var actual = criteria.IsValid();
+
+            // Assert
+            Assert.IsTrue(actual);
         }
     }
 }

@@ -1,7 +1,7 @@
 ﻿namespace SMS.EPA.Criteria.UnitTests
 {
+    using Criteria;
     using NUnit.Framework;
-    using SMS.EPA.Criteria;
 
     [TestFixture]
     public class GetPersonalFlowByFlowTemplateIdCriteriaTests
@@ -20,36 +20,21 @@
             Assert.AreEqual(expected, actual);
         }
 
-        [Test]
-        public void IsValid_FlowTemplateIdGreaterThanZero_ReturnTrue()
+        [TestCase(1, true)]
+        [TestCase(0, false)]
+        public void IsValid_CheckParameter_ReturnAsExpected(int flowTemplateId, bool expected)
         {
             // Arrange
-            var criteria = new GetPersonalFlowByFlowTemplateIdCriteria()
+            var criteria = new GetPersonalFlowByFlowTemplateIdCriteria
             {
-                FlowTemplateId = 1
+                FlowTemplateId = flowTemplateId
             };
 
             // Act
             bool actual = criteria.IsValid();
 
             // Assert
-            Assert.IsTrue(actual);
-        }
-
-        [Test]
-        public void IsValid_FlowTemplateIdLessThanZero_ReturnFalse()
-        {
-            // Arrange
-            var criteria = new GetPersonalFlowByFlowTemplateIdCriteria()
-            {
-                FlowTemplateId = -1
-            };
-
-            // Act
-            bool actual = criteria.IsValid();
-
-            // Assert
-            Assert.IsFalse(actual);
+            Assert.AreEqual(expected, actual);
         }
     }
 }

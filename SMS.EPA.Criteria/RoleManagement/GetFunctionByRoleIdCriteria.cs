@@ -6,14 +6,8 @@
     {
         public int RoleId { get; set; }
 
-        public override bool IsValid()
-        {
-            return RoleId > 0;
-        }
+        public override bool IsValid() => RoleId > 0;
 
-        public override string GetSettingKey()
-        {
-            return "EpaRole_GetFunctionByRoleId";
-        }
+        public override string GetSettingKey() => "EpaRole_GetFunctionByRoleId";
     }
 }

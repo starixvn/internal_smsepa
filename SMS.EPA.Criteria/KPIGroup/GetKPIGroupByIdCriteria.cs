@@ -6,14 +6,8 @@
     {
         public int KPIGroupId { get; set; }
 
-        public override bool IsValid()
-        {
-            return KPIGroupId > 0;
-        }
+        public override bool IsValid() => KPIGroupId > 0;
 
-        public override string GetSettingKey()
-        {
-            return "KPIGroup_GetById";
-        }
+        public override string GetSettingKey() => "KPIGroup_GetById";
     }
 }

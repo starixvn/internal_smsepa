@@ -6,14 +6,8 @@
     {
         public int EmployeeId { get; set; }
 
-        public override string GetSettingKey()
-        {
-            return "Dashboard_GetToDoList";
-        }
+        public override string GetSettingKey() => "Dashboard_GetToDoList";
 
-        public override bool IsValid()
-        {
-            return EmployeeId > 0;
-        }
+        public override bool IsValid() => EmployeeId > 0;
     }
 }

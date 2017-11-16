@@ -6,14 +6,8 @@
     {
         public string EmployeeIds { get; set; }
 
-        public override bool IsValid()
-        {
-            return !string.IsNullOrWhiteSpace(EmployeeIds) && FlowTemplateId > 0 && ModifiedBy > 0;
-        }
+        public override bool IsValid() => !string.IsNullOrWhiteSpace(EmployeeIds) && FlowTemplateId > 0 && ModifiedBy > 0;
 
-        public override string GetSettingKey()
-        {
-            return "SettingEmployeeFlow_Set";
-        }
+        public override string GetSettingKey() => "SettingEmployeeFlow_Set";
     }
 }

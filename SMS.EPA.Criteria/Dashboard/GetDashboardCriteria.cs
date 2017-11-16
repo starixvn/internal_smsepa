@@ -6,14 +6,8 @@
     {
         public int EmployeeId { get; set; }
 
-        public override string GetSettingKey()
-        {
-            return "Epa_Dashboard";
-        }
+        public override string GetSettingKey() => "Epa_Dashboard";
 
-        public override bool IsValid()
-        {
-            return EmployeeId > 0;
-        }
+        public override bool IsValid() => EmployeeId > 0;
     }
 }

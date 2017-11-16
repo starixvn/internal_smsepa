@@ -1,7 +1,7 @@
 ﻿namespace SMS.EPA.Criteria.UnitTests.Department
 {
+    using Criteria;
     using NUnit.Framework;
-    using SMS.EPA.Criteria;
 
     [TestFixture]
     public class AssignTargetTemplateToEmployeeCriteriaTests
@@ -20,36 +20,25 @@
             Assert.AreEqual(expected, actual);
         }
 
-        [Test]
-        public void IsValid_TargetTemplateIdGreaterThanZero_ReturnTrue()
+        [TestCase(1, 1, true)]
+        [TestCase(0, 1, false)]
+        public void IsValid_CheckParameter_ReturnAsExpected(
+            int targetTemplateId,
+            int modifiedBy,
+            bool expected)
         {
             // Arrange
-            var criteria = new AssignTargetTemplateToEmployeeCriteria()
+            var criteria = new AssignTargetTemplateToEmployeeCriteria
             {
-                TargetTemplateId = 1
+                TargetTemplateId = targetTemplateId,
+                ModifiedBy = modifiedBy
             };
 
             // Act
             bool actual = criteria.IsValid();
 
             // Assert
-            Assert.IsTrue(actual);
-        }
-
-        [Test]
-        public void IsValid_TargetTemplateIdLessThanZero_ReturnFalse()
-        {
-            // Arrange
-            var criteria = new AssignTargetTemplateToEmployeeCriteria()
-            {
-                TargetTemplateId = -1
-            };
-
-            // Act
-            bool actual = criteria.IsValid();
-
-            // Assert
-            Assert.IsFalse(actual);
+            Assert.AreEqual(expected, actual);
         }
     }
 }

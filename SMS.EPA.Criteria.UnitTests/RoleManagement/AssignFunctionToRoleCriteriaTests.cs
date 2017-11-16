@@ -1,5 +1,6 @@
 ﻿namespace SMS.EPA.Criteria.UnitTests
 {
+    using Criteria;
     using NUnit.Framework;
 
     [TestFixture]
@@ -20,10 +21,8 @@
         }
 
         [TestCase(1, 1, "<ROOT><Function FunctionId=\"1\" IsRead=\"1\" IsHost=\"0\"></Function></ROOT>", true)]
-        [TestCase(0, 1, "<ROOT><Function FunctionId=\"1\" IsRead=\"1\" IsHost=\"0\"></Function></ROOT>", false)]
-        [TestCase(1, 0, "<ROOT><Function FunctionId=\"1\" IsRead=\"1\" IsHost=\"0\"></Function></ROOT>", false)]
         [TestCase(1, 1, "", false)]
-        public void IsValid_VariousValues_ChecksThem(int roleId, int modifiedBy, string functions, bool expected)
+        public void IsValid_CheckParameter_ReturnAsExpected(int roleId, int modifiedBy, string functions, bool expected)
         {
             // Arrange
             var criteria = new AssignFunctionToRoleCriteria

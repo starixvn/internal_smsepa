@@ -12,14 +12,8 @@
 
         public int ModifiedBy { get; set; }
 
-        public override bool IsValid()
-        {
-            return TargetTemplateId > 0 && DepartmentId > 0;
-        }
+        public override bool IsValid() => TargetTemplateId > 0 && DepartmentId > 0 && ModifiedBy > 0;
 
-        public override string GetSettingKey()
-        {
-            return "EpaTargetTemplateDepartment_Delete";
-        }
+        public override string GetSettingKey() => "EpaTargetTemplateDepartment_Delete";
     }
 }

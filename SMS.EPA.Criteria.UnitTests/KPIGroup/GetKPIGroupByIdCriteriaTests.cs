@@ -19,11 +19,9 @@
             Assert.AreEqual(expected, actual);
         }
 
-        // return true if kpiGroupId > 0
-        // else return false
         [TestCase(1, true)]
         [TestCase(0, false)]
-        public void IsValid_VariousValues_ChecksThem(int kpiGroupId, bool expected)
+        public void IsValid_CheckParameter_ReturnAsExpected(int kpiGroupId, bool expected)
         {
             // Arrange
             var criteria = new GetKPIGroupByIdCriteria

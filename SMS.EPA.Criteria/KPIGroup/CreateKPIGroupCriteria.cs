@@ -14,14 +14,8 @@
 
         public int CreatedBy { get; set; }
 
-        public override string GetSettingKey()
-        {
-            return "KPIGroup_Insert";
-        }
+        public override string GetSettingKey() => "KPIGroup_Insert";
 
-        public override bool IsValid()
-        {
-            return !string.IsNullOrWhiteSpace(Name) && CreatedBy > 0;
-        }
+        public override bool IsValid() => !string.IsNullOrWhiteSpace(Name) && CreatedBy > 0;
     }
 }

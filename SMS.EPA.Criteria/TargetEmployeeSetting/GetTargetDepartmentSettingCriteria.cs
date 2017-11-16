@@ -12,14 +12,8 @@
 
         public bool ShowAll { get; set; }
 
-        public override bool IsValid()
-        {
-            return true;
-        }
+        public override bool IsValid() => true;
 
-        public override string GetSettingKey()
-        {
-            return "EpaTargetTemplateDepartment_Get";
-        }
+        public override string GetSettingKey() => "EpaTargetTemplateDepartment_Get";
     }
 }
