@@ -3,15 +3,15 @@
     using System.Collections.Generic;
     using System.Linq;
     using Core.Services;
+    using Criteria;
+    using Criteria.EPAHistory;
+    using Criteria.TargetType;
+    using Implement;
+    using Interfaces;
+    using Model;
+    using Model.Enitites;
     using NSubstitute;
     using NUnit.Framework;
-    using SMS.EPA.Criteria;
-    using SMS.EPA.Criteria.EPAHistory;
-    using SMS.EPA.Criteria.TargetType;
-    using SMS.EPA.Model;
-    using SMS.EPA.Model.Enitites;
-    using SMS.EPA.Services.Implement;
-    using SMS.EPA.Services.Interfaces;
 
     [TestFixture]
     public class CommonServiceTests
@@ -303,7 +303,7 @@
             ArrangeGetDepartment(departments);
 
             // Act
-            //// var actual = commonService.GetDepartment(Arg.Any<GetDepartmentCriteria>());
+            var actual = commonService.GetDepartment(Arg.Any<GetDepartmentCriteria>());
 
             // Assert
             Assert.AreEqual(expectedDepartment.Departments, departments);
@@ -325,7 +325,7 @@
             ArrangeGetDepartment(departments);
 
             // Act
-            //// var actual = commonService.GetDepartment(Arg.Any<GetDepartmentCriteria>());
+            var actual = commonService.GetDepartment(Arg.Any<GetDepartmentCriteria>());
 
             // Assert
             Assert.AreEqual(expectedDepartment.Departments, departments);
@@ -465,7 +465,7 @@
         #region GetMenusByEmployeeId
 
         [Test]
-        public void GetMenusByEmployeeId_AnyArg_ReturnInstanceOfListOfEmployeeModel()
+        public void GetMenusByEmployeeId_InvalidArg_ReturnInstanceOfListOfEmployeeModel()
         {
             // Arrange
             commonService = Substitute.For<ICommonService>();
@@ -481,17 +481,21 @@
         public void GetMenusByEmployeeId_VaidArg_ReturnExpectedMenuGroups()
         {
             // Arrange
-            IEnumerable<MenuGroupModel> expectedMenuGroups = new List<MenuGroupModel>
+            var menuItems = new List<MenuItemModel>
             {
-                new MenuGroupModel()
+                new MenuItemModel { MenuId = 1 }
             };
-            ArrangeGetMenusByEmployeeId(expectedMenuGroups);
+            IEnumerable<MenuGroupModel> expected = new List<MenuGroupModel>
+            {
+                new MenuGroupModel { MenuId = 1 }
+            };
+            ArrangeGetMenusByEmployeeId(menuItems);
 
             // Act
-            var actual = commonService.GetMenusByEmployeeId(Arg.Any<int>());
+            var actual = commonService.GetMenusByEmployeeId(1);
 
             // Assert
-            Assert.AreEqual(expectedMenuGroups, actual);
+            Assert.AreEqual(expected.First().MenuId, actual.First().MenuId);
         }
 
         #endregion GetMenusByEmployeeId
@@ -671,10 +675,10 @@
             baseService.GetData<TargetTemplate>(Arg.Any<GetAllTargetTemplateCriteria>()).Returns(targetTemplates ?? new List<TargetTemplate>());
         }
 
-        private void ArrangeGetMenusByEmployeeId(IEnumerable<MenuGroupModel> menuGroups = null)
+        private void ArrangeGetMenusByEmployeeId(IEnumerable<MenuItemModel> menuItems = null)
         {
             ArrangeCommon();
-            commonService.GetMenusByEmployeeId(Arg.Any<int>()).Returns(menuGroups ?? new List<MenuGroupModel>());
+            baseService.GetData<MenuItemModel>(Arg.Any<GetMenusByEmployeeIdCriteria>()).Returns(menuItems ?? new List<MenuItemModel>());
         }
 
         private void ArrangeGetAllJobTitle(IEnumerable<JobTitle> jobTitles = null)

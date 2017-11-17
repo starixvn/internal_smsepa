@@ -20,7 +20,7 @@
             ArrangeEmail();
 
             // Act
-            mailService.SendMailReminder(Arg.Any<string>(), new PeriodFlowModel(), Arg.Any<string>(), Arg.Any<int>());
+            mailService.SendMailReminder("template", new PeriodFlowModel(), Arg.Any<string>(), Arg.Any<int>());
 
             // Assert
             baseMailService.Received().SendEmail(Arg.Any<MailModel>());
@@ -33,7 +33,7 @@
             ArrangeEmail();
 
             // Act
-            mailService.SendMailToNotifyChangeSetting(Arg.Any<string>(), new PeriodFlowModel(), Arg.Any<string>());
+            mailService.SendMailToNotifyChangeSetting("template", new PeriodFlowModel(), Arg.Any<string>());
 
             // Assert
             baseMailService.Received().SendEmail(Arg.Any<MailModel>());
@@ -50,7 +50,7 @@
             ArrangeEmail();
 
             // Act
-            mailService.SendMailToSelfEndEvaluation(Arg.Any<string>(), epaModel, Arg.Any<float>(), Arg.Any<float>());
+            mailService.SendMailToSelfEndEvaluation("template", epaModel, Arg.Any<float>(), Arg.Any<float>());
 
             // Assert
             baseMailService.Received().SendEmail(Arg.Any<MailModel>());
@@ -66,7 +66,7 @@
             ArrangeEmail();
 
             // Act
-            mailService.SendMailToSelfEndEvaluation(Arg.Any<string>(), epaModel, Arg.Any<float>(), Arg.Any<float>());
+            mailService.SendMailToSelfEndEvaluation("template", epaModel, Arg.Any<float>(), Arg.Any<float>());
 
             // Assert
             baseMailService.Received().SendEmail(Arg.Any<MailModel>());
@@ -82,7 +82,7 @@
             ArrangeEmail();
 
             // Act
-            mailService.SendMailToSelfEndEvaluation(Arg.Any<string>(), epaModel, Arg.Any<float>(), Arg.Any<float>());
+            mailService.SendMailToSelfEndEvaluation("template", epaModel, Arg.Any<float>(), Arg.Any<float>());
 
             // Assert
             baseMailService.Received().SendEmail(Arg.Any<MailModel>());
@@ -95,7 +95,7 @@
             ArrangeEmail();
 
             // Act
-            mailService.SendMailEndToHumanResourcesByEmployee(Arg.Any<string>(), new EPAModel(), new EPAProcessModel());
+            mailService.SendMailEndToHumanResourcesByEmployee("template", new EPAModel(), new EPAProcessModel());
 
             // Assert
             baseMailService.Received().SendEmail(Arg.Any<MailModel>());
@@ -108,25 +108,11 @@
             ArrangeEmail();
 
             // Act
-            mailService.SendMailEndToHumanResourceByPeriod(Arg.Any<string>(), new PeriodFlowModel(), Arg.Any<string>());
+            mailService.SendMailEndToHumanResourceByPeriod("template", new PeriodFlowModel(), Arg.Any<string>());
 
             // Assert
             baseMailService.Received().SendEmail(Arg.Any<MailModel>());
         }
-
-        ////[Test]
-        ////public void ChangeStartDate_NotNull_ReturnExpected()
-        ////{
-        ////    // Arrange
-        ////    var date = new DateTime(2016, 01, 01, 0, 0, 0);
-        ////    ArrangeEmail();
-
-        ////    // Act
-        ////    var actual = mailService.ChangeStartDate(date);
-
-        ////    // Assert
-        ////    Assert.AreEqual("", actual);
-        ////}
 
         private void ArrangeEmail()
         {

@@ -1,12 +1,12 @@
 ﻿namespace SMS.EPA.Services.Implement
 {
+    using System.Collections.Generic;
+    using System.Linq;
     using Core.Services;
     using Interfaces;
     using Model;
     using Model.Email;
     using Resources;
-    using System.Collections.Generic;
-    using System.Linq;
 
     public class MailService : IMailService
     {
@@ -33,12 +33,9 @@
             }
         }
 
-        public void SendMailToNotifyChangeSetting(
-            string templateEmailPath,
-            PeriodFlowModel employeeSetting,
-            string periodName)
+        public void SendMailToNotifyChangeSetting(string templateEmailPath, PeriodFlowModel employeeSetting, string periodName)
         {
-            if (employeeSetting != null)
+            if (employeeSetting != null && !string.IsNullOrWhiteSpace(templateEmailPath))
             {
                 var email = new MailModel
                 {
@@ -59,7 +56,7 @@
             float? averagePerformanceScore,
             float disciplineScore)
         {
-            if (evaluationInfo != null)
+            if (evaluationInfo != null && !string.IsNullOrWhiteSpace(templateEmailPath))
             {
                 MailModel email = new MailModel
                 {
@@ -98,7 +95,7 @@
             EPAModel evaluationInfo,
             EPAProcessModel humanResource)
         {
-            if (evaluationInfo != null && humanResource != null)
+            if (evaluationInfo != null && humanResource != null && !string.IsNullOrWhiteSpace(templateEmailPath))
             {
                 MailModel email = new MailModel
                 {
@@ -124,7 +121,7 @@
             PeriodFlowModel employeeSetting,
             string periodName)
         {
-            if (employeeSetting != null)
+            if (employeeSetting != null && !string.IsNullOrWhiteSpace(templateEmailPath))
             {
                 var email = new MailModel
                 {

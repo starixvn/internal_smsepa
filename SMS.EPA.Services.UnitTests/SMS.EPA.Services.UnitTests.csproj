@@ -162,6 +162,7 @@
       <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
     </Compile>
     <Compile Include="DepartmentFlowServiceTests.cs" />
+    <Compile Include="DisciplineServiceTests.cs" />
     <Compile Include="PeriodServiceTests.cs" />
     <Compile Include="TargetEmployeeSettingServiceTests.cs" />
     <Compile Include="CommonServiceTests.cs" />
