@@ -1,12 +1,12 @@
 ﻿namespace SMS.EPA.Services.UnitTests
 {
+    using System.Collections.Generic;
     using NSubstitute;
     using NUnit.Framework;
     using SMS.EPA.Core.Enumerations;
     using SMS.EPA.Model;
     using SMS.EPA.Services.Implement;
     using SMS.EPA.Services.Interfaces;
-    using System.Collections.Generic;
 
     [TestFixture]
     public class ManualMailServiceTests
@@ -109,11 +109,13 @@
         public void SendNotifyMail_ValidArg_ExpectedToSendMailToNotifyChangeSetting()
         {
             // Arrange
-            var employeeSettings = new List<PeriodFlowModel>();
-            employeeSettings.Add(new PeriodFlowModel()
+            var employeeSettings = new List<PeriodFlowModel>
             {
-                ProcessId = (int)ProcessType.Management
-            });
+                new PeriodFlowModel()
+                {
+                    ProcessId = (int) ProcessType.Management
+                }
+            };
             ArrangeEmail();
 
             // Act

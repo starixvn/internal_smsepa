@@ -199,15 +199,17 @@
             {
                 using (IMultiResultReader multi = db.QueryMultiple(criteria.GetSpParams()))
                 {
-                    var result = new DashboardModel();
-                    result.MyEpaInfos = multi.Read<EPAModel, EPAPeriodModel, EPAModel>(
-                        (epa, period) =>
-                        {
-                            epa.Period = period;
+                    var result = new DashboardModel
+                    {
+                        MyEpaInfos = multi.Read<EPAModel, EPAPeriodModel, EPAModel>(
+                            (epa, period) =>
+                            {
+                                epa.Period = period;
 
-                            return epa;
-                        },
-                        "PeriodId");
+                                return epa;
+                            },
+                            "PeriodId")
+                    };
 
                     var processes = multi.Read<EPAProcessModel, EPAEmployeeModel, EPAEmployeeModel, EPAProcessModel>(
                             (process, evaluator, modifiedBy) =>
@@ -513,8 +515,7 @@
                     rate = float.Parse(cryptographyService.Decrypt(evaluation.RateEncrypt));
                 }
 
-                evaluation.Score = cryptographyService.Decrypt(evaluation.Score)
-                    .Replace("_" + evaluation.KPIId, string.Empty);
+                evaluation.Score = cryptographyService.Decrypt(evaluation.Score).Replace("_" + evaluation.KPIId, string.Empty);
                 evaluation.Rate = rate;
             }
         }

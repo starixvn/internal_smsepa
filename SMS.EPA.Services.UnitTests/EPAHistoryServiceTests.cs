@@ -40,8 +40,7 @@
             {
                 EvaluatorId = 1
             };
-            var expectedEPAs = new List<EPAHistoryModel>();
-            expectedEPAs.Add(new EPAHistoryModel());
+            var expectedEPAs = new List<EPAHistoryModel> { new EPAHistoryModel() };
             ArrangeGetEPAHistory(expectedEPAs);
 
             // Act
@@ -56,8 +55,7 @@
         {
             // Arrange
             GetEPAHistoryCriteria criteria = new GetEPAHistoryCriteria();
-            var expectedEPAs = new List<EPAHistoryModel>();
-            expectedEPAs.Add(new EPAHistoryModel());
+            var expectedEPAs = new List<EPAHistoryModel> { new EPAHistoryModel() };
             ArrangeGetEPAHistory(expectedEPAs);
 
             // Act
@@ -92,8 +90,7 @@
             {
                 EvaluatorId = 1
             };
-            var expectedEPAs = new List<EPAHistoryModel>();
-            expectedEPAs.Add(new EPAHistoryModel());
+            var expectedEPAs = new List<EPAHistoryModel> { new EPAHistoryModel() };
             ArrangeGetMonthlyEPAHistory(expectedEPAs);
 
             // Act
@@ -108,8 +105,7 @@
         {
             // Arrange
             var criteria = new GetMonthlyEPAHistoryCriteria();
-            var expectedEPAs = new List<EPAHistoryModel>();
-            expectedEPAs.Add(new EPAHistoryModel());
+            var expectedEPAs = new List<EPAHistoryModel> { new EPAHistoryModel() };
             ArrangeGetMonthlyEPAHistory(expectedEPAs);
 
             // Act

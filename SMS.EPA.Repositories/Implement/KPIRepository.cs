@@ -12,14 +12,14 @@
         {
             using (var db = new ObjectDb(criteria.GetSettingKey()))
             {
-                using (var multi = db.QueryMultiple(criteria.GetSpParams()))
+                using (IMultiResultReader multi = db.QueryMultiple(criteria.GetSpParams()))
                 {
                     IEnumerable<KPIModel> kpis = multi.Read<KPIModel>();
-                    IEnumerable<dynamic> kpiKPIGroups = multi.Read<dynamic>();
+                    IEnumerable<dynamic> kpiGroups = multi.Read<dynamic>();
 
                     foreach (var kpi in kpis)
                     {
-                        kpi.KPIGroups = GroupKPIGroupByKPI(kpi.KPIId, kpiKPIGroups);
+                        kpi.KPIGroups = GroupKPIGroupByKPI(kpi.KPIId, kpiGroups);
                     }
 
                     return kpis;
@@ -27,9 +27,9 @@
             }
         }
 
-        private IList<KPIGroupModel> GroupKPIGroupByKPI(int kpiId, IEnumerable<dynamic> kpiKPIGroups)
+        private IList<KPIGroupModel> GroupKPIGroupByKPI(int kpiId, IEnumerable<dynamic> kpiGroups)
         {
-            IList<KPIGroupModel> result = kpiKPIGroups.Where(x => x.KPIId == kpiId)
+            IList<KPIGroupModel> result = kpiGroups.Where(x => x.KPIId == kpiId)
                 .Select(x => new KPIGroupModel
                 {
                     KPIGroupId = x.KPIGroupId,

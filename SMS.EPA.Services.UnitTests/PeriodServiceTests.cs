@@ -63,7 +63,7 @@
             var actual = _periodService.GetPeriod(criteria);
 
             // Assert
-            Assert.AreEqual(0, actual.Where(x => x.TargetType == null || x.TargetType.TargetTypeId <= 0).Count());
+            Assert.AreEqual(0, actual.Count(x => x.TargetType == null || x.TargetType.TargetTypeId <= 0));
         }
 
         [Test]
@@ -367,48 +367,6 @@
             return settings;
         }
 
-        private IEnumerable<FlowModel> GetProcessSettingForTest()
-        {
-            var settings = new List<FlowModel>
-            {
-                new FlowModel
-                {
-                    ProcessId = 1,
-                    Duration = 1,
-                    RemindDay = 1
-                },
-                new FlowModel
-                {
-                    ProcessId = 2,
-                    Duration = 1,
-                    RemindDay = 1
-                }
-            };
-
-            return settings;
-        }
-
-        private IEnumerable<FlowModel> GetEvaluationGlobalSettingForTest()
-        {
-            var settings = new List<FlowModel>
-            {
-                new FlowModel
-                {
-                    ProcessId = 1,
-                    Duration = 1,
-                    RemindDay = 1
-                },
-                new FlowModel
-                {
-                    ProcessId = 2,
-                    Duration = 1,
-                    RemindDay = 1
-                }
-            };
-
-            return settings;
-        }
-
         private void ArrangeGetPeriod(IEnumerable<PeriodModel> result = null)
         {
             _periodRepository = FakePeriodRepository();
@@ -437,7 +395,7 @@
             _periodService = GetPeriodService(null, _periodRepository);
         }
 
-        private void ArrangeUpdateEmployeeSettingOfPeriod(CommandResult result = null, string appSetting = null)
+        private void ArrangeUpdateEmployeeSettingOfPeriod(CommandResult result = null)
         {
             var period = new PeriodModel();
             var employeeSettings = new List<PeriodFlowModel>();

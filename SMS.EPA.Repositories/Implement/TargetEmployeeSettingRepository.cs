@@ -53,9 +53,8 @@
 
             foreach (Employee employee in employees)
             {
-                IList<TargetTemplateEmployee> tempTargetTemplateEmployees = targetTemplateEmployees
-                    .Where(t => t.EmployeeId == employee.EmployeeId)
-                    .ToList();
+                IList<TargetTemplateEmployee> tempTargetTemplateEmployees = 
+                    targetTemplateEmployees.Where(t => t.EmployeeId == employee.EmployeeId).ToList();
                 targetEmployees.Add(new TargetEmployeeSetting
                 {
                     Employee = employee,
@@ -74,9 +73,8 @@
 
             foreach (Department department in departments)
             {
-                IList<TargetTemplateDepartment> tempTargetTemplateDepartments = targetTemplateDepartments
-                    .Where(t => t.DepartmentId == department.DepartmentId && t.IsGroup == department.IsGroup)
-                    .ToList();
+                IList<TargetTemplateDepartment> tempTargetTemplateDepartments =
+                    targetTemplateDepartments.Where(t => t.DepartmentId == department.DepartmentId && t.IsGroup == department.IsGroup).ToList();
                 targetDepartments.Add(new TargetDepartmentSetting
                 {
                     Department = department,

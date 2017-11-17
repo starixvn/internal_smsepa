@@ -58,7 +58,7 @@
             var actual = _flowTemplateService.GetFlowTemplate(criteria);
 
             // Assert
-            Assert.AreEqual(0, actual.Where(x => x.TargetType == null || x.TargetType.TargetTypeId <= 0).Count());
+            Assert.AreEqual(0, actual.Count(x => x.TargetType == null || x.TargetType.TargetTypeId <= 0));
         }
 
         #endregion GetFlowTemplate

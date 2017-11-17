@@ -33,8 +33,7 @@
         {
             // Arrange
             var criteria = new GetDepartmentCriteria();
-            var expectedDepartments = new List<Department>();
-            expectedDepartments.Add(new Department());
+            var expectedDepartments = new List<Department> { new Department() };
             ArrangeGetDepartment(expectedDepartments);
 
             // Act
@@ -49,8 +48,7 @@
         {
             // Arrange
             GetDepartmentCriteria criteria = null;
-            var expectedDepartments = new List<Department>();
-            expectedDepartments.Add(new Department());
+            var expectedDepartments = new List<Department> { new Department() };
             ArrangeGetDepartment(expectedDepartments);
 
             // Act

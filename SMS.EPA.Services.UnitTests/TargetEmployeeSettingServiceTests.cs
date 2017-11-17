@@ -34,8 +34,7 @@
         {
             // Arrange
             var criteria = new GetAllTargetEmployeeSettingCriteria();
-            var expectedTargetEmployees = new List<TargetEmployeeSetting>();
-            expectedTargetEmployees.Add(new TargetEmployeeSetting());
+            var expectedTargetEmployees = new List<TargetEmployeeSetting> { new TargetEmployeeSetting() };
             ArrangeGetTargetEmployeeSetting(expectedTargetEmployees);
 
             // Act
@@ -49,8 +48,7 @@
         public void GetTargetEmployeeSetting_InVaidArg_ReturnEmptyListOfTargetEmployee()
         {
             // Arrange
-            var expectedTargetEmployees = new List<TargetEmployeeSetting>();
-            expectedTargetEmployees.Add(new TargetEmployeeSetting());
+            var expectedTargetEmployees = new List<TargetEmployeeSetting> { new TargetEmployeeSetting() };
             ArrangeGetTargetEmployeeSetting(expectedTargetEmployees);
 
             // Act
@@ -83,8 +81,7 @@
         {
             // Arrange
             var criteria = new GetTargetDepartmentSettingCriteria();
-            var expectedTargetDepartments = new List<TargetDepartmentSetting>();
-            expectedTargetDepartments.Add(new TargetDepartmentSetting());
+            var expectedTargetDepartments = new List<TargetDepartmentSetting> { new TargetDepartmentSetting() };
             ArrangeGetTargetDepartmentSetting(expectedTargetDepartments);
 
             // Act
@@ -98,8 +95,7 @@
         public void GetTargetEmployeeSetting_InVaidArg_ReturnEmptyListOfTargetDepartment()
         {
             // Arrange
-            var expectedTargetEmployees = new List<TargetDepartmentSetting>();
-            expectedTargetEmployees.Add(new TargetDepartmentSetting());
+            var expectedTargetEmployees = new List<TargetDepartmentSetting> { new TargetDepartmentSetting() };
             ArrangeGetTargetDepartmentSetting(expectedTargetEmployees);
 
             // Act

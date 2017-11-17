@@ -43,8 +43,7 @@
         {
             // Arrange
             var criteria = new GetTargetTypeCriteria();
-            var expectedTargetTypes = new List<TargetTypeModel>();
-            expectedTargetTypes.Add(new TargetTypeModel());
+            var expectedTargetTypes = new List<TargetTypeModel> { new TargetTypeModel() };
             ArrangeGetTargetType(expectedTargetTypes);
 
             // Act
@@ -76,8 +75,7 @@
         {
             // Arrange
             var criteria = new GetKPICriteria();
-            var expectedKPIs = new List<KPIModel>();
-            expectedKPIs.Add(new KPIModel());
+            var expectedKPIs = new List<KPIModel> { new KPIModel() };
             ArrangeGetKPI(expectedKPIs);
 
             // Act
@@ -109,8 +107,7 @@
         {
             // Arrange
             var criteria = new GetKPIGroupCriteria();
-            var expectedKPIGroups = new List<KPIGroupModel>();
-            expectedKPIGroups.Add(new KPIGroupModel());
+            var expectedKPIGroups = new List<KPIGroupModel> { new KPIGroupModel() };
             ArrangeGetKPIGroup(expectedKPIGroups);
 
             // Act
@@ -142,8 +139,7 @@
         {
             // Arrange
             var criteria = new GetAllEmployeeCriteria();
-            var expectedEmployees = new List<Employee>();
-            expectedEmployees.Add(new Employee());
+            var expectedEmployees = new List<Employee> { new Employee() };
             ArrangeGetAllEmployee(expectedEmployees);
 
             // Act
@@ -174,8 +170,7 @@
         public void GetEmployeeByDepartmentId_VaidArg_ReturnExpectedEmployees()
         {
             // Arrange
-            var expectedEmployees = new List<Employee>();
-            expectedEmployees.Add(new Employee());
+            var expectedEmployees = new List<Employee> { new Employee() };
             ArrangeGetEmployeeByDepartmentId(expectedEmployees);
 
             // Act
@@ -206,8 +201,7 @@
         public void GetEmployeeByGroupId_VaidArg_ReturnExpectedEmployees()
         {
             // Arrange
-            var expectedEmployees = new List<Employee>();
-            expectedEmployees.Add(new Employee());
+            var expectedEmployees = new List<Employee> { new Employee() };
             ArrangeGetEmployeeByGroupId(expectedEmployees);
 
             // Act
@@ -353,8 +347,7 @@
         public void GetPeriod_VaidArg_ReturnExpectedPeriods()
         {
             // Arrange
-            var expectedPeriods = new List<PeriodModel>();
-            expectedPeriods.Add(new PeriodModel());
+            var expectedPeriods = new List<PeriodModel> { new PeriodModel() };
             ArrangeGetPeriod(expectedPeriods);
 
             // Act
@@ -385,8 +378,7 @@
         public void GetStandardGrade_VaidArg_ReturnExpectedStandardGrades()
         {
             // Arrange
-            var expectedGrades = new List<StandardGradeModel>();
-            expectedGrades.Add(new StandardGradeModel());
+            var expectedGrades = new List<StandardGradeModel> { new StandardGradeModel() };
             ArrangeGetStandardGrade(expectedGrades);
 
             // Act
@@ -417,8 +409,7 @@
         public void GetAllPeriodIncludeImport_VaidArg_ReturnExpectedPeriods()
         {
             // Arrange
-            var expectedPeriods = new List<PeriodModel>();
-            expectedPeriods.Add(new PeriodModel());
+            var expectedPeriods = new List<PeriodModel> { new PeriodModel() };
             ArrangeGetAllPeriodIncludeImport(expectedPeriods);
 
             // Act
@@ -449,8 +440,7 @@
         public void GetAllTargetTemplate_VaidArg_ReturnExpectedTargetTemplates()
         {
             // Arrange
-            var targetTemplates = new List<TargetTemplate>();
-            targetTemplates.Add(new TargetTemplate());
+            var targetTemplates = new List<TargetTemplate> { new TargetTemplate() };
             ArrangeGetAllTargetTemplate(targetTemplates);
 
             // Act
@@ -568,8 +558,7 @@
         public void GetScoreRatingType_AnyArg_ReturnExpectedRatingTypes()
         {
             // Arrange
-            var expectedRatingTypes = new List<ScoreRatingTypeModel>();
-            expectedRatingTypes.Add(new ScoreRatingTypeModel());
+            var expectedRatingTypes = new List<ScoreRatingTypeModel> { new ScoreRatingTypeModel() };
             ArrangeGetScoreRatingType(expectedRatingTypes);
 
             // Act

@@ -88,34 +88,6 @@
             Assert.AreNotEqual(expectedEmployee, actual);
         }
 
-        ////[Test]
-        ////public void GetEmployeeById_AnyArg_ReturnInstanceOfEmployeeModel()
-        ////{
-        ////    // Arrange
-        ////    var employeeId = 1;
-        ////    ArrangeGetEmployeeById();
-
-        ////    // Act
-        ////    var actual = employeeService.GetEmployeeById(employeeId);
-
-        ////    // Assert
-        ////    Assert.IsInstanceOf(typeof(EmployeeModel), actual);
-        ////}
-
-        ////[Test]
-        ////public void GetEmployeeById_ValidArg_ExpectedToExecuteGetEmployeeById()
-        ////{
-        ////    // Arrange
-        ////    int employeeId = 1;
-        ////    ArrangeGetEmployeeById();
-
-        ////    // Act
-        ////    employeeService.GetEmployeeById(employeeId);
-
-        ////    // Assert
-        ////    employeeRepository.Received().GetEmployeeById(Arg.Is<GetEmployeeByIdCriteria>(y => y.IsValid()));
-        ////}
-
         #endregion GetEmployeeById
 
         #region GetEmployeeLogin
@@ -366,25 +338,6 @@
             return service;
         }
 
-        private IEnumerable<Employee> GetListOfEmployeeModelForTest()
-        {
-            var employees = new List<Employee>
-            {
-                new Employee
-                {
-                    EmployeeId = 1,
-                    NickName = "tim"
-                },
-                new Employee
-                {
-                    EmployeeId = 2,
-                    NickName = "quinn"
-                }
-            };
-
-            return employees;
-        }
-
         private void ArrangeGetEmployeeLogin(UserSession result = null)
         {
             _employeeRepository = FakeEmployeeRepository();
@@ -403,20 +356,13 @@
         {
             _employeeRepository = FakeEmployeeRepository();
             _employeeService = GetEmployeeService(_employeeRepository);
-            _employeeRepository.GetEmployeeById(Arg.Any<GetEmployeeByIdCriteria>()).Returns(result == null ? new Employee() : result);
+            _employeeRepository.GetEmployeeById(Arg.Any<GetEmployeeByIdCriteria>()).Returns(result ?? new Employee());
         }
 
         private void ArrangeCreateSpecialEmployee(CommandResult result = null)
         {
             baseService = FakeBaseService();
             baseService.ExecuteNonQuery(Arg.Any<CreateSpecialEmployeeCriteria>()).Returns(result ?? new CommandResult());
-            _employeeService = GetEmployeeService(null, baseService);
-        }
-
-        private void ArrangeUpdateSpecialEmployee(CommandResult result = null)
-        {
-            baseService = FakeBaseService();
-            baseService.ExecuteNonQuery(Arg.Any<UpdateSpecialEmployeeCriteria>()).Returns(result ?? new CommandResult());
             _employeeService = GetEmployeeService(null, baseService);
         }
 
@@ -432,27 +378,6 @@
         {
             baseService = FakeBaseService();
             baseService.ExecuteNonQuery(Arg.Any<ResetPasswordCriteria>()).Returns(result ?? new CommandResult());
-            _employeeService = GetEmployeeService(null, baseService);
-        }
-
-        private void ArrangeAssignRoleToEmployee(CommandResult result = null)
-        {
-            baseService = FakeBaseService();
-            baseService.ExecuteNonQuery(Arg.Any<AssignRoleToEmployeeCriteria>()).Returns(result ?? new CommandResult());
-            _employeeService = GetEmployeeService(null, baseService);
-        }
-
-        private void ArrangeInsertEmployeeIPAddress(CommandResult result = null)
-        {
-            baseService = FakeBaseService();
-            baseService.ExecuteNonQuery(Arg.Any<InsertEmployeeIPAddressCriteria>()).Returns(result ?? new CommandResult());
-            _employeeService = GetEmployeeService(null, baseService);
-        }
-
-        private void ArrangeUpdateHasMonthlyEPA(CommandResult result = null)
-        {
-            baseService = FakeBaseService();
-            baseService.ExecuteNonQuery(Arg.Any<UpdateHasMonthlyEPACriteria>()).Returns(result ?? new CommandResult());
             _employeeService = GetEmployeeService(null, baseService);
         }
 

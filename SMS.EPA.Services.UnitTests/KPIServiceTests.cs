@@ -59,7 +59,7 @@
 
             // Assert
             Assert.IsNotNull(actual);
-            Assert.AreEqual(0, actual.Where(x => !x.KPIGroups.Any()).Count());
+            Assert.AreEqual(0, actual.Count(x => !x.KPIGroups.Any()));
         }
 
         #endregion GetKPI

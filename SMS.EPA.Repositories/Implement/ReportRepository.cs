@@ -30,19 +30,19 @@
             {
                 using (IMultiResultReader multi = db.QueryMultiple(criteria.GetSpParams()))
                 {
-                    var epaSummary = new EPASummaryModel();
+                    var epaSummary = new EPASummaryModel
+                    {
+                        PeriodSelecteds = multi.Read<PeriodModel>().ToList(),
+                        EPAInfos = multi.Read<EPASummaryEmployeeModel, Group, JobTitle, EPASummaryEmployeeModel>(
+                            (res, gr, job) =>
+                            {
+                                res.Group = gr;
+                                res.JobTitle = job;
 
-                    epaSummary.PeriodSelecteds = multi.Read<PeriodModel>().ToList();
-
-                    epaSummary.EPAInfos = multi.Read<EPASummaryEmployeeModel, Group, JobTitle, EPASummaryEmployeeModel>(
-                        (res, gr, job) =>
-                        {
-                            res.Group = gr;
-                            res.JobTitle = job;
-
-                            return res;
-                        },
-                        "GroupId, JobTitleId").ToList();
+                                return res;
+                            },
+                            "GroupId, JobTitleId").ToList()
+                    };
 
                     IList<EPASummaryPeriodModel> periods = multi.Read<EPASummaryPeriodModel, ScoreRatingTypeModel, EPASummaryPeriodModel>(
                         (period, scoreRatingType) =>
@@ -75,19 +75,19 @@
             {
                 using (IMultiResultReader multi = db.QueryMultiple(criteria.GetSpParams()))
                 {
-                    var epaSummary = new EPASummaryModel();
+                    var epaSummary = new EPASummaryModel
+                    {
+                        PeriodSelecteds = multi.Read<PeriodModel>().ToList(),
+                        EPAInfos = multi.Read<EPASummaryEmployeeModel, Group, JobTitle, EPASummaryEmployeeModel>(
+                            (res, gr, job) =>
+                            {
+                                res.Group = gr;
+                                res.JobTitle = job;
 
-                    epaSummary.PeriodSelecteds = multi.Read<PeriodModel>().ToList();
-
-                    epaSummary.EPAInfos = multi.Read<EPASummaryEmployeeModel, Group, JobTitle, EPASummaryEmployeeModel>(
-                        (res, gr, job) =>
-                        {
-                            res.Group = gr;
-                            res.JobTitle = job;
-
-                            return res;
-                        },
-                        "GroupId, JobTitleId").ToList();
+                                return res;
+                            },
+                            "GroupId, JobTitleId").ToList()
+                    };
 
                     IList<EPASummaryPeriodModel> periods = multi.Read<EPASummaryPeriodModel>().ToList();
 
@@ -113,20 +113,21 @@
             {
                 using (IMultiResultReader multi = db.QueryMultiple(criteria.GetSpParams()))
                 {
-                    var epaDetail = new EPADetailModel();
+                    var epaDetail = new EPADetailModel
+                    {
+                        PhaseSelecteds = multi.Read<EvaluationPhaseModel>(),
+                        EpaInfos = multi
+                            .Read<EPAModel, EPAEmployeeModel, EPAPeriodModel, ScoreRatingTypeModel, EPAModel>(
+                                (info, employee, period, scoreRatingType) =>
+                                {
+                                    info.Employee = employee;
+                                    info.Period = period;
+                                    info.ScoreRatingType = scoreRatingType;
 
-                    epaDetail.PhaseSelecteds = multi.Read<EvaluationPhaseModel>();
-
-                    epaDetail.EpaInfos = multi.Read<EPAModel, EPAEmployeeModel, EPAPeriodModel, ScoreRatingTypeModel, EPAModel>(
-                            (info, employee, period, scoreRatingType) =>
-                            {
-                                info.Employee = employee;
-                                info.Period = period;
-                                info.ScoreRatingType = scoreRatingType;
-
-                                return info;
-                            },
-                            "EmployeeId, PeriodId, ScoreRatingTypeId");
+                                    return info;
+                                },
+                                "EmployeeId, PeriodId, ScoreRatingTypeId")
+                    };
 
                     var processes = multi.Read<EPAProcessModel, EPAEmployeeModel, EPAProcessModel>(
                         (process, employee) =>
@@ -151,21 +152,21 @@
             {
                 using (IMultiResultReader multi = db.QueryMultiple(criteria.GetSpParams()))
                 {
-                    var epaDetail = new EPADetailModel();
+                    var epaDetail = new EPADetailModel
+                    {
+                        PhaseSelecteds = multi.Read<EvaluationPhaseModel>(),
+                        EpaInfos = multi.Read<EPAModel, EPAEmployeeModel, EPAPeriodModel, EPAModel>(
+                            (info, employee, period) =>
+                            {
+                                info.Employee = employee;
+                                info.Period = period;
 
-                    epaDetail.PhaseSelecteds = multi.Read<EvaluationPhaseModel>();
+                                return info;
+                            },
+                            "EmployeeId, PeriodId")
+                    };
 
-                    epaDetail.EpaInfos = multi.Read<EPAModel, EPAEmployeeModel, EPAPeriodModel, EPAModel>(
-                        (info, employee, period) =>
-                        {
-                            info.Employee = employee;
-                            info.Period = period;
-
-                            return info;
-                        },
-                        "EmployeeId, PeriodId");
-
-                    IEnumerable<EPAProcessModel> processes = multi.Read<EPAProcessModel>();
+                    var processes = multi.Read<EPAProcessModel>();
 
                     GroupEPAProcessByEPA(epaDetail.EpaInfos, processes);
                     DecodeAllScore(epaDetail.EpaInfos);
