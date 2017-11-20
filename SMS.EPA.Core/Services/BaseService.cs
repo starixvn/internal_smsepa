@@ -17,10 +17,7 @@
         {
             this.dynamicRepository = dynamicRepository ?? new DynamicRepository();
             this.baseRepository = baseRepository ?? new BaseRepository();
-            Repository = baseRepository ?? new BaseRepository();
         }
-
-        public IBaseRepository Repository { get; set; }
 
         public virtual IEnumerable<T> GetData<T>(ICriteria criteria)
         {
