@@ -1,7 +1,6 @@
 ﻿namespace SMS.EPA.Site.UnitTests
 {
     using System.Collections.Generic;
-    using System.Diagnostics.CodeAnalysis;
     using Core.Model;
     using Core.Services;
     using Criteria;
@@ -51,30 +50,33 @@
         }
 
         [Test]
-        public void CreateTargetTemplate_WhenCalled_ReturnInstanceOfCommandResult()
+        public void CreateTargetTemplate_WhenCalled_ReturnExpectedCommandResult()
         {
             // Arrange
+            var expected = new CommandResult();
             _targetTemplateService = FakeTargetTemplateService();
             _sessionService = FakeSessionService();
             baseService = FakeBaseService();
-            baseService.ExecuteNonQuery(Arg.Any<CreateTargetTemplateCriteria>()).Returns(new CommandResult());
+            baseService.ExecuteNonQuery(Arg.Any<CreateTargetTemplateCriteria>()).Returns(expected);
             _targetTemplateController = GetTargetTemplateController(_targetTemplateService, _sessionService, baseService);
 
             // Act
-            var actual = _targetTemplateController.CreateTargetTemplate(Arg.Any<CreateTargetTemplateCriteria>());
+            var actual = _targetTemplateController.CreateTargetTemplate(new CreateTargetTemplateCriteria());
 
             // Assert
             Assert.IsInstanceOf(typeof(CommandResult), actual);
+            Assert.AreEqual(expected, actual);
         }
 
         [Test]
-        public void UpdateStatusTargetTemplate_WhenCalled_ReturnInstanceOfCommandResult()
+        public void UpdateStatusTargetTemplate_WhenCalled_ReturnExpectedCommandResult()
         {
             // Arrange
+            var expected = new CommandResult();
             _targetTemplateService = FakeTargetTemplateService();
             _sessionService = FakeSessionService();
             baseService = FakeBaseService();
-            baseService.ExecuteNonQuery(Arg.Any<UpdateStatusTargetTemplateCriteria>()).Returns(new CommandResult());
+            baseService.ExecuteNonQuery(Arg.Any<UpdateStatusTargetTemplateCriteria>()).Returns(expected);
             _targetTemplateController = GetTargetTemplateController(_targetTemplateService, _sessionService, baseService);
 
             // Act
@@ -82,16 +84,18 @@
 
             // Assert
             Assert.IsInstanceOf(typeof(CommandResult), actual);
+            Assert.AreEqual(expected, actual);
         }
 
         [Test]
-        public void UpdateTargetTemplateBasicInfo_WhenCalled_ReturnInstanceOfCommandResult()
+        public void UpdateTargetTemplateBasicInfo_WhenCalled_ReturnExpectedCommandResult()
         {
             // Arrange
+            var expected = new CommandResult();
             _targetTemplateService = FakeTargetTemplateService();
             _sessionService = FakeSessionService();
             baseService = FakeBaseService();
-            baseService.ExecuteNonQuery(Arg.Any<UpdateTargetTemplateBasicInfoCriteria>()).Returns(new CommandResult());
+            baseService.ExecuteNonQuery(Arg.Any<UpdateTargetTemplateBasicInfoCriteria>()).Returns(expected);
             _targetTemplateController = GetTargetTemplateController(_targetTemplateService, _sessionService, baseService);
 
             // Act
@@ -99,16 +103,18 @@
 
             // Assert
             Assert.IsInstanceOf(typeof(CommandResult), actual);
+            Assert.AreEqual(expected, actual);
         }
 
         [Test]
-        public void UpdateTargetTemplate_WhenCalled_ReturnInstanceOfCommandResult()
+        public void UpdateTargetTemplate_WhenCalled_ReturnExpectedCommandResult()
         {
             // Arrange
+            var expected = new CommandResult();
             _targetTemplateService = FakeTargetTemplateService();
             _sessionService = FakeSessionService();
             baseService = FakeBaseService();
-            baseService.ExecuteNonQuery(Arg.Any<UpdateTargetTemplateCriteria>()).Returns(new CommandResult());
+            baseService.ExecuteNonQuery(Arg.Any<UpdateTargetTemplateCriteria>()).Returns(expected);
             _targetTemplateController = GetTargetTemplateController(_targetTemplateService, _sessionService, baseService);
 
             // Act
@@ -116,16 +122,18 @@
 
             // Assert
             Assert.IsInstanceOf(typeof(CommandResult), actual);
+            Assert.AreEqual(expected, actual);
         }
 
         [Test]
-        public void DeleteTargetTemplate_WhenCalled_ReturnInstanceOfCommandResult()
+        public void DeleteTargetTemplate_WhenCalled_ReturnExpectedCommandResult()
         {
             // Arrange
+            var expected = new CommandResult();
             _targetTemplateService = FakeTargetTemplateService();
             _sessionService = FakeSessionService();
             baseService = FakeBaseService();
-            baseService.ExecuteNonQuery(Arg.Any<DeleteTargetTemplateCriteria>()).Returns(new CommandResult());
+            baseService.ExecuteNonQuery(Arg.Any<DeleteTargetTemplateCriteria>()).Returns(expected);
             _targetTemplateController = GetTargetTemplateController(_targetTemplateService, _sessionService, baseService);
 
             // Act
@@ -133,20 +141,22 @@
 
             // Assert
             Assert.IsInstanceOf(typeof(CommandResult), actual);
+            Assert.AreEqual(expected, actual);
         }
 
         [Test]
-        public void AddKPIGroupWeight_WhenCalled_ReturnInstanceOfCommandResult()
+        public void AddKPIGroupWeight_WhenCalled_ReturnExpectedCommandResult()
         {
             // Arrange
+            var expected = new CommandResult();
             _targetTemplateService = FakeTargetTemplateService();
             _sessionService = FakeSessionService();
             baseService = FakeBaseService();
-            baseService.ExecuteNonQuery(Arg.Any<SetKPIGroupOfTargetTemplateCriteria>()).Returns(new CommandResult());
+            baseService.ExecuteNonQuery(Arg.Any<SetKPIGroupOfTargetTemplateCriteria>()).Returns(expected);
             _targetTemplateController = GetTargetTemplateController(_targetTemplateService, _sessionService, baseService);
 
             // Act
-            var actual = _targetTemplateController.AddKPIGroupWeight(Arg.Any<SetKPIGroupOfTargetTemplateCriteria>());
+            var actual = _targetTemplateController.AddKPIGroupWeight(new SetKPIGroupOfTargetTemplateCriteria());
 
             // Assert
             Assert.IsInstanceOf(typeof(CommandResult), actual);
@@ -185,13 +195,14 @@
         }
 
         [Test]
-        public void DeleteKPIGroupOfTargetTemplate_WhenCalled_ReturnInstanceOfCommandResult()
+        public void DeleteKPIGroupOfTargetTemplate_WhenCalled_ReturnExpectedCommandResult()
         {
             // Arrange
+            var expected = new CommandResult();
             _targetTemplateService = FakeTargetTemplateService();
             _sessionService = FakeSessionService();
             baseService = FakeBaseService();
-            baseService.ExecuteNonQuery(Arg.Any<DeleteKPIGroupOfTargetTemplateCriteria>()).Returns(new CommandResult());
+            baseService.ExecuteNonQuery(Arg.Any<DeleteKPIGroupOfTargetTemplateCriteria>()).Returns(expected);
             _targetTemplateController = GetTargetTemplateController(_targetTemplateService, _sessionService, baseService);
 
             // Act
@@ -199,6 +210,7 @@
 
             // Assert
             Assert.IsInstanceOf(typeof(CommandResult), actual);
+            Assert.AreEqual(expected, actual);
         }
 
         [Test]
@@ -256,14 +268,12 @@
             return service;
         }
 
-        [SuppressMessage("Microsoft.Reliability", "CA2000:Dispose objects before losing scope", Justification = "Reviewed")]
         private TargetTemplateController GetTargetTemplateController(
             ITargetTemplateService targetTemplateService = null,
             ISessionService sessionService = null,
             IBaseService baseService = null)
         {
-            var controller = new TargetTemplateController(targetTemplateService, baseService);
-            controller.SessionService = sessionService;
+            var controller = new TargetTemplateController(targetTemplateService, baseService) { SessionService = sessionService };
 
             return controller;
         }

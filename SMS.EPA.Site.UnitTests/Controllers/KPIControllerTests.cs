@@ -21,24 +21,12 @@
         #region GetKPI
 
         [Test]
-        public void GetKPI_CheckActionName_ReturnAsExpected()
+        public void GetKPI_WhenCalled_ReturnExpectedKPIs()
         {
             // Arrange
-            _kpiController = GetKPIController();
-
-            // Act
-            var actual = _kpiController.GetType().GetMethod("GetKPI");
-
-            // Assert
-            Assert.IsNotNull(actual);
-        }
-
-        [Test]
-        public void GetKPI_WhenCalled_ReturnInstanceOfListOfKPIModel()
-        {
-            // Arrange
+            var kpis = new List<KPIModel>();
             _kpiService = FakeKPIService();
-            _kpiService.GetKPI(Arg.Any<GetKPICriteria>()).Returns(new List<KPIModel>());
+            _kpiService.GetKPI(Arg.Any<GetKPICriteria>()).Returns(kpis);
             _kpiController = GetKPIController(_kpiService);
 
             // Act
@@ -46,6 +34,7 @@
 
             // Assert
             Assert.IsInstanceOf(typeof(IEnumerable<KPIModel>), actual);
+            Assert.AreEqual(kpis, actual);
         }
 
         #endregion GetKPI
@@ -53,26 +42,14 @@
         #region CreateKPI
 
         [Test]
-        public void CreateKPI_CheckActionName_ReturnAsExpected()
+        public void CreateKPI_WhenCalled_ReturnExpectedCommandResult()
         {
             // Arrange
-            _kpiController = GetKPIController();
-
-            // Act
-            var actual = _kpiController.GetType().GetMethod("CreateKPI");
-
-            // Assert
-            Assert.IsNotNull(actual);
-        }
-
-        [Test]
-        public void CreateKPI_WhenCalled_ReturnInstanceOfCommandResult()
-        {
-            // Arrange
+            var expected = new CommandResult();
             _kpiService = FakeKPIService();
             _sessionService = FakeSessionService();
             baseService = FakeBaseService();
-            baseService.ExecuteNonQuery(Arg.Any<CreateKPICriteria>()).Returns(new CommandResult());
+            baseService.ExecuteNonQuery(Arg.Any<CreateKPICriteria>()).Returns(expected);
             _kpiController = GetKPIController(_kpiService, _sessionService, baseService);
 
             // Act
@@ -80,6 +57,7 @@
 
             // Assert
             Assert.IsInstanceOf(typeof(CommandResult), actual);
+            Assert.AreEqual(expected, actual);
         }
 
         #endregion CreateKPI
@@ -87,26 +65,14 @@
         #region UpdateKPI
 
         [Test]
-        public void UpdateKPI_CheckActionName_ReturnAsExpected()
+        public void UpdateKPI_WhenCalled_ReturnExpectedCommandResult()
         {
             // Arrange
-            _kpiController = GetKPIController();
-
-            // Act
-            var actual = _kpiController.GetType().GetMethod("UpdateKPI");
-
-            // Assert
-            Assert.IsNotNull(actual);
-        }
-
-        [Test]
-        public void UpdateKPI_WhenCalled_ReturnInstanceOfCommandResult()
-        {
-            // Arrange
+            var expected = new CommandResult();
             _kpiService = FakeKPIService();
             _sessionService = FakeSessionService();
             baseService = FakeBaseService();
-            baseService.ExecuteNonQuery(Arg.Any<UpdateKPICriteria>()).Returns(new CommandResult());
+            baseService.ExecuteNonQuery(Arg.Any<UpdateKPICriteria>()).Returns(expected);
             _kpiController = GetKPIController(_kpiService, _sessionService, baseService);
 
             // Act
@@ -114,6 +80,7 @@
 
             // Assert
             Assert.IsInstanceOf(typeof(CommandResult), actual);
+            Assert.AreEqual(expected, actual);
         }
 
         #endregion UpdateKPI
@@ -121,26 +88,14 @@
         #region UpdateStatusKPI
 
         [Test]
-        public void UpdateStatusKPI_CheckActionName_ReturnAsExpected()
+        public void UpdateStatusKPI_WhenCalled_ReturnExpectedCommandResult()
         {
             // Arrange
-            _kpiController = GetKPIController();
-
-            // Act
-            var actual = _kpiController.GetType().GetMethod("UpdateStatusKPI");
-
-            // Assert
-            Assert.IsNotNull(actual);
-        }
-
-        [Test]
-        public void UpdateStatusKPI_WhenCalled_ReturnInstanceOfCommandResult()
-        {
-            // Arrange
+            var expected = new CommandResult();
             _kpiService = FakeKPIService();
             _sessionService = FakeSessionService();
             baseService = FakeBaseService();
-            baseService.ExecuteNonQuery(Arg.Any<UpdateStatusKPICriteria>()).Returns(new CommandResult());
+            baseService.ExecuteNonQuery(Arg.Any<UpdateStatusKPICriteria>()).Returns(expected);
             _kpiController = GetKPIController(_kpiService, _sessionService, baseService);
 
             // Act
@@ -148,6 +103,7 @@
 
             // Assert
             Assert.IsInstanceOf(typeof(CommandResult), actual);
+            Assert.AreEqual(expected, actual);
         }
 
         #endregion UpdateStatusKPI
@@ -155,26 +111,14 @@
         #region UpdateRequiredEvaluateKPI
 
         [Test]
-        public void UpdateRequiredEvaluateKPI_CheckActionName_ReturnAsExpected()
+        public void UpdateRequiredEvaluateKPI_WhenCalled_ReturnExpectedCommandResult()
         {
             // Arrange
-            _kpiController = GetKPIController();
-
-            // Act
-            var actual = _kpiController.GetType().GetMethod("UpdateRequiredEvaluateKPI");
-
-            // Assert
-            Assert.IsNotNull(actual);
-        }
-
-        [Test]
-        public void UpdateRequiredEvaluateKPI_WhenCalled_ReturnInstanceOfCommandResult()
-        {
-            // Arrange
+            var expected = new CommandResult();
             _kpiService = FakeKPIService();
             _sessionService = FakeSessionService();
             baseService = FakeBaseService();
-            baseService.ExecuteNonQuery(Arg.Any<UpdateRequiredEvaluateKPICriteria>()).Returns(new CommandResult());
+            baseService.ExecuteNonQuery(Arg.Any<UpdateRequiredEvaluateKPICriteria>()).Returns(expected);
             _kpiController = GetKPIController(_kpiService, _sessionService, baseService);
 
             // Act
@@ -182,6 +126,7 @@
 
             // Assert
             Assert.IsInstanceOf(typeof(CommandResult), actual);
+            Assert.AreEqual(expected, actual);
         }
 
         #endregion UpdateRequiredEvaluateKPI
@@ -189,26 +134,14 @@
         #region DeleteKPI
 
         [Test]
-        public void DeleteKPI_CheckActionName_ReturnAsExpected()
+        public void DeleteKPI_WhenCalled_ReturnExpectedCommandResult()
         {
             // Arrange
-            _kpiController = GetKPIController();
-
-            // Act
-            var actual = _kpiController.GetType().GetMethod("DeleteKPI");
-
-            // Assert
-            Assert.IsNotNull(actual);
-        }
-
-        [Test]
-        public void DeleteKPI_WhenCalled_ReturnInstanceOfCommandResult()
-        {
-            // Arrange
+            var expected = new CommandResult();
             _kpiService = FakeKPIService();
             _sessionService = FakeSessionService();
             baseService = FakeBaseService();
-            baseService.ExecuteNonQuery(Arg.Any<DeleteKPICriteria>()).Returns(new CommandResult());
+            baseService.ExecuteNonQuery(Arg.Any<DeleteKPICriteria>()).Returns(expected);
             _kpiController = GetKPIController(_kpiService, _sessionService, baseService);
 
             // Act
@@ -216,6 +149,7 @@
 
             // Assert
             Assert.IsInstanceOf(typeof(CommandResult), actual);
+            Assert.AreEqual(expected, actual);
         }
 
         #endregion DeleteKPI
@@ -224,7 +158,7 @@
 
         private ISessionService FakeSessionService()
         {
-            ISessionService service = Substitute.For<ISessionService>();
+            var service = Substitute.For<ISessionService>();
             service.EmployeeId = 1;
 
             return service;
@@ -239,19 +173,17 @@
 
         private IKPIService FakeKPIService()
         {
-            IKPIService service = Substitute.For<IKPIService>();
+            var service = Substitute.For<IKPIService>();
 
             return service;
         }
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Reliability", "CA2000:Dispose objects before losing scope", Justification = "Reviewed")]
         private KPIController GetKPIController(
             IKPIService kpiService = null,
             ISessionService sessionService = null,
             IBaseService baseService = null)
         {
-            var controller = new KPIController(kpiService, baseService);
-            controller.SessionService = sessionService;
+            var controller = new KPIController(kpiService, baseService) { SessionService = sessionService };
 
             return controller;
         }

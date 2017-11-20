@@ -10,7 +10,6 @@
     using Services.Interfaces;
     using Site.Controllers.API;
 
-    
     [TestFixture]
     public class TargetEmployeeSettingControllerTests
     {
@@ -24,8 +23,7 @@
         public void GetTargetEmployeeSetting_AnyArg_ReturnExpectedTargetEmployees()
         {
             // Arrange
-            var expectedTargetEmployees = new List<TargetEmployeeSetting>();
-            expectedTargetEmployees.Add(new TargetEmployeeSetting());
+            var expectedTargetEmployees = new List<TargetEmployeeSetting> { new TargetEmployeeSetting() };
             ArrangeGetTargetEmployeeSetting(expectedTargetEmployees);
 
             // Act
@@ -56,8 +54,7 @@
         public void GetTargetDepartmentSetting_AnyArg_ReturnExpectedTargetDepartments()
         {
             // Arrange
-            var expectedTargetDepartments = new List<TargetDepartmentSetting>();
-            expectedTargetDepartments.Add(new TargetDepartmentSetting());
+            var expectedTargetDepartments = new List<TargetDepartmentSetting> { new TargetDepartmentSetting() };
             ArrangeGetTargetDepartmentSetting(expectedTargetDepartments);
 
             // Act
@@ -239,8 +236,7 @@
         {
             // Arrange
             var expectedPermission = 2;
-            _targetEmployeeSettingController = new TargetEmployeeSettingController();
-            _targetEmployeeSettingController.SessionService = FakeSessionService(expectedPermission);
+            _targetEmployeeSettingController = new TargetEmployeeSettingController { SessionService = FakeSessionService(expectedPermission) };
 
             // Act
             var actual = _targetEmployeeSettingController.GetUserPermissionOnTargetEmployeeSetting();
@@ -255,7 +251,7 @@
         {
             ISessionService service = Substitute.For<ISessionService>();
             service.EmployeeId = 1;
-            service.GetPermission(Arg.Any<string>()).Returns(permission.HasValue ? permission.Value : 0);
+            service.GetPermission(Arg.Any<string>()).Returns(permission ?? 0);
 
             return service;
         }
@@ -272,8 +268,11 @@
             ISessionService sessionService = null,
             IBaseService baseService = null)
         {
-            var controller = new TargetEmployeeSettingController(targetEmployeeSettingService, baseService);
-            controller.SessionService = sessionService;
+            var controller =
+                new TargetEmployeeSettingController(targetEmployeeSettingService, baseService)
+                {
+                    SessionService = sessionService
+                };
 
             return controller;
         }

@@ -42,44 +42,48 @@
         }
 
         [Test]
-        public void CreateMonthlyPeriod_WhenCalled_ReturnInstanceOfCommandResult()
+        public void CreateMonthlyPeriod_WhenCalled_ReturnExpectedCommandResult()
         {
             // Arrange
+            var expected = new CommandResult();
             _periodService = FakePeriodService();
             _sessionService = FakeSessionService();
             baseService = FakeBaseService();
-            baseService.ExecuteNonQuery(Arg.Any<CreatePeriodCriteria>()).Returns(new CommandResult());
+            baseService.ExecuteNonQuery(Arg.Any<CreatePeriodCriteria>()).Returns(expected);
             _monthlyPeriodController = GetMonthlyPeriodController(_periodService, _sessionService, baseService);
 
             // Act
-            var actual = _monthlyPeriodController.CreateMonthlyPeriod(Arg.Any<CreatePeriodCriteria>());
+            var actual = _monthlyPeriodController.CreateMonthlyPeriod(new CreatePeriodCriteria());
 
             // Assert
             Assert.IsInstanceOf(typeof(CommandResult), actual);
+            Assert.AreEqual(expected, actual);
         }
 
         [Test]
-        public void UpdateBasicInfoMonthlyPeriod_WhenCalled_ReturnInstanceOfCommandResult()
+        public void UpdateBasicInfoMonthlyPeriod_WhenCalled_ReturnExpectedCommandResult()
         {
             // Arrange
+            var expected = new CommandResult();
             _periodService = FakePeriodService();
             _sessionService = FakeSessionService();
             baseService = FakeBaseService();
-            baseService.ExecuteNonQuery(Arg.Any<UpdateBasicInformationPeriodCriteria>()).Returns(new CommandResult());
+            baseService.ExecuteNonQuery(Arg.Any<UpdateBasicInformationPeriodCriteria>()).Returns(expected);
             _monthlyPeriodController = GetMonthlyPeriodController(_periodService, _sessionService, baseService);
 
             // Act
-            var actual = _monthlyPeriodController.UpdateBasicInfoMonthlyPeriod(Arg.Any<UpdateBasicInformationPeriodCriteria>());
+            var actual = _monthlyPeriodController.UpdateBasicInfoMonthlyPeriod(new UpdateBasicInformationPeriodCriteria());
 
             // Assert
             Assert.IsInstanceOf(typeof(CommandResult), actual);
+            Assert.AreEqual(expected, actual);
         }
 
         #region Helpers
 
         private ISessionService FakeSessionService()
         {
-            ISessionService service = Substitute.For<ISessionService>();
+            var service = Substitute.For<ISessionService>();
             service.EmployeeId = 1;
 
             return service;
@@ -87,7 +91,7 @@
 
         private IPeriodService FakePeriodService()
         {
-            IPeriodService service = Substitute.For<IPeriodService>();
+            var service = Substitute.For<IPeriodService>();
 
             return service;
         }
@@ -105,8 +109,7 @@
             ISessionService sessionService = null,
             IBaseService baseService = null)
         {
-            var controller = new MonthlyPeriodController(periodService, baseService);
-            controller.SessionService = sessionService;
+            var controller = new MonthlyPeriodController(periodService, baseService) { SessionService = sessionService };
 
             return controller;
         }

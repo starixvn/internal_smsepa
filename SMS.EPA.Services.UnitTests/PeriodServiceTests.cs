@@ -214,7 +214,7 @@
             {
                 Code = 0
             };
-            ArrangeUpdateEmployeeSettingOfPeriod(commandResult, "false");
+            ArrangeUpdateEmployeeSettingOfPeriod(commandResult);
 
             // Act
             var actual = _periodService.UpdateEmployeeSettingOfPeriod(criteria);
@@ -237,7 +237,7 @@
             {
                 Code = 0
             };
-            ArrangeUpdateEmployeeSettingOfPeriod(commandResult, "true");
+            ArrangeUpdateEmployeeSettingOfPeriod(commandResult);
 
             // Act
             var actual = _periodService.UpdateEmployeeSettingOfPeriod(criteria);
@@ -262,7 +262,7 @@
             {
                 Code = 1
             };
-            ArrangeUpdateEmployeeSettingOfPeriod(commandResult, appSetting);
+            ArrangeUpdateEmployeeSettingOfPeriod(commandResult);
 
             // Act
             var actual = _periodService.UpdateEmployeeSettingOfPeriod(criteria);

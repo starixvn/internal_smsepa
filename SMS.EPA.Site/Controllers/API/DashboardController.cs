@@ -48,8 +48,7 @@
             {
                 EmployeeId = SessionService.EmployeeId
             };
-            var result = new ToDoListViewModel();
-            result.ToDoList = baseService.GetData<ToDoListModel>(criteria);
+            var result = new ToDoListViewModel { ToDoList = baseService.GetData<ToDoListModel>(criteria) };
 
             return result;
         }

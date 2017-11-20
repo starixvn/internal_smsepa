@@ -1,4 +1,4 @@
-﻿namespace SMS.EPA.Site.UnitTests.Controllers
+﻿namespace SMS.EPA.Site.UnitTests
 {
     using Criteria;
     using Model;
@@ -7,7 +7,6 @@
     using Services.Interfaces;
     using Site.Controllers.API;
 
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1001:TypesThatOwnDisposableFieldsShouldBeDisposable", Justification = "Reviewed")]
     [TestFixture]
     public class DepartmentControllerTests
     {
@@ -28,19 +27,6 @@
 
             // Assert
             Assert.AreEqual(expectedDepartment, actual);
-        }
-
-        [Test]
-        public void GetDepartment_AnyArg_ReturnAsExpectedType()
-        {
-            // Arrange
-            _departmentController = new DepartmentController();
-
-            // Act
-            var actual = _departmentController.GetType().GetMethod("GetDepartment").ReturnType;
-
-            // Assert
-            Assert.AreEqual(typeof(DepartmentInfoModel).Name, actual.Name);
         }
     }
 }

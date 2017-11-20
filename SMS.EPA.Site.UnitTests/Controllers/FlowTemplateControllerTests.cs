@@ -65,13 +65,14 @@
         #region CreateFlowTemplate
 
         [Test]
-        public void CreateFlowTemplate_WhenCalled_ReturnInstanceOfCommandResult()
+        public void CreateFlowTemplate_WhenCalled_ReturnExpectedCommandResult()
         {
             // Arrange
+            var expected = new CommandResult();
             _flowTemplateService = FakeFlowTemplateService();
             _sessionService = FakeSessionService();
             baseService = FakeBaseService();
-            baseService.ExecuteNonQuery(Arg.Any<CreateFlowTemplateCriteria>()).Returns(new CommandResult());
+            baseService.ExecuteNonQuery(Arg.Any<CreateFlowTemplateCriteria>()).Returns(expected);
             _flowTemplateController = GetFlowTemplateController(_flowTemplateService, _sessionService, baseService);
 
             // Act
@@ -79,6 +80,7 @@
 
             // Assert
             Assert.IsInstanceOf(typeof(CommandResult), actual);
+            Assert.AreEqual(expected, actual);
         }
 
         #endregion CreateFlowTemplate
@@ -86,20 +88,22 @@
         #region UpdateFlowTemplate
 
         [Test]
-        public void UpdateFlowTemplate_WhenCalled_ReturnInstanceOfCommandResult()
+        public void UpdateFlowTemplate_WhenCalled_ReturnExpectedCommandResult()
         {
             // Arrange
+            var expected = new CommandResult();
             _flowTemplateService = FakeFlowTemplateService();
             _sessionService = FakeSessionService();
             baseService = FakeBaseService();
-            baseService.ExecuteNonQuery(Arg.Any<UpdateFlowTemplateCriteria>()).Returns(new CommandResult());
-            _flowTemplateController = GetFlowTemplateController(_flowTemplateService, _sessionService);
+            baseService.ExecuteNonQuery(Arg.Any<UpdateFlowTemplateCriteria>()).Returns(expected);
+            _flowTemplateController = GetFlowTemplateController(_flowTemplateService, _sessionService, baseService);
 
             // Act
             var actual = _flowTemplateController.UpdateFlowTemplate(Arg.Any<UpdateFlowTemplateCriteria>());
 
             // Assert
             Assert.IsInstanceOf(typeof(CommandResult), actual);
+            Assert.AreEqual(expected, actual);
         }
 
         #endregion UpdateFlowTemplate
@@ -107,20 +111,22 @@
         #region UpdateStatusFlowTemplate
 
         [Test]
-        public void UpdateStatusFlowTemplate_WhenCalled_ReturnInstanceOfCommandResult()
+        public void UpdateStatusFlowTemplate_WhenCalled_ReturnExpectedCommandResult()
         {
             // Arrange
+            var expected = new CommandResult();
             _flowTemplateService = FakeFlowTemplateService();
             _sessionService = FakeSessionService();
             baseService = FakeBaseService();
-            baseService.ExecuteNonQuery(Arg.Any<UpdateStatusFlowTemplateCriteria>()).Returns(new CommandResult());
-            _flowTemplateController = GetFlowTemplateController(_flowTemplateService, _sessionService);
+            baseService.ExecuteNonQuery(Arg.Any<UpdateStatusFlowTemplateCriteria>()).Returns(expected);
+            _flowTemplateController = GetFlowTemplateController(_flowTemplateService, _sessionService, baseService);
 
             // Act
             var actual = _flowTemplateController.UpdateStatusFlowTemplate(Arg.Any<UpdateStatusFlowTemplateCriteria>());
 
             // Assert
             Assert.IsInstanceOf(typeof(CommandResult), actual);
+            Assert.AreEqual(expected, actual);
         }
 
         #endregion UpdateStatusFlowTemplate
@@ -128,20 +134,22 @@
         #region DeleteFlowTemplate
 
         [Test]
-        public void DeleteFlowTemplate_WhenCalled_ReturnInstanceOfCommandResult()
+        public void DeleteFlowTemplate_WhenCalled_ReturnExpectedCommandResult()
         {
             // Arrange
+            var expected = new CommandResult();
             _flowTemplateService = FakeFlowTemplateService();
             _sessionService = FakeSessionService();
             baseService = FakeBaseService();
-            baseService.ExecuteNonQuery(Arg.Any<DeleteFlowTemplateCriteria>()).Returns(new CommandResult());
-            _flowTemplateController = GetFlowTemplateController(_flowTemplateService, _sessionService);
+            baseService.ExecuteNonQuery(Arg.Any<DeleteFlowTemplateCriteria>()).Returns(expected);
+            _flowTemplateController = GetFlowTemplateController(_flowTemplateService, _sessionService, baseService);
 
             // Act
             var actual = _flowTemplateController.DeleteFlowTemplate(Arg.Any<int>());
 
             // Assert
             Assert.IsInstanceOf(typeof(CommandResult), actual);
+            Assert.AreEqual(expected, actual);
         }
 
         #endregion DeleteFlowTemplate
@@ -175,8 +183,7 @@
             ISessionService sessionService = null,
             IBaseService baseService = null)
         {
-            var controller = new FlowTemplateController(flowTemplateService, baseService);
-            controller.SessionService = sessionService;
+            var controller = new FlowTemplateController(flowTemplateService, baseService) { SessionService = sessionService };
 
             return controller;
         }

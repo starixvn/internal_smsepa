@@ -53,12 +53,13 @@
         }
 
         [Test]
-        public void CreateKPIGroup_WhenCalled_ReturnInstanceOfCommandResult()
+        public void CreateKPIGroup_WhenCalled_ReturnExpectedCommandResult()
         {
             // Arrange
+            var expected = new CommandResult();
             _sessionService = FakeSessionService();
             baseService = FakeBaseService();
-            baseService.ExecuteNonQuery(Arg.Any<CreateKPIGroupCriteria>()).Returns(new CommandResult());
+            baseService.ExecuteNonQuery(Arg.Any<CreateKPIGroupCriteria>()).Returns(expected);
             _kpiGroupController = GetKPIGroupController(_sessionService, baseService);
 
             // Act
@@ -66,15 +67,17 @@
 
             // Assert
             Assert.IsInstanceOf(typeof(CommandResult), actual);
+            Assert.AreEqual(expected, actual);
         }
 
         [Test]
-        public void UpdateKPIGroup_WhenCalled_ReturnInstanceOfCommandResult()
+        public void UpdateKPIGroup_WhenCalled_ReturnExpectedCommandResult()
         {
             // Arrange
+            var expected = new CommandResult();
             _sessionService = FakeSessionService();
             baseService = FakeBaseService();
-            baseService.ExecuteNonQuery(Arg.Any<UpdateKPIGroupCriteria>()).Returns(new CommandResult());
+            baseService.ExecuteNonQuery(Arg.Any<UpdateKPIGroupCriteria>()).Returns(expected);
             _kpiGroupController = GetKPIGroupController(_sessionService, baseService);
 
             // Act
@@ -82,15 +85,17 @@
 
             // Assert
             Assert.IsInstanceOf(typeof(CommandResult), actual);
+            Assert.AreEqual(expected, actual);
         }
 
         [Test]
-        public void UpdateStatusKPIGroup_WhenCalled_ReturnInstanceOfCommandResult()
+        public void UpdateStatusKPIGroup_WhenCalled_ReturnExpectedCommandResult()
         {
             // Arrange
+            var expected = new CommandResult();
             _sessionService = FakeSessionService();
             baseService = FakeBaseService();
-            baseService.ExecuteNonQuery(Arg.Any<UpdateStatusKPIGroupCriteria>()).Returns(new CommandResult());
+            baseService.ExecuteNonQuery(Arg.Any<UpdateStatusKPIGroupCriteria>()).Returns(expected);
             _kpiGroupController = GetKPIGroupController(_sessionService, baseService);
 
             // Act
@@ -98,15 +103,17 @@
 
             // Assert
             Assert.IsInstanceOf(typeof(CommandResult), actual);
+            Assert.AreEqual(expected, actual);
         }
 
         [Test]
-        public void DeleteKPIGroup_WhenCalled_ReturnInstanceOfCommandResult()
+        public void DeleteKPIGroup_WhenCalled_ReturnExpectedCommandResult()
         {
             // Arrange
+            var expected = new CommandResult();
             _sessionService = FakeSessionService();
             baseService = FakeBaseService();
-            baseService.ExecuteNonQuery(Arg.Any<DeleteKPIGroupCriteria>()).Returns(new CommandResult());
+            baseService.ExecuteNonQuery(Arg.Any<DeleteKPIGroupCriteria>()).Returns(expected);
             _kpiGroupController = GetKPIGroupController(_sessionService, baseService);
 
             // Act
@@ -114,6 +121,7 @@
 
             // Assert
             Assert.IsInstanceOf(typeof(CommandResult), actual);
+            Assert.AreEqual(expected, actual);
         }
 
         #region Helpers
@@ -135,8 +143,7 @@
 
         private KPIGroupController GetKPIGroupController(ISessionService sessionService = null, IBaseService baseService = null)
         {
-            var controller = new KPIGroupController(baseService);
-            controller.SessionService = sessionService;
+            var controller = new KPIGroupController(baseService) { SessionService = sessionService };
 
             return controller;
         }

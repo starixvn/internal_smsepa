@@ -1,7 +1,6 @@
 ﻿namespace SMS.EPA.Site.UnitTests
 {
     using System.Collections.Generic;
-    using System.Diagnostics.CodeAnalysis;
     using Core.Model;
     using Core.Services;
     using Criteria;
@@ -20,19 +19,6 @@
         private RoleController _roleController;
 
         #region GetRoleFunctionByRoleId
-
-        [Test]
-        public void GetRoleFunctionByRoleId_CheckActionName_ReturnAsExpected()
-        {
-            // Arrange
-            _roleController = GetRoleController();
-
-            // Act
-            var actual = _roleController.GetType().GetMethod("GetRoleFunctionByRoleId");
-
-            // Assert
-            Assert.IsNotNull(actual);
-        }
 
         [Test]
         public void GetRoleFunctionByRoleId_WhenCalled_ReturnInstanceOfListOfRoleFunctionModel()
@@ -54,13 +40,14 @@
         #region AssignFunctionToRole
 
         [Test]
-        public void AssignFunctionToRole_WhenCalled_ReturnInstanceOfCommandResult()
+        public void AssignFunctionToRole_WhenCalled_ReturnExpectedCommandResult()
         {
             // Arrange
+            var expected = new CommandResult();
             _roleService = FakeRoleService();
             _sessionService = FakeSessionService();
             baseService = FakeBaseService();
-            baseService.ExecuteNonQuery(Arg.Any<AssignFunctionToRoleCriteria>()).Returns(new CommandResult());
+            baseService.ExecuteNonQuery(Arg.Any<AssignFunctionToRoleCriteria>()).Returns(expected);
             _roleController = GetRoleController(_roleService, _sessionService, baseService);
 
             // Act
@@ -68,6 +55,7 @@
 
             // Assert
             Assert.IsInstanceOf(typeof(CommandResult), actual);
+            Assert.AreEqual(expected, actual);
         }
 
         #endregion AssignFunctionToRole
@@ -96,14 +84,12 @@
             return service;
         }
 
-        [SuppressMessage("Microsoft.Reliability", "CA2000:Dispose objects before losing scope", Justification = "Reviewed")]
         private RoleController GetRoleController(
             IRoleService roleService = null,
             ISessionService sessionService = null,
             IBaseService baseService = null)
         {
-            var controller = new RoleController(roleService, baseService);
-            controller.SessionService = sessionService;
+            var controller = new RoleController(roleService, baseService) { SessionService = sessionService };
 
             return controller;
         }

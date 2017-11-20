@@ -82,6 +82,8 @@
     <Compile Include="Dashboard\GetDashboardCriteriaTests.cs" />
     <Compile Include="Dashboard\GetToDoListCriteriaTests.cs" />
     <Compile Include="Department\GetDepartmentCriteriaTests.cs" />
+    <Compile Include="Discipline\GetDisciplineSummaryCriteriaTests.cs" />
+    <Compile Include="Discipline\GetDisciplineSummaryForOtherSystemCriteriaTests.cs" />
     <Compile Include="FlowSetting\DeletePersonalFlowCriteriaTests.cs" />
     <Compile Include="FlowSetting\DeleteDepartmentFlowCriteriaTests.cs" />
     <Compile Include="FlowSetting\CreatePersonalFlowCriteriaTests.cs" />
