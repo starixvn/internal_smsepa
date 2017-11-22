@@ -7,14 +7,14 @@
     using System.Web.Http.Controllers;
     using System.Web.Http.Filters;
 
-    [AttributeUsage(AttributeTargets.Method | AttributeTargets.Class, AllowMultiple = false, Inherited = true)]
+    [AttributeUsage(AttributeTargets.Method | AttributeTargets.Class)]
     public sealed class WebApiValidateAntiForgeryTokenAttribute : ActionFilterAttribute
     {
         public override void OnActionExecuting(HttpActionContext actionContext)
         {
             if (actionContext == null)
             {
-                throw new ArgumentNullException("actionContext");
+                throw new ArgumentNullException(nameof(actionContext));
             }
 
             if (actionContext.Request.Method.Method != "GET")
@@ -31,7 +31,7 @@
                     tokenHeader = headers.GetValues("X-XSRF-Token").FirstOrDefault();
                 }
 
-                AntiForgery.Validate(tokenCookie != null ? tokenCookie.Value : null, tokenHeader);
+                AntiForgery.Validate(tokenCookie?.Value, tokenHeader);
             }
 
             base.OnActionExecuting(actionContext);

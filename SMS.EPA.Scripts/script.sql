@@ -143,6 +143,7 @@ INSERT [dbo].[RefResource] ([RefResourceId], [RefName], [ResourceId], [Value]) V
 INSERT [dbo].[RefResource] ([RefResourceId], [RefName], [ResourceId], [Value]) VALUES (45, N'EvaluationPhase', 3, N'Evaluator')
 INSERT [dbo].[RefResource] ([RefResourceId], [RefName], [ResourceId], [Value]) VALUES (46, N'EvaluationPhase', 4, N'Reviewer')
 INSERT [dbo].[RefResource] ([RefResourceId], [RefName], [ResourceId], [Value]) VALUES (47, N'EvaluationPhase', 5, N'Management')
+INSERT [dbo].[RefResource] ([RefResourceId], [RefName], [ResourceId], [Value]) VALUES (48, N'EnableDisciplineRuleWhenAddEmployeeToSemi', 1, N'1')
 SET IDENTITY_INSERT [dbo].[RefResource] OFF
 GO
 -----------------------------------
