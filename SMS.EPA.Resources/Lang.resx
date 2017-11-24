@@ -1425,4 +1425,16 @@
   <data name="LastPerformanceScore" xml:space="preserve">
     <value>Last Performance Score</value>
   </data>
+  <data name="SevenDaysLeave" xml:space="preserve">
+    <value>Seven Days Leave</value>
+  </data>
+  <data name="OtherDiscipline" xml:space="preserve">
+    <value>Other Discipline</value>
+  </data>
+  <data name="SoccerLeavePolicy" xml:space="preserve">
+    <value>Soccer Leave Policy</value>
+  </data>
+  <data name="SystemDeduction" xml:space="preserve">
+    <value>System Deduction</value>
+  </data>
 </root>

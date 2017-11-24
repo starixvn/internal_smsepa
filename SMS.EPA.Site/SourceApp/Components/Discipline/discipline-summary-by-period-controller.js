@@ -17,13 +17,18 @@
         };
         vm.currentPage = 1;
         vm.disciplineTypes = [
-            { Id: 2, Name: 'No time in & out' },
-            { Id: 3, Name: 'Tardiness' },
-            { Id: 6, Name: 'Unpaid leave' },
+            { Id: 1, Name: 'Change Shift' },
+            { Id: 2, Name: 'Missing Check In/Out' },
+            { Id: 3, Name: 'Late In' },
+            { Id: 4, Name: 'Early Out' },
+            { Id: 5, Name: 'Absent' },
+            { Id: 6, Name: 'Unpaid Leave' },
+            { Id: 7, Name: 'Working Undertime' },
+            { Id: 8, Name: 'Unpaid Leave Absent' },
             { Id: 9, Name: 'Not Following Leave Procedures' },
-            { Id: 10, Name: 'Weekend leave' },
-            { Id: 7, Name: 'Undertime' },
-            { Id: -1, Name: 'Misconduction' }
+            { Id: 10, Name: 'Weekend Leave' },
+            { Id: 11, Name: 'Seven days leave' },
+            { Id: -1, Name: 'Other Discipline' }
         ];
         vm.employeeDisciplines = [];
         vm.pageSize = 20;

@@ -89,8 +89,7 @@
 
                     _exportExcelService.InitializeWithTemplate(Server.MapPath(DisciplineSummaryByPeriodTemplatePath));
 
-                    _exportExcelService.ContentRowStartIndex = DefaultContentRowStartIndexForTemplate;
-
+                    _exportExcelService.ContentRowStartIndex = 3;
                     CreateRedStyleForDisciplineSummaryByPeriodReport();
 
                     _exportExcelService.ExportWithTemplate(employeeDisciplines, true, true);
@@ -380,7 +379,7 @@
             redFont.Color = HSSFColor.Red.Index;
             style.SetFont(redFont);
 
-            for (int i = 8; i <= 16; i++)
+            for (int i = 8; i <= 20; i++)
             {
                 ConditionalCellStyle redStyle = CreateCellStyleIfLessThanZero(redStyleIndex, i);
                 _exportExcelService.ConditionalCellStyles.Add(redStyle);

@@ -28,6 +28,8 @@
 
         public decimal UnpaidLeaveAbsent { get; set; }
 
+        public decimal SevenDaysLeave { get; set; }
+
         public decimal OtherDisciplines { get; set; }
 
         public decimal SystemSubtractScore { get; set; }

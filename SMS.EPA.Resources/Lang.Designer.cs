@@ -2437,6 +2437,15 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Other Discipline.
+        /// </summary>
+        public static string OtherDiscipline {
+            get {
+                return ResourceManager.GetString("OtherDiscipline", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Other Violations.
         /// </summary>
         public static string OtherViolations {
@@ -3184,6 +3193,15 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Seven Days Leave.
+        /// </summary>
+        public static string SevenDaysLeave {
+            get {
+                return ResourceManager.GetString("SevenDaysLeave", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Shift.
         /// </summary>
         public static string Shift {
@@ -3243,6 +3261,15 @@ namespace SMS.EPA.Resources {
         public static string SignBy {
             get {
                 return ResourceManager.GetString("SignBy", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Soccer Leave Policy.
+        /// </summary>
+        public static string SoccerLeavePolicy {
+            get {
+                return ResourceManager.GetString("SoccerLeavePolicy", resourceCulture);
             }
         }
         
@@ -3414,6 +3441,15 @@ namespace SMS.EPA.Resources {
         public static string SymbolCount {
             get {
                 return ResourceManager.GetString("SymbolCount", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to System Deduction.
+        /// </summary>
+        public static string SystemDeduction {
+            get {
+                return ResourceManager.GetString("SystemDeduction", resourceCulture);
             }
         }
         
