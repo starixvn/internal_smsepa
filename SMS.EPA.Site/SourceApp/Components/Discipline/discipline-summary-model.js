@@ -49,8 +49,8 @@
             });
         }
 
-        function getDisciplineSummaryForOtherSystem(periodId, disciplineTypeId, departmentId, isLocal, employeeId) {
-            return disciplineSummaryFactory.getDisciplineSummaryForOtherSystem(periodId, disciplineTypeId, departmentId, isLocal, employeeId)
+        function getDisciplineSummaryForOtherSystem(startDate, endDate, departmentId, isLocal, employeeId, reasonId) {
+            return disciplineSummaryFactory.getDisciplineSummaryForOtherSystem(startDate, endDate, departmentId, isLocal, employeeId, reasonId)
             .success(function (employeeDisciplines) {
                 model.employeeDisciplines = employeeDisciplines;
             }).error(function (response, status) {

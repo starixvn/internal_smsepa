@@ -25,7 +25,7 @@
             { Id: 6, Name: 'Unpaid Leave' },
             { Id: 7, Name: 'Working Undertime' },
             { Id: 8, Name: 'Unpaid Leave Absent' },
-            { Id: 9, Name: 'Not Following Leave Procedures' },
+            { Id: 9, Name: 'Soccer Leave Policy' },
             { Id: 10, Name: 'Weekend Leave' },
             { Id: 11, Name: 'Seven days leave' },
             { Id: -1, Name: 'Other Discipline' }
@@ -56,7 +56,7 @@
         function getDisciplineSummary(startDate, endDate, departmentId, isLocal, employeeId, reasonId) {
             lockScreenService.start();
 
-            DisciplineSummaryModel.getDisciplineSummary(startDate, endDate, departmentId, isLocal, employeeId, reasonId).then(function () {
+            DisciplineSummaryModel.getDisciplineSummaryForOtherSystem(startDate, endDate, departmentId, isLocal, employeeId, reasonId).then(function () {
                 vm.employeeDisciplines = DisciplineSummaryModel.employeeDisciplines;
                 utilitiesFactory.searchOnPage(vm, vm.employeeDisciplines);
                 lockScreenService.stop();
