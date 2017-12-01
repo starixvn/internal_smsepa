@@ -95,6 +95,7 @@
                 if (ValidatePassword(criteria.OldPassword, oldPassword))
                 {
                     criteria.NewPassword = Encryption.ComputeHash(HashProvider.Sha1, criteria.NewPassword);
+                    criteria.ConfirmPassword = criteria.NewPassword;
                     commandResult = baseService.ExecuteNonQuery(criteria);
                 }
                 else
