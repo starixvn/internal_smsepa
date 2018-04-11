@@ -342,7 +342,7 @@
                 startDate = new Date(employeeOptions.humanResource.EndDate).setHours(0, 0, 0, 0);
                 endDate = new Date(employeeOptions.selfEvaluator.StartDate).setHours(0, 0, 0, 0);
 
-                if (startDate > endDate) {
+                if (startDate >= endDate) {
                     notificationFactory.error("HRRangeDateGreaterThanSelfRangeDateWarning");
                     return false;
                 }
@@ -360,7 +360,7 @@
                 startDate = new Date(employeeOptions.selfEvaluator.EndDate).setHours(0, 0, 0, 0);
                 endDate = new Date(employeeOptions.evaluator.StartDate).setHours(0, 0, 0, 0);
 
-                if (startDate > endDate) {
+                if (startDate >= endDate) {
                     notificationFactory.error("SelfRangeDateGreaterThanEvaluatorRangeDateWarning");
                     return false;
                 }
@@ -381,7 +381,7 @@
                 startDate = new Date(employeeOptions.evaluator.EndDate).setHours(0, 0, 0, 0);
                 endDate = new Date(employeeOptions.reviewer.StartDate).setHours(0, 0, 0, 0);
 
-                if (startDate > endDate) {
+                if (startDate >= endDate) {
                     notificationFactory.error("EvaluatorRangeDateGreaterThanReviewerRangeDateWarning");
                     return false;
                 }
