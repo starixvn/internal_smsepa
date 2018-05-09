@@ -46,7 +46,6 @@
             hasDisciplineScore,
             maxPerformanceScore,
             standardGrades) {
-
             if (isNaN(performanceScore) || performanceScore === "N/A") {
                 return "N/A";
             }
@@ -170,40 +169,40 @@
 
             if (epaInfo.EPAId > 0) {
                 switch (epaInfo.Process.Self.StatusId) {
-                case utilitiesFactory.processStatus.InProgress:
-                case utilitiesFactory.processStatus.Closed:
-                    result.SelfScore = epaInfo.Process.Self.TotalScore.length > 0
-                        ? utilitiesFactory.parseFloat(epaInfo.Process.Self.TotalScore)
-                        : utilitiesFactory.notAvailableString;
-                    break;
+                    case utilitiesFactory.processStatus.InProgress:
+                    case utilitiesFactory.processStatus.Closed:
+                        result.SelfScore = epaInfo.Process.Self.TotalScore.length > 0
+                            ? utilitiesFactory.parseFloat(epaInfo.Process.Self.TotalScore)
+                            : utilitiesFactory.notAvailableString;
+                        break;
                 }
 
                 switch (epaInfo.Process.Evaluators[0].StatusId) {
-                case utilitiesFactory.processStatus.InProgress:
-                case utilitiesFactory.processStatus.Closed:
-                    result.EvaluatorScore = epaInfo.Process.AverageScoreByEvaluators !== null
-                        ? epaInfo.Process.AverageScoreByEvaluators
-                        : utilitiesFactory.notAvailableString;
-                    break;
+                    case utilitiesFactory.processStatus.InProgress:
+                    case utilitiesFactory.processStatus.Closed:
+                        result.EvaluatorScore = epaInfo.Process.AverageScoreByEvaluators !== null
+                            ? epaInfo.Process.AverageScoreByEvaluators
+                            : utilitiesFactory.notAvailableString;
+                        break;
                 }
 
                 switch (epaInfo.Process.Reviewers[0].StatusId) {
-                case utilitiesFactory.processStatus.InProgress:
-                case utilitiesFactory.processStatus.Closed:
-                    result.ReviewerScore = epaInfo.Process.AverageScoreByReviewers !== null
-                        ? epaInfo.Process.AverageScoreByReviewers
-                        : epaInfo.IsSemiHasMonthly && epaInfo.MonthlyEPA.AverageReviewerScoreConverted !== null ? epaInfo.MonthlyEPA.AverageReviewerScoreConverted : utilitiesFactory.notAvailableString;
-                    break;
+                    case utilitiesFactory.processStatus.InProgress:
+                    case utilitiesFactory.processStatus.Closed:
+                        result.ReviewerScore = epaInfo.Process.AverageScoreByReviewers !== null
+                            ? epaInfo.Process.AverageScoreByReviewers
+                            : epaInfo.IsSemiHasMonthly && epaInfo.MonthlyEPA.AverageReviewerScoreConverted !== null ? epaInfo.MonthlyEPA.AverageReviewerScoreConverted : utilitiesFactory.notAvailableString;
+                        break;
                 }
 
                 if (epaInfo.Process.Managements.length > 0) {
                     switch (epaInfo.Process.Managements[0].StatusId) {
-                    case utilitiesFactory.processStatus.InProgress:
-                    case utilitiesFactory.processStatus.Closed:
-                        result.ManagementScore = epaInfo.Process.AverageScoreByManagements !== null
-                            ? epaInfo.Process.AverageScoreByManagements
-                            : utilitiesFactory.notAvailableString;
-                        break;
+                        case utilitiesFactory.processStatus.InProgress:
+                        case utilitiesFactory.processStatus.Closed:
+                            result.ManagementScore = epaInfo.Process.AverageScoreByManagements !== null
+                                ? epaInfo.Process.AverageScoreByManagements
+                                : utilitiesFactory.notAvailableString;
+                            break;
                     }
                 }
 
