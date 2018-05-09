@@ -80,7 +80,7 @@ BEGIN
 		)
 	SELECT epa.EPAId
 		,SUM(d.SystemSubtractScore)
-		,SUM(d.ChangeShift) + SUM(d.MissingCheckInOut) + SUM(d.LateIn) + SUM(d.EarlyOut) + SUM(d.[Absent]) + SUM(d.UnpaidLeave) + SUM(d.WorkingUndertime) + SUM(d.UnpaidLeaveAbsent) + SUM(ISNULL(d.UnplannedLeave, 0)) + SUM(ISNULL(d.WeekendLeave, 0))
+		,SUM(d.ChangeShift) + SUM(d.MissingCheckInOut) + SUM(d.LateIn) + SUM(d.EarlyOut) + SUM(d.[Absent]) + SUM(d.UnpaidLeave) + SUM(d.WorkingUndertime) + SUM(d.UnpaidLeaveAbsent) + SUM(ISNULL(d.UnplannedLeave, 0)) + SUM(ISNULL(d.WeekendLeave, 0)) + SUM(ISNULL(SevenDaysLeave, 0))
 		,SUM(d.OtherDisciplines)
 	FROM dbo.DisciplineSummary AS d WITH (NOLOCK)
 		INNER JOIN #tblEPA AS epa WITH (NOLOCK) ON d.EmployeeId = epa.EmployeeId

@@ -20,12 +20,17 @@ BEGIN
 
 	CREATE TABLE #tblEmployeeDiscipline (
 		EmployeeId INT
+		,ChangeShift DECIMAL(5, 2)
 		,MissingCheckInOut DECIMAL(5, 2)
 		,LateIn DECIMAL(5, 2)
+		,EarlyOut DECIMAL(5, 2)
+		,[Absent] DECIMAL(5, 2)
 		,UnpaidLeave DECIMAL(5, 2)
-		,WorkingUnderTime DECIMAL(5, 2)
+		,WorkingUndertime DECIMAL(5, 2)
+		,UnpaidLeaveAbsent DECIMAL(5, 2)
 		,UnplannedLeave DECIMAL(5, 2)
 		,WeekendLeave DECIMAL(5, 2)
+		,SevenDaysLeave DECIMAL(5, 2)
 		,OtherViolationsScore DECIMAL(5, 2)
 		,SystemSubtractScore DECIMAL(5, 2)
 		,ApproverSubtractScore DECIMAL(5, 2)
@@ -33,26 +38,36 @@ BEGIN
 
 	INSERT INTO #tblEmployeeDiscipline (
 		EmployeeId
+		,ChangeShift
 		,MissingCheckInOut
 		,LateIn
+		,EarlyOut
+		,[Absent]
 		,UnpaidLeave
-		,WorkingUnderTime
+		,WorkingUndertime
+		,UnpaidLeaveAbsent
 		,UnplannedLeave
 		,WeekendLeave
+		,SevenDaysLeave
 		,OtherViolationsScore
 		,SystemSubtractScore
 		,ApproverSubtractScore
 		)
 	SELECT emp.EmployeeId
+		,SUM(d.ChangeShift)
 		,SUM(d.MissingCheckInOut)
 		,SUM(d.LateIn)
+		,SUM(d.EarlyOut)
+		,SUM(d.[Absent])
 		,SUM(d.UnpaidLeave)
 		,SUM(d.WorkingUndertime)
+		,SUM(d.UnpaidLeaveAbsent)
 		,SUM(ISNULL(d.UnplannedLeave, 0))
 		,SUM(ISNULL(d.WeekendLeave, 0))
+		,SUM(ISNULL(d.SevenDaysLeave, 0))
 		,SUM(d.OtherDisciplines)
 		,SUM(d.SystemSubtractScore)
-		,SUM(d.ChangeShift) + SUM(d.MissingCheckInOut) + SUM(d.LateIn) + SUM(d.EarlyOut) + SUM(d.[Absent]) + SUM(d.UnpaidLeave) + SUM(d.WorkingUndertime) + SUM(d.UnpaidLeaveAbsent) + SUM(ISNULL(d.UnplannedLeave, 0)) + SUM(ISNULL(d.WeekendLeave, 0))
+		,SUM(d.ChangeShift) + SUM(d.MissingCheckInOut) + SUM(d.LateIn) + SUM(d.EarlyOut) + SUM(d.[Absent]) + SUM(d.UnpaidLeave) + SUM(d.WorkingUndertime) + SUM(d.UnpaidLeaveAbsent) + SUM(ISNULL(d.UnplannedLeave, 0)) + SUM(ISNULL(d.WeekendLeave, 0)) + SUM(ISNULL(d.SevenDaysLeave, 0))
 	FROM dbo.Employee AS emp WITH (NOLOCK)
 		INNER JOIN dbo.DisciplineSummary AS d WITH (NOLOCK) ON emp.EmployeeId = d.EmployeeId
 		AND d.IsDeleted = 0
@@ -64,15 +79,20 @@ BEGIN
 		AND ISNULL(@IsLocal, emp.IsLocal) = emp.IsLocal
 	GROUP BY emp.EmployeeId
 
-	SELECT SUM(d.MissingCheckInOut) AS MissingCheckInOut
-		,SUM(d.LateIn) AS LateIn
-		,SUM(d.UnpaidLeave) AS UnpaidLeave
-		,SUM(d.WorkingUnderTime) AS WorkingUnderTime
-		,SUM(d.UnplannedLeave) AS UnplannedLeave
-		,SUM(d.WeekendLeave) AS WeekendLeave
-		,SUM(d.OtherViolationsScore) AS OtherDisciplines
-		,SUM(d.SystemSubtractScore + d.OtherViolationsScore) AS SystemSubtractScore
-		,SUM(d.ApproverSubtractScore + d.OtherViolationsScore) AS ApproverSubtractScore
+	SELECT SUM(ISNULL(d.ChangeShift, 0)) AS ChangeShift
+		,SUM(ISNULL(d.MissingCheckInOut, 0)) AS MissingCheckInOut
+		,SUM(ISNULL(d.LateIn, 0)) AS LateIn
+		,SUM(ISNULL(d.EarlyOut, 0)) AS EarlyOut
+		,SUM(ISNULL(d.[Absent], 0)) AS [Absent]
+		,SUM(ISNULL(d.UnpaidLeave, 0)) AS UnpaidLeave
+		,SUM(ISNULL(d.WorkingUndertime, 0)) AS WorkingUndertime
+		,SUM(ISNULL(d.UnpaidLeaveAbsent, 0)) AS UnpaidLeaveAbsent
+		,SUM(ISNULL(d.UnplannedLeave, 0)) AS UnplannedLeave
+		,SUM(ISNULL(d.WeekendLeave, 0)) AS WeekendLeave
+		,SUM(ISNULL(d.SevenDaysLeave, 0)) AS SevenDaysLeave
+		,SUM(ISNULL(d.OtherViolationsScore, 0)) AS OtherDisciplines
+		,SUM(ISNULL(d.SystemSubtractScore, 0) + ISNULL(d.OtherViolationsScore, 0)) AS SystemSubtractScore
+		,SUM(ISNULL(d.ApproverSubtractScore, 0) + ISNULL(d.OtherViolationsScore, 0)) AS ApproverSubtractScore
 		,emp.EmployeeId
 		,emp.NickName
 		,emp.FullName
@@ -112,16 +132,25 @@ BEGIN
 				)
 			)
 		AND (
-			d.MissingCheckInOut > 0
+			d.ChangeShift > 0
+			OR d.MissingCheckInOut > 0
 			OR d.LateIn > 0
+			OR d.EarlyOut > 0
+			OR d.[Absent] > 0
 			OR d.UnpaidLeave > 0
 			OR d.WorkingUndertime > 0
+			OR d.UnpaidLeaveAbsent > 0
 			OR d.UnplannedLeave > 0
 			OR d.WeekendLeave > 0
+			OR d.SevenDaysLeave > 0
 			OR d.OtherViolationsScore > 0
 			)
 		AND (
 			@ReasonId IS NULL
+			OR (
+				@ReasonId = 1
+				AND d.ChangeShift > 0
+				)
 			OR (
 				@ReasonId = 2
 				AND d.MissingCheckInOut > 0
@@ -129,6 +158,14 @@ BEGIN
 			OR (
 				@ReasonId = 3
 				AND d.LateIn > 0
+				)
+			OR (
+				@ReasonId = 4
+				AND d.EarlyOut > 0
+				)
+			OR (
+				@ReasonId = 5
+				AND d.[Absent] > 0
 				)
 			OR (
 				@ReasonId = 6
@@ -139,12 +176,20 @@ BEGIN
 				AND d.WorkingUndertime > 0
 				)
 			OR (
+				@ReasonId = 8
+				AND d.UnpaidLeaveAbsent > 0
+				)
+			OR (
 				@ReasonId = 9
 				AND d.UnplannedLeave > 0
 				)
 			OR (
 				@ReasonId = 10
 				AND d.WeekendLeave > 0
+				)
+			OR (
+				@ReasonId = 11
+				AND d.SevenDaysLeave > 0
 				)
 			OR (
 				@ReasonId = - 1

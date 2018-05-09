@@ -16,6 +16,9 @@
     [ModifiedDate]        DATETIME       NULL,
     [IsDeleted]           BIT            NULL,
     [SyncDate]            DATETIME       NULL,
+    [SevenDaysLeave]      DECIMAL (5, 2) NULL,
     CONSTRAINT [PK_DisciplineSummary] PRIMARY KEY CLUSTERED ([EmployeeId] ASC, [WorkDate] ASC)
 );
+
+
 

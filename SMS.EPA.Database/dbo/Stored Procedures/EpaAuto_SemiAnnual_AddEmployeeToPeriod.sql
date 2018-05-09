@@ -19,6 +19,15 @@ BEGIN
 	SET NOCOUNT ON;
 
 	DECLARE @Today DATE = GETDATE()
+		,@TargetTypeId INT
+		,@StartDate DATETIME
+		,@EmployeeIds IntId
+		,@ExistedEmployeeIds IntId
+		,@NoneSettingEmployeeIds NVARCHAR(MAX)
+		,@OverlapEmployeeIds IntId
+		,@OverlapEmployees NVARCHAR(MAX)
+		,@NoneSettingEmployees NVARCHAR(MAX)
+		,@EnableDisciplineRule BIT = 0
 
 	IF NOT EXISTS (
 			SELECT 1
@@ -34,14 +43,11 @@ BEGIN
 		RETURN
 	END
 
-	DECLARE @TargetTypeId INT
-		,@StartDate DATETIME
-		,@EmployeeIds IntId
-		,@ExistedEmployeeIds IntId
-		,@NoneSettingEmployeeIds NVARCHAR(MAX)
-		,@OverlapEmployeeIds IntId
-		,@OverlapEmployees NVARCHAR(MAX)
-		,@NoneSettingEmployees NVARCHAR(MAX)
+	SELECT @EnableDisciplineRule = CAST(Value AS BIT)
+	FROM dbo.RefResource WITH (NOLOCK)
+	WHERE RefName = 'EnableDisciplineRuleWhenAddEmployeeToSemi'
+
+	SET @EnableDisciplineRule = ISNULL(@EnableDisciplineRule, 0)
 
 	SELECT @TargetTypeId = TargetTypeId
 		,@StartDate = StartDate
@@ -57,8 +63,14 @@ BEGIN
 		AND PeriodId = @PeriodId
 		AND emp.ResignedDate IS NULL
 		AND (
-			CAST(emp.JoinedDate AS DATE) <= CAST(CAST(YEAR(GETDATE()) AS NVARCHAR(5)) + '-03-15' AS DATE)
-			OR CAST(emp.JoinedDate AS DATE) <= CAST(CAST(YEAR(GETDATE()) AS NVARCHAR(5)) + '-09-15' AS DATE)
+			(
+				@EnableDisciplineRule = 1
+				AND (
+					CAST(emp.JoinedDate AS DATE) <= CAST(CAST(YEAR(GETDATE()) AS NVARCHAR(5)) + '-03-15' AS DATE)
+					OR CAST(emp.JoinedDate AS DATE) <= CAST(CAST(YEAR(GETDATE()) AS NVARCHAR(5)) + '-09-15' AS DATE)
+					)
+				)
+			OR @EnableDisciplineRule = 0
 			)
 
 	CREATE TABLE #DeptFlowAndTargetTemplate (

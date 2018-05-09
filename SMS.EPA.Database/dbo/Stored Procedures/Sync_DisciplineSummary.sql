@@ -13,7 +13,7 @@ Revisions:
 Param's Explanation:
 - @DisciplineXml:  "<Discipline EmpId='{0}' Period='{1}' ChangeShift='{2}' MissingCheckInOut='{3}' LateIn='{4}' EarlyOut='{5}'"
             + " Absent='{6}' UnpaidLeave='{7}' UnplannedLeave='{8}' WeekendLeave='{9}' WorkingUndertime='{10}' UnpaidLeaveAbsent='{11}'"
-            + " OtherDisciplines='{12}' SystemSubtractScore='{13}' ModifiedDate='{14}' IsDeleted='{15}'></Discipline>"
+            + " SevenDaysLeave='{12}' OtherDisciplines='{13}' SystemSubtractScore='{14}' ModifiedDate='{15}' IsDeleted='{16}'></Discipline>"
 */
 BEGIN
 	SET NOCOUNT ON;
@@ -35,6 +35,7 @@ BEGIN
 		,WeekendLeave DECIMAL(5, 2)
 		,WorkingUndertime DECIMAL(5, 2)
 		,UnpaidLeaveAbsent DECIMAL(5, 2)
+		,SevenDaysLeave DECIMAL(5, 2)
 		,OtherDisciplines DECIMAL(5, 2)
 		,SystemSubtractScore DECIMAL(5, 2)
 		,IsDeleted BIT
@@ -58,6 +59,7 @@ BEGIN
 			,WeekendLeave
 			,WorkingUndertime
 			,UnpaidLeaveAbsent
+			,SevenDaysLeave
 			,OtherDisciplines
 			,SystemSubtractScore
 			,IsDeleted
@@ -75,11 +77,12 @@ BEGIN
 			,WeekendLeave
 			,WorkingUndertime
 			,UnpaidLeaveAbsent
+			,SevenDaysLeave
 			,OtherDisciplines
 			,SystemSubtractScore
 			,IsDeleted
 			,ModifiedDate
-		FROM OPENXML(@DocHandler, '/ROOT/Discipline', 1) WITH (EmpId INT, WorkDate DATE, ChangeShift DECIMAL(5, 2), MissingCheckInOut DECIMAL(5, 2), LateIn DECIMAL(5, 2), EarlyOut DECIMAL(5, 2), [Absent] DECIMAL(5, 2), UnpaidLeave DECIMAL(5, 2), UnplannedLeave DECIMAL(5, 2), WeekendLeave DECIMAL(5, 2), WorkingUndertime DECIMAL(5, 2), UnpaidLeaveAbsent DECIMAL(5, 2), OtherDisciplines DECIMAL(5, 2), SystemSubtractScore DECIMAL(5, 2), IsDeleted BIT, ModifiedDate DATETIME) AS Data
+		FROM OPENXML(@DocHandler, '/ROOT/Discipline', 1) WITH (EmpId INT, WorkDate DATE, ChangeShift DECIMAL(5, 2), MissingCheckInOut DECIMAL(5, 2), LateIn DECIMAL(5, 2), EarlyOut DECIMAL(5, 2), [Absent] DECIMAL(5, 2), UnpaidLeave DECIMAL(5, 2), UnplannedLeave DECIMAL(5, 2), WeekendLeave DECIMAL(5, 2), WorkingUndertime DECIMAL(5, 2), UnpaidLeaveAbsent DECIMAL(5, 2), SevenDaysLeave DECIMAL(5, 2), OtherDisciplines DECIMAL(5, 2), SystemSubtractScore DECIMAL(5, 2), IsDeleted BIT, ModifiedDate DATETIME) AS Data
 
 		EXEC sp_xml_removedocument @DocHandler
 	END TRY
@@ -104,6 +107,7 @@ BEGIN
 		,WeekendLeave
 		,WorkingUndertime
 		,UnpaidLeaveAbsent
+		,SevenDaysLeave
 		,OtherDisciplines
 		,SystemSubtractScore
 		,ModifiedDate
@@ -122,6 +126,7 @@ BEGIN
 		,new.WeekendLeave
 		,new.WorkingUndertime
 		,new.UnpaidLeaveAbsent
+		,new.SevenDaysLeave
 		,new.OtherDisciplines
 		,new.SystemSubtractScore
 		,new.ModifiedDate
@@ -143,6 +148,7 @@ BEGIN
 		,curr.WeekendLeave = new.WeekendLeave
 		,curr.WorkingUndertime = new.WorkingUndertime
 		,curr.UnpaidLeaveAbsent = new.UnpaidLeaveAbsent
+		,curr.SevenDaysLeave = new.SevenDaysLeave
 		,curr.OtherDisciplines = new.OtherDisciplines
 		,curr.SystemSubtractScore = new.SystemSubtractScore
 		,curr.ModifiedDate = new.ModifiedDate

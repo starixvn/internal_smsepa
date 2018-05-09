@@ -49,6 +49,13 @@ BEGIN
 		,@MonthlyTarget TINYINT = 2
 		,@SemiTarget TINYINT = 3
 		,@PromotionTarget TINYINT = 5
+		,@EnableDisciplineRule BIT = 0
+
+	SELECT @EnableDisciplineRule = CAST(Value AS BIT)
+	FROM dbo.RefResource WITH (NOLOCK)
+	WHERE RefName = 'EnableDisciplineRuleWhenAddEmployeeToSemi'
+
+	SET @EnableDisciplineRule = ISNULL(@EnableDisciplineRule, 0)
 
 	SELECT @TargetTypeId = TargetTypeId
 		,@StartDate = StartDate
@@ -107,13 +114,19 @@ BEGIN
 				AND emp.ResignedDate IS NULL
 				AND (
 					(
-						@TargetTypeId = @SemiTarget
+						@EnableDisciplineRule = 1
 						AND (
-							CAST(emp.JoinedDate AS DATE) <= CAST(CAST(YEAR(GETDATE()) AS NVARCHAR(5)) + '-03-15' AS DATE)
-							OR CAST(emp.JoinedDate AS DATE) <= CAST(CAST(YEAR(GETDATE()) AS NVARCHAR(5)) + '-09-15' AS DATE)
+							(
+								@TargetTypeId = @SemiTarget
+								AND (
+									CAST(emp.JoinedDate AS DATE) <= CAST(CAST(YEAR(GETDATE()) AS NVARCHAR(5)) + '-03-15' AS DATE)
+									OR CAST(emp.JoinedDate AS DATE) <= CAST(CAST(YEAR(GETDATE()) AS NVARCHAR(5)) + '-09-15' AS DATE)
+									)
+								)
+							OR @TargetTypeId <> @SemiTarget
 							)
 						)
-					OR @TargetTypeId <> @SemiTarget
+					OR @EnableDisciplineRule = 0
 					)
 			
 			UNION
@@ -128,13 +141,19 @@ BEGIN
 				AND emp.ResignedDate IS NULL
 				AND (
 					(
-						@TargetTypeId = @SemiTarget
+						@EnableDisciplineRule = 1
 						AND (
-							CAST(emp.JoinedDate AS DATE) < CAST(CAST(YEAR(GETDATE()) AS NVARCHAR(5)) + '-03-15' AS DATE)
-							OR CAST(emp.JoinedDate AS DATE) < CAST(CAST(YEAR(GETDATE()) AS NVARCHAR(5)) + '-09-15' AS DATE)
+							(
+								@TargetTypeId = @SemiTarget
+								AND (
+									CAST(emp.JoinedDate AS DATE) <= CAST(CAST(YEAR(GETDATE()) AS NVARCHAR(5)) + '-03-15' AS DATE)
+									OR CAST(emp.JoinedDate AS DATE) <= CAST(CAST(YEAR(GETDATE()) AS NVARCHAR(5)) + '-09-15' AS DATE)
+									)
+								)
+							OR @TargetTypeId <> @SemiTarget
 							)
 						)
-					OR @TargetTypeId <> @SemiTarget
+					OR @EnableDisciplineRule = 0
 					)
 			) AS tblEmp
 		WHERE @EmployeeId IS NULL
@@ -158,7 +177,7 @@ BEGIN
 			RETURN
 		END
 
-		IF NOT EXISTS (
+		IF EXISTS (
 				SELECT 1
 				FROM dbo.Employee WITH (NOLOCK)
 				WHERE [Enabled] = 1
@@ -167,10 +186,11 @@ BEGIN
 					AND ResignedDate IS NULL
 					AND @TargetTypeId = @SemiTarget
 					AND (
-						CAST(JoinedDate AS DATE) < CAST(CAST(YEAR(GETDATE()) AS NVARCHAR(5)) + '-03-15' AS DATE)
-						OR CAST(JoinedDate AS DATE) < CAST(CAST(YEAR(GETDATE()) AS NVARCHAR(5)) + '-09-15' AS DATE)
+						CAST(JoinedDate AS DATE) > CAST(CAST(YEAR(GETDATE()) AS NVARCHAR(5)) + '-03-15' AS DATE)
+						OR CAST(JoinedDate AS DATE) > CAST(CAST(YEAR(GETDATE()) AS NVARCHAR(5)) + '-09-15' AS DATE)
 						)
 				)
+			AND @EnableDisciplineRule = 1
 		BEGIN
 			SELECT @ErrCode = 1
 				,@ErrMsg = N'Employee Group Date must be <= 15-Mar(H1) or <= 15-Sep(H2)'

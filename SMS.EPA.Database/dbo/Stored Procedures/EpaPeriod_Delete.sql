@@ -69,6 +69,10 @@ BEGIN
 		FROM [dbo].[PeriodTargetSetting]
 		WHERE [PeriodId] = @PeriodId
 
+		DELETE
+		FROM dbo.PeriodDisciplineSetting
+		WHERE PeriodId = @PeriodId
+
 		EXEC [dbo].[LogDetail_Insert] @ActorId = @ModifiedBy
 			,@SpName = 'EpaPeriod_Delete'
 			,@ObjectId = @PeriodId
