@@ -27,7 +27,7 @@ BEGIN
 		,@SortCode NVARCHAR(10) = 'code'
 		,@SortSection NVARCHAR(10) = 'section'
 	-- target type
-	DECLARE @SemiId INT = 3
+	DECLARE @SemiTargetId INT = 3
 
 	CREATE TABLE #tblEPAs (
 		EPAId INT
@@ -65,6 +65,12 @@ BEGIN
 		,StatusId TINYINT
 		)
 
+	CREATE TABLE #tblLastedEPA (
+		EmployeeId INT
+		,TargetTypeId TINYINT
+		,StartDate DATE
+		)
+
 	IF ISNULL(@PhaseIds, '') <> ''
 	BEGIN
 		INSERT INTO @Phases (Id)
@@ -89,6 +95,26 @@ BEGIN
 	WHERE @PeriodId IS NULL
 		OR PeriodId = @PeriodId
 
+	INSERT INTO #tblLastedEPA (
+		EmployeeId
+		,TargetTypeId
+		,StartDate
+		)
+	SELECT epa.EmployeeId
+		,period.TargetTypeId
+		,MAX(process.StartDate)
+	FROM dbo.EPA AS epa WITH (NOLOCK)
+		INNER JOIN dbo.EPAProcess AS process WITH (NOLOCK) ON epa.EPAId = process.EPAId
+		AND process.ProcessId = 1 -- HR
+		INNER JOIN dbo.Period AS period WITH (NOLOCK) ON epa.PeriodId = period.PeriodId
+		INNER JOIN #tblPeriods AS tblperiod WITH (NOLOCK) ON period.PeriodId = tblperiod.PeriodId
+		INNER JOIN dbo.Employee AS emp WITH (NOLOCK) ON epa.EmployeeId = emp.EmployeeId
+		AND emp.[Enabled] = 1
+		AND emp.IsDeleted = 0
+		AND emp.ResignedDate IS NULL
+	GROUP BY epa.EmployeeId
+		,period.TargetTypeId
+
 	INSERT INTO #tblEmployees (
 		EmployeeId
 		,Code
@@ -105,12 +131,17 @@ BEGIN
 			,dept.DepartmentId
 			,gr.GroupId
 			,gr.[Name] AS GroupName
+			,period1.TargetTypeId
 		FROM dbo.EPA AS epa WITH (NOLOCK)
 			INNER JOIN dbo.EPAProcess AS pc WITH (NOLOCK) ON epa.EPAId = pc.EPAId
 			AND pc.ProcessId = 2
 			AND pc.StartDate <= @Today
 			INNER JOIN #tblPeriods AS period ON epa.PeriodId = period.PeriodId
+			INNER JOIN dbo.Period AS period1 WITH (NOLOCK) ON period.PeriodId = period1.PeriodId
 			INNER JOIN dbo.Employee AS emp WITH (NOLOCK) ON epa.EmployeeId = emp.EmployeeId
+			AND emp.[Enabled] = 1
+			AND emp.IsDeleted = 0
+			AND emp.ResignedDate IS NULL
 			LEFT JOIN dbo.[Group] AS gr WITH (NOLOCK) ON emp.GroupId = gr.GroupId
 			LEFT JOIN dbo.Department AS dept WITH (NOLOCK) ON gr.DepartmentId = dept.DepartmentId
 			LEFT JOIN dbo.HRMJobTitle AS job WITH (NOLOCK) ON emp.JobTitle = job.Id
@@ -124,9 +155,13 @@ BEGIN
 			,dept.DepartmentId
 			,gr.GroupId
 			,gr.[Name] AS GroupName
+			,@SemiTargetId AS TargetTypeId
 		FROM dbo.EPASummaryImport AS epa WITH (NOLOCK)
 			INNER JOIN #tblPeriods AS period ON epa.PeriodId = period.PeriodId
 			INNER JOIN dbo.Employee AS emp WITH (NOLOCK) ON epa.Code = emp.Code
+			AND emp.[Enabled] = 1
+			AND emp.IsDeleted = 0
+			AND emp.ResignedDate IS NULL
 			LEFT JOIN dbo.[Group] AS gr WITH (NOLOCK) ON emp.GroupId = gr.GroupId
 			LEFT JOIN dbo.Department AS dept WITH (NOLOCK) ON gr.DepartmentId = dept.DepartmentId
 			LEFT JOIN dbo.HRMJobTitle AS job WITH (NOLOCK) ON emp.JobTitle = job.Id
@@ -156,69 +191,45 @@ BEGIN
 		AND (
 			EXISTS (
 				SELECT 1
-				FROM dbo.EmployeeRole AS ro WITH (NOLOCK)
-					INNER JOIN dbo.RefResource AS ref WITH (NOLOCK) ON ro.RoleId = ref.ResourceId
-					AND ref.RefName = 'SystemRole'
-				WHERE ro.EmployeeId = @ActorId
-					AND ro.RoleId IN (1, 2) -- SA, HR can view all member
+				FROM dbo.EmployeeRole AS erole WITH (NOLOCK)
+				WHERE erole.EmployeeId = @ActorId
+					AND erole.RoleId IN (1, 2) -- SA, HR
+				)
+			OR (
+				EXISTS (
+					SELECT 1
+					FROM dbo.EmployeeRole AS erole WITH (NOLOCK)
+						INNER JOIN dbo.Employee AS emp WITH (NOLOCK) ON erole.EmployeeId = emp.EmployeeId
+						AND erole.RoleId IN (3, 4, 5) -- MGT, Reviewer, Evaluator
+						AND emp.EmployeeId = @ActorId
+					)
+				AND EXISTS (
+					SELECT 1
+					FROM dbo.EPA AS epa WITH (NOLOCK)
+						INNER JOIN dbo.EPAProcess AS process WITH (NOLOCK) ON epa.EPAId = process.EPAId
+						AND process.ProcessId > 2 -- self
+						AND process.EvaluatorId = @ActorId
+						AND epa.EmployeeId = tblData.EmployeeId
+						INNER JOIN dbo.Period AS period WITH (NOLOCK) ON epa.PeriodId = period.PeriodId
+						AND period.TargetTypeId = tblData.TargetTypeId
+					WHERE epa.EPAId IN (
+							SELECT DISTINCT epa1.EPAId
+							FROM dbo.EPA AS epa1 WITH (NOLOCK)
+								INNER JOIN dbo.EPAProcess AS process1 WITH (NOLOCK) ON epa1.EPAId = process1.EPAId
+								AND process1.ProcessId = 1 -- HR
+								INNER JOIN dbo.Period AS period1 WITH (NOLOCK) ON epa1.PeriodId = period1.PeriodId
+								AND period1.TargetTypeId = tblData.TargetTypeId
+								INNER JOIN #tblLastedEPA AS lastedepa WITH (NOLOCK) ON epa1.EmployeeId = lastedepa.EmployeeId
+								AND period1.TargetTypeId = lastedepa.TargetTypeId
+								AND process1.StartDate = lastedepa.StartDate
+							)
+					)
 				)
 			OR EXISTS (
 				SELECT 1
-				FROM dbo.EmployeeRole AS empRole WITH (NOLOCK)
-					INNER JOIN dbo.Employee AS emp1 WITH (NOLOCK) ON empRole.EmployeeId = emp1.EmployeeId
-				WHERE empRole.RoleId = 3 -- management
-					AND empRole.EmployeeId = @ActorId
-					AND EXISTS (
-						SELECT 1
-						FROM dbo.EPA AS epa1 WITH (NOLOCK)
-							INNER JOIN dbo.EPAProcess AS pc1 WITH (NOLOCK) ON epa1.EPAId = pc1.EPAId
-						WHERE epa1.EmployeeId = tblData.EmployeeId
-							AND pc1.EvaluatorId = empRole.EmployeeId
-							AND pc1.ProcessId = 5 -- management
-						)
-				)
-			OR EXISTS (
-				SELECT 1
-				FROM dbo.EmployeeRole AS empRole WITH (NOLOCK)
-					INNER JOIN dbo.Employee AS emp1 ON empRole.EmployeeId = emp1.EmployeeId
-				WHERE empRole.RoleId = 4 -- reviewer
-					AND empRole.EmployeeId = @ActorId
-					AND EXISTS (
-						SELECT 1
-						FROM dbo.EPA AS epa1 WITH (NOLOCK)
-							INNER JOIN dbo.EPAProcess AS pc1 WITH (NOLOCK) ON epa1.EPAId = pc1.EPAId
-						WHERE epa1.EmployeeId = tblData.EmployeeId
-							AND pc1.EvaluatorId = empRole.EmployeeId
-							AND pc1.ProcessId = 4 -- reviewer
-						)
-				)
-			OR EXISTS (
-				SELECT 1
-				FROM dbo.EmployeeRole AS empRole WITH (NOLOCK)
-					INNER JOIN dbo.Employee AS emp1 WITH (NOLOCK) ON empRole.EmployeeId = emp1.EmployeeId
-				WHERE empRole.RoleId = 5 -- evaluator
-					AND empRole.EmployeeId = @ActorId
-					AND EXISTS (
-						SELECT 1
-						FROM dbo.EPA AS epa1 WITH (NOLOCK)
-							INNER JOIN dbo.EPAProcess AS pc1 WITH (NOLOCK) ON epa1.EPAId = pc1.EPAId
-						WHERE epa1.EmployeeId = tblData.EmployeeId
-							AND pc1.EvaluatorId = empRole.EmployeeId
-							AND pc1.ProcessId = 3 -- evaluator
-						)
-				)
-			--OR EXISTS (
-			--	SELECT TOP 1 1
-			--	FROM dbo.HRMGroupSupervisor AS grS WITH (NOLOCK)
-			--	WHERE tblData.GroupId = grS.GroupId
-			--		AND grS.OwnerId = @ActorId
-			--		AND grS.ActionType = 3 -- Approver
-			--	)
-			OR EXISTS (
-				SELECT 1
-				FROM dbo.EmployeeRole AS empRole WITH (NOLOCK)
-				WHERE RoleId = 6 -- Employee can view their EPA
-					AND empRole.EmployeeId = @ActorId
+				FROM dbo.EmployeeRole AS erole WITH (NOLOCK)
+				WHERE RoleId = 6 -- Employee
+					AND erole.EmployeeId = @ActorId
 					AND tblData.EmployeeId = @ActorId
 				)
 			)
@@ -240,7 +251,7 @@ BEGIN
 			,emp.Code
 			,emp.GroupName
 			,(CASE 
-				WHEN tt.TargetTypeId = @SemiId THEN CASE 
+				WHEN tt.TargetTypeId = @SemiTargetId THEN CASE 
 						WHEN MAX(pc.EndDate) > period.EndDate THEN MAX(pc.EndDate)
 						ELSE period.EndDate
 						END
@@ -291,18 +302,18 @@ BEGIN
 		)
 	SELECT epa.EPAId
 		,(CASE 
-			WHEN tt.TargetTypeId = @SemiId THEN (CASE 
+			WHEN tt.TargetTypeId = @SemiTargetId THEN (CASE 
 					WHEN pc.EndDate >= period.EndDate THEN (CASE 
-							WHEN pc.EndDate < @ToDay THEN 1
+							WHEN pc.EndDate < @Today THEN 1
 							ELSE 0 END
 							)
 					ELSE (CASE 
-							WHEN period.EndDate <= @ToDay THEN 1
+							WHEN period.EndDate <= @Today THEN 1
 							ELSE 0 END
 							) END
 					)
 			ELSE (CASE 
-					WHEN pc.EndDate < @ToDay THEN 1
+					WHEN pc.EndDate < @Today THEN 1
 					ELSE 0 END
 					) END
 			)
@@ -488,4 +499,6 @@ BEGIN
 	DROP TABLE #tblDisciplineScores
 
 	DROP TABLE #tblEPAStatus
+	
+	DROP TABLE #tblLastedEPA
 END

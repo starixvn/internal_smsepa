@@ -21,7 +21,7 @@ BEGIN
 	SET NOCOUNT ON;
 
 	DECLARE @Phases IntId
-		,@ToDay DATE = GETDATE()
+		,@Today DATE = GETDATE()
 		,@Ids NVARCHAR(MAX)
 		,@SortCode NVARCHAR(10) = 'code'
 		,@SortSection NVARCHAR(10) = 'section'
@@ -110,31 +110,21 @@ BEGIN
 			,dept.DepartmentId
 			,gr.GroupId
 			,gr.[Name] AS GroupName
+			,period1.TargetTypeId
 		FROM dbo.EPA AS epa WITH (NOLOCK)
 			INNER JOIN dbo.EPAProcess AS pc WITH (NOLOCK) ON epa.EPAId = pc.EPAId
 			AND pc.ProcessId = 2
-			AND pc.StartDate <= @ToDay
+			AND pc.StartDate <= @Today
 			INNER JOIN #tblPeriods AS period WITH (NOLOCK) ON epa.PeriodId = period.PeriodId
+			INNER JOIN dbo.Period AS period1 WITH (NOLOCK) ON epa.PeriodId = period1.PeriodId
 			INNER JOIN dbo.Employee AS emp WITH (NOLOCK) ON epa.EmployeeId = emp.EmployeeId
+			AND emp.[Enabled] = 1
+			AND emp.IsDeleted = 0
+			AND emp.ResignedDate IS NULL
 			LEFT JOIN dbo.[Group] AS gr WITH (NOLOCK) ON emp.GroupId = gr.GroupId
 			LEFT JOIN dbo.Department AS dept WITH (NOLOCK) ON gr.DepartmentId = dept.DepartmentId
 			LEFT JOIN dbo.HRMJobTitle AS job WITH (NOLOCK) ON emp.JobTitle = job.Id
 		WHERE ISNULL(epa.[Status], 0) IN (0, 1)
-		
-		UNION ALL
-		SELECT DISTINCT emp.EmployeeId
-			,emp.Code
-			,emp.NickName
-			,emp.IsLocal
-			,dept.DepartmentId
-			,gr.GroupId
-			,gr.[Name] AS GroupName
-		FROM dbo.EPASummaryImport AS epa WITH (NOLOCK)
-			INNER JOIN #tblPeriods AS period WITH (NOLOCK) ON epa.PeriodId = period.PeriodId
-			INNER JOIN dbo.Employee AS emp WITH (NOLOCK) ON epa.Code = emp.Code
-			LEFT JOIN dbo.[Group] AS gr WITH (NOLOCK) ON emp.GroupId = gr.GroupId
-			LEFT JOIN dbo.Department AS dept WITH (NOLOCK) ON gr.DepartmentId = dept.DepartmentId
-			LEFT JOIN dbo.HRMJobTitle AS job WITH (NOLOCK) ON emp.JobTitle = job.Id
 		) AS tblData
 	WHERE (
 			@DepartmentId IS NULL
@@ -160,45 +150,52 @@ BEGIN
 		AND (
 			EXISTS (
 				SELECT 1
-				FROM dbo.EmployeeRole AS ro WITH (NOLOCK)
-				WHERE ro.EmployeeId = @EmployeeId
-					AND ro.RoleId IN (8) -- Section Admin can view all member
+				FROM dbo.EmployeeRole AS erole WITH (NOLOCK)
+				WHERE erole.EmployeeId = @EmployeeId
+					AND erole.RoleId IN (8) -- Section Admin
+				)
+			OR (
+				EXISTS (
+					SELECT 1
+					FROM dbo.EmployeeRole AS erole WITH (NOLOCK)
+						INNER JOIN dbo.Employee AS emp WITH (NOLOCK) ON erole.EmployeeId = emp.EmployeeId
+						AND erole.RoleId IN (4, 5) -- MGT, Reviewer, Evaluator
+						AND emp.EmployeeId = @EmployeeId
+					)
+				AND EXISTS (
+					SELECT 1
+					FROM dbo.EPA AS epa WITH (NOLOCK)
+						INNER JOIN dbo.EPAProcess AS process WITH (NOLOCK) ON epa.EPAId = process.EPAId
+						AND process.ProcessId > 2 -- self
+						AND process.EvaluatorId = @EmployeeId
+						AND epa.EmployeeId = tblData.EmployeeId
+						INNER JOIN dbo.Period AS period WITH (NOLOCK) ON epa.PeriodId = period.PeriodId
+						AND period.TargetTypeId = tblData.TargetTypeId
+					WHERE epa.EPAId IN (
+							SELECT DISTINCT epa1.EPAId
+							FROM dbo.EPA AS epa1 WITH (NOLOCK)
+								INNER JOIN dbo.EPAProcess AS process1 WITH (NOLOCK) ON epa1.EPAId = process1.EPAId
+								AND process1.ProcessId = 1 -- HR
+								INNER JOIN dbo.Period AS period1 WITH (NOLOCK) ON epa1.PeriodId = period1.PeriodId
+								AND period1.TargetTypeId = tblData.TargetTypeId
+							WHERE process1.StartDate = (
+									SELECT MAX(process2.StartDate)
+									FROM dbo.EPA AS epa2 WITH (NOLOCK)
+										INNER JOIN dbo.EPAProcess AS process2 WITH (NOLOCK) ON epa2.EPAId = process2.EPAId
+										AND process2.ProcessId = 1 -- HR
+										AND epa2.EmployeeId = tblData.EmployeeId
+										INNER JOIN dbo.Period AS period2 WITH (NOLOCK) ON epa2.PeriodId = period.PeriodId
+										AND period2.TargetTypeId = tblData.TargetTypeId
+									GROUP BY epa2.EmployeeId
+									)
+							)
+					)
 				)
 			OR EXISTS (
 				SELECT 1
-				FROM dbo.EmployeeRole AS empRole WITH (NOLOCK)
-					INNER JOIN dbo.Employee AS emp1 ON empRole.EmployeeId = emp1.EmployeeId
-				WHERE empRole.RoleId = 4 -- reviewer
-					AND empRole.EmployeeId = @EmployeeId
-					AND EXISTS (
-						SELECT 1
-						FROM dbo.EPA AS epa1 WITH (NOLOCK)
-							INNER JOIN dbo.EPAProcess AS pc1 WITH (NOLOCK) ON epa1.EPAId = pc1.EPAId
-						WHERE epa1.EmployeeId = tblData.EmployeeId
-							AND pc1.EvaluatorId = empRole.EmployeeId
-							AND pc1.ProcessId = 4 -- reviewer
-						)
-				)
-			OR EXISTS (
-				SELECT 1
-				FROM dbo.EmployeeRole AS empRole WITH (NOLOCK)
-					INNER JOIN dbo.Employee AS emp1 WITH (NOLOCK) ON empRole.EmployeeId = emp1.EmployeeId
-				WHERE empRole.RoleId = 5 -- evaluator
-					AND empRole.EmployeeId = @EmployeeId
-					AND EXISTS (
-						SELECT 1
-						FROM dbo.EPA AS epa1 WITH (NOLOCK)
-							INNER JOIN dbo.EPAProcess AS pc1 WITH (NOLOCK) ON epa1.EPAId = pc1.EPAId
-						WHERE epa1.EmployeeId = tblData.EmployeeId
-							AND pc1.EvaluatorId = empRole.EmployeeId
-							AND pc1.ProcessId = 3 -- evaluator
-						)
-				)
-			OR EXISTS (
-				SELECT 1
-				FROM dbo.EmployeeRole AS empRole WITH (NOLOCK)
-				WHERE RoleId = 6 -- Employee can view their EPA
-					AND empRole.EmployeeId = @EmployeeId
+				FROM dbo.EmployeeRole AS erole WITH (NOLOCK)
+				WHERE RoleId = 6 -- Employee
+					AND erole.EmployeeId = @EmployeeId
 					AND tblData.EmployeeId = @EmployeeId
 				)
 			)
@@ -223,7 +220,7 @@ BEGIN
 		FROM dbo.EPA AS epa WITH (NOLOCK)
 			INNER JOIN dbo.EPAProcess AS pcSelf WITH (NOLOCK) ON epa.EPAId = pcSelf.EPAId
 			AND pcSelf.ProcessId = 2
-			AND pcSelf.StartDate <= @ToDay
+			AND pcSelf.StartDate <= @Today
 			INNER JOIN dbo.EPAProcess AS pc WITH (NOLOCK) ON epa.EPAId = pc.EPAId
 			INNER JOIN dbo.Period AS period WITH (NOLOCK) ON epa.PeriodId = period.PeriodId
 			INNER JOIN dbo.TargetType AS tt WITH (NOLOCK) ON period.TargetTypeId = tt.TargetTypeId
@@ -257,11 +254,11 @@ BEGIN
 	SELECT epa.EPAId
 		,(CASE 
 			WHEN pc.EndDate >= period.EndDate THEN (CASE 
-					WHEN pc.EndDate < @ToDay THEN 1
+					WHEN pc.EndDate < @Today THEN 1
 					ELSE 0 END
 					)
 			ELSE (CASE 
-					WHEN period.EndDate <= @ToDay THEN 1
+					WHEN period.EndDate <= @Today THEN 1
 					ELSE 0 END
 					) END
 			)
