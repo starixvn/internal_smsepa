@@ -265,13 +265,11 @@
         vm.viewEPADetail = function (epaInfo) {
             if (ReviewerManagementModel.checkAdjustScoreChanged(vm.epaInfos)) {
                 ReviewerManagementModel.openPopupRemindSaveChange(vm).then(function () {
-                    $location.path(baseUrl + 'Management/Detail/' + epaInfo.EPAId);
+
                 })['finally'](function () {
                     vm.modalInstance = '';
                 });
-            } else {
-                $location.path(baseUrl + 'Management/Detail/' + epaInfo.EPAId);
-            }
+            } 
         };
 
         vm.viewEPAResult = function (epaId) {

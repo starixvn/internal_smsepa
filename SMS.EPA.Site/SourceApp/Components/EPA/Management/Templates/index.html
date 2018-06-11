@@ -210,13 +210,13 @@
                         <strong class="error-message" ng-bind="epaInfo.Grade"></strong>
                     </td>
                     <td class="text-center">
-                        <a ng-if="epaInfo.LastFinalScore !== null" ng-click="managementCtrl.viewEPAResult(epaInfo.LastEPAId)"
+                        <a ng-if="epaInfo.LastFinalScore !== null" href="#/EPA/Detail/{{epaInfo.LastEPAId}}"
                            ng-bind="epaInfo.LastFinalScore | customScore"></a>
                         <div ng-if="epaInfo.LastFinalScore === null" ng-bind="'-'"></div>
                     </td>
                     <td class="text-center"><div ng-show="epaInfo.Process.CurrentProcess.Evaluated" class="glyphicon glyphicon-ok"></div></td>
                     <td class="text-center col-action" ng-switch="epaInfo.IsAllowedToEdit">
-                        <a ng-switch-when="true" class="glyphicon glyphicon-edit icon-edit" href="" ng-click="managementCtrl.viewEPADetail(epaInfo)"
+                        <a ng-switch-when="true" class="glyphicon glyphicon-edit icon-edit" href="#/Management/Detail/{{epaInfo.EPAId}}" ng-click="managementCtrl.viewEPADetail(epaInfo)"
                            ng-attr-title='{{"EvaluateNow" | translate}}'></a>
                         <a ng-switch-default class="glyphicon icon-view" href="#/EPA/Detail/{{epaInfo.EPAId}}" ng-click="managementCtrl.viewEPAResult(epaInfo.EPAId)"
                            ng-attr-title='{{"ViewEPAResult" | translate}}'></a>
