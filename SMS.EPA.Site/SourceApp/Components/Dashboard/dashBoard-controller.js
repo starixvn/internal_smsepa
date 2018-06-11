@@ -113,7 +113,7 @@
         }
 
         function viewEPAResult(epa) {
-            $location.path(baseUrl + 'EPA/Detail/' + epa.EPAId);
+            return baseUrl + 'EPA/Detail/' + epa.EPAId;
         }
     }
 })(angular);

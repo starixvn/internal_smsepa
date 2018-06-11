@@ -141,10 +141,9 @@
             $('.freegrid').off('click', '.table-cell a.viewEPADetail');
 
             $('.freegrid').on('click', '.table-cell a.viewEPADetail', function (event) {
-                event.preventDefault();
-
                 var epaId = parseInt($(this).data('epaid'));
-                $window.location.href = baseUrl + '#' + 'EPA/Detail/' + epaId;
+                var url = baseUrl + '#' + 'EPA/Detail/' + epaId;
+                $(this).attr("href", url);
             });
         }
 

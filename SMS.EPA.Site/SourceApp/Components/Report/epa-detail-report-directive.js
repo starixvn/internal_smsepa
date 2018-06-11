@@ -119,10 +119,8 @@
             $(".freegrid").on("click",
                 ".table-cell a.viewEPADetail",
                 function (event) {
-                    event.preventDefault();
-
                     var epaId = parseInt($(this).data("epaid"));
-                    $window.location.href = baseUrl + '#' +
+                    var url = baseUrl + '#' +
                         "EPA/Detail/" +
                         epaId +
                         "?periodId=" +
@@ -136,6 +134,7 @@
                         "&employeeId=" +
                         pageOption.employeeId +
                         "&exportPdf&detailRpt";
+                    $(this).attr("href", url);
                 });
         }
 
