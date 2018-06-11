@@ -64,8 +64,8 @@
                            href="javascript:;" ng-click="flowTemplateCtrl.readLess(flowTemplate)" data-translate="ReadLess"></a>
                     </td>
                     <td class="text-center col-action" ng-show="flowTemplateCtrl.permission === flowTemplateCtrl.policyEnum.Host">
-                        <a class="glyphicon glyphicon-edit icon-edit" href=""
-                           ng-click="flowTemplateCtrl.updateFlowTemplate(flowTemplate)" ng-attr-title='{{"Edit" | translate}}'></a>
+                        <a class="glyphicon glyphicon-edit icon-edit" href="#/Flow/Update/{{flowTemplate.FlowTemplateId}}"
+                           ng-attr-title='{{"Edit" | translate}}'></a>
                         <a class="glyphicon glyphicon-remove icon-remove" href=""
                            ng-click="flowTemplateCtrl.deleteFlowTemplate(flowTemplate)" ng-attr-title='{{"Delete" | translate}}'></a>
                     </td>

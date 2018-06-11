@@ -56,10 +56,10 @@
                 <td class="text-center" ng-bind="period.StartDate | date: periodCtrl.dateFormat"></td>
                 <td class="text-center" ng-bind="period.EndDate | date: periodCtrl.dateFormat"></td>
                 <td class="text-center">
-                    <a href="" ng-click="periodCtrl.viewEmployeeSetting(period, false)">{{period.TotalEmployees}}</a>
+                    <a href="#/Period/Update/{{period.PeriodId}}?inprogress=false&viewSetting">{{period.TotalEmployees}}</a>
                 </td>
                 <td class="text-center">
-                    <a href="" ng-click="periodCtrl.viewEmployeeSetting(period, true)">{{period.TotalEmployeesUnfinished}}</a>
+                    <a href="#/Period/Update/{{period.PeriodId}}?inprogress&viewSetting">{{period.TotalEmployeesUnfinished}}</a>
                 </td>
                 <td class="text-center">
                     <input type="checkbox" ng-checked="period.IsActive" ng-click="periodCtrl.confirmActive(period)"
@@ -67,7 +67,7 @@
                 </td>
                 <td class="text-center">
                     <div class="btn-group">
-                        <a class="glyphicon glyphicon-edit icon-edit" title="Edit" ng-click="periodCtrl.update(period.PeriodId)" href=""></a>
+                        <a class="glyphicon glyphicon-edit icon-edit" title="Edit" href="#/Period/Update/{{period.PeriodId}}"></a>
                         <a href="javascript:;" class="glyphicon glyphicon-remove icon-remove" title="Delete" ng-click="periodCtrl.delete(period)"
                            ng-show="periodCtrl.permission === periodCtrl.policyEnum.Host"></a>
                     </div>

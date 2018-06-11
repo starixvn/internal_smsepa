@@ -70,14 +70,14 @@
                 <td class="text-center" ng-bind="period.StartDate | date: monthlyPeriodCtrl.dateFormat"></td>
                 <td class="text-center" ng-bind="period.EndDate | date: monthlyPeriodCtrl.dateFormat"></td>
                 <td class="text-center">
-                    <a href="" ng-click="monthlyPeriodCtrl.viewEmployeeSetting(period, false)">{{period.TotalEmployees}}</a>
+                    <a href="#/MonthlyPeriod/Update/{{period.PeriodId}}?inprogress=false&viewSetting">{{period.TotalEmployees}}</a>
                 </td>
                 <td class="text-center">
-                    <a href="" ng-click="monthlyPeriodCtrl.viewEmployeeSetting(period, true)">{{period.TotalEmployeesUnfinished}}</a>
+                    <a href="#/MonthlyPeriod/Update/{{period.PeriodId}}?inprogress&viewSetting">{{period.TotalEmployeesUnfinished}}</a>
                 </td>
                 <td class="text-center">
                     <div class="btn-group">
-                        <a class="glyphicon glyphicon-edit icon-edit" title="Edit" ng-click="monthlyPeriodCtrl.update(period.PeriodId)" href=""></a>
+                        <a class="glyphicon glyphicon-edit icon-edit" title="Edit" href="#/MonthlyPeriod/Update/{{period.PeriodId}}"></a>
                         <a href="javascript:;" class="glyphicon glyphicon-remove icon-remove" title="Delete" ng-click="monthlyPeriodCtrl.delete(period)"
                            ng-show="monthlyPeriodCtrl.permission === monthlyPeriodCtrl.policyEnum.Host"></a>
                     </div>

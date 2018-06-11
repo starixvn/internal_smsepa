@@ -66,8 +66,8 @@
                            href="javascript:;" ng-click="targetTemplateCtrl.readLess(targetTemplate)" data-translate="ReadLess"></a>
                     </td>
                     <td class="text-center">
-                        <a href="" ng-if="targetTemplateCtrl.permission === targetTemplateCtrl.policyEnum.Host"
-                           ng-click="targetTemplateCtrl.update(targetTemplate, true)" ng-bind="targetTemplate.KPIs"></a>
+                        <a href="#/TargetTemplate/Update/{{targetTemplate.TargetTemplateId}}?viewKPIs" ng-if="targetTemplateCtrl.permission === targetTemplateCtrl.policyEnum.Host"
+                           ng-bind="targetTemplate.KPIs"></a>
                         <span ng-if="targetTemplateCtrl.permission === targetTemplateCtrl.policyEnum.Read" ng-bind="targetTemplate.KPIs"></span>
                     </td>
                     <td class="text-center">
@@ -76,8 +76,7 @@
                     </td>
                     <td class="target-template-action text-center" ng-if="targetTemplateCtrl.permission === targetTemplateCtrl.policyEnum.Host">
                         <div class="btn-group">
-                            <a class="glyphicon glyphicon-edit icon-edit" title="Edit" href=""
-                               ng-click="targetTemplateCtrl.update(targetTemplate)"></a>
+                            <a class="glyphicon glyphicon-edit icon-edit" title="Edit" href="#/TargetTemplate/Update/{{targetTemplate.TargetTemplateId}}?viewInfo"></a>
                             <a href="javascript:;" class="glyphicon glyphicon-remove icon-remove" title="Delete" ng-click="targetTemplateCtrl.deleteTargetTemplate(targetTemplate)"></a>
                         </div>
                     </td>
