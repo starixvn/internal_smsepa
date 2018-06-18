@@ -258,6 +258,11 @@
         vm.getMember = function () {
             ManagementEPAModel.getMemberByManagement(vm.filter.periodId, vm.filter.groupId, vm.filter.isLocal).then(function () {
                 vm.members = ManagementEPAModel.members;
+
+                angular.forEach(vm.members, function (member) {
+                    member.DisplayName = member.NickName + ' (' + member.FullName + ')';
+                });
+
                 utilitiesFactory.setSelectedItem(vm.members, "EmployeeId", vm.filter.employeeIds);
             });
         };
@@ -265,11 +270,10 @@
         vm.viewEPADetail = function (epaInfo) {
             if (ReviewerManagementModel.checkAdjustScoreChanged(vm.epaInfos)) {
                 ReviewerManagementModel.openPopupRemindSaveChange(vm).then(function () {
-
                 })['finally'](function () {
                     vm.modalInstance = '';
                 });
-            } 
+            }
         };
 
         vm.viewEPAResult = function (epaId) {

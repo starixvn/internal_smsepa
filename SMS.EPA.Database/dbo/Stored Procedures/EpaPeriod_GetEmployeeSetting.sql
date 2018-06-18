@@ -1,4 +1,5 @@
 ﻿
+
 CREATE PROCEDURE [dbo].[EpaPeriod_GetEmployeeSetting] @PeriodId INT
 	,@DepartmentId INT = NULL
 	,@IsLocal BIT = NULL
@@ -76,6 +77,7 @@ BEGIN
 		INNER JOIN dbo.Employee AS emp WITH (NOLOCK) ON pe.EmployeeId = emp.EmployeeId
 		AND emp.IsDeleted = 0
 		AND emp.[Enabled] = 1
+		AND emp.ResignedDate IS NULL
 		LEFT JOIN dbo.[Group] AS gr WITH (NOLOCK) ON emp.GroupId = gr.GroupId
 		LEFT JOIN dbo.Department AS dept WITH (NOLOCK) ON gr.DepartmentId = dept.DepartmentId
 		LEFT JOIN dbo.HRMJobTitle AS job WITH (NOLOCK) ON emp.JobTitle = job.Id

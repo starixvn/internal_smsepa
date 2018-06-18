@@ -1,4 +1,5 @@
 ﻿
+
 CREATE PROCEDURE [dbo].[EpaPeriod_AddEmployee] @PeriodId INT
 	,@Departments VARCHAR(MAX) = NULL
 	,@EmployeeId INT = NULL
@@ -50,6 +51,7 @@ BEGIN
 		,@SemiTarget TINYINT = 3
 		,@PromotionTarget TINYINT = 5
 		,@EnableDisciplineRule BIT = 0
+		,@CurrentYear INT = YEAR(GETDATE())
 
 	SELECT @EnableDisciplineRule = CAST(Value AS BIT)
 	FROM dbo.RefResource WITH (NOLOCK)
@@ -119,8 +121,14 @@ BEGIN
 							(
 								@TargetTypeId = @SemiTarget
 								AND (
-									CAST(emp.JoinedDate AS DATE) <= CAST(CAST(YEAR(GETDATE()) AS NVARCHAR(5)) + '-03-15' AS DATE)
-									OR CAST(emp.JoinedDate AS DATE) <= CAST(CAST(YEAR(GETDATE()) AS NVARCHAR(5)) + '-09-15' AS DATE)
+									(
+										MONTH(@StartDate) <= 6
+										AND CAST(emp.JoinedDate AS DATE) <= CAST(CAST(@CurrentYear AS NVARCHAR(5)) + '-03-15' AS DATE)
+										)
+									OR (
+										MONTH(@StartDate) > 6
+										AND CAST(emp.JoinedDate AS DATE) <= CAST(CAST(@CurrentYear AS NVARCHAR(5)) + '-09-15' AS DATE)
+										)
 									)
 								)
 							OR @TargetTypeId <> @SemiTarget
@@ -146,8 +154,14 @@ BEGIN
 							(
 								@TargetTypeId = @SemiTarget
 								AND (
-									CAST(emp.JoinedDate AS DATE) <= CAST(CAST(YEAR(GETDATE()) AS NVARCHAR(5)) + '-03-15' AS DATE)
-									OR CAST(emp.JoinedDate AS DATE) <= CAST(CAST(YEAR(GETDATE()) AS NVARCHAR(5)) + '-09-15' AS DATE)
+									(
+										MONTH(@StartDate) <= 6
+										AND CAST(emp.JoinedDate AS DATE) <= CAST(CAST(@CurrentYear AS NVARCHAR(5)) + '-03-15' AS DATE)
+										)
+									OR (
+										MONTH(@StartDate) > 6
+										AND CAST(emp.JoinedDate AS DATE) <= CAST(CAST(@CurrentYear AS NVARCHAR(5)) + '-09-15' AS DATE)
+										)
 									)
 								)
 							OR @TargetTypeId <> @SemiTarget
@@ -186,8 +200,14 @@ BEGIN
 					AND ResignedDate IS NULL
 					AND @TargetTypeId = @SemiTarget
 					AND (
-						CAST(JoinedDate AS DATE) > CAST(CAST(YEAR(GETDATE()) AS NVARCHAR(5)) + '-03-15' AS DATE)
-						OR CAST(JoinedDate AS DATE) > CAST(CAST(YEAR(GETDATE()) AS NVARCHAR(5)) + '-09-15' AS DATE)
+						(
+							MONTH(@StartDate) <= 6
+							AND CAST(JoinedDate AS DATE) > CAST(CAST(@CurrentYear AS NVARCHAR(5)) + '-03-15' AS DATE)
+							)
+						OR (
+							MONTH(@StartDate) > 6
+							AND CAST(JoinedDate AS DATE) > CAST(CAST(@CurrentYear AS NVARCHAR(5)) + '-09-15' AS DATE)
+							)
 						)
 				)
 			AND @EnableDisciplineRule = 1

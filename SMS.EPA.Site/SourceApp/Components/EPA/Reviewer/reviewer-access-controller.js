@@ -72,7 +72,7 @@
                 };
         }
 
-        vm.getGroup = function() {
+        vm.getGroup = function () {
             ReviewerEPAModel.getGroupByReviewer(vm.filter.periodId).then(function () {
                 vm.groupOptions = ReviewerEPAModel.groups;
 
@@ -82,10 +82,15 @@
 
         vm.getMember = function () {
             ReviewerEPAModel.getMemberByReviewer(vm.filter.periodId, vm.filter.groupId, vm.filter.isLocal, vm.filter.isMonthly)
-            .then(function () {
+                .then(function () {
                     vm.members = ReviewerEPAModel.members;
+
+                    angular.forEach(vm.members, function (member) {
+                        member.DisplayName = member.NickName + ' (' + member.FullName + ')';
+                    });
+
                     utilitiesFactory.setSelectedItem(vm.members, "EmployeeId", vm.filter.employeeIds);
-            });
+                });
         };
 
         vm.selectedCls = function (field) {

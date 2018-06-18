@@ -1,4 +1,5 @@
 ﻿
+
 CREATE PROCEDURE [dbo].[EpaAuto_SemiAnnual_AddEmployeeToPeriod] @PeriodId INT
 	,@ErrCode INT = 0 OUTPUT
 	,@ErrMsg NVARCHAR(MAX) = '' OUTPUT
@@ -19,6 +20,7 @@ BEGIN
 	SET NOCOUNT ON;
 
 	DECLARE @Today DATE = GETDATE()
+		,@CurrentYear INT = YEAR(GETDATE())
 		,@TargetTypeId INT
 		,@StartDate DATETIME
 		,@EmployeeIds IntId
@@ -66,8 +68,14 @@ BEGIN
 			(
 				@EnableDisciplineRule = 1
 				AND (
-					CAST(emp.JoinedDate AS DATE) <= CAST(CAST(YEAR(GETDATE()) AS NVARCHAR(5)) + '-03-15' AS DATE)
-					OR CAST(emp.JoinedDate AS DATE) <= CAST(CAST(YEAR(GETDATE()) AS NVARCHAR(5)) + '-09-15' AS DATE)
+					(
+						MONTH(@StartDate) <= 6
+						AND CAST(emp.JoinedDate AS DATE) <= CAST(CAST(@CurrentYear AS NVARCHAR(5)) + '-03-15' AS DATE)
+						)
+					OR (
+						MONTH(@StartDate) > 6
+						AND CAST(emp.JoinedDate AS DATE) <= CAST(CAST(@CurrentYear AS NVARCHAR(5)) + '-09-15' AS DATE)
+						)
 					)
 				)
 			OR @EnableDisciplineRule = 0

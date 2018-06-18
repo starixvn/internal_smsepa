@@ -1,4 +1,5 @@
-﻿CREATE PROCEDURE [dbo].[EpaPeriod_Get] @TargetTypeId INT = NULL
+﻿
+CREATE PROCEDURE [dbo].[EpaPeriod_Get] @TargetTypeId INT = NULL
 	,@IsActive BIT = 1
 AS
 /*
@@ -23,7 +24,10 @@ BEGIN
 		,EmployeeId INT
 		)
 
-	INSERT INTO #EmployeeSetting
+	INSERT INTO #EmployeeSetting (
+		PeriodId
+		,EmployeeId
+		)
 	SELECT DISTINCT period.PeriodId
 		,peFS.EmployeeId
 	FROM dbo.Period AS period WITH (NOLOCK)
@@ -31,12 +35,10 @@ BEGIN
 		INNER JOIN dbo.Employee AS emp WITH (NOLOCK) ON peFS.EmployeeId = emp.EmployeeId
 		AND emp.IsDeleted = 0
 		AND emp.[Enabled] = 1
-	WHERE NOT EXISTS (
-			SELECT 1
-			FROM dbo.PeriodExcludedEmployee AS peExcluded WITH (NOLOCK)
-			WHERE peFS.EmployeeId = peExcluded.EmployeeId
-				AND peFS.PeriodId = peExcluded.PeriodId
-			)
+		AND emp.ResignedDate IS NULL
+		LEFT JOIN dbo.PeriodExcludedEmployee AS pex WITH (NOLOCK) ON period.PeriodId = pex.PeriodId
+		AND emp.EmployeeId = pex.EmployeeId
+	WHERE pex.PeriodId IS NULL
 		AND (
 			ISNULL(@TargetTypeId, '') = ''
 			OR period.TargetTypeId = @TargetTypeId
@@ -55,18 +57,16 @@ BEGIN
 		INNER JOIN dbo.Employee AS emp WITH (NOLOCK) ON peTS.EmployeeId = emp.EmployeeId
 		AND emp.IsDeleted = 0
 		AND emp.[Enabled] = 1
+		AND emp.ResignedDate IS NULL
+		LEFT JOIN dbo.PeriodExcludedEmployee AS pex WITH (NOLOCK) ON period.PeriodId = pex.PeriodId
+		AND emp.EmployeeId = pex.EmployeeId
 	WHERE NOT EXISTS (
 			SELECT 1
 			FROM dbo.PeriodFlowSetting AS peFS WITH (NOLOCK)
 			WHERE peTS.EmployeeId = peFS.EmployeeId
 				AND peTS.PeriodId = peFS.PeriodId
 			)
-		AND NOT EXISTS (
-			SELECT 1
-			FROM dbo.PeriodExcludedEmployee AS peExcluded WITH (NOLOCK)
-			WHERE peTS.EmployeeId = peExcluded.EmployeeId
-				AND peTS.PeriodId = peExcluded.PeriodId
-			)
+		AND pex.PeriodId IS NULL
 		AND (
 			ISNULL(@TargetTypeId, '') = ''
 			OR period.TargetTypeId = @TargetTypeId
@@ -94,18 +94,23 @@ BEGIN
 		LEFT JOIN (
 		SELECT PeriodId
 			,COUNT(EmployeeId) AS TotalEmployees
-		FROM #EmployeeSetting
+		FROM #EmployeeSetting WITH (NOLOCK)
 		GROUP BY PeriodId
 		) AS peF ON peF.PeriodId = pe.PeriodId
 		LEFT JOIN (
 		SELECT epa.PeriodId
 			,COUNT(epa.EmployeeId) AS TotalEmployeesUnfinished
 		FROM dbo.EPA AS epa WITH (NOLOCK)
-		INNER JOIN dbo.Employee AS emp WITH (NOLOCK) ON epa.EmployeeId = emp.EmployeeId
-		AND emp.[Enabled] = 1
-		AND emp.IsDeleted = 0
+			INNER JOIN dbo.Employee AS emp WITH (NOLOCK) ON epa.EmployeeId = emp.EmployeeId
+			AND emp.[Enabled] = 1
+			AND emp.IsDeleted = 0
+			AND emp.ResignedDate IS NULL
+			INNER JOIN dbo.Period AS period WITH (NOLOCK) ON epa.PeriodId = period.PeriodId
+			LEFT JOIN dbo.PeriodExcludedEmployee AS pex WITH (NOLOCK) ON period.PeriodId = pex.PeriodId
+			AND emp.EmployeeId = pex.EmployeeId
 		WHERE epa.[Status] = 0
-		GROUP BY PeriodId
+			AND pex.PeriodId IS NULL
+		GROUP BY epa.PeriodId
 		) AS epa ON pe.PeriodId = epa.PeriodId
 	WHERE (
 			ISNULL(@TargetTypeId, '') = ''

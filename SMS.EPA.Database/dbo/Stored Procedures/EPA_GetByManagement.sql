@@ -1,4 +1,5 @@
 ﻿
+
 CREATE PROCEDURE [dbo].[EPA_GetByManagement] @ManagementId INT
 	,@PeriodId INT = NULL
 	,@EmployeeIds VARCHAR(MAX) = NULL
@@ -40,6 +41,9 @@ BEGIN
 		INNER JOIN dbo.Period AS period WITH (NOLOCK) ON epa.PeriodId = period.PeriodId
 		AND period.IsActive = 1
 		INNER JOIN dbo.Employee AS emp WITH (NOLOCK) ON epa.EMployeeId = emp.EmployeeId
+		AND emp.[Enabled] = 1
+		AND emp.IsDeleted = 0
+		AND emp.ResignedDate IS NULL
 		INNER JOIN dbo.EPAProcess AS pc WITH (NOLOCK) ON epa.EPAId = pc.EPAId
 		AND pc.ProcessId = @ManagementProcessId
 		AND pc.EvaluatorId = @ManagementId

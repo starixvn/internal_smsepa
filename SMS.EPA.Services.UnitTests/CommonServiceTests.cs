@@ -283,12 +283,12 @@
         {
             // Arrange
             var departments = new List<Department>();
-            var department1 = new Department() { ParentId = 1 };
-            var department2 = new Department() { ParentId = null };
+            var department1 = new Department { ParentId = 1 };
+            var department2 = new Department { ParentId = null };
             departments.Add(department1);
             departments.Add(department2);
 
-            var expectedDepartment = new DepartmentInfoModel()
+            var expectedDepartment = new DepartmentInfoModel
             {
                 Departments = departments,
                 TreeDepartment = department2
@@ -297,7 +297,7 @@
             ArrangeGetDepartment(departments);
 
             // Act
-            var actual = commonService.GetDepartment(Arg.Any<GetDepartmentCriteria>());
+            commonService.GetDepartment(Arg.Any<GetDepartmentCriteria>());
 
             // Assert
             Assert.AreEqual(expectedDepartment.Departments, departments);
@@ -310,7 +310,7 @@
             // Arrange
             var departments = new List<Department>();
 
-            var expectedDepartment = new DepartmentInfoModel()
+            var expectedDepartment = new DepartmentInfoModel
             {
                 Departments = departments,
                 TreeDepartment = null
@@ -319,7 +319,7 @@
             ArrangeGetDepartment(departments);
 
             // Act
-            var actual = commonService.GetDepartment(Arg.Any<GetDepartmentCriteria>());
+            commonService.GetDepartment(Arg.Any<GetDepartmentCriteria>());
 
             // Assert
             Assert.AreEqual(expectedDepartment.Departments, departments);

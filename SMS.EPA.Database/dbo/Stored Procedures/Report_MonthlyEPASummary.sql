@@ -1,4 +1,5 @@
 ﻿
+
 CREATE PROCEDURE [dbo].[Report_MonthlyEPASummary] @EmployeeId INT
 	,@PeriodIds NVARCHAR(MAX) = NULL
 	,@DepartmentId INT = NULL
@@ -59,6 +60,12 @@ BEGIN
 		EPAId INT
 		,StatusId TINYINT
 		)
+	
+	CREATE TABLE #tblLastedEPA (
+		EmployeeId INT
+		,TargetTypeId TINYINT
+		,StartDate DATE
+		)
 
 	INSERT INTO #tblPeriod (
 		PeriodId
@@ -85,6 +92,26 @@ BEGIN
 			SELECT DISTINCT val
 			FROM fnc_strSplit(@PeriodIds, ',')
 			)
+	
+	INSERT INTO #tblLastedEPA (
+		EmployeeId
+		,TargetTypeId
+		,StartDate
+		)
+	SELECT epa.EmployeeId
+		,period.TargetTypeId
+		,MAX(process.StartDate)
+	FROM dbo.EPA AS epa WITH (NOLOCK)
+		INNER JOIN dbo.EPAProcess AS process WITH (NOLOCK) ON epa.EPAId = process.EPAId
+		AND process.ProcessId = 1 -- HR
+		INNER JOIN dbo.Period AS period WITH (NOLOCK) ON epa.PeriodId = period.PeriodId
+		INNER JOIN #tblPeriodTemp AS tblperiod WITH (NOLOCK) ON period.PeriodId = tblperiod.PeriodId
+		INNER JOIN dbo.Employee AS emp WITH (NOLOCK) ON epa.EmployeeId = emp.EmployeeId
+		AND emp.[Enabled] = 1
+		AND emp.IsDeleted = 0
+		AND emp.ResignedDate IS NULL
+	GROUP BY epa.EmployeeId
+		,period.TargetTypeId
 
 	INSERT INTO #tblEmployee (
 		EmployeeId
@@ -153,7 +180,7 @@ BEGIN
 					SELECT 1
 					FROM dbo.EmployeeRole AS erole WITH (NOLOCK)
 						INNER JOIN dbo.Employee AS emp WITH (NOLOCK) ON erole.EmployeeId = emp.EmployeeId
-						AND erole.RoleId IN (4, 5) -- MGT, Reviewer, Evaluator
+						AND erole.RoleId IN (4, 5) -- Reviewer, Evaluator
 						AND emp.EmployeeId = @EmployeeId
 					)
 				AND EXISTS (
@@ -172,16 +199,9 @@ BEGIN
 								AND process1.ProcessId = 1 -- HR
 								INNER JOIN dbo.Period AS period1 WITH (NOLOCK) ON epa1.PeriodId = period1.PeriodId
 								AND period1.TargetTypeId = tblData.TargetTypeId
-							WHERE process1.StartDate = (
-									SELECT MAX(process2.StartDate)
-									FROM dbo.EPA AS epa2 WITH (NOLOCK)
-										INNER JOIN dbo.EPAProcess AS process2 WITH (NOLOCK) ON epa2.EPAId = process2.EPAId
-										AND process2.ProcessId = 1 -- HR
-										AND epa2.EmployeeId = tblData.EmployeeId
-										INNER JOIN dbo.Period AS period2 WITH (NOLOCK) ON epa2.PeriodId = period.PeriodId
-										AND period2.TargetTypeId = tblData.TargetTypeId
-									GROUP BY epa2.EmployeeId
-									)
+								INNER JOIN #tblLastedEPA AS lastedepa WITH (NOLOCK) ON epa1.EmployeeId = lastedepa.EmployeeId
+								AND period1.TargetTypeId = lastedepa.TargetTypeId
+								AND process1.StartDate = lastedepa.StartDate
 							)
 					)
 				)
@@ -338,4 +358,6 @@ BEGIN
 	DROP TABLE #tblDisciplineScore
 
 	DROP TABLE #tblEPAStatus
+	
+	DROP TABLE #tblLastedEPA
 END

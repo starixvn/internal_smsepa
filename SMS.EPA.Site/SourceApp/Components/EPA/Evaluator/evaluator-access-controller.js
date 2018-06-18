@@ -102,10 +102,15 @@
 
         vm.getMember = function () {
             EvaluatorEPAModel.getMemberByEvaluator(vm.filter.periodId, vm.filter.groupId, vm.filter.isLocal, vm.filter.isMonthly)
-            .then(function () {
+                .then(function () {
                     vm.members = EvaluatorEPAModel.members;
+
+                    angular.forEach(vm.members, function (member) {
+                        member.DisplayName = member.NickName + ' (' + member.FullName + ')';
+                    });
+
                     utilitiesFactory.setSelectedItem(vm.members, "EmployeeId", vm.filter.employeeIds);
-            });
+                });
         };
 
         vm.selectedCls = function () {
@@ -192,7 +197,6 @@
 
         function initialize() {
             vm.filter = initFilter();
-
 
             EvaluatorEPAModel.getPeriodByEvaluator().then(function () {
                 vm.periodOptions = EvaluatorEPAModel.periods;
