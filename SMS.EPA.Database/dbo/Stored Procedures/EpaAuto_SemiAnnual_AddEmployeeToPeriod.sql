@@ -1,5 +1,4 @@
 ﻿
-
 CREATE PROCEDURE [dbo].[EpaAuto_SemiAnnual_AddEmployeeToPeriod] @PeriodId INT
 	,@ErrCode INT = 0 OUTPUT
 	,@ErrMsg NVARCHAR(MAX) = '' OUTPUT
@@ -30,6 +29,7 @@ BEGIN
 		,@OverlapEmployees NVARCHAR(MAX)
 		,@NoneSettingEmployees NVARCHAR(MAX)
 		,@EnableDisciplineRule BIT = 0
+		,@AutoAddStaffIntoSemiPeriod BIT = 0
 
 	IF NOT EXISTS (
 			SELECT 1
@@ -48,8 +48,18 @@ BEGIN
 	SELECT @EnableDisciplineRule = CAST(Value AS BIT)
 	FROM dbo.RefResource WITH (NOLOCK)
 	WHERE RefName = 'EnableDisciplineRuleWhenAddEmployeeToSemi'
+	
+	SELECT @AutoAddStaffIntoSemiPeriod = CAST(Value AS BIT)
+	FROM dbo.RefResource WITH (NOLOCK)
+	WHERE RefName = 'AutoAddStaffIntoSemiPeriod'
 
 	SET @EnableDisciplineRule = ISNULL(@EnableDisciplineRule, 0)
+	SET @AutoAddStaffIntoSemiPeriod = ISNULL(@AutoAddStaffIntoSemiPeriod, 0)
+	
+	IF @AutoAddStaffIntoSemiPeriod = 0
+	BEGIN
+		RETURN
+	END
 
 	SELECT @TargetTypeId = TargetTypeId
 		,@StartDate = StartDate
@@ -89,7 +99,7 @@ BEGIN
 		)
 
 	INSERT INTO #DeptFlowAndTargetTemplate
-	EXEC GetFlowAndTargetTemplateSetting @TargetTypeId
+	EXEC dbo.GetFlowAndTargetTemplateSetting @TargetTypeId
 
 	-- find employee that already existed
 	INSERT INTO @ExistedEmployeeIds

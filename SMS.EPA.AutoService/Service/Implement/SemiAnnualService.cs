@@ -12,11 +12,7 @@
 
             foreach (int periodId in semiAnnualPeriods)
             {
-                if (AppSetting.AutoAddStaffIntoSemiPeriod)
-                {
-                    InsertEmployeeToPeriod(periodId, new InsertEmployeeToSemiAnnualPeriodCriteria(periodId), "Auto add employee to semi annual period");
-                }
-
+                InsertEmployeeToPeriod(periodId, new InsertEmployeeToSemiAnnualPeriodCriteria(periodId), "Auto add employee to semi annual period");
                 GenerateEPA(periodId, "Auto generate EPA for semi annual period");
                 SendStartEmail(periodId);
             }

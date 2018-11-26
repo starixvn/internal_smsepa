@@ -65,6 +65,7 @@
     <Folder Include="dbo\Functions\" />
     <Folder Include="dbo\Stored Procedures\" />
     <Folder Include="dbo\User Defined Types\" />
+    <Folder Include="scripts" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="dbo\Tables\EvaluationGlobalSetting.sql" />
@@ -345,5 +346,8 @@
     <Build Include="dbo\Tables\PeriodDisciplineSetting.sql" />
     <Build Include="dbo\Functions\fnc_strSplit.sql" />
     <Build Include="dbo\Stored Procedures\EPA_GetPeriodByActorId.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="scripts\auto-add-staff-into-semi-period.sql" />
   </ItemGroup>
 </Project>
