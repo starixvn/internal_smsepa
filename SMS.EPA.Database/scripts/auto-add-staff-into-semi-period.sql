@@ -2,7 +2,7 @@
 USE CTIEPA
 INSERT INTO dbo.RefResource(RefName, ResourceId, Value)
 VALUES ('AutoAddStaffIntoSemiPeriod', 1, 1)
-GO
+--GO
 
 --USE GHREPA
 --INSERT INTO dbo.RefResource(RefName, ResourceId, Value)
@@ -27,4 +27,4 @@ GO
 --USE SMSEPA
 --INSERT INTO dbo.RefResource(RefName, ResourceId, Value)
 --VALUES ('AutoAddStaffIntoSemiPeriod', 1, 1)
---GO
+GO
