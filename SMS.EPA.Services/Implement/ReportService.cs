@@ -563,7 +563,7 @@
             if (detailScores.Any())
             {
                 var maxProcessId = detailScores.Max(x => x.ProcessId);
-                var lastPhaseScores = epaInfo.DetailScores.Where(x => x.ProcessId == maxProcessId).Select(x => x.TotalScoreConverted);
+                var lastPhaseScores = epaInfo.DetailScores.Where(x => !string.IsNullOrEmpty(x.TotalScore) && x.ProcessId == maxProcessId).Select(x => x.TotalScoreConverted);
                 performanceScore = lastPhaseScores.Any() ? (float)Math.Round(lastPhaseScores.Average(), Constants.NumberOfDecimalDefault) : performanceScore;
             }
 
@@ -584,14 +584,14 @@
                 switch (maxProcessId)
                 {
                     case (int)ProcessType.Reviewer:
-                        lastPhaseScores = epaInfo.DetailScores.Where(x => x.ProcessId == maxProcessId).Select(x => x.TotalScoreConverted);
+                        lastPhaseScores = epaInfo.DetailScores.Where(x => !string.IsNullOrEmpty(x.TotalScore) && x.ProcessId == maxProcessId).Select(x => x.TotalScoreConverted);
                         performanceScore = lastPhaseScores.Any()
                             ? (float)Math.Round(lastPhaseScores.Average(), Constants.NumberOfDecimalDefault)
                             : epaInfo.MonthlyEPA.AverageReviewerScoreConverted;
                         break;
 
                     case (int)ProcessType.Management:
-                        lastPhaseScores = epaInfo.DetailScores.Where(x => x.ProcessId == maxProcessId).Select(x => x.TotalScoreConverted);
+                        lastPhaseScores = epaInfo.DetailScores.Where(x => !string.IsNullOrEmpty(x.TotalScore) && x.ProcessId == maxProcessId).Select(x => x.TotalScoreConverted);
                         performanceScore = lastPhaseScores.Any() ? (float)Math.Round(lastPhaseScores.Average(), Constants.NumberOfDecimalDefault) : performanceScore;
                         break;
 
