@@ -114,6 +114,7 @@
         public EPARecommendationModel Recommendation { get; set; }
 
         public bool RequiredCommentOnMaxScore { get; set; }
+        public bool RequiredCommentOnMaxScoreForEvaluator { get; set; }
 
         public int Rowspan
         {

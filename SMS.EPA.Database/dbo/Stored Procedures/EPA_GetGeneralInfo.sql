@@ -17,6 +17,7 @@ BEGIN
 
 	DECLARE @EPAIds NVARCHAR(MAX)
 		,@RequiredCommentOnMaxScore BIT
+		,@RequiredCommentOnMaxScoreForEvaluator BIT
 		,@Today DATE = GETDATE()
 		,@MonthlyTarget TINYINT = 2
 		,@SemiTarget TINYINT = 3
@@ -46,6 +47,10 @@ BEGIN
 	SELECT @RequiredCommentOnMaxScore = CAST(Value AS BIT)
 	FROM dbo.RefResource WITH (NOLOCK)
 	WHERE RefName = 'RequiredCommentOnMaxScore'
+
+	SELECT @RequiredCommentOnMaxScoreForEvaluator = CAST(Value AS BIT)
+	FROM dbo.RefResource WITH (NOLOCK)
+	WHERE RefName = 'RequiredCommentOnMaxScoreForEvaluator'
 
 	SELECT @EPAIds = COALESCE(@EPAIds + ',', '') + CAST(Id AS NVARCHAR)
 	FROM @TblEPAIds
@@ -144,6 +149,7 @@ BEGIN
 			ELSE 0 END
 			) AS HasMaxScoreOnKPI
 		,@RequiredCommentOnMaxScore AS RequiredCommentOnMaxScore
+		,@RequiredCommentOnMaxScoreForEvaluator AS RequiredCommentOnMaxScoreForEvaluator
 		,tblstatus.StatusId
 		,emp.EmployeeId
 		,emp.Code

@@ -13,6 +13,7 @@
         public RatingTypeModel RatingType { get; set; }
 
         public bool RequiredCommentOnMaxScore { get; set; }
+        public bool RequiredCommentOnMaxScoreForEvaluator { get; set; }
 
         public TemporaryKPIGroupModel KPIGroup { get; set; }
     }

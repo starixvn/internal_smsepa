@@ -346,6 +346,7 @@
     <Build Include="dbo\Tables\PeriodDisciplineSetting.sql" />
     <Build Include="dbo\Functions\fnc_strSplit.sql" />
     <Build Include="dbo\Stored Procedures\EPA_GetPeriodByActorId.sql" />
+    <None Include="scripts\require-comment-on-max-score-for-evaluator.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="scripts\auto-add-staff-into-semi-period.sql" />

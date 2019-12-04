@@ -115,7 +115,7 @@
                     }
 
                     if (kpi.HasComment && (!kpi.CurrentEvaluation.Comment || kpi.CurrentEvaluation.Comment.length === 0)
-                        && (kpi.IsRequiredComment || (epaInfo.RequiredCommentOnMaxScore && !kpi.IsRequiredComment && kpi.CurrentEvaluation.IsMaxScore))) {
+                        && (kpi.IsRequiredComment || (epaInfo.RequiredCommentOnMaxScoreForEvaluator && !kpi.IsRequiredComment && kpi.CurrentEvaluation.IsMaxScore))) {
                         isValid = false;
                         kpi.CurrentEvaluation.CommentInvalid = true;
                         kpi.ExpandedComment = true;

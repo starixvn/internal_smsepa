@@ -163,7 +163,7 @@ function ($uibModal, ratingByKPIFactory, utilitiesFactory, notificationFactory, 
                     if (kpi.IsRequiredComment) {
                         openPopupNotificationComment(vm.evaluateEPAInvalidMessage);
                         return false;
-                    } else if (vm.epaInfos[i].RequiredCommentOnMaxScore && kpi.IsMaxScore) {
+                    } else if (vm.epaInfos[i].RequiredCommentOnMaxScoreForEvaluator && kpi.IsMaxScore) {
                         openPopupNotificationComment(vm.requiredCommentForRatingMaxScore);
                         return false;
                     }

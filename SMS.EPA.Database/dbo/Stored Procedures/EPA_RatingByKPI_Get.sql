@@ -20,6 +20,7 @@ BEGIN
 
 	DECLARE @Employees IntId
 		,@RequiredCommentOnMaxScore BIT
+		,@RequiredCommentOnMaxScoreForEvaluator BIT
 		,@Today DATE = GETDATE()
 		,@EvaluatorProcessId TINYINT = 3
 
@@ -94,6 +95,10 @@ BEGIN
 	SELECT @RequiredCommentOnMaxScore = CAST(Value AS BIT)
 	FROM dbo.RefResource WITH (NOLOCK)
 	WHERE RefName = 'RequiredCommentOnMaxScore'
+	
+	SELECT @RequiredCommentOnMaxScoreForEvaluator = CAST(Value AS BIT)
+	FROM dbo.RefResource WITH (NOLOCK)
+	WHERE RefName = 'RequiredCommentOnMaxScoreForEvaluator'
 
 	IF @EmployeeIds IS NOT NULL
 	BEGIN
@@ -141,6 +146,7 @@ BEGIN
 	SELECT DISTINCT epa.EPAId
 		,pc.TotalScore
 		,@RequiredCommentOnMaxScore AS RequiredCommentOnMaxScore
+		,@RequiredCommentOnMaxScoreForEvaluator AS RequiredCommentOnMaxScoreForEvaluator
 		,emp.EmployeeId
 		,emp.Code
 		,emp.NickName
