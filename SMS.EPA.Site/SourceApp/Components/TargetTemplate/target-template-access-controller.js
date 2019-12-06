@@ -74,8 +74,9 @@
             TargetTemplateModel.openPopupDeleteTargetTemplate(vm, targetTemplate);
         };
 
-        vm.detail = function (targetTemplate) {
-            $location.path(baseUrl + 'TargetTemplate/Detail/' + targetTemplate.TargetTemplateId);
+        vm.detail = function (targetTemplate, event) {
+            var url = baseUrl + 'TargetTemplate/Detail/' + targetTemplate.TargetTemplateId;
+            utilitiesFactory.handleOpenLink(event, url);
         };
 
         function initialize() {

@@ -4,10 +4,10 @@
     /* jshint validthis:true */
 
     angular.module('kpiGroupModule').controller('KPIGroupController', KPIGroupController);
-    KPIGroupController.$inject = ['$location', 'KPIGroupModel', 'KPIModel', 'CommonModel',
+    KPIGroupController.$inject = ['KPIGroupModel', 'KPIModel', 'CommonModel',
         'utilitiesFactory', 'historyFactory', 'lockScreenService', 'baseUrl'];
 
-    function KPIGroupController($location, KPIGroupModel, KPIModel, CommonModel, utilitiesFactory, historyFactory, lockScreenService, baseUrl) {
+    function KPIGroupController( KPIGroupModel, KPIModel, CommonModel, utilitiesFactory, historyFactory, lockScreenService, baseUrl) {
         var vm = this;
 
         vm.currentPage = 1;
@@ -110,10 +110,13 @@
             KPIGroupModel.openPopupUpdateStatusKPIGroup(kpiGroup);
         }
 
-        function viewKPI(kpiGroupId) {
-            $location.path(baseUrl + 'KPI/Index').search({
+        function viewKPI(kpiGroupId, event) {
+            var url = baseUrl + 'KPI/Index';
+            var params = {
                 groupId: kpiGroupId
-            });
+            };
+
+            utilitiesFactory.handleOpenLinkWithParams(event, url, params);
         }
     }
 })(angular);

@@ -53,7 +53,7 @@
                 <tr dir-paginate="targetTemplate in targetTemplateCtrl.filteredItems | itemsPerPage: targetTemplateCtrl.pageSize" current-page="targetTemplateCtrl.currentPage">
                     <td class="text-center" ng-bind="targetTemplateCtrl.getIndex($index, targetTemplateCtrl.currentPage, targetTemplateCtrl.pageSize)"></td>
                     <td class="column-limit">
-                        <a href="" ng-click="targetTemplateCtrl.detail(targetTemplate)" ng-bind="targetTemplate.Name"></a>
+                        <a class="link" ng-click="targetTemplateCtrl.detail(targetTemplate, $event)" ng-bind="targetTemplate.Name"></a>
                     </td>
                     <td class="text-center" ng-bind="targetTemplate.TargetTypeName"></td>
                     <td class="text-center" ng-bind="targetTemplate.ScoreRatingTypeName"></td>
