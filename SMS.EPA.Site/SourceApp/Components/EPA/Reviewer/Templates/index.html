@@ -237,7 +237,7 @@
                         <div ng-if="epaInfo.Process.CurrentProcess.Evaluated" class="glyphicon glyphicon-ok"></div>
                     </td>
                     <td class="text-center col-action" ng-switch="epaInfo.IsAllowedToEdit">
-                        <a ng-switch-when="true" class="glyphicon glyphicon-edit icon-edit" href="" ng-click="reviewerCtrl.viewEPADetail(epaInfo)"
+                        <a ng-switch-when="true" class="link glyphicon glyphicon-edit icon-edit" ng-click="reviewerCtrl.viewEPADetail(epaInfo, $event)"
                            ng-attr-title='{{"EvaluateNow" | translate}}'></a>
                         <a ng-switch-default class="glyphicon icon-view" href="#/EPA/Detail/{{epaInfo.EPAId}}"
                            ng-attr-title='{{"ViewEPAResult" | translate}}'></a>

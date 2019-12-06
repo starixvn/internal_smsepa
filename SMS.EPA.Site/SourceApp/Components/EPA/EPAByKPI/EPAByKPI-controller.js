@@ -4,10 +4,10 @@
     /* jshint validthis:true */
 
     angular.module('epaModule').controller('EPAByKPIController', epaByKPIController);
-    epaByKPIController.$inject = ['$window', '$timeout', '$translate', 'EPAByKPIModel', 'EvaluationModel',
+    epaByKPIController.$inject = ['$timeout', '$translate', 'EPAByKPIModel', 'EvaluationModel',
         'CommonModel', 'utilitiesFactory', 'historyFactory', 'baseUrl'];
 
-    function epaByKPIController($window, $timeout, $translate, EPAByKPIModel, EvaluationModel,
+    function epaByKPIController($timeout, $translate, EPAByKPIModel, EvaluationModel,
         CommonModel, utilitiesFactory, historyFactory, baseUrl) {
         var vm = this;
         vm.periods = [];
@@ -134,9 +134,17 @@
             });
         }
 
-        function viewDetail(epaInfo) {
-            var url = baseUrl + 'Evaluator/Detail/' + epaInfo.EPAId + '?evaluatorId=' + vm.filter.evaluatorId + '&newTab=' + true;
-            $window.open(url, '_blank');
+        function viewDetail(epaInfo, event) {
+            //set open new tab event
+            event.ctrlKey = true;
+            
+            var url = baseUrl + 'Evaluator/Detail/' + epaInfo.EPAId;
+            var params = {
+                evaluatorId: vm.filter.evaluatorId,
+                newTab: true
+            }
+
+            utilitiesFactory.handleOpenLinkWithParams(event, url, params);
         }
 
         function back() {

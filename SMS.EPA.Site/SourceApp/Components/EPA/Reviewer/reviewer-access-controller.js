@@ -5,7 +5,6 @@
 
     angular.module('epaModule').controller('ReviewerController', reviewerController);
     reviewerController.$inject = [
-        '$location',
         '$translate',
         '$routeParams',
         'EvaluationModel',
@@ -20,7 +19,6 @@
     ];
 
     function reviewerController(
-        $location,
         $translate,
         $routeParams,
         EvaluationModel,
@@ -250,15 +248,22 @@
             }
         };
 
-        vm.viewEPADetail = function (epaInfo) {
-            if (ReviewerManagementModel.checkAdjustScoreChanged(vm.epaInfos)) {
-                ReviewerManagementModel.openPopupRemindSaveChange(vm).then(function () {
-                    $location.path(baseUrl + 'Reviewer/Detail/' + epaInfo.EPAId);
-                })['finally'](function () {
-                    vm.modalInstance = '';
-                });
-            } else {
-                $location.path(baseUrl + 'Reviewer/Detail/' + epaInfo.EPAId);
+        vm.viewEPADetail = function (epaInfo, event) {
+            var url = baseUrl + 'Reviewer/Detail/' + epaInfo.EPAId;
+
+            if (utilitiesFactory.isOpenNewTabEvent(event)) {
+                utilitiesFactory.handleOpenLink(event, url);
+            }
+            else {
+                if (ReviewerManagementModel.checkAdjustScoreChanged(vm.epaInfos)) {
+                    ReviewerManagementModel.openPopupRemindSaveChange(vm).then(function () {
+                        utilitiesFactory.handleOpenLink(event, url);
+                    })['finally'](function () {
+                        vm.modalInstance = '';
+                    });
+                } else {
+                    utilitiesFactory.handleOpenLink(event, url);
+                }
             }
         };
 

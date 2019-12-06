@@ -5,7 +5,6 @@
 
     angular.module('epaModule').controller('EvaluatorController', evaluatorController);
     evaluatorController.$inject = [
-        '$location',
         '$routeParams',
         'EvaluationModel',
         'EvaluatorEPAModel',
@@ -18,7 +17,6 @@
     ];
 
     function evaluatorController(
-        $location,
         $routeParams,
         EvaluationModel,
         EvaluatorEPAModel,
@@ -181,18 +179,23 @@
                 filter.statusProcess);
         };
 
-        vm.viewEPADetail = function (epaInfo) {
-            $location.path(baseUrl + 'Evaluator/Detail/' + epaInfo.EPAId);
+        vm.viewEPADetail = function (epaInfo, event) {
+            var url = baseUrl + 'Evaluator/Detail/' + epaInfo.EPAId;
+            utilitiesFactory.handleOpenLink(event, url);
         };
 
-        vm.viewEPAResult = function (epaId) {
-            $location.path(baseUrl + 'EPA/Detail/' + epaId);
+        vm.viewEPAResult = function (epaInfo, event) {
+            var url = baseUrl + 'EPA/Detail/' + epaInfo.EPAId;
+            utilitiesFactory.handleOpenLink(event, url);
         };
 
-        vm.viewEPAHistory = function (employeeId) {
-            $location.path(baseUrl + 'EPAHistory/Index').search({
+        vm.viewEPAHistory = function (employeeId, event) {
+            var url = baseUrl + 'EPAHistory/Index';
+            var params = {
                 empId: employeeId
-            });
+            }
+
+            utilitiesFactory.handleOpenLinkWithParams(event, url, params);
         };
 
         function initialize() {

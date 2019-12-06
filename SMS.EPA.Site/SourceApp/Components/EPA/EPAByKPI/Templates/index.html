@@ -148,8 +148,8 @@
                                     </div>
                                 </td>
                                 <td class="text-center col-score">
-                                    <strong><a ng-show="epaInfo.TotalScore != ''" href="" ng-bind="epaInfo.TotalScore | customScore" ng-click="epaByKPICtrl.viewDetail(epaInfo)"></a></strong>
-                                    <strong><a ng-show="epaInfo.TotalScore == ''" href="" ng-bind="'N/A'" ng-click="epaByKPICtrl.viewDetail(epaInfo)"></a></strong>
+                                    <strong><a ng-show="epaInfo.TotalScore != ''" class="link" ng-bind="epaInfo.TotalScore | customScore" ng-click="epaByKPICtrl.viewDetail(epaInfo, $event)"></a></strong>
+                                    <strong><a ng-show="epaInfo.TotalScore == ''" class="link" ng-bind="'N/A'" ng-click="epaByKPICtrl.viewDetail(epaInfo, $event)"></a></strong>
                                 </td>
                             </tr>
                         </tbody>

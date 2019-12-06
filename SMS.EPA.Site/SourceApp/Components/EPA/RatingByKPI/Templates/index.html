@@ -199,12 +199,12 @@
                                 </td>
                                 <td class="text-center col-score">
                                     <strong>
-                                        <a ng-show="epaInfo.TotalScore !== ''" href="" ng-bind="epaInfo.TotalScore | customScore"
-                                           ng-click="ratingByKPICtrl.viewDetail(epaInfo)"></a>
+                                        <a ng-show="epaInfo.TotalScore !== ''" ng-bind="epaInfo.TotalScore | customScore"
+                                           ng-click="ratingByKPICtrl.viewDetail(epaInfo, $event)"></a>
                                     </strong>
                                     <strong>
-                                        <a ng-show="epaInfo.TotalScore === ''" href="" data-translate="NotAvailable"
-                                           ng-click="ratingByKPICtrl.viewDetail(epaInfo)"></a>
+                                        <a ng-show="epaInfo.TotalScore === ''" data-translate="NotAvailable"
+                                           ng-click="ratingByKPICtrl.viewDetail(epaInfo, $event)"></a>
                                     </strong>
                                 </td>
                             </tr>

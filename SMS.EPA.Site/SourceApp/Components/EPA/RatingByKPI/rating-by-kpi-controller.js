@@ -2,8 +2,8 @@
 /*global epaModule*/
 
 epaModule.controller('RatingByKPIController',
-['$window', '$timeout', '$translate', 'RatingByKPIModel', 'EvaluationModel', 'CommonModel', 'utilitiesFactory', 'baseUrl', 'historyFactory',
-function ($window, $timeout, $translate, RatingByKPIModel, EvaluationModel, CommonModel, utilitiesFactory, baseUrl, historyFactory) {
+['$timeout', '$translate', 'RatingByKPIModel', 'EvaluationModel', 'CommonModel', 'utilitiesFactory', 'baseUrl', 'historyFactory',
+function ($timeout, $translate, RatingByKPIModel, EvaluationModel, CommonModel, utilitiesFactory, baseUrl, historyFactory) {
     var vm = this;
 
     vm.periods = [];
@@ -347,9 +347,10 @@ function ($window, $timeout, $translate, RatingByKPIModel, EvaluationModel, Comm
         return cssClass;
     };
 
-    vm.viewDetail = function (epaInfo) {
+    vm.viewDetail = function (epaInfo, event) {
         var url = baseUrl + 'Evaluator/Detail/' + epaInfo.EPAId + '?newTab=' + true;
-        $window.open(url, '_blank');
+        event.ctrlKey = true;
+        utilitiesFactory.handleOpenLink(event, url);
     };
 
     vm.save = function () {

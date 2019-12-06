@@ -14,7 +14,7 @@
                 </ul>
             </li>
             <li ng-if="!menu.MenuItems || menu.MenuItems.length === 0">
-                <a href="" data-menu-tab ng-click="menuCtrl.openLink($event, menu.MenuLink)">{{menu.MenuName}}</a>
+                <a data-menu-tab ng-click="menuCtrl.openLink($event, menu.MenuLink)">{{menu.MenuName}}</a>
             </li>
         </ul>
     </div>

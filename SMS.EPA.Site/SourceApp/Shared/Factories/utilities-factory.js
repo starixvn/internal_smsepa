@@ -77,8 +77,9 @@
             splitNumber: splitNumber,
             processStatus: processStatus,
             targetType: targetType,
-            openLink: openLink,
-            openLinkWithParams: openLinkWithParams
+            handleOpenLink: handleOpenLink,
+            handleOpenLinkWithParams: handleOpenLinkWithParams,
+            isOpenNewTabEvent: isOpenNewTabEvent
         };
 
         utilities.parseFloat = function (input) {
@@ -259,9 +260,31 @@
             return result;
         }
 
-        function openLink(event, url) {
-            debugger;
-            if (event.ctrlKey) {
+        function getParamsQuery(params) {
+            var result = "";
+            var isFirstElement = true;
+
+            angular.forEach(params, function (value, key) {
+                if (isFirstElement) {
+                    var extend = '?' + key + ':' + value;
+                    result = result + extend;
+                    isFirstElement = false;
+                }
+                else {
+                    var extend = '&' + key + ':' + value;
+                    result = result + extend;
+                }
+            });
+
+            return result;
+        }
+
+        function isOpenNewTabEvent(event) {
+            return (event.ctrlKey);
+        }
+
+        function handleOpenLink(event, url) {
+            if (isOpenNewTabEvent(event)) {
                 var bindUrl = '#' + url;
                 $window.open(bindUrl, '_blank');
             }
@@ -270,10 +293,10 @@
             }
         }
 
-        function openLinkWithParams(event, url, params)
+        function handleOpenLinkWithParams(event, url, params)
         {
-            if (event.ctrlKey) {
-                var queryString = $location.search(params).$$url;
+            if (isOpenNewTabEvent(event)) {
+                var queryString = getParamsQuery(params);
                 var bindUrl = '#' + url + queryString;
                 $window.open(bindUrl, '_blank');
             }

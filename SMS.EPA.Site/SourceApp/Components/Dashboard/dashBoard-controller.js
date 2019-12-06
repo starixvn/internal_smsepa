@@ -92,7 +92,7 @@
                 statusProcess: finished
             };
 
-            utilitiesFactory.openLinkWithParams(event, 'Evaluator/Index', params);
+            utilitiesFactory.handleOpenLinkWithParams(event, 'Evaluator/Index', params);
         }
 
         function goToManagementListing(periodId, finished, event) {
@@ -101,7 +101,7 @@
                 statusProcess: finished
             };
 
-            utilitiesFactory.openLinkWithParams(event, 'Management/Index', params);
+            utilitiesFactory.handleOpenLinkWithParams(event, 'Management/Index', params);
         }
 
         function goToReviewerListing(periodId, finished, isMonthly, event) {
@@ -111,15 +111,15 @@
                 statusProcess: finished
             };
 
-            utilitiesFactory.openLinkWithParams(event, 'Reviewer/Index', params);
+            utilitiesFactory.handleOpenLinkWithParams(event, 'Reviewer/Index', params);
         }
 
         function selfEvaluationDetail(epaId, event) {
-            utilitiesFactory.openLink(event, 'SelfEvaluation/Detail/' + epaId);
+            utilitiesFactory.handleOpenLink(event, 'SelfEvaluation/Detail/' + epaId);
         }
 
         function viewEPAResult(epaId, event) {
-            utilitiesFactory.openLink(event, 'EPA/Detail/' + epaId);
+            utilitiesFactory.handleOpenLink(event, 'EPA/Detail/' + epaId);
         }
     }
 })(angular);

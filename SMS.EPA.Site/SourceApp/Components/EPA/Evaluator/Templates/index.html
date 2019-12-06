@@ -147,7 +147,7 @@
                         {{epaInfo.FinalScore | customScore}} / {{epaInfo.Process.CurrentProcess.MaxPerformanceScore | customScore}}
                     </td>
                     <td class="text-center">
-                        <a href="#/EPA/Detail/{{epaInfo.EPAId}}" ng-show="epaInfo.LastFinalScore != null"
+                        <a class="link" ng-click="evaluatorCtrl.viewEPADetail(epaInfo, $event)" ng-show="epaInfo.LastFinalScore != null"
                            ng-bind="epaInfo.LastFinalScore | customScore"></a>
                         <div ng-show="epaInfo.LastFinalScore == null" ng-bind="'-'"></div>
                     </td>
@@ -155,12 +155,12 @@
                         <div ng-show="epaInfo.Process.CurrentProcess.Evaluated" class="glyphicon glyphicon-ok"></div>
                     </td>
                     <td class="text-center">
-                        <a data-translate="View" ng-click="evaluatorCtrl.viewEPAHistory(epaInfo.Employee.EmployeeId)" href=""></a>
+                        <a class="link" data-translate="View" ng-click="evaluatorCtrl.viewEPAHistory(epaInfo.Employee.EmployeeId, $event)"></a>
                     </td>
                     <td class="text-center text-uppercase col-action" ng-switch="epaInfo.IsAllowedToEdit">
-                        <a ng-switch-when="true" class="glyphicon glyphicon-edit icon-edit" href="#/Evaluator/Detail/{{epaInfo.EPAId}}"
+                        <a ng-switch-when="true" class="link glyphicon glyphicon-edit icon-edit" ng-click="evaluatorCtrl.viewEPAResult(epaInfo, $event)"
                            ng-attr-title='{{"EvaluateNow" | translate}}'></a>
-                        <a ng-switch-default class="glyphicon icon-view" href="#/EPA/Detail/{{epaInfo.EPAId}}"
+                        <a ng-switch-default class="link glyphicon icon-view" ng-click="evaluatorCtrl.viewEPAResult(epaInfo, $event)"
                            ng-attr-title='{{"ViewEPAResult" | translate}}'></a>
                     </td>
                 </tr>

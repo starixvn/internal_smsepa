@@ -10,7 +10,7 @@
         var vm = this;
 
         vm.menus = [];
-        vm.openLink = utilitiesFactory.openLink;
+        vm.openLink = utilitiesFactory.handleOpenLink;
 
         CommonModel.getMenusByEmployeeId().then(function () {
             vm.menus = CommonModel.menus;

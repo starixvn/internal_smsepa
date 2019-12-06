@@ -5,7 +5,6 @@
 
     angular.module('epaModule').controller('ManagementController', managementController);
     managementController.$inject = [
-        '$location',
         '$translate',
         '$routeParams',
         'EvaluationModel',
@@ -20,7 +19,6 @@
     ];
 
     function managementController(
-        $location,
         $translate,
         $routeParams,
         EvaluationModel,
@@ -267,17 +265,44 @@
             });
         };
 
-        vm.viewEPADetail = function (epaInfo) {
-            if (ReviewerManagementModel.checkAdjustScoreChanged(vm.epaInfos)) {
-                ReviewerManagementModel.openPopupRemindSaveChange(vm).then(function () {
-                })['finally'](function () {
-                    vm.modalInstance = '';
-                });
+        vm.viewEPADetail = function (epaInfo, event) {
+            var url = 'Management/Detail/' + epaInfo.EPAId;
+
+            if (utilitiesFactory.isOpenNewTabEvent(event)) {
+                utilitiesFactory.handleOpenLink(event, url);
+            }
+            else {
+                if (ReviewerManagementModel.checkAdjustScoreChanged(vm.epaInfos)) {
+                    ReviewerManagementModel.openPopupRemindSaveChange(vm).then(function () {
+                        utilitiesFactory.handleOpenLink(event, url);
+                    })['finally'](function () {
+                        vm.modalInstance = '';
+                    });
+                }
+                else {
+                    utilitiesFactory.handleOpenLink(event, url);
+                }
             }
         };
 
-        vm.viewEPAResult = function (epaId) {
-            $location.path(baseUrl + 'EPA/Detail/' + epaId);
+        vm.viewEPAResult = function (epaId, event) {
+            var url = baseUrl + 'EPA/Detail/' + epaId;
+
+            if (utilitiesFactory.isOpenNewTabEvent(event)) {
+                utilitiesFactory.handleOpenLink(event, url);
+            }
+            else {
+                if (ReviewerManagementModel.checkAdjustScoreChanged(vm.epaInfos)) {
+                    ReviewerManagementModel.openPopupRemindSaveChange(vm).then(function () {
+                        utilitiesFactory.handleOpenLink(event, url);
+                    })['finally'](function () {
+                        vm.modalInstance = '';
+                    });
+                }
+                else {
+                    utilitiesFactory.handleOpenLink(event, url);
+                }
+            }
         };
 
         vm.checkAll = function (selectedAll) {
