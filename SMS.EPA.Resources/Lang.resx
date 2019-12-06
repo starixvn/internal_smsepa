@@ -547,10 +547,10 @@
     <value>Manage Flow Setting</value>
   </data>
   <data name="EvaluatorRangeDateGreaterThanReviewerRangeDateWarning" xml:space="preserve">
-    <value>The End Date of Evaluator must be less than or equal the Start Date of Reviewer!</value>
+    <value>The End Date of Evaluator must be less than the Start Date of Reviewer!</value>
   </data>
   <data name="ReviewerRangeDateGreaterThanManagementRangeDateWarning" xml:space="preserve">
-    <value>The End Date of Reviewer must be less than or equal the Start Date of Management!</value>
+    <value>The End Date of Reviewer must be less than the Start Date of Management!</value>
   </data>
   <data name="StartDateGreaterThanEndDateWarning" xml:space="preserve">
     <value>The Start Date must be less than or equal the End Date!</value>
@@ -769,10 +769,10 @@
     <value>Please select at least an employee before editing setting!</value>
   </data>
   <data name="HRRangeDateGreaterThanSelfRangeDateWarning" xml:space="preserve">
-    <value>The End Date of Human Resources must be less than or equal the Start Date of Self Evaluator!</value>
+    <value>The End Date of Human Resources must be less than the Start Date of Self Evaluator!</value>
   </data>
   <data name="SelfRangeDateGreaterThanEvaluatorRangeDateWarning" xml:space="preserve">
-    <value>The End Date of Self Evaluator must be less than or equal the Start Date of Evaluator!</value>
+    <value>The End Date of Self Evaluator must be less than the Start Date of Evaluator!</value>
   </data>
   <data name="TotalScore" xml:space="preserve">
     <value>Total Score</value>
@@ -1036,7 +1036,7 @@
     <value>Please setting flow for Human Resource!</value>
   </data>
   <data name="EvaluatorRangeDateGreaterThanManagementRangeDateWarning" xml:space="preserve">
-    <value>The End Date of Evaluator must be less than or equal the Start Date of Management!</value>
+    <value>The End Date of Evaluator must be less than the Start Date of Management!</value>
   </data>
   <data name="EPASummaryReportName" xml:space="preserve">
     <value>EPA_Summary_Report</value>
@@ -1195,7 +1195,7 @@
     <value>End Period</value>
   </data>
   <data name="DisciplineStartDateGreaterThanEndDateWarning" xml:space="preserve">
-    <value>The Discipline Start Date must be less than or equal the Discipline End Date!</value>
+    <value>The Discipline Start Date must be less than the Discipline End Date!</value>
   </data>
   <data name="ViewOtherViolation" xml:space="preserve">
     <value>View other violation</value>

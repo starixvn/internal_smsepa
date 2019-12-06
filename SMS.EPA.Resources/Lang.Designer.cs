@@ -19,7 +19,7 @@ namespace SMS.EPA.Resources {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "16.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     public class Lang {
@@ -781,7 +781,7 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The Discipline Start Date must be less than or equal the Discipline End Date!.
+        ///   Looks up a localized string similar to The Discipline Start Date must be less than the Discipline End Date!.
         /// </summary>
         public static string DisciplineStartDateGreaterThanEndDateWarning {
             get {
@@ -1357,7 +1357,7 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The End Date of Evaluator must be less than or equal the Start Date of Management!.
+        ///   Looks up a localized string similar to The End Date of Evaluator must be less than the Start Date of Management!.
         /// </summary>
         public static string EvaluatorRangeDateGreaterThanManagementRangeDateWarning {
             get {
@@ -1366,7 +1366,7 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The End Date of Evaluator must be less than or equal the Start Date of Reviewer!.
+        ///   Looks up a localized string similar to The End Date of Evaluator must be less than the Start Date of Reviewer!.
         /// </summary>
         public static string EvaluatorRangeDateGreaterThanReviewerRangeDateWarning {
             get {
@@ -1645,7 +1645,7 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The End Date of Human Resources must be less than or equal the Start Date of Self Evaluator!.
+        ///   Looks up a localized string similar to The End Date of Human Resources must be less than the Start Date of Self Evaluator!.
         /// </summary>
         public static string HRRangeDateGreaterThanSelfRangeDateWarning {
             get {
@@ -2860,7 +2860,7 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The End Date of Reviewer must be less than or equal the Start Date of Management!.
+        ///   Looks up a localized string similar to The End Date of Reviewer must be less than the Start Date of Management!.
         /// </summary>
         public static string ReviewerRangeDateGreaterThanManagementRangeDateWarning {
             get {
@@ -3139,7 +3139,7 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The End Date of Self Evaluator must be less than or equal the Start Date of Evaluator!.
+        ///   Looks up a localized string similar to The End Date of Self Evaluator must be less than the Start Date of Evaluator!.
         /// </summary>
         public static string SelfRangeDateGreaterThanEvaluatorRangeDateWarning {
             get {

@@ -2,19 +2,19 @@
     <div class="bs-example-js-navbar-collapse">
         <ul class="nav navbar-nav" ng-repeat="menu in menuCtrl.menus">
             <li class="dropdown" uib-dropdown ng-if="menu.MenuItems && menu.MenuItems.length > 0">
-                <a id="drop{{$index}}" href="#" data-role="button" class="dropdown-toggle" uib-dropdown-toggle>
+                <a id="drop{{$index}}" ng-click="openLink($event, '#')" data-role="button" class="dropdown-toggle" uib-dropdown-toggle>
                     {{menu.MenuName}}<b class="caret"></b>
                 </a>
                 <ul class="dropdown-menu" data-role="button" aria-labelledby="drop{{$index}}">
                     <li data-role="presentation" ng-repeat="childMenu in menu.MenuItems">
-                        <a data-role="menuitem" tabindex="-1" href="" data-menu-tab data-link="{{::childMenu.MenuLink}}">
+                        <a data-role="menuitem" tabindex="-1" data-menu-tab ng-click="menuCtrl.openLink($event, childMenu.MenuLink)">
                             {{childMenu.MenuName}}
                         </a>
                     </li>
                 </ul>
             </li>
             <li ng-if="!menu.MenuItems || menu.MenuItems.length === 0">
-                <a href="" data-menu-tab data-link="{{::menu.MenuLink}}">{{menu.MenuName}}</a>
+                <a href="" data-menu-tab ng-click="menuCtrl.openLink($event, menu.MenuLink)">{{menu.MenuName}}</a>
             </li>
         </ul>
     </div>

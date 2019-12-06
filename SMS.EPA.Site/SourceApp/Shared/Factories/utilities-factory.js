@@ -4,9 +4,9 @@
     /* global moment */
 
     angular.module('appModule').factory('utilitiesFactory', utilitiesFactory);
-    utilitiesFactory.$inject = ['$filter'];
+    utilitiesFactory.$inject = ['$filter', '$location', '$window'];
 
-    function utilitiesFactory($filter) {
+    function utilitiesFactory($filter, $location, $window) {
         var limitNumber = 100,
             dateFormat = "dd MMM, yyyy",
             dateTimeFormatString = "MM/DD/YYYY HH:mm",
@@ -76,7 +76,8 @@
             setSelectedItem: setSelectedItem,
             splitNumber: splitNumber,
             processStatus: processStatus,
-            targetType: targetType
+            targetType: targetType,
+            openLink : openLink
         };
 
         utilities.parseFloat = function (input) {
@@ -255,6 +256,16 @@
             }
 
             return result;
+        }
+
+        function openLink(event, url) {
+            if (event.ctrlKey) {
+                var bindUrl = '#' + url;
+                $window.open(bindUrl, '_blank');
+            }
+            else {
+                $location.path(url);
+            }
         }
     }
 })(angular);
