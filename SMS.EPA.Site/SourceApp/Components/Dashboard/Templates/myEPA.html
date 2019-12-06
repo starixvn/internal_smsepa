@@ -51,10 +51,10 @@
                 <div ng-show="!epaInfo.IsClosed" data-translate="Pending"></div>
             </td>
             <td class="text-center col-action">
-                <a class="glyphicon glyphicon-edit icon-edit" href="#/SelfEvaluation/Detail/{{epaInfo.EPAId}}"
+                <a class="glyphicon glyphicon-edit icon-edit" ng-click="dashboardCtrl.selfEvaluationDetail(epaInfo.EPAId, $event)"
                    ng-if="epaInfo.EPAId > 0 && (epaInfo.IsAllowedToEdit || !epaInfo.IsEndProcessBySelf)"
                    ng-attr-title='{{"EvaluateNow" | translate}}'></a>
-                <a class="glyphicon icon-view" href="#/EPA/Detail/{{epaInfo.EPAId}}" 
+                <a class="glyphicon icon-view" ng-click="dashboardCtrl.viewEPAResult(epaInfo.EPAId, $event)"
                    ng-if="epaInfo.EPAId > 0 && !(epaInfo.IsAllowedToEdit || !epaInfo.IsEndProcessBySelf)"
                    ng-attr-title='{{"ViewEPAResult" | translate}}'></a>
             </td>

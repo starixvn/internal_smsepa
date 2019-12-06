@@ -28,34 +28,34 @@
                             <td class="text-center" ng-bind="$index + 1"></td>
                             <td ng-bind="period.Name"></td>
                             <td class="text-center" ng-if="dashboardCtrl.todoList.HasEvaluator">
-                                <a href="" ng-bind="period.UnfinishedByEvaluator" ng-if="period.UnfinishedByEvaluator > 0"
-                                   ng-click="dashboardCtrl.goToEvaluatorListing(period.PeriodId, false, period.IsMonthly)"></a>
+                                <a ng-bind="period.UnfinishedByEvaluator" ng-if="period.UnfinishedByEvaluator > 0"
+                                   ng-click="dashboardCtrl.goToEvaluatorListing(period.PeriodId, false, period.IsMonthly, $event)"></a>
                                 <span ng-if="period.UnfinishedByEvaluator === 0">0</span>
                             </td>
                             <td class="text-center" ng-if="dashboardCtrl.todoList.HasEvaluator">
-                                <a href="" ng-bind="period.FinishedByEvaluator" ng-if="period.FinishedByEvaluator > 0"
-                                   ng-click="dashboardCtrl.goToEvaluatorListing(period.PeriodId, true, period.IsMonthly)"></a>
+                                <a ng-bind="period.FinishedByEvaluator" ng-if="period.FinishedByEvaluator > 0"
+                                   ng-click="dashboardCtrl.goToEvaluatorListing(period.PeriodId, true, period.IsMonthly, $event)"></a>
                                 <span ng-if="period.FinishedByEvaluator === 0">0</span>
                             </td>
                             <td class="text-center" ng-if="dashboardCtrl.todoList.HasReviewer">
-                                <a href="" ng-bind="period.UnfinishedByReviewer" ng-if="period.UnfinishedByReviewer > 0"
-                                   ng-click="dashboardCtrl.goToReviewerListing(period.PeriodId, false, period.IsMonthly)"></a>
+                                <a ng-bind="period.UnfinishedByReviewer" ng-if="period.UnfinishedByReviewer > 0"
+                                   ng-click="dashboardCtrl.goToReviewerListing(period.PeriodId, false, period.IsMonthly, $event)"></a>
                                 <span ng-if="period.UnfinishedByReviewer === 0">0</span>
                             </td>
                             <td class="text-center" ng-if="dashboardCtrl.todoList.HasReviewer">
-                                <a href="" ng-bind="period.FinishedByReviewer"
+                                <a ng-bind="period.FinishedByReviewer"
                                    ng-if="period.FinishedByReviewer > 0"
-                                   ng-click="dashboardCtrl.goToReviewerListing(period.PeriodId, true, period.IsMonthly)"></a>
+                                   ng-click="dashboardCtrl.goToReviewerListing(period.PeriodId, true, period.IsMonthly, $event)"></a>
                                 <span ng-if="period.FinishedByReviewer === 0">0</span>
                             </td>
                             <td class="text-center" ng-if="dashboardCtrl.todoList.HasManagement">
-                                <a href="" ng-bind="period.UnfinishedByManagement" ng-if="period.UnfinishedByManagement > 0"
-                                   ng-click="dashboardCtrl.goToManagementListing(period.PeriodId, false)"></a>
+                                <a ng-bind="period.UnfinishedByManagement" ng-if="period.UnfinishedByManagement > 0"
+                                   ng-click="dashboardCtrl.goToManagementListing(period.PeriodId, false, $event)"></a>
                                 <span ng-if="period.UnfinishedByManagement === 0">0</span>
                             </td>
                             <td class="text-center" ng-if="dashboardCtrl.todoList.HasManagement">
-                                <a href="" ng-bind="period.FinishedByManagement" ng-if="period.FinishedByManagement > 0"
-                                   ng-click="dashboardCtrl.goToManagementListing(period.PeriodId, true)"></a>
+                                <a ng-bind="period.FinishedByManagement" ng-if="period.FinishedByManagement > 0"
+                                   ng-click="dashboardCtrl.goToManagementListing(period.PeriodId, true, $event)"></a>
                                 <span ng-if="period.FinishedByManagement === 0">0</span>
                             </td>
                         </tr>

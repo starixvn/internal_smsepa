@@ -85,35 +85,41 @@
             }
         }
 
-        function goToEvaluatorListing(periodId, finished, isMonthly) {
-            $location.path(baseUrl + 'Evaluator/Index').search({
+        function goToEvaluatorListing(periodId, finished, isMonthly, event) {
+            var params = {
                 periodId: periodId,
                 isMonthly: isMonthly,
                 statusProcess: finished
-            });
+            };
+
+            utilitiesFactory.openLinkWithParams(event, 'Evaluator/Index', params);
         }
 
-        function goToManagementListing(periodId, finished) {
-            $location.path(baseUrl + 'Management/Index').search({
+        function goToManagementListing(periodId, finished, event) {
+            var params = {
                 periodId: periodId,
                 statusProcess: finished
-            });
+            };
+
+            utilitiesFactory.openLinkWithParams(event, 'Management/Index', params);
         }
 
-        function goToReviewerListing(periodId, finished, isMonthly) {
-            $location.path(baseUrl + 'Reviewer/Index').search({
+        function goToReviewerListing(periodId, finished, isMonthly, event) {
+            var params = {
                 periodId: periodId,
                 isMonthly: isMonthly,
                 statusProcess: finished
-            });
+            };
+
+            utilitiesFactory.openLinkWithParams(event, 'Reviewer/Index', params);
         }
 
-        function selfEvaluationDetail(epa) {
-            $location.path(baseUrl + 'SelfEvaluation/Detail/' + epa.EPAId);
+        function selfEvaluationDetail(epaId, event) {
+            utilitiesFactory.openLink(event, 'SelfEvaluation/Detail/' + epaId);
         }
 
-        function viewEPAResult(epa) {
-            $location.path(baseUrl + 'EPA/Detail/' + epa.EPAId);
+        function viewEPAResult(epaId, event) {
+            utilitiesFactory.openLink(event, 'EPA/Detail/' + epaId);
         }
     }
 })(angular);

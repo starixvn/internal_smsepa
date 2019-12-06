@@ -77,7 +77,8 @@
             splitNumber: splitNumber,
             processStatus: processStatus,
             targetType: targetType,
-            openLink : openLink
+            openLink: openLink,
+            openLinkWithParams: openLinkWithParams
         };
 
         utilities.parseFloat = function (input) {
@@ -259,12 +260,25 @@
         }
 
         function openLink(event, url) {
+            debugger;
             if (event.ctrlKey) {
                 var bindUrl = '#' + url;
                 $window.open(bindUrl, '_blank');
             }
             else {
                 $location.path(url);
+            }
+        }
+
+        function openLinkWithParams(event, url, params)
+        {
+            if (event.ctrlKey) {
+                var queryString = $location.search(params).$$url;
+                var bindUrl = '#' + url + queryString;
+                $window.open(bindUrl, '_blank');
+            }
+            else {
+                $location.path(url).search(params);
             }
         }
     }
