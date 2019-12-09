@@ -243,13 +243,14 @@
         {
             if (monthlyEPA.MonthlyEPAs.Any())
             {
+                const byte numOfFragtionalDigits = 2;
                 float averageScore;
                 ScoreRatingTypeModel monthlyScoreRatingType = monthlyEPA.MonthlyEPAs.First().ScoreRatingType;
 
                 if (monthlyEPA.AverageSelfScore.HasValue)
                 {
                     averageScore = monthlyEPA.AverageSelfScore.Value * scoreRatingType.SelfEvaluated / monthlyScoreRatingType.SelfEvaluated;
-                    monthlyEPA.AverageSelfScoreConverted = (float)Math.Round(averageScore, 2);
+                    monthlyEPA.AverageSelfScoreConverted = (float)Math.Round(averageScore, numOfFragtionalDigits);
                 }
                 else
                 {
@@ -259,7 +260,7 @@
                 if (monthlyEPA.AverageEvaluatorScores.HasValue)
                 {
                     averageScore = monthlyEPA.AverageEvaluatorScores.Value * scoreRatingType.Evaluator / monthlyScoreRatingType.Evaluator;
-                    monthlyEPA.AverageEvaluatorScoreConverted = (float)Math.Round(averageScore, 2);
+                    monthlyEPA.AverageEvaluatorScoreConverted = (float)Math.Round(averageScore, numOfFragtionalDigits);
                 }
                 else
                 {
@@ -269,7 +270,7 @@
                 if (monthlyEPA.AverageReviewerScores.HasValue)
                 {
                     averageScore = monthlyEPA.AverageReviewerScores.Value * scoreRatingType.Reviewer / monthlyScoreRatingType.Reviewer;
-                    monthlyEPA.AverageReviewerScoreConverted = (float)Math.Round(averageScore, 2);
+                    monthlyEPA.AverageReviewerScoreConverted = (float)Math.Round(averageScore, numOfFragtionalDigits);
                 }
                 else
                 {
@@ -280,6 +281,9 @@
 
         public void ExportEPAAfterUpdateFinalScore(string periodName, IList<EPAModel> epaInfos, string templatePath)
         {
+            const int headerRowIndex = 2;
+            const int numOfColumns = 9;
+
             if (epaInfos != null && epaInfos.Any())
             {
                 var writer = new ExcelTemplateWriter(templatePath, "Update_Final_Score", "Update Final Score");
@@ -289,11 +293,11 @@
                 writer.CopyRows(1, 1);
 
                 // Fill report header.
-                writer.CopyRows(2, 1);
+                writer.CopyRows(headerRowIndex, 1);
 
                 FillContentRow(epaInfos, ref writer);
-                writer.SyncColumnsWidth(9);
-                writer.CreateFreezePane(0, 3);
+                writer.SyncColumnsWidth(numOfColumns);
+                writer.CreateFreezePane(0, headerRowIndex + 1);
 
                 writer.Render();
             }
@@ -450,9 +454,7 @@
                 case (int)ProcessType.Reviewer:
                     epaInfo.FinalScoreToExport = epaInfo.Process.AverageScoreByReviewers.HasValue
                         ? GetAverageTotalScore(epaInfo.Process.AverageScoreByReviewers, disciplineScore)
-                        : epaInfo.MonthlyEPA.AverageReviewerScoreConverted.HasValue
-                            ? GetAverageTotalScore(epaInfo.MonthlyEPA.AverageReviewerScoreConverted, disciplineScore)
-                            : Lang.NotAvailable;
+                        : GetAverageTotalScore(epaInfo.MonthlyEPA.AverageReviewerScoreConverted, disciplineScore);
                     break;
 
                 default:
@@ -548,8 +550,10 @@
 
         private static void FillRow(EPAModel epaInfo, ref ExcelTemplateWriter writer, ref int rowIndex)
         {
+            const int writeRowIndex = 3;
+
             object record = CreateRecord(epaInfo, ref rowIndex);
-            writer.WriteRow(3, record);
+            writer.WriteRow(writeRowIndex, record);
         }
 
         private static object CreateRecord(EPAModel epaInfo, ref int rowIndex)

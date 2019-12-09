@@ -139,7 +139,11 @@
             string grade)
         {
             float? finalScore = performanceScore + disciplineScore;
-            finalScore = finalScore.HasValue ? (finalScore.Value > Constants.MaxFinalScore ? Constants.MaxFinalScore : finalScore.Value) : finalScore;
+
+            if (finalScore.HasValue)
+            {
+                finalScore = finalScore.Value > Constants.MaxFinalScore ? Constants.MaxFinalScore : finalScore.Value;
+            }
 
             string finalScoreEncrypt = finalScore.HasValue
                 ? cryptographyService.Encrypt(finalScore.Value.ToString(CultureInfo.InvariantCulture))

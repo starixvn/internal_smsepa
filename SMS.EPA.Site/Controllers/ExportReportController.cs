@@ -77,6 +77,7 @@
 
         public ActionResult ExportDisciplineSummaryForOtherSystemReport(GetDisciplineSummaryForOtherSystemCriteria criteria)
         {
+            const int contentFirstRowIndex = 3;
             if (criteria != null)
             {
                 IEnumerable<DisciplineSummaryForOtherSystem> employeeDisciplines = _disciplineService.GetDisciplineSummaryForOtherSystem(criteria);
@@ -89,7 +90,7 @@
 
                     _exportExcelService.InitializeWithTemplate(Server.MapPath(DisciplineSummaryByPeriodTemplatePath));
 
-                    _exportExcelService.ContentRowStartIndex = 3;
+                    _exportExcelService.ContentRowStartIndex = contentFirstRowIndex;
                     CreateRedStyleForDisciplineSummaryByPeriodReport();
 
                     _exportExcelService.ExportWithTemplate(employeeDisciplines, true, true);
@@ -101,6 +102,7 @@
 
         public ActionResult ExportDisciplineSummaryReport(GetDisciplineSummaryCriteria criteria)
         {
+            const int contentFirstRowIndex = 3;
             if (criteria != null)
             {
                 criteria.ApproverId = _sessionService.CurrentUser.EmployeeId;
@@ -114,7 +116,7 @@
                     _exportExcelService.Title = GetDisciplineSummaryReportTitle(criteria);
 
                     _exportExcelService.InitializeWithTemplate(Server.MapPath(DisciplineSummaryTemplatePath));
-                    _exportExcelService.ContentRowStartIndex = 4;
+                    _exportExcelService.ContentRowStartIndex = contentFirstRowIndex;
 
                     CreateRedStyleForDisciplineSummaryReport();
 
@@ -272,6 +274,7 @@
         {
             if (criteria != null)
             {
+                const int contentFirstRowIndex = 3;
                 IList<TargetEmployeeSetting> datas = _targetEmployeeSettingService.GetTargetEmployeeSetting(criteria);
 
                 _exportExcelService.FileName = "Target_Personnel_Setting";
@@ -279,7 +282,7 @@
                 _exportExcelService.Title = "Target Personnel Setting";
 
                 _exportExcelService.InitializeWithTemplate(Server.MapPath(TargetPersonnelSettingTemplate));
-                _exportExcelService.ContentRowStartIndex = 3;
+                _exportExcelService.ContentRowStartIndex = contentFirstRowIndex;
 
                 _exportExcelService.ExportWithTemplate(datas, true);
             }
@@ -372,22 +375,12 @@
 
         private void CreateRedStyleForDisciplineSummaryByPeriodReport()
         {
-            // Style
-            int redStyleIndex = _exportExcelService.CreateNewColumnStyle();
-            ICellStyle style = _exportExcelService.ColumnsStyles[redStyleIndex];
-            IFont redFont = _exportExcelService.Workbook.CreateFont();
-            redFont.Color = HSSFColor.Red.Index;
-            style.SetFont(redFont);
-
-            for (int i = 8; i <= 20; i++)
-            {
-                ConditionalCellStyle redStyle = CreateCellStyleIfLessThanZero(redStyleIndex, i);
-                _exportExcelService.ConditionalCellStyles.Add(redStyle);
-            }
+            CreateRedStyleForDisciplineSummaryReport();
         }
 
         private void CreateRedStyleForDisciplineSummaryReport()
         {
+            const int lastCollumnIndex = 20;
             // Style
             int redStyleIndex = _exportExcelService.CreateNewColumnStyle();
             ICellStyle style = _exportExcelService.ColumnsStyles[redStyleIndex];
@@ -395,7 +388,7 @@
             redFont.Color = HSSFColor.Red.Index;
             style.SetFont(redFont);
 
-            for (int i = 8; i <= 20; i++)
+            for (int i = 8; i <= lastCollumnIndex; i++)
             {
                 ConditionalCellStyle redStyle = CreateCellStyleIfLessThanZero(redStyleIndex, i);
                 _exportExcelService.ConditionalCellStyles.Add(redStyle);

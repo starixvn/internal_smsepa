@@ -16,6 +16,7 @@
     using System.IO;
     using System.Linq;
 
+    [SuppressMessage("Major Code Smell", "S109:Magic numbers should not be used", Justification = "<Pending>")]
     public abstract class EPADetailReportServiceBase : IEPADetailReportService
     {
         protected const int ExcelColumnWidth = 256;

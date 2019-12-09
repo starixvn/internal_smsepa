@@ -10,7 +10,7 @@
         {
             if (str == null)
             {
-                return null;
+                return new byte[0];
             }
 
             using (var output = new MemoryStream())

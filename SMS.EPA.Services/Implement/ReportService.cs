@@ -21,6 +21,7 @@
     using Repositories;
     using Resources;
 
+    [SuppressMessage("Major Code Smell", "S109:Magic numbers should not be used", Justification = "<Pending>")]
     public class ReportService : IReportService
     {
         private const int ExcelColumnWidth = 256;
@@ -305,6 +306,9 @@
 
         private static MemoryStream ExportEPASummaryReport(EPASummaryModel epaSummary, string title)
         {
+            const short fontHeight = 18;
+            const int tableHeaderRowIndex = 3;
+
             IList<string> titleHeaders = new List<string>
             {
                 Lang.SymbolCount,
@@ -322,7 +326,7 @@
             IRow rowTitle = sheet.CreateRow(0);
 
             IFont font = workbook.CreateFont();
-            font.FontHeightInPoints = 18;
+            font.FontHeightInPoints = fontHeight;
             font.Boldweight = (short)FontBoldWeight.Bold;
 
             ICell cell = rowTitle.CreateCell(0);
@@ -338,7 +342,7 @@
 
             RenderHeaderEPASummaryReport(epaSummary.PeriodSelecteds, ref workbook, ref sheet, titleHeaders);
             RenderContentRowEPASummaryReport(epaSummary, ref workbook, ref sheet);
-            sheet.CreateFreezePane(0, 4);
+            sheet.CreateFreezePane(0, tableHeaderRowIndex + 1);
 
             MemoryStream output = null;
             try
@@ -363,7 +367,9 @@
             string grade,
             IFont redFont = null)
         {
-            ICell cellBody = row.CreateCell(8 + (2 * i));
+            int summaryColIndex = 8 + (2 * i);
+
+            ICell cellBody = row.CreateCell(summaryColIndex);
             cellBody.CellStyle = bodyStyle;
             if (redFont != null)
             {
@@ -371,9 +377,9 @@
             }
 
             cellBody.SetCellValue(finalScore);
-            SetColumnWidth(ref sheet, 8 + (2 * i), 14);
+            SetColumnWidth(ref sheet, summaryColIndex, 14);
 
-            cellBody = row.CreateCell(8 + ((2 * i) + 1));
+            cellBody = row.CreateCell(summaryColIndex + 1);
             cellBody.CellStyle = bodyStyle;
             if (redFont != null)
             {
@@ -381,17 +387,18 @@
             }
 
             cellBody.SetCellValue(grade);
-            SetColumnWidth(ref sheet, 8 + ((2 * i) + 1), 10);
+            SetColumnWidth(ref sheet, summaryColIndex + 1, 10);
         }
 
         private static string GetFinalScoreString(EPASummaryPeriodModel period)
         {
+            const int numOfFractionalDigits = 2;
             string finalScore = string.Empty;
             if (period != null)
             {
                 finalScore = string.IsNullOrEmpty(period.FinalScore)
                     ? Lang.NotAvailable
-                    : Math.Round(float.Parse(period.FinalScore), 2).ToString(CultureInfo.InvariantCulture);
+                    : Math.Round(float.Parse(period.FinalScore), numOfFractionalDigits).ToString(CultureInfo.InvariantCulture);
             }
 
             return finalScore;
@@ -477,15 +484,17 @@
                     }
                     else
                     {
-                        cellBody = row.CreateCell(8 + (2 * i));
-                        cellBody.CellStyle = bodyStyle;
-                        cellBody.SetCellValue("-");
-                        SetColumnWidth(ref sheet, 8 + (2 * i), 14);
+                        int summaryColumnIndex = 8 + (2 * i);
 
-                        cellBody = row.CreateCell(8 + ((2 * i) + 1));
+                        cellBody = row.CreateCell(summaryColumnIndex);
                         cellBody.CellStyle = bodyStyle;
                         cellBody.SetCellValue("-");
-                        SetColumnWidth(ref sheet, 8 + ((2 * i) + 1), 10);
+                        SetColumnWidth(ref sheet, summaryColumnIndex, 14);
+
+                        cellBody = row.CreateCell(summaryColumnIndex + 1);
+                        cellBody.CellStyle = bodyStyle;
+                        cellBody.SetCellValue("-");
+                        SetColumnWidth(ref sheet, summaryColumnIndex, 10);
                     }
                 }
 
@@ -499,8 +508,10 @@
             ref ISheet sheet,
             IList<string> titleHeaders)
         {
+            const int fontHeight = 11;
+
             IFont font = workbook.CreateFont();
-            font.FontHeightInPoints = 11;
+            font.FontHeightInPoints = fontHeight;
             font.Color = HSSFColor.White.Index;
             font.Boldweight = (short)FontBoldWeight.Bold;
 

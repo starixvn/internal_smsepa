@@ -25,6 +25,8 @@
             Title = title;
         }
 
+        const int defaultContentRowStart = 2;
+
         public IWorkbook Workbook { get; set; }
 
         public ISheet Sheet { get; set; }
@@ -33,7 +35,7 @@
 
         public int HeaderRowIndex { get; set; } = 1;
 
-        public int ContentRowStartIndex { get; set; } = 2;
+        public int ContentRowStartIndex { get; set; } = defaultContentRowStart;
 
         public int TotalColumns { get; private set; }
 

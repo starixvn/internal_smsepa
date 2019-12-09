@@ -54,7 +54,7 @@
                 promotionService.CheckPromotionPeriod();
                 processService.UpdateInfomationOfProcess();
 
-                Task.WaitAll(new[] {
+                Task.WhenAll(new[] {
                     Task.Factory.StartNew(() => { autoMailService.CheckAndSendMail(); }),
                     Task.Factory.StartNew(() => { evaluationPeriodService.CheckEndEvaluationPeriod(); })
                 });

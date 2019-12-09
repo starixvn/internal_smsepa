@@ -130,9 +130,12 @@
             string reviewerScore = Lang.NotAvailable;
             string managementScore = Lang.NotAvailable;
 
-            var disciplineScore = epaInfo.HasDisciplineScore
-                ? (epaInfo.DisciplineScore < 0 ? "0" : epaInfo.DisciplineScore.ToString(CultureInfo.InvariantCulture))
-                : (Math.Abs(epaInfo.DisciplineScore) > Constants.Tolerance ? epaInfo.DisciplineScore.ToString(CultureInfo.InvariantCulture) : "-");
+            var disciplineScore = Math.Abs(epaInfo.DisciplineScore) > Constants.Tolerance ? epaInfo.DisciplineScore.ToString(CultureInfo.InvariantCulture) : "-";
+
+            if (epaInfo.HasDisciplineScore)
+            {
+                disciplineScore = epaInfo.DisciplineScore < 0 ? "0" : epaInfo.DisciplineScore.ToString(CultureInfo.InvariantCulture);
+            }
 
             if (epaInfo.EPAId > 0)
             {

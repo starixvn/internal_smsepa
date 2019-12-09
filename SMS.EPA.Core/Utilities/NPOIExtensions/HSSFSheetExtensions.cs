@@ -71,11 +71,11 @@
         {
             CellRangeAddress sourceRange = null;
 
-            var index = 0;
+            const int firstIndex = 0;
             var isBreak = false;
-            while (index < sourceSheet.NumMergedRegions && !isBreak)
+            while (sourceSheet.NumMergedRegions > 0 && !isBreak)
             {
-                CellRangeAddress range = sourceSheet.GetMergedRegion(index);
+                CellRangeAddress range = sourceSheet.GetMergedRegion(firstIndex);
                 if (range.FirstColumn == sourceCell.ColumnIndex && range.FirstRow == sourceCell.RowIndex)
                 {
                     sourceRange = range;

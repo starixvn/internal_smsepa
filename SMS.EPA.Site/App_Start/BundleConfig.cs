@@ -5,7 +5,7 @@
 
     public static class BundleConfig
     {
-        [SuppressMessage("StyleCop.CSharp.StylecopPlus.Rules", "SP2101:MethodMustNotContainMoreLinesThan", Justification = "Reviewed. Suppression is OK here.")]
+        [SuppressMessage("Major Code Smell", "S138:Functions should not have too many lines of code", Justification = "<Pending>")]
         public static void RegisterBundles(BundleCollection bundles)
         {
             bundles.AddAndInclude(

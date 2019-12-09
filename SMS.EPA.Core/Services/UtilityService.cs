@@ -5,6 +5,7 @@
     using System.Web;
     using Constants;
 
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Major Code Smell", "S109:Magic numbers should not be used", Justification = "<Pending>")]
     public class UtilityService : IUtilityService
     {
         public string GetAvatar(string code)

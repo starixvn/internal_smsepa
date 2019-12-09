@@ -9,6 +9,7 @@
     using Fanex.Data.Repository;
     using Model;
 
+    [SuppressMessage("Minor Code Smell", "S1192:String literals should not be duplicated", Justification = "<Pending>")]
     public class EmployeeEPARepository : IEmployeeEPARepository
     {
         private readonly ICryptographyService cryptographyService;

@@ -5,12 +5,14 @@
 
     public static class ApplicationConfig
     {
+        const int milisecondUnit = 1000;
+
         public static double Interval
         {
             get
             {
                 var interval = ConfigurationManager.AppSettings["Interval"];
-                return double.Parse(interval) * 1000;
+                return double.Parse(interval) * milisecondUnit;
             }
         }
 

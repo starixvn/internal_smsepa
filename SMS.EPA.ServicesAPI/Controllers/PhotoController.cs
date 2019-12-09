@@ -22,7 +22,8 @@
             if (lastModifiedFile != null)
             {
                 // -2: for get different GMT+7 and GMT+8
-                lastModifiedDate = lastModifiedFile.LastWriteTime.AddHours(-2);
+                const int diffFromGMT7AndGMT8 = -2;
+                lastModifiedDate = lastModifiedFile.LastWriteTime.AddHours(diffFromGMT7AndGMT8);
             }
 
             return Ok(lastModifiedDate);

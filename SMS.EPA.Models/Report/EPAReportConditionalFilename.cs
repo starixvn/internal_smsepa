@@ -2,6 +2,7 @@
 {
     public class EPAReportConditionalFilename
     {
+        const byte middleMonth = 6;
         public PeriodModel Period { get; set; }
 
         public string EpaYear => Period?.StartDate?.Year.ToString() ?? string.Empty;
@@ -12,7 +13,7 @@
             {
                 if (Period?.StartDate != null)
                 {
-                    return Period.StartDate.Value.Month <= 6 ? "1H" : "2H";
+                    return Period.StartDate.Value.Month <= middleMonth ? "1H" : "2H";
                 }
 
                 return string.Empty;
