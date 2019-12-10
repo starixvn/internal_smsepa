@@ -76,9 +76,13 @@
                     </td>
                     <td class="target-template-action text-center" ng-if="targetTemplateCtrl.permission === targetTemplateCtrl.policyEnum.Host">
                         <div class="btn-group">
-                            <a class="link glyphicon glyphicon-download-alt icon-export" export-target-template-management ng-click="targetTemplateCtrl.exportTargetKPIs(targetTemplate.TargetTemplateId)"></a>
-                            <a class="glyphicon glyphicon-edit icon-edit" title="Edit" href="#/TargetTemplate/Update/{{targetTemplate.TargetTemplateId}}?viewInfo"></a>
-                            <a href="javascript:;" class="glyphicon glyphicon-remove icon-remove" title="Delete" ng-click="targetTemplateCtrl.deleteTargetTemplate(targetTemplate)"></a>
+                            <a class="link glyphicon glyphicon-download-alt icon-export" export-target-template-management title="Export Excel" ng-click="targetTemplateCtrl.exportTargetKPIs(targetTemplate.TargetTemplateId)"></a>
+                            <a class="glyphicon glyphicon-edit icon-edit" title="Edit" 
+                               href="#/TargetTemplate/Update/{{targetTemplate.TargetTemplateId}}?viewInfo"
+                               ng-if="targetTemplateCtrl.permission === targetTemplateCtrl.policyEnum.Host"></a>
+                            <a href="javascript:;" class="glyphicon glyphicon-remove icon-remove" title="Delete" 
+                               ng-click="targetTemplateCtrl.deleteTargetTemplate(targetTemplate)"
+                               ng-if="targetTemplateCtrl.permission === targetTemplateCtrl.policyEnum.Host"></a>
                         </div>
                     </td>
                 </tr>

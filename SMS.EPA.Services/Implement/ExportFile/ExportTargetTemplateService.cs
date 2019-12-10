@@ -5,6 +5,8 @@ using System.IO;
 using System.Linq;
 using NPOI.HSSF.UserModel;
 using NPOI.SS.UserModel;
+using SMS.EPA.Core.Constants;
+using SMS.EPA.Core.Services;
 using SMS.EPA.Core.Utilities.NPOIExtensions;
 using SMS.EPA.Model;
 using SMS.EPA.Services.Interfaces;
@@ -14,18 +16,17 @@ namespace SMS.EPA.Services.Implement
     public class ExportTargetTemplateService : IExportTargetTemplateService
     {
         private const int ContentStartRowIndex = 3;
-        private const int NumOfFracDigits = 2;
 
-        public IWorkbook Workbook { get; set; }
-        public ISheet Sheet { get; set; }
-        public string FileName { get; set; }
-        public string SheetName { get; set; }
-        public string TargetType { get; set; }
-        public string TargetName { get; set; }
-        public ICellStyle GroupNameStyle { get; set; }
-        public ICellStyle GroupWeightStyle { get; set; }
-        public ICellStyle KPIWeightStyle { get; set; }
-        public IEnumerable<TargetTemplateKPIGroupModel> KPIIds { get; set; }
+        private IWorkbook Workbook { get; set; }
+        private ISheet Sheet { get; set; }
+        private string FileName { get; set; }
+        private string SheetName { get; set; }
+        private string TargetType { get; set; }
+        private string TargetName { get; set; }
+        private ICellStyle GroupNameStyle { get; set; }
+        private ICellStyle GroupWeightStyle { get; set; }
+        private ICellStyle KPIWeightStyle { get; set; }
+        private IEnumerable<TargetTemplateKPIGroupModel> KPIIds { get; set; }
 
         public void Export(TargetTemplate targetTemplate, IEnumerable<TargetTemplateKPIGroupModel> kpis, string templatePath)
         {
@@ -46,6 +47,7 @@ namespace SMS.EPA.Services.Implement
             FileName = "KPI List - " + TargetName;
             SheetName = TargetName;
 
+            Workbook.SetSheetName(0, SheetName);
             GroupNameStyle = Sheet.GetRow(ContentStartRowIndex).GetCell(0).CellStyle;
             GroupWeightStyle = Sheet.GetRow(ContentStartRowIndex).GetCell(1).CellStyle;
             KPIWeightStyle = Sheet.GetRow(ContentStartRowIndex + 1).GetCell(1).CellStyle;
@@ -78,13 +80,13 @@ namespace SMS.EPA.Services.Implement
 
         private void FillContent()
         {
+            IUtilityService utilityService = new UtilityService();
             int rowIndex = ContentStartRowIndex;
 
             foreach (var kpiGroup in KPIIds)
             {
                 int colIndex = 0;
                 var curRow = Sheet.CreateRow(rowIndex);
-
                 var groupNameCell = curRow.CreateCell(colIndex++);
                 groupNameCell.SetCellValue(kpiGroup.Name);
                 groupNameCell.CellStyle = GroupNameStyle;
@@ -98,7 +100,7 @@ namespace SMS.EPA.Services.Implement
                 var selectedKPIs = kpiGroup.KPIs.Where(kpi => kpi.Selected == true);
                 double spreadWeight = 0;
                 spreadWeight = kpiGroup.IsSpreadKPI
-                    ? Math.Round(kpiGroup.Weight.Value / selectedKPIs.Count(), NumOfFracDigits)
+                    ? utilityService.SplitNumber(kpiGroup.Weight.Value / selectedKPIs.Count(), Constants.NumberOfDecimals)
                     : 0;
 
                 foreach (var kpi in selectedKPIs)

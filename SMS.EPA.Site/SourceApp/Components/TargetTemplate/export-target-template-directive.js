@@ -10,7 +10,7 @@
             link: function (scope) {
                 scope.$on('exportTargetTemplateManagement', function () {
                     var data = $.param(scope.targetTemplateCtrl.exportCriteria),
-                        url = baseUrl + 'ExportReport/ExportTargetTemplateKPIs',
+                        url = baseUrl + 'ExportTargetTemplate/ExportTargetTemplateKPIs',
                         downloadUrl = url + "?" + data,
                         iframe = $('body iframe');
 

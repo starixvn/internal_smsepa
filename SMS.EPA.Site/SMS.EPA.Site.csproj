@@ -221,6 +221,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controllers\Export\ExportTargetTemplateController.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <!-- Exclude the file from analysis -->
       <SonarQubeExclude>true</SonarQubeExclude>
@@ -260,8 +261,8 @@
     <Compile Include="Controllers\API\TargetEmployeeSettingController.cs" />
     <Compile Include="Controllers\API\TargetTemplateController.cs" />
     <Compile Include="Controllers\API\RoleController.cs" />
-    <Compile Include="Controllers\ExportPdfController.cs" />
-    <Compile Include="Controllers\ExportReportController.cs" />
+    <Compile Include="Controllers\Export\ExportPdfController.cs" />
+    <Compile Include="Controllers\Export\ExportReportController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\AuthController.cs" />
     <Compile Include="Global.asax.cs">
@@ -795,7 +796,6 @@
     </None>
     <Content Include="Libs\angularjs\angular-animate.min.js.map" />
     <Content Include="Content\Common\toastr.js.map" />
-    <Content Include="ExcelTemplates\TargetTemplateManagementTemplate.xls" />
     <Content Include="ExcelTemplates\TargetTemplateKPIsTemplate.xls" />
     <None Include="Libs\angularjs\angular-resource.min.js.map" />
     <None Include="Libs\angularjs\angular-route.min.js.map" />
@@ -915,6 +915,7 @@
     <Analyzer Include="..\packages\SonarAnalyzer.CSharp.7.14.0.8411\analyzers\SonarAnalyzer.CSharp.dll" />
     <Analyzer Include="..\packages\SonarAnalyzer.CSharp.7.14.0.8411\analyzers\SonarAnalyzer.dll" />
   </ItemGroup>
+  <ItemGroup />
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
