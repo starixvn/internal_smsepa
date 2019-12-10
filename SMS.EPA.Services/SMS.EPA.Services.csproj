@@ -104,6 +104,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Implement\BaseMailService.cs" />
+    <Compile Include="Implement\ExportFile\ExportTargetTemplateService.cs" />
+    <Compile Include="Interfaces\ExportFile\IExportTargetTemplateService.cs" />
     <Compile Include="Interfaces\IBaseMailService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <!-- Exclude the file from analysis -->

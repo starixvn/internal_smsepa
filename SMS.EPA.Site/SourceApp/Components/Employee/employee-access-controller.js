@@ -4,9 +4,9 @@
     /* jshint validthis:true */
 
     angular.module('employeeModule').controller('EmployeeController', employeeController);
-    employeeController.$inject = ['$window', '$scope', 'EmployeeModel', 'CommonModel', 'utilitiesFactory', 'lockScreenService'];
+    employeeController.$inject = ['$scope', 'EmployeeModel', 'CommonModel', 'utilitiesFactory', 'lockScreenService'];
 
-    function employeeController($window, $scope, EmployeeModel, CommonModel, utilitiesFactory, lockScreenService) {
+    function employeeController($scope, EmployeeModel, CommonModel, utilitiesFactory, lockScreenService) {
         var vm = this;
 
         vm.currentPage = 1;

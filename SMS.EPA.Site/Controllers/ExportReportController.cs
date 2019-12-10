@@ -32,6 +32,7 @@
         private const string PersonalFlowSettingTemplate = @"~\ExcelTemplates\PersonalFlowSettingTemplate.xls";
         private const string TargetPersonnelSettingTemplate = @"~\ExcelTemplates\TargetPersonnelSettingTemplate.xls";
         private const string UpdateFinalScoreTemplatePath = @"~\ExcelTemplates\UpdateFinalScore.xls";
+        private const string TargetTemplateKPIsTemplate = @"~\ExcelTemplates\TargetTemplateKPIsTemplate.xls";
         private readonly IDisciplineService _disciplineService;
         private readonly IEmployeeEPAService _employeeEPAService;
         private readonly IEmployeeService _employeeService;
@@ -43,9 +44,12 @@
         private readonly IReportService _reportService;
         private readonly ISessionService _sessionService;
         private readonly ITargetEmployeeSettingService _targetEmployeeSettingService;
+        private readonly IBaseService _baseService;
+        private readonly IExportTargetTemplateService _exportTargetTemplateService;
+        private readonly ITargetTemplateService _targetTemplateService;
 
         public ExportReportController()
-            : this(null, null, null, null, null, null, null, null, null, null, null)
+            : this(null, null, null, null, null, null, null, null, null, null, null, null, null, null)
         {
         }
 
@@ -60,7 +64,10 @@
             IPeriodService periodService,
             IEmployeeService employeeService,
             IPersonalFlowService personalFlowService,
-            ISessionService sessionService)
+            ISessionService sessionService,
+            IBaseService baseService,
+            IExportTargetTemplateService exportTargetTemplateService,
+            ITargetTemplateService targetTemplateService)
         {
             _reportService = reportService ?? new ReportService();
             _epaDetailReportService = epaDetailReportService ?? new EPADetailReportService();
@@ -73,6 +80,9 @@
             _periodService = periodService ?? new PeriodService();
             _employeeService = employeeService ?? new EmployeeService();
             _personalFlowService = personalFlowService ?? new PersonalFlowService();
+            _baseService = baseService ?? new BaseService();
+            _exportTargetTemplateService = exportTargetTemplateService ?? new ExportTargetTemplateService();
+            _targetTemplateService = targetTemplateService ?? new TargetTemplateService();
         }
 
         public ActionResult ExportDisciplineSummaryForOtherSystemReport(GetDisciplineSummaryForOtherSystemCriteria criteria)
@@ -274,7 +284,6 @@
         {
             if (criteria != null)
             {
-                const int contentFirstRowIndex = 3;
                 IList<TargetEmployeeSetting> datas = _targetEmployeeSettingService.GetTargetEmployeeSetting(criteria);
 
                 _exportExcelService.FileName = "Target_Personnel_Setting";
@@ -282,10 +291,30 @@
                 _exportExcelService.Title = "Target Personnel Setting";
 
                 _exportExcelService.InitializeWithTemplate(Server.MapPath(TargetPersonnelSettingTemplate));
-                _exportExcelService.ContentRowStartIndex = contentFirstRowIndex;
+                _exportExcelService.ContentRowStartIndex = DefaultContentRowStartIndexForTemplate;
 
                 _exportExcelService.ExportWithTemplate(datas, true);
             }
+
+            return new EmptyResult();
+        }
+
+        public ActionResult ExportTargetTemplateKPIs(int targetTemplateId)
+        {
+            var criteria = new GetTargetTemplateByIdCriteria
+            {
+                TargetTemplateId = targetTemplateId
+            };
+
+            var kpisCriteria = new GetKPIOfTargetTemplateCriteria
+            {
+                TargetTemplateId = targetTemplateId
+            };
+
+            TargetTemplate targetTemplate = _baseService.GetDataEntity<TargetTemplate>(criteria);
+            IEnumerable<TargetTemplateKPIGroupModel> kpis = _targetTemplateService.GetKPIOfTargetTemplate(kpisCriteria, false);
+
+            _exportTargetTemplateService.Export(targetTemplate, kpis, Server.MapPath(TargetTemplateKPIsTemplate));
 
             return new EmptyResult();
         }

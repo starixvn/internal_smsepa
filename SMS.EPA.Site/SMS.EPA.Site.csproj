@@ -593,6 +593,7 @@
     <Content Include="SourceApp\Components\TargetEmployeeSetting\target-personnel-setting-controller.js" />
     <Content Include="SourceApp\Components\TargetTemplate\add-kpi-group-controller.js" />
     <Content Include="SourceApp\Components\TargetTemplate\create-target-template-controller.js" />
+    <Content Include="SourceApp\Components\TargetTemplate\export-target-template-directive.js" />
     <Content Include="SourceApp\Components\TargetTemplate\general-info-controller.js" />
     <Content Include="SourceApp\Components\TargetTemplate\kpi-list-controller.js" />
     <Content Include="SourceApp\Components\TargetTemplate\tagert-template-detail-controller.js" />
@@ -794,6 +795,8 @@
     </None>
     <Content Include="Libs\angularjs\angular-animate.min.js.map" />
     <Content Include="Content\Common\toastr.js.map" />
+    <Content Include="ExcelTemplates\TargetTemplateManagementTemplate.xls" />
+    <Content Include="ExcelTemplates\TargetTemplateKPIsTemplate.xls" />
     <None Include="Libs\angularjs\angular-resource.min.js.map" />
     <None Include="Libs\angularjs\angular-route.min.js.map" />
     <Content Include="Libs\angularjs\angular-touch.min.js.map" />

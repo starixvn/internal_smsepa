@@ -106,6 +106,7 @@
                             "~/SourceApp/Components/TargetTemplate/update-target-template-controller.js",
                             "~/SourceApp/Components/TargetTemplate/add-kpi-group-controller.js",
                             "~/SourceApp/Components/TargetTemplate/kpi-list-controller.js",
+                            "~/SourceApp/Components/TargetTemplate/export-target-template-directive.js",
                             "~/SourceApp/Components/FlowManagement/flowSetting-model.js",
                             "~/SourceApp/Components/FlowManagement/flowTemplate-factory.js",
                             "~/SourceApp/Components/FlowManagement/flowTemplate-model.js",

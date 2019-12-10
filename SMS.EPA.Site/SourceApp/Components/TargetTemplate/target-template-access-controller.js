@@ -4,9 +4,9 @@
     /* jshint validthis:true */
 
     angular.module('targetTemplateModule').controller('TargetTemplateController', targetTemplateController);
-    targetTemplateController.$inject = ['$location', 'TargetTemplateModel', 'CommonModel', 'utilitiesFactory', 'lockScreenService', 'baseUrl'];
+    targetTemplateController.$inject = ['$scope', '$location', 'TargetTemplateModel', 'CommonModel', 'utilitiesFactory', 'lockScreenService', 'baseUrl'];
 
-    function targetTemplateController($location, TargetTemplateModel, CommonModel, utilitiesFactory, lockScreenService, baseUrl) {
+    function targetTemplateController($scope, $location, TargetTemplateModel, CommonModel, utilitiesFactory, lockScreenService, baseUrl) {
         var vm = this;
 
         vm.targetTypes = [];
@@ -78,6 +78,14 @@
             var url = baseUrl + 'TargetTemplate/Detail/' + targetTemplate.TargetTemplateId;
             utilitiesFactory.handleOpenLink(event, url);
         };
+
+        vm.exportTargetKPIs = function (targetTemplateId) {
+            vm.exportCriteria = {
+                targetTemplateId: targetTemplateId
+            };
+
+            $scope.$broadcast('exportTargetTemplateManagement');
+        }
 
         function initialize() {
             TargetTemplateModel.getPermissionOnTargetTemplate().then(function () {
