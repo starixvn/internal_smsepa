@@ -100,7 +100,7 @@ namespace SMS.EPA.Services.Implement
                 var selectedKPIs = kpiGroup.KPIs.Where(kpi => kpi.Selected == true);
                 double spreadWeight = 0;
                 spreadWeight = kpiGroup.IsSpreadKPI
-                    ? utilityService.SplitNumber(kpiGroup.Weight.Value / selectedKPIs.Count(), Constants.NumberOfDecimals)
+                    ? utilityService.SplitNumber(kpiGroup.Weight.Value / selectedKPIs.Count(), Constants.NumberOfDecimalDefault)
                     : 0;
 
                 foreach (var kpi in selectedKPIs)
