@@ -44,8 +44,10 @@
                 <strong ng-show="!evaluatorDetailCtrl.epaInfo.Process.Self.IsEndProcess" data-translate="Pending"></strong>
             </td>
             <td class="text-center width-120">
-                <input ng-if="kpi.CurrentEvaluation.Score === '0'" type="checkbox" checked id="zero_score_{{kpi.KPIId}}" ng-click="evaluatorDetailCtrl.setZeroScore(kpiGroup, kpi)" />
-                <input ng-if="kpi.CurrentEvaluation.Score !== '0'" type="checkbox" id="zero_score_{{kpi.KPIId}}" ng-click="evaluatorDetailCtrl.setZeroScore(kpiGroup, kpi)" />
+                <div>
+                    <input ng-if="kpi.CurrentEvaluation.Score === '0'" type="checkbox" checked id="zero_score_{{kpi.KPIId}}" ng-click="evaluatorDetailCtrl.setZeroScore(kpiGroup, kpi)" />
+                    <input ng-if="kpi.CurrentEvaluation.Score !== '0'" type="checkbox" id="zero_score_{{kpi.KPIId}}" ng-click="evaluatorDetailCtrl.setZeroScore(kpiGroup, kpi)" />
+                </div>
             </td>
             <td class="text-center width-250">
                 <div class="rating-by-star"

@@ -54,35 +54,32 @@ BEGIN
 		,period.TargetTypeId
 		,SUM(CASE 
 				WHEN pc.ProcessId = @ProcessByEvaluator
-					AND @Today > pc.EndDate THEN 1
+					AND pc.EvaluateDate is not null THEN 1
 				ELSE 0
 				END)
 		,SUM(CASE 
 				WHEN pc.ProcessId = @ProcessByEvaluator
-					AND @Today BETWEEN pc.StartDate
-						AND pc.EndDate THEN 1
+					AND pc.EvaluateDate is null THEN 1
 				ELSE 0
 				END)
 		,SUM(CASE 
 				WHEN pc.ProcessId = @ProcessByReviewer
-					AND @Today > pc.EndDate THEN 1
+					AND pc.EvaluateDate is not null THEN 1
 				ELSE 0
 				END)
 		,SUM(CASE 
 				WHEN pc.ProcessId = @ProcessByReviewer
-					AND @Today BETWEEN pc.StartDate
-						AND pc.EndDate THEN 1
+					AND pc.EvaluateDate is null THEN 1
 				ELSE 0
 				END)
 		,SUM(CASE 
 				WHEN pc.ProcessId = @ProcessByManageMent
-					AND @Today > pc.EndDate THEN 1
+					AND pc.EvaluateDate is not null THEN 1
 				ELSE 0
 				END)
 		,SUM(CASE 
 				WHEN pc.ProcessId = @ProcessByManageMent
-					AND @Today BETWEEN pc.StartDate
-						AND pc.EndDate THEN 1
+					AND pc.EvaluateDate is null THEN 1
 				ELSE 0
 				END)
 	FROM dbo.EPA AS epa WITH (NOLOCK)

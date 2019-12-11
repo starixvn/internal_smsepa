@@ -96,14 +96,13 @@ BEGIN
 			@StatusProcess IS NULL
 			OR (
 				@StatusProcess = 0
-				AND @Today BETWEEN pcEva.StartDate
-					AND pcEva.EndDate
+				AND pcEva.EvaluateDate is null
 				AND epa.HasMonthlyEPA = 0
 				)
 			OR (
 				@StatusProcess = 1
 				AND (
-					@Today > pcEva.EndDate
+					pcEva.EvaluateDate is not null
 					OR epa.HasMonthlyEPA = 1
 					)
 				)

@@ -81,12 +81,11 @@ BEGIN
 			@StatusProcess IS NULL
 			OR (
 				@StatusProcess = 0
-				AND @Today BETWEEN pc.StartDate
-					AND pc.EndDate
+				AND pc.EvaluateDate is null
 				)
 			OR (
 				@StatusProcess = 1
-				AND @Today > pc.EndDate
+				AND pc.EvaluateDate is not null
 				)
 			)
 
