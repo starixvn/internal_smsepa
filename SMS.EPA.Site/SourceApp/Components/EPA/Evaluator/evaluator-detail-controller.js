@@ -98,7 +98,6 @@
 
         vm.setZeroScore = function (kpiGroup, kpi) {
             var isChecked = $("#zero_score_" + kpi.KPIId).is(':checked');
-            debugger;
             if (isChecked) {
                 kpi.CurrentEvaluation.Rate = 0;
                 kpi.CurrentEvaluation.Score = 0;

@@ -180,7 +180,6 @@
         };
 
         vm.viewEPADetail = function (epaInfo, event) {
-            debugger;
             var url = baseUrl + 'Evaluator/Detail/' + epaInfo.EPAId;
             utilitiesFactory.handleOpenLink(event, url);
         };
