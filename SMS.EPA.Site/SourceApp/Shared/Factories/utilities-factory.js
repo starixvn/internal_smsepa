@@ -289,7 +289,7 @@
                 $window.open(bindUrl, '_blank');
             }
             else {
-                $location.path(url);
+                $location.path(url).search({});
             }
         }
 

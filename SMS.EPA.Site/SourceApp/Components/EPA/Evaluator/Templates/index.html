@@ -158,7 +158,7 @@
                         <a class="link" data-translate="View" ng-click="evaluatorCtrl.viewEPAHistory(epaInfo.Employee.EmployeeId, $event)"></a>
                     </td>
                     <td class="text-center text-uppercase col-action" ng-switch="epaInfo.IsAllowedToEdit">
-                        <a ng-switch-when="true" class="link glyphicon glyphicon-edit icon-edit" ng-click="evaluatorCtrl.viewEPAResult(epaInfo, $event)"
+                        <a ng-switch-when="true" class="link glyphicon glyphicon-edit icon-edit" ng-click="evaluatorCtrl.viewEPADetail(epaInfo, $event)"
                            ng-attr-title='{{"EvaluateNow" | translate}}'></a>
                         <a ng-switch-default class="link glyphicon icon-view" ng-click="evaluatorCtrl.viewEPAResult(epaInfo, $event)"
                            ng-attr-title='{{"ViewEPAResult" | translate}}'></a>
