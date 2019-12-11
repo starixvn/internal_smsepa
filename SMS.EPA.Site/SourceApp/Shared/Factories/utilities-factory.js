@@ -266,12 +266,12 @@
 
             angular.forEach(params, function (value, key) {
                 if (isFirstElement) {
-                    var extend = '?' + key + ':' + value;
+                    var extend = '?' + key + '=' + value;
                     result = result + extend;
                     isFirstElement = false;
                 }
                 else {
-                    var extend = '&' + key + ':' + value;
+                    var extend = '&' + key + '=' + value;
                     result = result + extend;
                 }
             });
