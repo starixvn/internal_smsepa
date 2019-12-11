@@ -13,6 +13,7 @@
                 {{kpiGroup.Name}} <strong>({{kpiGroup.Weight | customScore}} pts)</strong>
             </td>
             <td data-translate="EmployeeScore" class="text-center width-120"></td>
+            <td class="text-center width-120" data-translate="IsZeroScore"></td>
             <td data-translate="EvaluatorScore" class="text-center width-250"></td>
         </tr>
         <tr ng-repeat-start="kpi in kpiGroup.KPIs" class="panel-collapse collapse in kpiGroup-{{$parent.$index}}">
@@ -42,6 +43,10 @@
                 <span ng-show="!kpi.EvaluationBySelf.Score && evaluatorDetailCtrl.epaInfo.Process.Self.IsEndProcess" ng-bind="'0'"></span>
                 <strong ng-show="!evaluatorDetailCtrl.epaInfo.Process.Self.IsEndProcess" data-translate="Pending"></strong>
             </td>
+            <td class="text-center width-120">
+                <input ng-if="kpi.CurrentEvaluation.Score === '0'" type="checkbox" checked id="zero_score_{{kpi.KPIId}}" ng-click="evaluatorDetailCtrl.setZeroScore(kpiGroup, kpi)" />
+                <input ng-if="kpi.CurrentEvaluation.Score !== '0'" type="checkbox" id="zero_score_{{kpi.KPIId}}" ng-click="evaluatorDetailCtrl.setZeroScore(kpiGroup, kpi)" />
+            </td>
             <td class="text-center width-250">
                 <div class="rating-by-star"
                      ng-if="evaluatorDetailCtrl.epaInfo.RatingType.RatingTypeId == evaluatorDetailCtrl.ratingTypeEnum.Star
@@ -69,7 +74,8 @@
                                ng-change="evaluatorDetailCtrl.hoveringLeave(kpiGroup, kpi)">
                     </div>
                     <div class="kpi-percent">
-                        <span class="badge percent" ng-show="kpiGroup.NumberKPIOptional == 0 && kpi.CurrentEvaluation.Rate > 0">
+                        <span class="badge percent" 
+                              ng-show="kpiGroup.NumberKPIOptional == 0 && kpi.CurrentEvaluation.Score !== '' && kpi.CurrentEvaluation.Score != null">
                             {{kpi.CurrentEvaluation.Score | splitScore}} pts
                         </span>
                     </div>
@@ -83,7 +89,7 @@
             </td>
         </tr>
         <tr class="panel-collapse collapse in kpiGroup-{{$parent.$index}} row-comment" ng-show="kpi.HasComment">
-            <td colspan="3" class="kpi-comment comment-by-employee">
+            <td colspan="4" class="kpi-comment comment-by-employee">
                 <div class="control-label" data-translate="CommentByEmployee"></div>
                 <div class="collapse-expanse" ng-init="evaluatorDetailCtrl.initCollapseExpandCommentByEmployee(evaluatorDetailCtrl.epaInfo, kpi)">
                     <a class="icon-minus" href="" ng-show="kpi.ExpandedCommentByEmployee"
@@ -99,7 +105,7 @@
             </td>
         </tr>
         <tr ng-repeat-end class="panel-collapse collapse in kpiGroup-{{$parent.$index}} row-comment" ng-show="kpi.HasComment">
-            <td colspan="3" class="kpi-comment comment-by-evaluator">
+            <td colspan="4" class="kpi-comment comment-by-evaluator">
                 <div class="control-label" data-translate="CommentByEvaluator"></div>
                 <div class="collapse-expanse" ng-init="kpi.ExpandedCommentByEvaluator = true;">
                     <a class="icon-minus" href="" ng-show="kpi.ExpandedCommentByEvaluator"

@@ -105,9 +105,9 @@
 
             angular.forEach(epaInfo.KPIGroups, function (kpiGroup) {
                 angular.forEach(kpiGroup.KPIs, function (kpi) {
-                    var score = utilitiesFactory.parseFloat(kpi.CurrentEvaluation.Score);
+                    var score = kpi.CurrentEvaluation.Score;
 
-                    if (kpi.IsRequiredEvaluate && score <= 0) {
+                    if (kpi.IsRequiredEvaluate && (score === '' || score === null)) {
                         isValid = false;
                         kpi.CurrentEvaluation.EvaluateInvalid = true;
                     } else {

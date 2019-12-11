@@ -1807,6 +1807,15 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Is Zero Score.
+        /// </summary>
+        public static string IsZeroScore {
+            get {
+                return ResourceManager.GetString("IsZeroScore", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Job Grade.
         /// </summary>
         public static string JobGrade {

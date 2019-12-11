@@ -96,6 +96,21 @@
             SelfEvalutorModel.calculateScore(vm);
         };
 
+        vm.setZeroScore = function (kpiGroup, kpi) {
+            var isChecked = $("#zero_score_" + kpi.KPIId).is(':checked');
+            debugger;
+            if (isChecked) {
+                kpi.CurrentEvaluation.Rate = 0;
+                kpi.CurrentEvaluation.Score = 0;
+
+                $("#star_" + kpi.KPIId).rating('update', kpi.CurrentEvaluation.Rate);
+                SelfEvalutorModel.calculateScore(vm);
+            }
+            else {
+                vm.cancelRating(kpiGroup, kpi);
+            }
+        }
+
         vm.cancel = function () {
             historyFactory.back();
         };
@@ -133,6 +148,7 @@
                 }
 
                 SelfEvalutorModel.calculateScore(vm);
+                $("#zero_score_" + kpi.KPIId).prop('checked', false);
             }
         }
 

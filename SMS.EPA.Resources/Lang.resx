@@ -1437,4 +1437,7 @@
   <data name="SystemDeduction" xml:space="preserve">
     <value>System Deduction</value>
   </data>
+  <data name="IsZeroScore" xml:space="preserve">
+    <value>Is Zero Score</value>
+  </data>
 </root>
