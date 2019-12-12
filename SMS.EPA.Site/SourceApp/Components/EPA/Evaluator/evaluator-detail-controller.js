@@ -81,6 +81,7 @@
                 kpi.CurrentEvaluation.Score = null;
             }
 
+            $("#zero_score_" + kpi.KPIId).prop('checked', false);
             SelfEvalutorModel.calculateScore(vm);
         };
 
