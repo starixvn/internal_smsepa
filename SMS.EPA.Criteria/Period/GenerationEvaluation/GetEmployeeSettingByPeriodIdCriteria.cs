@@ -10,6 +10,8 @@
 
         public string EmployeeIds { get; set; }
 
+        public bool? IsEvaluated { get; set; }
+
         public override bool IsValid()
         {
             return PeriodId > 0;

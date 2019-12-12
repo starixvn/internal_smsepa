@@ -2,6 +2,7 @@
 CREATE PROCEDURE [dbo].[EpaAuto_GetEmployeeSettingToSendMail] @PeriodId INT
 	,@EmployeeIds VARCHAR(MAX) = NULL
 	,@ProcessId INT = NULL
+	,@IsEvaluated BIT = NULL
 AS
 /*
 Created: 2015-06-12@Josh.Phan
@@ -73,8 +74,18 @@ BEGIN
 					ISNULL(@EmployeeIds, '') = ''
 					OR emp.EmployeeId IS NOT NULL
 					)
-				AND @Today BETWEEN pc.StartDate
-					AND pc.EndDate
+				AND (@Today BETWEEN pc.StartDate AND pc.EndDate)
+				AND (
+					@IsEvaluated IS NULL
+					OR (
+						@IsEvaluated = 0
+						AND pc.EvaluateDate IS NULL
+					)
+					OR (
+						@IsEvaluated = 1
+						AND pc.EvaluateDate IS NOT NULL
+					)
+				)
 		END
 	END
 	ELSE
@@ -101,8 +112,18 @@ BEGIN
 				ISNULL(@EmployeeIds, '') = ''
 				OR emp.EmployeeId IS NOT NULL
 				)
-			AND @Today BETWEEN pc.StartDate
-				AND pc.EndDate
+			AND (@Today BETWEEN pc.StartDate AND pc.EndDate)
+			AND (
+				@IsEvaluated IS NULL
+				OR (
+					@IsEvaluated = 0
+					AND pc.EvaluateDate IS NULL
+				)
+				OR (
+					@IsEvaluated = 1
+					AND pc.EvaluateDate IS NOT NULL
+				)
+			)
 	END
 
 	DROP TABLE #tblEmployee

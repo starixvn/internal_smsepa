@@ -75,19 +75,21 @@
         private void GetAndSendEmailToAllRelatedEmployee(int periodId, string employeeIds, int? processId, int mailMode)
         {
             PeriodModel period = periodService.GetPeriodById(periodId);
-            IEnumerable<PeriodFlowModel> employeeSettings = GetEmployeeSettings(periodId, employeeIds, processId);
 
             switch (mailMode)
             {
                 case (int)MailMode.Start:
-                    periodMailService.SendReminderMail(period, employeeSettings, (int)MailMode.Start);
+                    IEnumerable<PeriodFlowModel> startMailEmployeeSettings = GetEmployeeSettings(periodId, employeeIds, processId);
+                    periodMailService.SendReminderMail(period, startMailEmployeeSettings, (int)MailMode.Start);
                     break;
 
                 case (int)MailMode.Reminder:
-                    periodMailService.SendReminderMail(period, employeeSettings, (int)MailMode.Reminder);
+                    IEnumerable<PeriodFlowModel> reminderMailEmployeeSettings = GetEmployeeSettings(periodId, employeeIds, processId, false);
+                    periodMailService.SendReminderMail(period, reminderMailEmployeeSettings, (int)MailMode.Reminder);
                     break;
 
                 case (int)MailMode.EndPeriod:
+                    IEnumerable<PeriodFlowModel> employeeSettings = GetEmployeeSettings(periodId, employeeIds, processId);
                     periodMailService.SendEndEvaluationMailToHumanResourceByPeriod(period, employeeSettings);
                     break;
 
@@ -103,6 +105,21 @@
                 PeriodId = periodId,
                 EmployeeIds = employeeIds,
                 ProcessId = processId
+            };
+
+            IEnumerable<PeriodFlowModel> employeeSettings = periodService.GetEmployeeSettingByPeriodId(criteria);
+
+            return employeeSettings;
+        }
+
+        private IEnumerable<PeriodFlowModel> GetEmployeeSettings(int periodId, string employeeIds, int? processId, bool? isEvaluated)
+        {
+            var criteria = new GetEmployeeSettingByPeriodIdCriteria
+            {
+                PeriodId = periodId,
+                EmployeeIds = employeeIds,
+                ProcessId = processId,
+                IsEvaluated = isEvaluated
             };
 
             IEnumerable<PeriodFlowModel> employeeSettings = periodService.GetEmployeeSettingByPeriodId(criteria);
