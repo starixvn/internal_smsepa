@@ -5,9 +5,9 @@ AS
 /*
 Created: 20151006@Tim.Trinh
 Task: Get last Total.
-DB: SPM
-Original: 
- 
+DB: SMSEPA
+Original:
+
 Param's Explanation:
 
 */
@@ -22,7 +22,13 @@ BEGIN
 		,[Date] DATE
 		)
 
-	INSERT INTO @TblLastEPA
+	INSERT INTO @TblLastEPA (
+		LastEPAId
+		,EPAId
+		,EmployeeId
+		,Code
+		,[Date]
+		)
 	SELECT DISTINCT epa.EPAId
 		,epat.Id
 		,emp.EmployeeId

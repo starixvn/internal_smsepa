@@ -1,5 +1,4 @@
 ﻿
-
 CREATE PROCEDURE [dbo].[EPA_GetByEvaluator] @EvaluatorId INT
 	,@PeriodId INT = NULL
 	,@EmployeeIds VARCHAR(MAX) = NULL
@@ -14,7 +13,7 @@ Task: Get EPA by Evaluator.
 DB: SMSEPA
 Original:
 
-Revisions:  
+Revisions:
     20160226@Razor.Nguyen: Monthly
 Param's Explanation:
 
@@ -39,7 +38,7 @@ BEGIN
 		FROM dbo.fnc_strSplit(@EmployeeIds, ',')
 	END
 
-	INSERT INTO @EPAIds
+	INSERT INTO @EPAIds (Id)
 	SELECT DISTINCT epa.EPAId
 	FROM dbo.EPA AS epa WITH (NOLOCK)
 		INNER JOIN dbo.Period AS period WITH (NOLOCK) ON epa.PeriodId = period.PeriodId
@@ -96,13 +95,13 @@ BEGIN
 			@StatusProcess IS NULL
 			OR (
 				@StatusProcess = 0
-				AND pcEva.EvaluateDate is null
+				AND pcEva.EvaluateDate IS NULL
 				AND epa.HasMonthlyEPA = 0
 				)
 			OR (
 				@StatusProcess = 1
 				AND (
-					pcEva.EvaluateDate is not null
+					pcEva.EvaluateDate IS NOT NULL
 					OR epa.HasMonthlyEPA = 1
 					)
 				)

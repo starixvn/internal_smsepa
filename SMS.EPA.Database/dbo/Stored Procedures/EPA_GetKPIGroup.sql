@@ -4,8 +4,8 @@ AS
 /*
 Created: 20150827@Tim.Trinh
 Task: Get KPI Group by list id.
-DB: SPM
-Original: 
+DB: SMSEPA
+Original:
  
 Param's Explanation:
 
@@ -26,7 +26,12 @@ BEGIN
 		,NumberKPIOptional INT
 		)
 
-	INSERT INTO @KPIGroup
+	INSERT INTO @KPIGroup (
+		EPAId
+		,TargetTemplateId
+		,KPIGroupId
+		,NumberKPI
+		)
 	SELECT DISTINCT epa.EPAId
 		,dt.TargetTemplateId
 		,dt.KPIGroupId
@@ -39,7 +44,12 @@ BEGIN
 		,dt.TargetTemplateId
 		,dt.KPIGroupId
 
-	INSERT INTO @TblKPIGroup
+	INSERT INTO @TblKPIGroup (
+		EPAId
+		,TargetTemplateId
+		,KPIGroupId
+		,NumberKPIOptional
+		)
 	SELECT DISTINCT epa.EPAId
 		,dt.TargetTemplateId
 		,dt.KPIGroupId
@@ -55,7 +65,7 @@ BEGIN
 
 	SELECT DISTINCT epa.EPAId
 		,kpigh.KPIGroupId
-		,kpigh.NAME
+		,kpigh.[Name]
 		,dt.IsSpreadKPI
 		,dt.KPIGroupWeight AS [Weight]
 		,dt.KPIGroupDisplayOrder AS DisplayOrder

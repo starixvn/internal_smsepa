@@ -5,9 +5,9 @@ AS
 Created: 20160928@Tim.Trinh
 Task: Get to do list.
 DB: SMSEPA
-Original: 
+Original:
 
-Revisions:  
+Revisions:
 Param's Explanation:
 
 */
@@ -25,8 +25,7 @@ BEGIN
 		,@MonthlyTargetType TINYINT = 2
 		,@SemiTargetType TINYINT = 3
 		,@PromotionTargetType TINYINT = 5
-
-	CREATE TABLE #tblTodo (
+	DECLARE @tblTodo TABLE (
 		PeriodId INT
 		,[Name] NVARCHAR(200)
 		,TargetTypeId TINYINT
@@ -38,7 +37,7 @@ BEGIN
 		,UnfinishedByManagement SMALLINT
 		)
 
-	INSERT INTO #tblTodo (
+	INSERT INTO @tblTodo (
 		PeriodId
 		,[Name]
 		,TargetTypeId
@@ -54,32 +53,32 @@ BEGIN
 		,period.TargetTypeId
 		,SUM(CASE 
 				WHEN pc.ProcessId = @ProcessByEvaluator
-					AND pc.EvaluateDate is not null THEN 1
+					AND pc.EvaluateDate IS NOT NULL THEN 1
 				ELSE 0
 				END)
 		,SUM(CASE 
 				WHEN pc.ProcessId = @ProcessByEvaluator
-					AND pc.EvaluateDate is null THEN 1
+					AND pc.EvaluateDate IS NULL THEN 1
 				ELSE 0
 				END)
 		,SUM(CASE 
 				WHEN pc.ProcessId = @ProcessByReviewer
-					AND pc.EvaluateDate is not null THEN 1
+					AND pc.EvaluateDate IS NOT NULL THEN 1
 				ELSE 0
 				END)
 		,SUM(CASE 
 				WHEN pc.ProcessId = @ProcessByReviewer
-					AND pc.EvaluateDate is null THEN 1
+					AND pc.EvaluateDate IS NULL THEN 1
 				ELSE 0
 				END)
 		,SUM(CASE 
 				WHEN pc.ProcessId = @ProcessByManageMent
-					AND pc.EvaluateDate is not null THEN 1
+					AND pc.EvaluateDate IS NOT NULL THEN 1
 				ELSE 0
 				END)
 		,SUM(CASE 
 				WHEN pc.ProcessId = @ProcessByManageMent
-					AND pc.EvaluateDate is null THEN 1
+					AND pc.EvaluateDate IS NULL THEN 1
 				ELSE 0
 				END)
 	FROM dbo.EPA AS epa WITH (NOLOCK)
@@ -94,8 +93,16 @@ BEGIN
 		,period.[Name]
 		,period.TargetTypeId
 
-	SELECT *
-	FROM #tblTodo WITH (NOLOCK)
+	SELECT PeriodId
+		,[Name]
+		,TargetTypeId
+		,FinishedByEvaluator
+		,UnfinishedByEvaluator
+		,FinishedByReviewer
+		,UnfinishedByReviewer
+		,FinishedByManagement
+		,UnfinishedByManagement
+	FROM @tblTodo
 	ORDER BY CASE 
 			WHEN TargetTypeId = @ProbationTargetType THEN 1
 			WHEN TargetTypeId = @SemiTargetType THEN 2

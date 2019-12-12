@@ -7,18 +7,16 @@ AS
 Created: 20150909@Razor.Nguyen
 Task: EPA Monthly
 DB: SMSEPA
-Original: 
+Original:
 
-Revisions:  
+Revisions:
 Param's Explanation:
 
 */
 BEGIN
 	SET NOCOUNT ON
 
-	DECLARE @Today DATE
-
-	SET @Today = CAST(GETDATE() AS DATE)
+	DECLARE @Today DATE = GETDATE()
 
 	CREATE TABLE #KPIGroup (
 		TargetTemplateId INT
@@ -39,7 +37,11 @@ BEGIN
 		,NumberEmpNotEvaluated INT
 		)
 
-	INSERT INTO #KPIGroup
+	INSERT INTO #KPIGroup (
+		TargetTemplateId
+		,KPIGroupId
+		,NumberKPI
+		)
 	SELECT DISTINCT dt.TargetTemplateId
 		,dt.KPIGroupId
 		,COUNT(KPIId) AS NumberKPI
@@ -59,7 +61,11 @@ BEGIN
 		,dt.TargetTemplateId
 		,dt.KPIGroupId
 
-	INSERT INTO #TblKPIGroup
+	INSERT INTO #TblKPIGroup (
+		TargetTemplateId
+		,KPIGroupId
+		,NumberKPIOptional
+		)
 	SELECT DISTINCT dt.TargetTemplateId
 		,dt.KPIGroupId
 		,COUNT(KPIId) AS NumberKPIOptional
@@ -80,7 +86,12 @@ BEGIN
 		,dt.TargetTemplateId
 		,dt.KPIGroupId
 
-	INSERT INTO #EPADetail
+	INSERT INTO #EPADetail (
+		TargetTemplateId
+		,KPIGroupId
+		,KPI
+		,NumberEmpNotEvaluated
+		)
 	SELECT DISTINCT dt.TargetTemplateId
 		,dt.KPIGroupId
 		,dt.KPIId

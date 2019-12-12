@@ -6,21 +6,21 @@ AS
 Created: 20160322@Razor.Nguyen
 Task: Monthly EPA
 DB: SMSEPA
-Original: 
- 
+Original:
+
 Param's Explanation:
 
 */
 BEGIN
 	SET NOCOUNT ON
 
-	DECLARE @EPAIds IntId
-		,@EvaluatorIds IntId
+	DECLARE @tblEPAIds IntId
+		,@tblEvaluatorIds IntId
 		,@Today DATE
 
 	SET @Today = CAST(GETDATE() AS DATE)
 
-	INSERT INTO @EPAIds
+	INSERT INTO @tblEPAIds (Id)
 	SELECT DISTINCT epa.EPAId
 	FROM dbo.EPA AS epa WITH (NOLOCK)
 		INNER JOIN dbo.EPAProcess AS pc WITH (NOLOCK) ON epa.EPAId = pc.EPAId
@@ -34,17 +34,17 @@ BEGIN
 		AND period.PeriodId = @PeriodId
 		AND dt.TargetTemplateId = @TargetTemplateId
 
-	INSERT INTO @EvaluatorIds
+	INSERT INTO @tblEvaluatorIds (Id)
 	SELECT DISTINCT dt.EvaluatorId
 	FROM dbo.EPADetail AS dt WITH (NOLOCK)
-		INNER JOIN @EPAIds AS epa ON dt.EPAId = epa.Id
+		INNER JOIN @tblEPAIds AS epa ON dt.EPAId = epa.Id
 	WHERE dt.ProcessId = 3
 
 	SELECT DISTINCT emp.EmployeeId
 		,emp.Code
 		,emp.NickName
 		,emp.FullName
-	FROM @EvaluatorIds AS tbl
+	FROM @tblEvaluatorIds AS tbl
 		INNER JOIN dbo.Employee AS emp WITH (NOLOCK) ON tbl.Id = emp.EmployeeId
 	ORDER BY emp.NickName
 		,emp.Code

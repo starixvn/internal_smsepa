@@ -13,9 +13,9 @@ AS
 Created: 20150708@Tim.Trinh
 Task: Split string by character.
 DB: SMSEPA
-Original: 
+Original:
 
-Revisions:  
+Revisions:
 Param's Explanation:
 */
 BEGIN
@@ -39,7 +39,11 @@ BEGIN
 		SET @start = @charindex + 1
 		SET @charindex = CHARINDEX(@splitter, @string, @start)
 
-		INSERT INTO @res
+		INSERT INTO @res (
+			id
+			,[rank]
+			,val
+			)
 		VALUES (
 			@start
 			,@i

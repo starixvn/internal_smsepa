@@ -7,8 +7,8 @@ AS
 Created: 20150909@Tim.Trinh
 Task: Get KPI by Target Template.
 DB: SMSEPA
-Original: 
- 
+Original:
+
 Param's Explanation:
 
 */
@@ -38,7 +38,11 @@ BEGIN
 
 	SET @Today = CAST(GETDATE() AS DATE)
 
-	INSERT INTO #KPIGroup
+	INSERT INTO #KPIGroup (
+		TargetTemplateId
+		,KPIGroupId
+		,NumberKPI
+		)
 	SELECT DISTINCT dt.TargetTemplateId
 		,dt.KPIGroupId
 		,COUNT(KPIId) AS NumberKPI
@@ -59,7 +63,11 @@ BEGIN
 		,dt.TargetTemplateId
 		,dt.KPIGroupId
 
-	INSERT INTO #TblKPIGroup
+	INSERT INTO #TblKPIGroup (
+		TargetTemplateId
+		,KPIGroupId
+		,NumberKPIOptional
+		)
 	SELECT DISTINCT dt.TargetTemplateId
 		,dt.KPIGroupId
 		,COUNT(KPIId) AS NumberKPIOptional
@@ -81,7 +89,12 @@ BEGIN
 		,dt.TargetTemplateId
 		,dt.KPIGroupId
 
-	INSERT INTO #EPADetail
+	INSERT INTO #EPADetail (
+		TargetTemplateId
+		,KPIGroupId
+		,KPI
+		,NumberEmpNotEvaluated
+		)
 	SELECT DISTINCT dt.TargetTemplateId
 		,dt.KPIGroupId
 		,dt.KPIId

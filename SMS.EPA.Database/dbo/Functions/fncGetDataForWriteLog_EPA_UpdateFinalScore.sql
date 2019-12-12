@@ -6,7 +6,7 @@ BEGIN
 	DECLARE @Data NVARCHAR(MAX)
 		,@EPAId IntId
 
-	INSERT INTO @EPAId
+	INSERT INTO @EPAId (Id)
 	SELECT DISTINCT val
 	FROM dbo.fnc_strSplit(@EPAIds, ',')
 

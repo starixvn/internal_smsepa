@@ -8,8 +8,8 @@ AS
 Created: 20160322@Razor.Nguyen
 Task: Monthly EPA
 DB: SMSEPA
-Original: 
- 
+Original:
+
 Param's Explanation:
 
 */
@@ -62,7 +62,11 @@ BEGIN
 		,dt.TargetTemplateId
 		,dt.KPIGroupId
 
-	INSERT INTO #TblKPIGroup
+	INSERT INTO #TblKPIGroup (
+		TargetTemplateId
+		,KPIGroupId
+		,NumberKPIOptional
+		)
 	SELECT DISTINCT dt.TargetTemplateId
 		,dt.KPIGroupId
 		,COUNT(KPIId) AS NumberKPIOptional
@@ -86,12 +90,15 @@ BEGIN
 	SELECT @RequiredCommentOnMaxScore = CAST(Value AS BIT)
 	FROM dbo.RefResource WITH (NOLOCK)
 	WHERE RefName = 'RequiredCommentOnMaxScore'
-	
+
 	SELECT @RequiredCommentOnMaxScoreForEvaluator = CAST(Value AS BIT)
 	FROM dbo.RefResource WITH (NOLOCK)
 	WHERE RefName = 'RequiredCommentOnMaxScoreForEvaluator'
 
-	INSERT INTO #tblEPA
+	INSERT INTO #tblEPA (
+		EPAId
+		,KPIGroupId
+		)
 	SELECT DISTINCT epa.EPAId
 		,dt.KPIGroupId
 	FROM dbo.EPA AS epa WITH (NOLOCK)

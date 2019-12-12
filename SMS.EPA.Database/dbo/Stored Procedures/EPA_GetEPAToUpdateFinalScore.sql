@@ -8,14 +8,12 @@ AS
 Created: 20160329@Tim.Trinh
 Task: Get EPA to update final score.
 DB: SMSEPA
-Original: 
+Original:
 
-Revisions:  
+Revisions:
+    20170418@Hunter.Tran: Reformat, change GroupId to IntId User define table
+    20170508@Hunter.Tran: if EPA status is null, include in result
 Param's Explanation:
-
-Edited: 
-20170418@Hunter.Tran: Reformat, change GroupId to IntId User define table
-20170508@Hunter.Tran: if EPA status is null, include in result
 */
 BEGIN
 	SET NOCOUNT ON;
@@ -25,7 +23,7 @@ BEGIN
 		,@Yesterday DATE = DATEADD(DAY, - 1, GETDATE())
 		,@TargetTypeId INT
 		,@Today DATE = GETDATE()
-		,@GroupIds IntId
+		,@tblGroupIds IntId
 	-- target type
 	DECLARE @ProbationId TINYINT = 1
 		,@MonthlyId TINYINT = 2
@@ -48,12 +46,12 @@ BEGIN
 	BEGIN
 		IF (@DepartmentId < 0)
 		BEGIN
-			INSERT INTO @GroupIds
+			INSERT INTO @tblGroupIds (Id)
 			VALUES (ABS(@DepartmentId))
 		END
 		ELSE
 		BEGIN
-			INSERT INTO @GroupIds
+			INSERT INTO @tblGroupIds (Id)
 			SELECT g.GroupId
 			FROM dbo.[Group] AS g WITH (NOLOCK)
 			WHERE (
@@ -91,7 +89,7 @@ BEGIN
 			AND emp.IsDeleted = 0
 			AND emp.[Enabled] = 1
 			INNER JOIN dbo.[Group] AS gr WITH (NOLOCK) ON emp.GroupId = gr.GroupId
-			LEFT JOIN @GroupIds AS tblgr ON gr.GroupId = tblgr.Id
+			LEFT JOIN @tblGroupIds AS tblgr ON gr.GroupId = tblgr.Id
 		WHERE pe.EndDate <= @Today
 			AND pc.EndDate < pe.EndDate
 			AND pe.TargetTypeId IN (@MonthlyId, @SemiId)
@@ -119,7 +117,7 @@ BEGIN
 			AND emp.IsDeleted = 0
 			AND emp.[Enabled] = 1
 			INNER JOIN dbo.[Group] AS gr WITH (NOLOCK) ON emp.GroupId = gr.GroupId
-			LEFT JOIN @GroupIds AS tblgr ON gr.GroupId = tblgr.Id
+			LEFT JOIN @tblGroupIds AS tblgr ON gr.GroupId = tblgr.Id
 		WHERE pc.EndDate <= @Yesterday
 			AND pc.EndDate >= pe.EndDate
 			AND pe.TargetTypeId IN (@MonthlyId, @SemiId)
@@ -149,7 +147,7 @@ BEGIN
 			AND emp.IsDeleted = 0
 			AND emp.[Enabled] = 1
 			INNER JOIN dbo.[Group] AS gr WITH (NOLOCK) ON emp.GroupId = gr.GroupId
-			LEFT JOIN @GroupIds AS tblgr ON gr.GroupId = tblgr.Id
+			LEFT JOIN @tblGroupIds AS tblgr ON gr.GroupId = tblgr.Id
 		WHERE pc.EndDate <= @Yesterday
 			AND pe.TargetTypeId IN (@ProbationId, @PromotionId)
 			AND ISNULL(epa.[Status], 0) IN (0, 1)
@@ -163,7 +161,7 @@ BEGIN
 			AND ISNULL(@EmployeeId, emp.EmployeeId) = emp.EmployeeId
 	END
 
-	SELECT @EPAIds = COALESCE(@EPAIds + ',', '') + CAST(Id AS NVARCHAR)
+	SELECT @EPAIds = COALESCE(@EPAIds + ',', '') + CAST(Id AS NVARCHAR(20))
 	FROM @TblEPAId
 
 	INSERT INTO #tblDisciplineScores (

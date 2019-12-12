@@ -1,5 +1,4 @@
 ﻿
-
 CREATE PROCEDURE [dbo].[EPA_GetByManagement] @ManagementId INT
 	,@PeriodId INT = NULL
 	,@EmployeeIds VARCHAR(MAX) = NULL
@@ -35,7 +34,7 @@ BEGIN
 		FROM dbo.fnc_strSplit(@EmployeeIds, ',')
 	END
 
-	INSERT INTO @EPAIds
+	INSERT INTO @EPAIds (Id)
 	SELECT DISTINCT epa.EPAId
 	FROM dbo.EPA AS epa WITH (NOLOCK)
 		INNER JOIN dbo.Period AS period WITH (NOLOCK) ON epa.PeriodId = period.PeriodId
@@ -81,11 +80,11 @@ BEGIN
 			@StatusProcess IS NULL
 			OR (
 				@StatusProcess = 0
-				AND pc.EvaluateDate is null
+				AND pc.EvaluateDate IS NULL
 				)
 			OR (
 				@StatusProcess = 1
-				AND pc.EvaluateDate is not null
+				AND pc.EvaluateDate IS NOT NULL
 				)
 			)
 
