@@ -98,21 +98,7 @@
             }
         }
 
-        private IEnumerable<PeriodFlowModel> GetEmployeeSettings(int periodId, string employeeIds, int? processId)
-        {
-            var criteria = new GetEmployeeSettingByPeriodIdCriteria
-            {
-                PeriodId = periodId,
-                EmployeeIds = employeeIds,
-                ProcessId = processId
-            };
-
-            IEnumerable<PeriodFlowModel> employeeSettings = periodService.GetEmployeeSettingByPeriodId(criteria);
-
-            return employeeSettings;
-        }
-
-        private IEnumerable<PeriodFlowModel> GetEmployeeSettings(int periodId, string employeeIds, int? processId, bool? isEvaluated)
+        private IEnumerable<PeriodFlowModel> GetEmployeeSettings(int periodId, string employeeIds, int? processId, bool? isEvaluated = null)
         {
             var criteria = new GetEmployeeSettingByPeriodIdCriteria
             {
