@@ -112,7 +112,7 @@ BEGIN
 			)
 		AND ISNULL(@EmployeeId, emp.EmployeeId) = emp.EmployeeId
 	ORDER BY pe.StartDate DESC
-		,emp.Code
+		,emp.Code ASC
 
 	DROP TABLE #tblLastedEPA
 END

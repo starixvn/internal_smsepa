@@ -279,10 +279,6 @@
     <Build Include="dbo\Stored Procedures\EpaAuto_CheckEndProcess.sql" />
     <Build Include="dbo\Stored Procedures\EpaAuto_CheckEndEvaluationPeriod.sql" />
     <Build Include="dbo\Stored Procedures\EpaAuto_CheckEndEmployeeEvaluationPeriod.sql" />
-    <Build Include="dbo\Stored Procedures\EpaAttendanceSummary_GetViolations.sql" />
-    <Build Include="dbo\Stored Procedures\EpaAttendanceSummary_GetDetail.sql" />
-    <Build Include="dbo\Stored Procedures\EpaAttendanceSummary_GetByEPA.sql" />
-    <Build Include="dbo\Stored Procedures\EpaAttendanceSummary_Get.sql" />
     <Build Include="dbo\Stored Procedures\EPA_UpdateStatus.sql" />
     <Build Include="dbo\Stored Procedures\EPA_UpdateScore.sql" />
     <Build Include="dbo\Stored Procedures\EPA_UpdateFinalScoreEndEvaluation.sql" />

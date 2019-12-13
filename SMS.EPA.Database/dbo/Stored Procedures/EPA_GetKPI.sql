@@ -17,7 +17,7 @@ BEGIN
 		,dt.KPIGroupId
 		,dt.KPIGroupDisplayOrder
 		,dt.KPIId
-		,kpihis.NAME
+		,kpihis.[Name]
 		,kpihis.[Description]
 		,dt.HasComment
 		,dt.IsRequiredComment
@@ -30,6 +30,6 @@ BEGIN
 		AND dt.ProcessId = 2 -- self
 		INNER JOIN dbo.KPIHistory AS kpihis WITH (NOLOCK) ON dt.KPIId = kpihis.KPIId
 		AND dt.KPILogNo = kpihis.LogNo
-	ORDER BY dt.KPIGroupDisplayOrder
-		,dt.KPIDisplayOrder
+	ORDER BY dt.KPIGroupDisplayOrder ASC
+		,dt.KPIDisplayOrder ASC
 END

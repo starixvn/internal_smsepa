@@ -249,7 +249,7 @@ BEGIN
 		LEFT JOIN dbo.[Group] AS gr WITH (NOLOCK) ON emp.GroupId = gr.GroupId
 		LEFT JOIN dbo.Department AS dept WITH (NOLOCK) ON gr.DepartmentId = dept.DepartmentId
 		LEFT JOIN dbo.HRMJobTitle AS job WITH (NOLOCK) ON emp.JobTitle = job.Id
-	ORDER BY emp.NickName
+	ORDER BY emp.NickName ASC
 
 	-- Process
 	EXECUTE dbo.EPA_GetProcess @TblEPAId

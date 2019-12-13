@@ -1,5 +1,4 @@
 ﻿
-
 CREATE PROCEDURE [dbo].[EpaEmployee_GetByDepartmentId] @DepartmentId INT = NULL
 AS
 /*
@@ -38,5 +37,5 @@ BEGIN
 		) AS d ON g.DepartmentId = d.DepartmentId
 	WHERE ISNULL(e.IsDeleted, 0) = 0
 		AND e.[Enabled] = 1
-	ORDER BY e.Code
+	ORDER BY e.Code ASC
 END

@@ -30,7 +30,14 @@ BEGIN
 		,MaxProcessId INT
 		)
 
-	INSERT INTO #TblLastEPA
+	INSERT INTO #TblLastEPA (
+		LastEPAId
+		,EPAId
+		,EmployeeId
+		,Code
+		,[Date]
+		,MaxProcessId
+		)
 	SELECT DISTINCT epa.EPAId
 		,@EPAId
 		,emp.EmployeeId

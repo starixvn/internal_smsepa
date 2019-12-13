@@ -109,6 +109,6 @@ BEGIN
 	FROM [dbo].[TargetTemplateDepartment] AS tarDept WITH (NOLOCK)
 		INNER JOIN [dbo].[TargetTemplate] AS tarTemp WITH (NOLOCK) ON tarDept.[TargetTemplateId] = tarTemp.[TargetTemplateId]
 		INNER JOIN [dbo].[TargetType] AS tar WITH (NOLOCK) ON tarTemp.[TargetTypeId] = tar.[TargetTypeId]
-	ORDER BY [DepartmentId]
-		,tar.[TargetTypeId]
+	ORDER BY [DepartmentId] ASC
+		,tar.[TargetTypeId] ASC
 END

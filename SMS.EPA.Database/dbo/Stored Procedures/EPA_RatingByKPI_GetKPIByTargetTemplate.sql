@@ -15,7 +15,7 @@ Param's Explanation:
 BEGIN
 	SET NOCOUNT ON
 
-	DECLARE @Today DATE
+	DECLARE @Today DATE = GETDATE()
 
 	CREATE TABLE #KPIGroup (
 		TargetTemplateId INT
@@ -35,8 +35,6 @@ BEGIN
 		,KPI INT
 		,NumberEmpNotEvaluated INT
 		)
-
-	SET @Today = CAST(GETDATE() AS DATE)
 
 	INSERT INTO #KPIGroup (
 		TargetTemplateId
@@ -164,8 +162,8 @@ BEGIN
 		AND period.PeriodId = @PeriodId
 		AND tt.TargetTemplateId = @TargetTemplateId
 		AND epa.HasMonthlyEPA = 0
-	ORDER BY dt.KPIGroupId
-		,dt.KPIDisplayOrder
+	ORDER BY dt.KPIGroupId ASC
+		,dt.KPIDisplayOrder ASC
 
 	DROP TABLE #KPIGroup
 

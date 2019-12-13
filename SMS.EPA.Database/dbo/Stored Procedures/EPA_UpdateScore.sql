@@ -31,21 +31,9 @@ Param's Explanation:
 BEGIN
 	SET NOCOUNT ON;
 
-	DECLARE @ModifiedDate DATETIME
-
-	IF OBJECT_ID('tempdb..#Evaluator') IS NOT NULL
-	BEGIN
-		DROP TABLE #Evaluator
-	END
-
-	CREATE TABLE #Evaluator (EvaluatorId INT)
-
-	IF OBJECT_ID('tempdb..#KPIScores') IS NOT NULL
-	BEGIN
-		DROP TABLE #KPIScores
-	END
-
-	CREATE TABLE #KPIScores (
+	DECLARE @ModifiedDate DATETIME = GETDATE()
+	DECLARE @tblEvaluator TABLE (EvaluatorId INT)
+	DECLARE @tblKPIScores TABLE (
 		KPIId INT
 		,KPIGroupId INT
 		,Score NVARCHAR(100)
@@ -54,7 +42,7 @@ BEGIN
 		,Comment NVARCHAR(MAX)
 		)
 
-	INSERT INTO #Evaluator (EvaluatorId)
+	INSERT INTO @tblEvaluator (EvaluatorId)
 	SELECT DISTINCT EvaluatorId
 	FROM dbo.EPAProcess WITH (NOLOCK)
 	WHERE EPAId = @EPAId
@@ -68,7 +56,7 @@ BEGIN
 				AND epa.EmployeeId = @EmployeeId
 				AND pc.EvaluatorId IN (
 					SELECT EvaluatorId
-					FROM #Evaluator
+					FROM @tblEvaluator
 					)
 				AND pc.ProcessId = @ProcessId
 			)
@@ -87,7 +75,7 @@ BEGIN
 				AND epa.EmployeeId = @EmployeeId
 				AND pc.EvaluatorId IN (
 					SELECT EvaluatorId
-					FROM #Evaluator
+					FROM @tblEvaluator
 					)
 				AND pc.IsEndProcess = 1
 				AND pc.[ProcessId] = @ProcessId
@@ -107,7 +95,7 @@ BEGIN
 				AND epa.EmployeeId = @EmployeeId
 				AND pc.EvaluatorId IN (
 					SELECT EvaluatorId
-					FROM #Evaluator
+					FROM @tblEvaluator
 					)
 				AND epa.[Status] = 1
 			)
@@ -124,7 +112,14 @@ BEGIN
 		EXEC sp_xml_preparedocument @DocHandler OUTPUT
 			,@KPIDetails
 
-		INSERT INTO #KPIScores
+		INSERT INTO @tblKPIScores (
+			KPIId
+			,KPIGroupId
+			,Score
+			,Rate
+			,IsMaxScore
+			,Comment
+			)
 		SELECT KPIId
 			,KPIGroupId
 			,Score
@@ -153,8 +148,6 @@ BEGIN
 	BEGIN TRY
 		BEGIN TRANSACTION
 
-		SET @ModifiedDate = GETDATE()
-
 		-- update table EPADetail
 		UPDATE dt
 		SET dt.Score = k.Score
@@ -164,7 +157,7 @@ BEGIN
 			,ModifiedBy = @ModifiedBy
 			,ModifiedDate = @ModifiedDate
 		FROM dbo.EPADetail AS dt WITH (ROWLOCK, UPDLOCK)
-			INNER JOIN #KPIScores AS k WITH (NOLOCK) ON dt.KPIId = k.KPIId
+			INNER JOIN @tblKPIScores AS k ON dt.KPIId = k.KPIId
 			AND dt.KPIGroupId = k.KPIGroupId
 		WHERE dt.EPAId = @EPAId
 			AND dt.ProcessId = @ProcessId
@@ -208,8 +201,4 @@ BEGIN
 		SELECT @ErrCode = 1
 			,@ErrMsg = N'Update unsuccessfully.'
 	END CATCH;
-
-	DROP TABLE #Evaluator
-
-	DROP TABLE #KPIScores
 END

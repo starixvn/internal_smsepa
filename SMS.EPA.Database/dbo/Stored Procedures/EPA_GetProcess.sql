@@ -81,7 +81,7 @@ BEGIN
 		INNER JOIN dbo.Employee AS emp WITH (NOLOCK) ON pc.EvaluatorId = emp.EmployeeId
 		INNER JOIN dbo.Period AS period WITH (NOLOCK) ON epa.PeriodId = period.PeriodId
 		LEFT JOIN dbo.Employee AS eva WITH (NOLOCK) ON pc.ModifiedBy = eva.EmployeeId
-	ORDER BY epa.EPAId
-		,pc.ProcessId
-		,pc.[Priority]
+	ORDER BY epa.EPAId ASC
+		,pc.ProcessId ASC
+		,pc.[Priority] ASC
 END

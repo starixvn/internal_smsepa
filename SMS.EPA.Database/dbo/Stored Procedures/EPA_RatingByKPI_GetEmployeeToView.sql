@@ -173,8 +173,8 @@ BEGIN
 		AND dt.EvaluatorId = @EvaluatorId
 		AND period.PeriodId = @PeriodId
 		AND dt.TargetTemplateId = @TargetTemplateId
-	ORDER BY emp.NickName
-		,emp.Code
+	ORDER BY emp.NickName ASC
+		,emp.Code ASC
 
 	SELECT DISTINCT epa.EPAId
 		,dt.KPIId
@@ -204,8 +204,8 @@ BEGIN
 		AND dt.EvaluatorId = @EvaluatorId
 		AND period.PeriodId = @PeriodId
 		AND dt.TargetTemplateId = @TargetTemplateId
-	ORDER BY epa.EPAId
-		,dt.KPIDisplayOrder
+	ORDER BY epa.EPAId ASC
+		,dt.KPIDisplayOrder ASC
 
 	SELECT DISTINCT epa.EPAId
 		,dt.KPIId
@@ -233,8 +233,8 @@ BEGIN
 		AND dt.KPILogNo = khis.LogNo
 	WHERE period.PeriodId = @PeriodId
 		AND dt.TargetTemplateId = @TargetTemplateId
-	ORDER BY epa.EPAId
-		,dt.KPIDisplayOrder
+	ORDER BY epa.EPAId ASC
+		,dt.KPIDisplayOrder ASC
 
 	DROP TABLE #tblEPA
 

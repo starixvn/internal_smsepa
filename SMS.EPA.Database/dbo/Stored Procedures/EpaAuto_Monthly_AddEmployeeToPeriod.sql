@@ -1,6 +1,4 @@
-﻿/****** Object:  Stored Procedure dbo.EpaAuto_Monthly_AddEmployeeToPeriod    Script Date: 7/21/2016 3:01:36 PM ******/
-/****** Object:  Stored Procedure dbo.EpaAuto_Monthly_AddEmployeeToPeriod    Script Date: 7/21/2016 2:45:48 PM ******/
-
+﻿
 CREATE PROCEDURE [dbo].[EpaAuto_Monthly_AddEmployeeToPeriod] @PeriodId INT
 	,@ErrCode INT = 0 OUTPUT
 	,@ErrMsg NVARCHAR(MAX) = '' OUTPUT
@@ -49,11 +47,16 @@ BEGIN
 		,TargetTemplateId INT
 		)
 
-	INSERT INTO #DeptFlowAndTargetTemplate
-	EXEC GetFlowAndTargetTemplateSetting @TargetTypeId
+	INSERT INTO #DeptFlowAndTargetTemplate (
+		DepartmentId
+		,EmployeeId
+		,FlowTemplateId
+		,TargetTemplateId
+		)
+	EXEC dbo.GetFlowAndTargetTemplateSetting @TargetTypeId
 
 	-- find employee that already existed
-	INSERT INTO @ExistedEmployeeIds
+	INSERT INTO @ExistedEmployeeIds (Id)
 	EXEC dbo.EpaPeriod_AddEmployee_CheckEmployeeExisted @PeriodId
 		,@EmployeeIds
 
@@ -62,7 +65,7 @@ BEGIN
 		INNER JOIN @ExistedEmployeeIds AS existed ON empId.Id = existed.Id
 
 	-- find employee don't have setting Flow Template / Target Template
-	SELECT @NoneSettingEmployeeIds = COALESCE(@NoneSettingEmployeeIds + ',', '') + CAST(emp.EmployeeId AS NVARCHAR)
+	SELECT @NoneSettingEmployeeIds = COALESCE(@NoneSettingEmployeeIds + ',', '') + CAST(emp.EmployeeId AS NVARCHAR(20))
 	FROM @EmployeeIds AS empS
 		INNER JOIN dbo.Employee AS emp WITH (NOLOCK) ON empS.Id = emp.EmployeeId
 	WHERE NOT EXISTS (

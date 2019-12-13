@@ -158,8 +158,8 @@ BEGIN
 		AND pc.EvaluatorId = @EvaluatorId
 		AND period.PeriodId = @PeriodId
 		AND tt.TargetTemplateId = @TargetTemplateId
-	ORDER BY dt.KPIGroupId
-		,dt.KPIDisplayOrder
+	ORDER BY dt.KPIGroupId ASC
+		,dt.KPIDisplayOrder ASC
 
 	DROP TABLE #KPIGroup
 

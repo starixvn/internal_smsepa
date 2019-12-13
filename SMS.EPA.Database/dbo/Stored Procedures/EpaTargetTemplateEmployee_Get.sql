@@ -57,7 +57,7 @@ BEGIN
 				WHERE tar.[TargetTypeId] = @TargetTypeId
 				)
 			)
-	ORDER BY emp.[EmployeeId]
+	ORDER BY emp.[EmployeeId] ASC
 
 	SELECT tarEmp.[EmployeeId]
 		,tarEmp.[TargetTemplateId]
@@ -71,6 +71,6 @@ BEGIN
 			ISNULL(@EmployeeId, '') = ''
 			OR tarEmp.[EmployeeId] = @EmployeeId
 			)
-	ORDER BY tarEmp.[EmployeeId]
-		,tar.[TargetTypeId]
+	ORDER BY tarEmp.[EmployeeId] ASC
+		,tar.[TargetTypeId] ASC
 END

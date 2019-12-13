@@ -34,7 +34,12 @@ BEGIN
 		EXEC sp_xml_preparedocument @DocHandler OUTPUT
 			,@Details
 
-		INSERT INTO #Details
+		INSERT INTO #Details (
+			EPAId
+			,ProcessId
+			,TotalScore
+			,AdjustScore
+			)
 		SELECT @EPAId
 			,ProcessId
 			,TotalScore

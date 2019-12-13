@@ -117,7 +117,7 @@ BEGIN
 		AND MONTH(monthly.EndDate) = semi.[Month]
 		AND YEAR(monthly.EndDate) = semi.[Year]
 
-	INSERT INTO @MonthlyEPAId
+	INSERT INTO @MonthlyEPAId (Id)
 	SELECT DISTINCT EPAId
 	FROM #tblEPA WITH (NOLOCK)
 
@@ -177,9 +177,9 @@ BEGIN
 		INNER JOIN dbo.RefResource AS ref WITH (NOLOCK) ON epa.RatingTypeId = ref.ResourceId
 		AND ref.RefName = 'RatingType'
 		INNER JOIN dbo.TargetType AS tt WITH (NOLOCK) ON period.TargetTypeId = tt.TargetTypeId
-	ORDER BY emp.NickName
-		,emp.Code
-		,period.StartDate
+	ORDER BY emp.NickName ASC
+		,emp.Code ASC
+		,period.StartDate ASC
 
 	-- Process
 	EXECUTE dbo.EPA_GetProcess @MonthlyEPAId

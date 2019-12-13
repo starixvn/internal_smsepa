@@ -233,8 +233,8 @@ BEGIN
 					AND tblData.EmployeeId = @ActorId
 				)
 			)
-	ORDER BY tblData.GroupName
-		,tblData.Code
+	ORDER BY tblData.GroupName ASC
+		,tblData.Code ASC
 
 	INSERT INTO #tblEPAs (
 		EPAId
@@ -282,10 +282,10 @@ BEGIN
 			INNER JOIN #tblPeriods AS period WITH (NOLOCK) ON epa.PeriodId = period.PeriodId
 			INNER JOIN #tblEmployees AS emp WITH (NOLOCK) ON epa.Code = emp.Code
 		) AS tbl
-	ORDER BY tbl.GroupName
-		,tbl.Code
+	ORDER BY tbl.GroupName ASC
+		,tbl.Code ASC
 
-	SELECT @Ids = COALESCE(@Ids + ',', '') + CAST(EPAId AS NVARCHAR)
+	SELECT @Ids = COALESCE(@Ids + ',', '') + CAST(EPAId AS NVARCHAR(20))
 	FROM #tblEPAs WITH (NOLOCK)
 
 	INSERT INTO #tblDisciplineScores (
@@ -485,8 +485,8 @@ BEGIN
 		AND pc.ProcessId > 1 -- ignore HR phase
 		INNER JOIN dbo.Period AS period WITH (NOLOCK) ON epa.PeriodId = period.PeriodId
 		INNER JOIN dbo.Employee AS emp WITH (NOLOCK) ON pc.EvaluatorId = emp.EmployeeId
-	ORDER BY epa.EPAId
-		,pc.ProcessId
+	ORDER BY epa.EPAId ASC
+		,pc.ProcessId ASC
 
 	DROP TABLE #tblEPAs
 

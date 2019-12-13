@@ -209,8 +209,8 @@ BEGIN
 		LEFT JOIN #tblDisciplineScores AS ds WITH (NOLOCK) ON epa.EPAId = ds.EPAId
 		LEFT JOIN #tblLastEPA AS ls WITH (NOLOCK) ON epa.EPAId = ls.EPAId
 		AND emp.Code = ls.Code
-	ORDER BY emp.NickName
-		,emp.Code
+	ORDER BY emp.NickName ASC
+		,emp.Code ASC
 
 	DROP TABLE #tblDisciplineScores
 

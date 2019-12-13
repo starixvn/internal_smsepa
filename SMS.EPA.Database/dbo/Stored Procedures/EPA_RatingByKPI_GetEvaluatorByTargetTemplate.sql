@@ -46,6 +46,6 @@ BEGIN
 		,emp.FullName
 	FROM @tblEvaluatorIds AS tbl
 		INNER JOIN dbo.Employee AS emp WITH (NOLOCK) ON tbl.Id = emp.EmployeeId
-	ORDER BY emp.NickName
-		,emp.Code
+	ORDER BY emp.NickName ASC
+		,emp.Code ASC
 END

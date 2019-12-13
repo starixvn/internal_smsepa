@@ -108,5 +108,5 @@ BEGIN
 			WHEN TargetTypeId = @SemiTargetType THEN 2
 			WHEN TargetTypeId = @PromotionTargetType THEN 3
 			ELSE 4
-			END
+			END ASC
 END

@@ -61,7 +61,12 @@ BEGIN
 		RETURN
 	END CATCH
 
-	INSERT INTO #EPA
+	INSERT INTO #EPA (
+		EPAId
+		,FinalScore
+		,DisciplineScore
+		,Grade
+		)
 	SELECT epa.EPAId
 		,epa.FinalScore
 		,epa.DisciplineScore

@@ -78,7 +78,7 @@ BEGIN
 		AND pe.EndDate < @Today
 		AND pe.IsActive = 1
 
-	SELECT @EPAIds = COALESCE(@EPAIds + ',', '') + CAST(Id AS NVARCHAR)
+	SELECT @EPAIds = COALESCE(@EPAIds + ',', '') + CAST(Id AS NVARCHAR(20))
 	FROM @TblEPAId
 
 	INSERT INTO #tblDisciplineScores (

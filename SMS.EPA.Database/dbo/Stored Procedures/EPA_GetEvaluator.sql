@@ -36,7 +36,7 @@ BEGIN
 		INNER JOIN dbo.EPAProcess AS pc WITH (NOLOCK) ON epa.EPAId = pc.EPAId
 		INNER JOIN dbo.Employee AS eva WITH (NOLOCK) ON pc.EvaluatorId = eva.EmployeeId
 	WHERE pc.ProcessId IN (1, 3, 4, 5)
-	ORDER BY epa.EPAId
-		,pc.ProcessId
-		,pc.[Priority]
+	ORDER BY epa.EPAId ASC
+		,pc.ProcessId ASC
+		,pc.[Priority] ASC
 END

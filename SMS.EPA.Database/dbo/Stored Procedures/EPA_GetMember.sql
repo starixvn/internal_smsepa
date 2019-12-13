@@ -55,6 +55,6 @@ BEGIN
 				AND tt.TargetTypeId <> 2
 				)
 			)
-	ORDER BY emp.NickName
-		,emp.Code
+	ORDER BY emp.NickName ASC
+		,emp.Code ASC
 END

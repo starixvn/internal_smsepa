@@ -1,6 +1,6 @@
-﻿CREATE PROCEDURE [dbo].[EpaMonthlyPeriod_Get] 
-	@FromDate DATETIME,
-	@ToDate DATETIME
+﻿
+CREATE PROCEDURE [dbo].[EpaMonthlyPeriod_Get] @FromDate DATE
+	,@ToDate DATE
 AS
 /*
 Created: 20160215@Tim.Trinh
@@ -15,95 +15,81 @@ Param's Explanation:
 BEGIN
 	SET NOCOUNT ON;
 
-	IF OBJECT_ID('tempdb..#EmployeeSetting') IS NOT NULL
-	BEGIN
-		DROP TABLE #EmployeeSetting
-	END
+	DECLARE @tblEmployeeSetting TABLE (
+		PeriodId INT
+		,EmployeeId INT
+		)
 
-	CREATE TABLE #EmployeeSetting 
-	(
-		PeriodId INT,
-		EmployeeId INT
-	)
-
-	INSERT INTO #EmployeeSetting
-	SELECT DISTINCT period.PeriodId, peFS.EmployeeId
+	INSERT INTO @tblEmployeeSetting (
+		PeriodId
+		,EmployeeId
+		)
+	SELECT DISTINCT period.PeriodId
+		,peFS.EmployeeId
 	FROM dbo.Period AS period WITH (NOLOCK)
 		INNER JOIN dbo.PeriodFlowSetting AS peFS WITH (NOLOCK) ON period.PeriodId = peFS.PeriodId
-	WHERE NOT EXISTS 
-	(
-		SELECT 1
-		FROM dbo.PeriodExcludedEmployee AS peExcluded WITH (NOLOCK)
-		WHERE peFS.EmployeeId = peExcluded.EmployeeId
-			AND peFS.PeriodId = peExcluded.PeriodId
-	)
+	WHERE NOT EXISTS (
+			SELECT 1
+			FROM dbo.PeriodExcludedEmployee AS peExcluded WITH (NOLOCK)
+			WHERE peFS.EmployeeId = peExcluded.EmployeeId
+				AND peFS.PeriodId = peExcluded.PeriodId
+			)
 		AND period.TargetTypeId = 2 -- Monhtly
-		AND CAST(period.EndDate AS DATE) BETWEEN CAST(@FromDate AS DATE)
-			AND CAST(@ToDate AS DATE)
+		AND period.EndDate BETWEEN @FromDate
+			AND @ToDate
 	
 	UNION
 	SELECT period.PeriodId
 		,peTS.EmployeeId
 	FROM dbo.Period AS period WITH (NOLOCK)
 		INNER JOIN dbo.PeriodTargetSetting AS peTS WITH (NOLOCK) ON period.PeriodId = peTS.PeriodId
-	WHERE NOT EXISTS
-	(
-		SELECT 1
-		FROM dbo.PeriodFlowSetting AS peFS WITH (NOLOCK)
-		WHERE peTS.EmployeeId = peFS.EmployeeId
-			AND peTS.PeriodId = peFS.PeriodId
-	)
-	AND NOT EXISTS 
-	(
-		SELECT 1
-		FROM dbo.PeriodExcludedEmployee AS peExcluded WITH (NOLOCK)
-		WHERE peTS.EmployeeId = peExcluded.EmployeeId
-			AND peTS.PeriodId = peExcluded.PeriodId
-	)
-	AND period.TargetTypeId = 2 -- Monhtly
-	AND CAST(period.EndDate AS DATE) BETWEEN CAST(@FromDate AS DATE)
-		AND CAST(@ToDate AS DATE)
+	WHERE NOT EXISTS (
+			SELECT 1
+			FROM dbo.PeriodFlowSetting AS peFS WITH (NOLOCK)
+			WHERE peTS.EmployeeId = peFS.EmployeeId
+				AND peTS.PeriodId = peFS.PeriodId
+			)
+		AND NOT EXISTS (
+			SELECT 1
+			FROM dbo.PeriodExcludedEmployee AS peExcluded WITH (NOLOCK)
+			WHERE peTS.EmployeeId = peExcluded.EmployeeId
+				AND peTS.PeriodId = peExcluded.PeriodId
+			)
+		AND period.TargetTypeId = 2 -- Monhtly
+		AND period.EndDate BETWEEN @FromDate
+			AND @ToDate
 
-	SELECT DISTINCT 
-		pe.PeriodId,
-		pe.[Name],
-		pe.StartDate,
-		pe.EndDate,
-		pe.[Description],
-		pe.IsActive,
-		peF.TotalEmployees,
-		epa.TotalEmployeesUnfinished
+	SELECT DISTINCT pe.PeriodId
+		,pe.[Name]
+		,pe.StartDate
+		,pe.EndDate
+		,pe.[Description]
+		,pe.IsActive
+		,peF.TotalEmployees
+		,epa.TotalEmployeesUnfinished
 	FROM dbo.Period AS pe WITH (NOLOCK)
-		LEFT JOIN 
-		(
+		LEFT JOIN (
 		SELECT PeriodId
 			,COUNT(EmployeeId) AS TotalEmployees
-		FROM #EmployeeSetting
+		FROM @tblEmployeeSetting
 		GROUP BY PeriodId
 		) AS peF ON peF.PeriodId = pe.PeriodId
-		LEFT JOIN 
-		(
+		LEFT JOIN (
 		SELECT epa1.PeriodId
 			,COUNT(EmployeeId) AS TotalEmployeesUnfinished
 		FROM dbo.EPA AS epa1 WITH (NOLOCK)
 			INNER JOIN dbo.Period AS period1 WITH (NOLOCK) ON epa1.PeriodId = period1.PeriodId
 		WHERE epa1.[Status] = 0
-			AND NOT EXISTS 
-			(
+			AND NOT EXISTS (
 				SELECT 1
 				FROM dbo.PeriodExcludedEmployee AS peExcluded WITH (NOLOCK)
 				WHERE epa1.PeriodId = peExcluded.PeriodId
 					AND epa1.EmployeeId = peExcluded.EmployeeId
-			)
+				)
 		GROUP BY epa1.PeriodId
 		) AS epa ON epa.PeriodId = pe.PeriodId
 	WHERE pe.TargetTypeId = 2 -- Monhtly
-		AND CAST(pe.EndDate AS DATE) BETWEEN CAST(@FromDate AS DATE)
-			AND CAST(@ToDate AS DATE)
+		AND pe.EndDate BETWEEN @FromDate
+			AND @ToDate
 	ORDER BY pe.EndDate DESC
-
-	IF OBJECT_ID('tempdb..#EmployeeSetting') IS NOT NULL
-	BEGIN
-		DROP TABLE #EmployeeSetting
-	END
 END

@@ -35,7 +35,7 @@ BEGIN
 		AND dt.KPILogNo = kpihis.LogNo
 		INNER JOIN @Processes AS pct ON dt.ProcessId = pct.ProcessId
 		AND dt.EvaluatorId = pct.EvaluatorId
-	ORDER BY dt.ProcessId
-		,dt.KPIGroupId
-		,dt.KPIDisplayOrder
+	ORDER BY dt.ProcessId ASC
+		,dt.KPIGroupId ASC
+		,dt.KPIDisplayOrder ASC
 END

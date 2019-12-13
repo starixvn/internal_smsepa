@@ -195,8 +195,8 @@ BEGIN
 		AND period.PeriodId = @PeriodId
 		AND dt.TargetTemplateId = @TargetTemplateId
 		AND epa.HasMonthlyEPA = 0
-	ORDER BY emp.NickName
-		,emp.Code
+	ORDER BY emp.NickName ASC
+		,emp.Code ASC
 
 	SELECT DISTINCT epa.EPAId
 		,dt.KPIId
@@ -226,8 +226,8 @@ BEGIN
 		AND period.PeriodId = @PeriodId
 		AND dt.TargetTemplateId = @TargetTemplateId
 		AND epa.HasMonthlyEPA = 0
-	ORDER BY epa.EPAId
-		,dt.KPIDisplayOrder
+	ORDER BY epa.EPAId ASC
+		,dt.KPIDisplayOrder ASC
 
 	SELECT DISTINCT epa.EPAId
 		,dt.KPIId
@@ -255,8 +255,8 @@ BEGIN
 	WHERE dt.TargetTemplateId = @TargetTemplateId
 		AND period.PeriodId = @PeriodId
 		AND epa.HasMonthlyEPA = 0
-	ORDER BY epa.EPAId
-		,dt.KPIDisplayOrder
+	ORDER BY epa.EPAId ASC
+		,dt.KPIDisplayOrder ASC
 
 	DROP TABLE #tblEPA
 

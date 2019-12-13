@@ -206,8 +206,8 @@ BEGIN
 		,gr.[Name]
 		,emp.JobTitle
 		,job.[Name]
-	ORDER BY gr.[Name]
-		,emp.Code
+	ORDER BY gr.[Name] ASC
+		,emp.Code ASC
 
 	DROP TABLE #tblEmployeeDiscipline
 END

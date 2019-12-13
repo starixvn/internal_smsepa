@@ -1,5 +1,4 @@
 ﻿
-
 CREATE PROCEDURE [dbo].[EpaEmployeeFlowSetting_Get] @FlowTemplateId INT
 	,@DepartmentId INT = NULL
 	,@GroupId INT = NULL
@@ -52,7 +51,7 @@ BEGIN
 				@IsMonthlyPeriod IS NULL
 				OR e.HasMonthlyEPA = @IsMonthlyPeriod
 				)
-		ORDER BY e.Code
+		ORDER BY e.Code ASC
 	END
 	ELSE IF @GroupId IS NOT NULL
 	BEGIN
@@ -81,7 +80,7 @@ BEGIN
 				@IsMonthlyPeriod IS NULL
 				OR e.HasMonthlyEPA = @IsMonthlyPeriod
 				)
-		ORDER BY Code
+		ORDER BY Code ASC
 	END
 	ELSE
 	BEGIN

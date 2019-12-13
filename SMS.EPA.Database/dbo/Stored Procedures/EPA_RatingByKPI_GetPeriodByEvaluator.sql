@@ -14,9 +14,7 @@ Param's Explanation:
 BEGIN
 	SET NOCOUNT ON;
 
-	DECLARE @Today DATE
-
-	SET @Today = CAST(GETDATE() AS DATE)
+	DECLARE @Today DATE = GETDATE()
 
 	SELECT DISTINCT period.PeriodId
 		,period.[Name]
@@ -27,8 +25,8 @@ BEGIN
 		INNER JOIN dbo.EPAProcess AS pc WITH (NOLOCK) ON epa.EPAId = pc.EPAId
 		AND pc.ProcessId = 3 -- Evaluator
 		AND pc.EvaluatorId = @EvaluatorId
-		AND @Today BETWEEN CAST(pc.StartDate AS DATE)
-			AND CAST(pc.EndDate AS DATE)
+		AND @Today BETWEEN pc.StartDate
+			AND pc.EndDate
 		INNER JOIN dbo.Period AS period WITH (NOLOCK) ON epa.PeriodId = period.PeriodId
 		AND period.IsActive = 1
 		AND period.TargetTypeId IN (2, 3) -- Monthly, semi
@@ -37,5 +35,5 @@ BEGIN
 		AND pts.TargetTemplateId = dt.TargetTemplateId
 	WHERE epa.[Status] = 0 -- open
 		AND epa.HasMonthlyEPA = 0
-	ORDER BY period.[Name]
+	ORDER BY period.[Name] ASC
 END

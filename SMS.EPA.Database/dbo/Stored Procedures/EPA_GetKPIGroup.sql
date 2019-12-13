@@ -90,5 +90,5 @@ BEGIN
 		LEFT JOIN @TblKPIGroup AS tbl2 ON epa.EPAId = tbl2.EPAId
 		AND dt.TargetTemplateId = tbl2.TargetTemplateId
 		AND dt.KPIGroupId = tbl2.KPIGroupId
-	ORDER BY dt.KPIGroupDisplayOrder
+	ORDER BY dt.KPIGroupDisplayOrder ASC
 END

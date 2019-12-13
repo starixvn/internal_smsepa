@@ -1,5 +1,4 @@
 ﻿
-
 CREATE PROCEDURE [dbo].[EpaAuto_Probation_AddEmployeeToPeriod] @PeriodId INT
 	,@EmployeeIds VARCHAR(MAX)
 	,@ErrCode INT = 0 OUTPUT
@@ -42,11 +41,16 @@ BEGIN
 		,TargetTemplateId INT
 		)
 
-	INSERT INTO #DeptFlowAndTargetTemplate
-	EXEC GetFlowAndTargetTemplateSetting @TargetTypeId
+	INSERT INTO #DeptFlowAndTargetTemplate (
+		DepartmentId
+		,EmployeeId
+		,FlowTemplateId
+		,TargetTemplateId
+		)
+	EXEC dbo.GetFlowAndTargetTemplateSetting @TargetTypeId
 
 	-- find employee that already existed
-	INSERT INTO @ExistedEmployeeIds
+	INSERT INTO @ExistedEmployeeIds (Id)
 	EXEC dbo.EpaPeriod_AddEmployee_CheckEmployeeExisted @PeriodId
 		,@Employees
 
@@ -57,7 +61,7 @@ BEGIN
 	--find employee that have resign date and disabled
 	DECLARE @NotQualifiedEmployeeIds IntId
 	
-	INSERT INTO @NotQualifiedEmployeeIds
+	INSERT INTO @NotQualifiedEmployeeIds (Id)
 	SELECT Employee.EmployeeId
 	FROM Employee
 	WHERE Employee.EmployeeId in (
@@ -74,7 +78,7 @@ BEGIN
 		FROM @NotQualifiedEmployeeIds)
 
 	-- find employee don't have setting Flow Template / Target Template
-	SELECT @NoneSettingEmployeeIds = COALESCE(@NoneSettingEmployeeIds + ',', '') + CAST(empS.Id AS NVARCHAR)
+	SELECT @NoneSettingEmployeeIds = COALESCE(@NoneSettingEmployeeIds + ',', '') + CAST(empS.Id AS NVARCHAR(20))
 	FROM @Employees AS empS
 	WHERE NOT EXISTS (
 			SELECT 1

@@ -19,8 +19,9 @@ Param's Explanation:
 */
 BEGIN
 	SET NOCOUNT ON;
+	SET XACT_ABORT ON;
 
-	CREATE TABLE #Details (
+	DECLARE @tblDetails TABLE (
 		EPAId INT
 		,ProcessId INT
 		,TotalScore NVARCHAR(100) NULL
@@ -32,7 +33,11 @@ BEGIN
 		EXEC sp_xml_preparedocument @DocHandler OUTPUT
 			,@Details
 
-		INSERT INTO #Details
+		INSERT INTO @tblDetails (
+			EPAId
+			,ProcessId
+			,TotalScore
+			)
 		SELECT @EPAId
 			,ProcessId
 			,TotalScore
@@ -49,25 +54,19 @@ BEGIN
 	END CATCH
 
 	BEGIN TRY
-		BEGIN TRANSACTION
-
 		UPDATE pc
 		SET pc.TotalScore = dt.TotalScore
 		FROM dbo.EPAProcess AS pc WITH (ROWLOCK, UPDLOCK)
 			INNER JOIN dbo.EPA AS epa WITH (NOLOCK) ON pc.EPAId = epa.EPAId
 			INNER JOIN dbo.Period AS period WITH (NOLOCK) ON epa.PeriodId = period.PeriodId
-			INNER JOIN #Details AS dt ON pc.EPAId = dt.EPAId
+			INNER JOIN @tblDetails AS dt ON pc.EPAId = dt.EPAId
 			AND pc.ProcessId = dt.ProcessId
 		WHERE epa.EPAId = @EPAId
 			AND epa.HasMonthlyEPA = 1
 			AND period.TargetTypeId = 3 -- semi
-
-		COMMIT TRANSACTION
 	END TRY
 
 	BEGIN CATCH
-		ROLLBACK TRANSACTION
-
 		SELECT @ErrCode = 1
 			,@ErrMsg = N'Update unsuccessfully.'
 	END CATCH;

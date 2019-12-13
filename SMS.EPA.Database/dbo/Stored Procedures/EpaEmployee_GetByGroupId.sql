@@ -1,5 +1,4 @@
 ﻿
-
 CREATE PROCEDURE [dbo].[EpaEmployee_GetByGroupId] @GroupId INT
 AS
 /*
@@ -26,5 +25,5 @@ BEGIN
 	WHERE GroupId = @GroupId
 		AND ISNULL(e.IsDeleted, 0) = 0
 		AND e.[Enabled] = 1
-	ORDER BY Code
+	ORDER BY Code ASC
 END

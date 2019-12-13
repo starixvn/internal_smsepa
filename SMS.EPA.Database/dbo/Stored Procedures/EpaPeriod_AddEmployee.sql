@@ -1,5 +1,4 @@
 ﻿
-
 CREATE PROCEDURE [dbo].[EpaPeriod_AddEmployee] @PeriodId INT
 	,@Departments VARCHAR(MAX) = NULL
 	,@EmployeeId INT = NULL
@@ -232,7 +231,7 @@ BEGIN
 	END
 
 	-- find employee that already existed
-	INSERT INTO @ExistedEmployeeIds
+	INSERT INTO @ExistedEmployeeIds (Id)
 	EXEC dbo.EpaPeriod_AddEmployee_CheckEmployeeExisted @PeriodId
 		,@EmployeeIds
 
@@ -241,7 +240,7 @@ BEGIN
 		INNER JOIN @ExistedEmployeeIds AS existed ON empId.Id = existed.Id
 
 	-- find employee don't have setting Flow Template / Target Template
-	SELECT @NoneSettingEmployeeIds = COALESCE(@NoneSettingEmployeeIds + ',', '') + CAST(empS.Id AS NVARCHAR)
+	SELECT @NoneSettingEmployeeIds = COALESCE(@NoneSettingEmployeeIds + ',', '') + CAST(empS.Id AS NVARCHAR(20))
 	FROM @EmployeeIds AS empS
 	WHERE (
 			NOT EXISTS (

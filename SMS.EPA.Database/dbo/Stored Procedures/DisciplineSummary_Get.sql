@@ -249,8 +249,8 @@ BEGIN
 		,emp.Code
 		,gr.GroupId
 		,gr.[Name]
-	ORDER BY gr.[Name]
-		,emp.Code
+	ORDER BY gr.[Name] ASC
+		,emp.Code ASC
 
 	DROP TABLE #tblEmployeeDiscipline
 END
