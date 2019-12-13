@@ -25,6 +25,8 @@ BEGIN
 	WHERE PeriodId = @PeriodId
 		AND IsActive = 1
 
+	SET @query = '%' + ISNULL(@query, '') + '%'
+
 	IF @TargetTypeId IN (2, 3)
 	BEGIN
 		INSERT INTO @EPAIds (Id)
@@ -37,22 +39,27 @@ BEGIN
 			GROUP BY EPAId
 			) AS pc ON epa.EPAId = pc.EPAId
 			INNER JOIN dbo.Period AS pe WITH (NOLOCK) ON epa.PeriodId = pe.PeriodId
+			AND pe.EndDate <= @Today
+			AND pe.TargetTypeId IN (2, 3) -- monthly, semi annual
+			AND pe.IsActive = 1
+			AND pe.PeriodId = @PeriodId
 			INNER JOIN dbo.Employee AS emp WITH (NOLOCK) ON epa.EmployeeId = emp.EmployeeId
 			AND emp.IsDeleted = 0
 			AND emp.[Enabled] = 1
 			INNER JOIN dbo.[Group] AS gr WITH (NOLOCK) ON emp.GroupId = gr.GroupId
-		WHERE pe.EndDate <= @Today
-			AND pc.EndDate < pe.EndDate
-			AND pe.TargetTypeId IN (2, 3) -- monthly, semi annual
+		WHERE pc.EndDate < pe.EndDate
 			AND epa.[Status] IN (0, 1) -- open/closed
-			AND pe.IsActive = 1
-			AND pe.PeriodId = @PeriodId
-			AND ISNULL(@GroupId, gr.GroupId) = gr.GroupId
-			AND ISNULL(@IsLocal, emp.IsLocal) = emp.IsLocal
 			AND (
-				ISNULL(@Query, '') = ''
-				OR emp.FullName LIKE '%' + @Query + '%'
-				OR emp.NickName LIKE '%' + @Query + '%'
+				@GroupId IS NULL
+				OR gr.GroupId = gr.GroupId
+				)
+			AND (
+				@IsLocal IS NULL
+				OR emp.IsLocal = emp.IsLocal
+				)
+			AND (
+				emp.FullName LIKE @query
+				OR emp.NickName LIKE @query
 				)
 		
 		UNION
@@ -65,22 +72,27 @@ BEGIN
 			GROUP BY EPAId
 			) AS pc ON epa.EPAId = pc.EPAId
 			INNER JOIN dbo.Period AS pe WITH (NOLOCK) ON pe.PeriodId = epa.PeriodId
+			AND pe.TargetTypeId IN (2, 3) -- monthly, semi annual
+			AND pe.IsActive = 1
+			AND pe.PeriodId = @PeriodId
 			INNER JOIN dbo.Employee AS emp WITH (NOLOCK) ON epa.EmployeeId = emp.EmployeeId
 			AND emp.IsDeleted = 0
 			AND emp.[Enabled] = 1
 			INNER JOIN dbo.[Group] AS gr WITH (NOLOCK) ON emp.GroupId = gr.GroupId
 		WHERE pc.EndDate <= @Yesterday
 			AND pc.EndDate >= pe.EndDate
-			AND pe.TargetTypeId IN (2, 3) -- monthly, semi annul
 			AND epa.[Status] IN (0, 1) -- open/closed
-			AND pe.IsActive = 1
-			AND pe.PeriodId = @PeriodId
-			AND ISNULL(@GroupId, gr.GroupId) = gr.GroupId
-			AND ISNULL(@IsLocal, emp.IsLocal) = emp.IsLocal
 			AND (
-				ISNULL(@Query, '') = ''
-				OR emp.FullName LIKE '%' + @Query + '%'
-				OR emp.NickName LIKE '%' + @Query + '%'
+				@GroupId IS NULL
+				OR gr.GroupId = gr.GroupId
+				)
+			AND (
+				@IsLocal IS NULL
+				OR emp.IsLocal = emp.IsLocal
+				)
+			AND (
+				emp.FullName LIKE @query
+				OR emp.NickName LIKE @query
 				)
 	END
 	ELSE IF @TargetTypeId IN (1, 5) -- probation/promotion
@@ -95,21 +107,26 @@ BEGIN
 			GROUP BY EPAId
 			) AS pc ON epa.EPAId = pc.EPAId
 			INNER JOIN dbo.Period AS pe WITH (NOLOCK) ON pe.PeriodId = epa.PeriodId
+			AND pe.TargetTypeId IN (1, 5) -- probation/promotion
+			AND pe.IsActive = 1
+			AND pe.PeriodId = @PeriodId
 			INNER JOIN dbo.Employee AS emp WITH (NOLOCK) ON epa.EmployeeId = emp.EmployeeId
 			AND emp.IsDeleted = 0
 			AND emp.[Enabled] = 1
 			INNER JOIN dbo.[Group] AS gr WITH (NOLOCK) ON emp.GroupId = gr.GroupId
 		WHERE pc.EndDate <= @Yesterday
-			AND pe.TargetTypeId IN (1, 5) -- probation/promotion
 			AND epa.[Status] IN (0, 1) -- open/closed
-			AND pe.IsActive = 1
-			AND pe.PeriodId = @PeriodId
-			AND ISNULL(@GroupId, gr.GroupId) = gr.GroupId
-			AND ISNULL(@IsLocal, emp.IsLocal) = emp.IsLocal
 			AND (
-				ISNULL(@Query, '') = ''
-				OR emp.FullName LIKE '%' + @Query + '%'
-				OR emp.NickName LIKE '%' + @Query + '%'
+				@GroupId IS NULL
+				OR gr.GroupId = gr.GroupId
+				)
+			AND (
+				@IsLocal IS NULL
+				OR emp.IsLocal = emp.IsLocal
+				)
+			AND (
+				emp.FullName LIKE @query
+				OR emp.NickName LIKE @query
 				)
 	END
 

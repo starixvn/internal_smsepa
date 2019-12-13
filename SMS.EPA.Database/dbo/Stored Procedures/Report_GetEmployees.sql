@@ -19,6 +19,7 @@ BEGIN
 	SET NOCOUNT ON;
 
 	DECLARE @Today DATE = GETDATE()
+	SET @query = '%' + ISNULL(@query, '') + '%'
 
 	CREATE TABLE #Period (
 		PeriodId INT
@@ -96,8 +97,8 @@ BEGIN
 		) AS tblData
 	WHERE (
 			@Query IS NULL
-			OR tblData.FullName LIKE '%' + @Query + '%'
-			OR tblData.NickName LIKE '%' + @Query + '%'
+			OR tblData.FullName LIKE @Query
+			OR tblData.NickName LIKE @Query
 			)
 		AND (
 			@DepartmentId IS NULL
@@ -187,8 +188,8 @@ BEGIN
 					AND tblData.EmployeeId = @ActorId
 				)
 			)
-	ORDER BY tblData.NickName
-		,tblData.FullName
+	ORDER BY tblData.NickName ASC
+		,tblData.FullName ASC
 
 	DROP TABLE #Period
 

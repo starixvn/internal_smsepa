@@ -50,6 +50,6 @@ BEGIN
 		INNER JOIN dbo.FlowTemplate AS ft WITH (NOLOCK) ON ef.FlowTemplateId = ft.FlowTemplateId
 	WHERE ef.EmployeeId = @EmployeeId
 		AND ef.FlowTemplateId = @FlowTemplateId
-	ORDER BY ef.ProcessId
-		,ef.[Priority]
+	ORDER BY ef.ProcessId ASC
+		,ef.[Priority] ASC
 END

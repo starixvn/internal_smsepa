@@ -51,6 +51,6 @@ BEGIN
 				AND tk.KPIId = k.KPIId
 				)
 			)
-	ORDER BY tg.DisplayOrder
-		,ISNULL(tk.DisplayOrder, 999)
+	ORDER BY tg.DisplayOrder ASC
+		,ISNULL(tk.DisplayOrder, 999) ASC
 END

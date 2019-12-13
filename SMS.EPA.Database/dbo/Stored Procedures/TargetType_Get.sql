@@ -32,7 +32,7 @@ BEGIN
 			SELECT DISTINCT Id
 			FROM #tblTargetTypeIds
 			)
-	ORDER BY DisplayOrder
+	ORDER BY DisplayOrder ASC
 
 	DROP TABLE #tblTargetTypeIds
 END

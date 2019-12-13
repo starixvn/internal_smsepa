@@ -118,7 +118,7 @@ BEGIN
 		INNER JOIN dbo.ScoreRatingType AS srt WITH (NOLOCK) ON epa.ScoreRatingTypeId = srt.ScoreRatingTypeId
 		INNER JOIN dbo.TargetType AS tt WITH (NOLOCK) ON period.TargetTypeId = tt.TargetTypeId
 		LEFT JOIN #tblDisciplineScores AS ds WITH (NOLOCK) ON epa.EPAId = ds.EPAId
-	ORDER BY epa.EPAId
+	ORDER BY epa.EPAId ASC
 
 	-- Process
 	EXECUTE dbo.EPA_GetProcess @TblEPAId

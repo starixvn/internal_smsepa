@@ -16,8 +16,7 @@ Param's Explanation:
 BEGIN
 	SET NOCOUNT ON;
 
-	SELECT DISTINCT 
-		tar.RatingTypeId
+	SELECT DISTINCT tar.RatingTypeId
 		,emp.[EmployeeId]
 		,emp.[Code]
 		,emp.[NickName]
@@ -38,16 +37,16 @@ BEGIN
 	WHERE emp.[Enabled] = 1
 		AND emp.[IsDeleted] = 0
 		AND (
-			ISNULL(@GroupId, '') = ''
+			@GroupId IS NULL
 			OR empGr.[GroupId] = @GroupId
 			)
 		AND (
-			ISNULL(@EmployeeId, '') = ''
+			@EmployeeId IS NULL
 			OR emp.[EmployeeId] = @EmployeeId
 			)
 		AND (
 			(
-				ISNULl(@ShowAll, '') = ''
+				@ShowAll IS NULL
 				AND emp.[EmployeeId] IN (
 					SELECT DISTINCT [EmployeeId]
 					FROM [dbo].[TargetTemplateEmployee] WITH (NOLOCK)
@@ -56,9 +55,8 @@ BEGIN
 			OR @ShowAll = 1
 			)
 		AND (
-			ISNULL(@TargetTypeId, '') = ''
+			@TargetTypeId IS NULL
 			OR ISNULL(tar.TargetTypeId, 0) = @TargetTypeId
 			)
-	ORDER BY emp.[EmployeeId]
-
+	ORDER BY emp.[EmployeeId] ASC
 END

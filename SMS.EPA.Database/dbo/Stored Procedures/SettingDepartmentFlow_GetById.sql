@@ -34,6 +34,6 @@ BEGIN
 	WHERE df.DepartmentId = @DepartmentId
 		AND df.FlowTemplateId = @FlowTemplateId
 		AND df.IsGroup = @IsGroup
-	ORDER BY df.ProcessId
-		,df.[Priority]
+	ORDER BY df.ProcessId ASC
+		,df.[Priority] ASC
 END

@@ -39,5 +39,5 @@ BEGIN
 		AND ref.RefName = 'RatingType'
 	WHERE ISNULL(@TargetTypeId, tg.TargetTypeId) = tg.TargetTypeId
 		AND ISNULL(@IsActive, tg.[IsActive]) = tg.[IsActive]
-	ORDER BY tg.[Name]
+	ORDER BY tg.[Name] ASC
 END

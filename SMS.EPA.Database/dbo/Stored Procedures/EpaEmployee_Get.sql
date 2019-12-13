@@ -21,6 +21,7 @@ Param's Explanation:
 */
 BEGIN
 	SET NOCOUNT ON;
+	SET @query = '%' + ISNULL(@query, '') + '%'
 
 	CREATE TABLE #tblEmployee (EmployeeId INT)
 
@@ -29,14 +30,22 @@ BEGIN
 	FROM dbo.Employee AS emp WITH (NOLOCK)
 		LEFT JOIN dbo.[Group] AS gr WITH (NOLOCK) ON emp.GroupId = gr.GroupId
 	WHERE emp.IsDeleted = 0
-		AND ISNULl(@GroupId, gr.GroupId) = gr.GroupId
 		AND (
-			@Query IS NULL
-			OR emp.FullName LIKE '%' + @Query + '%'
-			OR emp.NickName LIKE '%' + @Query + '%'
+			@GroupId IS NULL
+			OR gr.GroupId = gr.GroupId
 			)
-		AND ISNULL(@IsLocal, emp.IsLocal) = emp.IsLocal
-		AND ISNULL(@IsSpecialUser, emp.IsSpecialUser) = emp.IsSpecialUser
+		AND (
+			emp.FullName LIKE @query
+			OR emp.NickName LIKE @query
+			)
+		AND (
+			@IsLocal IS NULL
+			OR emp.IsLocal = emp.IsLocal
+			)
+		AND (
+			@IsSpecialUser IS NULL
+			OR emp.IsSpecialUser = emp.IsSpecialUser
+			)
 		AND (
 			@DepartmentId IS NULL
 			OR (

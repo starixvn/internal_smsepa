@@ -24,7 +24,10 @@ BEGIN
 	FROM dbo.TargetTemplate WITH (NOLOCK)
 	WHERE TargetTemplateId = @TargetTemplateId
 
-	INSERT INTO @KPIGroup
+	INSERT INTO @KPIGroup (
+		KPIGroupId
+		,HasKPIOptional
+		)
 	SELECT tbl1.KPIGroupId
 		,(CASE 
 			WHEN tbl2.NumberKPI IS NULL THEN 0
@@ -54,7 +57,7 @@ BEGIN
 		) AS tbl2 ON tbl1.KPIGroupId = tbl2.KPIGroupId
 
 	SELECT kg.KPIGroupId
-		,kg.NAME
+		,kg.[Name]
 		,kg.[Description]
 		,tg.[Weight]
 		,tg.IsSpreadKPI
@@ -72,6 +75,6 @@ BEGIN
 		) AS tg ON kg.KPIGroupId = tg.KPIGroupId
 	WHERE tg.KPIGroupId IS NOT NULL
 		OR kg.IsActive = 1
-	ORDER BY ISNULL(tg.DisplayOrder, 999)
-		,kg.DisplayOrder
+	ORDER BY ISNULL(tg.DisplayOrder, 999) ASC
+		,kg.DisplayOrder ASC
 END

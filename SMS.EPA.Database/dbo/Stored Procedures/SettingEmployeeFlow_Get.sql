@@ -39,7 +39,7 @@ BEGIN
 		INNER JOIN dbo.FlowTemplate AS ft WITH (NOLOCK) ON ef.FlowTemplateId = ft.FlowTemplateId
 		AND ft.FlowTemplateId = @FlowTemplateId
 	WHERE ef.ProcessId <> 2 -- self
-	ORDER BY ef.EmployeeId
-		,ef.ProcessId
-		,ef.[Priority]
+	ORDER BY ef.EmployeeId ASC
+		,ef.ProcessId ASC
+		,ef.[Priority] ASC
 END

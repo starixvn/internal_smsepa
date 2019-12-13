@@ -42,6 +42,6 @@ BEGIN
 	WHERE df.FlowTemplateId = @FlowTemplateId
 		AND df.ProcessId <> 2 -- self
 	ORDER BY DepartmentId DESC
-		,df.ProcessId
-		,df.[Priority]
+		,df.ProcessId ASC
+		,df.[Priority] ASC
 END

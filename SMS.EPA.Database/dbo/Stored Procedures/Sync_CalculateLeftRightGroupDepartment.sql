@@ -40,7 +40,7 @@ BEGIN
 	FROM [dbo].[Department] WITH (NOLOCK)
 	WHERE [ParentId] = @ParentDepartmentId
 		AND [IsActive] = 1
-	ORDER BY [DepartmentId]
+	ORDER BY [DepartmentId] ASC
 
 	OPEN department_cursor
 
@@ -64,7 +64,7 @@ BEGIN
 		FROM [dbo].[Group] WITH (NOLOCK)
 		WHERE [DepartmentId] = @department_id
 			AND [IsDeleted] = 0
-		ORDER BY [GroupId]
+		ORDER BY [GroupId] ASC
 
 		OPEN group_cursor
 
