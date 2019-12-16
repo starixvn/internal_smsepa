@@ -1,18 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
-using System.Linq;
-using NPOI.HSSF.UserModel;
-using NPOI.SS.UserModel;
-using SMS.EPA.Core.Constants;
-using SMS.EPA.Core.Services;
-using SMS.EPA.Core.Utilities.NPOIExtensions;
-using SMS.EPA.Model;
-using SMS.EPA.Services.Interfaces;
-
-namespace SMS.EPA.Services.Implement
+﻿namespace SMS.EPA.Services.Implement
 {
+    using System.Collections.Generic;
+    using System.Diagnostics;
+    using System.IO;
+    using System.Linq;
+    using NPOI.HSSF.UserModel;
+    using NPOI.SS.UserModel;
+    using SMS.EPA.Core.Constants;
+    using SMS.EPA.Core.Services;
+    using SMS.EPA.Core.Utilities.NPOIExtensions;
+    using SMS.EPA.Model;
+    using SMS.EPA.Services.Interfaces;
+
     public class ExportTargetTemplateService : IExportTargetTemplateService
     {
         private const int ContentStartRowIndex = 3;
@@ -31,7 +30,9 @@ namespace SMS.EPA.Services.Implement
         public void Export(TargetTemplate targetTemplate, IEnumerable<TargetTemplateKPIGroupModel> kpis, string templatePath)
         {
             InitializeWithTemplate(templatePath);
+
             GetData(targetTemplate, kpis);
+            GetTemplateStyle();
 
             WriteTitle();
             FillContent();
@@ -46,7 +47,10 @@ namespace SMS.EPA.Services.Implement
             TargetName = targetTemplate.Name;
             FileName = "KPI List - " + TargetName;
             SheetName = TargetName;
+        }
 
+        private void GetTemplateStyle()
+        {
             Workbook.SetSheetName(0, SheetName);
             GroupNameStyle = Sheet.GetRow(ContentStartRowIndex).GetCell(0).CellStyle;
             GroupWeightStyle = Sheet.GetRow(ContentStartRowIndex).GetCell(1).CellStyle;

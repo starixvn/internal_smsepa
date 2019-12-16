@@ -104,6 +104,10 @@
             });
         }
 
+        vm.isHasRecommendation = function (period) {
+
+        }
+
         vm.getEmployee = function () {
             return ReportModel.getEmployeeByActorId(vm.searchEmployee, vm.filter.periodId, vm.filter.departmentId, vm.filter.isLocal);
         };
@@ -120,6 +124,14 @@
             };
 
             $scope.$broadcast('exportEpaDetailReport');
+        };
+
+        vm.exportRecommendationReport = function () {
+            vm.exportRecommendationCriteria = {
+                periodId: vm.filter.periodId
+            };
+
+            $scope.$broadcast('exportRecommendationSummaryReport');
         };
 
         vm.query = function (filter) {

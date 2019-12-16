@@ -29,9 +29,10 @@
         private readonly IEmployeeEPAService employeeEPAService;
         private readonly IReportRepository reportRepository;
         private readonly ISessionService sessionService;
+        private readonly IPeriodRepository periodRepository;
         private readonly IBaseService baseService;
 
-        public ReportService() : this(null, null, null, null, null)
+        public ReportService() : this(null, null, null, null, null, null)
         {
         }
 
@@ -40,12 +41,14 @@
             IEmployeeEPARepository employeeEPARepository,
             IEmployeeEPAService employeeEPAService,
             ISessionService sessionService,
+            IPeriodRepository periodRepository,
             IBaseService baseService)
         {
             this.reportRepository = reportRepository ?? new ReportRepository();
             this.employeeEPARepository = employeeEPARepository ?? new EmployeeEPARepository();
             this.employeeEPAService = employeeEPAService ?? new EmployeeEPAService();
             this.sessionService = sessionService ?? new SessionService();
+            this.periodRepository = periodRepository ?? new PeriodRepository();
             this.baseService = baseService ?? new BaseService();
         }
 
@@ -212,6 +215,24 @@
             }
 
             return result;
+        }
+
+        public EPASummaryRecommendationReportModel GetRecommendationReport(GetEPARecommendationReportCriteria criteria)
+        {
+            EPASummaryRecommendationReportModel recommendationReport = new EPASummaryRecommendationReportModel();
+
+            if (criteria != null && criteria.IsValid())
+            {
+                GetPeriodByIdCriteria periodCriteria = new GetPeriodByIdCriteria
+                {
+                    PeriodId = criteria.PeriodId
+                };
+                recommendationReport.Period = periodRepository.GetPeriodById(periodCriteria);
+
+                recommendationReport.Recommendations = baseService.GetData<EPASummaryRecommendationModel>(criteria);
+            }
+
+            return recommendationReport;
         }
 
         private static void CreateBodyStyles(

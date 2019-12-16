@@ -6,7 +6,6 @@
     gridEpaDetailReport.$inject = ["$window", "$timeout", "utilitiesFactory", "EvaluationModel", "CommonModel", "baseUrl"];
 
     function gridEpaDetailReport($window, $timeout, utilitiesFactory, EvaluationModel, CommonModel, baseUrl) {
-
         function generateColumnHeaders(scope) {
             var sortCode = scope.sortColumnName === "Code" ? scope.sortDirection : "",
                 sortSection = scope.sortColumnName === "Section" ? scope.sortDirection : "";
@@ -160,6 +159,24 @@
                 });
         }
 
+        function registerExportExcelEvent(scope) {
+            var exportRecommendationFunction = function () {
+                scope.exportRecommendationReport();
+            }
+
+            var exportDetailFunction = function () {
+                scope.exportReport();
+            }
+
+            $('#export-detail')
+                .off('click.fanex.grid')
+                .on('click.fanex.grid', exportDetailFunction);
+
+            $('#export-recommendation')
+                .off('click.fanex.grid')
+                .on('click.fanex.grid', exportRecommendationFunction);
+        }
+
         return {
             restrict: "A",
             scope: {
@@ -169,6 +186,7 @@
                 onSortChanging: "=",
                 hideColumns: "=",
                 exportReport: "=",
+                exportRecommendationReport: "=",
                 sortColumnName: "=",
                 sortDirection: "=",
                 gridExpandHeight: "@"
@@ -185,10 +203,14 @@
                     showTitle: true,
                     titleInfo: {
                         text: "EPA Detail Report",
-                        showExcelButton: true,
-                        exportExcelFunction: function () {
-                            $scope.exportReport();
-                        }
+                        customButtons:
+                            '<div class="dropdown">'
+                            + '<input type="button" class="btnExcel" title="Export to Excel" id="excelMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">'
+                            + '<ul class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">'
+                            + '<li><a class="link dropdown-item" id="export-detail">Export Detail</a></li>'
+                            + '<li><a class="link dropdown-item" id="export-recommendation">Export Recommendation</a></li>'
+                            + ' </ul>'
+                            + ' </div>'
                     },
                     sortOption: {
                         serverSortFunction: function (sortColumnName, sortDirection) {
@@ -217,6 +239,7 @@
 
                                 registerViewEPADetailEvent($scope.pageOption);
                                 registerExportPdfEvent();
+                                registerExportExcelEvent($scope);
                             }
                         });
                     });
