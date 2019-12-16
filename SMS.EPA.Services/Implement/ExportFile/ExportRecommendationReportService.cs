@@ -96,15 +96,15 @@
 
                 switch (recommendation.ProbationStatus)
                 {
-                    case (int)ProbationStatusType.FailProbation:
+                    case (byte)ProbationStatusType.FailProbation:
                         curRow.CreateCell(colIndex).SetCellValue(RecommendationFail);
                         break;
 
-                    case (int)ProbationStatusType.PassProbation:
+                    case (byte)ProbationStatusType.PassProbation:
                         curRow.CreateCell(colIndex).SetCellValue(RecommendationPass);
                         break;
 
-                    case (int)ProbationStatusType.ExtendProbation:
+                    case (byte)ProbationStatusType.ExtendProbation:
                         curRow.CreateCell(colIndex).SetCellValue(RecommendationExtend);
                         break;
 

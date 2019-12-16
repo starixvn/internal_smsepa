@@ -1,7 +1,6 @@
 ﻿namespace SMS.EPA.Site.Controllers
 {
     using System.Web.Mvc;
-    using Criteria.Report;
     using Model;
     using Services.Implement;
     using Services.Interfaces;
@@ -26,14 +25,11 @@
             _exportExcelService = exportExcelService ?? new ExportRecommendationReportService();
         }
 
-        public ActionResult ExportExcel(GetEPARecommendationReportCriteria criteria)
+        public ActionResult ExportExcel(int periodId)
         {
-            if (criteria != null)
-            {
-                EPASummaryRecommendationReportModel data = _reportService.GetRecommendationReport(criteria);
+            EPASummaryRecommendationReportModel data = _reportService.GetRecommendationReport(periodId);
 
-                _exportExcelService.Export(data, Server.MapPath(RecommendationReportTemplate));
-            }
+            _exportExcelService.Export(data, Server.MapPath(RecommendationReportTemplate));
 
             return new EmptyResult();
         }

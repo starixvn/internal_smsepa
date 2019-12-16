@@ -25,6 +25,6 @@
 
         IEnumerable<EmployeeViewModel> GetEmployeeByActorId(GetEmployeeByActorIdCriteria criteria);
 
-        EPASummaryRecommendationReportModel GetRecommendationReport(GetEPARecommendationReportCriteria criteria);
+        EPASummaryRecommendationReportModel GetRecommendationReport(int periodId);
     }
 }

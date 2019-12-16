@@ -29,7 +29,7 @@
         private readonly IEmployeeEPAService employeeEPAService;
         private readonly IReportRepository reportRepository;
         private readonly ISessionService sessionService;
-        private readonly IPeriodRepository periodRepository;
+        private readonly IPeriodService periodService;
         private readonly IBaseService baseService;
 
         public ReportService() : this(null, null, null, null, null, null)
@@ -41,14 +41,14 @@
             IEmployeeEPARepository employeeEPARepository,
             IEmployeeEPAService employeeEPAService,
             ISessionService sessionService,
-            IPeriodRepository periodRepository,
+            IPeriodService periodService,
             IBaseService baseService)
         {
             this.reportRepository = reportRepository ?? new ReportRepository();
             this.employeeEPARepository = employeeEPARepository ?? new EmployeeEPARepository();
             this.employeeEPAService = employeeEPAService ?? new EmployeeEPAService();
             this.sessionService = sessionService ?? new SessionService();
-            this.periodRepository = periodRepository ?? new PeriodRepository();
+            this.periodService = periodService ?? new PeriodService();
             this.baseService = baseService ?? new BaseService();
         }
 
@@ -217,20 +217,17 @@
             return result;
         }
 
-        public EPASummaryRecommendationReportModel GetRecommendationReport(GetEPARecommendationReportCriteria criteria)
+        public EPASummaryRecommendationReportModel GetRecommendationReport(int periodId)
         {
-            EPASummaryRecommendationReportModel recommendationReport = new EPASummaryRecommendationReportModel();
-
-            if (criteria != null && criteria.IsValid())
+            var criteria = new GetEPARecommendationReportCriteria
             {
-                GetPeriodByIdCriteria periodCriteria = new GetPeriodByIdCriteria
-                {
-                    PeriodId = criteria.PeriodId
-                };
-                recommendationReport.Period = periodRepository.GetPeriodById(periodCriteria);
-
-                recommendationReport.Recommendations = baseService.GetData<EPASummaryRecommendationModel>(criteria);
-            }
+                PeriodId = periodId
+            };
+            var recommendationReport = new EPASummaryRecommendationReportModel
+            {
+                Period = periodService.GetPeriodById(periodId),
+                Recommendations = baseService.GetData<EPASummaryRecommendationModel>(criteria)
+            };
 
             return recommendationReport;
         }
