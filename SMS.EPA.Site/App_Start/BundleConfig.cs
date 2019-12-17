@@ -191,6 +191,7 @@
                             "~/SourceApp/Components/Report/report-model.js",
                             "~/SourceApp/Components/Report/epa-detail-report-directive.js",
                             "~/SourceApp/Components/Report/export-recommendation-report-directive.js",
+                            "~/SourceApp/Components/Report/export-comment-report-directive.js",
                             "~/SourceApp/Components/Report/epa-summary-report-directive.js",
                             "~/SourceApp/Components/Report/export-epa-detail-report-directive.js",
                             "~/SourceApp/Components/Report/export-epa-summary-report-directive.js",

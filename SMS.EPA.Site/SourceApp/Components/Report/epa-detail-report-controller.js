@@ -36,10 +36,10 @@
                 filter.phaseIds,
                 filter.sortColumnName,
                 filter.sortDirection)
-            .then(function () {
-                vm.epaDetail = ReportModel.epaDetail;
-                lockScreenService.stop();
-            });
+                .then(function () {
+                    vm.epaDetail = ReportModel.epaDetail;
+                    lockScreenService.stop();
+                });
         }
 
         function getShowHideColumns() {
@@ -104,10 +104,6 @@
             });
         }
 
-        vm.isHasRecommendation = function (period) {
-
-        }
-
         vm.getEmployee = function () {
             return ReportModel.getEmployeeByActorId(vm.searchEmployee, vm.filter.periodId, vm.filter.departmentId, vm.filter.isLocal);
         };
@@ -132,6 +128,17 @@
             };
 
             $scope.$broadcast('exportRecommendationSummaryReport');
+        };
+
+        vm.exportCommentReport = function () {
+            debugger;
+            var periodName = vm.periods.filter(period => period.PeriodId == vm.filter.periodId)[0].Name;
+            vm.exportCommentCriteria = {
+                periodId: vm.filter.periodId,
+                periodName: periodName
+            };
+
+            $scope.$broadcast('exportCommentSummaryReport');
         };
 
         vm.query = function (filter) {

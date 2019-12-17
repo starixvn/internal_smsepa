@@ -221,6 +221,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controllers\Export\ExportCommentReportController.cs" />
     <Compile Include="Controllers\Export\ExportRecommendationReportController.cs" />
     <Compile Include="Controllers\Export\ExportTargetTemplateController.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -581,6 +582,7 @@
     <Content Include="SourceApp\Components\Period\update-basic-info-controller.js" />
     <Content Include="SourceApp\Components\Period\update-period-controller.js" />
     <Content Include="SourceApp\Components\Period\create-period-controller.js" />
+    <Content Include="SourceApp\Components\Report\export-comment-report-directive.js" />
     <Content Include="SourceApp\Components\Report\export-monthly-epa-detail-report-directive.js" />
     <Content Include="SourceApp\Components\Report\export-epa-detail-report-directive.js" />
     <Content Include="SourceApp\Components\Report\export-monthly-epa-summary-report-directive.js" />
@@ -800,6 +802,7 @@
     <Content Include="Content\Common\toastr.js.map" />
     <Content Include="ExcelTemplates\TargetTemplateKPIsTemplate.xls" />
     <Content Include="ExcelTemplates\RecommendationReportTemplate.xls" />
+    <Content Include="ExcelTemplates\CommentReportTemplate.xls" />
     <None Include="Libs\angularjs\angular-resource.min.js.map" />
     <None Include="Libs\angularjs\angular-route.min.js.map" />
     <Content Include="Libs\angularjs\angular-touch.min.js.map" />

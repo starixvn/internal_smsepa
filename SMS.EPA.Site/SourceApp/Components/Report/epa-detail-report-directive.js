@@ -168,6 +168,10 @@
                 scope.exportReport();
             }
 
+            var exportCommentFunction = function () {
+                scope.exportCommentReport();
+            }
+
             $('#export-detail')
                 .off('click.fanex.grid')
                 .on('click.fanex.grid', exportDetailFunction);
@@ -175,6 +179,10 @@
             $('#export-recommendation')
                 .off('click.fanex.grid')
                 .on('click.fanex.grid', exportRecommendationFunction);
+
+            $('#export-comment')
+                .off('click.fanex.grid')
+                .on('click.fanex.grid', exportCommentFunction);
         }
 
         return {
@@ -187,6 +195,7 @@
                 hideColumns: "=",
                 exportReport: "=",
                 exportRecommendationReport: "=",
+                exportCommentReport: "=",
                 sortColumnName: "=",
                 sortDirection: "=",
                 gridExpandHeight: "@"
@@ -208,6 +217,7 @@
                             + '<input type="button" class="btnExcel" title="Export to Excel" id="excelMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">'
                             + '<ul class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">'
                             + '<li><a class="link dropdown-item" id="export-detail">Export Detail</a></li>'
+                            + '<li><a class="link dropdown-item" id="export-comment">Export Comment</a></li>'
                             + '<li><a class="link dropdown-item" id="export-recommendation">Export Recommendation</a></li>'
                             + ' </ul>'
                             + ' </div>'
