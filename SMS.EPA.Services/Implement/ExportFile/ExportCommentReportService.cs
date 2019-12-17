@@ -86,10 +86,10 @@
 
                 FillEvaluatorFields(evaluatorRow, fieldData.Code);
 
-                int staffSummaryLastRow = evaluatorRow.Values.Max();
-                MergeStaffFields(rowIndex, staffSummaryLastRow - 1);
+                int nextStaffRowIndex = evaluatorRow.Values.Max();
+                MergeStaffFields(rowIndex, nextStaffRowIndex - 1);
 
-                rowIndex = staffSummaryLastRow;
+                rowIndex = nextStaffRowIndex;
             }
         }
 
