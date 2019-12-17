@@ -106,9 +106,11 @@
     <Compile Include="Implement\BaseMailService.cs" />
     <Compile Include="Implement\ExportFile\ExportRecommendationReportService.cs" />
     <Compile Include="Implement\ExportFile\ExportTargetTemplateService.cs" />
+    <Compile Include="Implement\ReportService\RecomendationReportService.cs" />
     <Compile Include="Interfaces\ExportFile\IExportRecommendationReportService.cs" />
     <Compile Include="Interfaces\ExportFile\IExportTargetTemplateService.cs" />
     <Compile Include="Interfaces\IBaseMailService.cs" />
+    <Compile Include="Interfaces\ReportService\IRecomendationReportService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <!-- Exclude the file from analysis -->
       <SonarQubeExclude>true</SonarQubeExclude>

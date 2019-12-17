@@ -8,7 +8,7 @@
     public class ExportRecommendationReportController : Controller
     {
         private const string RecommendationReportTemplate = @"~\ExcelTemplates\RecommendationReportTemplate.xls";
-        private readonly IReportService _reportService;
+        private readonly IRecomendationReportService _recomendationReportService;
         private readonly IExportRecommendationReportService _exportExcelService;
 
         public ExportRecommendationReportController()
@@ -17,17 +17,17 @@
         }
 
         public ExportRecommendationReportController(
-            IReportService reportService,
+            IRecomendationReportService recomendationReportService,
             IExportRecommendationReportService exportExcelService
             )
         {
-            _reportService = reportService ?? new ReportService();
+            _recomendationReportService = recomendationReportService ?? new RecomendationReportService();
             _exportExcelService = exportExcelService ?? new ExportRecommendationReportService();
         }
 
         public ActionResult ExportExcel(int periodId)
         {
-            EPASummaryRecommendationReportModel data = _reportService.GetRecommendationReport(periodId);
+            EPASummaryRecommendationReportModel data = _recomendationReportService.GetRecommendationReport(periodId);
 
             _exportExcelService.Export(data, Server.MapPath(RecommendationReportTemplate));
 

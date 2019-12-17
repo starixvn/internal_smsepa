@@ -29,10 +29,9 @@
         private readonly IEmployeeEPAService employeeEPAService;
         private readonly IReportRepository reportRepository;
         private readonly ISessionService sessionService;
-        private readonly IPeriodService periodService;
         private readonly IBaseService baseService;
 
-        public ReportService() : this(null, null, null, null, null, null)
+        public ReportService() : this(null, null, null, null, null)
         {
         }
 
@@ -41,14 +40,12 @@
             IEmployeeEPARepository employeeEPARepository,
             IEmployeeEPAService employeeEPAService,
             ISessionService sessionService,
-            IPeriodService periodService,
             IBaseService baseService)
         {
             this.reportRepository = reportRepository ?? new ReportRepository();
             this.employeeEPARepository = employeeEPARepository ?? new EmployeeEPARepository();
             this.employeeEPAService = employeeEPAService ?? new EmployeeEPAService();
             this.sessionService = sessionService ?? new SessionService();
-            this.periodService = periodService ?? new PeriodService();
             this.baseService = baseService ?? new BaseService();
         }
 
@@ -215,21 +212,6 @@
             }
 
             return result;
-        }
-
-        public EPASummaryRecommendationReportModel GetRecommendationReport(int periodId)
-        {
-            var criteria = new GetEPARecommendationReportCriteria
-            {
-                PeriodId = periodId
-            };
-            var recommendationReport = new EPASummaryRecommendationReportModel
-            {
-                Period = periodService.GetPeriodById(periodId),
-                Recommendations = baseService.GetData<EPASummaryRecommendationModel>(criteria)
-            };
-
-            return recommendationReport;
         }
 
         private static void CreateBodyStyles(

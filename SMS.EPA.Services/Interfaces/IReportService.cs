@@ -24,7 +24,5 @@
         EPASummaryModel GetMonthlyEPASummaryReport(GetMonthlyEPASummaryCriteria criteria);
 
         IEnumerable<EmployeeViewModel> GetEmployeeByActorId(GetEmployeeByActorIdCriteria criteria);
-
-        EPASummaryRecommendationReportModel GetRecommendationReport(int periodId);
     }
 }
