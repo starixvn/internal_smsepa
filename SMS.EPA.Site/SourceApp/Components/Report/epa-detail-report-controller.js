@@ -131,7 +131,6 @@
         };
 
         vm.exportCommentReport = function () {
-            debugger;
             var periodName = vm.periods.filter(period => period.PeriodId == vm.filter.periodId)[0].Name;
             vm.exportCommentCriteria = {
                 periodId: vm.filter.periodId,
