@@ -13,12 +13,17 @@
         vm.targetTemplates = [];
         vm.permission = null;
         vm.policyEnum = utilitiesFactory.policy;
+        vm.departments = CommonModel.departments;
+        vm.treeDepartment = CommonModel.treeDepartment;
         vm.filter = {
+            departmentId: null,
+            isGroup: null,
             targetTypeId: '',
             isActive: 'true'
         };
         vm.currentPage = 1;
         vm.pageSize = 20;
+        vm.updateIsGroup = updateIsGroup;
 
         utilitiesFactory.numberEntryList(vm);
         utilitiesFactory.maxLengthDescription(vm);
@@ -31,9 +36,9 @@
             utilitiesFactory.readLess(item);
         };
 
-        function getTargetTemplate(targetTypeId, isActive) {
+        function getTargetTemplate(targetTypeId, isActive, departmentId, isGroup) {
             lockScreenService.start();
-            TargetTemplateModel.getTargetTemplate(targetTypeId, isActive).then(function () {
+            TargetTemplateModel.getTargetTemplate(targetTypeId, isActive, departmentId, isGroup).then(function () {
                 vm.targetTemplates = TargetTemplateModel.targetTemplates;
                 utilitiesFactory.searchOnPage(vm, vm.targetTemplates);
                 lockScreenService.stop();
@@ -41,9 +46,15 @@
         }
 
         vm.query = function (filter) {
+            var departmentId = null;
             vm.searchKey = '';
             vm.currentPage = 1;
-            getTargetTemplate(filter.targetTypeId, filter.isActive);
+
+            if (filter.departmentId) {
+                departmentId = filter.departmentId < 0 ? -filter.departmentId : filter.departmentId;
+            }
+
+            getTargetTemplate(filter.targetTypeId, filter.isActive, departmentId, filter.isGroup);
         };
 
         vm.getIndex = function (index, currentPage, pageSize) {
@@ -53,7 +64,7 @@
         vm.create = function () {
             TargetTemplateModel.openPopupCreateTargetTemplate(vm).then(function () {
                 vm.modalInstance = null;
-                getTargetTemplate(vm.filter.targetTypeId, vm.filter.isActive);
+                getTargetTemplate(vm.filter.targetTypeId, vm.filter.isActive, vm.filter.departmentId, vm.filter.isGroup);
             });
         };
 
@@ -88,6 +99,11 @@
         }
 
         function initialize() {
+            CommonModel.getDepartment(null, true).then(function () {
+                vm.departments = CommonModel.departments;
+                vm.treeDepartment = CommonModel.generateTreeDepartment(CommonModel.treeDepartment.Childrens);
+            });
+
             TargetTemplateModel.getPermissionOnTargetTemplate().then(function () {
                 vm.permission = TargetTemplateModel.permission;
             });
@@ -96,7 +112,15 @@
                 vm.targetTypes = CommonModel.targetTypes;
             });
 
-            getTargetTemplate(vm.filter.targetTypeId, vm.filter.isActive);
+            getTargetTemplate(vm.filter.targetTypeId, vm.filter.isActive, vm.filter.departmentId, vm.filter.isGroup);
+        }
+
+        function updateIsGroup(departmentId) {
+            if (departmentId) {
+                vm.filter.isGroup = departmentId < 0 ? true : false;
+            } else {
+                vm.filter.isGroup = null;
+            }
         }
 
         initialize();

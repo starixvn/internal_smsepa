@@ -8,6 +8,10 @@
 
         public bool? IsActive { get; set; }
 
+        public int? DepartmentId { get; set; }
+
+        public bool? IsGroup { get; set; }
+
         public override bool IsValid()
         {
             return true;

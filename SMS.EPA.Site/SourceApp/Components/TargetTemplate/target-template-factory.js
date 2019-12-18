@@ -37,7 +37,7 @@
 
         function deleteKPIGroupOfTargetTemplate(targetTemplateId, kpiGroupId) {
             return $http['delete'](baseUrl + 'api/TargetTemplate/DeleteKPIGroupOfTargetTemplate',
-                        { params: { targetTemplateId: targetTemplateId, kpiGroupId: kpiGroupId } });
+                { params: { targetTemplateId: targetTemplateId, kpiGroupId: kpiGroupId } });
         }
 
         function getKPIGroupOfTargetTemplate(targetTemplateId) {
@@ -67,11 +67,13 @@
                 });
         }
 
-        function getTargetTemplate(targetTypeId, isActive) {
+        function getTargetTemplate(targetTypeId, isActive, departmentId, isGroup) {
             return $http.get(baseUrl + 'api/TargetTemplate/GetAllTargetTemplate', {
                 params: {
                     targetTypeId: targetTypeId,
-                    isActive: isActive
+                    isActive: isActive,
+                    departmentId: departmentId,
+                    isGroup: isGroup
                 }
             });
         }

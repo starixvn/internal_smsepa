@@ -31,12 +31,14 @@
         }
 
         [ApiAuthorize(FunctionKey = EPAFunctionKey.TargetTemplate, Policy = Policy.Read)]
-        public IEnumerable<TargetTemplate> GetAllTargetTemplate(int? targetTypeId = null, bool? isActive = null)
+        public IEnumerable<TargetTemplate> GetAllTargetTemplate(int? targetTypeId = null, bool? isActive = null, int? departmentId = null, bool? isGroup = null)
         {
             var criteria = new GetAllTargetTemplateCriteria
             {
                 TargetTypeId = targetTypeId,
-                IsActive = isActive
+                IsActive = isActive,
+                DepartmentId = departmentId,
+                IsGroup = isGroup
             };
             IEnumerable<TargetTemplate> targetTemplates = baseService.GetData<TargetTemplate>(criteria);
 

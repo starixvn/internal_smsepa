@@ -22,13 +22,20 @@
                 </select>
             </div>
             <div class="form-group">
+                <label class="control-label" data-translate="DepartmentSection"></label>
+                <select ng-model="targetTemplateCtrl.filter.departmentId" ng-options="opt.DepartmentId as opt.Name for opt in targetTemplateCtrl.treeDepartment"
+                        class="form-control lstBox-limit" ng-change="targetTemplateCtrl.updateIsGroup(targetTemplateCtrl.filter.departmentId)">
+                    <option value="">-- {{"All" | translate}} --</option>
+                </select>
+            </div>
+            <div class="form-group">
                 <button class="btn btn-primary" ng-click="targetTemplateCtrl.query(targetTemplateCtrl.filter)" data-translate="Submit"></button>
             </div>
         </form>
         <table class="row table table-bordered table-striped">
             <thead>
                 <tr class="header-table">
-                    <th colspan="9">
+                    <th colspan="10">
                         <a class="pull-left button-icon create-button" href="" ng-click="targetTemplateCtrl.create()"
                            ng-if="targetTemplateCtrl.permission === targetTemplateCtrl.policyEnum.Host">
                             <span class="glyphicon glyphicon-plus icon-add"></span>
@@ -43,6 +50,7 @@
                     <th data-translate="TargetType"></th>
                     <th data-translate="ScoreRatingType"></th>
                     <th data-translate="RatingType"></th>
+                    <th data-translate="Sections"></th>
                     <th data-translate="Description"></th>
                     <th data-translate="KPIs"></th>
                     <th data-translate="Active"></th>
@@ -58,6 +66,7 @@
                     <td class="text-center" ng-bind="targetTemplate.TargetTypeName"></td>
                     <td class="text-center" ng-bind="targetTemplate.ScoreRatingTypeName"></td>
                     <td class="text-center" ng-bind="targetTemplate.RatingTypeName"></td>
+                    <td class="text-left" ng-bind="targetTemplate.Departments"></td>
                     <td class="col-description">
                         {{targetTemplate.Description | limitTo: targetTemplate.numLimit > 0 ? targetTemplate.numLimit: targetTemplateCtrl.maxLengthDescription}}
                         <a ng-show="!targetTemplate.showReadMore && (targetTemplate.Description.length >= targetTemplateCtrl.maxLengthDescription)"
@@ -92,7 +101,7 @@
             </tbody>
             <tfoot>
                 <tr>
-                    <td colspan="9" class="paging">
+                    <td colspan="10" class="paging">
                         <span data-translate="Show"></span>
                         <select class="dropdown-entry form-control" ng-model="targetTemplateCtrl.pageSize"
                                 ng-options="entry for entry in targetTemplateCtrl.entries" ng-change="targetTemplateCtrl.currentPage = 1"></select>

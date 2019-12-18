@@ -47,5 +47,7 @@
         public string ModifiedNickName { get; set; }
 
         public string ModifiedFullName { get; set; }
+
+        public string Departments { get; set; }
     }
 }

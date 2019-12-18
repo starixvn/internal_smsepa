@@ -1440,4 +1440,7 @@
   <data name="IsZeroScore" xml:space="preserve">
     <value>Is Zero Score</value>
   </data>
+  <data name="Sections" xml:space="preserve">
+    <value>Sections</value>
+  </data>
 </root>
