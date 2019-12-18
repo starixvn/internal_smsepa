@@ -5,6 +5,16 @@ CREATE PROCEDURE [dbo].[TargetTemplate_GetAll]
 	,@DepartmentId INT = NULL
 	,@IsGroup BIT = NULL
 AS
+/*
+Created: 2014004@Quinn.Vo
+Task: Get all targets template.
+DB: SMSEPA
+Original: 
+
+Revisions:  
+Param's Explanation:
+
+*/
 BEGIN
 	SET NOCOUNT ON;
 
@@ -30,14 +40,15 @@ BEGIN
 					LEFT JOIN TargetTemplateDepartment tmpDep WITH (NOLOCK) ON tmpDep.TargetTemplateId = tg2.TargetTemplateId
 					LEFT JOIN TargetTemplateEmployee tmpEmp WITH (NOLOCK) ON tmpEmp.TargetTemplateId = tg2.TargetTemplateId
 					LEFT JOIN Employee emp WITH (NOLOCK) ON emp.EmployeeId = tmpEmp.EmployeeId
+					LEFT JOIN Department childDep WITH (NOLOCK) ON gr.DepartmentId = childDep.DepartmentId OR tgDep.DepartmentId = childDep.DepartmentId
+					LEFT JOIN Department dep2 WITH (NOLOCK) ON dep2.DepartmentId = tmpDep.DepartmentId OR (tmpDep.IsGroup = 0 AND dep2.DepartmentId = gr.DepartmentId) 
 					LEFT JOIN [Group] gr WITH (NOLOCK) ON gr.GroupId = emp.GroupId OR (tmpDep.IsGroup = 1 AND tmpDep.DepartmentId = gr.GroupId)
-					LEFT JOIN Department dep2 WITH (NOLOCK) ON dep2.DepartmentId = tmpDep.DepartmentId OR (tmpDep.IsGroup = 0 AND dep2.DepartmentId = gr.DepartmentId)
 				WHERE tg2.TargetTemplateId = tg.TargetTemplateId
 					AND gr.IsDeleted = 0
 				GROUP BY tg2.TargetTemplateId, tmpDep.IsGroup, dep2.Code, gr.Code
 				ORDER BY dep2.Code
 				FOR XML PATH('')
-			), 2, 1000) [Departments]
+			), 2, 200) [Departments]
 	FROM dbo.TargetTemplate AS tg WITH (NOLOCK)
 		LEFT JOIN (
 		SELECT TargetTemplateId
@@ -49,11 +60,15 @@ BEGIN
 		INNER JOIN [dbo].[ScoreRatingType] AS scT WITH (NOLOCK) ON tg.[ScoreRatingTypeId] = scT.[ScoreRatingTypeId]
 		INNER JOIN dbo.RefResource AS ref WITH (NOLOCK) ON tg.RatingTypeId = ref.ResourceId
 			AND ref.RefName = 'RatingType'
-		LEFT JOIN TargetTemplateDepartment tmpDep WITH (NOLOCK) ON tmpDep.TargetTemplateId = tg.TargetTemplateId
-		LEFT JOIN TargetTemplateEmployee tmpEmp WITH (NOLOCK) ON tmpEmp.TargetTemplateId = tg.TargetTemplateId
-		LEFT JOIN Employee emp WITH (NOLOCK) ON emp.EmployeeId = tmpEmp.EmployeeId
-		LEFT JOIN [Group] gr WITH (NOLOCK) ON gr.GroupId = emp.GroupId
-		LEFT JOIN Department dep WITH (NOLOCK) ON dep.DepartmentId = tmpDep.DepartmentId OR dep.DepartmentId = gr.DepartmentId
+		LEFT JOIN TargetTemplateDepartment tgDep WITH (NOLOCK) ON tgDep.TargetTemplateId = tg.TargetTemplateId
+		LEFT JOIN TargetTemplateEmployee tgEmp WITH (NOLOCK) ON tgEmp.TargetTemplateId = tg.TargetTemplateId
+		LEFT JOIN Employee emp WITH (NOLOCK) ON emp.EmployeeId = tgEmp.EmployeeId
+		LEFT JOIN [Group] gr WITH (NOLOCK) ON gr.GroupId = emp.GroupId OR (tgDep.IsGroup = 1 AND gr.GroupId = tgDep.DepartmentId)
+		LEFT JOIN Department childDep WITH (NOLOCK) ON gr.DepartmentId = childDep.DepartmentId
+		LEFT JOIN Department dep WITH (NOLOCK) 
+			ON dep.DepartmentId = tgDep.DepartmentId 
+			OR dep.DepartmentId = gr.DepartmentId 
+			OR childDep.ParentId = dep.DepartmentId
 	WHERE ISNULL(@TargetTypeId, tg.TargetTypeId) = tg.TargetTypeId
 		AND ISNULL(@IsActive, tg.[IsActive]) = tg.[IsActive]
 		AND (
