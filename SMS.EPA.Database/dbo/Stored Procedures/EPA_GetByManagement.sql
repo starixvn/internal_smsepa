@@ -94,5 +94,8 @@ BEGIN
 	-- Process
 	EXECUTE dbo.EPA_GetProcess @EPAIds
 
+	-- Performance Score Process
+	EXECUTE dbo.EPA_GetLastPerformanceScoreProcess @EPAIds
+
 	DROP TABLE #tblEmployee
 END

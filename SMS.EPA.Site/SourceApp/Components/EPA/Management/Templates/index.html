@@ -122,6 +122,7 @@
                         </div>
                     </th>
                     <th data-translate="Grade"></th>
+                    <th style="max-width: 120px" data-translate="LastPerformaceScore"></th>
                     <th data-translate="LastFinalScore"></th>
                     <th data-translate="Status"></th>
                     <th data-translate="Detail" class="col-action"></th>
@@ -208,6 +209,11 @@
                     <td class="text-center">{{epaInfo.FinalScore | customScore}} / {{epaInfo.Process.CurrentProcess.MaxPerformanceScore | customScore}}</td>
                     <td class="text-center">
                         <strong class="error-message" ng-bind="epaInfo.Grade"></strong>
+                    </td>
+                    <td class="text-center">
+                        <a href="#/EPA/Detail/{{epaInfo.LastEPAId}}" ng-if="epaInfo.LastPerformanceScore !== null"
+                           ng-bind="epaInfo.LastPerformanceScore | customScore"></a>
+                        <div ng-if="epaInfo.LastPerformanceScore === null" ng-bind="'-'"></div>
                     </td>
                     <td class="text-center">
                         <a class="link" ng-if="epaInfo.LastFinalScore !== null" ng-click="managementCtrl.viewEPAResult(epaInfo.LastEPAId, $event)"

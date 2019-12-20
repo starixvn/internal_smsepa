@@ -52,7 +52,10 @@
                             },
                             "EvaluatorId, ModifiedById");
 
+                    var lastPerformProcess = multi.Read<EPAProcessModel>().ToList();
+
                     GroupEPAProcessByEPA(epaInfos, processes);
+                    GroupLastEPAProcessByEPA(epaInfos, lastPerformProcess);
 
                     foreach (EPAModel epaInfo in epaInfos)
                     {
@@ -361,6 +364,14 @@
             }
         }
 
+        private static void GroupLastEPAProcessByEPA(EPAModel epaInfo, IEnumerable<EPAProcessModel> lastProcesses)
+        {
+            foreach (EPAProcessModel process in lastProcesses.Where(x => x.EPAId.Equals(epaInfo.EPAId)))
+            {
+                epaInfo.LastProcesses.Add(process);
+            }
+        }
+
         private static void GroupEPAProcessByEPA(IEnumerable<EPAModel> epaInfos, IEnumerable<EPAProcessModel> processes)
         {
             foreach (EPAModel epaInfo in epaInfos)
@@ -368,6 +379,17 @@
                 if (processes != null && processes.Any())
                 {
                     GroupEPAProcessByEPA(epaInfo, processes);
+                }
+            }
+        }
+
+        private static void GroupLastEPAProcessByEPA(IEnumerable<EPAModel> epaInfos, IEnumerable<EPAProcessModel> lastProcesses)
+        {
+            foreach (EPAModel epaInfo in epaInfos)
+            {
+                if (lastProcesses != null && lastProcesses.Any())
+                {
+                    GroupLastEPAProcessByEPA(epaInfo, lastProcesses);
                 }
             }
         }

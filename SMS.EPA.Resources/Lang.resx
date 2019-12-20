@@ -1443,4 +1443,7 @@
   <data name="Sections" xml:space="preserve">
     <value>Sections</value>
   </data>
+  <data name="LastPerformaceScore" xml:space="preserve">
+    <value>Last Performance Score</value>
+  </data>
 </root>
