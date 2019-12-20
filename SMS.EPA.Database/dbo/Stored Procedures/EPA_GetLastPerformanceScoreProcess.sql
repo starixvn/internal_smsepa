@@ -47,6 +47,7 @@ BEGIN
 		INNER JOIN Period AS lastPeriod WITH (NOLOCK)
 			ON lastEPA.PeriodId = lastPeriod.PeriodId 
 			AND lastPeriod.TargetTypeId = period.TargetTypeId
+	WHERE lastEPA.[Status] = 1
 
 	INSERT INTO @TblLastEPAProcess (EPAId, ProcessId, EvaluatorId, TotalScore)
 		(
