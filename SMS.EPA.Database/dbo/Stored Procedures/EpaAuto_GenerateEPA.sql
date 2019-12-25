@@ -1,6 +1,7 @@
 ﻿
 CREATE PROCEDURE [dbo].[EpaAuto_GenerateEPA] @PeriodId INT
 	,@EmployeeIds VARCHAR(MAX) = NULL
+	,@ExtendedQuestionEnabled BIT = 0
 	,@ErrCode INT = 0 OUTPUT
 	,@ErrMsg NVARCHAR(200) = '' OUTPUT
 AS
@@ -149,9 +150,10 @@ BEGIN
 		SELECT peEmp.EmployeeId
 			,peEmp.PeriodId
 			,(CASE 
+				WHEN empstatus.EmployeeId IS NOT NULL THEN 2
 				WHEN pfs.EndDate < @Today THEN 1
 				ELSE 0 END
-				) AS [Status] -- 0: Opened; 1: Closed
+				) AS [Status] -- 0: Opened; 1: Closed; 2: Rejected
 			,tg.ScoreRatingTypeId
 			,tg.RatingTypeId
 			,(CASE 
@@ -177,6 +179,8 @@ BEGIN
 				,pfs.EmployeeId
 			) AS pfs ON pfs.PeriodId = peEmp.PeriodId
 			AND pfs.EmployeeId = peEmp.EmployeeId
+			LEFT JOIN dbo.PeriodExcludedEmployee AS empstatus WITH (NOLOCK) ON empstatus.EmployeeId = peEmp.EmployeeId
+			AND empstatus.PeriodId = @PeriodId
 
 		INSERT INTO dbo.EPADetail (
 			EPAId
@@ -365,6 +369,25 @@ BEGIN
 						) AS NVARCHAR) + ' employees successfully. The other employees already exist EPA.'
 
 			RETURN
+		END
+
+		-- extended question for probation
+		IF @ExtendedQuestionEnabled = 1
+		BEGIN
+			INSERT INTO dbo.ProbationExtendedQuestion (
+			EPAId,
+			SubQuestionId,
+			IsAgree
+			)
+			SELECT epa.EPAId,
+				rs.ResourceId,
+				NULL
+			FROM #PeriodEmployee AS peEmp
+				INNER JOIN dbo.EPA AS epa WITH (NOLOCK) ON peEmp.PeriodId = epa.PeriodId
+				AND peEmp.EmployeeId = epa.EmployeeId
+				INNER JOIN dbo.Period AS period WITH (NOLOCK) ON epa.PeriodId = period.PeriodId
+				AND period.TargetTypeId = 3 -- Probation
+				INNER JOIN RefResource AS rs WITH (NOLOCK) ON rs.RefName = 'ProbationSubQuestion'
 		END
 
 		COMMIT TRANSACTION

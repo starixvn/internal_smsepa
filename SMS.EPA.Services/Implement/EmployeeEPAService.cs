@@ -19,18 +19,21 @@
     public class EmployeeEPAService : IEmployeeEPAService
     {
         private readonly IEmployeeEPARepository employeeEPARepository;
+        private readonly IProbationExtendedQuestionService extendedQuestionService;
 
-        public EmployeeEPAService() : this(null)
+        public EmployeeEPAService() : this(null, null)
         {
         }
 
-        public EmployeeEPAService(IEmployeeEPARepository employeeEPARepository)
+        public EmployeeEPAService(IEmployeeEPARepository employeeEPARepository, IProbationExtendedQuestionService extendedQuestionService)
         {
             this.employeeEPARepository = employeeEPARepository ?? new EmployeeEPARepository();
+            this.extendedQuestionService = extendedQuestionService ?? new ProbationExtendedQuestionService();
         }
 
         public EPAModel GetEPAInfoById(int epaId)
         {
+            var extendedQuetionEnabled = ConfigurationManagerService.GetAppSetting("ProbationExtendedQuestionEnabled");
             var criteria = new GetEPAInfoByIdCriteria
             {
                 EPAId = epaId
@@ -55,6 +58,11 @@
                     if (epaInfo.IsProbation || epaInfo.IsPromotion || epaInfo.IsSemiAnnual)
                     {
                         epaInfo.Recommendation = GetRecommendationByEPAId(epaInfo.EPAId);
+                    }
+
+                    if (extendedQuetionEnabled.Equals("true", StringComparison.OrdinalIgnoreCase) && epaInfo.IsProbation)
+                    {
+                        epaInfo.ExtendedQuestion = GetExtendedQuestionByEPAId(epaInfo.EPAId);
                     }
                 }
             }
@@ -155,6 +163,23 @@
             }
 
             return recommendation;
+        }
+
+        public EPAProbationExtendedQuestionModel GetExtendedQuestionByEPAId(int epaId)
+        {
+            var criteria = new GetExtendedQuestionCriteria
+            {
+                EPAId = epaId
+            };
+
+            var extendedQuestion = new EPAProbationExtendedQuestionModel();
+
+            if (criteria.IsValid())
+            {
+                extendedQuestion = extendedQuestionService.GetExtendedQuestion(criteria);
+            }
+
+            return extendedQuestion;
         }
 
         public string ConvertScoreToGrade(

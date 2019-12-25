@@ -34,5 +34,7 @@
         void SetMaxSubtractAndMaxAdditionScore(EPAModel epaInfo);
 
         void SpreadKPIScore(IList<EPAKpiGroupModel> kpiGroups);
+
+        EPAProbationExtendedQuestionModel GetExtendedQuestionByEPAId(int epaId);
     }
 }

@@ -8,6 +8,8 @@
 
         public string EmployeeIds { get; set; }
 
+        public bool? ExtendedQuestionEnabled { get; set; }
+
         public override bool IsValid()
         {
             return PeriodId > 0;

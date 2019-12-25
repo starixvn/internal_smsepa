@@ -1,11 +1,13 @@
 ﻿namespace SMS.EPA.Services.Implement
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
     using Criteria;
     using Interfaces;
     using Model;
     using Repositories;
+    using SMS.EPA.Core.Services;
 
     public class ManagementEPAService : IManagementEPAService
     {
@@ -60,6 +62,8 @@
 
             if (criteria != null && criteria.IsValid())
             {
+                var extendedQuetionEnabled = ConfigurationManagerService.GetAppSetting("ProbationExtendedQuestionEnabled");
+
                 epaInfo = evaluationRepository.GetEPAInfo(criteria);
                 epaInfo.Process.CurrentProcess =
                     evaluationService.CloneEPAProcess(epaInfo.Process.Managements.FirstOrDefault(x => x.EvaluatorInfo.EmployeeId == criteria.ManagementId));
@@ -75,6 +79,11 @@
                 if (epaInfo.IsProbation || epaInfo.IsPromotion || epaInfo.IsSemiAnnual)
                 {
                     epaInfo.Recommendation = evaluationService.GetRecommendationByEPAId(epaInfo.EPAId);
+                }
+
+                if (extendedQuetionEnabled.Equals("true", StringComparison.OrdinalIgnoreCase) && epaInfo.IsProbation)
+                {
+                    epaInfo.ExtendedQuestion = evaluationService.GetExtendedQuestionByEPAId(epaInfo.EPAId);
                 }
             }
 

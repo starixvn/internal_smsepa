@@ -1,11 +1,13 @@
 ﻿namespace SMS.EPA.Services.Implement
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
     using Criteria;
     using Fanex.Data.Repository;
     using Interfaces;
     using Model;
+    using SMS.EPA.Core.Services;
 
     public class EvaluatorEPAService : BaseActorEPAService, IEvaluatorEPAService
     {
@@ -48,6 +50,8 @@
 
             if (criteria != null && criteria.IsValid())
             {
+                var extendedQuetionEnabled = ConfigurationManagerService.GetAppSetting("ProbationExtendedQuestionEnabled");
+
                 epaInfo = EvaluationRepository.GetEPAInfo(criteria);
                 epaInfo.Process.CurrentProcess =
                     EvaluationService.CloneEPAProcess(
@@ -65,6 +69,11 @@
                 {
                     epaInfo.MonthlyEPA.MonthlyEPAs = EvaluationService.GetMonthlyEPAOfSemi(epaInfo.EPAId.ToString());
                     EvaluationService.ConvertAverageMonthlyScore(epaInfo.MonthlyEPA, epaInfo.ScoreRatingType);
+                }
+
+                if (extendedQuetionEnabled.Equals("true", StringComparison.OrdinalIgnoreCase) && epaInfo.IsProbation)
+                {
+                    epaInfo.ExtendedQuestion = EvaluationService.GetExtendedQuestionByEPAId(epaInfo.EPAId);
                 }
             }
 

@@ -1,5 +1,6 @@
 ﻿namespace SMS.EPA.Site.Controllers.API
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Web.Http;
@@ -234,6 +235,9 @@
 
             if (criteria != null)
             {
+                var extendedQuetionEnabled = ConfigurationManagerService.GetAppSetting("ProbationExtendedQuestionEnabled");
+                criteria.ExtendedQuestionEnabled = extendedQuetionEnabled.Equals("true", StringComparison.OrdinalIgnoreCase);
+
                 commandResult = baseService.ExecuteNonQuery(criteria);
 
                 if (commandResult.IsSuccessful)

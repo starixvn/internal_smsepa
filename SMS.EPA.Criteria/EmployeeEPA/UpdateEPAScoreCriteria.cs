@@ -13,11 +13,14 @@
     public class UpdateEPAScoreCriteria : CriteriaBase
     {
         private const string KPIScoreXmlTemplate = "<KPI KPIId='{0}' KPIGroupId='{1}' Score='{2}' Rate='{3}' IsMaxScore='{4}' Comment='{5}'></KPI>";
+        private const string ExtendedQuestionXMLTemplate = "<ExtendedQuestion SubQuestionId='{0}' IsAgree='{1}'></ExtendedQuestion>";
+
         private readonly ICryptographyService _cryptographyService;
 
         public UpdateEPAScoreCriteria()
         {
             _cryptographyService = new CryptographyService();
+            ProbationSubQuestions = new List<ProbationSubQuestionModel>();
         }
 
         public int EPAId { get; set; }
@@ -72,6 +75,27 @@
             }
         }
 
+        public string ExtendedQuestions
+        {
+            get
+            {
+                var extendedQuestionXML = new StringBuilder(Constants.BeginRootTag);
+
+                foreach (var question in ProbationSubQuestions)
+                {
+                    extendedQuestionXML.AppendFormat(
+                        ExtendedQuestionXMLTemplate,
+                        question.SubQuestionId,
+                        question.IsAgree
+                        );
+                }
+
+                extendedQuestionXML.Append(Constants.EndRootTag);
+
+                return extendedQuestionXML.ToString();
+            }
+        }
+
         public int ModifiedBy { get; set; }
 
         [SpParam(Ignored = true)]
@@ -79,6 +103,9 @@
 
         [SpParam(Ignored = true)]
         public IList<EPAKpiGroupModel> KPIGroups { get; set; }
+
+        [SpParam(Ignored = true)]
+        public IList<ProbationSubQuestionModel> ProbationSubQuestions { get; set; }
 
         public override bool IsValid()
         {

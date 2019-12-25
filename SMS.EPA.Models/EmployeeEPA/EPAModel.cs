@@ -113,6 +113,8 @@
 
         public EPARecommendationModel Recommendation { get; set; }
 
+        public EPAProbationExtendedQuestionModel ExtendedQuestion { get; set; }
+
         public bool RequiredCommentOnMaxScore { get; set; }
         public bool RequiredCommentOnMaxScoreForEvaluator { get; set; }
 

@@ -139,3 +139,33 @@
         </div>
     </div>
 </div>
+
+<div>&ensp;</div>
+
+<div class="panel panel-default" ng-if="performanceDetailCtrl.epaInfo.ExtendedQuestion != null">
+    <div class="panel-heading" data-toggle="collapse" data-target=".extendedQuestion">
+        <h4 class="panel-title">{{performanceDetailCtrl.epaInfo.ExtendedQuestion.QuestionContent}}</h4>
+    </div>
+    <div class="panel-collapse collapse-expanse extendedQuestion">
+        <div class="panel-body">
+            <table class="row table table-bordered table-striped table-performance-detail table-custom">
+                <thead>
+                    <tr>
+                        <th data-translate="SymbolCount"></th>
+                        <th>Question</th>
+                        <th>Is Agree</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="question in performanceDetailCtrl.epaInfo.ExtendedQuestion.SubQuestions">
+                        <td class="text-center">{{$index + 1}}</td>
+                        <td>{{question.SubQuestionContent}}</td>
+                        <td class="text-center">
+                            <input type="checkbox" ng-model="question.IsAgree" disabled />
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

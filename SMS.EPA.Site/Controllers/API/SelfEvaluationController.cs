@@ -1,5 +1,6 @@
 ﻿namespace SMS.EPA.Site.Controllers.API
 {
+    using System;
     using System.Collections.Generic;
     using System.Net;
     using System.Net.Http;
@@ -17,17 +18,20 @@
     public class SelfEvaluationController : BaseController
     {
         private readonly ISelfEvaluationService selfEvaluationService;
+        private readonly IEmployeeEPAService employeeEPAService;
         private readonly IBaseService baseService;
 
-        public SelfEvaluationController() : this(null, null)
+        public SelfEvaluationController() : this(null, null, null)
         {
         }
 
         public SelfEvaluationController(
             ISelfEvaluationService selfEvaluationService,
+            IEmployeeEPAService employeeEPAService,
             IBaseService baseService)
         {
             this.selfEvaluationService = selfEvaluationService ?? new SelfEvaluationService();
+            this.employeeEPAService = employeeEPAService ?? new EmployeeEPAService();
             this.baseService = baseService ?? new BaseService();
         }
 
@@ -47,6 +51,7 @@
         [ApiAuthorize(FunctionKey = EPAFunctionKey.Self, Policy = Policy.Read)]
         public HttpResponseMessage GetEPAInfoByEmployee(int epaId)
         {
+            var extendedQuetionEnabled = ConfigurationManagerService.GetAppSetting("ProbationExtendedQuestionEnabled");
             var epaInfo = new EPAModel();
             int permission = CheckEmployeePermission(epaId);
 
@@ -62,6 +67,10 @@
             };
 
             epaInfo = selfEvaluationService.GetEPAInfoByEmployee(criteria);
+
+            if (extendedQuetionEnabled.Equals("true", StringComparison.OrdinalIgnoreCase)){
+                epaInfo.ExtendedQuestion = employeeEPAService.GetExtendedQuestionByEPAId(epaInfo.EPAId);
+            }
 
             return Request.CreateResponse(HttpStatusCode.OK, epaInfo);
         }

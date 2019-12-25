@@ -6,6 +6,7 @@ CREATE PROCEDURE [dbo].[EPA_UpdateScore] @EPAId INT
 	,@Comment NVARCHAR(MAX) = ''
 	,@Score NVARCHAR(100) = ''
 	,@KPIDetails NVARCHAR(MAX) = ''
+	,@ExtendedQuestions NVARCHAR(MAX) = ''
 	,@ModifiedBy INT
 	,@ErrCode INT = 0 OUTPUT
 	,@ErrMsg VARCHAR(200) = '' OUTPUT
@@ -22,6 +23,10 @@ Param's Explanation:
     N'<ROOT>
 	   <KPI KPIId="1" KPIGroupId="1" Score="3" Rate="5" IsMaxScore="0" Comment="Comment"></KPI>
     </ROOT>'
+• @KPIDetails=
+	N'<ROOT>
+		<ExtendedQuestion SubQuestionId='1' IsAgree='0'></ExtendedQuestion>
+	</ROOT>'
 • @ErrCode:
 	= 0: Transaction recorded successfully.
 	> 0: Specific Error.
@@ -41,6 +46,11 @@ BEGIN
 		,IsMaxScore BIT
 		,Comment NVARCHAR(MAX)
 		)
+	DECLARE @tblExtendedQuestions TABLE (
+		SubQuestionId TINYINT
+		,IsAgree BIT
+		)
+	DECLARE @EmptyXML NVARCHAR(MAX) = '<ROOT></ROOT>'
 
 	INSERT INTO @tblEvaluator (EvaluatorId)
 	SELECT DISTINCT EvaluatorId
@@ -138,6 +148,33 @@ BEGIN
 		RETURN
 	END CATCH
 
+	IF(@ExtendedQuestions != @EmptyXML)
+	BEGIN
+		BEGIN TRY
+		DECLARE @DocHandler2 INT
+
+		EXEC sp_xml_preparedocument @DocHandler2 OUTPUT
+			,@ExtendedQuestions
+
+		INSERT INTO @tblExtendedQuestions (
+			SubQuestionId
+			,IsAgree
+			)
+		SELECT SubQuestionId
+			,IsAgree
+		FROM OPENXML(@DocHandler2, '/ROOT/ExtendedQuestion', 1) WITH (SubQuestionId TINYINT, IsAgree BIT) AS Data
+
+		EXEC sp_xml_removedocument @DocHandler2
+	END TRY
+
+	BEGIN CATCH
+		SELECT @ErrCode = 1
+			,@ErrMsg = N'Parameter invalid.'
+
+		RETURN
+	END CATCH
+	END
+
 	DECLARE @Data NVARCHAR(MAX)
 		,@OldData NVARCHAR(MAX)
 
@@ -179,6 +216,13 @@ BEGIN
 		SET ModifiedBy = @ModifiedBy
 			,ModifiedDate = @ModifiedDate
 		WHERE EPAId = @EPAId
+
+		-- update table ProbationExtendedQuestion
+		UPDATE extendedQ
+			SET extendedQ.IsAgree = data.IsAgree
+			FROM dbo.ProbationExtendedQuestion AS extendedQ WITH (ROWLOCK, UPDLOCK)
+				INNER JOIN @tblExtendedQuestions AS data ON data.SubQuestionId = extendedQ.SubQuestionId
+			WHERE extendedQ.EPAId = @EPAId
 
 		EXEC @Data = [dbo].[fncGetDataForWriteLog_EPA_UpdateScore] @EPAId = @EPAId
 			,@ProcessId = @ProcessId
