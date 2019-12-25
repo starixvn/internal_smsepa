@@ -350,6 +350,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="scripts\auto-add-staff-into-semi-period.sql" />
+    <None Include="scripts\extended-question-for-probation-period.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="SMS.EPA.Database.refactorlog" />
