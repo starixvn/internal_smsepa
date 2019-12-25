@@ -151,9 +151,13 @@
             <table class="row table table-bordered table-striped table-performance-detail table-custom">
                 <thead>
                     <tr>
-                        <th data-translate="SymbolCount"></th>
-                        <th>Question</th>
-                        <th>Is Agree</th>
+                        <th rowspan="2" data-translate="SymbolCount"></th>
+                        <th rowspan="2">Question</th>
+                        <th colspan="2">Answer</th>
+                    </tr>
+                    <tr>
+                        <th>Yes</th>
+                        <th>No</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -161,7 +165,10 @@
                         <td class="text-center">{{$index + 1}}</td>
                         <td>{{question.SubQuestionContent}}</td>
                         <td class="text-center">
-                            <input type="checkbox" ng-model="question.IsAgree" disabled />
+                            <input type="radio" ng-model="question.IsAgree" ng-value="true" disabled />
+                        </td>
+                        <td class="text-center">
+                            <input type="radio" ng-model="question.IsAgree" ng-value="false" disabled />
                         </td>
                     </tr>
                 </tbody>
