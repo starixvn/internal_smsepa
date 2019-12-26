@@ -381,12 +381,12 @@ BEGIN
 			)
 			SELECT epa.EPAId,
 				rs.ResourceId,
-				NULL
+				0
 			FROM #PeriodEmployee AS peEmp
 				INNER JOIN dbo.EPA AS epa WITH (NOLOCK) ON peEmp.PeriodId = epa.PeriodId
 				AND peEmp.EmployeeId = epa.EmployeeId
 				INNER JOIN dbo.Period AS period WITH (NOLOCK) ON epa.PeriodId = period.PeriodId
-				AND period.TargetTypeId = 3 -- Probation
+				AND period.TargetTypeId = 1 -- Probation
 				INNER JOIN RefResource AS rs WITH (NOLOCK) ON rs.RefName = 'ProbationSubQuestion'
 		END
 
