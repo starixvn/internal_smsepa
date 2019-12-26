@@ -1,0 +1,60 @@
+﻿@using SMS.EPA.Resources
+@using SMS.EPA.Model
+
+@model EPAModel
+
+@helper GetRadioButton(bool value)
+{
+    string path = Server.MapPath("~/content/site/images/radiobutton_no.png");
+    if (value)
+    {
+        path = Server.MapPath("~/content/site/images/radiobutton_yes.png");
+    }
+
+    <img src="@path" height="8" />
+}
+
+@{
+    if (Model.ExtendedQuestion.SubQuestions.Any())
+    {
+        <table class="performance-detail">
+            <thead>
+                <tr class="table-title">
+                    <th colspan="4">@Model.ExtendedQuestion.QuestionContent</th>
+                </tr>
+                <tr>
+                    <th rowspan="2" width="2%">@Lang.SymbolCount</th>
+                    <th rowspan="2" width="60%">@Lang.Question</th>
+                    <th colspan="2">@Lang.Answer</th>
+                </tr>
+                <tr>
+                    <th>@Lang.Yes</th>
+                    <th>@Lang.No</th>
+                </tr>
+            </thead>
+            <tbody>
+                @{
+                    int index = 1;
+                }
+                @foreach (var subQuestion in Model.ExtendedQuestion.SubQuestions)
+                {
+                    <tr>
+                        <td class="border-r-b">
+                            @(index++)
+                        </td>
+                        <td class="border-r-b">
+                            @subQuestion.SubQuestionContent
+                        </td>
+                        <td class="border-r-b">
+                            @GetRadioButton(subQuestion.IsAgree)
+                        </td>
+                        <td class="border-r-b">
+                            @GetRadioButton(subQuestion.IsAgree == false)
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+    }
+}

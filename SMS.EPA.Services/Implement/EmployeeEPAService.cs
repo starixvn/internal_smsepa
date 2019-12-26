@@ -19,21 +19,20 @@
     public class EmployeeEPAService : IEmployeeEPAService
     {
         private readonly IEmployeeEPARepository employeeEPARepository;
-        private readonly IProbationExtendedQuestionService extendedQuestionService;
+        private readonly IProbationExtendedQuestionRepository extendedQuestionRepository;
 
         public EmployeeEPAService() : this(null, null)
         {
         }
 
-        public EmployeeEPAService(IEmployeeEPARepository employeeEPARepository, IProbationExtendedQuestionService extendedQuestionService)
+        public EmployeeEPAService(IEmployeeEPARepository employeeEPARepository, IProbationExtendedQuestionRepository extendedQuestionRepository)
         {
             this.employeeEPARepository = employeeEPARepository ?? new EmployeeEPARepository();
-            this.extendedQuestionService = extendedQuestionService ?? new ProbationExtendedQuestionService();
+            this.extendedQuestionRepository = extendedQuestionRepository ?? new ProbationExtendedQuestionRepository();
         }
 
         public EPAModel GetEPAInfoById(int epaId)
         {
-            var extendedQuetionEnabled = ConfigurationManagerService.GetAppSetting("ProbationExtendedQuestionEnabled");
             var criteria = new GetEPAInfoByIdCriteria
             {
                 EPAId = epaId
@@ -60,7 +59,7 @@
                         epaInfo.Recommendation = GetRecommendationByEPAId(epaInfo.EPAId);
                     }
 
-                    if (extendedQuetionEnabled.Equals("true", StringComparison.OrdinalIgnoreCase) && epaInfo.IsProbation)
+                    if (epaInfo.IsProbation)
                     {
                         epaInfo.ExtendedQuestion = GetExtendedQuestionByEPAId(epaInfo.EPAId);
                     }
@@ -176,7 +175,7 @@
 
             if (criteria.IsValid())
             {
-                extendedQuestion = extendedQuestionService.GetExtendedQuestion(criteria);
+                extendedQuestion = extendedQuestionRepository.GetExtendedQuestion(criteria);
             }
 
             return extendedQuestion;

@@ -890,6 +890,7 @@
     </Content>
     <Content Include="packages.config" />
     <Content Include="Libs\jquery-3.2.1.min.map" />
+    <Content Include="Views\ExportPdf\_ProbationExtendedQuestion.cshtml" />
     <None Include="WebConfigs\Web.PRO.cti.config">
       <SubType>Designer</SubType>
     </None>

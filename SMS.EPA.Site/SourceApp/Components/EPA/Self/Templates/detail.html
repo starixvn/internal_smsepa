@@ -54,7 +54,7 @@
 
             <div>&ensp;</div>
 
-            <div class="panel panel-default" ng-if="empDetailCtrl.epaInfo.ExtendedQuestion != null">
+            <div class="panel panel-default" ng-if="empDetailCtrl.epaInfo.ExtendedQuestion.SubQuestions.length">
                 <div class="panel-heading" data-toggle="collapse" data-target=".extendedQuestion">
                     <h4 class="panel-title">{{empDetailCtrl.epaInfo.ExtendedQuestion.QuestionContent}}</h4>
                 </div>
@@ -84,7 +84,7 @@
                 </div>
             </div>
 
-            <div class="panel panel-default" ng-if="empDetailCtrl.epaInfo.ExtendedQuestion != null">
+            <div class="panel panel-default" ng-if="performanceDetailCtrl.epaInfo.ExtendedQuestion != null &&empDetailCtrl.epaInfo.ExtendedQuestion.SubQuestions.length">
                 <div class="panel-heading" data-toggle="collapse" data-target=".extendedQuestion">
                     <h4 class="panel-title">{{empDetailCtrl.epaInfo.ExtendedQuestion.QuestionContent}}</h4>
                 </div>

@@ -51,8 +51,6 @@
 
             if (criteria != null && criteria.IsValid())
             {
-                var extendedQuetionEnabled = ConfigurationManagerService.GetAppSetting("ProbationExtendedQuestionEnabled");
-
                 epaInfo = EvaluationRepository.GetEPAInfo(criteria);
                 epaInfo.Process.CurrentProcess =
                     EvaluationService.CloneEPAProcess(
@@ -72,7 +70,7 @@
                     epaInfo.Recommendation = EvaluationService.GetRecommendationByEPAId(epaInfo.EPAId);
                 }
 
-                if (extendedQuetionEnabled.Equals("true", StringComparison.OrdinalIgnoreCase) && epaInfo.IsProbation)
+                if (epaInfo.IsProbation)
                 {
                     epaInfo.ExtendedQuestion = EvaluationService.GetExtendedQuestionByEPAId(epaInfo.EPAId);
                 }

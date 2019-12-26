@@ -1,6 +1,5 @@
 ﻿namespace SMS.EPA.Site.Controllers.API
 {
-    using System;
     using System.Collections.Generic;
     using System.Net;
     using System.Net.Http;
@@ -51,7 +50,6 @@
         [ApiAuthorize(FunctionKey = EPAFunctionKey.Self, Policy = Policy.Read)]
         public HttpResponseMessage GetEPAInfoByEmployee(int epaId)
         {
-            var extendedQuetionEnabled = ConfigurationManagerService.GetAppSetting("ProbationExtendedQuestionEnabled");
             var epaInfo = new EPAModel();
             int permission = CheckEmployeePermission(epaId);
 
@@ -68,7 +66,8 @@
 
             epaInfo = selfEvaluationService.GetEPAInfoByEmployee(criteria);
 
-            if (extendedQuetionEnabled.Equals("true", StringComparison.OrdinalIgnoreCase)){
+            if (epaInfo.IsProbation)
+            {
                 epaInfo.ExtendedQuestion = employeeEPAService.GetExtendedQuestionByEPAId(epaInfo.EPAId);
             }
 

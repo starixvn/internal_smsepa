@@ -142,7 +142,7 @@
 
 <div>&ensp;</div>
 
-<div class="panel panel-default" ng-if="performanceDetailCtrl.epaInfo.ExtendedQuestion != null">
+<div class="panel panel-default" ng-if="performanceDetailCtrl.epaInfo.ExtendedQuestion.SubQuestions.length">
     <div class="panel-heading" data-toggle="collapse" data-target=".extendedQuestion">
         <h4 class="panel-title">{{performanceDetailCtrl.epaInfo.ExtendedQuestion.QuestionContent}}</h4>
     </div>
@@ -152,12 +152,12 @@
                 <thead>
                     <tr>
                         <th rowspan="2" data-translate="SymbolCount"></th>
-                        <th rowspan="2">Question</th>
-                        <th colspan="2">Answer</th>
+                        <th rowspan="2" data-translate="Question"></th>
+                        <th colspan="2" data-translate="Answer"></th>
                     </tr>
                     <tr>
-                        <th>Yes</th>
-                        <th>No</th>
+                        <th data-translate="Yes"></th>
+                        <th data-translate="No"></th>
                     </tr>
                 </thead>
                 <tbody>
