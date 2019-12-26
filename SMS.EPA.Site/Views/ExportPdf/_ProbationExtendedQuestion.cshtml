@@ -15,7 +15,7 @@
 }
 
 @{
-    if (Model.ExtendedQuestion.SubQuestions.Any())
+    if (Model.ExtendedQuestion != null && Model.ExtendedQuestion.SubQuestions.Any())
     {
         <table class="performance-detail">
             <thead>
