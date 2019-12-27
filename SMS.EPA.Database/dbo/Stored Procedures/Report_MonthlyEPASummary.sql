@@ -314,7 +314,7 @@ BEGIN
 					WHEN @SortCode THEN emp.Code
 					WHEN @SortSection THEN gr.[Name]
 					END
-			END
+			END ASC
 
 	SELECT DISTINCT tbl.*
 	FROM (

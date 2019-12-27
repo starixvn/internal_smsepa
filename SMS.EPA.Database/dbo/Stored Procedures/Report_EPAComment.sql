@@ -26,5 +26,5 @@ BEGIN
 			prc.EPAId = epa.EPAId
 			AND ISNULL(prc.Comment, '') <> ''
 		)
-	ORDER BY emp.Code, ProcessId
+	ORDER BY emp.Code ASC, ProcessId ASC
 END

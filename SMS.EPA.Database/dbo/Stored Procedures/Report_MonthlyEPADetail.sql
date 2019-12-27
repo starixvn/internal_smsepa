@@ -253,8 +253,8 @@ BEGIN
 			,tt.TargetTypeId
 			,period.EndDate
 		) AS tbl
-	ORDER BY tbl.GroupName
-		,tbl.Code
+	ORDER BY tbl.GroupName ASC
+		,tbl.Code ASC
 
 	SELECT @Ids = COALESCE(@Ids + ',', '') + CAST(EPAId AS NVARCHAR)
 	FROM #tblEPAs WITH (NOLOCK)
@@ -377,7 +377,7 @@ BEGIN
 					WHEN @SortCode THEN tblData.Code
 					WHEN @SortSection THEN tblData.GroupName
 					END
-			END
+			END ASC
 
 	-- Process
 	SELECT DISTINCT epa.EPAId
@@ -401,8 +401,8 @@ BEGIN
 		AND pc.ProcessId > 1 -- ignore HR phase
 		INNER JOIN dbo.Period AS period WITH (NOLOCK) ON epa.PeriodId = period.PeriodId
 		INNER JOIN dbo.Employee AS emp WITH (NOLOCK) ON pc.EvaluatorId = emp.EmployeeId
-	ORDER BY epa.EPAId
-		,pc.ProcessId
+	ORDER BY epa.EPAId ASC
+		,pc.ProcessId ASC
 
 	DROP TABLE #tblEPAs
 

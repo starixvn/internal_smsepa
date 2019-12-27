@@ -46,7 +46,7 @@ BEGIN
 				WHERE tg2.TargetTemplateId = tg.TargetTemplateId
 					AND gr.IsDeleted = 0
 				GROUP BY tg2.TargetTemplateId, tmpDep.IsGroup, dep2.Code, gr.Code
-				ORDER BY dep2.Code
+				ORDER BY dep2.Code ASC
 				FOR XML PATH('')
 			), 2, 200) [Departments]
 	FROM dbo.TargetTemplate AS tg WITH (NOLOCK)

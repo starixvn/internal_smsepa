@@ -461,7 +461,7 @@ BEGIN
 					WHEN @SortCode THEN tblData.Code
 					WHEN @SortSection THEN tblData.GroupName
 					END
-			END
+			END ASC
 
 	-- Process
 	SELECT DISTINCT epa.EPAId

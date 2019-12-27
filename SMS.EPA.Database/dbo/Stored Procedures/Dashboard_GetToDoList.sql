@@ -104,9 +104,9 @@ BEGIN
 		,UnfinishedByManagement
 	FROM @tblTodo
 	ORDER BY CASE 
-			WHEN TargetTypeId = @ProbationTargetType THEN 1
-			WHEN TargetTypeId = @SemiTargetType THEN 2
-			WHEN TargetTypeId = @PromotionTargetType THEN 3
-			ELSE 4
+			WHEN TargetTypeId = @ProbationTargetType THEN PeriodId
+			WHEN TargetTypeId = @SemiTargetType THEN [Name]
+			WHEN TargetTypeId = @PromotionTargetType THEN TargetTypeId
+			ELSE FinishedByEvaluator
 			END ASC
 END
