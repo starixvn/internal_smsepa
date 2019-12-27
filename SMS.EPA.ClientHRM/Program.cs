@@ -15,6 +15,7 @@
         {
             try
             {
+                Console.WriteLine("Start");
                 DbSettingProviderManager
                 .StartNewSession()
                 .Use(new OldConnectionStringProvider())
@@ -46,6 +47,7 @@
 
                     foreach (var service in servicesToRun)
                     {
+                        Console.WriteLine("Stop {0}", service.ServiceName);
                         service.Stop();
                     }
                 }

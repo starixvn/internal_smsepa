@@ -5,11 +5,12 @@
     using Model;
     using System;
     using System.Collections.Generic;
+    using System.Threading.Tasks;
 
     public interface IDepartmentAPI
     {
-        DateTime GetLastModifiedDate(TokenAccess token);
+        Task<DateTime> GetLastModifiedDate(TokenAccess token);
 
-        CommandResult Update(IEnumerable<Department> departments, TokenAccess token);
+        Task<CommandResult> UpdateAsync(IEnumerable<Department> departments, TokenAccess token);
     }
 }

@@ -7,6 +7,7 @@
     using Model;
     using System;
     using System.Collections.Generic;
+    using System.Threading.Tasks;
     using ThirdPartyAPI;
 
     public class DepartmentService : IDepartmentService
@@ -28,14 +29,14 @@
             return departments;
         }
 
-        public DateTime GetLastModifiedDate(TokenAccess token)
+        public async Task<DateTime> GetLastModifiedDateAsync(TokenAccess token)
         {
-            return _departmentApi.GetLastModifiedDate(token);
+            return await _departmentApi.GetLastModifiedDate(token);
         }
 
-        public CommandResult Update(IEnumerable<Department> departments, TokenAccess token)
+        public Task<CommandResult> Update(IEnumerable<Department> departments, TokenAccess token)
         {
-            return _departmentApi.Update(departments, token);
+            return _departmentApi.UpdateAsync(departments, token);
         }
     }
 }

@@ -1,10 +1,11 @@
 ﻿namespace SMS.EPA.ClientHrm.Services
 {
-    using Core.Model;
-    using Model;
     using System;
     using System.Collections.Generic;
+    using System.Threading.Tasks;
+    using Core.Model;
     using EPA.Model.API;
+    using Model;
 
     public interface ISupervisorService
     {
@@ -12,12 +13,12 @@
 
         IEnumerable<TeamDisciplinePermission> GetGroups(DateTime fromDate);
 
-        CommandResult UpdateEmployees(IEnumerable<EmployeeDisciplinePermission> employees, TokenAccess token);
+        Task<CommandResult> UpdateEmployeesAsync(IEnumerable<EmployeeDisciplinePermission> employees, TokenAccess token);
 
-        CommandResult UpdateGroups(IEnumerable<TeamDisciplinePermission> groups, TokenAccess token);
+        Task<CommandResult> UpdateGroupsAsync(IEnumerable<TeamDisciplinePermission> groups, TokenAccess token);
 
-        DateTime GetLastModifiedDateForEmployee(TokenAccess token);
+        Task<DateTime> GetLastModifiedDateForEmployeeAsync(TokenAccess token);
 
-        DateTime GetLastModifiedDateForGroup(TokenAccess token);
+        Task<DateTime> GetLastModifiedDateForGroup(TokenAccess token);
     }
 }

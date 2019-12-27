@@ -6,6 +6,7 @@
     using Fanex.Data.Repository;
     using Model;
     using System.Collections.Generic;
+    using System.Threading.Tasks;
     using ThirdPartyAPI;
 
     public class JobTitleService : IJobTitleService
@@ -27,9 +28,9 @@
             return jobTitles;
         }
 
-        public CommandResult Update(IEnumerable<JobTitle> jobTitles, TokenAccess token)
+        public async Task<CommandResult> UpdateAsync(IEnumerable<JobTitle> jobTitles, TokenAccess token)
         {
-            return _jobTitleApi.Update(jobTitles, token);
+            return await _jobTitleApi.UpdateAsync(jobTitles, token);
         }
     }
 }

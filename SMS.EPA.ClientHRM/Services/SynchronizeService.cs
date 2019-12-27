@@ -3,6 +3,7 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Threading.Tasks;
     using EPA.Model.API;
     using Model;
 
@@ -39,142 +40,152 @@
             _photoService = photoService;
         }
 
-        public void Synchronize()
+        public async Task Synchronize()
         {
-            SynchronizeDepartment();
-            SynchronizeTeam();
-            SynchronizeEmployee();
-            SynchronizeJobTitle();
-            SynchronizeEmployeeDisciplinePermission();
-            SynchronizeGroupDisciplinePermission();
-            SynchronizeDisciplineSummary();
-            SynchronizePhoto();
+            await SynchronizeDepartmentAsync();
+            await SynchronizeTeamAsync();
+            await SynchronizeEmployeeAsync();
+            await SynchronizeJobTitle();
+            await SynchronizeEmployeeDisciplinePermissionAsync();
+            await SynchronizeGroupDisciplinePermission();
+            await SynchronizeDisciplineSummaryAsync();
+            await SynchronizePhotoAsync();
         }
 
-        private void SynchronizeDepartment()
+        private async Task SynchronizeDepartmentAsync()
         {
-            InitToken();
-
+            await InitToken();
             if (_token.IsValid())
             {
-                DateTime fromDate = _departmentService.GetLastModifiedDate(_token);
+                DateTime fromDate = await _departmentService.GetLastModifiedDateAsync(_token);
                 IEnumerable<Department> departments = _departmentService.GetDepartments(fromDate);
                 if (departments.Any())
                 {
-                    _departmentService.Update(departments, _token);
+                    await _departmentService.Update(departments, _token);
                 }
+                Console.WriteLine("Dept");
+
             }
         }
 
-        private void SynchronizeTeam()
+        private async Task SynchronizeTeamAsync()
         {
-            InitToken();
+            await InitToken();
 
             if (_token.IsValid())
             {
-                DateTime fromDate = _teamService.GetLastModifiedDate(_token);
+                DateTime fromDate = await _teamService.GetLastModifiedDateAsync(_token);
                 IEnumerable<Team> teams = _teamService.GetTeams(fromDate);
                 if (teams.Any())
                 {
-                    _teamService.Update(teams, _token);
+                    await _teamService.UpdateAsync(teams, _token);
                 }
+                Console.WriteLine("Team");
+
             }
         }
 
-        private void SynchronizeEmployee()
+        private async Task SynchronizeEmployeeAsync()
         {
-            InitToken();
+            await InitToken();
 
             if (_token.IsValid())
             {
-                DateTime fromDate = _employeeService.GetLastModifiedDate(_token);
+                DateTime fromDate = await _employeeService.GetLastModifiedDateAsync(_token);
                 IEnumerable<Employee> employees = _employeeService.GetEmployees(fromDate);
                 if (employees.Any())
                 {
-                    _employeeService.Update(employees, _token);
+                    await _employeeService.UpdateAsync(employees, _token);
                 }
+                Console.WriteLine("Employee");
+
             }
         }
 
-        private void SynchronizeJobTitle()
+        private async Task SynchronizeJobTitle()
         {
-            InitToken();
+            await InitToken();
 
             if (_token.IsValid())
             {
                 IEnumerable<JobTitle> jobTitles = _jobTitleService.GetJobTitles();
                 if (jobTitles.Any())
                 {
-                    _jobTitleService.Update(jobTitles, _token);
+                    await _jobTitleService.UpdateAsync(jobTitles, _token);
                 }
+            Console.WriteLine("JobTitle");
             }
         }
 
-        private void SynchronizeEmployeeDisciplinePermission()
+        private async Task SynchronizeEmployeeDisciplinePermissionAsync()
         {
-            InitToken();
+            await InitToken();
 
             if (_token.IsValid())
             {
-                DateTime fromDate = _supervisorService.GetLastModifiedDateForEmployee(_token);
+                DateTime fromDate = await _supervisorService.GetLastModifiedDateForEmployeeAsync(_token);
                 IEnumerable<EmployeeDisciplinePermission> employees = _supervisorService.GetEmployees(fromDate);
                 if (employees.Any())
                 {
-                    _supervisorService.UpdateEmployees(employees, _token);
+                    await _supervisorService.UpdateEmployeesAsync(employees, _token);
                 }
+            Console.WriteLine("EmployeeDisciplinePermission");
             }
         }
 
-        private void SynchronizeGroupDisciplinePermission()
+        private async Task SynchronizeGroupDisciplinePermission()
         {
-            InitToken();
+            await InitToken();
 
             if (_token.IsValid())
             {
-                DateTime fromDate = _supervisorService.GetLastModifiedDateForGroup(_token);
+                DateTime fromDate = await _supervisorService.GetLastModifiedDateForGroup(_token);
                 IEnumerable<TeamDisciplinePermission> groups = _supervisorService.GetGroups(fromDate);
                 if (groups.Any())
                 {
-                    _supervisorService.UpdateGroups(groups, _token);
+                    await _supervisorService.UpdateGroupsAsync(groups, _token);
                 }
+            Console.WriteLine("GroupDisciplinePermission");
             }
         }
 
-        private void SynchronizeDisciplineSummary()
+        private async Task SynchronizeDisciplineSummaryAsync()
         {
-            InitToken();
+            await InitToken();
 
             if (_token.IsValid())
             {
-                DateTime lastModifiedDate = _disciplineSummaryService.GetLastModifiedDate(_token);
+                DateTime lastModifiedDate = await _disciplineSummaryService.GetLastModifiedDateAsync(_token);
                 IEnumerable<DisciplineSummary> violations = _disciplineSummaryService.GetDisciplineSummary(lastModifiedDate);
                 if (violations.Any())
                 {
-                    _disciplineSummaryService.Update(violations, _token);
+                    await _disciplineSummaryService.UpdateAsync(violations, _token);
                 }
+            Console.WriteLine("DisciplineSummary");
             }
         }
 
-        private void SynchronizePhoto()
+        private async Task SynchronizePhotoAsync()
         {
-            InitToken();
+            await InitToken();
 
             if (_token.IsValid())
             {
-                DateTime lastModifiedDate = _photoService.GetLastModifiedDate(_token);
+                DateTime lastModifiedDate = await _photoService.GetLastModifiedDate(_token);
                 IEnumerable<Photo> photos = _photoService.GetPhotos(lastModifiedDate);
                 if (photos.Any())
                 {
-                    _photoService.Update(photos, _token);
+                    await _photoService.UpdateAsync(photos, _token);
                 }
+            Console.WriteLine("Photo");
             }
         }
 
-        private void InitToken()
+        private async Task InitToken()
         {
             if (!_token.IsValid())
             {
-                _token = _tokenService.Request(ApplicationConfig.ApplicationInfo);
+                _token = await _tokenService.Request(ApplicationConfig.ApplicationInfo);
             }
         }
     }

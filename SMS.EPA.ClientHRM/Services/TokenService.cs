@@ -1,5 +1,6 @@
 ﻿namespace SMS.EPA.ClientHrm.Services
 {
+    using System.Threading.Tasks;
     using Model;
     using ThirdPartyAPI;
 
@@ -12,9 +13,9 @@
             _tokenApi = tokenApi;
         }
 
-        public TokenAccess Request(ApplicationInfo info)
+        public async Task<TokenAccess> Request(ApplicationInfo info)
         {
-            return _tokenApi.Request(info);
+            return await _tokenApi.RequestAsync(info);
         }
     }
 }

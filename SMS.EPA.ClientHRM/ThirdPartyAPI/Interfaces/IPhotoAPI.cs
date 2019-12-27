@@ -5,11 +5,12 @@
     using Model;
     using System;
     using System.Collections.Generic;
+    using System.Threading.Tasks;
 
     public interface IPhotoAPI
     {
-        DateTime GetLastModifiedDate(TokenAccess token);
+        Task<DateTime> GetLastModifiedDateAsync(TokenAccess token);
 
-        CommandResult Update(IEnumerable<Photo> photos, TokenAccess token);
+        Task<CommandResult> Update(IEnumerable<Photo> photos, TokenAccess token);
     }
 }

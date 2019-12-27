@@ -5,13 +5,14 @@
     using Model;
     using System;
     using System.Collections.Generic;
+    using System.Threading.Tasks;
 
     public interface IEmployeeService
     {
         IEnumerable<Employee> GetEmployees(DateTime? fromDate);
 
-        DateTime GetLastModifiedDate(TokenAccess token);
+        Task<DateTime> GetLastModifiedDateAsync(TokenAccess token);
 
-        CommandResult Update(IEnumerable<Employee> employees, TokenAccess token);
+        Task<CommandResult> UpdateAsync(IEnumerable<Employee> employees, TokenAccess token);
     }
 }

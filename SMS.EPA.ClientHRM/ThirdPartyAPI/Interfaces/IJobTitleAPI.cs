@@ -4,9 +4,10 @@
     using EPA.Model.API;
     using Model;
     using System.Collections.Generic;
+    using System.Threading.Tasks;
 
     public interface IJobTitleAPI
     {
-        CommandResult Update(IEnumerable<JobTitle> jobTitles, TokenAccess token);
+        Task<CommandResult> UpdateAsync(IEnumerable<JobTitle> jobTitles, TokenAccess token);
     }
 }

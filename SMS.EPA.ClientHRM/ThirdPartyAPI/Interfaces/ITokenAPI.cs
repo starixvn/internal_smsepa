@@ -1,9 +1,10 @@
 ﻿namespace SMS.EPA.ClientHrm.ThirdPartyAPI
 {
+    using System.Threading.Tasks;
     using Model;
 
     public interface ITokenAPI
     {
-        TokenAccess Request(ApplicationInfo info);
+        Task<TokenAccess> RequestAsync(ApplicationInfo info);
     }
 }

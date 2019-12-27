@@ -5,13 +5,14 @@
     using Model;
     using System;
     using System.Collections.Generic;
+    using System.Threading.Tasks;
 
     public interface ITeamService
     {
         IEnumerable<Team> GetTeams(DateTime? fromDate);
 
-        DateTime GetLastModifiedDate(TokenAccess token);
+        Task<DateTime> GetLastModifiedDateAsync(TokenAccess token);
 
-        CommandResult Update(IEnumerable<Team> teams, TokenAccess token);
+        Task<CommandResult> UpdateAsync(IEnumerable<Team> teams, TokenAccess token);
     }
 }

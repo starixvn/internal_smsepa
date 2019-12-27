@@ -7,6 +7,7 @@
     using Model;
     using System;
     using System.Collections.Generic;
+    using System.Threading.Tasks;
     using ThirdPartyAPI;
 
     public class DisciplinePermissionService : ISupervisorService
@@ -41,24 +42,24 @@
             return groupSupervisors;
         }
 
-        public CommandResult UpdateEmployees(IEnumerable<EmployeeDisciplinePermission> employees, TokenAccess token)
+        public async Task<CommandResult> UpdateEmployeesAsync(IEnumerable<EmployeeDisciplinePermission> employees, TokenAccess token)
         {
-            return _employeeSupervisorApi.Update(employees, token);
+            return await _employeeSupervisorApi.UpdateAsync(employees, token);
         }
 
-        public CommandResult UpdateGroups(IEnumerable<TeamDisciplinePermission> groups, TokenAccess token)
+        public async Task<CommandResult> UpdateGroupsAsync(IEnumerable<TeamDisciplinePermission> groups, TokenAccess token)
         {
-            return _teamSupervisorApi.Update(groups, token);
+            return await _teamSupervisorApi.Update(groups, token);
         }
 
-        public DateTime GetLastModifiedDateForEmployee(TokenAccess token)
+        public async Task<DateTime> GetLastModifiedDateForEmployeeAsync(TokenAccess token)
         {
-            return _employeeSupervisorApi.GetLastModifiedDate(token);
+            return await _employeeSupervisorApi.GetLastModifiedDateAsync(token);
         }
 
-        public DateTime GetLastModifiedDateForGroup(TokenAccess token)
+        public async Task<DateTime> GetLastModifiedDateForGroup(TokenAccess token)
         {
-            return _teamSupervisorApi.GetLastModifiedDate(token);
+            return await _teamSupervisorApi.GetLastModifiedDateAsync(token);
         }
     }
 }

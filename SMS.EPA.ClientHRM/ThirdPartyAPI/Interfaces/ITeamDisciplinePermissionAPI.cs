@@ -5,11 +5,12 @@
     using Model;
     using System;
     using System.Collections.Generic;
+    using System.Threading.Tasks;
 
     public interface ITeamSupervisorAPI
     {
-        CommandResult Update(IEnumerable<TeamDisciplinePermission> groupSupervisors, TokenAccess token);
+        Task<CommandResult> Update(IEnumerable<TeamDisciplinePermission> groupSupervisors, TokenAccess token);
 
-        DateTime GetLastModifiedDate(TokenAccess token);
+        Task<DateTime> GetLastModifiedDateAsync(TokenAccess token);
     }
 }

@@ -8,12 +8,12 @@
     [AttributeUsage(AttributeTargets.Method | AttributeTargets.Class)]
     public sealed class CustomActionFilterAttribute : ActionFilterAttribute
     {
-        public override void OnActionExecuted(HttpActionExecutedContext actionExecutedContext)
+        public override async void OnActionExecuted(HttpActionExecutedContext actionExecutedContext)
         {
             if (actionExecutedContext?.Response != null)
             {
                 var content = actionExecutedContext.Response.Content;
-                var bytes = content?.ReadAsByteArrayAsync().Result;
+                var bytes = await content?.ReadAsByteArrayAsync();
                 var zlibbedContent = bytes == null
                     ? new byte[0]
                     : CompressionHelper.DeflateByte(bytes);

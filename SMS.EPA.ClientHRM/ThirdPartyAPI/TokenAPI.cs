@@ -5,19 +5,20 @@
     using System.Collections.Generic;
     using System.Net.Http;
     using System.Net.Http.Formatting;
+    using System.Threading.Tasks;
 
     public class TokenAPI : ITokenAPI
     {
-        public TokenAccess Request(ApplicationInfo info)
+        public async Task<TokenAccess> RequestAsync(ApplicationInfo info)
         {
             using (var client = new HttpClient())
             {
                 var form = new Dictionary<string, string> { { "grant_type", info.GrantType }, { "username", info.UserName }, { "password", info.Password } };
                 using (var encodedContent = new FormUrlEncodedContent(form))
                 {
-                    var tokenResponse = client.PostAsync(new Uri(ApplicationConfig.ServiceAPI + "token"), encodedContent).Result;
+                    var tokenResponse = await client.PostAsync(new Uri(ApplicationConfig.ServiceAPI + "token"), encodedContent);
 
-                    return tokenResponse.Content.ReadAsAsync<TokenAccess>(new[] { new JsonMediaTypeFormatter() }).Result;
+                    return await tokenResponse.Content.ReadAsAsync<TokenAccess>(new[] { new JsonMediaTypeFormatter() });
                 }
             }
         }

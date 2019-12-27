@@ -7,6 +7,7 @@
     using Model;
     using System;
     using System.Collections.Generic;
+    using System.Threading.Tasks;
     using ThirdPartyAPI;
 
     public class TeamService : ITeamService
@@ -28,14 +29,14 @@
             return teams;
         }
 
-        public DateTime GetLastModifiedDate(TokenAccess token)
+        public async Task<DateTime> GetLastModifiedDateAsync(TokenAccess token)
         {
-            return _teamApi.GetLastModifiedDate(token);
+            return await _teamApi.GetLastModifiedDate(token);
         }
 
-        public CommandResult Update(IEnumerable<Team> teams, TokenAccess token)
+        public async Task<CommandResult> UpdateAsync(IEnumerable<Team> teams, TokenAccess token)
         {
-            return _teamApi.Update(teams, token);
+            return await _teamApi.UpdateAsync(teams, token);
         }
     }
 }

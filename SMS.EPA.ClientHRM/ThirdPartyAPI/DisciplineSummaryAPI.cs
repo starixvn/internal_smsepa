@@ -7,6 +7,7 @@
     using System.Net;
     using System.Net.Http;
     using System.Net.Http.Headers;
+    using System.Threading.Tasks;
     using Core.Model;
     using EPA.Model.API;
     using Fanex.Logging;
@@ -14,25 +15,25 @@
 
     public class DisciplineSummaryAPI : IDisciplineSummaryAPI
     {
-        public DateTime GetLastModifiedDate(TokenAccess token)
+        public async Task<DateTime> GetLastModifiedDateAsync(TokenAccess token)
         {
             using (var client = new HttpClient())
             {
                 client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token.Value);
 
-                var result = client.GetAsync(new Uri(ApplicationConfig.ServiceAPI + "DisciplineSummary/GetLastModifiedDate")).Result;
+                var result = await client.GetAsync(new Uri(ApplicationConfig.ServiceAPI + "DisciplineSummary/GetLastModifiedDate"));
 
-                return result.Content.ReadAsAsync<DateTime>().Result;
+                return await result.Content.ReadAsAsync<DateTime>();
             }
         }
 
-        public CommandResult Update(IEnumerable<DisciplineSummary> disciplines, TokenAccess token)
+        public async Task<CommandResult> UpdateAsync(IEnumerable<DisciplineSummary> disciplines, TokenAccess token)
         {
             using (var client = new HttpClient())
             {
                 client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token.Value);
 
-                var result = client.PostAsJsonAsync(ApplicationConfig.ServiceAPI + "DisciplineSummary", disciplines.ToArray()).Result;
+                var result = await client.PostAsJsonAsync(ApplicationConfig.ServiceAPI + "DisciplineSummary", disciplines.ToArray());
 
                 if (result.StatusCode != HttpStatusCode.OK)
                 {

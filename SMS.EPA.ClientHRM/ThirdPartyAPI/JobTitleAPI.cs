@@ -6,6 +6,7 @@
     using System.Net;
     using System.Net.Http;
     using System.Net.Http.Headers;
+    using System.Threading.Tasks;
     using Core.Model;
     using EPA.Model.API;
     using Fanex.Logging;
@@ -13,13 +14,13 @@
 
     public class JobTitleAPI : IJobTitleAPI
     {
-        public CommandResult Update(IEnumerable<JobTitle> jobTitles, TokenAccess token)
+        public async Task<CommandResult> UpdateAsync(IEnumerable<JobTitle> jobTitles, TokenAccess token)
         {
             using (var client = new HttpClient())
             {
                 client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token.Value);
 
-                var result = client.PostAsJsonAsync(ApplicationConfig.ServiceAPI + "JobTitle", jobTitles.ToArray()).Result;
+                var result = await client.PostAsJsonAsync(ApplicationConfig.ServiceAPI + "JobTitle", jobTitles.ToArray());
 
                 if (result.StatusCode != HttpStatusCode.OK)
                 {

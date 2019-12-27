@@ -11,28 +11,29 @@
     using System.Net;
     using Fanex.Logging;
     using System.Globalization;
+    using System.Threading.Tasks;
 
     public class EmployeeDisciplinePermissionAPI : IEmployeeSupervisorAPI
     {
-        public DateTime GetLastModifiedDate(TokenAccess token)
+        public async Task<DateTime> GetLastModifiedDateAsync(TokenAccess token)
         {
             using (var client = new HttpClient())
             {
                 client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token.Value);
 
-                var result = client.GetAsync(new Uri(ApplicationConfig.ServiceAPI + "EmployeeDisciplinePermission")).Result;
+                var result = await client.GetAsync(new Uri(ApplicationConfig.ServiceAPI + "EmployeeDisciplinePermission"));
 
-                return result.Content.ReadAsAsync<DateTime>().Result;
+                return await result.Content.ReadAsAsync<DateTime>();
             }
         }
 
-        public CommandResult Update(IEnumerable<EmployeeDisciplinePermission> employeeSupervisors, TokenAccess token)
+        public async Task<CommandResult> UpdateAsync(IEnumerable<EmployeeDisciplinePermission> employeeSupervisors, TokenAccess token)
         {
             using (var client = new HttpClient())
             {
                 client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token.Value);
                 var targetURL = ApplicationConfig.ServiceAPI + "EmployeeDisciplinePermission";
-                var result = client.PostAsJsonAsync(targetURL, employeeSupervisors.ToArray()).Result;
+                var result = await client.PostAsJsonAsync(targetURL, employeeSupervisors.ToArray());
 
                 if (result.StatusCode != HttpStatusCode.OK)
                 {

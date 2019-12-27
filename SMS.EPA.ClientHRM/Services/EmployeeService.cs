@@ -7,6 +7,7 @@
     using Model;
     using System;
     using System.Collections.Generic;
+    using System.Threading.Tasks;
     using ThirdPartyAPI;
 
     public class EmployeeService : IEmployeeService
@@ -28,14 +29,14 @@
             return employees;
         }
 
-        public DateTime GetLastModifiedDate(TokenAccess token)
+        public async Task<DateTime> GetLastModifiedDateAsync(TokenAccess token)
         {
-            return _employeeApi.GetLastModifiedDate(token);
+            return await _employeeApi.GetLastModifiedDateAsync(token);
         }
 
-        public CommandResult Update(IEnumerable<Employee> employees, TokenAccess token)
+        public async Task<CommandResult> UpdateAsync(IEnumerable<Employee> employees, TokenAccess token)
         {
-            return _employeeApi.Update(employees, token);
+            return await _employeeApi.Update(employees, token);
         }
     }
 }

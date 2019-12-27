@@ -7,6 +7,7 @@
     using Model;
     using System;
     using System.Collections.Generic;
+    using System.Threading.Tasks;
     using ThirdPartyAPI;
 
     public class DisciplineSummaryService : IDisciplineSummaryService
@@ -32,14 +33,14 @@
             return disciplines;
         }
 
-        public DateTime GetLastModifiedDate(TokenAccess token)
+        public async Task<DateTime> GetLastModifiedDateAsync(TokenAccess token)
         {
-            return _attendanceApi.GetLastModifiedDate(token);
+            return await _attendanceApi.GetLastModifiedDateAsync(token);
         }
 
-        public CommandResult Update(IEnumerable<DisciplineSummary> disciplines, TokenAccess token)
+        public async Task<CommandResult> UpdateAsync(IEnumerable<DisciplineSummary> disciplines, TokenAccess token)
         {
-            return _attendanceApi.Update(disciplines, token);
+            return await _attendanceApi.UpdateAsync(disciplines, token);
         }
     }
 }

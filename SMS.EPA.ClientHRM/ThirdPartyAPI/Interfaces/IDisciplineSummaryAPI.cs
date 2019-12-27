@@ -5,11 +5,12 @@
     using Model;
     using System;
     using System.Collections.Generic;
+    using System.Threading.Tasks;
 
     public interface IDisciplineSummaryAPI
     {
-        DateTime GetLastModifiedDate(TokenAccess token);
+        Task<DateTime> GetLastModifiedDateAsync(TokenAccess token);
 
-        CommandResult Update(IEnumerable<DisciplineSummary> disciplines, TokenAccess token);
+        Task<CommandResult> UpdateAsync(IEnumerable<DisciplineSummary> disciplines, TokenAccess token);
     }
 }

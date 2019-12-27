@@ -7,6 +7,7 @@
     using System.Collections.Generic;
     using System.IO;
     using System.Linq;
+    using System.Threading.Tasks;
     using ThirdPartyAPI;
 
     public class PhotoService : IPhotoService
@@ -39,14 +40,14 @@
             return photos;
         }
 
-        public DateTime GetLastModifiedDate(TokenAccess token)
+        public async Task<DateTime> GetLastModifiedDate(TokenAccess token)
         {
-            return _photoApi.GetLastModifiedDate(token);
+            return await _photoApi.GetLastModifiedDateAsync(token);
         }
 
-        public CommandResult Update(IEnumerable<Photo> photos, TokenAccess token)
+        public async Task<CommandResult> UpdateAsync(IEnumerable<Photo> photos, TokenAccess token)
         {
-            return _photoApi.Update(photos, token);
+            return await _photoApi.Update(photos, token);
         }
     }
 }

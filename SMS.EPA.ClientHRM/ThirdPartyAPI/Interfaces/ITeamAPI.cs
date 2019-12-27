@@ -5,11 +5,12 @@
     using Model;
     using System;
     using System.Collections.Generic;
+    using System.Threading.Tasks;
 
     public interface ITeamAPI
     {
-        DateTime GetLastModifiedDate(TokenAccess token);
+        Task<DateTime> GetLastModifiedDate(TokenAccess token);
 
-        CommandResult Update(IEnumerable<Team> teams, TokenAccess token);
+        Task<CommandResult> UpdateAsync(IEnumerable<Team> teams, TokenAccess token);
     }
 }

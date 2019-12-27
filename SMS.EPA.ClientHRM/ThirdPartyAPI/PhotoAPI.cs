@@ -7,6 +7,7 @@
     using System.Net;
     using System.Net.Http;
     using System.Net.Http.Headers;
+    using System.Threading.Tasks;
     using Core.Model;
     using EPA.Model.API;
     using Fanex.Logging;
@@ -14,25 +15,25 @@
 
     public class PhotoAPI : IPhotoAPI
     {
-        public DateTime GetLastModifiedDate(TokenAccess token)
+        public async Task<DateTime> GetLastModifiedDateAsync(TokenAccess token)
         {
             using (var client = new HttpClient())
             {
                 client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token.Value);
 
-                var result = client.GetAsync(new Uri(ApplicationConfig.ServiceAPI + "Photo")).Result;
+                var result = await client.GetAsync(new Uri(ApplicationConfig.ServiceAPI + "Photo"));
 
-                return result.Content.ReadAsAsync<DateTime>().Result;
+                return await result.Content.ReadAsAsync<DateTime>();
             }
         }
 
-        public CommandResult Update(IEnumerable<Photo> photos, TokenAccess token)
+        public async Task<CommandResult> Update(IEnumerable<Photo> photos, TokenAccess token)
         {
             using (var client = new HttpClient())
             {
                 client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token.Value);
 
-                var result = client.PostAsJsonAsync(ApplicationConfig.ServiceAPI + "Photo", photos.ToArray()).Result;
+                var result = await client.PostAsJsonAsync(ApplicationConfig.ServiceAPI + "Photo", photos.ToArray());
 
                 if (result.StatusCode != HttpStatusCode.OK)
                 {
