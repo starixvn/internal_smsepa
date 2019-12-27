@@ -2806,6 +2806,15 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Answer is required.
+        /// </summary>
+        public static string RequiredAnswer {
+            get {
+                return ResourceManager.GetString("RequiredAnswer", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Comment is required.
         /// </summary>
         public static string RequiredComment {

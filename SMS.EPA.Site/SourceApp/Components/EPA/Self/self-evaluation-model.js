@@ -93,6 +93,18 @@
                 });
             });
 
+            if (epaInfo.ExtendedQuestion != null) {
+                angular.forEach(epaInfo.ExtendedQuestion.SubQuestions, function (question) {
+                    if (question.IsAgree == null) {
+                        question.IsInvalid = true;
+                        isValid = false;
+                    }
+                    else {
+                        question.IsInvalid = false;
+                    }
+                });
+            }
+
             return isValid;
         }
     }

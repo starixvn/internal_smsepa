@@ -381,7 +381,7 @@ BEGIN
 			)
 			SELECT epa.EPAId,
 				rs.ResourceId,
-				0
+				NULL
 			FROM #PeriodEmployee AS peEmp
 				INNER JOIN dbo.EPA AS epa WITH (NOLOCK) ON peEmp.PeriodId = epa.PeriodId
 				AND peEmp.EmployeeId = epa.EmployeeId

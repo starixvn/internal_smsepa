@@ -5,6 +5,6 @@
         public int EPAId { get; set; }
         public int SubQuestionId { get; set; }
         public string SubQuestionContent { get; set; }
-        public bool IsAgree { get; set; }
+        public bool? IsAgree { get; set; }
     }
 }

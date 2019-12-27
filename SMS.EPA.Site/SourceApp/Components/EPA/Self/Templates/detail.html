@@ -54,59 +54,30 @@
 
             <div>&ensp;</div>
 
-            <div class="panel panel-default" ng-if="empDetailCtrl.epaInfo.ExtendedQuestion.SubQuestions.length">
+            <div class="panel panel-default" ng-if="empDetailCtrl.epaInfo.ExtendedQuestion != null && empDetailCtrl.epaInfo.ExtendedQuestion.SubQuestions.length">
                 <div class="panel-heading" data-toggle="collapse" data-target=".extendedQuestion">
                     <h4 class="panel-title">{{empDetailCtrl.epaInfo.ExtendedQuestion.QuestionContent}}</h4>
                 </div>
                 <div class="row panel-collapse collapse-expanse extendedQuestion">
                     <div class="panel-body" ng-repeat="question in empDetailCtrl.epaInfo.ExtendedQuestion.SubQuestions">
-                        <div class="error-message">
-                            <span ng-show="question.IsInvalid" data-translate="RequiredEvaluation"></span>
+                        <div class="error-message col-md-12">
+                            <span ng-show="question.IsInvalid" data-translate="RequiredAnswer"></span>
                           </div>
                         <div class="col-md-12">
                             <span>{{$index + 1}}. {{question.SubQuestionContent}}</span>
+                            <span class="note" data-translate="(*)"></span>
                         </div>
                         <div class="col-md-12">
                             <div class="col-md-1">
                                 <label>
                                     <input type="radio" ng-model="question.IsAgree" ng-value="true" />
-                                    Yes
+                                    <span data-translate="Yes"></span>
                                 </label>
                             </div>
                             <div class="col-md-1">
                                 <label>
                                     <input type="radio" ng-model="question.IsAgree" ng-value="false"/>
-                                    No
-                                </label>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="panel panel-default" ng-if="performanceDetailCtrl.epaInfo.ExtendedQuestion != null &&empDetailCtrl.epaInfo.ExtendedQuestion.SubQuestions.length">
-                <div class="panel-heading" data-toggle="collapse" data-target=".extendedQuestion">
-                    <h4 class="panel-title">{{empDetailCtrl.epaInfo.ExtendedQuestion.QuestionContent}}</h4>
-                </div>
-                <div class="row panel-collapse collapse-expanse extendedQuestion">
-                    <div class="panel-body" ng-repeat="question in empDetailCtrl.epaInfo.ExtendedQuestion.SubQuestions">
-                        <div class="error-message">
-                            <span ng-show="question.IsInvalid" data-translate="RequiredEvaluation"></span>
-                          </div>
-                        <div class="col-md-12">
-                            <span>{{$index + 1}}. {{question.SubQuestionContent}}</span>
-                        </div>
-                        <div class="col-md-12">
-                            <div class="col-md-1">
-                                <label>
-                                    <input type="radio" ng-model="question.IsAgree" ng-value="true" />
-                                    Yes
-                                </label>
-                            </div>
-                            <div class="col-md-1">
-                                <label>
-                                    <input type="radio" ng-model="question.IsAgree" ng-value="false"/>
-                                    No
+                                    <span data-translate="No"></span>
                                 </label>
                             </div>
                         </div>
