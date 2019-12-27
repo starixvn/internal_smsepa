@@ -16,6 +16,7 @@
         private const int ContentStartRowIndex = 4;
         private const string SheetName = "Recommendation Report";
         private const string FileNamePrefix = "Recommendation Report - ";
+        private const string RecommendationTitlePrefix = "Recommendation - ";
 
         private IWorkbook Workbook { get; set; }
         private ISheet Sheet { get; set; }
@@ -55,7 +56,7 @@
         {
             FileName = FileNamePrefix + Period.Name;
             Workbook.SetSheetName(0, SheetName);
-            Sheet.GetRow(0).GetCell(0).SetCellValue(Period.Name);
+            Sheet.GetRow(0).GetCell(0).SetCellValue(RecommendationTitlePrefix + Period.Name);
         }
 
         private void FillContent()
@@ -92,6 +93,7 @@
 
                 curRow.CreateCell(colIndex++).SetCellValue(recommendation.Code);
                 curRow.CreateCell(colIndex++).SetCellValue(recommendation.NickName);
+                curRow.CreateCell(colIndex++).SetCellValue(recommendation.FullName);
                 curRow.CreateCell(colIndex++).SetCellValue(recommendation.Section);
 
                 switch (recommendation.ProbationStatus)
@@ -119,13 +121,13 @@
 
         private void FormatProbationTemplate()
         {
-            const int jobGradeFieldColIndex = 5;
-            const int anualIncrementFieldColIndex = 4;
+            const int jobGradeFieldColIndex = 6;
+            const int anualIncrementFieldColIndex = 5;
 
             Sheet.RemoveColumn(jobGradeFieldColIndex);
             Sheet.RemoveColumn(anualIncrementFieldColIndex);
 
-            var recommendationCell = new CellRangeAddress(2, 3, 3, 3);
+            var recommendationCell = new CellRangeAddress(2, 3, 4, 4);
             Sheet.AddMergedRegion(recommendationCell);
         }
 
@@ -140,6 +142,7 @@
 
                 curRow.CreateCell(colIndex++).SetCellValue(recommendation.Code);
                 curRow.CreateCell(colIndex++).SetCellValue(recommendation.NickName);
+                curRow.CreateCell(colIndex++).SetCellValue(recommendation.FullName);
                 curRow.CreateCell(colIndex++).SetCellValue(recommendation.Section);
                 curRow.CreateCell(colIndex++).SetCellValue(recommendation.Promotion);
                 curRow.CreateCell(colIndex++).SetCellValue(recommendation.AnnualIncrement);

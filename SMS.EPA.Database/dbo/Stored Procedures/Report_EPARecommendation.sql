@@ -5,6 +5,7 @@ BEGIN
 
 	SELECT DISTINCT emp.Code
 	,emp.NickName
+	,emp.FullName
 	,gr.[Name] AS Section
 	,CASE
 		WHEN rc.Promoted = 1 THEN 'Yes'
@@ -29,5 +30,11 @@ BEGIN
 		LEFT JOIN dbo.JobGrade AS jobgrade WITH (NOLOCK) ON rc.JobGradeId = jobgrade.JobGradeId
 	WHERE epa.[Status] = 1
 		AND period.PeriodId = @PeriodId
+		AND (
+			rc.Promoted = 1
+			OR rc.PayIncreased = 1
+			OR rc.JobGradeIncreased = 1
+			OR rc.ProbationStatus IS NOT NULL
+		)
 	ORDER BY emp.Code
 END

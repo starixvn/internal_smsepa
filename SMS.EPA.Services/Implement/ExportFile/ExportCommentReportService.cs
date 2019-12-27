@@ -15,6 +15,7 @@
     public class ExportCommentReportService : IExportCommentReportService
     {
         private const string FileNamePrefix = "Comment Report - ";
+        private const string TitleProfix = "Comment - ";
         private const int TableContentFirstRowIndex = 4;
         private const int TotalStaffInfoField = 4;
         private const int EvaluatorColumnIndex = 4;
@@ -56,7 +57,7 @@
         private void GetData(EPASummaryCommentReportModel datas)
         {
             SummaryComments = datas.CommentSummary;
-            Title = datas.PeriodName;
+            Title = TitleProfix + datas.PeriodName;
             FileName = FileNamePrefix + datas.PeriodName;
         }
 
