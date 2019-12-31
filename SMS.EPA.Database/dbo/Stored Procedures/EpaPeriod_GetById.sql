@@ -22,7 +22,7 @@ BEGIN
 		,pe.[Description]
 		,pe.[IsActive]
 		,tar.[TargetTypeId]
-		,tar.[Name]
+		,tar.[Name] AS TargetName
 	FROM [dbo].[Period] AS pe WITH (NOLOCK)
 		INNER JOIN [dbo].[TargetType] AS tar WITH (NOLOCK) ON pe.[TargetTypeId] = tar.[TargetTypeId]
 	WHERE pe.[PeriodId] = @PeriodId

@@ -34,7 +34,10 @@ BEGIN
 			rc.Promoted = 1
 			OR rc.PayIncreased = 1
 			OR rc.JobGradeIncreased = 1
-			OR rc.ProbationStatus IS NOT NULL
+			OR (
+				period.TargetTypeId = 1 -- Probation
+				AND rc.ProbationStatus IS NOT NULL
+			)
 		)
 	ORDER BY emp.Code
 END

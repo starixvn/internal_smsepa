@@ -364,14 +364,6 @@
             }
         }
 
-        private static void GroupLastEPAProcessByEPA(EPAModel epaInfo, IEnumerable<EPAProcessModel> lastProcesses)
-        {
-            foreach (EPAProcessModel process in lastProcesses.Where(x => x.EPAId.Equals(epaInfo.EPAId)))
-            {
-                epaInfo.LastProcesses.Add(process);
-            }
-        }
-
         private static void GroupEPAProcessByEPA(IEnumerable<EPAModel> epaInfos, IEnumerable<EPAProcessModel> processes)
         {
             foreach (EPAModel epaInfo in epaInfos)
@@ -380,6 +372,14 @@
                 {
                     GroupEPAProcessByEPA(epaInfo, processes);
                 }
+            }
+        }
+
+        private static void GroupLastEPAProcessByEPA(EPAModel epaInfo, IEnumerable<EPAProcessModel> lastProcesses)
+        {
+            foreach (EPAProcessModel process in lastProcesses.Where(x => x.EPAId.Equals(epaInfo.EPAId)))
+            {
+                epaInfo.LastProcesses.Add(process);
             }
         }
 

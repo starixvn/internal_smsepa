@@ -347,13 +347,12 @@
         protected void WriteTitleSheet()
         {
             IRow rowTitle = Sheet.CreateRow(CurrentRow);
-
             IFont font = Workbook.CreateFont();
             font.FontHeightInPoints = 18;
             font.Boldweight = (short)FontBoldWeight.Bold;
 
             ICell cell = rowTitle.CreateCell(0);
-            cell.SetCellValue(SheetTittle);
+            cell.SetCellValue(SheetTittle + " - " + EpaDetail.Period.Name);
             cell.CellStyle = Workbook.CreateCellStyle();
             cell.CellStyle.Alignment = HorizontalAlignment.Center;
             cell.CellStyle.VerticalAlignment = VerticalAlignment.Center;
