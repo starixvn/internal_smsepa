@@ -233,11 +233,13 @@
                 performanceScore = score - epaInfo.DisciplineScore;
             }
 
-            return employeeEPAService.ConvertScoreToGrade(
-                performanceScore,
-                epaInfo.DisciplineScore,
-                epaInfo.HasDisciplineScore,
-                standardGrades);
+            return epaInfo.FinalScoreToExport != string.Empty 
+                ? epaInfo.Grade 
+                : employeeEPAService.ConvertScoreToGrade(
+                    performanceScore,
+                    epaInfo.DisciplineScore,
+                    epaInfo.HasDisciplineScore,
+                    standardGrades);
         }
 
         protected void SetColumnWidth(int columnIndex, int width)
