@@ -1816,7 +1816,7 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Is Zero Score.
+        ///   Looks up a localized string similar to Fail / Unavailable.
         /// </summary>
         public static string IsZeroScore {
             get {
