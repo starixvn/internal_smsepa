@@ -1438,7 +1438,7 @@
     <value>System Deduction</value>
   </data>
   <data name="IsZeroScore" xml:space="preserve">
-    <value>Fail / Unavailable</value>
+    <value>Fail/ Unmeasurable/ Unavailable</value>
   </data>
   <data name="Sections" xml:space="preserve">
     <value>Sections</value>
