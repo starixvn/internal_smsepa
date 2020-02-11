@@ -57,7 +57,7 @@
                 Task.WhenAll(new[] {
                     Task.Factory.StartNew(() => { autoMailService.CheckAndSendMail(); }),
                     Task.Factory.StartNew(() => { evaluationPeriodService.CheckEndEvaluationPeriod(); })
-                });
+                }).Wait();
             }
             catch (Exception ex)
             {
