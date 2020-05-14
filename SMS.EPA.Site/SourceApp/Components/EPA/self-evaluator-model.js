@@ -28,13 +28,12 @@
                         scoreRating = utilitiesFactory.splitNumber(kpi.CurrentEvaluation.Score, 2);
 
                     score = score ? parseFloat(score) : 0;
+                    totalScore += score;
 
-                    if ((score > 0 && scoreRating === kpiWeight) || (kpi.CurrentEvaluation.Rate === vm.maxStar)) {
+                    if ((score > 0 && scoreRating === kpiWeight) || kpi.CurrentEvaluation.Rate === vm.maxStar) {
                         kpi.CurrentEvaluation.IsMaxScore = true;
-                        totalScore += kpi.Weight;
                     } else {
                         kpi.CurrentEvaluation.IsMaxScore = false;
-                        totalScore += score;
                     }
                 });
             });
@@ -91,8 +90,8 @@
             averageWeight = utilitiesFactory.splitNumber(averageWeight, 4);
 
             angular.forEach(kpis, function (kpi) {
-                kpi.Weight += averageWeight;
-                var score = kpi.Weight * kpi.CurrentEvaluation.Rate / maxStar;
+                var weight = kpi.Weight + averageWeight;
+                var score = weight * kpi.CurrentEvaluation.Rate / maxStar;
                 kpi.CurrentEvaluation.Score = utilitiesFactory.splitNumber(score, 4);
             });
         }
