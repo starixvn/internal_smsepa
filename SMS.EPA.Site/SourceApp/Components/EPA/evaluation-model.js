@@ -1,4 +1,4 @@
-(function(angular) {
+(function (angular) {
     'use strict';
     /* jshint latedef:nofunc */
 
@@ -67,7 +67,7 @@
 
             if (hasDisciplineScore) {
                 angular.forEach(standardGrades,
-                    function(standardGrade) {
+                    function (standardGrade) {
                         if (standardGrade.Type === gradeType.Discipline &&
                             disciplineScore >= standardGrade.LeftScore &&
                             disciplineScore <= standardGrade.RightScore) {
@@ -95,7 +95,7 @@
                 }
             } else {
                 angular.forEach(standardGrades,
-                    function(standardGrade) {
+                    function (standardGrade) {
                         if (standardGrade.Type === gradeType.Final &&
                             finalScore >= standardGrade.LeftScore &&
                             finalScore <= standardGrade.RightScore) {
@@ -108,9 +108,9 @@
         }
 
         function getEPAInfoById(epaId) {
-            return evaluationFactory.getEPAInfoById(epaId).success(function(epaInfo) {
+            return evaluationFactory.getEPAInfoById(epaId).success(function (epaInfo) {
                 model.epaInfo = epaInfo;
-            }).error(function(response, status) {
+            }).error(function (response, status) {
                 errorFactory.errorHandle(status);
             });
         }
@@ -121,15 +121,13 @@
 
         function scoreSpread(kpiGroup) {
             var averageWeight;
-
-            if (!kpiGroup.HasKPIOptional && kpiGroup.IsSpreadKPI) {
+            if (kpiGroup.IsSpreadKPI) {
                 averageWeight = kpiGroup.Weight / kpiGroup.KPIs.length;
                 averageWeight = utilitiesFactory.splitNumber(averageWeight, 4);
 
-                angular.forEach(kpiGroup.KPIs,
-                    function(kpi) {
-                        kpi.Weight = averageWeight;
-                    });
+                angular.forEach(kpiGroup.KPIs, function (kpi) {
+                    kpi.Weight = averageWeight;
+                });
             }
         }
 
@@ -287,7 +285,7 @@
         function isCommentShowed(statusId, comment) {
             if (comment !== undefined && comment !== null) {
                 if ((statusId === utilitiesFactory.processStatus.Closed ||
-                        statusId === utilitiesFactory.processStatus.InProgress) &&
+                    statusId === utilitiesFactory.processStatus.InProgress) &&
                     comment.length > 0) {
                     return true;
                 }

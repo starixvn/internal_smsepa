@@ -71,28 +71,28 @@
         }
 
         function spreadScoreForKPIGroupHasKPIOptional(kpiGroup, maxStar) {
-            var score, averageWeight, totalStarEvaluated = 0,
-                numberKPIOptional = kpiGroup.NumberKPIOptional;
-            var kpis = [];
+            var kpis = [],
+                averageWeight = 0,
+                kpiScoreNotEvaluate = 0;
+
+            EvaluationModel.scoreSpread(kpiGroup);
 
             angular.forEach(kpiGroup.KPIs, function (kpi) {
-                if (kpi.CurrentEvaluation.Rate > 0) {
+                if (kpi.IsRequiredEvaluate || kpi.CurrentEvaluation.Rate > 0) {
                     kpis.push(kpi);
-                    totalStarEvaluated += kpi.CurrentEvaluation.Rate;
                 }
 
-                if (!kpi.IsRequiredEvaluate && kpi.CurrentEvaluation.Rate > 0) {
-                    numberKPIOptional -= 1;
+                if (!kpi.IsRequiredEvaluate && kpi.CurrentEvaluation.Rate === 0) {
+                    kpiScoreNotEvaluate += kpi.Weight;
                 }
             });
 
-            var totalKPIMustEvaluate = kpiGroup.KPIs.length - numberKPIOptional;
-            averageWeight = kpiGroup.Weight / totalKPIMustEvaluate;
+            averageWeight = kpiScoreNotEvaluate / kpis.length;
             averageWeight = utilitiesFactory.splitNumber(averageWeight, 4);
 
             angular.forEach(kpis, function (kpi) {
-                kpi.Weight = averageWeight;
-                score = (averageWeight * kpi.CurrentEvaluation.Rate) / maxStar;
+                kpi.Weight += averageWeight;
+                var score = kpi.Weight * kpi.CurrentEvaluation.Rate / maxStar;
                 kpi.CurrentEvaluation.Score = utilitiesFactory.splitNumber(score, 4);
             });
         }

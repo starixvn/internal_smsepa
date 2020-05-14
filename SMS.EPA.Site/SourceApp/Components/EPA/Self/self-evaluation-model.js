@@ -53,7 +53,7 @@
                 EmployeeId: vm.epaInfo.Employee.EmployeeId,
                 EPAProcess: vm.epaInfo.Process.CurrentProcess,
                 KPIGroups: vm.epaInfo.KPIGroups,
-                ProbationSubQuestions: vm.epaInfo.ExtendedQuestion.SubQuestions
+                ProbationSubQuestions: vm.epaInfo.ExtendedQuestion !== null ? vm.epaInfo.ExtendedQuestion.SubQuestions : []
             };
 
             return selfEvaluationFactory.updateEPAScoreByEmployee(criteria).success(function (response) {

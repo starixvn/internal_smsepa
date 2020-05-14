@@ -109,7 +109,7 @@
             else {
                 vm.cancelRating(kpiGroup, kpi);
             }
-        }
+        };
 
         vm.cancel = function () {
             historyFactory.back();
