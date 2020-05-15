@@ -45,11 +45,6 @@
 
             angular.forEach(group.KPIs, function (kpi) {
                 kpi.Selected = groupSelected;
-
-                if (!kpi.IsRequiredEvaluate && !group.IsSpreadKPI) {
-                    group.IsSpreadKPI = true;
-                }
-
                 if (!groupSelected) {
                     kpi.Weight = '';
                 }
@@ -82,9 +77,6 @@
 
             if (!selected) {
                 item.Weight = '';
-            }
-            else if (!item.IsRequiredEvaluate) {
-                group.IsSpreadKPI = true;
             }
 
             angular.forEach(group.KPIs, function (kpi) {
