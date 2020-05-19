@@ -32,7 +32,7 @@
                         }
                     }
 
-                    if (hasSelected && isValid && utilitiesFactory.parseFloat(totalWeightOfGroup) !== group.Weight) {
+                    if (hasSelected && isValid && utilitiesFactory.splitNumber(totalWeightOfGroup, 4) !== group.Weight) {
                         isValid = false;
                         notificationFactory.error("TotalKPIWeightWarning");
                     }
