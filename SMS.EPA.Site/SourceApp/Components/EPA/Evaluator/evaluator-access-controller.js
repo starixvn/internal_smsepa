@@ -8,19 +8,17 @@
         '$routeParams',
         'EvaluationModel',
         'EvaluatorEPAModel',
-        'SelfEvalutorModel',
         'CommonModel',
         'utilitiesFactory',
         'historyFactory',
         'lockScreenService',
-        'baseUrl',
+        'baseUrl'
     ];
 
     function evaluatorController(
         $routeParams,
         EvaluationModel,
         EvaluatorEPAModel,
-        SelfEvalutorModel,
         CommonModel,
         utilitiesFactory,
         historyFactory,
@@ -193,7 +191,7 @@
             var url = baseUrl + 'EPAHistory/Index';
             var params = {
                 empId: employeeId
-            }
+            };
 
             utilitiesFactory.handleOpenLinkWithParams(event, url, params);
         };

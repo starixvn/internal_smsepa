@@ -187,7 +187,7 @@
     <value>Management</value>
   </data>
   <data name="NickName" xml:space="preserve">
-    <value>Nick Name</value>
+    <value>Nickname</value>
   </data>
   <data name="No" xml:space="preserve">
     <value>No</value>
@@ -274,7 +274,7 @@
     <value>The Full Name field is required!</value>
   </data>
   <data name="NickNameRequried" xml:space="preserve">
-    <value>The Nick Name filed is required!</value>
+    <value>The Nickname filed is required!</value>
   </data>
   <data name="PasswordRequried" xml:space="preserve">
     <value>The Password field is required!</value>
@@ -1454,5 +1454,8 @@
   </data>
   <data name="RequiredAnswer" xml:space="preserve">
     <value>Answer is required</value>
+  </data>
+  <data name="Feedback" xml:space="preserve">
+    <value>Feedback</value>
   </data>
 </root>

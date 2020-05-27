@@ -1,5 +1,4 @@
 ﻿
-
 CREATE PROCEDURE [dbo].[Report_MonthlyEPADetail] @EmployeeId INT
 	,@PeriodId INT = NULL
 	,@PhaseIds NVARCHAR(10) = NULL
@@ -219,8 +218,8 @@ BEGIN
 					AND tblData.EmployeeId = @EmployeeId
 				)
 			)
-	ORDER BY tblData.GroupName
-		,tblData.Code
+	ORDER BY tblData.GroupName ASC
+		,tblData.Code ASC
 
 	INSERT INTO #tblEPAs (
 		EPAId

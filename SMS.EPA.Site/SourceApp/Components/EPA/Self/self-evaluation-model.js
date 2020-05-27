@@ -75,7 +75,7 @@
                 angular.forEach(kpiGroup.KPIs, function (kpi) {
                     var score = utilitiesFactory.parseFloat(kpi.CurrentEvaluation.Score);
 
-                    if (kpi.IsRequiredEvaluate && (score <= 0)) {
+                    if (kpi.IsRequiredEvaluate && score <= 0) {
                         isValid = false;
                         kpi.CurrentEvaluation.EvaluateInvalid = true;
                     } else {

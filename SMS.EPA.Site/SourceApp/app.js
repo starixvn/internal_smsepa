@@ -19,6 +19,7 @@
                 "epaHistoryModule",
                 "monthlyPeriodModule",
                 "disciplineModule",
+                "feedbackModule",
                 "ui.bootstrap.contextMenu",
                 "ui.bootstrap",
                 "angular.chosen",

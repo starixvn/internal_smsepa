@@ -98,10 +98,9 @@ BEGIN
 		GROUP BY epa1.EPAId
 		) AS pc ON epa.EPAId = pc.EPAId
 	WHERE ISNULL(epa.[Status], 0) IN (0, 1)
-		AND EXISTS (
-			SELECT [Year]
+		AND YEAR(pc.EndDate) IN (
+			SELECT DISTINCT [Year]
 			FROM #tblSemiEPA WITH (NOLOCK)
-			WHERE pc.EndDate BETWEEN DATEFROMPARTS([Year], 1, 1) AND DATEFROMPARTS([Year], 12, 31)
 			)
 
 	INSERT INTO #tblEPA (

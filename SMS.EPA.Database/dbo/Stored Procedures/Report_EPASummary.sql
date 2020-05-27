@@ -1,5 +1,4 @@
 ﻿
-
 CREATE PROCEDURE [dbo].[Report_EPASummary] @ActorId INT
 	,@PeriodIds NVARCHAR(MAX) = NULL
 	,@DepartmentId INT = NULL
@@ -228,8 +227,8 @@ BEGIN
 					AND tblData.EmployeeId = @ActorId
 				)
 			)
-	ORDER BY tblData.GroupName
-		,tblData.Code
+	ORDER BY tblData.GroupName ASC
+		,tblData.Code ASC
 
 	INSERT INTO #tblEPA (
 		EPAId

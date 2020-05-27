@@ -4,23 +4,9 @@
     /* jshint validthis:true */
 
     angular.module('dashboardModule').controller('DashboardController', dashboardController);
-    dashboardController.$inject =
-    [
-        '$location',
-        'DashboardModel',
-        'CommonModel',
-        'utilitiesFactory',
-        'lockScreenService',
-        'baseUrl'
-    ];
+    dashboardController.$inject = ['DashboardModel', 'utilitiesFactory', 'lockScreenService', 'baseUrl'];
 
-    function dashboardController(
-        $location,
-        DashboardModel,
-        CommonModel,
-        utilitiesFactory,
-        lockScreenService,
-        baseUrl) {
+    function dashboardController(DashboardModel, utilitiesFactory, lockScreenService, baseUrl) {
         var vm = this;
 
         vm.epaStatusEnum = utilitiesFactory.epaStatus;

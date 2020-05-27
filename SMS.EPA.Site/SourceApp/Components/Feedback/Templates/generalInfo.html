@@ -1,0 +1,53 @@
+﻿<div class="row">
+    <div class="col-sm-2 text-center">
+        <div class="row pull-left">
+            <div class="img-user">
+                <img class="img-default" ng-src="{{feedbackDetailCtrl.feedback.Employee.Avatar}}" alt="User" />
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-10 user-info">
+        <div class="row row-item line">
+            <div class="col-sm-6">
+                <div class="col-sm-4" data-translate="EmployeeCode"></div>
+                <div class="col-sm-7">
+                    <strong ng-bind="feedbackDetailCtrl.feedback.Employee.Code"></strong>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="col-sm-4" data-translate="NickName"></div>
+                <div class="col-sm-7">
+                    <strong ng-bind="feedbackDetailCtrl.feedback.Employee.Nickname"></strong>
+                </div>
+            </div>
+        </div>
+        <div class="row row-item line">
+            <div class="col-sm-6">
+                <div class="col-sm-4" data-translate="FullName"></div>
+                <div class="col-sm-7">
+                    <strong ng-bind="feedbackDetailCtrl.feedback.Employee.FullName"></strong>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="col-sm-4" data-translate="JobTitle"></div>
+                <div class="col-sm-7">
+                    <strong ng-bind="feedbackDetailCtrl.feedback.Employee.JobTitle"></strong>
+                </div>
+            </div>
+        </div>
+        <div class="row row-item line">
+            <div class="col-sm-6">
+                <div class="col-sm-4" data-translate="Section"></div>
+                <div class="col-sm-7">
+                    <strong ng-bind="feedbackDetailCtrl.feedback.Employee.Section"></strong>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="col-sm-4" data-translate="GroupDate"></div>
+                <div class="col-sm-7">
+                    <strong ng-bind="feedbackDetailCtrl.feedback.Employee.JoinedDate | customDate"></strong>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

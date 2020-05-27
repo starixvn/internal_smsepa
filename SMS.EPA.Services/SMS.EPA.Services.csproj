@@ -107,12 +107,14 @@
     <Compile Include="Implement\ExportFile\ExportCommentReportService.cs" />
     <Compile Include="Implement\ExportFile\ExportRecommendationReportService.cs" />
     <Compile Include="Implement\ExportFile\ExportTargetTemplateService.cs" />
+    <Compile Include="Implement\FeedbackService.cs" />
     <Compile Include="Implement\ReportService\CommentReportService.cs" />
     <Compile Include="Implement\ReportService\RecomendationReportService.cs" />
     <Compile Include="Interfaces\ExportFile\IExportCommentReportService.cs" />
     <Compile Include="Interfaces\ExportFile\IExportRecommendationReportService.cs" />
     <Compile Include="Interfaces\ExportFile\IExportTargetTemplateService.cs" />
     <Compile Include="Interfaces\IBaseMailService.cs" />
+    <Compile Include="Interfaces\IFeedbackService.cs" />
     <Compile Include="Interfaces\ReportService\ICommentReportService.cs" />
     <Compile Include="Interfaces\ReportService\IRecomendationReportService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">

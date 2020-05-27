@@ -1,0 +1,74 @@
+﻿<div class="feedback-container" ng-controller="FeedbackController as feedbackCtrl">
+    <div class="col-sm-12 sub-header">
+        <ul class="row breadcrumb">
+            <li class="current" data-translate="Feedback"></li>
+        </ul>
+    </div>
+    <div class="col-sm-12">
+        <form novalidate class="row filter form-horizontal" role="form">
+            <div class="form-group">
+                <label class="col-sm-1 control-label" data-translate="Period"></label>
+                <div class="col-sm-2">
+                    <select class="form-control" ng-model="feedbackCtrl.filter.periodId"
+                            ng-options="opt.PeriodId as opt.Name for opt in feedbackCtrl.periodOptions">
+                        <option value="" style="display: none">-- {{"All" | translate}} --</option>
+                    </select>
+                </div>
+                <label class="col-sm-1 control-label">&nbsp;</label>
+                <div class="col-sm-1">
+                    <button class="btn btn-primary" ng-click="feedbackCtrl.query()" data-translate="Submit"></button>
+                </div>
+            </div>
+        </form>
+        <table class="row table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th data-translate="SymbolCount"></th>
+                    <th data-translate="PeriodName"></th>
+                    <th data-translate="Section"></th>
+                    <th data-translate="NickName"></th>
+                    <th data-translate="FinalScore"></th>
+                    <th data-translate="Detail" class="col-action"></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr dir-paginate="feedback in feedbackCtrl.filteredItems | itemsPerPage: feedbackCtrl.pageSize" current-page="feedbackCtrl.currentPage">
+                    <td class="text-center" ng-bind="feedbackCtrl.getIndex($index, feedbackCtrl.currentPage, feedbackCtrl.pageSize)"></td>
+                    <td ng-bind="feedback.Period"></td>
+                    <td ng-bind="feedback.Employee.Section"></td>
+                    <td class="text-center">
+                        <span uib-tooltip="{{feedback.Employee.FullName}}" ng-bind="feedback.Employee.Nickname"></span>
+                    </td>
+                    <td class="text-center">
+                        <span ng-if="feedback.FinalScore.length > 0">{{feedback.FinalScore | customScore}}</span>
+                        <span ng-if="feedback.FinalScore.length == 0" data-translate="NotAvailable"></span>
+                    </td>
+                    <td class="text-center col-action" ng-switch="feedback.IsClosed">
+                        <a ng-switch-when="false" class="glyphicon glyphicon-edit icon-edit"
+                           ng-click="feedbackCtrl.detail(feedback.FeedbackId, $event)" ng-attr-title='{{"Edit" | translate}}'></a>
+                        <a ng-switch-default class="link glyphicon icon-view"
+                           ng-click="feedbackCtrl.detail(feedback.FeedbackId, $event)" ng-attr-title='{{"Detail" | translate}}'></a>
+                    </td>
+                </tr>
+                <tr ng-show="feedbackCtrl.feedbacks.length == 0">
+                    <td class="empty-result" colspan="6" data-translate="EmptyResult"></td>
+                </tr>
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="7" class="paging">
+                        <span data-translate="Show"></span>
+                        <select class="dropdown-entry form-control" ng-model="feedbackCtrl.pageSize"
+                                ng-options="entry for entry in feedbackCtrl.entries" ng-change="feedbackCtrl.currentPage = 1"></select>
+                        <span data-translate="entries"></span>
+                        <div class="pull-right custom-paging">
+                            <ul uib-pagination total-items="feedbackCtrl.filteredItems.length" items-per-page="feedbackCtrl.pageSize"
+                                boundary-links="true" max-size="5" boundary-link-numbers="true" ng-model="feedbackCtrl.currentPage"
+                                class="pagination-sm" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></ul>
+                        </div>
+                    </td>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+</div>

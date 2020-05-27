@@ -1,4 +1,6 @@
 ﻿
+
+
 CREATE PROCEDURE [dbo].[EPA_GetLastPerformanceScore] @EPAId INT
 AS
 /*
@@ -14,8 +16,9 @@ BEGIN
 	SET NOCOUNT ON
 
 	DECLARE @TargetTypeId INT
+	DECLARE @PeriodStartDate DATE
 
-	SELECT @TargetTypeId = tt.TargetTypeId
+	SELECT @TargetTypeId = tt.TargetTypeId, @PeriodStartDate = period.StartDate
 	FROM dbo.EPA AS epa WITH (NOLOCK)
 		INNER JOIN dbo.Period AS period WITH (NOLOCK) ON epa.PeriodId = period.PeriodId
 		INNER JOIN dbo.TargetType AS tt WITH (NOLOCK) ON period.TargetTypeId = tt.TargetTypeId
@@ -53,6 +56,7 @@ BEGIN
 		INNER JOIN dbo.Employee AS emp WITH (NOLOCK) ON epa.EmployeeId = emp.EmployeeId
 	WHERE epa.[Status] = 1 -- closed
 		AND epa.EPAId <> @EPAId
+		AND period.StartDate < @PeriodStartDate
 		AND epa.EmployeeId IN (
 			SELECT DISTINCT epa1.EmployeeId
 			FROM dbo.EPA AS epa1 WITH (NOLOCK)

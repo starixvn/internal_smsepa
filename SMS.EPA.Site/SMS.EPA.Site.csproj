@@ -200,6 +200,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controllers\API\FeedbackController.cs" />
     <Compile Include="Controllers\Export\ExportCommentReportController.cs" />
     <Compile Include="Controllers\Export\ExportRecommendationReportController.cs" />
     <Compile Include="Controllers\Export\ExportTargetTemplateController.cs" />
@@ -520,6 +521,13 @@
     <Content Include="SourceApp\Components\EPA\UpdateFinalScore\update-final-score-model.js" />
     <Content Include="SourceApp\Components\EPA\UpdateFinalScore\update-final-score-factory.js" />
     <Content Include="SourceApp\Components\EPA\UpdateFinalScore\export-excel-directive.js" />
+    <Content Include="SourceApp\Components\Feedback\feedback-access-controller.js" />
+    <Content Include="SourceApp\Components\Feedback\feedback-detail-controller.js" />
+    <Content Include="SourceApp\Components\Feedback\feedback-factory.js" />
+    <Content Include="SourceApp\Components\Feedback\Templates\detail.html" />
+    <Content Include="SourceApp\Components\Feedback\Templates\generalInfo.html" />
+    <Content Include="SourceApp\Components\Feedback\Templates\index.html" />
+    <Content Include="SourceApp\Components\Feedback\Templates\listKPI.html" />
     <Content Include="SourceApp\Components\FlowManagement\export-personal-flow-setting-directive.js" />
     <Content Include="SourceApp\Components\FlowManagement\update-flowTemplate-basic-info-controller.js" />
     <Content Include="SourceApp\Components\FlowManagement\update-flowTemplate-controller.js" />

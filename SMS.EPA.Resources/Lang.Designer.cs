@@ -1447,6 +1447,15 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Feedback.
+        /// </summary>
+        public static string Feedback {
+            get {
+                return ResourceManager.GetString("Feedback", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to This field is required!.
         /// </summary>
         public static string FieldRequire {
@@ -2302,7 +2311,7 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Nick Name.
+        ///   Looks up a localized string similar to Nickname.
         /// </summary>
         public static string NickName {
             get {
@@ -2311,7 +2320,7 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The Nick Name filed is required!.
+        ///   Looks up a localized string similar to The Nickname filed is required!.
         /// </summary>
         public static string NickNameRequried {
             get {

@@ -9,15 +9,20 @@ AS
 Created: 2015-08-26@Josh.Phan
 Task: Generate EPA.
 DB: SMSEPA
-Original: 
+Original:
 
-Revisions:  
+Revisions:
 Param's Explanation:
 */
 BEGIN
 	SET NOCOUNT ON
 
 	DECLARE @TargetTypeId INT
+		,@SemiTargetTypeId TINYINT = 3
+		-- epa status
+		,@OpenStatusId TINYINT = 1
+		,@CloseStatusId TINYINT = 2
+		,@RejectStatusId TINYINT = 3
 		,@NumberEmployeeHasEPA INT
 		,@Today DATE
 
@@ -27,7 +32,7 @@ BEGIN
 	FROM dbo.Period WITH (NOLOCK)
 	WHERE PeriodId = @PeriodId
 
-	CREATE TABLE #PeriodEmployee (
+	CREATE TABLE #tblPeriodEmployee (
 		PeriodId INT
 		,EmployeeId INT
 		,HasMonthlyEPA INT
@@ -36,7 +41,7 @@ BEGIN
 
 	IF ISNULL(@EmployeeIds, '') = ''
 	BEGIN
-		INSERT INTO #PeriodEmployee (
+		INSERT INTO #tblPeriodEmployee (
 			PeriodId
 			,EmployeeId
 			,HasMonthlyEPA
@@ -45,7 +50,7 @@ BEGIN
 		SELECT DISTINCT peFS.PeriodId
 			,peFS.EmployeeId
 			,(CASE 
-				WHEN pe.TargetTypeId = 3 -- semi
+				WHEN pe.TargetTypeId = @SemiTargetTypeId
 					AND emp.HasMonthlyEPA = 1 THEN 1
 				ELSE 0 END
 				) AS HasMonthlyEPA
@@ -69,12 +74,12 @@ BEGIN
 	END
 	ELSE
 	BEGIN
-		CREATE TABLE #EmployeeTemp (
+		CREATE TABLE #tblEmployee (
 			PeriodId INT
 			,EmployeeId INT
 			)
 
-		INSERT INTO #EmployeeTemp (
+		INSERT INTO #tblEmployee (
 			PeriodId
 			,EmployeeId
 			)
@@ -84,16 +89,16 @@ BEGIN
 
 		SELECT @NumberEmployeeHasEPA = COUNT(epa.EPAId)
 		FROM dbo.EPA AS epa WITH (NOLOCK)
-			INNER JOIN #EmployeeTemp AS emp ON emp.PeriodId = epa.PeriodId
+			INNER JOIN #tblEmployee AS emp ON emp.PeriodId = epa.PeriodId
 			AND emp.EmployeeId = epa.EmployeeId
 		GROUP BY epa.PeriodId
 
 		DELETE emp
-		FROM #EmployeeTemp AS emp
+		FROM #tblEmployee AS emp
 			INNER JOIN dbo.EPA AS epa ON emp.EmployeeId = epa.EmployeeId
 			AND epa.PeriodId = @PeriodId
 
-		INSERT INTO #PeriodEmployee (
+		INSERT INTO #tblPeriodEmployee (
 			PeriodId
 			,EmployeeId
 			,HasMonthlyEPA
@@ -106,7 +111,7 @@ BEGIN
 				ELSE 0 END
 				) AS HasMonthlyEPA
 			,peTS.TargetTemplateId
-		FROM #EmployeeTemp AS empT WITH (NOLOCK)
+		FROM #tblEmployee AS empT WITH (NOLOCK)
 			INNER JOIN dbo.PeriodTargetSetting AS peTS WITH (NOLOCK) ON empT.PeriodId = peTS.PeriodId
 			AND empT.EmployeeId = peTS.EmployeeId
 			INNER JOIN dbo.Employee AS emp WITH (NOLOCK) ON empT.EmployeeId = emp.EmployeeId
@@ -119,7 +124,7 @@ BEGIN
 					AND peTS.PeriodId = epa.PeriodId
 				)
 
-		DROP TABLE #EmployeeTemp
+		DROP TABLE #tblEmployee
 	END
 
 	DECLARE @Data NVARCHAR(MAX)
@@ -150,14 +155,14 @@ BEGIN
 		SELECT peEmp.EmployeeId
 			,peEmp.PeriodId
 			,(CASE 
-				WHEN empstatus.EmployeeId IS NOT NULL THEN 2
-				WHEN pfs.EndDate < @Today THEN 1
-				ELSE 0 END
-				) AS [Status] -- 0: Opened; 1: Closed; 2: Rejected
+				WHEN empstatus.EmployeeId IS NOT NULL THEN @RejectStatusId
+				WHEN pfs.EndDate < @Today THEN @CloseStatusId
+				ELSE @OpenStatusId END
+				) AS [Status]
 			,tg.ScoreRatingTypeId
 			,tg.RatingTypeId
 			,(CASE 
-				WHEN @TargetTypeId <> 3 THEN 0
+				WHEN @TargetTypeId <> @SemiTargetTypeId THEN 0
 				ELSE peEmp.HasMonthlyEPA END
 				) AS HasMonthlyEPA
 			,NULL
@@ -168,7 +173,7 @@ BEGIN
 			,NULL
 			,NULL
 			,GETDATE()
-		FROM #PeriodEmployee AS peEmp
+		FROM #tblPeriodEmployee AS peEmp
 			INNER JOIN dbo.TargetTemplate AS tg WITH (NOLOCK) ON peEmp.TargetTemplateId = tg.TargetTemplateId
 			INNER JOIN (
 			SELECT DISTINCT pfs.PeriodId
@@ -238,7 +243,7 @@ BEGIN
 			,tarKPI.[Weight]
 			,NULL
 			,GETDATE()
-		FROM #PeriodEmployee AS peEmp
+		FROM #tblPeriodEmployee AS peEmp
 			INNER JOIN dbo.EPA AS epa WITH (NOLOCK) ON peEmp.PeriodId = epa.PeriodId
 			AND peEmp.EmployeeId = epa.EmployeeId
 			INNER JOIN dbo.PeriodFlowSetting AS peFS WITH (NOLOCK) ON peEmp.PeriodId = peFS.PeriodId
@@ -280,7 +285,7 @@ BEGIN
 			,peFS.EndDate
 			,(CASE 
 				WHEN (
-						@TargetTypeId = 3 -- semi
+						@TargetTypeId = @SemiTargetTypeId
 						AND peFS.ProcessId IN (2, 3) -- self
 						AND peEmp.HasMonthlyEPA = 1
 						)
@@ -291,11 +296,11 @@ BEGIN
 			,NULL
 			,pePro.NoticeAtBegin
 			,DATEADD(DAY, - pePro.RemindDay, peFS.EndDate)
-			,0 -- Open
+			,@OpenStatusId
 			,NULL
 			,NULL
 			,GETDATE()
-		FROM #PeriodEmployee AS peEmp
+		FROM #tblPeriodEmployee AS peEmp
 			INNER JOIN dbo.EPA AS epa WITH (NOLOCK) ON peEmp.PeriodId = epa.PeriodId
 			AND peEmp.EmployeeId = epa.EmployeeId
 			INNER JOIN dbo.Period AS pe WITH (NOLOCK) ON peEmp.PeriodId = pe.PeriodId
@@ -317,11 +322,11 @@ BEGIN
 				WHEN semiSD.IsLastYear = 1 THEN YEAR(period.StartDate) - 1
 				ELSE YEAR(period.StartDate) END
 				) AS [Year]
-		FROM #PeriodEmployee AS peEmp
+		FROM #tblPeriodEmployee AS peEmp
 			INNER JOIN dbo.EPA AS epa WITH (NOLOCK) ON peEmp.PeriodId = epa.PeriodId
 			AND peEmp.EmployeeId = epa.EmployeeId
 			INNER JOIN dbo.Period AS period WITH (NOLOCK) ON epa.PeriodId = period.PeriodId
-			AND period.TargetTypeId = 3 -- semi
+			AND period.TargetTypeId = @SemiTargetTypeId
 			INNER JOIN dbo.SemiPeriodSetting AS semiS WITH (NOLOCK) ON CAST(period.StartDate AS DATE) BETWEEN CAST(CAST(YEAR(period.StartDate) AS VARCHAR) + '-' + semiS.FromDate AS DATE)
 				AND CAST(CAST(YEAR(period.StartDate) AS VARCHAR) + '-' + semiS.ToDate AS DATE)
 			INNER JOIN dbo.SemiPeriodSettingDetail AS semiSD WITH (NOLOCK) ON semiS.SemiPeriodSettingId = semiSD.SemiPeriodSettingId
@@ -343,11 +348,38 @@ BEGIN
 			,NULL
 			,NULL
 			,NULL
-		FROM #PeriodEmployee AS peEmp
+		FROM #tblPeriodEmployee AS peEmp
 			INNER JOIN dbo.EPA AS epa WITH (NOLOCK) ON peEmp.PeriodId = epa.PeriodId
 			AND peEmp.EmployeeId = epa.EmployeeId
 			INNER JOIN dbo.Period AS period WITH (NOLOCK) ON epa.PeriodId = period.PeriodId
 			AND period.TargetTypeId <> 2 -- monthly
+
+			-- extended question for probation
+		IF @ExtendedQuestionEnabled = 1
+		BEGIN
+			INSERT INTO dbo.ProbationExtendedQuestion (
+			EPAId,
+			SubQuestionId,
+			IsAgree
+			)
+			SELECT epa.EPAId,
+				rs.ResourceId,
+				NULL
+			FROM #tblPeriodEmployee AS peEmp
+				INNER JOIN dbo.EPA AS epa WITH (NOLOCK) ON peEmp.PeriodId = epa.PeriodId
+				AND peEmp.EmployeeId = epa.EmployeeId
+				INNER JOIN dbo.Period AS period WITH (NOLOCK) ON epa.PeriodId = period.PeriodId
+				AND period.TargetTypeId = 1 -- Probation
+				INNER JOIN RefResource AS rs WITH (NOLOCK) ON rs.RefName = 'ProbationSubQuestion'
+		END
+
+		IF @TargetTypeId = @SemiTargetTypeId
+		BEGIN
+			EXEC dbo.EpaAuto_GenerateFeedback @PeriodId = @PeriodId
+				,@EmployeeIds = @EmployeeIds
+				,@ErrCode = @ErrCode OUTPUT
+				,@ErrMsg = @ErrMsg OUTPUT
+		END
 
 		EXEC @Data = dbo.fncGetDataForWriteLog_Period_GenerateEPA @PeriodId = @PeriodId
 			,@EmployeeIds = @EmployeeIds
@@ -365,34 +397,13 @@ BEGIN
 			SELECT @ErrCode = 1
 				,@ErrMsg = N'Only generate EPA of ' + CAST((
 						SELECT COUNT(*)
-						FROM #PeriodEmployee
+						FROM #tblPeriodEmployee
 						) AS NVARCHAR) + ' employees successfully. The other employees already exist EPA.'
-
-			RETURN
 		END
 
-		-- extended question for probation
-		IF @ExtendedQuestionEnabled = 1
-		BEGIN
-			INSERT INTO dbo.ProbationExtendedQuestion (
-			EPAId,
-			SubQuestionId,
-			IsAgree
-			)
-			SELECT epa.EPAId,
-				rs.ResourceId,
-				NULL
-			FROM #PeriodEmployee AS peEmp
-				INNER JOIN dbo.EPA AS epa WITH (NOLOCK) ON peEmp.PeriodId = epa.PeriodId
-				AND peEmp.EmployeeId = epa.EmployeeId
-				INNER JOIN dbo.Period AS period WITH (NOLOCK) ON epa.PeriodId = period.PeriodId
-				AND period.TargetTypeId = 1 -- Probation
-				INNER JOIN RefResource AS rs WITH (NOLOCK) ON rs.RefName = 'ProbationSubQuestion'
-		END
+		DROP TABLE #tblPeriodEmployee
 
 		COMMIT TRANSACTION
-
-		DROP TABLE #PeriodEmployee
 	END TRY
 
 	BEGIN CATCH

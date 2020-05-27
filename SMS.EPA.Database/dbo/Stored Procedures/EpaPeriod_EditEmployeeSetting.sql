@@ -127,29 +127,7 @@ BEGIN
 	SELECT Id
 	FROM @EmployeeIds
 
-	OPEN @EmpCursor
-
-	FETCH NEXT
-	FROM @EmpCursor
-	INTO @EmployeeId
-
-	WHILE @@FETCH_STATUS = 0
-	BEGIN
-		SET @EmpLogDetail = ''
-
-		EXEC @EmpLogDetail = dbo.fncGetDataForWriteLog_Period_EmployeeSetting @PeriodId = @PeriodId
-			,@EmployeeId = @EmployeeId
-
-		SET @OldData = @OldData + @EmpLogDetail
-
-		FETCH NEXT
-		FROM @EmpCursor
-		INTO @EmployeeId
-	END
-
-	CLOSE @EmpCursor
-
-	DEALLOCATE @EmpCursor
+	
 
 	SET @OldData = @OldData + '</r>'
 
@@ -676,30 +654,6 @@ BEGIN
 
 		SELECT Id
 		FROM @EmployeeIds
-
-		OPEN @EmpCursor
-
-		FETCH NEXT
-		FROM @EmpCursor
-		INTO @EmployeeId
-
-		WHILE @@FETCH_STATUS = 0
-		BEGIN
-			SET @EmpLogDetail = ''
-
-			EXEC @EmpLogDetail = dbo.fncGetDataForWriteLog_Period_EmployeeSetting @PeriodId = @PeriodId
-				,@EmployeeId = @EmployeeId
-
-			SET @Data = @Data + @EmpLogDetail
-
-			FETCH NEXT
-			FROM @EmpCursor
-			INTO @EmployeeId
-		END
-
-		CLOSE @EmpCursor
-
-		DEALLOCATE @EmpCursor
 
 		SET @Data = @Data + '</r>'
 

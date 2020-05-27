@@ -96,8 +96,7 @@ BEGIN
 			LEFT JOIN dbo.HRMJobTitle AS job WITH (NOLOCK) ON emp.JobTitle = job.Id
 		) AS tblData
 	WHERE (
-			@Query IS NULL
-			OR tblData.FullName LIKE @Query
+			tblData.FullName LIKE @Query
 			OR tblData.NickName LIKE @Query
 			)
 		AND (

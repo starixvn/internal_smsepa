@@ -63,5 +63,7 @@
         public const string UpdateFinalScore = "UpdateFinalScore";
 
         public const string DisciplineSummaryByPeriod = "DisciplineSummaryByPeriod";
+
+        public const string Feedback = "Feedback";
     }
 }
