@@ -1,6 +1,9 @@
 ﻿namespace SMS.EPA.Site.Controllers.API
 {
+    using System;
     using System.Collections.Generic;
+    using System.Net;
+    using System.Net.Http;
     using System.Web.Mvc;
     using SMS.EPA.Core.Attribute;
     using SMS.EPA.Core.Constants;
@@ -30,9 +33,29 @@
         }
 
         [HttpGet]
-        public Feedback GetById(long feedbackId)
+        [ApiAuthorize(FunctionKey = EPAFunctionKey.Feedback, Policy = Policy.Read)]
+        [ApiAuthorize(FunctionKey = EPAFunctionKey.FeedbackReport, Policy = Policy.Read)]
+        public HttpResponseMessage GetById(long feedbackId)
         {
-            return feedbackService.GetById(feedbackId);
+            Feedback feedback = feedbackService.GetById(feedbackId);
+            if (feedback.Evaluator.EmployeeId == SessionService.EmployeeId
+                || SessionService.HasPermissionOnFunction(EPAFunctionKey.FeedbackReport, Policy.Read))
+            {
+                if (feedback.Evaluator.EmployeeId == SessionService.EmployeeId)
+                {
+                    var today = DateTime.Today;
+                    feedback.IsHost = DateTime.Compare(feedback.FromDate.Date, today) >= 0
+                        && DateTime.Compare(feedback.ToDate.Date, today) <= 0;
+                }
+                else
+                {
+                    feedback.IsViewDetail = true;
+                }
+
+                return Request.CreateResponse(HttpStatusCode.OK, feedback);
+            }
+
+            return Request.CreateResponse(HttpStatusCode.MethodNotAllowed, new Feedback());
         }
 
         [HttpPost]

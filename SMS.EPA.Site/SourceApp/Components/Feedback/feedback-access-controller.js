@@ -4,9 +4,9 @@
     /* jshint validthis:true */
 
     angular.module('feedbackModule').controller('FeedbackController', feedbackController);
-    feedbackController.$inject = ['CommonModel', 'errorFactory', 'utilitiesFactory', 'feedbackFactory', 'lockScreenService', 'baseUrl'];
+    feedbackController.$inject = ['CommonModel', 'errorFactory', 'utilitiesFactory', 'feedbackFactory', 'lockScreenService'];
 
-    function feedbackController(CommonModel, errorFactory, utilitiesFactory, feedbackFactory, lockScreenService, baseUrl) {
+    function feedbackController(CommonModel, errorFactory, utilitiesFactory, feedbackFactory, lockScreenService) {
         var vm = this;
 
         vm.periodOptions = [];

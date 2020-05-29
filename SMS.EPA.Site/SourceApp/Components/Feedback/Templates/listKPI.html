@@ -18,13 +18,13 @@
             <td class="text-center width-250">
                 <div class="rating-by-star">
                     <div class="remove-rating">
-                        <a ng-show="!feedbackDetailCtrl.feedback.IsClosed && kpi.Rate > 0"
+                        <a ng-show="feedbackDetailCtrl.feedback.IsHost && kpi.Rate > 0"
                            class="glyphicon glyphicon-remove-circle remove-star"
                            title="Cancel" href="javascript:;" ng-click="feedbackDetailCtrl.cancelRating(kpiGroup, kpi)"></a>
                     </div>
                     <div class="rating-form">
                         <input id="star_{{kpi.KPIId}}" type="number" class="rating-loading"
-                               ng-readonly="feedbackDetailCtrl.feedback.IsClosed" data-size="xs"
+                               ng-readonly="!feedbackDetailCtrl.feedback.IsHost" data-size="xs"
                                data-min=0 data-max={{feedbackDetailCtrl.maxStar}} data-step=1 ng-model="kpi.Rate"
                                data-show-caption="false" data-show-clear="false"
                                ng-change="feedbackDetailCtrl.hoveringLeave(kpiGroup, kpi)">
@@ -51,7 +51,7 @@
                 </div>
                 <div class="textarea" ng-show="kpi.ExpandedComment">
                     <textarea class="form-control" maxlength="2000" ng-model="kpi.Comment"
-                              ng-readonly="feedbackDetailCtrl.feedback.IsClosed"></textarea>
+                              ng-readonly="!feedbackDetailCtrl.feedback.IsHost"></textarea>
                 </div>
                 <div class="note" data-translate="(*)" ng-show="kpi.HasComment && kpi.IsRequiredComment && kpi.ExpandedComment"></div>
             </td>

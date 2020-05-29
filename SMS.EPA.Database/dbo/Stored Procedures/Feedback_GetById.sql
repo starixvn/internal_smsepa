@@ -28,11 +28,16 @@ BEGIN
 		,gr.[Name] AS Section
 		,emp.JoinedDate
 		,job.[Name] AS JobTitle
+		,fb.EvaluatorId
+		,eva.Code
+		,eva.NickName
+		,eva.FullName
 	FROM dbo.Feedback AS fb WITH (NOLOCK)
 		INNER JOIN dbo.Period AS period WITH (NOLOCK) ON fb.PeriodId = period.PeriodId
 		INNER JOIN dbo.Employee AS emp WITH (NOLOCK) ON fb.EmployeeId = emp.EmployeeId
 		INNER JOIN dbo.[Group] AS gr WITH (NOLOCK) ON emp.GroupId = gr.GroupId
 		LEFT JOIN dbo.HRMJobTitle AS job WITH (NOLOCK) ON emp.JobTitle = job.Id
+		INNER JOIN dbo.Employee AS eva WITH (NOLOCK) ON fb.EvaluatorId = eva.EmployeeId
 	WHERE fb.FeedbackId = @FeedbackId
 
 	SELECT fbkg.KPIGroupId

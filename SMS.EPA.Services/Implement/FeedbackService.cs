@@ -92,7 +92,7 @@
                         kpi.KPIId,
                         cryptographyService.Encrypt(kpi.Score),
                         cryptographyService.Encrypt(kpi.Rate),
-                        HttpUtility.HtmlEncode(kpi.Comment));
+                        HttpUtility.HtmlEncode(kpi.Comment?.Trim()));
                 }
             }
 
@@ -102,7 +102,7 @@
             {
                 FeedbackId = feedback.FeedbackId,
                 FinalScore = cryptographyService.Encrypt(feedback.FinalScore),
-                Comment = HttpUtility.HtmlEncode(feedback.Comment),
+                Comment = HttpUtility.HtmlEncode(feedback.Comment?.Trim()),
                 DetailXml = xml.ToString()
             };
             return baseService.ExecuteNonQuery(criteria);

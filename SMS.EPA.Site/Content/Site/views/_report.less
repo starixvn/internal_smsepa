@@ -1,4 +1,4 @@
-﻿.epa-summary-report, .epa-detail-report {
+﻿.epa-summary-report, .epa-detail-report, .feedback-report-container {
     .filter {
         &.form-horizontal {
             .form-group {
@@ -71,10 +71,16 @@
                         background: #ececec !important;
                     }
                 }
+
+                &.parent-row td {
+                    background-color: #c2d9ec !important;
+                }
             }
         }
 
-        .col_footer_content.grid-fixed-table thead th, .row_footer_content.grid-fixed-table thead th, .grid-fixed-table thead th.free-cell-bottom-left {
+        .col_footer_content.grid-fixed-table thead th,
+        .row_footer_content.grid-fixed-table thead th,
+        .grid-fixed-table thead th.free-cell-bottom-left {
             border-color: #c5c5c5;
         }
 
@@ -82,12 +88,14 @@
             background: #606060;
         }
 
-        tr.parent-row-background td {
-            background: #a0bbd2;
-        }
-
         #itemperpage {
             height: 20px;
         }
+    }
+}
+
+.feedback-report-container {
+    .cell-content-total-comment {
+        text-align: center;
     }
 }

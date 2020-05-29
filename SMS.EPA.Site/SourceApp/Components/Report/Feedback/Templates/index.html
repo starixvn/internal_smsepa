@@ -1,0 +1,39 @@
+﻿<div class="feedback-report-container" ng-controller="FeedbackReportController as feedbackReportCtrl">
+    <div class="col-sm-12 sub-header">
+        <ul class="row breadcrumb">
+            <li class="current">360 Degree EPA Report</li>
+        </ul>
+    </div>
+    <div class="col-sm-12">
+        <form novalidate class="row filter form-horizontal" role="form">
+            <div class="form-group">
+                <label class="col-sm-1 control-label" data-translate="Period"></label>
+                <div class="col-sm-2">
+                    <select class="form-control" ng-model="feedbackReportCtrl.filter.periodId"
+                            ng-options="opt.PeriodId as opt.Name for opt in feedbackReportCtrl.periodOptions">
+                        <option style="display: none" value="">-- {{"All" | translate}} --</option>
+                    </select>
+                </div>
+                <label class="col-sm-1 control-label">Dept./Section</label>
+                <div class="col-sm-2">
+                    <select class="form-control" ng-model="feedbackReportCtrl.filter.departmentId"
+                            ng-options="opt.DepartmentId as opt.Name for opt in feedbackReportCtrl.treeDepartment"></select>
+                </div>
+                <label class="col-sm-1 control-label" data-translate="Employee"></label>
+                <div class="col-sm-2">
+                    <input class="form-control" ng-model="feedbackReportCtrl.searchEmployee"
+                           placeholder="Enter full name or nick name" search-auto-complete search-employees="feedbackReportCtrl.getEmployee()"
+                           ng-change="feedbackReportCtrl.unSelectEmployee()" employee="feedbackReportCtrl.filter.employee" />
+                </div>
+                <div class="col-sm-1">
+                    <button class="btn btn-primary" ng-click="feedbackReportCtrl.query()" data-translate="Search"></button>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="col-sm-12">
+        <div id="feedback-report" class="freegrid" feedback-report-grid
+             grid-data="feedbackReportCtrl.feedbacks"
+             on-export-excel="feedbackReportCtrl.exportExcel"></div>
+    </div>
+</div>

@@ -204,6 +204,7 @@
     <Compile Include="Report\GetEmployeeByActorIdCriteria.cs" />
     <Compile Include="Report\GetEPACommentCriteria.cs" />
     <Compile Include="Report\GetEPARecommendationCriteria.cs" />
+    <Compile Include="Report\GetFeedbackReportCriteria.cs" />
     <Compile Include="Report\GetMonthlyEPASummaryCriteria.cs" />
     <Compile Include="Report\GetMonthlyEPADetailCriteria.cs" />
     <Compile Include="Report\GetEPADetailCriteria.cs" />

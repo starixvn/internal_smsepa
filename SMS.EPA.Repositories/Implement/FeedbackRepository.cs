@@ -29,13 +29,14 @@
             {
                 using (IMultiResultReader multi = db.QueryMultiple(criteria.GetSpParams()))
                 {
-                    var feedback = multi.Read<Feedback, FeedbackEmployee, Feedback>(
-                       (fb, employee) =>
+                    var feedback = multi.Read<Feedback, FeedbackEmployee, FeedbackEmployee, Feedback>(
+                       (fb, employee, evaluator) =>
                        {
                            fb.Employee = employee;
+                           fb.Evaluator = evaluator;
                            return fb;
                        },
-                       "EmployeeId").FirstOrDefault();
+                       "EmployeeId, EvaluatorId").FirstOrDefault();
                     if (feedback != null)
                     {
                         feedback.KPIGroups = multi.Read<FeedbackKPIGroup>();

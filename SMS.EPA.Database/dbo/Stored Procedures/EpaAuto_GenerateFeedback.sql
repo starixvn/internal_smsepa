@@ -45,6 +45,15 @@ BEGIN
 		,TargetTemplateId INT
 		)
 
+	CREATE TABLE #tblDeletedFeedback (FeedbackId BIGINT)
+
+	CREATE TABLE #tblDeptFlowAndTargetTemplate (
+		DepartmentId INT
+		,EmployeeId INT
+		,FlowTemplateId INT
+		,TargetTemplateId INT
+		)
+
 	IF ISNULL(@EmployeeIds, '') = ''
 	BEGIN
 		INSERT INTO #tblFeedback (
@@ -104,12 +113,20 @@ BEGIN
 				)
 	END
 
-	CREATE TABLE #tblDeptFlowAndTargetTemplate (
-		DepartmentId INT
-		,EmployeeId INT
-		,FlowTemplateId INT
-		,TargetTemplateId INT
-		)
+	INSERT INTO #tblDeletedFeedback (FeedbackId)
+	SELECT DISTINCT fb.FeedbackId
+	FROM dbo.Feedback AS fb WITH (NOLOCK)
+		INNER JOIN #tblFeedback AS tblfb WITH (NOLOCK) ON fb.EmployeeId = tblfb.EmployeeId
+	WHERE fb.PeriodId = @PeriodId
+		AND NOT EXISTS (
+			SELECT 1
+			FROM dbo.EPA AS epa WITH (NOLOCK)
+				INNER JOIN dbo.EPAProcess AS process WITH (NOLOCK) ON epa.EPAId = process.EPAId
+				AND process.ProcessId > @SelfProcessId
+				AND fb.EmployeeId = process.EvaluatorId
+			WHERE fb.PeriodId = epa.PeriodId
+				AND fb.EvaluatorId = epa.EmployeeId
+			)
 
 	INSERT INTO #tblDeptFlowAndTargetTemplate (
 		DepartmentId
@@ -249,18 +266,50 @@ BEGIN
 		,ttkpi.KPIGroupId
 		,kpi.KPIId
 		,kpi.LogNo
-		,CASE WHEN ttkpi.HasComment IS NOT NULL THEN ttkpi.HasComment ELSE kpi.HasComment END
-		,CASE WHEN ttkpi.IsRequiredComment IS NOT NULL THEN ttkpi.IsRequiredComment ELSE kpi.IsRequiredComment END
-		,CASE WHEN ttkpi.IsRequiredEvaluate IS NOT NULL THEN ttkpi.IsRequiredEvaluate ELSE kpi.IsRequiredEvaluate END
+		,CASE 
+			WHEN ttkpi.HasComment IS NOT NULL THEN ttkpi.HasComment
+			ELSE kpi.HasComment
+			END
+		,CASE 
+			WHEN ttkpi.IsRequiredComment IS NOT NULL THEN ttkpi.IsRequiredComment
+			ELSE kpi.IsRequiredComment
+			END
+		,CASE 
+			WHEN ttkpi.IsRequiredEvaluate IS NOT NULL THEN ttkpi.IsRequiredEvaluate
+			ELSE kpi.IsRequiredEvaluate
+			END
 		,ttkpi.[Weight]
 		,ttkpi.DisplayOrder
 	FROM #tblInsertedFeedback AS fb WITH (NOLOCK)
 		INNER JOIN dbo.TargetTemplateKPI AS ttkpi WITH (NOLOCK) ON fb.TargetTemplateId = ttkpi.TargetTemplateId
 		INNER JOIN dbo.KPI AS kpi WITH (NOLOCK) ON ttkpi.KPIId = kpi.KPIId
 
+	DELETE fb
+	FROM dbo.Feedback AS fb
+	WHERE EXISTS (
+			SELECT 1
+			FROM #tblDeletedFeedback AS tbl WITH (NOLOCK)
+			WHERE fb.FeedbackId = tbl.FeedbackId
+			)
+
+	DELETE fb
+	FROM dbo.FeedbackKPIGroup AS fb
+	WHERE EXISTS (
+			SELECT 1
+			FROM #tblDeletedFeedback AS tbl WITH (NOLOCK)
+			WHERE fb.FeedbackId = tbl.FeedbackId
+			)
+
+	DELETE fb
+	FROM dbo.FeedbackKPI AS fb
+	WHERE EXISTS (
+			SELECT 1
+			FROM #tblDeletedFeedback AS tbl WITH (NOLOCK)
+			WHERE fb.FeedbackId = tbl.FeedbackId
+			)
+
 	DROP TABLE #tblFeedback
-
 	DROP TABLE #tblInsertedFeedback
-
+	DROP TABLE #tblDeletedFeedback
 	DROP TABLE #tblDeptFlowAndTargetTemplate
 END

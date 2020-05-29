@@ -1,13 +1,13 @@
 ﻿<div ng-controller="FeedbackDetailController as feedbackDetailCtrl">
     <div class="col-sm-12 sub-header">
         <ul class="row breadcrumb">
-            <li class="current" data-translate="Feedback"></li>
+            <li class="current">360 Degree EPA</li>
         </ul>
     </div>
     <div class="col-sm-12">
         <div class="row epa-form">
             <div class="text-center epa-title">
-                <span>360 Degree Feedback</span>
+                <span>360 Degree EPA</span>
                 <span> - {{feedbackDetailCtrl.feedback.Period}}</span>
             </div>
             <div class="panel panel-default">
@@ -28,7 +28,7 @@
                     <div class="panel-body summary-section">
                         <div class="lable-comment-if-any" data-translate="CommentsIfAny"></div>
                         <div class="textarea-comment">
-                            <textarea class="form-control" maxlength="2000" ng-readonly="feedbackDetailCtrl.feedback.IsClosed"
+                            <textarea class="form-control" maxlength="2000" ng-readonly="!feedbackDetailCtrl.feedback.IsHost"
                                       ng-model="feedbackDetailCtrl.feedback.Comment"></textarea>
                         </div>
 
@@ -50,7 +50,7 @@
         <div class="navbar navbar-default navbar-fixed-bottom action-section">
             <div class="container text-center">
                 <button class="btn btn-primary" ng-click="feedbackDetailCtrl.save()"
-                        ng-if="feedbackDetailCtrl.feedback && !feedbackDetailCtrl.feedback.IsClosed" data-translate="Save"></button>
+                        ng-if="feedbackDetailCtrl.feedback && feedbackDetailCtrl.feedback.IsHost" data-translate="Save"></button>
                 <button class="btn btn-warning" ng-click="feedbackDetailCtrl.cancel()" data-translate="Back"></button>
             </div>
         </div>

@@ -7,7 +7,7 @@
         public int ActorId { get; set; }
         public int PeriodId { get; set; }
 
-        public override bool IsValid() => ActorId > 0;
+        public override bool IsValid() => PeriodId > 0 && ActorId > 0;
 
         public override string GetSettingKey() => "Feedback_GetByActor";
     }

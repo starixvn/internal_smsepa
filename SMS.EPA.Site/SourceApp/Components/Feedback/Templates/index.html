@@ -1,7 +1,7 @@
 ﻿<div class="feedback-container" ng-controller="FeedbackController as feedbackCtrl">
     <div class="col-sm-12 sub-header">
         <ul class="row breadcrumb">
-            <li class="current" data-translate="Feedback"></li>
+            <li class="current">360 Degree EPA</li>
         </ul>
     </div>
     <div class="col-sm-12">
@@ -43,8 +43,8 @@
                         <span ng-if="feedback.FinalScore.length > 0">{{feedback.FinalScore | customScore}}</span>
                         <span ng-if="feedback.FinalScore.length == 0" data-translate="NotAvailable"></span>
                     </td>
-                    <td class="text-center col-action" ng-switch="feedback.IsClosed">
-                        <a ng-switch-when="false" class="glyphicon glyphicon-edit icon-edit"
+                    <td class="text-center col-action" ng-switch="feedback.IsHost">
+                        <a ng-switch-when="true" class="glyphicon glyphicon-edit icon-edit"
                            ng-click="feedbackCtrl.detail(feedback.FeedbackId, $event)" ng-attr-title='{{"Edit" | translate}}'></a>
                         <a ng-switch-default class="link glyphicon icon-view"
                            ng-click="feedbackCtrl.detail(feedback.FeedbackId, $event)" ng-attr-title='{{"Detail" | translate}}'></a>

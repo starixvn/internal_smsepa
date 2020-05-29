@@ -162,3 +162,10 @@ angular.module('feedbackModule', ['ngRoute'])
         $routeProvider.when('/Feedback/Detail/:id',
             { templateUrl: baseUrl + 'SourceApp/Components/Feedback/Templates/detail.html', caseInsensitiveMatch: true });
     }]);
+
+angular.module('feedbackReportModule', ['ngRoute'])
+    .config(['$routeProvider', function ($routeProvider) {
+        var baseUrl = $('base').first().attr('href');
+        $routeProvider.when('/FeedbackReport/Index',
+            { templateUrl: baseUrl + 'SourceApp/Components/Report/Feedback/Templates/index.html', caseInsensitiveMatch: true });
+    }]);

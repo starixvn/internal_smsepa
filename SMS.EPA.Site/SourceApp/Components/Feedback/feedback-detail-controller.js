@@ -20,7 +20,7 @@
         function getFeedbackById() {
             feedbackFactory.getFeedbackById(vm.feedbackId).success(function (feedback) {
                 vm.feedback = feedback;
-                if (!vm.feedback.IsClosed) {
+                if (vm.feedback.IsHost) {
                     vm.hoveringLeave = hoveringLeave;
                 }
 

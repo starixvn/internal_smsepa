@@ -65,5 +65,6 @@
         public const string DisciplineSummaryByPeriod = "DisciplineSummaryByPeriod";
 
         public const string Feedback = "Feedback";
+        public const string FeedbackReport = "FeedbackReport";
     }
 }
