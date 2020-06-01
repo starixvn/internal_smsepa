@@ -28,7 +28,7 @@
         }
 
         function initialize() {
-            CommonModel.getTargetType(true).then(function () {
+            CommonModel.getTargetType(true, utilitiesFactory.targetType.Feedback360).then(function () {
                 vm.targetTypes = CommonModel.targetTypes;
             });
         }

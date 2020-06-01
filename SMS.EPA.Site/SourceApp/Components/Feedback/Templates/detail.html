@@ -18,9 +18,37 @@
                     <div class="panel-body general-info" ng-include src="'/SourceApp/Components/Feedback/Templates/generalInfo.html'"></div>
                 </div>
             </div>
+            <div class="panel panel-default" ng-if="feedbackDetailCtrl.feedback.IsViewDetail">
+                <div class="panel-heading" data-toggle="collapse" data-target=".performanceResult">
+                    <h4 class="panel-title text-uppercase" data-translate="Result"></h4>
+                </div>
+                <div class="panel-collapse collapse in performanceResult">
+                    <div class="panel-body summary-section">
+                        <table class="table table-bordered table-striped table-performance-result table-custom">
+                            <thead>
+                                <tr>
+                                    <th data-translate="Evaluator"></th>
+                                    <th data-translate="FinalScore"></th>
+                                    <th data-translate="Comment"></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="text-center col-score">
+                                        <div ng-bind="feedbackDetailCtrl.feedback.Evaluator.Nickname"
+                                             popover-avatar avatar-src="{{feedbackDetailCtrl.feedback.Evaluator.Avatar}}"></div>
+                                    </td>
+                                    <td class="text-center col-score">{{feedbackDetailCtrl.feedback.FinalScore | customScore}} / 100</td>
+                                    <td ng-bind="feedbackDetailCtrl.feedback.Comment"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
             <div ng-include src="'/SourceApp/Components/Feedback/Templates/listKPI.html'"></div>
 
-            <div class="panel panel-default">
+            <div class="panel panel-default" ng-if="!feedbackDetailCtrl.feedback.IsViewDetail">
                 <div class="panel-heading" data-toggle="collapse" data-target=".summary">
                     <h4 class="panel-title" data-translate="Summary"></h4>
                 </div>

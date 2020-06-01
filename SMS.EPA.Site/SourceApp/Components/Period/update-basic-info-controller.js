@@ -34,7 +34,8 @@
         function getTargetType() {
             lockScreenService.start();
 
-            CommonModel.getTargetType(true, vm.targetTypeEnum.Monthly).then(function () {
+            var excludeTargetTypeIds = [vm.targetTypeEnum.Monthly, vm.targetTypeEnum.Feedback360];
+            CommonModel.getTargetType(true, excludeTargetTypeIds.join(',')).then(function () {
                 vm.targetTypes = CommonModel.targetTypes;
                 vm.isFirstLoad = false;
                 lockScreenService.stop();

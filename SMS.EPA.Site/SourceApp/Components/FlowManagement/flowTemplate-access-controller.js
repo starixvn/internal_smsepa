@@ -63,7 +63,7 @@
                 vm.permission = CommonModel.permission;
             });
 
-            CommonModel.getTargetType().then(function () {
+            CommonModel.getTargetType(true, utilitiesFactory.targetType.Feedback360).then(function () {
                 vm.targetTypes = CommonModel.targetTypes;
             });
 

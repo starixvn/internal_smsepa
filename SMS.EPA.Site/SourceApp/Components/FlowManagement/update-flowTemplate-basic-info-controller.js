@@ -4,9 +4,11 @@
     /* jshint validthis:true */
 
     angular.module('flowMngModule').controller('UpdateFlowTemplateBasicInfoController', updateFlowTemplateBasicInfoController);
-    updateFlowTemplateBasicInfoController.$inject = ['$scope', '$routeParams', 'FlowTemplateModel', 'CommonModel', 'lockScreenService'];
+    updateFlowTemplateBasicInfoController.$inject = ['$scope', '$routeParams', 'FlowTemplateModel',
+        'CommonModel', 'lockScreenService', 'utilitiesFactory'];
 
-    function updateFlowTemplateBasicInfoController($scope, $routeParams, FlowTemplateModel, CommonModel, lockScreenService) {
+    function updateFlowTemplateBasicInfoController($scope, $routeParams, FlowTemplateModel,
+        CommonModel, lockScreenService, utilitiesFactory) {
         var vm = this;
 
         vm.flowTemplateId = parseInt($routeParams.id);
@@ -20,7 +22,7 @@
                     vm.flowTemplate = $scope.updateCtrl.flowTemplate;
                     vm.isFirstLoad = false;
 
-                    CommonModel.getTargetType(true).then(function () {
+                    CommonModel.getTargetType(true, utilitiesFactory.targetType.Feedback360).then(function () {
                         vm.targetTypes = CommonModel.targetTypes;
 
                         var index = vm.targetTypes.map(function (e) { return e.TargetTypeId; }).indexOf(vm.flowTemplate.TargetTypeId);
