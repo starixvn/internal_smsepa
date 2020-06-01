@@ -4,9 +4,9 @@
     /* jshint validthis:true */
 
     angular.module('targetTemplateModule').controller('CreateTargetTemplateController', createTargetTemplateController);
-    createTargetTemplateController.$inject = ['$uibModalInstance', 'TargetTemplateModel', 'CommonModel'];
+    createTargetTemplateController.$inject = ['$uibModalInstance', 'TargetTemplateModel', 'CommonModel', 'utilitiesFactory'];
 
-    function createTargetTemplateController($uibModalInstance, TargetTemplateModel, CommonModel) {
+    function createTargetTemplateController($uibModalInstance, TargetTemplateModel, CommonModel, utilitiesFactory) {
         var vm = this;
 
         vm.permission = 0;
@@ -21,6 +21,7 @@
             Description: ''
         };
         vm.targetTypes = [];
+        vm.targetTypeEnum = utilitiesFactory.targetType;
 
         vm.cancel = cancel;
         vm.save = save;
@@ -50,5 +51,12 @@
                 TargetTemplateModel.createTargetTemplate(targetTemplate, $uibModalInstance);
             }
         }
+
+        vm.handleChangeTargetType = function () {
+            if (vm.targetTemplate.TargetTypeId === vm.targetTypeEnum.Feedback360) {
+                vm.targetTemplate.RatingTypeId = utilitiesFactory.ratingType.Star;
+                vm.targetTemplate.ScoreRatingTypeId = utilitiesFactory.scoreRatingType.Full100;
+            }
+        };
     }
 })(angular);

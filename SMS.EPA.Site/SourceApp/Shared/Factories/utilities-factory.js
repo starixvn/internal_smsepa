@@ -51,6 +51,11 @@
                 SemiAnnual: 3,
                 Feedback360: 4,
                 Promotion: 5
+            },
+            scoreRatingType = {
+                Discipline: 1,
+                NonDiscipline: 2,
+                Full100: 3
             };
 
         var utilities = {
@@ -79,7 +84,8 @@
             targetType: targetType,
             handleOpenLink: handleOpenLink,
             handleOpenLinkWithParams: handleOpenLinkWithParams,
-            isOpenNewTabEvent: isOpenNewTabEvent
+            isOpenNewTabEvent: isOpenNewTabEvent,
+            scoreRatingType: scoreRatingType
         };
 
         utilities.parseFloat = function (input) {
