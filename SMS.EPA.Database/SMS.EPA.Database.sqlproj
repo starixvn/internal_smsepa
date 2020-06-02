@@ -365,6 +365,8 @@
     <Build Include="dbo\Stored Procedures\Feedback_Update.sql" />
     <Build Include="dbo\Stored Procedures\Feedback_GetById.sql" />
     <Build Include="dbo\Stored Procedures\Feedback_GetByActor.sql" />
+    <Build Include="dbo\Stored Procedures\Feedback_GetSetting.sql" />
+    <Build Include="dbo\Stored Procedures\Feedback_UpdateSetting.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="scripts\auto-add-staff-into-semi-period.sql" />

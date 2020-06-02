@@ -52,5 +52,37 @@
                 }
             }
         }
+
+        public IEnumerable<FeedbackSetting> GetSetting(ICriteria criteria)
+        {
+            using (var db = new ObjectDb(criteria.GetSettingKey()))
+            {
+                using (IMultiResultReader multi = db.QueryMultiple(criteria.GetSpParams()))
+                {
+                    var settings = multi.Read<FeedbackSetting, FeedbackEmployee, FeedbackSetting>(
+                       (fb, employee) =>
+                       {
+                           fb.Employee = employee;
+                           return fb;
+                       },
+                       "EmployeeId");
+                    var evaluators = multi.Read<dynamic>();
+
+                    foreach (FeedbackSetting setting in settings)
+                    {
+                        setting.Evaluators = evaluators.Where(x => x.EmployeeId == setting.Employee.EmployeeId)
+                            .Select(x => new FeedbackEmployee
+                            {
+                                EmployeeId = x.EvaluatorId,
+                                Code = x.Code,
+                                Nickname = x.Nickname,
+                                FullName = x.FullName
+                            });
+                    }
+
+                    return settings;
+                }
+            }
+        }
     }
 }

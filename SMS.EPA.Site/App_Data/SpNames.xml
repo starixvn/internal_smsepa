@@ -249,5 +249,7 @@
     <Setting Key="Report_Feedback" SpName="Report_Feedback" DbName="SMSEPA" Plain="0">
       <Mapping DataField="EvaluatorId" ObjectProperty="EmployeeId" />
     </Setting>
+    <Setting Key="Feedback_GetSetting" SpName="Feedback_GetSetting" DbName="SMSEPA" Plain="0" />
+    <Setting Key="Feedback_UpdateSetting" SpName="Feedback_UpdateSetting" DbName="SMSEPA" Plain="0" />
   </Function>
 </Functions>

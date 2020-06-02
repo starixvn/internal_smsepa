@@ -77,8 +77,10 @@
   <ItemGroup>
     <Compile Include="EmployeeEPA\GetPeriodByActorIdCriteria.cs" />
     <Compile Include="EmployeeEPA\GetExtendedQuestionCriteria.cs" />
+    <Compile Include="Feedback\GetFeedbackSettingCriteria.cs" />
     <Compile Include="Feedback\GetFeedbackByIdCriteria.cs" />
     <Compile Include="Feedback\GetFeedbackByActorCriteria.cs" />
+    <Compile Include="Feedback\UpdateFeedbackSettingCriteria.cs" />
     <Compile Include="Feedback\UpdateFeedbackCriteria.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <!-- Exclude the file from analysis -->

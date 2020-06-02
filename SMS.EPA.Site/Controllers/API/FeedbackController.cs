@@ -9,6 +9,7 @@
     using SMS.EPA.Core.Constants;
     using SMS.EPA.Core.Enumerations;
     using SMS.EPA.Core.Model;
+    using SMS.EPA.Criteria.Feedback;
     using SMS.EPA.Model.Feedback;
     using SMS.EPA.Services;
 
@@ -63,6 +64,24 @@
         public CommandResult Update(Feedback feedback)
         {
             CommandResult commandResult = feedbackService.Update(feedback);
+
+            return commandResult;
+        }
+
+        [HttpGet]
+        [ApiAuthorize(FunctionKey = EPAFunctionKey.FeedbackSetting, Policy = Policy.Read)]
+        public HttpResponseMessage GetFeedbackSetting(int periodId, int? departmentId = null, int? employeeId = null)
+        {
+            var isHost = SessionService.HasPermissionOnFunction(EPAFunctionKey.FeedbackSetting, Policy.Host);
+            IEnumerable<FeedbackSetting> settings = feedbackService.GetSetting(periodId, departmentId, employeeId);
+            return Request.CreateResponse(HttpStatusCode.OK, new { isHost, settings });
+        }
+
+        [HttpPost]
+        [ApiAuthorize(FunctionKey = EPAFunctionKey.FeedbackSetting, Policy = Policy.Host)]
+        public CommandResult UpdateFeedbackSetting(UpdateFeedbackSettingCriteria criteria)
+        {
+            CommandResult commandResult = feedbackService.UpdateSetting(criteria);
 
             return commandResult;
         }

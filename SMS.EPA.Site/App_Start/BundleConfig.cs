@@ -231,6 +231,9 @@
                             "~/SourceApp/Components/Feedback/feedback-factory.js",
                             "~/SourceApp/Components/Feedback/feedback-detail-controller.js",
                             "~/SourceApp/Components/Feedback/feedback-access-controller.js",
+                            "~/SourceApp/Components/FeedbackSetting/feedback-setting-factory.js",
+                            "~/SourceApp/Components/FeedbackSetting/feedback-setting-access-controller.js",
+                            "~/SourceApp/Components/FeedbackSetting/update-feedback-setting-controller.js",
                             "~/SourceApp/Components/Report/Feedback/feedback-report-factory.js",
                             "~/SourceApp/Components/Report/Feedback/feedback-report-grid-directive.js",
                             "~/SourceApp/Components/Report/Feedback/feedback-report-controller.js"));

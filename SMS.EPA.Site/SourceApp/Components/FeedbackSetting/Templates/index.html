@@ -1,0 +1,85 @@
+﻿<div class="feedback-setting-container" ng-controller="FeedbackSettingController as feedbackSettingCtrl">
+    <div class="col-sm-12 sub-header">
+        <ul class="row breadcrumb">
+            <li class="current">360 Degree EPA Setting</li>
+        </ul>
+    </div>
+    <div class="col-sm-12">
+        <form novalidate class="row filter form-horizontal" role="form">
+            <div class="form-group">
+                <label class="col-sm-1 control-label" data-translate="Period"></label>
+                <div class="col-sm-2">
+                    <select class="form-control" ng-model="feedbackSettingCtrl.filter.periodId"
+                            ng-options="opt.PeriodId as opt.Name for opt in feedbackSettingCtrl.periodOptions">
+                        <option value="" style="display: none">-- {{"All" | translate}} --</option>
+                    </select>
+                </div>
+                <label class="col-sm-1 control-label">Dept./Section</label>
+                <div class="col-sm-2">
+                    <select class="form-control" ng-model="feedbackSettingCtrl.filter.departmentId"
+                            ng-options="opt.DepartmentId as opt.Name for opt in feedbackSettingCtrl.treeDepartment"></select>
+                </div>
+                <label class="col-sm-1 control-label" data-translate="Employee"></label>
+                <div class="col-sm-2">
+                    <input class="form-control" ng-model="feedbackSettingCtrl.searchEmployee"
+                           placeholder="Enter full name or nickname" search-auto-complete search-employees="feedbackSettingCtrl.getEmployee()"
+                           ng-change="feedbackSettingCtrl.unSelectEmployee()" employee="feedbackSettingCtrl.filter.employee" />
+                </div>
+                <div class="col-sm-1">
+                    <button class="btn btn-primary" ng-click="feedbackSettingCtrl.query()" data-translate="Submit"></button>
+                </div>
+            </div>
+        </form>
+        <table class="row table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th data-translate="SymbolCount"></th>
+                    <th data-translate="Code"></th>
+                    <th data-translate="NickName"></th>
+                    <th data-translate="FullName"></th>
+                    <th data-translate="Section"></th>
+                    <th>Evaluators</th>
+                    <th data-translate="FromDate"></th>
+                    <th data-translate="ToDate"></th>
+                    <th data-translate="Action" class="col-action" ng-if="feedbackSettingCtrl.isHost"></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr dir-paginate="setting in feedbackSettingCtrl.filteredItems | itemsPerPage: feedbackSettingCtrl.pageSize" current-page="feedbackSettingCtrl.currentPage">
+                    <td class="text-center" ng-bind="feedbackSettingCtrl.getIndex($index, feedbackSettingCtrl.currentPage, feedbackSettingCtrl.pageSize)"></td>
+                    <td class="text-center" ng-bind="setting.Employee.Code"></td>
+                    <td class="text-center" ng-bind="setting.Employee.Nickname"></td>
+                    <td ng-bind="setting.Employee.FullName"></td>
+                    <td ng-bind="setting.Employee.Section"></td>
+                    <td>
+                        <div ng-repeat="evaluator in setting.Evaluators">- {{evaluator.FullName}} ({{evaluator.Nickname}})</div>
+                    </td>
+                    <td class="text-center" ng-bind="setting.FromDate | customDate"></td>
+                    <td class="text-center" ng-bind="setting.ToDate | customDate"></td>
+                    <td class="text-center col-action" ng-if="feedbackSettingCtrl.isHost">
+                        <a class="glyphicon glyphicon-edit icon-edit"
+                           ng-click="feedbackSettingCtrl.edit(setting)" ng-attr-title='{{"Edit" | translate}}'></a>
+                    </td>
+                </tr>
+                <tr ng-show="feedbackSettingCtrl.settings.length == 0">
+                    <td class="empty-result" colspan="9" data-translate="EmptyResult"></td>
+                </tr>
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="9" class="paging">
+                        <span data-translate="Show"></span>
+                        <select class="dropdown-entry form-control" ng-model="feedbackSettingCtrl.pageSize"
+                                ng-options="entry for entry in feedbackSettingCtrl.entries" ng-change="feedbackSettingCtrl.currentPage = 1"></select>
+                        <span data-translate="entries"></span>
+                        <div class="pull-right custom-paging">
+                            <ul uib-pagination total-items="feedbackSettingCtrl.filteredItems.length" items-per-page="feedbackSettingCtrl.pageSize"
+                                boundary-links="true" max-size="5" boundary-link-numbers="true" ng-model="feedbackSettingCtrl.currentPage"
+                                class="pagination-sm" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></ul>
+                        </div>
+                    </td>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+</div>

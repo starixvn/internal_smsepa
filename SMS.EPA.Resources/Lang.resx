@@ -1458,4 +1458,13 @@
   <data name="Feedback" xml:space="preserve">
     <value>Feedback</value>
   </data>
+  <data name="FromDate" xml:space="preserve">
+    <value>From Date</value>
+  </data>
+  <data name="ToDate" xml:space="preserve">
+    <value>To Date</value>
+  </data>
+  <data name="FromDateGreaterThanToDateWarning" xml:space="preserve">
+    <value>From Date must be less than or equal To Date!</value>
+  </data>
 </root>

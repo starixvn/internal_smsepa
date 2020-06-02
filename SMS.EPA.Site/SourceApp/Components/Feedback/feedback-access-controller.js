@@ -46,6 +46,10 @@
             return CommonModel.getIndex(index, currentPage, pageSize);
         };
 
+        vm.query = function () {
+            getFeedback(vm.filter.periodId);
+        };
+
         vm.detail = function (feedbackId, event) {
             utilitiesFactory.handleOpenLink(event, 'feedback/detail/' + feedbackId);
         };

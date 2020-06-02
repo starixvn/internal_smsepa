@@ -71,6 +71,7 @@
     <Compile Include="Feedback\FeedbackEmployee.cs" />
     <Compile Include="Feedback\FeedbackKPI.cs" />
     <Compile Include="Feedback\FeedbackKPIGroup.cs" />
+    <Compile Include="Feedback\FeedbackSetting.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <!-- Exclude the file from analysis -->
       <SonarQubeExclude>true</SonarQubeExclude>

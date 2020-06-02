@@ -523,6 +523,11 @@
     <Content Include="SourceApp\Components\EPA\UpdateFinalScore\update-final-score-model.js" />
     <Content Include="SourceApp\Components\EPA\UpdateFinalScore\update-final-score-factory.js" />
     <Content Include="SourceApp\Components\EPA\UpdateFinalScore\export-excel-directive.js" />
+    <Content Include="SourceApp\Components\FeedbackSetting\Templates\update.html" />
+    <Content Include="SourceApp\Components\FeedbackSetting\update-feedback-setting-controller.js" />
+    <Content Include="SourceApp\Components\FeedbackSetting\feedback-setting-access-controller.js" />
+    <Content Include="SourceApp\Components\FeedbackSetting\feedback-setting-factory.js" />
+    <Content Include="SourceApp\Components\FeedbackSetting\Templates\index.html" />
     <Content Include="SourceApp\Components\Feedback\feedback-access-controller.js" />
     <Content Include="SourceApp\Components\Feedback\feedback-detail-controller.js" />
     <Content Include="SourceApp\Components\Feedback\feedback-factory.js" />

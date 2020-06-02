@@ -9,5 +9,7 @@
         IEnumerable<Feedback> GetByActor(ICriteria criteria);
 
         Feedback GetById(ICriteria criteria);
+
+        IEnumerable<FeedbackSetting> GetSetting(ICriteria criteria);
     }
 }

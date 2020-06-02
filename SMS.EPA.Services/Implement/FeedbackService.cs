@@ -107,5 +107,21 @@
             };
             return baseService.ExecuteNonQuery(criteria);
         }
+
+        public IEnumerable<FeedbackSetting> GetSetting(int periodId, int? departmentId = null, int? employeeId = null)
+        {
+            var criteria = new GetFeedbackSettingCriteria
+            {
+                PeriodId = periodId,
+                DepartmentId = departmentId,
+                EmployeeId = employeeId
+            };
+            return feedbackRepository.GetSetting(criteria);
+        }
+
+        public CommandResult UpdateSetting(UpdateFeedbackSettingCriteria criteria)
+        {
+            return baseService.ExecuteNonQuery(criteria);
+        }
     }
 }
