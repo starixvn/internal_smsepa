@@ -32,8 +32,19 @@
         </form>
         <table class="row table table-bordered table-striped">
             <thead>
+                <tr class="header-table" ng-if="feedbackSettingCtrl.isHost && feedbackSettingCtrl.filteredItems.length > 0">
+                    <th colspan="9">
+                        <button class="btn btn-primary pull-left" style="margin: 5px;"
+                                ng-click="feedbackSettingCtrl.handleMultipleEdit()">
+                            <span class="icon-edit glyphicon glyphicon-edit"></span> Multiple Edit
+                        </button>
+                    </th>
+                </tr>
                 <tr>
-                    <th data-translate="SymbolCount"></th>
+                    <th ng-if="feedbackSettingCtrl.isHost && feedbackSettingCtrl.filteredItems.length > 0">
+                        <input type="checkbox" ng-click="feedbackSettingCtrl.handleCheckAll()"
+                               ng-model="feedbackSettingCtrl.selectedAll" />
+                    </th>
                     <th data-translate="Code"></th>
                     <th data-translate="NickName"></th>
                     <th data-translate="FullName"></th>
@@ -41,12 +52,14 @@
                     <th>Evaluators</th>
                     <th data-translate="FromDate"></th>
                     <th data-translate="ToDate"></th>
-                    <th data-translate="Action" class="col-action" ng-if="feedbackSettingCtrl.isHost"></th>
+                    <th data-translate="Edit" class="col-action" ng-if="feedbackSettingCtrl.isHost"></th>
                 </tr>
             </thead>
             <tbody>
                 <tr dir-paginate="setting in feedbackSettingCtrl.filteredItems | itemsPerPage: feedbackSettingCtrl.pageSize" current-page="feedbackSettingCtrl.currentPage">
-                    <td class="text-center" ng-bind="feedbackSettingCtrl.getIndex($index, feedbackSettingCtrl.currentPage, feedbackSettingCtrl.pageSize)"></td>
+                    <td class="text-center" ng-if="feedbackSettingCtrl.isHost && feedbackSettingCtrl.filteredItems.length > 0">
+                        <input type="checkbox" ng-model="setting.Checked" />
+                    </td>
                     <td class="text-center" ng-bind="setting.Employee.Code"></td>
                     <td class="text-center" ng-bind="setting.Employee.Nickname"></td>
                     <td ng-bind="setting.Employee.FullName"></td>

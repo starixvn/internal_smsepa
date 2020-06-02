@@ -2,10 +2,11 @@
     'use strict';
 
     angular.module('feedbackSettingModule').controller('FeedbackSettingController', feedbackSettingController);
-    feedbackSettingController.$inject = ['$uibModal', 'CommonModel', 'errorFactory', 'utilitiesFactory',
+    feedbackSettingController.$inject = ['$uibModal', 'CommonModel', 'errorFactory', 'utilitiesFactory', 'notificationFactory',
         'feedbackSettingFactory', 'lockScreenService'];
 
-    function feedbackSettingController($uibModal, CommonModel, errorFactory, utilitiesFactory, feedbackSettingFactory, lockScreenService) {
+    function feedbackSettingController($uibModal, CommonModel, errorFactory, utilitiesFactory, notificationFactory,
+        feedbackSettingFactory, lockScreenService) {
         var vm = this;
 
         vm.periodOptions = [];
@@ -19,6 +20,7 @@
         vm.currentPage = 1;
         vm.pageSize = 20;
         vm.isHost = false;
+        vm.selectedAll = false;
         vm.settings = [];
 
         function getSetting(filter) {
@@ -55,10 +57,6 @@
             });
         }
 
-        vm.getIndex = function (index, currentPage, pageSize) {
-            return CommonModel.getIndex(index, currentPage, pageSize);
-        };
-
         vm.getEmployee = function () {
             return CommonModel.getAllEmployee(vm.searchEmployee.trim());
         };
@@ -74,14 +72,20 @@
             getSetting(vm.filter);
         };
 
-        vm.edit = function (setting) {
+        vm.handleCheckAll = function () {
+            angular.forEach(vm.settings, function (setting) {
+                setting.Checked = vm.selectedAll;
+            });
+        };
+
+        function editSetting(settings) {
             var modalInstance = $uibModal.open({
                 templateUrl: 'SourceApp/Components/FeedbackSetting/Templates/update.html',
                 controller: 'UpdateFeedbackSettingController as updateFeedbackSettingCtrl',
                 backdrop: 'static',
                 resolve: {
-                    setting: function () {
-                        return setting;
+                    settings: function () {
+                        return settings;
                     }
                 },
                 windowClass: 'modal-confirm-center'
@@ -90,10 +94,32 @@
             modalInstance.result.then(function (isSuccessful) {
                 if (isSuccessful) {
                     vm.query();
+                    vm.selectedAll = false;
                 }
             })['finally'](function () {
                 modalInstance = null;
             });
+        }
+
+        vm.edit = function (setting) {
+            editSetting([setting]);
+        };
+
+        vm.handleMultipleEdit = function () {
+            var settings = [];
+
+            angular.forEach(vm.settings, function (setting) {
+                if (setting.Checked) {
+                    settings.push(setting);
+                }
+            });
+
+            if (settings.length === 0) {
+                notificationFactory.error('SelectEmployeeBeforeEditSettingWarning');
+                return;
+            }
+
+            editSetting(settings);
         };
 
         initialize();

@@ -2,9 +2,9 @@
     'use strict';
 
     angular.module('feedbackSettingModule').controller('UpdateFeedbackSettingController', updateFeedbackSettingController);
-    updateFeedbackSettingController.$inject = ['$uibModalInstance', 'notificationFactory', 'errorFactory', 'feedbackSettingFactory', 'setting'];
+    updateFeedbackSettingController.$inject = ['$uibModalInstance', 'notificationFactory', 'errorFactory', 'feedbackSettingFactory', 'settings'];
 
-    function updateFeedbackSettingController($uibModalInstance, notificationFactory, errorFactory, feedbackSettingFactory, setting) {
+    function updateFeedbackSettingController($uibModalInstance, notificationFactory, errorFactory, feedbackSettingFactory, settings) {
         var vm = this;
 
         vm.isSuccessful = false;
@@ -13,10 +13,10 @@
             toDateOpened: false
         };
         vm.feedbackSetting = {
-            employeeId: setting.Employee.EmployeeId,
-            employee: setting.Employee.Nickname,
-            fromDate: new Date(setting.FromDate),
-            toDate: new Date(setting.ToDate)
+            employeeIds: settings.map(x => x.Employee.EmployeeId).join(','),
+            employee: settings.map(x => x.Employee.Nickname).join(', '),
+            fromDate: new Date(settings[0].FromDate),
+            toDate: new Date(settings[0].ToDate)
         };
 
         vm.openFromDate = function (event) {
@@ -40,8 +40,8 @@
             }
 
             var criteria = {
-                periodId: setting.PeriodId,
-                employeeIds: vm.feedbackSetting.employeeId,
+                periodId: settings[0].PeriodId,
+                employeeIds: vm.feedbackSetting.employeeIds,
                 fromDate: vm.feedbackSetting.fromDate.toDateString(),
                 toDate: vm.feedbackSetting.toDate.toDateString()
             };
@@ -62,10 +62,5 @@
         vm.cancel = function () {
             $uibModalInstance.close(vm.isSuccessful);
         };
-
-        function initialize() {
-        }
-
-        initialize();
     }
 })(angular);
