@@ -1,5 +1,6 @@
 ﻿namespace SMS.EPA.Services
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Text;
@@ -41,9 +42,12 @@
                 ActorId = actorId,
                 PeriodId = periodId
             };
+            var today = DateTime.Today;
             IEnumerable<Feedback> feedbacks = feedbackRepository.GetByActor(criteria);
             foreach (Feedback feedback in feedbacks)
             {
+                feedback.IsHost = DateTime.Compare(feedback.FromDate.Date, today) <= 0
+                    && DateTime.Compare(feedback.ToDate.Date, today) >= 0;
                 feedback.FinalScore = cryptographyService.Decrypt(feedback.FinalScore);
             }
 

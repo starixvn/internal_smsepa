@@ -45,8 +45,8 @@
                 if (feedback.Evaluator.EmployeeId == SessionService.EmployeeId)
                 {
                     var today = DateTime.Today;
-                    feedback.IsHost = DateTime.Compare(feedback.FromDate.Date, today) >= 0
-                        && DateTime.Compare(feedback.ToDate.Date, today) <= 0;
+                    feedback.IsHost = DateTime.Compare(feedback.FromDate.Date, today) <= 0
+                        && DateTime.Compare(feedback.ToDate.Date, today) >= 0;
                 }
                 else
                 {
