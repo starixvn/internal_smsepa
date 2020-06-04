@@ -13,7 +13,6 @@
         vm.filter = {
             periodId: 0,
             departmentId: '',
-            employeeId: '',
             employee: null
         };
         vm.treeDepartment = {};
@@ -26,7 +25,8 @@
         function getSetting(filter) {
             lockScreenService.start();
 
-            feedbackSettingFactory.getSetting(filter.periodId, filter.departmentId, filter.employeeId).success(function (data) {
+            var employeeId = vm.filter.employee ? vm.filter.employee.EmployeeId : null;
+            feedbackSettingFactory.getSetting(filter.periodId, filter.departmentId, employeeId).success(function (data) {
                 vm.isHost = data.isHost;
                 vm.settings = data.settings;
                 utilitiesFactory.searchOnPage(vm, vm.settings);
@@ -64,7 +64,6 @@
         vm.unSelectEmployee = function () {
             if (vm.searchEmployee.trim() === '') {
                 vm.filter.employee = null;
-                vm.filter.employeeId = null;
             }
         };
 

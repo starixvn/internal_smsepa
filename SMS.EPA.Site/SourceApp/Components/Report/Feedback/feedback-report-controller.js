@@ -13,7 +13,6 @@
         vm.filter = {
             periodId: '',
             departmentId: '',
-            employeeId: '',
             employee: null
         };
         vm.pageOption = utilitiesFactory.pageOption;
@@ -25,7 +24,7 @@
             var criteria = {
                 periodId: vm.filter.periodId,
                 departmentId: vm.filter.departmentId,
-                employeeId: vm.filter.employeeId
+                employeeId: vm.filter.employee ? vm.filter.employee.EmployeeId : null
             };
             feedbackReportFactory.getData(criteria).success(function (feedbacks) {
                 vm.feedbacks = feedbacks;
@@ -61,7 +60,6 @@
         vm.unSelectEmployee = function () {
             if (vm.searchEmployee.trim() === '') {
                 vm.filter.employee = null;
-                vm.filter.employeeId = null;
             }
         };
 
@@ -76,7 +74,7 @@
                 periodId: vm.filter.periodId,
                 period: period,
                 departmentId: vm.filter.departmentId,
-                employeeId: vm.filter.employeeId
+                employeeId: vm.filter.employee ? vm.filter.employee.EmployeeId : null
             };
             feedbackReportFactory.exportExcel(criteria).success(function (data) {
                 var blob = new Blob([data]);
