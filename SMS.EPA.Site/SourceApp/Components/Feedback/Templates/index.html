@@ -27,6 +27,8 @@
                     <th data-translate="PeriodName"></th>
                     <th data-translate="Section"></th>
                     <th data-translate="NickName"></th>
+                    <th data-translate="FromDate"></th>
+                    <th data-translate="ToDate"></th>
                     <th data-translate="FinalScore"></th>
                     <th data-translate="Detail" class="col-action"></th>
                 </tr>
@@ -39,6 +41,8 @@
                     <td class="text-center">
                         <span uib-tooltip="{{feedback.Employee.FullName}}" ng-bind="feedback.Employee.Nickname"></span>
                     </td>
+                    <td class="text-center" ng-bind="feedback.FromDate | customDate"></td>
+                    <td class="text-center" ng-bind="feedback.ToDate | customDate"></td>
                     <td class="text-center">
                         <span ng-if="feedback.FinalScore.length > 0">{{feedback.FinalScore | customScore}}</span>
                         <span ng-if="feedback.FinalScore.length == 0" data-translate="NotAvailable"></span>
@@ -51,12 +55,12 @@
                     </td>
                 </tr>
                 <tr ng-show="feedbackCtrl.feedbacks.length == 0">
-                    <td class="empty-result" colspan="6" data-translate="EmptyResult"></td>
+                    <td class="empty-result" colspan="8" data-translate="EmptyResult"></td>
                 </tr>
             </tbody>
             <tfoot>
                 <tr>
-                    <td colspan="7" class="paging">
+                    <td colspan="8" class="paging">
                         <span data-translate="Show"></span>
                         <select class="dropdown-entry form-control" ng-model="feedbackCtrl.pageSize"
                                 ng-options="entry for entry in feedbackCtrl.entries" ng-change="feedbackCtrl.currentPage = 1"></select>
