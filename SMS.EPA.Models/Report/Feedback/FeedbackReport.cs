@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Globalization;
     using System.Linq;
     using SMS.EPA.Core.Constants;
 
@@ -13,13 +14,13 @@
         public string FullName { get; set; }
         public string Section { get; set; }
 
-        public float? AverageFinalScore
+        public string AverageFinalScore
         {
             get
             {
                 float average = 0;
                 int count = 0;
-                float? result = null;
+                var result = string.Empty;
                 var feedbacks = Feedbacks.Where(x => !string.IsNullOrWhiteSpace(x.FinalScore) && x.EvaluatedDate.HasValue);
                 foreach (FeedbackReportItem feedback in feedbacks)
                 {
@@ -30,7 +31,7 @@
 
                 if (count > 0)
                 {
-                    result = (float)Math.Round(average / count, Constants.NumberOfDecimalDefault);
+                    result = Math.Round(average / count, Constants.NumberOfDecimalDefault).ToString(CultureInfo.InvariantCulture);
                 }
 
                 return result;
