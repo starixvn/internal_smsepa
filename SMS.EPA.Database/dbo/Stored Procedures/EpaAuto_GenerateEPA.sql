@@ -20,13 +20,11 @@ BEGIN
 	DECLARE @TargetTypeId INT
 		,@SemiTargetTypeId TINYINT = 3
 		-- epa status
-		,@OpenStatusId TINYINT = 1
-		,@CloseStatusId TINYINT = 2
-		,@RejectStatusId TINYINT = 3
+		,@OpenStatusId TINYINT = 0
+		,@CloseStatusId TINYINT = 1
+		,@RejectStatusId TINYINT = 2
 		,@NumberEmployeeHasEPA INT
-		,@Today DATE
-
-	SET @Today = CAST(GETDATE() AS DATE)
+		,@Today DATE = GETDATE()
 
 	SELECT @TargetTypeId = TargetTypeId
 	FROM dbo.Period WITH (NOLOCK)

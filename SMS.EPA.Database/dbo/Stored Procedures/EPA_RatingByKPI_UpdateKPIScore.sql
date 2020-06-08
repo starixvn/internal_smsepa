@@ -8,9 +8,9 @@ AS
 Created: 20150910@Tim.Trinh
 Task: Update KPI Score for a list employees.
 DB: SMSEPA
-Original: 
+Original:
 
-Revisions:  
+Revisions:
 Param's Explanation:
 • @KPIDetails=N'
      <ROOT>
@@ -18,10 +18,6 @@ Param's Explanation:
 		     <EPADetail KPIId ="1" Rate="1" Score="xyz" IsMaxScore="0" Comment="Test" />
 		  </EPA>
 	</ROOT>'
-• @ErrCode:
-	= 0: Transaction recorded successfully.
-	> 0: Specific Error.
-• @ErrMsg: Error description.
 
 */
 BEGIN

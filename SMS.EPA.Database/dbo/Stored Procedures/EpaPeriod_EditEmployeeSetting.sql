@@ -33,6 +33,7 @@ BEGIN
 		,@ProbationTarget TINYINT = 1
 		,@MonthlyTarget TINYINT = 2
 		,@SemiTarget TINYINT = 3
+		,@FeedbackTargetTypeId TINYINT = 4
 		,@PromotionTarget TINYINT = 5
 
 	SELECT @TargetTypeId = TargetTypeId
@@ -114,6 +115,14 @@ BEGIN
 	FROM #tblEmployeeAssignments AS empA
 		INNER JOIN @OverlapEmployeeIds AS overId ON empA.EmployeeId = overId.Id
 
+	IF @TargetTypeId = @SemiTarget
+	BEGIN
+		EXEC dbo.EpaAuto_GenerateFeedback @PeriodId = @PeriodId
+			,@EmployeeIds = NULL
+			,@ErrCode = @ErrCode OUTPUT
+			,@ErrMsg = @ErrMsg OUTPUT
+	END
+
 	-- write log
 	DECLARE @OldData NVARCHAR(MAX)
 		,@EmployeeId INT
@@ -125,9 +134,7 @@ BEGIN
 	FOR
 
 	SELECT Id
-	FROM @EmployeeIds
-
-	
+	FROM @EmployeeIds	
 
 	SET @OldData = @OldData + '</r>'
 
@@ -665,8 +672,6 @@ BEGIN
 			,@OldData = @OldData
 			,@ObjectIds = NULL
 
-		COMMIT TRANSACTION
-
 		IF EXISTS (
 				SELECT 1
 				FROM @OverlapEmployeeIds
@@ -692,11 +697,12 @@ BEGIN
 
 			RETURN
 		END
+
+		COMMIT TRANSACTION
 	END TRY
 
 	BEGIN CATCH
-		IF XACT_STATE() <> 0
-			ROLLBACK TRANSACTION
+		ROLLBACK TRANSACTION
 
 		SELECT @ErrCode = 1
 			,@ErrMsg = N'Update employee setting unsuccessfully.'

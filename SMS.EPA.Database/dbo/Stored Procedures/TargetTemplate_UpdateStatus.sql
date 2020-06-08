@@ -13,10 +13,6 @@ Original:
 
 Revisions:  
 Param's Explanation:
-• @ErrCode:
-	= 0: Transaction recorded successfully.
-	> 0: Specific Error.
-• @ErrMsg: Error description.
 
 */
 BEGIN
@@ -59,25 +55,14 @@ BEGIN
 		,ModifiedDate = GETDATE()
 	WHERE TargetTemplateId = @TargetTemplateId
 
-	IF @@ERROR <> 0
-	BEGIN
-		SELECT @ErrCode = 1
-			,@ErrMsg = N'Update Target template failed.'
-	END
-	ELSE
-	BEGIN
-		EXEC @Data = [dbo].[fncGetDataForWriteLog_UpdateStatus] @ObjectId = @TargetTemplateId
-			,@ObjectType = 3
+	EXEC @Data = [dbo].[fncGetDataForWriteLog_UpdateStatus] @ObjectId = @TargetTemplateId
+		,@ObjectType = 3
 
-		EXEC [dbo].[LogDetail_Insert] @ActorId = @ModifiedBy
-			,@SpName = 'TargetTemplate_UpdateStatus'
-			,@ObjectId = @TargetTemplateId
-			,@ObjectTypeId = 3
-			,@Data = @Data
-			,@OldData = @OldData
-			,@ObjectIds = NULL
-
-		SELECT @ErrCode = 0
-			,@ErrMsg = ''
-	END
+	EXEC [dbo].[LogDetail_Insert] @ActorId = @ModifiedBy
+		,@SpName = 'TargetTemplate_UpdateStatus'
+		,@ObjectId = @TargetTemplateId
+		,@ObjectTypeId = 3
+		,@Data = @Data
+		,@OldData = @OldData
+		,@ObjectIds = NULL
 END

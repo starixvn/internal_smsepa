@@ -9,14 +9,10 @@ AS
 Created: 20140404@Quinn.Vo
 Task: Remove KPI group in target template.
 DB: SMSEPA
-Original: 
+Original:
 
-Revisions:  
+Revisions:
 Param's Explanation:
-• @ErrCode:
-	= 0: Transaction recorded successfully.
-	> 0: Specific Error.
-• @ErrMsg: Error description.
 
 */
 BEGIN
@@ -42,21 +38,13 @@ BEGIN
 		,ModifiedDate = GETDATE()
 	WHERE TargetTemplateId = @TargetTemplateId
 
-	IF @@ERROR <> 0
-	BEGIN
-		SELECT @ErrCode = 1
-			,@ErrMsg = N'Remove KPI group failed.'
-	END
-	ELSE
-	BEGIN
-		EXEC @Data = [dbo].[fncGetDataForWriteLog_TargetTemplate_UpdateKPI] @ObjectId = @TargetTemplateId
+	EXEC @Data = [dbo].[fncGetDataForWriteLog_TargetTemplate_UpdateKPI] @ObjectId = @TargetTemplateId
 
-		EXEC [dbo].[LogDetail_Insert] @ActorId = @ModifiedBy
-			,@SpName = 'TargetTemplate_RemoveKPIGroup'
-			,@ObjectId = @TargetTemplateId
-			,@ObjectTypeId = 3
-			,@Data = @Data
-			,@OldData = @OldData
-			,@ObjectIds = NULL
-	END
+	EXEC [dbo].[LogDetail_Insert] @ActorId = @ModifiedBy
+		,@SpName = 'TargetTemplate_RemoveKPIGroup'
+		,@ObjectId = @TargetTemplateId
+		,@ObjectTypeId = 3
+		,@Data = @Data
+		,@OldData = @OldData
+		,@ObjectIds = NULL
 END

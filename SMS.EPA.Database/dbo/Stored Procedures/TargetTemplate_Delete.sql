@@ -8,15 +8,10 @@ AS
 Created: 20140404@Quinn.Vo
 Task: Delete Target template.
 DB: SMSEPA
-Original: 
+Original:
 
-Revisions:  
+Revisions:
 Param's Explanation:
-• @ErrCode:
-	= 0: Transaction recorded successfully.
-	> 0: Specific Error.
-• @ErrMsg: Error description.
-
 */
 BEGIN
 	SET NOCOUNT ON;
@@ -60,22 +55,18 @@ BEGIN
 	WHERE TargetTemplateId = @TargetTemplateId
 
 	DELETE
+	FROM dbo.TargetTemplateKPI
+	WHERE TargetTemplateId = @TargetTemplateId
+
+	DELETE
 	FROM dbo.TargetTemplate
 	WHERE TargetTemplateId = @TargetTemplateId
 
-	IF @@ERROR <> 0
-	BEGIN
-		SELECT @ErrCode = 1
-			,@ErrMsg = N'Delete Target Template failed.'
-	END
-	ELSE
-	BEGIN
-		EXEC [dbo].[LogDetail_Insert] @ActorId = @ModifiedBy
-			,@SpName = 'TargetTemplate_Delete'
-			,@ObjectId = @TargetTemplateId
-			,@ObjectTypeId = 3
-			,@Data = NULL
-			,@OldData = @OldData
-			,@ObjectIds = NULL
-	END
+	EXEC [dbo].[LogDetail_Insert] @ActorId = @ModifiedBy
+		,@SpName = 'TargetTemplate_Delete'
+		,@ObjectId = @TargetTemplateId
+		,@ObjectTypeId = 3
+		,@Data = NULL
+		,@OldData = @OldData
+		,@ObjectIds = NULL
 END

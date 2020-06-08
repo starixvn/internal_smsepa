@@ -12,15 +12,10 @@ AS
 Created: 20140404@Quinn.Vo
 Task: Insert Target template.
 DB: SMSEPA
-Original: 
+Original:
 
-Revisions:  
+Revisions:
 Param's Explanation:
-• @ErrCode:
-	= 0: Transaction recorded successfully.
-	> 0: Specific Error.
-• @ErrMsg: Error description.
-
 */
 BEGIN
 	SET NOCOUNT ON;
@@ -62,24 +57,16 @@ BEGIN
 
 	SET @TargetTemplateId = SCOPE_IDENTITY()
 
-	IF @@ERROR <> 0
-	BEGIN
-		SELECT @ErrCode = 1
-			,@ErrMsg = N'Insert Target template failed.'
-	END
-	ELSE
-	BEGIN
-		DECLARE @Data NVARCHAR(MAX)
+	DECLARE @Data NVARCHAR(MAX)
 
-		EXEC @Data = [dbo].[fncGetDataForWriteLog] @ObjectId = @TargetTemplateId
-			,@ObjectType = 3
+	EXEC @Data = [dbo].[fncGetDataForWriteLog] @ObjectId = @TargetTemplateId
+		,@ObjectType = 3
 
-		EXEC [dbo].[LogDetail_Insert] @ActorId = @CreatedBy
-			,@SpName = 'TargetTemplate_Insert'
-			,@ObjectId = @TargetTemplateId
-			,@ObjectTypeId = 3
-			,@Data = @Data
-			,@OldData = NULL
-			,@ObjectIds = NULL
-	END
+	EXEC [dbo].[LogDetail_Insert] @ActorId = @CreatedBy
+		,@SpName = 'TargetTemplate_Insert'
+		,@ObjectId = @TargetTemplateId
+		,@ObjectTypeId = 3
+		,@Data = @Data
+		,@OldData = NULL
+		,@ObjectIds = NULL
 END

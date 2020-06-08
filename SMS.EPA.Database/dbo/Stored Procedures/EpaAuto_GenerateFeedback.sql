@@ -75,6 +75,7 @@ BEGIN
 			AND emp.[Enabled] = 1
 			AND emp.IsDeleted = 0
 		WHERE epa.PeriodId = @PeriodId
+			AND epa.[Status] <> 2 -- rejected
 			AND epa.EmployeeId <> process.EvaluatorId
 			AND NOT EXISTS (
 				SELECT 1
@@ -103,6 +104,7 @@ BEGIN
 			INNER JOIN dbo.EPAProcess AS process WITH (NOLOCK) ON epa.EPAId = process.EPAId
 			AND process.ProcessId > @SelfProcessId
 		WHERE epa.PeriodId = @PeriodId
+			AND epa.[Status] <> 2 -- rejected
 			AND epa.EmployeeId <> process.EvaluatorId
 			AND NOT EXISTS (
 				SELECT 1
@@ -116,7 +118,7 @@ BEGIN
 	INSERT INTO #tblDeletedFeedback (FeedbackId)
 	SELECT DISTINCT fb.FeedbackId
 	FROM dbo.Feedback AS fb WITH (NOLOCK)
-		INNER JOIN #tblFeedback AS tblfb WITH (NOLOCK) ON fb.EmployeeId = tblfb.EmployeeId
+		--INNER JOIN #tblFeedback AS tblfb WITH (NOLOCK) ON fb.EmployeeId = tblfb.EmployeeId
 	WHERE fb.PeriodId = @PeriodId
 		AND NOT EXISTS (
 			SELECT 1

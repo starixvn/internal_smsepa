@@ -9,27 +9,11 @@ AS
 Created: 2010404@Quinn.Vo
 Task: Update Target Template.
 DB: SMSEPA
-Original: 
+Original:
 
-Revisions:  
+Revisions:
 Param's Explanation:
-• @KPIs=N'<ROOT>
-		 <KPI
-			KPIId="1"
-			KPIGroupId="1"
-			IsSpreadKPI="0"
-			Weight="3"
-			DisplayOrder="1"
-			IsRequiredEvaluate="true"
-			HasComment="true"
-			IsRequiredComment="true">
-		  </KPI>
-		  </ROOT>'
-• @ErrCode:
-	= 0: Transaction recorded successfully.
-	> 0: Specific Error.
-• @ErrMsg: Error description.
-
+	• @KPIs=N'<ROOT><KPI KPIId="1" KPIGroupId="1" IsSpreadKPI="0" Weight="3" DisplayOrder="1" IsRequiredEvaluate="true" HasComment="true" IsRequiredComment="true"/></ROOT>'
 */
 BEGIN
 	SET NOCOUNT ON;

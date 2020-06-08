@@ -10,16 +10,11 @@ AS
 /*
 Created: 20150709@Tim.Trinh
 Task: Update KPI Group.
-DB: NexEPA
-Original: 
+DB: SMSEPA
+Original
 
-Revisions:  
+Revisions:
 Param's Explanation:
-• @ErrCode:
-	= 0: Transaction recorded successfully.
-	> 0: Specific Error.
-• @ErrMsg: Error description.
-
 */
 BEGIN
 	SET NOCOUNT ON;

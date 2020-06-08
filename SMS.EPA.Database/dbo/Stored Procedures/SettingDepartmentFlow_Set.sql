@@ -11,20 +11,16 @@ AS
 Created: 20150720@Tim.Trinh
 Task: Save department flow setting.
 DB: SMSEPA
-Original: 
+Original:
 
-Revisions:  
+Revisions:
 Param's Explanation:
-• @ProcessDetails: 
-    N'<ROOT>
-		  <Process ProcessId="1" Duration="1" HasSendMail="True" RemindDay="1">
-		      <Evaluator EvaluatorId="125" Priority="1" />
-		  </Process>
-    </ROOT>'
-• @ErrCode:
-	= 0: Transaction recorded successfully.
-	> 0: Specific Error.
-• @ErrMsg: Error description.
+	• @ProcessDetails: 
+		N'<ROOT>
+			  <Process ProcessId="1" Duration="1" HasSendMail="True" RemindDay="1">
+				  <Evaluator EvaluatorId="125" Priority="1" />
+			  </Process>
+		</ROOT>'
 */
 BEGIN
 	SET NOCOUNT ON

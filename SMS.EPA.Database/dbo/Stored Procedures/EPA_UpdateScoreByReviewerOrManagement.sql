@@ -1,4 +1,5 @@
 ﻿
+
 CREATE PROCEDURE [dbo].[EPA_UpdateScoreByReviewerOrManagement] @EPAId INT
 	,@ProcessId TINYINT
 	,@EmployeeId INT
@@ -13,15 +14,10 @@ AS
 Created: 20150828@Tim.Trinh
 Task: Set KPI score.
 DB: SMSEPA
-Original: 
+Original:
 
-Revisions:  
+Revisions:
 Param's Explanation:
-• @ErrCode:
-	= 0: Transaction recorded successfully.
-	> 0: Specific Error.
-• @ErrMsg: Error description.
-
 */
 BEGIN
 	SET NOCOUNT ON;

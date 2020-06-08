@@ -9,23 +9,11 @@ AS
 Created: 20140426@Quinn.Vo
 Task: Add KPI group into Target template.
 DB: SMSEPA
-Original: 
+Original:
 
-Revisions:  
+Revisions:
 Param's Explanation:
-• @KPIGroups=N'<ROOT>
-		 <KPIGroup
-			KPIGroupId="1" 
-			Weight="3"
-			DisplayOrder = "1"
-			IsSpreadKPI='1'>
-		  </KPIGroup>
-		  </ROOT>'
-• @ErrCode:
-	= 0: Transaction recorded successfully.
-	> 0: Specific Error.
-• @ErrMsg: Error description.
-
+	• @KPIGroups=N'<ROOT><KPIGroup KPIGroupId="1" Weight="3" DisplayOrder = "1" IsSpreadKPI='1' /></ROOT>'
 */
 BEGIN
 	SET NOCOUNT ON;

@@ -1,5 +1,6 @@
 ﻿
 
+
 CREATE PROCEDURE [dbo].[SettingEmployeeFlow_Set] @EmployeeIds NVARCHAR(MAX)
 	,@FlowTemplateId INT
 	,@FlowDetails NVARCHAR(MAX)
@@ -11,20 +12,16 @@ AS
 Created: 20150722@Tim.Trinh
 Task: Save employee flow setting.
 DB: SMSEPA
-Original: 
+Original:
 
-Revisions:  
+Revisions:
 Param's Explanation:
-• @FlowDetails:
-    N'<ROOT>
-		  <Process ProcessId="1" Duration="1" HasSendMail="True" RemindDay="1">
-		      <Evaluator EvaluatorId="125"  Priority="1" />
-		  </Process>
-    </ROOT>'
-• @ErrCode:
-	= 0: Transaction recorded successfully.
-	> 0: Specific Error.
-• @ErrMsg: Error description.
+	• @FlowDetails:
+		N'<ROOT>
+			  <Process ProcessId="1" Duration="1" HasSendMail="True" RemindDay="1">
+				  <Evaluator EvaluatorId="125"  Priority="1" />
+			  </Process>
+		</ROOT>'
 */
 BEGIN
 	SET NOCOUNT ON
