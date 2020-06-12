@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.902
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Business", "Business", "{829FE15F-60A7-40AF-B3C8-03D0760BC522}"
 EndProject
@@ -52,6 +52,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SonarQube", "SonarQube", "{
 		GlobalSuppressions.cs = GlobalSuppressions.cs
 		SonarQube\SMS-EPACSharp.ruleset = SonarQube\SMS-EPACSharp.ruleset
 		SonarQube\SolutionBinding.sqconfig = SonarQube\SolutionBinding.sqconfig
+		SonarQube\sms-epa\CSharp\SonarLint.xml = SonarQube\sms-epa\CSharp\SonarLint.xml
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "API", "API", "{32FD6659-4EE4-4B2B-856F-06DE6B88E466}"
@@ -144,5 +145,6 @@ Global
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		EnterpriseLibraryConfigurationToolBinariesPathV6 = packages\EnterpriseLibrary.Common.6.0.1304.0\lib\NET45;packages\EnterpriseLibrary.Logging.6.0.1304.0\lib\NET45
+		SolutionGuid = {97007D09-2FF5-4296-91B4-D3F93E463D5C}
 	EndGlobalSection
 EndGlobal

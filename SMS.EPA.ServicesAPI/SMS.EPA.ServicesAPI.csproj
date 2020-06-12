@@ -257,6 +257,9 @@
     <Compile Include="Utilities\AppConfig.cs" />
   </ItemGroup>
   <ItemGroup>
+    <AdditionalFiles Include="..\SonarQube\sms-epa\CSharp\SonarLint.xml">
+      <Link>SonarLint.xml</Link>
+    </AdditionalFiles>
     <Content Include="App_Data\SpName.xml" />
     <Content Include="logs\log.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>

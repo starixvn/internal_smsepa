@@ -131,6 +131,9 @@
     <None Include="packages.config" />
     <None Include="SMS.EPA.AutoService.Debug.ruleset" />
     <None Include="SMS.EPA.AutoService.ruleset" />
+    <AdditionalFiles Include="..\SonarQube\sms-epa\CSharp\SonarLint.xml">
+      <Link>SonarLint.xml</Link>
+    </AdditionalFiles>
     <Content Include="logs\log.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
