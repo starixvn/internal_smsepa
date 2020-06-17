@@ -71,26 +71,24 @@
 
         function spreadScoreForKPIGroupHasKPIOptional(kpiGroup, maxStar) {
             var kpis = [],
-                averageWeight = 0,
-                kpiScoreNotEvaluate = 0;
+                totalScoreEvaluate = 0,
+                totalScoreNotEvaluate = 0;
 
             EvaluationModel.scoreSpread(kpiGroup);
 
             angular.forEach(kpiGroup.KPIs, function (kpi) {
                 if (kpi.IsRequiredEvaluate || kpi.CurrentEvaluation.Rate > 0) {
+                    totalScoreEvaluate += kpi.Weight;
                     kpis.push(kpi);
                 }
 
                 if (!kpi.IsRequiredEvaluate && kpi.CurrentEvaluation.Rate === 0) {
-                    kpiScoreNotEvaluate += kpi.Weight;
+                    totalScoreNotEvaluate += kpi.Weight;
                 }
             });
 
-            averageWeight = kpiScoreNotEvaluate / kpis.length;
-            averageWeight = utilitiesFactory.splitNumber(averageWeight, 4);
-
             angular.forEach(kpis, function (kpi) {
-                var weight = kpi.Weight + averageWeight;
+                var weight = kpi.Weight + (totalScoreNotEvaluate / totalScoreEvaluate) * kpi.Weight;
                 var score = weight * kpi.CurrentEvaluation.Rate / maxStar;
                 kpi.CurrentEvaluation.Score = utilitiesFactory.splitNumber(score, 4);
             });
