@@ -5,29 +5,27 @@
         </ul>
     </div>
     <div class="col-sm-12">
-        <form novalidate class="row filter form-horizontal" role="form">
+        <form novalidate class="form-filter" role="form">
             <div class="form-group">
-                <label class="col-sm-1 control-label" data-translate="Period"></label>
-                <div class="col-sm-2">
-                    <select class="form-control" ng-model="feedbackSettingCtrl.filter.periodId"
-                            ng-options="opt.PeriodId as opt.Name for opt in feedbackSettingCtrl.periodOptions">
-                        <option value="" style="display: none">-- {{"All" | translate}} --</option>
-                    </select>
-                </div>
-                <label class="col-sm-1 control-label">Dept./Section</label>
-                <div class="col-sm-2">
-                    <select class="form-control" ng-model="feedbackSettingCtrl.filter.departmentId"
-                            ng-options="opt.DepartmentId as opt.Name for opt in feedbackSettingCtrl.treeDepartment"></select>
-                </div>
-                <label class="col-sm-1 control-label" data-translate="Employee"></label>
-                <div class="col-sm-2">
-                    <input class="form-control" ng-model="feedbackSettingCtrl.searchEmployee"
-                           placeholder="Enter full name or nickname" search-auto-complete search-employees="feedbackSettingCtrl.getEmployee()"
-                           ng-change="feedbackSettingCtrl.unSelectEmployee()" employee="feedbackSettingCtrl.filter.employee" />
-                </div>
-                <div class="col-sm-1">
-                    <button class="btn btn-primary" ng-click="feedbackSettingCtrl.query()" data-translate="Submit"></button>
-                </div>
+                <label class="label-form" data-translate="Period"></label>
+                <select class="form-control select-form" ng-model="feedbackSettingCtrl.filter.periodId"
+                        ng-options="opt.PeriodId as opt.Name for opt in feedbackSettingCtrl.periodOptions">
+                    <option value="" style="display: none">-- {{"All" | translate}} --</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label class="label-form" data-translate="DepartmentSection"></label>
+                <select class="form-control select-form" ng-model="feedbackSettingCtrl.filter.departmentId"
+                        ng-options="opt.DepartmentId as opt.Name for opt in feedbackSettingCtrl.treeDepartment"></select>
+            </div>
+            <div class="form-group">
+                <label class="label-form" data-translate="Employee"></label>
+                <input class="form-control input-form" ng-model="feedbackSettingCtrl.searchEmployee"
+                       placeholder="Enter full name or nickname" search-auto-complete search-employees="feedbackSettingCtrl.getEmployee()"
+                       ng-change="feedbackSettingCtrl.unSelectEmployee()" employee="feedbackSettingCtrl.filter.employee" />
+            </div>
+            <div class="form-group">
+                <button class="btn btn-primary" ng-click="feedbackSettingCtrl.query()" data-translate="Submit"></button>
             </div>
         </form>
         <table class="row table table-bordered table-striped">

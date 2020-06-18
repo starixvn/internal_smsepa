@@ -727,7 +727,7 @@
     <value>Member EPA</value>
   </data>
   <data name="DepartmentSection" xml:space="preserve">
-    <value>Department / Section</value>
+    <value>Dept./Section</value>
   </data>
   <data name="DisciplineScore" xml:space="preserve">
     <value>Discipline Score</value>
@@ -1135,7 +1135,7 @@
     <value>Rating Type</value>
   </data>
   <data name="RequiredCommentForRatingMaxScore" xml:space="preserve">
-    <value>Comment is required for rating max score</value>
+    <value>Comment is required for rating max score.</value>
   </data>
   <data name="RequiredComment" xml:space="preserve">
     <value>Comment is required</value>

@@ -115,6 +115,12 @@
             color: #f67f46;
         }
     }
+
+    .panel-default > .panel-heading {
+        padding: 4px 8px;
+        cursor: pointer;
+        text-transform: uppercase;
+    }
 }
 
 .general-info {
@@ -127,7 +133,6 @@
         background-color: #fff;
         height: 105px;
         width: 105px;
-        margin: 10px auto;
         border-radius: 3px;
         text-align: center;
         float: left;
@@ -140,7 +145,7 @@
     }
 
     .row-item {
-        padding: 5px 0;
+        padding: 4px 0;
 
         &.line {
             border-bottom: 1px solid #e5e3e3;
@@ -166,6 +171,139 @@
 
         .column-limit {
             width: 60%;
+        }
+    }
+}
+
+.evaluation-detail {
+    .kpi-group-item-wrapper {
+        border-bottom: 1px solid #aaa;
+
+        .kpi-item-wrapper {
+            border-left: 1px solid #aaa;
+            border-right: 1px solid #aaa;
+            padding: 0 8px 8px;
+        }
+
+        .kpi-group, .kpi-group-wrapper {
+            color: #fff;
+            background-color: #8b8f9e;
+            cursor: pointer;
+            padding: 4px 8px;
+            border-bottom: 1px solid #fff;
+        }
+
+        .kpi-wrapper {
+            display: grid;
+            grid-template-columns: auto 260px;
+            grid-column-gap: 10px;
+            align-items: center;
+
+            .kpi {
+                .description {
+                    color: #535353;
+                    font-style: italic;
+                    font-size: 12px;
+                }
+            }
+
+            .rating-by-star {
+                display: grid;
+                grid-template-columns: 15px 160px 70px;
+                grid-column-gap: 10px;
+                align-items: center;
+
+                .clear-rating a {
+                    color: #de5245;
+                    font-size: 16px;
+                }
+
+                .rating-form {
+                    .rating-xs {
+                        font-size: 1em;
+                    }
+
+                    .glyphicon {
+                        font-size: 25px;
+                        color: #4493c4;
+
+                        &.glyphicon-star {
+                            color: #f67f46;
+                        }
+                    }
+                }
+
+                .score {
+                    .badge {
+                        width: 55px;
+                        font-weight: normal;
+                        font-size: 11px;
+                    }
+                }
+            }
+
+            .rating-by-score {
+                display: grid;
+                align-items: center;
+
+                input {
+                    padding: 5px !important;
+                    height: 24px !important;
+                    width: 85px;
+                    margin: 0 auto;
+                    border-radius: 0;
+                    box-shadow: none;
+                }
+            }
+        }
+
+        .comment-wrapper {
+            display: grid;
+            grid-template-columns: 15px auto 80px;
+            grid-column-gap: 10px;
+        }
+
+        .tooltip .tooltip-inner {
+            max-width: 250px !important;
+            padding: 0px 8px;
+            text-align: center;
+        }
+
+        textarea {
+            height: 2.5em;
+            color: #39f;
+            resize: vertical;
+        }
+    }
+}
+
+.evaluator-form {
+    .evaluation-detail {
+        .kpi-group-item-wrapper {
+            .kpi-group-wrapper {
+                display: grid;
+                grid-template-columns: auto 100px 100px 260px;
+                grid-column-gap: 10px;
+                align-items: center;
+            }
+
+            .kpi-wrapper {
+                grid-template-columns: auto 100px 100px 260px;
+            }
+
+            .collapse-expanse {
+                color: #39f;
+                display: flex;
+                align-items: center;
+
+                .icon-minus, .icon-plus {
+                    margin-left: 4px;
+                }
+            }
+
+            .comment-wrapper {
+                grid-template-columns: auto 80px;
+            }
         }
     }
 }
@@ -359,16 +497,8 @@
         border-radius: 0;
         box-shadow: none;
         height: 2.5em;
-        resize: none;
-        -moz-transition: all 0.5s ease;
-        -o-transition: all 0.5s ease;
-        -webkit-transition: all 0.5s ease;
-        transition: all 0.5s ease;
-        color: #39F;
-
-        &:focus {
-            height: 8em;
-        }
+        color: #39f;
+        resize: vertical;
     }
 
     .table-summary {

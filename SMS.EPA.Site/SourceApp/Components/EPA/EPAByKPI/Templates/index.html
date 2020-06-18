@@ -5,40 +5,32 @@
         </ul>
     </div>
     <div class="col-sm-12">
-        <form novalidate class="row filter form-horizontal" role="form">
+        <form novalidate class="form-filter" role="form">
             <div class="form-group">
-                <div class="required">
-                    <label class="col-sm-1 control-label" data-translate="Period"></label>
-                    <div class="col-sm-2">
-                        <select class="form-control" ng-model="epaByKPICtrl.filter.periodId"
-                                ng-options="opt.PeriodId as opt.Name for opt in epaByKPICtrl.periods"
-                                ng-change="epaByKPICtrl.getTargetTemplateByPeriod(epaByKPICtrl.filter.periodId)">
-                            <option style="display: none" value="">-- {{"All" | translate}} --</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="required">
-                    <label class="col-sm-2 control-label" data-translate="TargetTemplate"></label>
-                    <div class="col-sm-2">
-                        <select class="form-control" ng-model="epaByKPICtrl.filter.targetTemplateId"
-                                ng-options="opt.TargetTemplateId as opt.Name for opt in epaByKPICtrl.targetTemplates"
-                                ng-change="epaByKPICtrl.getEvaluatorsByTargetTemplate(epaByKPICtrl.filter.periodId, epaByKPICtrl.filter.targetTemplateId)">
-                            <option style="display: none" value="">-- {{"All" | translate}} --</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="required">
-                    <label class="col-sm-1 control-label" data-translate="Evaluator"></label>
-                    <div class="col-sm-2">
-                        <select class="form-control" ng-model="epaByKPICtrl.filter.evaluatorId"
-                                ng-options="opt.EmployeeId as opt.NickName for opt in epaByKPICtrl.evaluators">
-                            <option style="display: none" value="">-- {{"All" | translate}} --</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="col-sm-1">
-                    <button class="btn btn-primary" ng-click="epaByKPICtrl.getKPIByToView(epaByKPICtrl.filter)" data-translate="Submit"></button>
-                </div>
+                <label class="label-form required" data-translate="Period"></label>
+                <select class="form-control select-form" ng-model="epaByKPICtrl.filter.periodId"
+                        ng-options="opt.PeriodId as opt.Name for opt in epaByKPICtrl.periods"
+                        ng-change="epaByKPICtrl.getTargetTemplateByPeriod(epaByKPICtrl.filter.periodId)">
+                    <option style="display: none" value="">-- {{"All" | translate}} --</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label class="label-form label-form--l required" data-translate="TargetTemplate"></label>
+                <select class="form-control select-form" ng-model="epaByKPICtrl.filter.targetTemplateId"
+                        ng-options="opt.TargetTemplateId as opt.Name for opt in epaByKPICtrl.targetTemplates"
+                        ng-change="epaByKPICtrl.getEvaluatorsByTargetTemplate(epaByKPICtrl.filter.periodId, epaByKPICtrl.filter.targetTemplateId)">
+                    <option style="display: none" value="">-- {{"All" | translate}} --</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label class="label-form required" data-translate="Evaluator"></label>
+                <select class="form-control select-form" ng-model="epaByKPICtrl.filter.evaluatorId"
+                        ng-options="opt.EmployeeId as opt.NickName for opt in epaByKPICtrl.evaluators">
+                    <option style="display: none" value="">-- {{"All" | translate}} --</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <button class="btn btn-primary" ng-click="epaByKPICtrl.getKPIByToView(epaByKPICtrl.filter)" data-translate="Submit"></button>
             </div>
         </form>
     </div>

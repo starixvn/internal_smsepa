@@ -5,41 +5,41 @@
         </ul>
     </div>
     <div class="col-sm-12">
-        <form novalidate class="row filter form-horizontal" role="form">
+        <form novalidate class="form-filter" role="form">
             <div class="form-group">
-                <label class="col-sm-2 control-label" data-translate="EvaluationPeriod"></label>
-                <div class="col-sm-2">
-                    <select class="form-control" ng-model="monthlyDetailReportCtrl.filter.periodId"
-                            ng-options="opt.PeriodId as opt.Name group by opt.Year for opt in monthlyDetailReportCtrl.periods">
-                        <option style="display: none" value="">-- {{"All" | translate}} --</option>
-                    </select>
-                </div>
-                <label class="col-sm-2 control-label" data-translate="ScoredBy"></label>
-                <div class="col-sm-2">
+                <label class="label-form" data-translate="EvaluationPeriod"></label>
+                <select class="form-control select-form" ng-model="monthlyDetailReportCtrl.filter.periodId"
+                        ng-options="opt.PeriodId as opt.Name group by opt.Year for opt in monthlyDetailReportCtrl.periods">
+                    <option style="display: none" value="">-- {{"All" | translate}} --</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label class="label-form" data-translate="ScoredBy"></label>
+                <div class="select-form">
                     <epa-add-class-to-role-filter class="multi-select" multi-select input-model="monthlyDetailReportCtrl.scoredBy" button-label="Name"
                                                   helper-elements="all reset" item-label="Name" tick-property="ticked" max-labels="0">
                     </epa-add-class-to-role-filter>
                 </div>
             </div>
-            <div class="form-group last">
-                <label class="col-sm-2 control-label" data-translate="DepartmentSection"></label>
-                <div class="col-sm-2">
-                    <select class="form-control" ng-model="monthlyDetailReportCtrl.filter.departmentId"
-                            ng-options="opt.DepartmentId as opt.Name for opt in monthlyDetailReportCtrl.treeDepartment">
-                        <option value="">-- {{"All" | translate}} --</option>
-                    </select>
-                </div>
-                <label class="col-sm-2 control-label" data-translate="Category"></label>
-                <div class="col-sm-2">
-                    <select class="form-control" ng-model="monthlyDetailReportCtrl.filter.isLocal">
-                        <option value="">-- {{"All" | translate}} --</option>
-                        <option value="false">{{"Expat" | translate}}</option>
-                        <option value="true">{{"Local" | translate}}</option>
-                    </select>
-                </div>
-                <div class="col-sm-offset-1 col-sm-1">
-                    <button class="btn btn-primary btn-search" ng-click="monthlyDetailReportCtrl.query(monthlyDetailReportCtrl.filter)" data-translate="Search"></button>
-                </div>
+            <div class="form-group">
+                <label class="label-form" data-translate="DepartmentSection"></label>
+                <select class="form-control select-form" ng-model="monthlyDetailReportCtrl.filter.departmentId"
+                        ng-options="opt.DepartmentId as opt.Name for opt in monthlyDetailReportCtrl.treeDepartment">
+                    <option value="">-- {{"All" | translate}} --</option>
+                </select>
+            </div>
+            <div class="form-group"></div>
+            <div class="form-group">
+                <label class="label-form" data-translate="Category"></label>
+                <select class="form-control select-form" ng-model="monthlyDetailReportCtrl.filter.isLocal">
+                    <option value="">-- {{"All" | translate}} --</option>
+                    <option value="false">{{"Expat" | translate}}</option>
+                    <option value="true">{{"Local" | translate}}</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label class="label-form"></label>
+                <button class="btn btn-primary" ng-click="monthlyDetailReportCtrl.query(monthlyDetailReportCtrl.filter)" data-translate="Search"></button>
             </div>
         </form>
     </div>

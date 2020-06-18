@@ -5,32 +5,32 @@
         </ul>
     </div>
     <div class="col-sm-12">
-        <form novalidate class="row filter form-horizontal" role="form">
-            <div class="form-group last">
-                <label class="col-sm-2 col-percent-14 control-label" data-translate="EvaluationPeriod"></label>
-                <div class="col-sm-2">
+        <form novalidate class="form-filter" role="form">
+            <div class="form-group">
+                <label class="label-form" data-translate="EvaluationPeriod"></label>
+                <div class="select-form">
                     <epa-add-class-to-role-filter class="multi-select" multi-select input-model="monthlySummaryReportCtrl.periods" button-label="Name"
                                                   helper-elements="all reset filter" item-label="Name" tick-property="ticked" group-property="msGroup" max-labels="0">
                     </epa-add-class-to-role-filter>
                 </div>
-                <label class="col-sm-2 col-percent-14 control-label" data-translate="DepartmentSection"></label>
-                <div class="col-sm-2">
-                    <select class="form-control" ng-model="monthlySummaryReportCtrl.filter.departmentId"
-                            ng-options="opt.DepartmentId as opt.Name for opt in monthlySummaryReportCtrl.treeDepartment">
-                        <option value="">-- {{"All" | translate}} --</option>
-                    </select>
-                </div>
-                <label class="col-sm-1 control-label" data-translate="Category"></label>
-                <div class="col-sm-2">
-                    <select class="form-control" ng-model="monthlySummaryReportCtrl.filter.isLocal">
-                        <option value="">-- {{"All" | translate}} --</option>
-                        <option value="false">{{"Expat" | translate}}</option>
-                        <option value="true">{{"Local" | translate}}</option>
-                    </select>
-                </div>
-                <div class="col-sm-1">
-                    <button class="btn btn-primary" ng-click="monthlySummaryReportCtrl.query()" data-translate="Search"></button>
-                </div>
+            </div>
+            <div class="form-group">
+                <label class="label-form" data-translate="DepartmentSection"></label>
+                <select class="form-control select-form" ng-model="monthlySummaryReportCtrl.filter.departmentId"
+                        ng-options="opt.DepartmentId as opt.Name for opt in monthlySummaryReportCtrl.treeDepartment">
+                    <option value="">-- {{"All" | translate}} --</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label class="label-form" data-translate="Category"></label>
+                <select class="form-control select-form" ng-model="monthlySummaryReportCtrl.filter.isLocal">
+                    <option value="">-- {{"All" | translate}} --</option>
+                    <option value="false">{{"Expat" | translate}}</option>
+                    <option value="true">{{"Local" | translate}}</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <button class="btn btn-primary" ng-click="monthlySummaryReportCtrl.query()" data-translate="Search"></button>
             </div>
         </form>
     </div>

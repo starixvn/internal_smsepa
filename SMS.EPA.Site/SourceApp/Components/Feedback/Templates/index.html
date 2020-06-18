@@ -5,19 +5,16 @@
         </ul>
     </div>
     <div class="col-sm-12">
-        <form novalidate class="row filter form-horizontal" role="form">
+        <form novalidate class="form-filter" role="form">
             <div class="form-group">
-                <label class="col-sm-1 control-label" data-translate="Period"></label>
-                <div class="col-sm-2">
-                    <select class="form-control" ng-model="feedbackCtrl.filter.periodId"
-                            ng-options="opt.PeriodId as opt.Name for opt in feedbackCtrl.periodOptions">
-                        <option value="" style="display: none">-- {{"All" | translate}} --</option>
-                    </select>
-                </div>
-                <label class="col-sm-1 control-label">&nbsp;</label>
-                <div class="col-sm-1">
-                    <button class="btn btn-primary" ng-click="feedbackCtrl.query()" data-translate="Submit"></button>
-                </div>
+                <label class="label-form" data-translate="Period"></label>
+                <select class="form-control select-form" ng-model="feedbackCtrl.filter.periodId"
+                        ng-options="opt.PeriodId as opt.Name for opt in feedbackCtrl.periodOptions">
+                    <option value="" style="display: none">-- {{"All" | translate}} --</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <button class="btn btn-primary" ng-click="feedbackCtrl.query()" data-translate="Submit"></button>
             </div>
         </form>
         <table class="row table table-bordered table-striped">

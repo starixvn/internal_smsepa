@@ -5,52 +5,48 @@
         </ul>
     </div>
     <div class="col-sm-12">
-        <form novalidate class="row filter form-horizontal" role="form">
+        <form novalidate class="form-filter" role="form">
             <div class="form-group">
-                <label class="col-sm-1 control-label" data-translate="Period"></label>
-                <div class="col-sm-2">
-                    <select class="form-control" ng-model="managementCtrl.filter.periodId"
-                            ng-options="opt.PeriodId as opt.Name for opt in managementCtrl.periodOptions" ng-change="managementCtrl.getGroup()">
-                        <option value="" style="display: none">-- {{"All" | translate}} --</option>
-                    </select>
-                </div>
-                <label class="col-sm-1 control-label" data-translate="Section"></label>
-                <div class="col-sm-2">
-                    <select class="form-control" ng-model="managementCtrl.filter.groupId"
-                            ng-options="opt.GroupId as opt.GroupName for opt in managementCtrl.groupOptions" ng-change="managementCtrl.getMember()">
-                        <option value="">-- {{"All" | translate}} --</option>
-                    </select>
-                </div>
+                <label class="label-form" data-translate="Period"></label>
+                <select class="form-control select-form" ng-model="managementCtrl.filter.periodId"
+                        ng-options="opt.PeriodId as opt.Name for opt in managementCtrl.periodOptions" ng-change="managementCtrl.getGroup()">
+                    <option value="" style="display: none">-- {{"All" | translate}} --</option>
+                </select>
             </div>
             <div class="form-group">
-                <label class="col-sm-1 control-label" data-translate="Category"></label>
-                <div class="col-sm-2">
-                    <select class="form-control" ng-model="managementCtrl.filter.isLocal"
-                            ng-change="managementCtrl.getMember()">
-                        <option value="">-- {{"All" | translate}} --</option>
-                        <option value="false">{{"Expat" | translate}}</option>
-                        <option value="true">{{"Local" | translate}}</option>
-                    </select>
-                </div>
-                <label class="col-sm-1 control-label" data-translate="Employee"></label>
-                <div class="col-sm-2">
+                <label class="label-form" data-translate="Section"></label>
+                <select class="form-control select-form" ng-model="managementCtrl.filter.groupId"
+                        ng-options="opt.GroupId as opt.GroupName for opt in managementCtrl.groupOptions" ng-change="managementCtrl.getMember()">
+                    <option value="">-- {{"All" | translate}} --</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label class="label-form" data-translate="Category"></label>
+                <select class="form-control select-form" ng-model="managementCtrl.filter.isLocal"
+                        ng-change="managementCtrl.getMember()">
+                    <option value="">-- {{"All" | translate}} --</option>
+                    <option value="false">{{"Expat" | translate}}</option>
+                    <option value="true">{{"Local" | translate}}</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label class="label-form" data-translate="Employee"></label>
+                <div class="select-form">
                     <epa-add-class-to-role-filter class="multi-select" multi-select input-model="managementCtrl.members" button-label="EmployeeId"
                                                   helper-elements="all reset filter" item-label="DisplayName" tick-property="ticked" max-labels="0">
                     </epa-add-class-to-role-filter>
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-sm-1 control-label" data-translate="Status"></label>
-                <div class="col-sm-2">
-                    <select class="form-control" ng-model="managementCtrl.filter.statusProcess"
-                            ng-options="opt.Value as opt.Name for opt in managementCtrl.statusProcesses">
-                        <option value="">-- {{"All" | translate}} --</option>
-                    </select>
-                </div>
-                <label class="col-sm-1 control-label">&nbsp;</label>
-                <div class="col-sm-1">
-                    <button class="btn btn-primary" ng-click="managementCtrl.query(managementCtrl.filter)" data-translate="Submit"></button>
-                </div>
+                <label class="label-form" data-translate="Status"></label>
+                <select class="form-control select-form" ng-model="managementCtrl.filter.statusProcess"
+                        ng-options="opt.Value as opt.Name for opt in managementCtrl.statusProcesses">
+                    <option value="">-- {{"All" | translate}} --</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label class="label-form">&nbsp;</label>
+                <button class="btn btn-primary" ng-click="managementCtrl.query(managementCtrl.filter)" data-translate="Submit"></button>
             </div>
         </form>
         <table class="row table table-bordered table-striped">

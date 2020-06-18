@@ -102,11 +102,21 @@ a {
 }
 
 .loading-process {
-    background: rgba(255, 255, 255, .7) url('../images/loading.gif') 45% 45% no-repeat;
+    background: rgba(255, 255, 255, 0.7) no-repeat;
     height: 100%;
     width: 100%;
     position: fixed;
-    z-index: 9998;
+    top: 0;
+    z-index: 9999;
+
+    .icon-loading {
+        position: absolute;
+        top: 30%;
+        width: 64px;
+        height: 64px;
+        left: 50%;
+        margin: -10px 0 0 -70px;
+    }
 }
 
 .txt-warning {

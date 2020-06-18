@@ -12,9 +12,7 @@
             </div>
 
             <div class="panel panel-default">
-                <div class="panel-heading" data-toggle="collapse" data-target=".generalInfo">
-                    <h4 class="panel-title" data-translate="GeneralInfo"></h4>
-                </div>
+                <div class="panel-heading" data-toggle="collapse" data-target=".generalInfo" data-translate="GeneralInfo"></div>
                 <div class="panel-collapse collapse in generalInfo">
                     <div class="panel-body general-info">
                         <epa-general-infomation data-is-view-detail="empDetailCtrl.isViewDetail"
@@ -26,9 +24,7 @@
             </div>
 
             <div class="panel panel-default">
-                <div class="panel-heading" data-toggle="collapse" data-target=".evaluationProcess">
-                    <h4 class="panel-title text-uppercase" data-translate="EvaluationProcess"></h4>
-                </div>
+                <div class="panel-heading" data-toggle="collapse" data-target=".evaluationProcess" data-translate="EvaluationProcess"></div>
                 <div class="panel-collapse collapse in evaluationProcess" auto-collapse data-collapsed="true">
                     <div class="panel-body evaluation-process-section">
                         <epa-evaluation-process data-epa-info="empDetailCtrl.epaInfo"></epa-evaluation-process>
@@ -37,9 +33,7 @@
             </div>
 
             <div class="panel panel-default">
-                <div class="panel-heading" data-toggle="collapse" data-target=".ratingInstruction">
-                    <h4 class="panel-title" data-translate="RatingInstruction"></h4>
-                </div>
+                <div class="panel-heading" data-toggle="collapse" data-target=".ratingInstruction" data-translate="RatingInstruction"></div>
                 <div class="panel-collapse collapse ratingInstruction">
                     <div class="panel-body rating-instruction-section">
                         <div><span class="note">* {{"RatingCriteria" | translate}}: </span>{{"MessageRatingInstructions" | translate}}</div>
@@ -56,7 +50,7 @@
 
             <div class="panel panel-default" ng-if="empDetailCtrl.epaInfo.ExtendedQuestion != null && empDetailCtrl.epaInfo.ExtendedQuestion.SubQuestions.length">
                 <div class="panel-heading" data-toggle="collapse" data-target=".extendedQuestion">
-                    <h4 class="panel-title">{{empDetailCtrl.epaInfo.ExtendedQuestion.QuestionContent}}</h4>
+                    {{empDetailCtrl.epaInfo.ExtendedQuestion.QuestionContent}}
                 </div>
                 <div class="row panel-collapse collapse-expanse extendedQuestion">
                     <div class="panel-body" ng-repeat="question in empDetailCtrl.epaInfo.ExtendedQuestion.SubQuestions">
@@ -88,9 +82,7 @@
             <div>&ensp;</div>
 
             <div class="panel panel-default">
-                <div class="panel-heading" data-toggle="collapse" data-target=".summary">
-                    <h4 class="panel-title" data-translate="Summary"></h4>
-                </div>
+                <div class="panel-heading" data-toggle="collapse" data-target=".summary" data-translate="Summary"></div>
                 <div class="panel-collapse collapse in summary">
                     <div class="panel-body summary-section" ng-include src="'/SourceApp/Components/EPA/Self/Templates/summary.html'"></div>
                 </div>

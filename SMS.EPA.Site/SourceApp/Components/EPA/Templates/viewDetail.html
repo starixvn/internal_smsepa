@@ -12,9 +12,7 @@
             </div>
 
             <div class="panel panel-default">
-                <div class="panel-heading" data-toggle="collapse" data-target=".generalInfo">
-                    <h4 class="panel-title" data-translate="GeneralInfo"></h4>
-                </div>
+                <div class="panel-heading" data-toggle="collapse" data-target=".generalInfo" data-translate="GeneralInfo"></div>
                 <div class="panel-collapse collapse in generalInfo">
                     <div class="panel-body general-info">
                         <epa-general-infomation data-is-view-detail="epaDetailCtrl.isViewDetail"
@@ -29,9 +27,7 @@
             <any ng-switch="epaDetailCtrl.epaInfo.IsSemiHasMonthly">
                 <any ng-switch-when="true">
                     <div class="panel panel-default">
-                        <div class="panel-heading" data-toggle="collapse" data-target=".performanceResult">
-                            <h4 class="panel-title text-uppercase" data-translate="PerformanceResult"></h4>
-                        </div>
+                        <div class="panel-heading" data-toggle="collapse" data-target=".performanceResult" data-translate="PerformanceResult"></div>
                         <div class="panel-collapse collapse in performanceResult">
                             <div class="panel-body summary-section">
                                 <epa-semi-performance-result data-epa-info="epaDetailCtrl.epaInfo"></epa-semi-performance-result>
@@ -43,9 +39,7 @@
 
                 <any ng-switch-default>
                     <div class="panel panel-default">
-                        <div class="panel-heading" data-toggle="collapse" data-target=".performanceResult">
-                            <h4 class="panel-title text-uppercase" data-translate="PerformanceResult"></h4>
-                        </div>
+                        <div class="panel-heading" data-toggle="collapse" data-target=".performanceResult" data-translate="PerformanceResult"></div>
                         <div class="panel-collapse collapse in performanceResult">
                             <div class="panel-body summary-section">
                                 <epa-performance-result data-epa-info="epaDetailCtrl.epaInfo"></epa-performance-result>
@@ -67,9 +61,7 @@
             <any ng-switch="epaDetailCtrl.epaInfo.IsSemiHasMonthly">
                 <any ng-switch-when="true">
                     <div class="panel panel-default">
-                        <div class="panel-heading" data-toggle="collapse" data-target=".monthlyEPAs">
-                            <h4 class="panel-title">{{"Monthly EPAs" | translate}}</h4>
-                        </div>
+                        <div class="panel-heading" data-toggle="collapse" data-target=".monthlyEPAs">{{"Monthly EPAs" | translate}}</div>
                         <div class="panel-collapse collapse in monthlyEPAs">
                             <div class="panel-body">
                                 <epa-monthly-result data-epa-info="epaDetailCtrl.epaInfo"></epa-monthly-result>

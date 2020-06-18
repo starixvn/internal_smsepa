@@ -1,0 +1,54 @@
+﻿.form-filter {
+    width: 1300px;
+    background-color: #f4f4f4;
+    border: 1px solid #ddd;
+    padding: 15px;
+    margin: 8px 0;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-column-gap: 10px;
+    grid-row-gap: 10px;
+
+    .form-group {
+        display: flex;
+        align-items: center;
+        margin: 0;
+
+        .label-form {
+            width: 100px;
+            text-align: right;
+            margin: 0 8px 0 0;
+
+            &.required {
+                position: relative;
+            }
+
+            &.required:after {
+                position: relative;
+                top: 2px;
+                margin-left: 4px;
+                content: "*";
+                color: #ff0000;
+            }
+
+            &.label-form--l {
+                width: 120px;
+            }
+        }
+
+        .form-control {
+            font-size: 13px;
+            height: 27px;
+            padding: 3px 4px;
+        }
+
+        .select-form, .calendar-form, .input-form {
+            width: 180px;
+        }
+
+        .checkbox-form {
+            width: 180px;
+            margin: 0;
+        }
+    }
+}

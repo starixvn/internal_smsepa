@@ -12,9 +12,7 @@
      ng-init="performanceDetailCtrl.collapses[kpiGroup.Name] = false;" ng-if="kpiGroup.KPIs.length > 0">
     <div class="panel panel-default">
         <div class="panel-heading" data-toggle="collapse" data-target=".kpiGroup-{{$index}}">
-            <h4 class="panel-title">
-                {{kpiGroup.Name}} <strong>({{kpiGroup.Weight | customScore}} pts)</strong>
-            </h4>
+            {{kpiGroup.Name}} <strong>({{kpiGroup.Weight | customScore}} pts)</strong>
         </div>
         <div class="panel-collapse collapse in kpiGroup-{{$index}}">
             <div class="panel-body">

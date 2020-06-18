@@ -1,48 +1,43 @@
-﻿﻿<div ng-controller="UpdateFinalScoreController as updateFinalScoreCtrl">
+﻿<div ng-controller="UpdateFinalScoreController as updateFinalScoreCtrl">
     <div class="col-sm-12 sub-header">
         <ul class="row breadcrumb">
             <li class="current" data-translate="UpdateFinalScore"></li>
         </ul>
     </div>
     <div class="col-sm-12">
-        <form novalidate class="row form-horizontal filter">
+        <form novalidate class="form-filter">
             <div class="form-group">
-                <div class="required">
-                    <label class="col-sm-1 control-label" data-translate="Period"></label>
-                    <div class="col-sm-2">
-                        <select class="form-control" ng-model="updateFinalScoreCtrl.filter.periodId"
-                                ng-options="opt.PeriodId as opt.Name for opt in updateFinalScoreCtrl.periods">
-                            <option style="display: none" value="">-- {{"Select" | translate}} --</option>
-                        </select>
-                    </div>
-                </div>
-                <label class="col-sm-2 control-label" data-translate="DepartmentSection"></label>
-                <div class="col-sm-2">
-                    <select class="form-control" ng-model="updateFinalScoreCtrl.filter.departmentId"
-                            ng-options="opt.DepartmentId as opt.Name for opt in updateFinalScoreCtrl.treeDepartment">
-                        <option value="">-- {{"All" | translate}} --</option>
-                    </select>
-                </div>
-                <label class="col-sm-1 control-label" data-translate="Category"></label>
-                <div class="col-sm-2">
-                    <select class="form-control" ng-model="updateFinalScoreCtrl.filter.isLocal">
-                        <option value="">-- {{"All" | translate}} --</option>
-                        <option value="false">{{"Expat" | translate}}</option>
-                        <option value="true">{{"Local" | translate}}</option>
-                    </select>
-                </div>
+                <label class="label-form required" data-translate="Period"></label>
+                <select class="form-control select-form" ng-model="updateFinalScoreCtrl.filter.periodId"
+                        ng-options="opt.PeriodId as opt.Name for opt in updateFinalScoreCtrl.periods">
+                    <option style="display: none" value="">-- {{"Select" | translate}} --</option>
+                </select>
             </div>
             <div class="form-group">
-                <label class="col-sm-1 control-label" data-translate="Employee"></label>
-                <div class="col-sm-2">
-                    <input class="form-control" type="text" placeholder="full name or nick name"
-                           ng-model="updateFinalScoreCtrl.searchEmployee" search-auto-complete search-employees="updateFinalScoreCtrl.getEmployee()"
-                           ng-change="updateFinalScoreCtrl.unSelectEmployee()" employee="updateFinalScoreCtrl.filter.employee" />
-                </div>
-                <label class="col-sm-1 control-label"></label>
-                <div class="col-sm-1">
-                    <button class="btn btn-primary" ng-click="updateFinalScoreCtrl.getEPAToUpdateFinalScore(updateFinalScoreCtrl.filter)" data-translate="Submit"></button>
-                </div>
+                <label class="label-form" data-translate="DepartmentSection"></label>
+                <select class="form-control select-form" ng-model="updateFinalScoreCtrl.filter.departmentId"
+                        ng-options="opt.DepartmentId as opt.Name for opt in updateFinalScoreCtrl.treeDepartment">
+                    <option value="">-- {{"All" | translate}} --</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label class="label-form" data-translate="Category"></label>
+                <select class="form-control select-form" ng-model="updateFinalScoreCtrl.filter.isLocal">
+                    <option value="">-- {{"All" | translate}} --</option>
+                    <option value="false">{{"Expat" | translate}}</option>
+                    <option value="true">{{"Local" | translate}}</option>
+                </select>
+            </div>
+            <div class="form-group"></div>
+            <div class="form-group">
+                <label class="label-form" data-translate="Employee"></label>
+                <input class="form-control input-form" type="text" placeholder="full name or nick name"
+                       ng-model="updateFinalScoreCtrl.searchEmployee" search-auto-complete search-employees="updateFinalScoreCtrl.getEmployee()"
+                       ng-change="updateFinalScoreCtrl.unSelectEmployee()" employee="updateFinalScoreCtrl.filter.employee" />
+            </div>
+            <div class="form-group">
+                <label class="label-form"></label>
+                <button class="btn btn-primary" ng-click="updateFinalScoreCtrl.getEPAToUpdateFinalScore(updateFinalScoreCtrl.filter)" data-translate="Submit"></button>
             </div>
         </form>
     </div>

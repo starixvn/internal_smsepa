@@ -718,7 +718,7 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Department / Section.
+        ///   Looks up a localized string similar to Dept./Section.
         /// </summary>
         public static string DepartmentSection {
             get {
@@ -2851,7 +2851,7 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Comment is required for rating max score.
+        ///   Looks up a localized string similar to Comment is required for rating max score..
         /// </summary>
         public static string RequiredCommentForRatingMaxScore {
             get {

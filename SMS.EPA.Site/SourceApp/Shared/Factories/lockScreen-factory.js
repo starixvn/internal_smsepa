@@ -8,10 +8,10 @@
     function lockScreenService() {
         var service = {
             start: function () {
-                $('.loading-process').fadeIn();
+                $('#loadingProcess').fadeIn();
             },
             stop: function () {
-                $('.loading-process').fadeOut(300);
+                $('#loadingProcess').fadeOut(300);
             }
         };
 

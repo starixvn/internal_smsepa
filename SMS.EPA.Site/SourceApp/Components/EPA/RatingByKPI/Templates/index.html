@@ -5,28 +5,22 @@
         </ul>
     </div>
     <div class="col-sm-12">
-        <form novalidate class="row filter form-horizontal" role="form">
+        <form novalidate class="form-filter" role="form">
             <div class="form-group">
-                <div class="required">
-                    <label class="col-sm-1 control-label" data-translate="Period"></label>
-                    <div class="col-sm-2">
-                        <select class="form-control" ng-model="ratingByKPICtrl.filter.periodId"
-                                ng-options="opt.PeriodId as opt.Name for opt in ratingByKPICtrl.periods"
-                                ng-change="ratingByKPICtrl.getTargetTemplateByPeriod(ratingByKPICtrl.filter.periodId)">
-                            <option style="display: none" value="">-- {{"All" | translate}} --</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="required" ng-show="ratingByKPICtrl.filter.periodId > 0">
-                    <label class="col-sm-2 control-label" data-translate="TargetTemplate"></label>
-                    <div class="col-sm-2">
-                        <select class="form-control" ng-model="ratingByKPICtrl.filter.targetTemplateId"
-                                ng-options="opt.TargetTemplateId as opt.Name for opt in ratingByKPICtrl.targetTemplates"
-                                ng-change="ratingByKPICtrl.getKPIByTargetTemplate()">
-                            <option style="display: none" value="">-- {{"All" | translate}} --</option>
-                        </select>
-                    </div>
-                </div>
+                <label class="label-form required" data-translate="Period"></label>
+                <select class="form-control select-form" ng-model="ratingByKPICtrl.filter.periodId"
+                        ng-options="opt.PeriodId as opt.Name for opt in ratingByKPICtrl.periods"
+                        ng-change="ratingByKPICtrl.getTargetTemplateByPeriod(ratingByKPICtrl.filter.periodId)">
+                    <option style="display: none" value="">-- {{"All" | translate}} --</option>
+                </select>
+            </div>
+            <div class="form-group" ng-show="ratingByKPICtrl.filter.periodId > 0">
+                <label class="label-form label-form--l required" data-translate="TargetTemplate"></label>
+                <select class="form-control select-form" ng-model="ratingByKPICtrl.filter.targetTemplateId"
+                        ng-options="opt.TargetTemplateId as opt.Name for opt in ratingByKPICtrl.targetTemplates"
+                        ng-change="ratingByKPICtrl.getKPIByTargetTemplate()">
+                    <option style="display: none" value="">-- {{"All" | translate}} --</option>
+                </select>
             </div>
         </form>
     </div>
