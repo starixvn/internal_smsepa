@@ -13,7 +13,7 @@
             <div class="text-center" data-translate="IsZeroScore"></div>
             <div class="text-center">
                 <span data-translate="EvaluatorScore"></span>
-                <span ng-if="evaluatorDetailCtrl.viewBySelf()">({{evaluatorDetailCtrl.epaInfo.Process.CurrentProcess.EvaluatorInfo.NickName}})</span>
+                <span ng-if="!evaluatorDetailCtrl.viewBySelf()">({{evaluatorDetailCtrl.epaInfo.Process.CurrentProcess.EvaluatorInfo.NickName}})</span>
             </div>
         </div>
         <div ng-repeat="kpi in kpiGroup.KPIs" class="kpi-item-wrapper panel-collapse collapse in kpi-group-{{$parent.$index}}">
