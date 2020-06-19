@@ -4,41 +4,39 @@
             <li class="current" data-translate="DisciplineSummary"></li>
         </ul>
     </div>
-    <form novalidate class="row form-horizontal filter">
+    <form novalidate class="form-filter">
         <div class="form-group">
-            <label class="col-sm-1 control-label" data-translate="Department"></label>
-            <div class="col-sm-2 field">
-                <select class="department-select form-control" ng-model="disciplineCtrl.filter.departmentId"
-                        ng-options="opt.DepartmentId as opt.Name for opt in disciplineCtrl.treeDepartment">
-                    <option value="">-- Select a Department / Section --</option>
-                </select>
-            </div>
-            <label class="col-sm-1 control-label" data-translate="Category"></label>
-            <div class="col-sm-2">
-                <select class="form-control" ng-model="disciplineCtrl.filter.isLocal">
-                    <option value="">-- {{"All" | translate}} --</option>
-                    <option value="false">{{"Expat" | translate}}</option>
-                    <option value="true">{{"Local" | translate}}</option>
-                </select>
-            </div>
-            <label class="col-sm-1 control-label" data-translate="Employee"></label>
-            <div class="col-sm-1 field">
-                <input class="form-control employee-search" ng-model="disciplineCtrl.searchEmployee"
-                       placeholder="Enter full name or nick name" search-auto-complete search-employees="disciplineCtrl.getEmployee()"
-                       ng-change="disciplineCtrl.unSelectEmployee()" employee="disciplineCtrl.filter.employee" />
-            </div>
+            <label class="label-form" data-translate="DepartmentSection"></label>
+            <select class="form-control select-form" ng-model="disciplineCtrl.filter.departmentId"
+                    ng-options="opt.DepartmentId as opt.Name for opt in disciplineCtrl.treeDepartment">
+                <option value="">-- Select a Dept./Section --</option>
+            </select>
         </div>
         <div class="form-group">
-            <label class="col-sm-1 control-label" data-translate="Reason"></label>
-            <div class="col-sm-2 field">
-                <select class="form-control" ng-model="disciplineCtrl.filter.reasonId"
-                        ng-options="opt.Id as opt.Name for opt in disciplineCtrl.disciplineTypes">
-                    <option value="">-- Select a Reason --</option>
-                </select>
-            </div>
-            <label class="col-sm-1 control-label" data-translate="StartDate"></label>
-            <div class="col-sm-2 field">
-                <p class="input-group calendar-input-group">
+            <label class="label-form" data-translate="Category"></label>
+            <select class="form-control select-form" ng-model="disciplineCtrl.filter.isLocal">
+                <option value="">-- {{"All" | translate}} --</option>
+                <option value="false">{{"Expat" | translate}}</option>
+                <option value="true">{{"Local" | translate}}</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label class="label-form" data-translate="Employee"></label>
+            <input class="form-control input-form" ng-model="disciplineCtrl.searchEmployee"
+                   placeholder="Enter full name or nick name" search-auto-complete search-employees="disciplineCtrl.getEmployee()"
+                   ng-change="disciplineCtrl.unSelectEmployee()" employee="disciplineCtrl.filter.employee" />
+        </div>
+        <div class="form-group">
+            <label class="label-form" data-translate="Reason"></label>
+            <select class="form-control select-form" ng-model="disciplineCtrl.filter.reasonId"
+                    ng-options="opt.Id as opt.Name for opt in disciplineCtrl.disciplineTypes">
+                <option value="">-- Select a Reason --</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label class="label-form" data-translate="StartDate"></label>
+            <div class="input-form">
+                <div class="input-group calendar-input-group">
                     <input readonly class="calendar-form-control date-detail-discipline" type="text"
                            ng-model="disciplineCtrl.filter.startDate" uib-datepicker-popup
                            ng-click="disciplineCtrl.openPopupStartDate($event)"
@@ -48,11 +46,13 @@
                             <i class="glyphicon glyphicon-calendar"></i>
                         </button>
                     </span>
-                </p>
+                </div>
             </div>
-            <label class="col-sm-1 control-label" data-translate="EndDate"></label>
-            <div class="col-sm-2 field">
-                <p class="input-group calendar-input-group">
+        </div>
+        <div class="form-group">
+            <label class="label-form" data-translate="EndDate"></label>
+            <div class="input-form">
+                <div class="input-group calendar-input-group">
                     <input readonly class="calendar-form-control date-detail-discipline" type="text"
                            ng-model="disciplineCtrl.filter.endDate" uib-datepicker-popup
                            ng-click="disciplineCtrl.openPopupEndDate($event)"
@@ -62,16 +62,20 @@
                             <i class="glyphicon glyphicon-calendar"></i>
                         </button>
                     </span>
-                </p>
+                </div>
             </div>
-            <div class="checkbox col-sm-1">
+        </div>
+        <div class="form-group">
+            <label class="label-form"></label>
+            <div class="checkbox checkbox-form">
                 <label>
                     <input type="checkbox" ng-model="disciplineCtrl.filter.isShowAll"> Show all
                 </label>
             </div>
-            <div class="col-sm-1">
-                <input type="button" value="Search" class="btn btn-primary" ng-click="disciplineCtrl.query(disciplineCtrl.filter)" />
-            </div>
+        </div>
+        <div class="form-group">
+            <label class="label-form"></label>
+            <button class="btn btn-primary" ng-click="disciplineCtrl.query(disciplineCtrl.filter)" data-translate="Search"></button>
         </div>
     </form>
     <table class="row table table-bordered table-striped">

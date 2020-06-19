@@ -4,17 +4,17 @@
             <li class="current" data-translate="EvaluationPeriod"></li>
         </ul>
     </div>
-    <form novalidate class="row form-inline filter">
+    <form novalidate class="form-filter">
         <div class="form-group">
-            <label data-translate="TargetType"></label>
-            <select class="form-control lstBox-limit" ng-model="periodCtrl.filter.targetTypeId"
+            <label class="label-form" data-translate="TargetType"></label>
+            <select class="form-control select-form" ng-model="periodCtrl.filter.targetTypeId"
                     ng-options="opt.TargetTypeId as opt.Name for opt in periodCtrl.targetTypes">
                 <option value="">-- {{"All" | translate}} --</option>
             </select>
         </div>
         <div class="form-group">
-            <label class="control-label" data-translate="Status"></label>
-            <select class="form-control" ng-model="periodCtrl.filter.isActive">
+            <label class="label-form" data-translate="Status"></label>
+            <select class="form-control select-form" ng-model="periodCtrl.filter.isActive">
                 <option value="">-- {{"All" | translate}} --</option>
                 <option selected value="true" data-translate="Active"></option>
                 <option value="false" data-translate="InActive"></option>

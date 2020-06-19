@@ -1,30 +1,36 @@
 ﻿<div ng-controller="TargetPersonnelSettingController as personnelCtrl">
-    <form novalidate class="row form-inline filter">
+    <form novalidate class="form-filter">
         <div class="form-group">
-            <label class="control-label" data-translate="Section"></label>
+            <label class="label-form" data-translate="Section"></label>
             <select ng-model="personnelCtrl.filter.groupId" ng-options="opt.GroupId as opt.GroupName for opt in personnelCtrl.groupOptions"
-                    class="form-control lstBox-limit">
+                    class="form-control select-form">
                 <option value="">-- {{"All" | translate}} --</option>
             </select>
         </div>
         <div class="form-group">
-            <label class="control-label" data-translate="Employee"></label>
-            <input class="form-control employee-search" type="text" placeholder="full name or nick name"
+            <label class="label-form" data-translate="Employee"></label>
+            <input class="form-control input-form" type="text" placeholder="full name or nick name"
                    ng-model="personnelCtrl.searchEmployee" search-auto-complete search-employees="personnelCtrl.getEmployee()"
                    ng-change="personnelCtrl.unSelectEmployee()" employee="personnelCtrl.filter.employee" />
         </div>
         <div class="form-group">
-            <label data-translate="TargetType"></label>
-            <select class="form-control lstBox-limit" ng-model="personnelCtrl.filter.targetTypeId"
+            <label class="label-form" data-translate="TargetType"></label>
+            <select class="form-control select-form" ng-model="personnelCtrl.filter.targetTypeId"
                     ng-options="opt.TargetTypeId as opt.Name for opt in personnelCtrl.targetTypes">
                 <option value="">-- {{"All" | translate}} --</option>
             </select>
         </div>
+        <div class="form-group"></div>
         <div class="form-group">
-            <label class="control-label" data-translate="ShowAll"></label>
-            <input class="form-control" type="checkbox" ng-model="personnelCtrl.filter.showAll" />
+            <label class="label-form"></label>
+            <div class="checkbox checkbox-form">
+                <label>
+                    <input type="checkbox" ng-model="personnelCtrl.filter.showAll"> Show all
+                </label>
+            </div>
         </div>
         <div class="form-group">
+            <label class="label-form"></label>
             <button class="btn btn-primary" ng-click="personnelCtrl.query(personnelCtrl.filter)" data-translate="Search"></button>
         </div>
     </form>

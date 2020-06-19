@@ -5,36 +5,37 @@
         </ul>
     </div>
 
-    <form novalidate class="row form-inline filter">
+    <form novalidate class="form-filter">
         <div class="form-group">
-            <label data-translate="Period"></label>
-            <select class="form-control lstBox-limit" ng-model="epaHistoryCtrl.filter.periodId"
+            <label class="label-form" data-translate="Period"></label>
+            <select class="form-control select-form" ng-model="epaHistoryCtrl.filter.periodId"
                     ng-options="opt.PeriodId as opt.Name group by opt.Year for opt in epaHistoryCtrl.periodOptions">
                 <option value="" style="display: none">-- {{"All" | translate}} --</option>
             </select>
         </div>
         <div class="form-group">
-            <label data-translate="DepartmentSection"></label>
-            <select class="form-control" ng-model="epaHistoryCtrl.filter.departmentId"
+            <label class="label-form" data-translate="DepartmentSection"></label>
+            <select class="form-control select-form" ng-model="epaHistoryCtrl.filter.departmentId"
                     ng-options="opt.DepartmentId as opt.Name for opt in epaHistoryCtrl.treeDepartment">
                 <option value="">-- {{"All" | translate}} --</option>
             </select>
         </div>
         <div class="form-group">
-            <label data-translate="Category"></label>
-            <select class="form-control" ng-model="epaHistoryCtrl.filter.isLocal">
+            <label class="label-form" data-translate="Category"></label>
+            <select class="form-control select-form" ng-model="epaHistoryCtrl.filter.isLocal">
                 <option value="">-- {{"All" | translate}} --</option>
                 <option value="false">{{"Expat" | translate}}</option>
                 <option value="true">{{"Local" | translate}}</option>
             </select>
         </div>
         <div class="form-group" ng-show="!epaHistoryCtrl.onlyEmployeeRole">
-            <label class="control-label" data-translate="Employee"></label>
-            <input class="form-control employee-search" ng-model="epaHistoryCtrl.searchEmployee"
+            <label class="label-form" data-translate="Employee"></label>
+            <input class="form-control input-form" ng-model="epaHistoryCtrl.searchEmployee"
                    placeholder="Enter full name or nick name" search-auto-complete search-employees="epaHistoryCtrl.getEmployee()"
                    ng-change="epaHistoryCtrl.unSelectEmployee()" employee="epaHistoryCtrl.filter.employee" />
         </div>
         <div class="form-group">
+            <label class="label-form"></label>
             <button class="btn btn-primary" ng-click="epaHistoryCtrl.query(epaHistoryCtrl.filter)" data-translate="Search"></button>
         </div>
     </form>

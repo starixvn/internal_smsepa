@@ -1,22 +1,26 @@
 ﻿<div ng-controller="TargetDepartmentSettingController as departmentCtrl">
-    <form novalidate class="row form-inline filter">
+    <form novalidate class="form-filter">
         <div class="form-group">
-            <label class="control-label" data-translate="DepartmentSection"></label>
+            <label class="label-form" data-translate="DepartmentSection"></label>
             <select ng-model="departmentCtrl.filter.departmentId" ng-options="opt.DepartmentId as opt.Name for opt in departmentCtrl.treeDepartment"
-                    class="form-control lstBox-limit" ng-change="departmentCtrl.updateIsGroup(departmentCtrl.filter.departmentId)">
+                    class="form-control select-form" ng-change="departmentCtrl.updateIsGroup(departmentCtrl.filter.departmentId)">
                 <option value="">-- {{"All" | translate}} --</option>
             </select>
         </div>
         <div class="form-group">
-            <label data-translate="TargetType"></label>
-            <select class="form-control lstBox-limit" ng-model="departmentCtrl.filter.targetTypeId"
+            <label class="label-form" data-translate="TargetType"></label>
+            <select class="form-control select-form" ng-model="departmentCtrl.filter.targetTypeId"
                     ng-options="opt.TargetTypeId as opt.Name for opt in departmentCtrl.targetTypes">
                 <option value="">-- {{"All" | translate}} --</option>
             </select>
         </div>
         <div class="form-group">
-            <label class="control-label" data-translate="ShowAll"></label>
-            <input class="form-control" type="checkbox" ng-model="departmentCtrl.filter.showAll" />
+            <label class="label-form"></label>
+            <div class="checkbox checkbox-form">
+                <label>
+                    <input type="checkbox" ng-model="departmentCtrl.filter.showAll"> Show all
+                </label>
+            </div>
         </div>
         <div class="form-group">
             <button class="btn btn-primary" ng-click="departmentCtrl.query(departmentCtrl.filter)" data-translate="Search"></button>

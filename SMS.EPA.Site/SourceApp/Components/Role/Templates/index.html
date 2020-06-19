@@ -1,35 +1,33 @@
-﻿<div class="role-management" ng-controller="RoleController as roleCtrl">
-    <div class="col-sm-12 sub-header">
+﻿<div class="col-sm-12 role-management" ng-controller="RoleController as roleCtrl">
+    <div class="sub-header">
         <ul class="row breadcrumb">
             <li class="current" data-translate="RoleManagement"></li>
         </ul>
     </div>
-    <div class="col-sm-12">
-        <form class="row form-inline filter" role="form" novalidate>
-            <div class="form-group">
-                <label data-translate="Role" class="control-label"></label>
-                <select class="form-control" ng-model="roleCtrl.filter.roleId"
-                        ng-options="opt.RoleId as opt.RoleCode for opt in roleCtrl.systemRoleOptions"
-                        ng-change="roleCtrl.query(roleCtrl.filter)"></select>
-            </div>
-            <button class="btn btn-primary" get-role-permission ng-if="!roleCtrl.isSystemAdmin" data-translate="Save"></button>
-        </form>
-        <table name="tableFunction" class="row table table-bordered authority-table">
-            <thead>
-                <tr>
-                    <th class="text-center" data-translate="Function" rowspan="2"></th>
-                    <th class="text-center" data-translate="RolePermission" colspan="2"></th>
-                </tr>
-                <tr>
-                    <th class="text-center" data-translate="Read"></th>
-                    <th class="text-center" data-translate="Host"></th>
-                </tr>
-            </thead>
-            <tr ng-repeat="data in roleCtrl.roleFunctions">
-                <td ng-include src="'/SourceApp/Components/Role/Templates/treeItem.html'"></td>
-                <td class="text-center" ng-include src="'/SourceApp/Components/Role/Templates/treeReadCheckbox.html'"></td>
-                <td class="text-center" ng-include src="'/SourceApp/Components/Role/Templates/treeHostCheckbox.html'"></td>
+    <form class="row form-inline filter" role="form" novalidate>
+        <div class="form-group">
+            <label data-translate="Role" class="control-label"></label>
+            <select class="form-control" ng-model="roleCtrl.filter.roleId"
+                    ng-options="opt.RoleId as opt.RoleCode for opt in roleCtrl.systemRoleOptions"
+                    ng-change="roleCtrl.query(roleCtrl.filter)"></select>
+        </div>
+        <button class="btn btn-primary" get-role-permission ng-if="!roleCtrl.isSystemAdmin" data-translate="Save"></button>
+    </form>
+    <table name="tableFunction" class="row table table-bordered authority-table">
+        <thead>
+            <tr>
+                <th class="text-center" data-translate="Function" rowspan="2"></th>
+                <th class="text-center" data-translate="RolePermission" colspan="2"></th>
             </tr>
-        </table>
-    </div>
+            <tr>
+                <th class="text-center" data-translate="Read"></th>
+                <th class="text-center" data-translate="Host"></th>
+            </tr>
+        </thead>
+        <tr ng-repeat="data in roleCtrl.roleFunctions">
+            <td ng-include src="'/SourceApp/Components/Role/Templates/treeItem.html'"></td>
+            <td class="text-center" ng-include src="'/SourceApp/Components/Role/Templates/treeReadCheckbox.html'"></td>
+            <td class="text-center" ng-include src="'/SourceApp/Components/Role/Templates/treeHostCheckbox.html'"></td>
+        </tr>
+    </table>
 </div>

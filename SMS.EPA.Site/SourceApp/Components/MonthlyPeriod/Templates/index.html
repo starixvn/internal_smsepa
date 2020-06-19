@@ -4,11 +4,11 @@
             <li class="current" data-translate="MonthlyPeriod"></li>
         </ul>
     </div>
-    <form novalidate class="row form-horizontal filter">
+    <form novalidate class="form-filter">
         <div class="form-group">
-            <label data-translate="From" class="col-sm-1 control-label"></label>
-            <div class="col-sm-2">
-                <p class="input-group calendar-input-group">
+            <label data-translate="From" class="label-form"></label>
+            <div class="input-form">
+                <div class="input-group calendar-input-group">
                     <input readonly class="calendar-form-control" type="text"
                            ng-model="monthlyPeriodCtrl.filter.fromDate"
                            uib-datepicker-popup="MMM, yyyy" datepicker-mode="'month'" datepicker-options="monthlyPeriodCtrl.dateOptions"
@@ -19,11 +19,13 @@
                             <i class="glyphicon glyphicon-calendar"></i>
                         </button>
                     </span>
-                </p>
+                </div>
             </div>
-            <label data-translate="To" class="col-sm-1 control-label"></label>
-            <div class="col-sm-2">
-                <p class="input-group calendar-input-group">
+        </div>
+        <div class="form-group">
+            <label data-translate="To" class="label-form"></label>
+            <div class="input-form">
+                <div class="input-group calendar-input-group">
                     <input readonly class="calendar-form-control" type="text"
                            ng-model="monthlyPeriodCtrl.filter.toDate"
                            uib-datepicker-popup="MMM, yyyy" datepicker-mode="'month'" datepicker-options="monthlyPeriodCtrl.dateOptions"
@@ -34,11 +36,11 @@
                             <i class="glyphicon glyphicon-calendar"></i>
                         </button>
                     </span>
-                </p>
+                </div>
             </div>
-            <div class="col-sm-1">
-                <button class="btn btn-primary" ng-click="monthlyPeriodCtrl.query(monthlyPeriodCtrl.filter)" data-translate="Search"></button>
-            </div>
+        </div>
+        <div class="form-group">
+            <button class="btn btn-primary" ng-click="monthlyPeriodCtrl.query(monthlyPeriodCtrl.filter)" data-translate="Search"></button>
         </div>
     </form>
     <table class="row table table-bordered table-striped">

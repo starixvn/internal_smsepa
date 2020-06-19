@@ -1,34 +1,33 @@
-﻿<div ng-controller="TargetTemplateController as targetTemplateCtrl">
-    <div class="col-sm-12 sub-header">
+﻿<div class="col-sm-12" ng-controller="TargetTemplateController as targetTemplateCtrl">
+    <div class="sub-header">
         <ul class="row breadcrumb">
             <li class="current" data-translate="TargetTemplateManagement"></li>
         </ul>
     </div>
-    <div class="col-sm-12">
-        <form novalidate class="row filter form-inline" role="form">
-            <div class="form-group">
-                <label data-translate="TargetType"></label>
-                <select class="form-control lstBox-limit" ng-model="targetTemplateCtrl.filter.targetTypeId"
-                        ng-options="opt.TargetTypeId as opt.Name for opt in targetTemplateCtrl.targetTypes">
-                    <option value="">-- {{"All" | translate}} --</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label class="control-label" data-translate="Status"></label>
-                <select class="form-control" ng-model="targetTemplateCtrl.filter.isActive">
-                    <option value="">-- {{"All" | translate}} --</option>
-                    <option selected value="true" data-translate="Active"></option>
-                    <option value="false" data-translate="InActive"></option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label class="control-label" data-translate="DepartmentSection"></label>
-                <select ng-model="targetTemplateCtrl.filter.departmentId" ng-options="opt.DepartmentId as opt.Name for opt in targetTemplateCtrl.treeDepartment"
-                        class="form-control lstBox-limit" ng-change="targetTemplateCtrl.updateIsGroup(targetTemplateCtrl.filter.departmentId)">
-                    <option value="">-- {{"All" | translate}} --</option>
-                </select>
-            </div>
-            <div class="form-group">
+    <form novalidate class="form-filter" role="form">
+        <div class="form-group">
+            <label class="label-form" data-translate="TargetType"></label>
+            <select class="form-control select-form" ng-model="targetTemplateCtrl.filter.targetTypeId"
+                    ng-options="opt.TargetTypeId as opt.Name for opt in targetTemplateCtrl.targetTypes">
+                <option value="">-- {{"All" | translate}} --</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label class="label-form" data-translate="Status"></label>
+            <select class="form-control select-form" ng-model="targetTemplateCtrl.filter.isActive">
+                <option value="">-- {{"All" | translate}} --</option>
+                <option selected value="true" data-translate="Active"></option>
+                <option value="false" data-translate="InActive"></option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label class="label-form" data-translate="DepartmentSection"></label>
+            <select ng-model="targetTemplateCtrl.filter.departmentId" ng-options="opt.DepartmentId as opt.Name for opt in targetTemplateCtrl.treeDepartment"
+                    class="form-control select-form" ng-change="targetTemplateCtrl.updateIsGroup(targetTemplateCtrl.filter.departmentId)">
+                <option value="">-- {{"All" | translate}} --</option>
+            </select>
+        </div>
+        <div class="form-group">
                 <label class="control-label" data-translate="ScoreRatingType"></label>
                 <select class="form-control lstBox-limit" ng-model="targetTemplateCtrl.filter.scoreRatingTypeId"
                         ng-options="opt.ScoreRatingTypeId as opt.Name for opt in targetTemplateCtrl.scoreRatingTypes">
@@ -36,91 +35,90 @@
                 </select>
             </div>
             <div class="form-group">
-                <button class="btn btn-primary" ng-click="targetTemplateCtrl.query(targetTemplateCtrl.filter)" data-translate="Submit"></button>
-            </div>
-        </form>
-        <table class="row table table-bordered table-striped">
-            <thead>
-                <tr class="header-table">
-                    <th colspan="10">
-                        <a class="pull-left button-icon create-button" href="" ng-click="targetTemplateCtrl.create()"
-                           ng-if="targetTemplateCtrl.permission === targetTemplateCtrl.policyEnum.Host">
-                            <span class="glyphicon glyphicon-plus icon-add"></span>
-                            <span class="button-text" data-translate="CreateTargetTemplate"></span>
-                        </a>
-                        <input type="text" ng-model="targetTemplateCtrl.searchKey" ng-change="targetTemplateCtrl.search()" class="search-inline-textbox search pull-right">
-                    </th>
-                </tr>
-                <tr class="headerName">
-                    <th data-translate="SymbolCount"></th>
-                    <th data-translate="Name"></th>
-                    <th data-translate="TargetType"></th>
-                    <th data-translate="ScoreRatingType"></th>
-                    <th data-translate="RatingType"></th>
-                    <th data-translate="Sections"></th>
-                    <th data-translate="Description"></th>
-                    <th data-translate="KPIs"></th>
-                    <th data-translate="Active"></th>
-                    <th data-translate="Action" ng-if="targetTemplateCtrl.permission === targetTemplateCtrl.policyEnum.Host"></th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr dir-paginate="targetTemplate in targetTemplateCtrl.filteredItems | itemsPerPage: targetTemplateCtrl.pageSize" current-page="targetTemplateCtrl.currentPage">
-                    <td class="text-center" ng-bind="targetTemplateCtrl.getIndex($index, targetTemplateCtrl.currentPage, targetTemplateCtrl.pageSize)"></td>
-                    <td class="column-limit">
-                        <a class="link" ng-click="targetTemplateCtrl.detail(targetTemplate, $event)" ng-bind="targetTemplate.Name"></a>
-                    </td>
-                    <td class="text-center" ng-bind="targetTemplate.TargetTypeName"></td>
-                    <td class="text-center" ng-bind="targetTemplate.ScoreRatingTypeName"></td>
-                    <td class="text-center" ng-bind="targetTemplate.RatingTypeName"></td>
-                    <td class="text-left" ng-bind="targetTemplate.Departments"></td>
-                    <td class="col-description">
-                        {{targetTemplate.Description | limitTo: targetTemplate.numLimit > 0 ? targetTemplate.numLimit: targetTemplateCtrl.maxLengthDescription}}
-                        <a ng-show="!targetTemplate.showReadMore && (targetTemplate.Description.length >= targetTemplateCtrl.maxLengthDescription)"
-                           href="javascript:;" ng-click="targetTemplateCtrl.readMore(targetTemplate)" data-translate="ReadMore"></a>
-                        <a ng-show="targetTemplate.showReadMore && (targetTemplate.Description.length >= targetTemplateCtrl.maxLengthDescription)"
-                           href="javascript:;" ng-click="targetTemplateCtrl.readLess(targetTemplate)" data-translate="ReadLess"></a>
-                    </td>
-                    <td class="text-center">
-                        <a href="#/TargetTemplate/Update/{{targetTemplate.TargetTemplateId}}?viewKPIs" ng-if="targetTemplateCtrl.permission === targetTemplateCtrl.policyEnum.Host"
-                           ng-bind="targetTemplate.KPIs"></a>
-                        <span ng-if="targetTemplateCtrl.permission === targetTemplateCtrl.policyEnum.Read" ng-bind="targetTemplate.KPIs"></span>
-                    </td>
-                    <td class="text-center">
-                        <input type="checkbox" ng-checked="targetTemplate.IsActive" ng-click="targetTemplateCtrl.confirmActive(targetTemplate)"
-                               ng-disabled="targetTemplateCtrl.permission !== targetTemplateCtrl.policyEnum.Host" />
-                    </td>
-                    <td class="target-template-action text-center" ng-if="targetTemplateCtrl.permission === targetTemplateCtrl.policyEnum.Host">
-                        <div class="btn-group">
-                            <a class="link glyphicon glyphicon-download-alt icon-export" export-target-template-management title="Export Excel" ng-click="targetTemplateCtrl.exportTargetKPIs(targetTemplate.TargetTemplateId)"></a>
-                            <a class="glyphicon glyphicon-edit icon-edit" title="Edit" 
-                               href="#/TargetTemplate/Update/{{targetTemplate.TargetTemplateId}}?viewInfo"
-                               ng-if="targetTemplateCtrl.permission === targetTemplateCtrl.policyEnum.Host"></a>
-                            <a href="javascript:;" class="glyphicon glyphicon-remove icon-remove" title="Delete" 
-                               ng-click="targetTemplateCtrl.deleteTargetTemplate(targetTemplate)"
-                               ng-if="targetTemplateCtrl.permission === targetTemplateCtrl.policyEnum.Host"></a>
-                        </div>
-                    </td>
-                </tr>
-                <tr ng-show="targetTemplateCtrl.filteredItems.length === 0">
-                    <td class="empty-result" colspan="9" data-translate="EmptyResult"></td>
-                </tr>
-            </tbody>
-            <tfoot>
-                <tr>
-                    <td colspan="10" class="paging">
-                        <span data-translate="Show"></span>
-                        <select class="dropdown-entry form-control" ng-model="targetTemplateCtrl.pageSize"
-                                ng-options="entry for entry in targetTemplateCtrl.entries" ng-change="targetTemplateCtrl.currentPage = 1"></select>
-                        <span data-translate="entries"></span>
-                        <div class="pull-right custom-paging">
-                            <ul uib-pagination total-items="targetTemplateCtrl.filteredItems.length" items-per-page="targetTemplateCtrl.pageSize"
-                                boundary-links="true" max-size="5" boundary-link-numbers="true" ng-model="targetTemplateCtrl.currentPage"
-                                class="pagination-sm" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></ul>
-                        </div>
-                    </td>
-                </tr>
-            </tfoot>
-        </table>
-    </div>
+            <button class="btn btn-primary" ng-click="targetTemplateCtrl.query(targetTemplateCtrl.filter)" data-translate="Submit"></button>
+        </div>
+    </form>
+    <table class="row table table-bordered table-striped">
+        <thead>
+            <tr class="header-table">
+                <th colspan="10">
+                    <a class="pull-left button-icon create-button" href="" ng-click="targetTemplateCtrl.create()"
+                       ng-if="targetTemplateCtrl.permission === targetTemplateCtrl.policyEnum.Host">
+                        <span class="glyphicon glyphicon-plus icon-add"></span>
+                        <span class="button-text" data-translate="CreateTargetTemplate"></span>
+                    </a>
+                    <input type="text" ng-model="targetTemplateCtrl.searchKey" ng-change="targetTemplateCtrl.search()" class="search-inline-textbox search pull-right">
+                </th>
+            </tr>
+            <tr class="headerName">
+                <th data-translate="SymbolCount"></th>
+                <th data-translate="Name"></th>
+                <th data-translate="TargetType"></th>
+                <th data-translate="ScoreRatingType"></th>
+                <th data-translate="RatingType"></th>
+                <th data-translate="Sections"></th>
+                <th data-translate="Description"></th>
+                <th data-translate="KPIs"></th>
+                <th data-translate="Active"></th>
+                <th data-translate="Action" ng-if="targetTemplateCtrl.permission === targetTemplateCtrl.policyEnum.Host"></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr dir-paginate="targetTemplate in targetTemplateCtrl.filteredItems | itemsPerPage: targetTemplateCtrl.pageSize" current-page="targetTemplateCtrl.currentPage">
+                <td class="text-center" ng-bind="targetTemplateCtrl.getIndex($index, targetTemplateCtrl.currentPage, targetTemplateCtrl.pageSize)"></td>
+                <td class="column-limit">
+                    <a class="link" ng-click="targetTemplateCtrl.detail(targetTemplate, $event)" ng-bind="targetTemplate.Name"></a>
+                </td>
+                <td class="text-center" ng-bind="targetTemplate.TargetTypeName"></td>
+                <td class="text-center" ng-bind="targetTemplate.ScoreRatingTypeName"></td>
+                <td class="text-center" ng-bind="targetTemplate.RatingTypeName"></td>
+                <td class="text-left" ng-bind="targetTemplate.Departments"></td>
+                <td class="col-description">
+                    {{targetTemplate.Description | limitTo: targetTemplate.numLimit > 0 ? targetTemplate.numLimit: targetTemplateCtrl.maxLengthDescription}}
+                    <a ng-show="!targetTemplate.showReadMore && (targetTemplate.Description.length >= targetTemplateCtrl.maxLengthDescription)"
+                       href="javascript:;" ng-click="targetTemplateCtrl.readMore(targetTemplate)" data-translate="ReadMore"></a>
+                    <a ng-show="targetTemplate.showReadMore && (targetTemplate.Description.length >= targetTemplateCtrl.maxLengthDescription)"
+                       href="javascript:;" ng-click="targetTemplateCtrl.readLess(targetTemplate)" data-translate="ReadLess"></a>
+                </td>
+                <td class="text-center">
+                    <a href="#/TargetTemplate/Update/{{targetTemplate.TargetTemplateId}}?viewKPIs" ng-if="targetTemplateCtrl.permission === targetTemplateCtrl.policyEnum.Host"
+                       ng-bind="targetTemplate.KPIs"></a>
+                    <span ng-if="targetTemplateCtrl.permission === targetTemplateCtrl.policyEnum.Read" ng-bind="targetTemplate.KPIs"></span>
+                </td>
+                <td class="text-center">
+                    <input type="checkbox" ng-checked="targetTemplate.IsActive" ng-click="targetTemplateCtrl.confirmActive(targetTemplate)"
+                           ng-disabled="targetTemplateCtrl.permission !== targetTemplateCtrl.policyEnum.Host" />
+                </td>
+                <td class="target-template-action text-center" ng-if="targetTemplateCtrl.permission === targetTemplateCtrl.policyEnum.Host">
+                    <div class="btn-group">
+                        <a class="link glyphicon glyphicon-download-alt icon-export" export-target-template-management title="Export Excel" ng-click="targetTemplateCtrl.exportTargetKPIs(targetTemplate.TargetTemplateId)"></a>
+                        <a class="glyphicon glyphicon-edit icon-edit" title="Edit"
+                           href="#/TargetTemplate/Update/{{targetTemplate.TargetTemplateId}}?viewInfo"
+                           ng-if="targetTemplateCtrl.permission === targetTemplateCtrl.policyEnum.Host"></a>
+                        <a href="javascript:;" class="glyphicon glyphicon-remove icon-remove" title="Delete"
+                           ng-click="targetTemplateCtrl.deleteTargetTemplate(targetTemplate)"
+                           ng-if="targetTemplateCtrl.permission === targetTemplateCtrl.policyEnum.Host"></a>
+                    </div>
+                </td>
+            </tr>
+            <tr ng-show="targetTemplateCtrl.filteredItems.length === 0">
+                <td class="empty-result" colspan="9" data-translate="EmptyResult"></td>
+            </tr>
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="10" class="paging">
+                    <span data-translate="Show"></span>
+                    <select class="dropdown-entry form-control" ng-model="targetTemplateCtrl.pageSize"
+                            ng-options="entry for entry in targetTemplateCtrl.entries" ng-change="targetTemplateCtrl.currentPage = 1"></select>
+                    <span data-translate="entries"></span>
+                    <div class="pull-right custom-paging">
+                        <ul uib-pagination total-items="targetTemplateCtrl.filteredItems.length" items-per-page="targetTemplateCtrl.pageSize"
+                            boundary-links="true" max-size="5" boundary-link-numbers="true" ng-model="targetTemplateCtrl.currentPage"
+                            class="pagination-sm" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></ul>
+                    </div>
+                </td>
+            </tr>
+        </tfoot>
+    </table>
 </div>
