@@ -171,7 +171,8 @@
 
                     case (int)TargetType.Monthly:
                     case (int)TargetType.SemiAnnual:
-                        periodEmployeeSettings = periodEmployeeSettings.OrderBy(x => x.Employee.Group.GroupCode).ThenBy(x => x.Employee.NickName);
+                        periodEmployeeSettings = periodEmployeeSettings.OrderBy(x => x.Employee.Group != null ? x.Employee.Group.GroupCode : string.Empty)
+                            .ThenBy(x => x.Employee.NickName);
                         break;
 
                     default:
