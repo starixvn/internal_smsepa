@@ -74,7 +74,7 @@
                 },
                 {
                     HeaderText: "Section",
-                    Width: 120,
+                    Width: 150,
                     Name: "Section",
                     HeaderAlign: "center",
                     CellAlign: "left",
@@ -130,7 +130,7 @@
                                 { Name: "Code", Value: epaInfo.Code },
                                 { Name: "NickName", Value: epaInfo.NickName },
                                 { Name: "FullName", Value: epaInfo.FullName },
-                                { Name: "Section", Value: epaInfo.Group.GroupName },
+                                { Name: "Section", Value: epaInfo.Group !== null ? epaInfo.Group.GroupName : '' },
                                 { Name: "JobTitle", Value: epaInfo.JobTitle.JobTitleName }
                             ]
                         };
