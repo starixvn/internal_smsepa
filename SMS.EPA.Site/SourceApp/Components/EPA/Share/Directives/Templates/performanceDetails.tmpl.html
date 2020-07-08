@@ -1,11 +1,13 @@
 ﻿<div class="showRatingScoreByStar" ng-show="performanceDetailCtrl.hasRatingByStar">
     <div class="checkbox">
+        <label id="showTargetTempate" data-translate="TargetTemplate : ">
+        </label>
+        <div id="targetTemplateValue" ng-bind="performanceDetailCtrl.epaInfo.Period.TargetTemplate" />
         <label>
             <input type="checkbox" ng-model="performanceDetailCtrl.showRatingScoreByStar" /> {{"ShowRatingScoreByStar" | translate}}
         </label>
     </div>
 </div>
-
 <div ng-repeat="kpiGroup in performanceDetailCtrl.epaInfo.KPIGroups"
      ng-init="performanceDetailCtrl.collapses[kpiGroup.Name] = false;" ng-if="kpiGroup.KPIs.length > 0">
     <div class="panel panel-default">

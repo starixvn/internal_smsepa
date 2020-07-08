@@ -25,6 +25,7 @@
             Lang.Section,
             Lang.JobTitle,
             Lang.GroupDate,
+            Lang.TargetTemplate,
             Lang.SelfScore,
             Lang.EvaluationScore,
             Lang.ReviewerScore,
@@ -61,15 +62,20 @@
 
                 var currentColumn = WriteCommonCells(epaInfo, row, currentRow++);
 
+                BodyStyle = ApplyEvenOddBodyStyle(EvenStyleLeft, OddStyleLeft);
+
+                ICell cell = row.CreateCell(currentColumn++);
+                cell.CellStyle = BodyStyle;
+                cell.SetCellValue(epaInfo.Period.TargetTemplate);
                 dynamic score = CalculateScore(epaInfo);
 
                 currentColumn = WriteScoreCells(epaInfo, currentColumn, row, score);
-
+                BodyStyle = ApplyEvenOddBodyStyle(EvenStyleLeft, OddStyleLeft);
                 BodyStyle = epaInfo.StatusId == (int)EPAStatus.Open
                     ? ApplyEvenOddBodyStyle(EvenRedStyle, OddRedStyle)
                     : ApplyEvenOddBodyStyle(EvenStyleCenter, OddStyleCenter);
 
-                var cell = row.CreateCell(currentColumn++);
+                cell = row.CreateCell(currentColumn++);
                 cell.CellStyle = BodyStyle;
                 cell.SetCellValue(score.FinalScore);
 
@@ -80,6 +86,7 @@
                 CurrentRow++;
             }
         }
+
 
         protected override dynamic CalculateScore(EPAModel epaInfo)
         {

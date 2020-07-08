@@ -31,6 +31,7 @@
             Lang.JobTitle,
             Lang.GroupDate,
             Lang.TargetType,
+            Lang.TargetTemplate,
             Lang.SelfScore,
             Lang.EvaluationScore,
             Lang.ReviewerScore,
@@ -84,6 +85,10 @@
                 ICell cell = row.CreateCell(currentColumn++);
                 cell.CellStyle = BodyStyle;
                 cell.SetCellValue(epaInfo.Period.TargetTypeName);
+
+                cell = row.CreateCell(currentColumn++);
+                cell.CellStyle = BodyStyle;
+                cell.SetCellValue(epaInfo.Period.TargetTemplate);
 
                 BodyStyle = ApplyEvenOddBodyStyle(EvenStyleCenter, OddStyleCenter);
 

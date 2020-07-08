@@ -232,6 +232,7 @@
             criteria.EmployeeId = _sessionService.CurrentUser.EmployeeId;
 
             EPADetailModel epaDetail = _reportService.GetMonthlyEPADetailReport(criteria);
+            epaDetail.Period = _reportService.GetEPADetailPeriodForExportedFileName(criteria.PeriodId?.ToString());
             _monthlyEPADetailReportService.Render(epaDetail);
 
             return new EmptyResult();
