@@ -67,13 +67,14 @@
                 });
         }
 
-        function getTargetTemplate(targetTypeId, isActive, departmentId, isGroup) {
+        function getTargetTemplate(targetTypeId, isActive, departmentId, isGroup, scoreRatingTypeId) {
             return $http.get(baseUrl + 'api/TargetTemplate/GetAllTargetTemplate', {
                 params: {
                     targetTypeId: targetTypeId,
                     isActive: isActive,
                     departmentId: departmentId,
-                    isGroup: isGroup
+                    isGroup: isGroup,
+                    scoreRatingTypeId
                 }
             });
         }

@@ -10,6 +10,7 @@
         var vm = this;
 
         vm.targetTypes = [];
+        vm.scoreRatingTypes = [];
         vm.targetTemplates = [];
         vm.permission = null;
         vm.policyEnum = utilitiesFactory.policy;
@@ -19,7 +20,8 @@
             departmentId: null,
             isGroup: null,
             targetTypeId: '',
-            isActive: 'true'
+            isActive: 'true',
+            scoreRatingTypeId: null
         };
         vm.currentPage = 1;
         vm.pageSize = 20;
@@ -36,9 +38,9 @@
             utilitiesFactory.readLess(item);
         };
 
-        function getTargetTemplate(targetTypeId, isActive, departmentId, isGroup) {
+        function getTargetTemplate(targetTypeId, isActive, departmentId, isGroup, scoreRatingTypeId) {
             lockScreenService.start();
-            TargetTemplateModel.getTargetTemplate(targetTypeId, isActive, departmentId, isGroup).then(function () {
+            TargetTemplateModel.getTargetTemplate(targetTypeId, isActive, departmentId, isGroup, scoreRatingTypeId).then(function () {
                 vm.targetTemplates = TargetTemplateModel.targetTemplates;
                 utilitiesFactory.searchOnPage(vm, vm.targetTemplates);
                 lockScreenService.stop();
@@ -54,7 +56,7 @@
                 departmentId = filter.departmentId < 0 ? -filter.departmentId : filter.departmentId;
             }
 
-            getTargetTemplate(filter.targetTypeId, filter.isActive, departmentId, filter.isGroup);
+            getTargetTemplate(filter.targetTypeId, filter.isActive, departmentId, filter.isGroup, filter.scoreRatingTypeId);
         };
 
         vm.getIndex = function (index, currentPage, pageSize) {
@@ -112,7 +114,10 @@
                 vm.targetTypes = CommonModel.targetTypes;
             });
 
-            getTargetTemplate(vm.filter.targetTypeId, vm.filter.isActive, vm.filter.departmentId, vm.filter.isGroup);
+            TargetTemplateModel.getScoreRatingType().then(function () {
+                vm.scoreRatingTypes = TargetTemplateModel.scoreRatingTypes;
+            });
+            getTargetTemplate(vm.filter.targetTypeId, vm.filter.isActive, vm.filter.departmentId, vm.filter.isGroup, vm.filter.scoreRatingTypeId);
         }
 
         function updateIsGroup(departmentId) {

@@ -29,6 +29,13 @@
                 </select>
             </div>
             <div class="form-group">
+                <label class="control-label" data-translate="ScoreRatingType"></label>
+                <select class="form-control lstBox-limit" ng-model="targetTemplateCtrl.filter.scoreRatingTypeId"
+                        ng-options="opt.ScoreRatingTypeId as opt.Name for opt in targetTemplateCtrl.scoreRatingTypes">
+                    <option value="">-- {{"All" | translate}} --</option>
+                </select>
+            </div>
+            <div class="form-group">
                 <button class="btn btn-primary" ng-click="targetTemplateCtrl.query(targetTemplateCtrl.filter)" data-translate="Submit"></button>
             </div>
         </form>

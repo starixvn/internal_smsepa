@@ -12,6 +12,8 @@
 
         public bool? IsGroup { get; set; }
 
+        public int? ScoreRatingTypeId { get; set; }
+
         public override bool IsValid()
         {
             return true;
