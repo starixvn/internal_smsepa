@@ -6,7 +6,7 @@
     </div>
     <form novalidate class="form-filter" role="form">
         <div class="form-group">
-            <label class="label-form" data-translate="TargetType"></label>
+            <label class="label-form label-form--l" data-translate="TargetType"></label>
             <select class="form-control select-form" ng-model="targetTemplateCtrl.filter.targetTypeId"
                     ng-options="opt.TargetTypeId as opt.Name for opt in targetTemplateCtrl.targetTypes">
                 <option value="">-- {{"All" | translate}} --</option>
@@ -27,14 +27,16 @@
                 <option value="">-- {{"All" | translate}} --</option>
             </select>
         </div>
+        <div class="form-group"></div>
         <div class="form-group">
-                <label class="control-label" data-translate="ScoreRatingType"></label>
-                <select class="form-control lstBox-limit" ng-model="targetTemplateCtrl.filter.scoreRatingTypeId"
-                        ng-options="opt.ScoreRatingTypeId as opt.Name for opt in targetTemplateCtrl.scoreRatingTypes">
-                    <option value="">-- {{"All" | translate}} --</option>
-                </select>
-            </div>
-            <div class="form-group">
+            <label class="label-form label-form--l" data-translate="ScoreRatingType"></label>
+            <select class="form-control select-form" ng-model="targetTemplateCtrl.filter.scoreRatingTypeId"
+                    ng-options="opt.ScoreRatingTypeId as opt.Name for opt in targetTemplateCtrl.scoreRatingTypes">
+                <option value="">-- {{"All" | translate}} --</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label class="label-form"></label>
             <button class="btn btn-primary" ng-click="targetTemplateCtrl.query(targetTemplateCtrl.filter)" data-translate="Submit"></button>
         </div>
     </form>
@@ -89,7 +91,7 @@
                     <input type="checkbox" ng-checked="targetTemplate.IsActive" ng-click="targetTemplateCtrl.confirmActive(targetTemplate)"
                            ng-disabled="targetTemplateCtrl.permission !== targetTemplateCtrl.policyEnum.Host" />
                 </td>
-                <td class="target-template-action text-center" ng-if="targetTemplateCtrl.permission === targetTemplateCtrl.policyEnum.Host">
+                <td class="text-center" ng-if="targetTemplateCtrl.permission === targetTemplateCtrl.policyEnum.Host" style="width: 90px;">
                     <div class="btn-group">
                         <a class="link glyphicon glyphicon-download-alt icon-export" export-target-template-management title="Export Excel" ng-click="targetTemplateCtrl.exportTargetKPIs(targetTemplate.TargetTemplateId)"></a>
                         <a class="glyphicon glyphicon-edit icon-edit" title="Edit"
