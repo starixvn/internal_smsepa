@@ -1,5 +1,4 @@
-﻿
-CREATE PROCEDURE [dbo].[Report_MonthlyEPADetail] @EmployeeId INT
+﻿CREATE PROCEDURE [dbo].[Report_MonthlyEPADetail] @EmployeeId INT
 	,@PeriodId INT = NULL
 	,@PhaseIds NVARCHAR(10) = NULL
 	,@DepartmentId INT = NULL
@@ -349,6 +348,7 @@ BEGIN
 			,period.[Name]
 			,ttype.TargetTypeId
 			,ttype.[Name] AS TargetTypeName
+			,ttem.Name as TargetTemplate
 		FROM #tblEPAs AS tbl WITH (NOLOCK)
 			INNER JOIN dbo.EPA AS epa WITH (NOLOCK) ON tbl.EPAId = epa.EPAId
 			INNER JOIN dbo.Employee AS emp WITH (NOLOCK) ON epa.EmployeeId = emp.EmployeeId
@@ -356,6 +356,8 @@ BEGIN
 			INNER JOIN dbo.ScoreRatingType AS srt WITH (NOLOCK) ON epa.ScoreRatingTypeId = srt.ScoreRatingTypeId
 			INNER JOIN dbo.TargetType AS ttype WITH (NOLOCK) ON period.TargetTypeId = ttype.TargetTypeId
 			INNER JOIN #tblEPAStatus AS tblstatus WITH (NOLOCK) ON epa.EPAId = tblstatus.EPAId
+			INNER JOIN dbo.PeriodTargetSetting AS pertar WITH (NOLOCK) ON epa.PeriodId = pertar.PeriodId and epa.EmployeeId = pertar.EmployeeId
+			INNER JOIN dbo.TargetTemplate AS ttem WITH (NOLOCK) ON ttem.TargetTemplateId = pertar.TargetTemplateId
 			LEFT JOIN dbo.[Group] AS gr WITH (NOLOCK) ON emp.GroupId = gr.GroupId
 			LEFT JOIN dbo.Department AS dept WITH (NOLOCK) ON gr.DepartmentId = dept.DepartmentId
 			LEFT JOIN dbo.HRMJobTitle AS job WITH (NOLOCK) ON emp.[JobTitle] = job.[Id]

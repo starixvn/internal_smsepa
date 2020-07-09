@@ -1,9 +1,9 @@
-﻿
-CREATE PROCEDURE [dbo].[TargetTemplate_GetAll] 
+﻿CREATE PROCEDURE [dbo].[TargetTemplate_GetAll] 
 	@TargetTypeId INT = NULL
 	,@IsActive TINYINT = NULL
 	,@DepartmentId INT = NULL
 	,@IsGroup BIT = NULL
+	,@ScoreRatingTypeId INT = NULL
 AS
 /*
 Created: 2014004@Quinn.Vo
@@ -76,5 +76,6 @@ BEGIN
 			OR (@IsGroup = 1 AND gr.GroupId = @DepartmentId)
 			OR (@IsGroup = 0 AND dep.DepartmentId = @DepartmentId)
 			)
+		AND  ISNULL(@ScoreRatingTypeId, scT.ScoreRatingTypeId) = scT.ScoreRatingTypeId
 	ORDER BY tg.[Name] ASC
 END
