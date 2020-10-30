@@ -3,6 +3,7 @@
     using System.Collections.Generic;
     using System.Globalization;
     using System.Linq;
+    using System.Reflection;
     using Core.Constants;
     using Core.Enumerations;
     using Core.Services;
@@ -19,6 +20,7 @@
         private readonly IPeriodService periodService;
         private readonly IPeriodMailService periodMailService;
         private readonly IBaseService baseService;
+        private static readonly log4net.ILog logfile = log4net.LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
         public EvaluationPeriodService() : this(null, null, null, null, null)
         {
@@ -77,6 +79,11 @@
             {
                 float? performanceScore = GetFinalScoreOfEvalution(epaInfo);
 
+                logfile.InfoFormat("EPAId: {0}\nPerformanceScore: {1}\nHasDisciplineScore: {2}\nDisciplineScore: {3}",
+                    epaInfo.EPAId,
+                    performanceScore,
+                    epaInfo.DisciplineScore,
+                    epaInfo.HasDisciplineScore);
                 epaInfo.Grade = performanceScore.HasValue
                     ? employeeEPAService.ConvertScoreToGrade(performanceScore, epaInfo.DisciplineScore, epaInfo.HasDisciplineScore, standardGrades)
                     : string.Empty;

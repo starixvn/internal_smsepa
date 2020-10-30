@@ -22,6 +22,8 @@
                     enableWatching: true)
                 .Run();
 
+                log4net.Config.XmlConfigurator.Configure();
+
                 IEPAAutoService service = new EPAAutoService();
                 service.Run();
             }
