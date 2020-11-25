@@ -30,7 +30,7 @@
 
             if (criteria.IsValid())
             {
-                flows = flowSettingRepository.GetPersonalFlowByFlowTemplateId(criteria).OrderBy(i => i.Group.GroupName);
+                flows = flowSettingRepository.GetPersonalFlowByFlowTemplateId(criteria).OrderBy(i => i.Group?.GroupName);
             }
 
             return flows;
