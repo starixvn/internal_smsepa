@@ -59,8 +59,8 @@
 
             angular.forEach(kpis, function (kpi) {
                 var weight = kpi.Weight + (totalScoreNotEvaluate / totalScoreEvaluate) * kpi.Weight;
-                var score = weight * kpi.CurrentEvaluation.Rate / vm.maxStar;
-                kpi.CurrentEvaluation.Score = utilitiesFactory.splitNumber(score, 4);
+                var score = weight * kpi.Rate / vm.maxStar;
+                kpi.Score = utilitiesFactory.splitNumber(score, 4);
             });
         }
 
