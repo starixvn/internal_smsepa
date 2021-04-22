@@ -4,54 +4,73 @@
     </div>
     <div class="panel-collapse collapse in recommendation">
         <div class="panel-body recommendation-section">
-            <table class="table">
+            <div>Based on the evaluation above, I recommend the employee:</div>
+            <table class="table table-bordered table-custom" style="width: auto">
+                <thead>
+                    <tr>
+                        <th class="width-250"></th>
+                        <th style="min-width: 150px; max-width: 250px">{{"Evaluator" | translate}}</th>
+                        <th style="min-width: 150px; max-width: 250px">{{"Reviewer" | translate}}</th>
+                    </tr>
+                </thead>
                 <tbody>
                     <tr>
-                        <td colspan="2">
-                            <div class="checkbox" ng-class="{'disabled': !reviewerDetailCtrl.epaInfo.IsAllowedToEdit}">
-                                <label>
-                                    <input type="checkbox"
-                                           ng-model="reviewerDetailCtrl.epaInfo.Recommendation.Promoted"
-                                           ng-disabled="!reviewerDetailCtrl.epaInfo.IsAllowedToEdit">
-                                    {{"Promotion" | translate}}
-                                </label>
-                            </div>
+                        <td>{{"Promotion" | translate}}</td>
+                        <td class="text-center">
+                            <input type="checkbox" disabled
+                                   ng-model="reviewerDetailCtrl.epaInfo.EvaluatorRecommendation.Promoted" />
+                        </td>
+                        <td class="text-center">
+                            <input type="checkbox"
+                                   ng-model="reviewerDetailCtrl.epaInfo.Recommendation.Promoted"
+                                   ng-disabled="!reviewerDetailCtrl.epaInfo.IsAllowedToEdit" />
                         </td>
                     </tr>
                     <tr>
-                        <td colspan="2">
-                            <div class="checkbox" ng-class="{'disabled': !reviewerDetailCtrl.epaInfo.IsAllowedToEdit}">
-                                <label>
-                                    <input type="checkbox"
-                                           ng-model="reviewerDetailCtrl.epaInfo.Recommendation.PayIncreased"
-                                           ng-disabled="!reviewerDetailCtrl.epaInfo.IsAllowedToEdit">
-                                    {{"AnnualIncrement" | translate}}
-                                </label>
-                            </div>
+                        <td>{{"AnnualIncrement" | translate}}</td>
+                        <td class="text-center">
+                            <input type="checkbox" disabled
+                                   ng-model="reviewerDetailCtrl.epaInfo.EvaluatorRecommendation.PayIncreased" />
                         </td>
-                    </tr>
-                    <tr ng-show="reviewerDetailCtrl.epaInfo.Recommendation.Invalid">
-                        <td colspan="2" class="error-message" data-translate="SemiRecommendationWarning"></td>
+                        <td class="text-center">
+                            <input type="checkbox"
+                                   ng-model="reviewerDetailCtrl.epaInfo.Recommendation.PayIncreased"
+                                   ng-disabled="!reviewerDetailCtrl.epaInfo.IsAllowedToEdit" />
+                        </td>
                     </tr>
                     <tr>
-                        <td class="width-250">
-                            <div class="checkbox" ng-class="{'disabled': !reviewerDetailCtrl.epaInfo.IsAllowedToEdit}">
-                                <label>
-                                    <input type="checkbox"
-                                           ng-model="reviewerDetailCtrl.epaInfo.Recommendation.JobGradeIncreased"
-                                           ng-disabled="!reviewerDetailCtrl.epaInfo.IsAllowedToEdit">
-                                    {{"JobGrade" | translate}}
-                                </label>
+                        <td>{{"JobLevel" | translate}}</td>
+                        <td class="text-center">
+                            <div>
+                                <input type="checkbox" disabled
+                                       ng-model="reviewerDetailCtrl.epaInfo.EvaluatorRecommendation.JobGradeIncreased" />
+                            </div>
+                            <div ng-if="reviewerDetailCtrl.epaInfo.EvaluatorRecommendation.JobGradeIncreased">
+                                <select class="jobGrades" disabled
+                                        ng-model="reviewerDetailCtrl.epaInfo.EvaluatorRecommendation.JobGrade.JobGradeId"
+                                        ng-options="opt.JobGradeId as opt.Name for opt in reviewerDetailCtrl.jobGrades">
+                                    <option style="display: none" value="">-- Select a job level --</option>
+                                </select>
                             </div>
                         </td>
-                        <td ng-show="reviewerDetailCtrl.epaInfo.Recommendation.JobGradeIncreased">
-                            <select class="jobGrades"
-                                    ng-model="reviewerDetailCtrl.epaInfo.Recommendation.JobGrade.JobGradeId"
-                                    ng-disabled="!reviewerDetailCtrl.epaInfo.IsAllowedToEdit"
-                                    ng-options="opt.JobGradeId as opt.Name for opt in reviewerDetailCtrl.jobGrades">
-                                <option style="display: none" value="">-- Select a job grade --</option>
-                            </select>
-                            <label class="error-message">(*)</label>
+                        <td class="text-center">
+                            <div>
+                                <input type="checkbox"
+                                       ng-model="reviewerDetailCtrl.epaInfo.Recommendation.JobGradeIncreased"
+                                       ng-disabled="!reviewerDetailCtrl.epaInfo.IsAllowedToEdit" />
+                            </div>
+                            <div ng-show="reviewerDetailCtrl.epaInfo.Recommendation.JobGradeIncreased">
+                                <select class="jobGrades"
+                                        ng-model="reviewerDetailCtrl.epaInfo.Recommendation.JobGrade.JobGradeId"
+                                        ng-disabled="!reviewerDetailCtrl.epaInfo.IsAllowedToEdit"
+                                        ng-options="opt.JobGradeId as opt.Name for opt in reviewerDetailCtrl.jobGrades">
+                                    <option style="display: none" value="">-- Select a job level --</option>
+                                </select>
+                                <label class="error-message">(*)</label>
+                                <span class="error-message"
+                                      ng-show="reviewerDetailCtrl.epaInfo.Recommendation.Invalid"
+                                      data-translate="JobLevelRequired"></span>
+                            </div>
                         </td>
                     </tr>
                 </tbody>

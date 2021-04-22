@@ -1,13 +1,11 @@
 ﻿namespace SMS.EPA.Services.Implement
 {
-    using System;
     using System.Collections.Generic;
     using System.Linq;
     using Criteria;
     using Fanex.Data.Repository;
     using Interfaces;
     using Model;
-    using SMS.EPA.Core.Services;
 
     public class ReviewerEPAService : BaseActorEPAService, IReviewerEPAService
     {
@@ -27,15 +25,12 @@
             IList<EPAModel> monthlyEPAs)
         {
             GetEPAByReviewerCriteria getEPAByReviewerCriteria = criteria as GetEPAByReviewerCriteria;
-
             foreach (EPAModel epaInfo in epaInfos)
             {
                 if (getEPAByReviewerCriteria != null)
                 {
                     epaInfo.Process.CurrentProcess =
-                        EvaluationService.CloneEPAProcess(
-                            epaInfo.Process.Reviewers.FirstOrDefault(
-                                x => x.EvaluatorInfo.EmployeeId == getEPAByReviewerCriteria.ReviewerId));
+                        EvaluationService.CloneEPAProcess(epaInfo.Process.Reviewers.FirstOrDefault(x => x.EvaluatorInfo.EmployeeId == getEPAByReviewerCriteria.ReviewerId));
                 }
 
                 EvaluationService.SetMaxPerformanceScore(epaInfo);
@@ -48,14 +43,11 @@
         public EPAModel GetEPAInfoByReviewer(GetEPAInfoByReviewerCriteria criteria)
         {
             var epaInfo = new EPAModel();
-
             if (criteria != null && criteria.IsValid())
             {
                 epaInfo = EvaluationRepository.GetEPAInfo(criteria);
                 epaInfo.Process.CurrentProcess =
-                    EvaluationService.CloneEPAProcess(
-                        epaInfo.Process.Reviewers.FirstOrDefault(
-                            x => x.EvaluatorInfo.EmployeeId == criteria.ReviewerId));
+                    EvaluationService.CloneEPAProcess(epaInfo.Process.Reviewers.FirstOrDefault(x => x.EvaluatorInfo.EmployeeId == criteria.ReviewerId));
                 EvaluationService.SetMaxPerformanceScore(epaInfo);
                 EvaluationService.SpreadKPIScore(epaInfo.KPIGroups);
 
@@ -67,7 +59,7 @@
 
                 if (epaInfo.IsProbation || epaInfo.IsPromotion || epaInfo.IsSemiAnnual)
                 {
-                    epaInfo.Recommendation = EvaluationService.GetRecommendationByEPAId(epaInfo.EPAId);
+                    epaInfo.Recommendations = EvaluationService.GetRecommendationByEPAId(epaInfo.EPAId);
                 }
 
                 if (epaInfo.IsProbation)

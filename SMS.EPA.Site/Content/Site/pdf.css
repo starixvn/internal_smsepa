@@ -28,6 +28,10 @@
     text-align: center;
 }
 
+.align-center {
+    text-align: center;
+}
+
 .border-r-b-l {
     border-right: 1px solid #e5e3e3;
     border-bottom: 1px solid #e5e3e3;

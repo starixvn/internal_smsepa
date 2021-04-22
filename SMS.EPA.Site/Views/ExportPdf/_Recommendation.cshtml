@@ -1,7 +1,11 @@
-﻿@using SMS.EPA.Resources
+﻿@using SMS.EPA.Core.Enumerations
+@using SMS.EPA.Resources
 @using SMS.EPA.Model
-
 @model EPAModel
+@{
+    var evaluator = Model.Recommendations.FirstOrDefault(x => x.ProcessId == (byte)ProcessType.Evaluator);
+    var reviewer = Model.Recommendations.FirstOrDefault(x => x.ProcessId == (byte)ProcessType.Reviewer);
+}
 
 @helper GetRadioButton(bool value)
 {
@@ -28,36 +32,86 @@
 <table class="recommendation">
     <thead>
         <tr class="table-title">
-            <th>@Lang.Recommendation</th>
+            <th colspan="3">@Lang.Recommendation</th>
+        </tr>
+        <tr>
+            <th></th>
+            <th>@Lang.Evaluator</th>
+            <th>@Lang.Reviewer</th>
         </tr>
     </thead>
     <tbody>
         @if (Model.IsProbation || Model.IsPromotion)
         {
             <tr>
-                <td class="border-r-b-l">
-                    @GetRadioButton(Model.Recommendation.PassedProbation)<span> @Lang.PassProbation</span>
-                    <br />
-                    @GetRadioButton(Model.Recommendation.ExtendedProbation)<span> @Lang.ExtendProbation</span>
-                    <br />
-                    @GetRadioButton(Model.Recommendation.FailedProbation)<span>@Lang.FailProbation</span>
+                <td class="border-r-b-l">@(Model.IsProbation ? Lang.PassProbation : Lang.PassPromotion)</td>
+                <td class="border-r-b align-center">
+                    @if (evaluator != null ) { @GetRadioButton(evaluator.PassedProbation) }
+                </td>
+                <td class="border-r-b align-center">
+                    @if (reviewer != null ) { @GetRadioButton(reviewer.PassedProbation) }
+                </td>
+            </tr>
+            if (Model.IsProbation)
+            {
+                <tr>
+                    <td class="border-r-b-l">@Lang.ExtendProbation</td>
+                    <td class="border-r-b align-center">
+                        @if (evaluator != null ) { @GetRadioButton(evaluator.ExtendedProbation) }
+                    </td>
+                    <td class="border-r-b align-center">
+                        @if (reviewer != null ) { @GetRadioButton(reviewer.ExtendedProbation) }
+                    </td>
+                </tr>
+            }
+            <tr>
+                <td class="border-r-b-l">@(Model.IsProbation ? Lang.FailProbation : Lang.FailPromotion)</td>
+                <td class="border-r-b align-center">
+                    @if (evaluator != null ) { @GetRadioButton(evaluator.FailedProbation) }
+                </td>
+                <td class="border-r-b align-center">
+                    @if (reviewer != null ) { @GetRadioButton(reviewer.FailedProbation) }
                 </td>
             </tr>
         }
-        else if (Model.IsSemiAnnual)
+        else
         {
-            string jobGrade = Model.Recommendation.JobGrade != null
-                ? Lang.JobGrade + ": " + Model.Recommendation.JobGrade.Name
-                : Lang.JobGrade;
-            <tr>
-                <td class="border-r-b-l">
-                    @GetCheckbox(Model.Recommendation.Promoted) @Lang.Promotion
-                    <br />
-                    @GetCheckbox(Model.Recommendation.PayIncreased) @Lang.AnnualIncrement
-                    <br />
-                    @GetCheckbox(Model.Recommendation.JobGradeIncreased) @jobGrade
-                </td>
-            </tr>
+            if (Model.IsSemiAnnual)
+            {
+                <tr>
+                    <td class="border-r-b-l">@Lang.Promotion</td>
+                    <td class="border-r-b align-center">
+                        @if (evaluator != null) { @GetCheckbox(evaluator.Promoted) }
+                    </td>
+                    <td class="border-r-b align-center">
+                        @if (reviewer != null) { @GetCheckbox(reviewer.Promoted) }
+                    </td>
+                </tr>
+                <tr>
+                    <td class="border-r-b-l">@Lang.AnnualIncrement</td>
+                    <td class="border-r-b align-center">
+                        @if (evaluator != null) { @GetCheckbox(evaluator.PayIncreased) }
+                    </td>
+                    <td class="border-r-b align-center">
+                        @if (reviewer != null) { @GetCheckbox(reviewer.PayIncreased) }
+                    </td>
+                </tr>
+                <tr>
+                    <td class="border-r-b-l">@Lang.JobLevel</td>
+                    <td class="border-r-b align-center">
+                        @if (evaluator != null)
+                        { 
+                            @(evaluator.JobGrade != null ? evaluator.JobGrade.Name : string.Empty)
+                        }
+                    </td>
+                    <td class="border-r-b align-center">
+                        @if (reviewer != null)
+                        {
+                            @(reviewer.JobGrade != null ? reviewer.JobGrade.Name : string.Empty)
+                        }
+                    </td>
+                </tr>
+            }
         }
     </tbody>
 </table>

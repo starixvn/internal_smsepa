@@ -76,7 +76,7 @@
 
                 if (epaInfo.IsProbation || epaInfo.IsPromotion || epaInfo.IsSemiAnnual)
                 {
-                    epaInfo.Recommendation = evaluationService.GetRecommendationByEPAId(epaInfo.EPAId);
+                    epaInfo.Recommendations = evaluationService.GetRecommendationByEPAId(epaInfo.EPAId);
                 }
 
                 if (epaInfo.IsProbation)

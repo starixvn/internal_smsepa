@@ -56,7 +56,7 @@
 
                     if (epaInfo.IsProbation || epaInfo.IsPromotion || epaInfo.IsSemiAnnual)
                     {
-                        epaInfo.Recommendation = GetRecommendationByEPAId(epaInfo.EPAId);
+                        epaInfo.Recommendations = GetRecommendationByEPAId(epaInfo.EPAId);
                     }
 
                     if (epaInfo.IsProbation)
@@ -148,20 +148,20 @@
             return epaInfos;
         }
 
-        public EPARecommendationModel GetRecommendationByEPAId(int epaId)
+        public IEnumerable<EPARecommendation> GetRecommendationByEPAId(int epaId)
         {
             var criteria = new GetRecommendationByEPAIdCriteria
             {
                 EPAId = epaId
             };
-            var recommendation = new EPARecommendationModel();
+            IEnumerable<EPARecommendation> recommendations = new List<EPARecommendation>();
 
             if (criteria.IsValid())
             {
-                recommendation = employeeEPARepository.GetRecommendationById(criteria);
+                recommendations = employeeEPARepository.GetRecommendationById(criteria);
             }
 
-            return recommendation;
+            return recommendations;
         }
 
         public EPAProbationExtendedQuestionModel GetExtendedQuestionByEPAId(int epaId)

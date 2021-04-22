@@ -25,7 +25,7 @@
 
         IList<EPAModel> GetMonthlyEPAOfSemi(string epaIds);
 
-        EPARecommendationModel GetRecommendationByEPAId(int epaId);
+        IEnumerable<EPARecommendation> GetRecommendationByEPAId(int epaId);
 
         void GroupMonthlyEPABySemi(EPAModel semiEPA, IList<EPAModel> monthlyEPAs);
 

@@ -2,11 +2,12 @@
 {
     using Core.Enumerations;
 
-    public class EPARecommendationModel
+    public class EPARecommendation
     {
         public int EPAId { get; set; }
+        public byte ProcessId { get; set; }
 
-        public int? ProbationStatus { get; set; }
+        public short? ProbationStatus { get; set; }
 
         public bool Promoted { get; set; }
 

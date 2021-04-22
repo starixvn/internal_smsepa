@@ -1356,8 +1356,8 @@
   <data name="FailProbation" xml:space="preserve">
     <value>Fail Probation</value>
   </data>
-  <data name="JobGrade" xml:space="preserve">
-    <value>Job Grade</value>
+  <data name="JobLevel" xml:space="preserve">
+    <value>Job Level</value>
   </data>
   <data name="PassProbation" xml:space="preserve">
     <value>Pass Probation</value>
@@ -1374,8 +1374,8 @@
   <data name="ProbationRecommendationWarning" xml:space="preserve">
     <value>You must select 1 in 3 options</value>
   </data>
-  <data name="SemiRecommendationWarning" xml:space="preserve">
-    <value>Job Grade is required</value>
+  <data name="JobLevelRequired" xml:space="preserve">
+    <value>Job Level is required!</value>
   </data>
   <data name="ErrorMessage" xml:space="preserve">
     <value>Server cannot handle your request. Please try again later!</value>
@@ -1466,5 +1466,11 @@
   </data>
   <data name="FromDateGreaterThanToDateWarning" xml:space="preserve">
     <value>From Date must be less than or equal To Date!</value>
+  </data>
+  <data name="FailPromotion" xml:space="preserve">
+    <value>Not to be promoted at this time</value>
+  </data>
+  <data name="PassPromotion" xml:space="preserve">
+    <value>To be promoted to the proposed level</value>
   </data>
 </root>

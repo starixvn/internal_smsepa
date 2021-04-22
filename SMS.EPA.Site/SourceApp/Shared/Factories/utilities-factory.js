@@ -85,7 +85,12 @@
             handleOpenLink: handleOpenLink,
             handleOpenLinkWithParams: handleOpenLinkWithParams,
             isOpenNewTabEvent: isOpenNewTabEvent,
-            scoreRatingType: scoreRatingType
+            scoreRatingType: scoreRatingType,
+            probationStatusTypes: {
+                Failed: 0,
+                Passed: 1,
+                Extended: 2
+            }
         };
 
         utilities.parseFloat = function (input) {

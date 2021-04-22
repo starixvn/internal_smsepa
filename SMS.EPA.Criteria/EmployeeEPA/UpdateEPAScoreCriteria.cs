@@ -1,19 +1,22 @@
 ﻿namespace SMS.EPA.Criteria
 {
+    using System.Collections.Generic;
+    using System.Globalization;
+    using System.Linq;
+    using System.Text;
+    using System.Web;
     using Core.Constants;
     using Core.Services;
     using Fanex.Data;
     using Fanex.Data.Repository;
     using Model;
-    using System.Collections.Generic;
-    using System.Globalization;
-    using System.Text;
-    using System.Web;
 
     public class UpdateEPAScoreCriteria : CriteriaBase
     {
-        private const string KPIScoreXmlTemplate = "<KPI KPIId='{0}' KPIGroupId='{1}' Score='{2}' Rate='{3}' IsMaxScore='{4}' Comment='{5}'></KPI>";
-        private const string ExtendedQuestionXMLTemplate = "<ExtendedQuestion SubQuestionId='{0}' IsAgree='{1}'></ExtendedQuestion>";
+        private const string KPIScoreXmlTemplate = "<Row KPIId='{0}' KPIGroupId='{1}' Score='{2}' Rate='{3}' IsMaxScore='{4}' Comment='{5}' />";
+        private const string ExtendedQuestionXMLTemplate = "<Row SubQuestionId='{0}' IsAgree='{1}' />";
+        private const string RecommendationXmlTemplate = @"<Row EPAId='{0}' ProbationStatus='{1}' Promoted='{2}' PayIncreased='{3}'
+            JobGradeIncreased='{4}' JobGradeId='{5}' />";
 
         private readonly ICryptographyService _cryptographyService;
 
@@ -24,11 +27,8 @@
         }
 
         public int EPAId { get; set; }
-
-        public int ProcessId { get; set; }
-
+        public byte ProcessId { get; set; }
         public int EmployeeId { get; set; }
-
         public int EvaluatorId { get; set; }
 
         public string Comment => EPAProcess.Comment;
@@ -47,7 +47,6 @@
             get
             {
                 var kpiDetailXml = new StringBuilder(Constants.BeginRootTag);
-
                 foreach (EPAKpiGroupModel kpiGroup in KPIGroups)
                 {
                     foreach (EPAKpiModel kpi in kpiGroup.KPIs)
@@ -70,7 +69,6 @@
                 }
 
                 kpiDetailXml.Append(Constants.EndRootTag);
-
                 return kpiDetailXml.ToString();
             }
         }
@@ -79,20 +77,49 @@
         {
             get
             {
-                var extendedQuestionXML = new StringBuilder(Constants.BeginRootTag);
-
-                foreach (var question in ProbationSubQuestions)
+                var extendedQuestionXML = new StringBuilder();
+                if (ProbationSubQuestions != null && ProbationSubQuestions.Any())
                 {
-                    extendedQuestionXML.AppendFormat(
-                        ExtendedQuestionXMLTemplate,
-                        question.SubQuestionId,
-                        question.IsAgree
-                        );
+                    extendedQuestionXML.Append(Constants.BeginRootTag);
+                    foreach (var question in ProbationSubQuestions)
+                    {
+                        extendedQuestionXML.AppendFormat(ExtendedQuestionXMLTemplate, question.SubQuestionId, question.IsAgree);
+                    }
+
+                    extendedQuestionXML.Append(Constants.EndRootTag);
                 }
 
-                extendedQuestionXML.Append(Constants.EndRootTag);
-
                 return extendedQuestionXML.ToString();
+            }
+        }
+
+        public string RecommendationXml
+        {
+            get
+            {
+                var result = new StringBuilder();
+                if (Recommendations != null && Recommendations.Any())
+                {
+                    result.Append(Constants.BeginRootTag);
+                    foreach (EPARecommendation recommendation in Recommendations)
+                    {
+                        int? jobGradeId =
+                            (recommendation.JobGrade == null || !recommendation.JobGradeIncreased) ? (int?)null : recommendation.JobGrade.JobGradeId;
+
+                        result.AppendFormat(
+                                RecommendationXmlTemplate,
+                                recommendation.EPAId,
+                                recommendation.ProbationStatus,
+                                recommendation.Promoted,
+                                recommendation.PayIncreased,
+                                recommendation.JobGradeIncreased,
+                                jobGradeId);
+                    }
+
+                    result.Append(Constants.EndRootTag);
+                }
+
+                return result.ToString();
             }
         }
 
@@ -107,14 +134,11 @@
         [SpParam(Ignored = true)]
         public IList<ProbationSubQuestionModel> ProbationSubQuestions { get; set; }
 
-        public override bool IsValid()
-        {
-            return EPAId > 0 && EmployeeId > 0 && EvaluatorId > 0 && ProcessId > 0;
-        }
+        [SpParam(Ignored = true)]
+        public IEnumerable<EPARecommendation> Recommendations { get; set; }
 
-        public override string GetSettingKey()
-        {
-            return "EPA_UpdateScore";
-        }
+        public override bool IsValid() => EPAId > 0 && EmployeeId > 0 && EvaluatorId > 0 && ProcessId > 0;
+
+        public override string GetSettingKey() => "EPA_UpdateScore";
     }
 }

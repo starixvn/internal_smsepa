@@ -1,22 +1,22 @@
 ﻿namespace SMS.EPA.Criteria
 {
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Text;
+    using System.Web;
     using Core.Constants;
     using Core.Services;
     using Fanex.Data;
     using Fanex.Data.Repository;
     using Model;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
-    using System.Web;
 
     public class AdjustScoreByReviewerOrManagementCriteria : CriteriaBase
     {
-        private const string EPAXmlTemplate = @"<EPA EPAId='{0}' ProcessId='{1}' EmployeeId='{2}'
-            EvaluatorId='{3}' AdjustScore='{4}' TotalScore='{5}' Comment='{6}'></EPA>";
+        private const string EPAXmlTemplate = @"<Row EPAId='{0}' ProcessId='{1}' EmployeeId='{2}'
+            EvaluatorId='{3}' AdjustScore='{4}' TotalScore='{5}' Comment='{6}' />";
 
-        private const string RecommendationXmlTemplate = @"<Recommendation EPAId='{0}' ProbationStatus='{1}' Promoted='{2}' PayIncreased='{3}'
-            JobGradeIncreased='{4}' JobGradeId='{5}'></Recommendation>";
+        private const string RecommendationXmlTemplate = @"<Row EPAId='{0}' ProbationStatus='{1}' Promoted='{2}' PayIncreased='{3}'
+            JobGradeIncreased='{4}' JobGradeId='{5}' />";
 
         public string EPADetails
         {
@@ -52,10 +52,9 @@
             get
             {
                 var result = new StringBuilder(Constants.BeginRootTag);
-
                 if (Recommendations != null && Recommendations.Any())
                 {
-                    foreach (EPARecommendationModel recommendation in Recommendations)
+                    foreach (EPARecommendation recommendation in Recommendations)
                     {
                         int? jobGradeId =
                             (recommendation.JobGrade == null || !recommendation.JobGradeIncreased) ? (int?)null : recommendation.JobGrade.JobGradeId;
@@ -83,18 +82,12 @@
         public IEnumerable<AdjustScoreViewModel> EpaInfos { get; set; }
 
         [SpParam(Ignored = true)]
-        public IEnumerable<EPARecommendationModel> Recommendations { get; set; }
+        public IEnumerable<EPARecommendation> Recommendations { get; set; }
 
-        public int ProcessId { get; set; }
+        public byte ProcessId { get; set; }
 
-        public override bool IsValid()
-        {
-            return ModifiedBy > 0 && ProcessId > 0;
-        }
+        public override bool IsValid() => ModifiedBy > 0 && ProcessId > 0;
 
-        public override string GetSettingKey()
-        {
-            return "EPA_AdjustScoreByReviewerOrManagement";
-        }
+        public override string GetSettingKey() => "EPA_AdjustScoreByReviewerOrManagement";
     }
 }

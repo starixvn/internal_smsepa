@@ -44,8 +44,10 @@
         vm.policyEnum = utilitiesFactory.policy;
         vm.targetTypeEnum = utilitiesFactory.targetType;
         vm.ratingTypeEnum = utilitiesFactory.ratingType;
+        vm.probationStatusTypes = utilitiesFactory.probationStatusTypes;
         vm.hasRatingByStar = false;
         vm.showRatingScoreByStar = true;
+        vm.jobGrades = [];
 
         vm.hoveringLeave = null;
 
@@ -116,7 +118,7 @@
         };
 
         vm.save = function (epaInfo) {
-            if (EvaluatorEPAModel.validateEPA(epaInfo)) {
+            if (EvaluatorEPAModel.validateEPA(epaInfo) && EvaluatorEPAModel.validateRecommendation(epaInfo)) {
                 EvaluatorEPAModel.updateEPAScoreByEvaluator(vm);
             } else {
                 SelfEvalutorModel.openPopupNotificationInvalidComment(vm, vm.evaluateEPAInvalidMessage);
@@ -164,6 +166,7 @@
                     vm.hasRatingByStar = true;
                 }
 
+                vm.epaInfo.Recommendation = vm.epaInfo.Recommendations.length > 0 ? vm.epaInfo.Recommendations[0] : {};
                 vm.epaInfo.Employee.Avatar = baseUrl + vm.epaInfo.Employee.Avatar;
                 vm.epaInfo.Process.Self.TotalScore = utilitiesFactory.parseFloat(vm.epaInfo.Process.Self.TotalScore);
                 vm.epaInfo.Process.CurrentProcess.TotalScore = utilitiesFactory.parseFloat(vm.epaInfo.Process.CurrentProcess.TotalScore);
@@ -215,6 +218,10 @@
 
             $translate('EvaluateEPAInvalid').then(function (message) {
                 vm.evaluateEPAInvalidMessage = message;
+            });
+
+            CommonModel.getJobGrade(true).then(function () {
+                vm.jobGrades = CommonModel.jobGrades;
             });
 
             CommonModel.getStandardGrade().then(function () {

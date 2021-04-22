@@ -134,7 +134,6 @@
         public CommandResult AdjustScoreByReviewer(AdjustScoreByReviewerOrManagementCriteria criteria)
         {
             var commandResult = new CommandResult();
-
             if (criteria != null)
             {
                 criteria.ProcessId = (int)ProcessType.Reviewer;

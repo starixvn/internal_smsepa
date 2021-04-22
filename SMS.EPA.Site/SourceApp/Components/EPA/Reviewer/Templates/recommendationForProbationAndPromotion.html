@@ -4,34 +4,59 @@
     </div>
     <div class="panel-collapse collapse in recommendation">
         <div class="panel-body recommendation-section">
-            <div class="error-message" ng-show="reviewerDetailCtrl.epaInfo.Recommendation.Invalid" data-translate="ProbationRecommendationWarning"></div>
-            <div class="radio" ng-class="{'disabled': !reviewerDetailCtrl.epaInfo.IsAllowedToEdit}">
-                <label>
-                    <input type="radio" name="optionsRadios"
-                           ng-checked="reviewerDetailCtrl.epaInfo.Recommendation.PassedProbation"
-                           ng-disabled="!reviewerDetailCtrl.epaInfo.IsAllowedToEdit"
-                           ng-click="reviewerDetailCtrl.epaInfo.Recommendation.ProbationStatus = reviewerDetailCtrl.probationStatusTypes.Passed" />
-                    {{"PassProbation" | translate}}
-                </label>
-            </div>
-            <div class="radio" ng-class="{'disabled': !reviewerDetailCtrl.epaInfo.IsAllowedToEdit}">
-                <label>
-                    <input type="radio" name="optionsRadios"
-                           ng-checked="reviewerDetailCtrl.epaInfo.Recommendation.ExtendedProbation"
-                           ng-disabled="!reviewerDetailCtrl.epaInfo.IsAllowedToEdit"
-                           ng-click="reviewerDetailCtrl.epaInfo.Recommendation.ProbationStatus = reviewerDetailCtrl.probationStatusTypes.Extended" />
-                    {{"ExtendProbation" | translate}}
-                </label>
-            </div>
-            <div class="radio" ng-class="{'disabled': !reviewerDetailCtrl.epaInfo.IsAllowedToEdit}">
-                <label>
-                    <input type="radio" name="optionsRadios"
-                           ng-checked="reviewerDetailCtrl.epaInfo.Recommendation.FailedProbation"
-                           ng-disabled="!reviewerDetailCtrl.epaInfo.IsAllowedToEdit"
-                           ng-click="reviewerDetailCtrl.epaInfo.Recommendation.ProbationStatus = reviewerDetailCtrl.probationStatusTypes.Failed" />
-                    {{"FailProbation" | translate}}
-                </label>
-            </div>
+            <div class="error-message" ng-show="reviewerDetailCtrl.epaInfo.Recommendation.Invalid"
+                 data-translate="ProbationRecommendationWarning"></div>
+            <div>Based on the evaluation above, I recommend the employee:</div>
+            <table class="table table-bordered table-recommendation table-custom">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>{{"Evaluator" | translate}}</th>
+                        <th>{{"Reviewer" | translate}}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>{{reviewerDetailCtrl.epaInfo.IsProbation ? "PassProbation" : "PassPromotion" | translate}}</td>
+                        <td class="text-center">
+                            <input type="radio" disabled
+                                   ng-checked="reviewerDetailCtrl.epaInfo.EvaluatorRecommendation.PassedProbation" />
+                        </td>
+                        <td class="text-center">
+                            <input type="radio" name="optionsRadios"
+                                   ng-checked="reviewerDetailCtrl.epaInfo.Recommendation.PassedProbation"
+                                   ng-disabled="!reviewerDetailCtrl.epaInfo.IsAllowedToEdit"
+                                   ng-click="reviewerDetailCtrl.epaInfo.Recommendation.ProbationStatus = reviewerDetailCtrl.probationStatusTypes.Passed" />
+                        </td>
+                    </tr>
+                    <tr ng-if="reviewerDetailCtrl.epaInfo.IsProbation">
+                        <td>{{"ExtendProbation" | translate}}</td>
+                        <td class="text-center">
+                            <input type="radio" disabled
+                                   ng-checked="reviewerDetailCtrl.epaInfo.EvaluatorRecommendation.ExtendedProbation" />
+                        </td>
+                        <td class="text-center">
+                            <input type="radio" name="optionsRadios"
+                                   ng-checked="reviewerDetailCtrl.epaInfo.Recommendation.ExtendedProbation"
+                                   ng-disabled="!reviewerDetailCtrl.epaInfo.IsAllowedToEdit"
+                                   ng-click="reviewerDetailCtrl.epaInfo.Recommendation.ProbationStatus = reviewerDetailCtrl.probationStatusTypes.Extended" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>{{ reviewerDetailCtrl.epaInfo.IsProbation ? "FailProbation" : "FailPromotion" | translate}}</td>
+                        <td class="text-center">
+                            <input type="radio" disabled
+                                   ng-checked="reviewerDetailCtrl.epaInfo.EvaluatorRecommendation.FailedProbation" />
+                        </td>
+                        <td class="text-center">
+                            <input type="radio" name="optionsRadios"
+                                   ng-checked="reviewerDetailCtrl.epaInfo.Recommendation.FailedProbation"
+                                   ng-disabled="!reviewerDetailCtrl.epaInfo.IsAllowedToEdit"
+                                   ng-click="reviewerDetailCtrl.epaInfo.Recommendation.ProbationStatus = reviewerDetailCtrl.probationStatusTypes.Failed" />
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
     </div>
 </div>

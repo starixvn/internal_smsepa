@@ -90,9 +90,8 @@
             if (epaInfo.StatusId == (int)EPAStatus.Open)
             {
                 IEnumerable<StandardGradeModel> standardGrades = baseService.GetData<StandardGradeModel>(new GetStandardGradeCriteria());
-                float finalScore;
                 float? performanceScore = null;
-                if (float.TryParse(epaInfo.FinalScoreToExport, out finalScore) && finalScore > 0)
+                if (float.TryParse(epaInfo.FinalScoreToExport, out float finalScore) && finalScore > 0)
                 {
                     performanceScore = finalScore - epaInfo.DisciplineScore;
                 }

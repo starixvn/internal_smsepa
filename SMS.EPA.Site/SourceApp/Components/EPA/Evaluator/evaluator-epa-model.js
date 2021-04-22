@@ -27,7 +27,8 @@
             getMemberByEvaluator: getMemberByEvaluator,
             getUserPermissionOnEvaluator: getUserPermissionOnEvaluator,
             updateEPAScoreByEvaluator: updateEPAScoreByEvaluator,
-            validateEPA: validateEPA
+            validateEPA: validateEPA,
+            validateRecommendation: validateRecommendation
         };
 
         return model;
@@ -85,7 +86,8 @@
                 EPAId: vm.epaInfo.EPAId,
                 EmployeeId: vm.epaInfo.Employee.EmployeeId,
                 EPAProcess: vm.epaInfo.Process.CurrentProcess,
-                KPIGroups: vm.epaInfo.KPIGroups
+                KPIGroups: vm.epaInfo.KPIGroups,
+                Recommendations: [vm.epaInfo.Recommendation]
             };
 
             return evaluatorEPAFactory.updateEPAScoreByEvaluator(criteria).success(function (response) {
@@ -124,6 +126,24 @@
                     }
                 });
             });
+
+            return isValid;
+        }
+
+        function validateRecommendation(epaInfo) {
+            var isValid = true;
+            if (epaInfo.Recommendation && epaInfo.Recommendation.EPAId > 0) {
+                if ((epaInfo.IsProbation || epaInfo.IsPromotion) && epaInfo.Recommendation.ProbationStatus === null) {
+                    epaInfo.Recommendation.Invalid = true;
+                    isValid = false;
+                } else if (epaInfo.IsSemiAnnual && epaInfo.Recommendation.JobGradeIncreased
+                    && (!epaInfo.Recommendation.JobGrade || !epaInfo.Recommendation.JobGrade.JobGradeId)) {
+                    epaInfo.Recommendation.Invalid = true;
+                    isValid = false;
+                } else {
+                    epaInfo.Recommendation.Invalid = false;
+                }
+            }
 
             return isValid;
         }

@@ -111,7 +111,7 @@
 
         public RatingTypeModel RatingType { get; set; }
 
-        public EPARecommendationModel Recommendation { get; set; }
+        public IEnumerable<EPARecommendation> Recommendations { get; set; } = new List<EPARecommendation>();
 
         public EPAProbationExtendedQuestionModel ExtendedQuestion { get; set; }
 

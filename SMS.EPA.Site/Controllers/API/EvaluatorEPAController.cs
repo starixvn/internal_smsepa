@@ -136,10 +136,9 @@
         public CommandResult UpdateEPAScoreByEvaluator(UpdateEPAScoreCriteria criteria)
         {
             var commandResult = new CommandResult();
-
             if (criteria != null)
             {
-                criteria.ProcessId = (int)ProcessType.Evaluator;
+                criteria.ProcessId = (byte)ProcessType.Evaluator;
                 criteria.EvaluatorId = SessionService.EmployeeId;
                 criteria.ModifiedBy = SessionService.EmployeeId;
 

@@ -27,13 +27,13 @@
             {
                 <tr>
                     <td class="border-r-b-l">@monthly.Period.Name</td>
-                    <td class="border-r-b">
+                    <td class="border-r-b align-center">
                         @(!string.IsNullOrWhiteSpace(monthly.Process.Self.TotalScore) ? monthly.Process.Self.TotalScore : Lang.NotAvailable)
                     </td>
-                    <td class="border-r-b">
+                    <td class="border-r-b align-center">
                         @(monthly.Process.AverageScoreByEvaluators.HasValue ? monthly.Process.AverageScoreByEvaluators.Value.ToString() : Lang.NotAvailable)
                     </td>
-                    <td class="border-r-b">
+                    <td class="border-r-b align-center">
                         @(monthly.Process.AverageScoreByReviewers.HasValue ? monthly.Process.AverageScoreByReviewers.Value.ToString() : Lang.NotAvailable)
                     </td>
                 </tr>
@@ -41,17 +41,17 @@
 
             <tr>
                 <td class="border-r-b-l" style="text-align: right;">@Lang.MonthlyAverage</td>
-                <td class="border-r-b">
+                <td class="border-r-b align-center">
                     @(Model.MonthlyEPA.AverageSelfScore.HasValue
                         ? Model.MonthlyEPA.AverageSelfScore.Value + " / " + Model.MonthlyEPA.MonthlyEPAs.First().ScoreRatingType.SelfEvaluated
                         : Lang.NotAvailable)
                 </td>
-                <td class="border-r-b">
+                <td class="border-r-b align-center">
                     @(Model.MonthlyEPA.AverageEvaluatorScores.HasValue
                         ? Model.MonthlyEPA.AverageEvaluatorScores.Value + " / " + Model.MonthlyEPA.MonthlyEPAs.First().ScoreRatingType.Evaluator
                         : Lang.NotAvailable)
                 </td>
-                <td class="border-r-b">
+                <td class="border-r-b align-center">
                     @(Model.MonthlyEPA.AverageReviewerScores.HasValue
                         ? Model.MonthlyEPA.AverageReviewerScores.Value + " / " + Model.MonthlyEPA.MonthlyEPAs.First().ScoreRatingType.Reviewer
                         : Lang.NotAvailable)
@@ -59,17 +59,17 @@
             </tr>
             <tr>
                 <td class="border-r-b-l" style="text-align: right;">@Lang.SemiAverage</td>
-                <td class="border-r-b">
+                <td class="border-r-b align-center">
                     @(Model.MonthlyEPA.AverageSelfScoreConverted.HasValue
                         ? Model.MonthlyEPA.AverageSelfScoreConverted.Value + " / " + Model.ScoreRatingType.SelfEvaluated
                         : Lang.NotAvailable)
                 </td>
-                <td class="border-r-b">
+                <td class="border-r-b align-center">
                     @(Model.MonthlyEPA.AverageEvaluatorScoreConverted.HasValue
                         ? Model.MonthlyEPA.AverageEvaluatorScoreConverted.Value + " / " + Model.ScoreRatingType.Evaluator
                         : Lang.NotAvailable)
                 </td>
-                <td class="border-r-b">
+                <td class="border-r-b align-center">
                     @(Model.MonthlyEPA.AverageReviewerScoreConverted.HasValue
                         ? Model.MonthlyEPA.AverageReviewerScoreConverted.Value + " / " + Model.ScoreRatingType.Reviewer
                         : Lang.NotAvailable)
@@ -114,7 +114,7 @@ else
                         <tr>
                             @if (i == 0)
                             {
-                                <td rowspan="@rowspan" class="border-r-b-l">@(index++)</td>
+                                <td rowspan="@rowspan" class="border-r-b-l align-center">@(index++)</td>
                                 <td rowspan="@rowspan" class="border-r-b">
                                     @kpi.Name
                                     @if (kpiGroup.NumberKPIOptional == 0)
@@ -133,19 +133,19 @@ else
                                     selfClass = "red";
                                 }
 
-                                <td rowspan="@rowspan" class="border-r-b @selfClass">
+                                <td rowspan="@rowspan" class="border-r-b @selfClass align-center">
                                     @(!string.IsNullOrWhiteSpace(kpi.EvaluationBySelf.Score) ? kpi.EvaluationBySelf.ScoreToDisplay + " pts" : Lang.NotAvailable)
                                 </td>
                                 <td rowspan="@rowspan" class="border-r-b @selfClass">@kpi.EvaluationBySelf.Comment</td>
                             }
 
-                            <td class="border-r-b">@evaluator.NickName</td>
+                            <td class="border-r-b align-center">@evaluator.NickName</td>
 
                             @if (Model.Process.Evaluators[i].StatusId == (int)ProcessStatusType.InProgress)
                             {
                                 evaluatorClass = "red";
                             }
-                            <td class="border-r-b @evaluatorClass">
+                            <td class="border-r-b @evaluatorClass align-center">
                                 @(!string.IsNullOrWhiteSpace(evaluator.Score) ? evaluator.ScoreToDisplay + " pts" : Lang.NotAvailable)
                             </td>
                             <td class="border-r-b @evaluatorClass">@evaluator.Comment</td>

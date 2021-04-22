@@ -24,7 +24,7 @@
         {
             IEnumerable<FeedbackReport> employees = feedbackReportService.GetData(criteria);
             byte[] bytes = feedbackReportService.Export(employees, criteria.Period);
-            var fileName = $"360 Degree EPA Report.xlsx";
+            const string fileName = "360 Degree EPA Report.xlsx";
             return File(bytes, "application/xlsx", fileName);
         }
     }

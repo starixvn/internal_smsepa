@@ -22,6 +22,6 @@
 
         IList<EPAModel> GetEPAToUpdateFinalScore(ICriteria criteria);
 
-        EPARecommendationModel GetRecommendationById(ICriteria criteria);
+        IEnumerable<EPARecommendation> GetRecommendationById(ICriteria criteria);
     }
 }

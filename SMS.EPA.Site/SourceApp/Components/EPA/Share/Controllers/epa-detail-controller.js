@@ -73,7 +73,7 @@
         function initialize() {
             lockScreenService.start();
 
-            CommonModel.getJobGrade(true).then(function () {
+            CommonModel.getJobGrade(null).then(function () {
                 vm.jobGrades = CommonModel.jobGrades;
             });
 

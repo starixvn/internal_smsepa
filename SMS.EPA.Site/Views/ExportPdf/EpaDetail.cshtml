@@ -19,13 +19,18 @@
         <br />
         @Html.Partial("_PerformanceResult", Model)
 
-        @if (Model.Recommendation != null)
+        @if (Model.Recommendations != null && Model.Recommendations.Any())
         {
             @Html.Partial("_Recommendation", Model)
         }
 
         @Html.Partial("_PerformanceDetail", Model)
-        @Html.Partial("_ProbationExtendedQuestion", Model)
+
+        @if (Model.ExtendedQuestion != null && Model.ExtendedQuestion.SubQuestions.Any())
+        {
+            @Html.Partial("_ProbationExtendedQuestion", Model)
+        }
+
         @Html.Partial("_Comment", Model)
     </div>
 </body>

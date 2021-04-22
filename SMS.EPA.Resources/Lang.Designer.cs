@@ -19,7 +19,7 @@ namespace SMS.EPA.Resources {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "15.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "16.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     public class Lang {
@@ -1447,6 +1447,15 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Not to be promoted at this time.
+        /// </summary>
+        public static string FailPromotion {
+            get {
+                return ResourceManager.GetString("FailPromotion", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Feedback.
         /// </summary>
         public static string Feedback {
@@ -1852,11 +1861,20 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Job Grade.
+        ///   Looks up a localized string similar to Job Level.
         /// </summary>
-        public static string JobGrade {
+        public static string JobLevel {
             get {
-                return ResourceManager.GetString("JobGrade", resourceCulture);
+                return ResourceManager.GetString("JobLevel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Job Level is required!.
+        /// </summary>
+        public static string JobLevelRequired {
+            get {
+                return ResourceManager.GetString("JobLevelRequired", resourceCulture);
             }
         }
         
@@ -2532,6 +2550,15 @@ namespace SMS.EPA.Resources {
         public static string PassProbation {
             get {
                 return ResourceManager.GetString("PassProbation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to To be promoted to the proposed level.
+        /// </summary>
+        public static string PassPromotion {
+            get {
+                return ResourceManager.GetString("PassPromotion", resourceCulture);
             }
         }
         
@@ -3243,15 +3270,6 @@ namespace SMS.EPA.Resources {
         public static string SemiAverage {
             get {
                 return ResourceManager.GetString("SemiAverage", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Job Grade is required.
-        /// </summary>
-        public static string SemiRecommendationWarning {
-            get {
-                return ResourceManager.GetString("SemiRecommendationWarning", resourceCulture);
             }
         }
         

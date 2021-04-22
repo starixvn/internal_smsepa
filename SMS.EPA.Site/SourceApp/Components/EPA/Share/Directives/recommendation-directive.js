@@ -3,9 +3,9 @@
     /* jshint latedef:nofunc */
 
     angular.module('epaModule').directive('epaRecommendation', recommendation);
-    recommendation.$inject = [];
+    recommendation.$inject = ['utilitiesFactory'];
 
-    function recommendation() {
+    function recommendation(utilitiesFactory) {
         return {
             restrict: 'E',
             scope: {
@@ -13,6 +13,11 @@
                 jobGrades: '='
             },
             controller: function () {
+                var vm = this;
+                if (vm.epaInfo) {
+                    vm.evaluatorRecommendation = vm.epaInfo.Recommendations.filter(item => item.ProcessId == utilitiesFactory.processType.Evaluator)[0];
+                    vm.recommendation = vm.epaInfo.Recommendations.filter(item => item.ProcessId == utilitiesFactory.processType.Reviewer)[0];
+                }
             },
             controllerAs: 'recommendationCtrl',
             bindToController: true,

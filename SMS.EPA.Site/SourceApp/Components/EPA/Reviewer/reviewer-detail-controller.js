@@ -19,17 +19,12 @@
         vm.policyEnum = utilitiesFactory.policy;
         vm.targetTypeEnum = utilitiesFactory.targetType;
         vm.ratingTypeEnum = utilitiesFactory.ratingType;
+        vm.probationStatusTypes = utilitiesFactory.probationStatusTypes;
         vm.dataSaved = false;
         vm.evaluatedDate = null;
         vm.finalScore = null;
         vm.hasRatingByStar = false;
         vm.showRatingScoreByStar = true;
-
-        vm.probationStatusTypes = {
-            Failed: 0,
-            Passed: 1,
-            Extended: 2
-        };
 
         vm.range = function (n) {
             return new Array(n);
@@ -107,11 +102,13 @@
                     evaluator.TotalScore = utilitiesFactory.parseFloat(evaluator.TotalScore);
                 });
                 vm.epaInfo.Process.AverageScoreByEvaluators = vm.epaInfo.Process.AverageScoreByEvaluators;
+                vm.epaInfo.EvaluatorRecommendation = vm.epaInfo.Recommendations.filter(item => item.ProcessId == utilitiesFactory.processType.Evaluator)[0];
 
                 // reviewer
                 vm.epaInfo.Process.CurrentProcess.TotalScore = utilitiesFactory.parseFloat(vm.epaInfo.Process.CurrentProcess.TotalScore);
                 vm.finalScore = vm.epaInfo.Process.CurrentProcess.TotalScore + vm.epaInfo.DisciplineScore;
                 vm.finalScore = EvaluationModel.checkScore(vm.finalScore, 0, vm.epaInfo.Process.CurrentProcess.MaxPerformanceScore);
+                vm.epaInfo.Recommendation = vm.epaInfo.Recommendations.filter(item => item.ProcessId == utilitiesFactory.processType.Reviewer)[0];
 
                 vm.epaInfo.Grade = EvaluationModel.convertScoreToGrade(
                     vm.epaInfo.Process.CurrentProcess.TotalScore,

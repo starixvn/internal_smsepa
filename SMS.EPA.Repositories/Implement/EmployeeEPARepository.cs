@@ -237,11 +237,11 @@
             }
         }
 
-        public EPARecommendationModel GetRecommendationById(ICriteria criteria)
+        public IEnumerable<EPARecommendation> GetRecommendationById(ICriteria criteria)
         {
             using (var db = new ObjectDb(criteria.GetSettingKey()))
             {
-                return db.Query<EPARecommendationModel, JobGradeModel, EPARecommendationModel>(
+                return db.Query<EPARecommendation, JobGradeModel, EPARecommendation>(
                         (recommendation, job) =>
                         {
                             recommendation.JobGrade = job;
@@ -249,7 +249,7 @@
                             return recommendation;
                         },
                         "JobGradeId",
-                        criteria.GetSpParams()).FirstOrDefault();
+                        criteria.GetSpParams());
             }
         }
 

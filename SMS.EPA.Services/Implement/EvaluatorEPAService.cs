@@ -7,6 +7,7 @@
     using Fanex.Data.Repository;
     using Interfaces;
     using Model;
+    using SMS.EPA.Core.Enumerations;
     using SMS.EPA.Core.Services;
 
     public class EvaluatorEPAService : BaseActorEPAService, IEvaluatorEPAService
@@ -67,6 +68,11 @@
                 {
                     epaInfo.MonthlyEPA.MonthlyEPAs = EvaluationService.GetMonthlyEPAOfSemi(epaInfo.EPAId.ToString());
                     EvaluationService.ConvertAverageMonthlyScore(epaInfo.MonthlyEPA, epaInfo.ScoreRatingType);
+                }
+
+                if (epaInfo.IsProbation || epaInfo.IsPromotion || epaInfo.IsSemiAnnual)
+                {
+                    epaInfo.Recommendations = EvaluationService.GetRecommendationByEPAId(epaInfo.EPAId).Where(x => x.ProcessId == (byte)ProcessType.Evaluator);
                 }
 
                 if (epaInfo.IsProbation)

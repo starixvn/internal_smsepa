@@ -487,6 +487,8 @@
     <Content Include="SourceApp\Components\Employee\Templates\modalConfirmSetUnsetMonthlyEvaluation.html" />
     <Content Include="SourceApp\Components\Employee\Templates\resetPassword.html" />
     <Content Include="SourceApp\Components\EPAHistory\Templates\monthlyEPAHistory.html" />
+    <Content Include="SourceApp\Components\EPA\Evaluator\Templates\recommendationForProbationAndPromotion.html" />
+    <Content Include="SourceApp\Components\EPA\Evaluator\Templates\recommendationForSemi.html" />
     <Content Include="SourceApp\Components\EPA\Share\Controllers\epa-detail-controller.js" />
     <Content Include="SourceApp\Components\EPA\Share\Directives\repeat-end-directive.js" />
     <Content Include="SourceApp\Components\EPA\Share\Directives\auto-collapse-directive.js" />

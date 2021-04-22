@@ -96,21 +96,21 @@
                 {
                     if (i == 0)
                     {
-                        <td rowspan="@rowspan" class="border-r-b-l">@Model.MonthlyEPA.AverageSelfScoreConverted</td>
-                        <td rowspan="@rowspan" class="border-r-b">@Model.MonthlyEPA.AverageEvaluatorScoreConverted</td>
+                        <td rowspan="@rowspan" class="border-r-b-l align-center">@Model.MonthlyEPA.AverageSelfScoreConverted</td>
+                        <td rowspan="@rowspan" class="border-r-b align-center">@Model.MonthlyEPA.AverageEvaluatorScoreConverted</td>
                     }
                 }
                 else
                 {
                     if (i == 0)
                     {
-                        <td rowspan="@rowspan" class="border-r-b-l">@GetScoreFromProcess(Model.Process.Self, Model.ScoreRatingType)</td>
+                        <td rowspan="@rowspan" class="border-r-b-l align-center">@GetScoreFromProcess(Model.Process.Self, Model.ScoreRatingType)</td>
                     }
 
                     if (i < Model.Process.Evaluators.Count)
                     {
-                        <td class="border-r-b">@Model.Process.Evaluators[i].EvaluatorInfo.NickName</td>
-                        <td class="border-r-b">@GetScoreFromProcess(Model.Process.Evaluators[i], Model.ScoreRatingType)</td>
+                        <td class="border-r-b align-center">@Model.Process.Evaluators[i].EvaluatorInfo.NickName</td>
+                        <td class="border-r-b align-center">@GetScoreFromProcess(Model.Process.Evaluators[i], Model.ScoreRatingType)</td>
                     }
                     else
                     {
@@ -121,8 +121,8 @@
 
                 @if (i < Model.Process.Reviewers.Count)
                 {
-                    <td class="border-r-b">@Model.Process.Reviewers[i].EvaluatorInfo.NickName</td>
-                    <td class="border-r-b">@GetScoreFromProcess(Model.Process.Reviewers[i], Model.ScoreRatingType)</td>
+                    <td class="border-r-b align-center">@Model.Process.Reviewers[i].EvaluatorInfo.NickName</td>
+                    <td class="border-r-b align-center">@GetScoreFromProcess(Model.Process.Reviewers[i], Model.ScoreRatingType)</td>
                 }
                 else
                 {
@@ -134,8 +134,8 @@
                 {
                     if (i < Model.Process.Managements.Count)
                     {
-                        <td class="border-r-b">@Model.Process.Managements[i].EvaluatorInfo.NickName</td>
-                        <td class="border-r-b">@GetScoreFromProcess(Model.Process.Managements[i], Model.ScoreRatingType)</td>
+                        <td class="border-r-b align-center">@Model.Process.Managements[i].EvaluatorInfo.NickName</td>
+                        <td class="border-r-b align-center">@GetScoreFromProcess(Model.Process.Managements[i], Model.ScoreRatingType)</td>
                     }
                     else
                     {
@@ -146,12 +146,12 @@
 
                 @if (i == 0)
                 {
-                    <td rowspan="@rowspan" class="border-r-b">
+                    <td rowspan="@rowspan" class="border-r-b align-center">
                         @(Model.HasDisciplineScore
                               ? Model.DisciplineScore + " / " + Model.MaxDisciplineScore
                               : (Model.DisciplineScore != 0 ? Model.DisciplineScore.ToString() : "-"))
                     </td>
-                    <td rowspan="@rowspan" class="border-r-b">
+                    <td rowspan="@rowspan" class="border-r-b align-center">
                         @if (Model.StatusId == (int)EPAStatus.Closed)
                         {
                             if (!string.IsNullOrEmpty(Model.FinalScore))
@@ -168,7 +168,7 @@
                             <span class="red">@Model.FinalScoreToExport</span>
                         }
                     </td>
-                    <td rowspan="@rowspan" class="border-r-b">
+                    <td rowspan="@rowspan" class="border-r-b align-center">
                         @if (Model.StatusId == (int)EPAStatus.Closed)
                         {
                             @Model.Grade

@@ -103,7 +103,7 @@
     <Compile Include="EmployeeEPA\RatingByKPI\TemporaryKPIGroupModel.cs" />
     <Compile Include="EmployeeEPA\RatingByKPI\TemporaryKPIModel.cs" />
     <Compile Include="EmployeeEPA\RatingTypeModel.cs" />
-    <Compile Include="EmployeeEPA\EPARecommendationModel.cs" />
+    <Compile Include="EmployeeEPA\EPARecommendation.cs" />
     <Compile Include="EmployeeEPA\StandardGradeModel.cs" />
     <Compile Include="Employee\EmployeeViewModel.cs" />
     <Compile Include="Enitites\RatingType.cs" />
