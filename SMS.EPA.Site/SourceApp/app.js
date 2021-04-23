@@ -19,6 +19,7 @@
                 'epaHistoryModule',
                 'monthlyPeriodModule',
                 'disciplineModule',
+                'jobDescriptionModule',
                 'ui.bootstrap.contextMenu',
                 'ui.bootstrap',
                 'angular.chosen',

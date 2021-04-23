@@ -180,10 +180,9 @@
             return baseService.ExecuteNonQuery(criteria);
         }
 
-        public int GetUserPermissionOnRatingByKPI()
+        public byte GetUserPermissionOnRatingByKPI()
         {
-            int permission = SessionService.GetPermission(EPAFunctionKey.RatingByKPI);
-            return permission;
+            return SessionService.GetPermission(EPAFunctionKey.RatingByKPI);
         }
     }
 }

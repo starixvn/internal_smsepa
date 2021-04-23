@@ -1852,6 +1852,15 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Job Description.
+        /// </summary>
+        public static string JobDescription {
+            get {
+                return ResourceManager.GetString("JobDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Job Level.
         /// </summary>
         public static string JobLevel {

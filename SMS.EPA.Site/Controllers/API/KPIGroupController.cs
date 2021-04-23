@@ -104,10 +104,9 @@
             return commandResult;
         }
 
-        public int GetUserPermissionOnKPIGroup()
+        public byte GetUserPermissionOnKPIGroup()
         {
-            int permission = SessionService.GetPermission(EPAFunctionKey.KPIGroup);
-            return permission;
+            return SessionService.GetPermission(EPAFunctionKey.KPIGroup);
         }
     }
 }

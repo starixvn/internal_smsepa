@@ -243,11 +243,9 @@
             return hasStarted;
         }
 
-        public int GetUserPermissionOnMonthlyPeriod()
+        public byte GetUserPermissionOnMonthlyPeriod()
         {
-            int permission = SessionService.GetPermission(EPAFunctionKey.MonthlyPeriod);
-
-            return permission;
+            return SessionService.GetPermission(EPAFunctionKey.MonthlyPeriod);
         }
     }
 }

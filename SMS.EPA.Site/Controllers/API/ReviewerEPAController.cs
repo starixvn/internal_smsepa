@@ -145,10 +145,9 @@
             return commandResult;
         }
 
-        public int GetUserPermissionOnReviewer()
+        public byte GetUserPermissionOnReviewer()
         {
-            int permission = SessionService.GetPermission(EPAFunctionKey.Reviewer);
-            return permission;
+            return SessionService.GetPermission(EPAFunctionKey.Reviewer);
         }
 
         private int CheckEmployeePermission(

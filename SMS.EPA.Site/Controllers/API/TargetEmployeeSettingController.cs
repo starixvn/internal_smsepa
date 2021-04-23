@@ -134,10 +134,9 @@
             return commandResult;
         }
 
-        public int GetUserPermissionOnTargetEmployeeSetting()
+        public byte GetUserPermissionOnTargetEmployeeSetting()
         {
-            int permission = SessionService.GetPermission(EPAFunctionKey.TargetEmployeeSetting);
-            return permission;
+            return SessionService.GetPermission(EPAFunctionKey.TargetEmployeeSetting);
         }
     }
 }

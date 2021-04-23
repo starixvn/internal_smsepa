@@ -92,10 +92,9 @@
             return commandResult;
         }
 
-        public int GetUserPermissionOnEmployee()
+        public byte GetUserPermissionOnEmployee()
         {
-            int permission = SessionService.GetPermission(EPAFunctionKey.Self);
-            return permission;
+            return SessionService.GetPermission(EPAFunctionKey.Self);
         }
 
         private int CheckEmployeePermission(int epaId)

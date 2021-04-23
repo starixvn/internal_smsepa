@@ -1,0 +1,55 @@
+﻿<div ng-controller="PersonnelSettingController as personnelCtrl">
+    <table class="row table table-bordered table-striped">
+        <thead>
+            <tr class="header-table">
+                <th colspan="7">
+                    <input type="text" ng-model="personnelCtrl.searchKey" ng-change="personnelCtrl.search()"
+                           class="search-inline-textbox search pull-right">
+                </th>
+            </tr>
+            <tr class="headerName">
+                <th data-translate="SymbolCount"></th>
+                <th data-translate="Code"></th>
+                <th data-translate="NickName"></th>
+                <th data-translate="FullName"></th>
+                <th data-translate="Section"></th>
+                <th data-translate="JobLevel"></th>
+                <th data-translate="Action" ng-show="jobDescriptionCtrl.permission === jobDescriptionCtrl.policy.Host"></th>
+            </tr>
+        </thead>
+        <tbody class="table-body" ng-if="personnelCtrl.filteredItems.length > 0">
+            <tr dir-paginate="employee in personnelCtrl.filteredItems | itemsPerPage: personnelCtrl.pageSize" current-page="personnelCtrl.currentPage">
+                <td class="text-center" ng-bind="personnelCtrl.getIndex($index, personnelCtrl.currentPage, personnelCtrl.pageSize)"></td>
+                <td ng-bind="employee.Code"></td>
+                <td ng-bind="employee.Nickname"></td>
+                <td ng-bind="employee.FullName"></td>
+                <td ng-bind="employee.Team"></td>
+                <td ng-bind="employee.JobLevel"></td>
+                <td class="text-center" ng-if="jobDescriptionCtrl.permission === jobDescriptionCtrl.policyEnum.Host">
+                    <a class="glyphicon glyphicon-edit icon-edit" href="" ng-click="personnelCtrl.editJobDescription(employee)"
+                       ng-attr-title='{{"Edit" | translate}}'></a>
+                </td>
+            </tr>
+        </tbody>
+        <tbody ng-if="personnelCtrl.filteredItems.length === 0">
+            <tr>
+                <td class="empty-result" colspan="7" data-translate="EmptyResult"></td>
+            </tr>
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="7" class="paging">
+                    <span data-translate="Show"></span>
+                    <select class="dropdown-entry form-control" ng-model="personnelCtrl.pageSize"
+                            ng-options="entry for entry in personnelCtrl.entries" ng-change="personnelCtrl.currentPage = 1"></select>
+                    <span data-translate="entries"></span>
+                    <div class="pull-right custom-paging">
+                        <ul uib-pagination total-items="personnelCtrl.filteredItems.length" items-per-page="personnelCtrl.pageSize"
+                            boundary-links="true" max-size="5" boundary-link-numbers="true" ng-model="personnelCtrl.currentPage"
+                            class="pagination-sm" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></ul>
+                    </div>
+                </td>
+            </tr>
+        </tfoot>
+    </table>
+</div>

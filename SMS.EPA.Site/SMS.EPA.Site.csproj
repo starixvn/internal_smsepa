@@ -537,6 +537,14 @@
     <Content Include="SourceApp\Components\FlowManagement\flowTemplate-model.js" />
     <Content Include="SourceApp\Components\FlowManagement\flowTemplate-factory.js" />
     <Content Include="SourceApp\Components\FlowManagement\Templates\modalCreateFlowTemplate.html" />
+    <Content Include="SourceApp\Components\JobDescription\job-description-controller.js" />
+    <Content Include="SourceApp\Components\JobDescription\job-description-factory.js" />
+    <Content Include="SourceApp\Components\JobDescription\job-description-model.js" />
+    <Content Include="SourceApp\Components\JobDescription\personnel-setting-controller.js" />
+    <Content Include="SourceApp\Components\JobDescription\team-setting-controller.js" />
+    <Content Include="SourceApp\Components\JobDescription\Templates\index.html" />
+    <Content Include="SourceApp\Components\JobDescription\Templates\personnel.html" />
+    <Content Include="SourceApp\Components\JobDescription\Templates\team.html" />
     <Content Include="SourceApp\Components\KPIGroup\create-kpiGroup-controller.js" />
     <Content Include="SourceApp\Components\KPIGroup\update-kpiGroup-controller.js" />
     <Content Include="SourceApp\Components\KPI\create-kpi-controller.js" />

@@ -227,7 +227,12 @@
                             "~/SourceApp/Components/Discipline/discipline-summary-directive.js",
                             "~/SourceApp/Components/Discipline/discipline-summary-by-period-directive.js",
                             "~/SourceApp/Components/Discipline/discipline-summary-controller.js",
-                            "~/SourceApp/Components/Discipline/discipline-summary-by-period-controller.js"));
+                            "~/SourceApp/Components/Discipline/discipline-summary-by-period-controller.js",
+                            "~/SourceApp/Components/JobDescription/job-description-factory.js",
+                            "~/SourceApp/Components/JobDescription/job-description-model.js",
+                            "~/SourceApp/Components/JobDescription/job-description-controller.js",
+                            "~/SourceApp/Components/JobDescription/team-setting-controller.js",
+                            "~/SourceApp/Components/JobDescription/personnel-setting-controller.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/common/js").Include(
                             "~/SourceApp/Shared/Directives/epa-addClassToRoleFilter-directive.js",

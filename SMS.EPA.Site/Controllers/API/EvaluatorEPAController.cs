@@ -148,10 +148,9 @@
             return commandResult;
         }
 
-        public int GetUserPermissionOnEvaluator()
+        public byte GetUserPermissionOnEvaluator()
         {
-            int permission = SessionService.GetPermission(EPAFunctionKey.Evaluator);
-            return permission;
+            return SessionService.GetPermission(EPAFunctionKey.Evaluator);
         }
 
         private int CheckEmployeePermission(

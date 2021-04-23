@@ -1,0 +1,17 @@
+﻿<div class="col-sm-12" ng-controller="JobDescriptionController as jobDescriptionCtrl">
+    <div class="sub-header">
+        <ul class="row breadcrumb">
+            <li class="current" data-translate="JobDescription"></li>
+        </ul>
+    </div>
+    <div class="target-tabset">
+        <uib-tabset id="job-description-tab" active="jobDescriptionCtrl.dataTab">
+            <uib-tab heading="Section" class="tab-cursor" index="1" select="targetCtrl.dataTab = 1">
+                <div ng-include src="'/SourceApp/Components/JobDescription/Templates/team.html'"></div>
+            </uib-tab>
+            <uib-tab heading="Personnel" class="tab-cursor" index="2" select="targetCtrl.dataTab = 2">
+                <div ng-include src="'/SourceApp/Components/JobDescription/Templates/personnel.html'"></div>
+            </uib-tab>
+        </uib-tabset>
+    </div>
+</div>

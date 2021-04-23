@@ -289,10 +289,9 @@
             return hasStarted;
         }
 
-        public int GetUserPermissionOnPeriod()
+        public byte GetUserPermissionOnPeriod()
         {
-            int permission = SessionService.GetPermission(EPAFunctionKey.Period);
-            return permission;
+            return SessionService.GetPermission(EPAFunctionKey.Period);
         }
     }
 }

@@ -1470,4 +1470,7 @@
   <data name="PassPromotion" xml:space="preserve">
     <value>To be promoted to the proposed level</value>
   </data>
+  <data name="JobDescription" xml:space="preserve">
+    <value>Job Description</value>
+  </data>
 </root>

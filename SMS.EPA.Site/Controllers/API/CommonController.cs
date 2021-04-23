@@ -215,10 +215,9 @@
             return commonService.GetAllJobTitle();
         }
 
-        public int GetUserPermissionOnFlowManagement()
+        public byte GetUserPermissionOnFlowManagement()
         {
-            int permission = SessionService.GetPermission(EPAFunctionKey.FlowManagement);
-            return permission;
+            return SessionService.GetPermission(EPAFunctionKey.FlowManagement);
         }
 
         [HttpGet]

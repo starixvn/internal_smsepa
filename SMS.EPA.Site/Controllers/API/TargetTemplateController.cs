@@ -177,10 +177,9 @@
             return commandResult;
         }
 
-        public int GetUserPermissionOnTargetTemplate()
+        public byte GetUserPermissionOnTargetTemplate()
         {
-            int permission = SessionService.GetPermission(EPAFunctionKey.TargetTemplate);
-            return permission;
+            return SessionService.GetPermission(EPAFunctionKey.TargetTemplate);
         }
 
         public IEnumerable<ScoreRatingTypeModel> GetScoreRatingType(int? scoreRatingTypeId = null, bool isActive = true)

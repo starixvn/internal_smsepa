@@ -141,10 +141,9 @@
             return defaultPassword;
         }
 
-        public int GetUserPermissionOnEmployee()
+        public byte GetUserPermissionOnEmployee()
         {
-            int permission = SessionService.GetPermission(EPAFunctionKey.UserManagement);
-            return permission;
+            return SessionService.GetPermission(EPAFunctionKey.UserManagement);
         }
     }
 }

@@ -153,3 +153,10 @@ angular.module('disciplineModule', ['ngRoute'])
         $routeProvider.when('/DisciplineSummary/Index',
             { templateUrl: baseUrl + 'SourceApp/Components/Discipline/Templates/disciplineSummary.html', caseInsensitiveMatch: true });
     }]);
+
+angular.module('jobDescriptionModule', ['ngRoute'])
+    .config(['$routeProvider', function ($routeProvider) {
+        var baseUrl = $('base').first().attr('href');
+        $routeProvider.when('/JobDescription/Index',
+            { templateUrl: baseUrl + 'SourceApp/Components/JobDescription/Templates/index.html', caseInsensitiveMatch: true });
+    }]);

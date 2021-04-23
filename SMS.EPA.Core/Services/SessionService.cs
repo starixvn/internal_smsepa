@@ -33,19 +33,18 @@
             set { CurrentUser.EmployeeId = value; }
         }
 
-        public int GetPermission(string functionKey)
+        public byte GetPermission(string functionKey)
         {
-            int policy = (int)Policy.None;
-
+            byte policy = (byte)Policy.None;
             if (HasPermissionOnFunction(functionKey, Policy.Host))
             {
-                policy = (int)Policy.Host;
+                policy = (byte)Policy.Host;
             }
             else
             {
                 if (HasPermissionOnFunction(functionKey, Policy.Read))
                 {
-                    policy = (int)Policy.Read;
+                    policy = (byte)Policy.Read;
                 }
             }
 

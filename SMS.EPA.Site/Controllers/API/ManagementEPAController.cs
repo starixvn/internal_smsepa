@@ -145,10 +145,9 @@
             return commandResult;
         }
 
-        public int GetUserPermissionOnManagement()
+        public byte GetUserPermissionOnManagement()
         {
-            int permission = SessionService.GetPermission(EPAFunctionKey.Management);
-            return permission;
+            return SessionService.GetPermission(EPAFunctionKey.Management);
         }
 
         private int CheckEmployeePermission(

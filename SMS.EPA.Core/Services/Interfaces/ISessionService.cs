@@ -9,7 +9,7 @@
 
         UserSession CurrentUser { get; set; }
 
-        int GetPermission(string functionKey);
+        byte GetPermission(string functionKey);
 
         bool HasPermissionOnFunction(string functionKey, Policy policy);
     }
