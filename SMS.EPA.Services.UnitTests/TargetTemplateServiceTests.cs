@@ -69,15 +69,14 @@
 
         #region Helpers
 
-        private IBaseService FakeBaseService()
+        private static IBaseService FakeBaseService()
         {
             var repository = Substitute.For<IBaseService>();
 
             return repository;
         }
 
-        private TargetTemplateService GetTargetTemplateService(
-            IBaseService baseService = null)
+        private static TargetTemplateService GetTargetTemplateService(IBaseService baseService = null)
         {
             var service = new TargetTemplateService(null, baseService);
 

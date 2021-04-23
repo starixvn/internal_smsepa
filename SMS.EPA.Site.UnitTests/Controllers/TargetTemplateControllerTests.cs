@@ -246,7 +246,7 @@
 
         #region Helpers
 
-        private ISessionService FakeSessionService()
+        private static ISessionService FakeSessionService()
         {
             ISessionService service = Substitute.For<ISessionService>();
             service.EmployeeId = 1;
@@ -254,14 +254,14 @@
             return service;
         }
 
-        private ITargetTemplateService FakeTargetTemplateService()
+        private static ITargetTemplateService FakeTargetTemplateService()
         {
             ITargetTemplateService service = Substitute.For<ITargetTemplateService>();
 
             return service;
         }
 
-        private IBaseService FakeBaseService()
+        private static IBaseService FakeBaseService()
         {
             var service = Substitute.For<IBaseService>();
 

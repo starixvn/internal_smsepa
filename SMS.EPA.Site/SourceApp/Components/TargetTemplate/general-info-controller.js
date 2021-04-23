@@ -4,15 +4,14 @@
     /* jshint validthis:true */
 
     angular.module('targetTemplateModule').controller('TargetTemplateGeneralInfoController', generalInfoController);
-    generalInfoController.$inject = ['$scope', 'TargetTemplateModel', 'CommonModel', 'utilitiesFactory'];
+    generalInfoController.$inject = ['$scope', 'TargetTemplateModel', 'CommonModel'];
 
-    function generalInfoController($scope, TargetTemplateModel, CommonModel, utilitiesFactory) {
+    function generalInfoController($scope, TargetTemplateModel, CommonModel) {
         var vm = this;
 
         vm.scoreRatingTypeOptions = [];
         vm.targetTypes = [];
         vm.ratingTypes = [];
-        vm.targetTypeEnum = utilitiesFactory.targetType;
 
         vm.save = function (targetTemplate) {
             if (TargetTemplateModel.validateTargetTemplate(targetTemplate)) {
@@ -37,13 +36,6 @@
                 vm.ratingTypes = TargetTemplateModel.ratingTypes;
             });
         }
-
-        vm.handleChangeTargetType = function () {
-            if ($scope.updateCtrl.targetTemplate.TargetTypeId === vm.targetTypeEnum.Feedback360) {
-                $scope.updateCtrl.targetTemplate.RatingTypeId = utilitiesFactory.ratingType.Star;
-                $scope.updateCtrl.targetTemplate.ScoreRatingTypeId = utilitiesFactory.scoreRatingType.Full100;
-            }
-        };
 
         initialize();
     }

@@ -62,7 +62,7 @@
 
         #region Helpers
 
-        private ISessionService FakeSessionService()
+        private static ISessionService FakeSessionService()
         {
             ISessionService service = Substitute.For<ISessionService>();
             service.EmployeeId = 1;
@@ -70,14 +70,14 @@
             return service;
         }
 
-        private IRoleService FakeRoleService()
+        private static IRoleService FakeRoleService()
         {
             IRoleService service = Substitute.For<IRoleService>();
 
             return service;
         }
 
-        private IBaseService FakeBaseService()
+        private static IBaseService FakeBaseService()
         {
             var service = Substitute.For<IBaseService>();
 

@@ -200,11 +200,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Controllers\API\FeedbackController.cs" />
-    <Compile Include="Controllers\API\FeedbackReportController.cs" />
+    <Compile Include="Controllers\API\JobDescriptionController.cs" />
     <Compile Include="Controllers\Export\ExportCommentReportController.cs" />
     <Compile Include="Controllers\Export\ExportRecommendationReportController.cs" />
-    <Compile Include="Controllers\Export\ExportFeedbackReportController.cs" />
     <Compile Include="Controllers\Export\ExportTargetTemplateController.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <!-- Exclude the file from analysis -->
@@ -527,18 +525,6 @@
     <Content Include="SourceApp\Components\EPA\UpdateFinalScore\update-final-score-model.js" />
     <Content Include="SourceApp\Components\EPA\UpdateFinalScore\update-final-score-factory.js" />
     <Content Include="SourceApp\Components\EPA\UpdateFinalScore\export-excel-directive.js" />
-    <Content Include="SourceApp\Components\FeedbackSetting\Templates\update.html" />
-    <Content Include="SourceApp\Components\FeedbackSetting\update-feedback-setting-controller.js" />
-    <Content Include="SourceApp\Components\FeedbackSetting\feedback-setting-access-controller.js" />
-    <Content Include="SourceApp\Components\FeedbackSetting\feedback-setting-factory.js" />
-    <Content Include="SourceApp\Components\FeedbackSetting\Templates\index.html" />
-    <Content Include="SourceApp\Components\Feedback\feedback-access-controller.js" />
-    <Content Include="SourceApp\Components\Feedback\feedback-detail-controller.js" />
-    <Content Include="SourceApp\Components\Feedback\feedback-factory.js" />
-    <Content Include="SourceApp\Components\Feedback\Templates\detail.html" />
-    <Content Include="SourceApp\Components\Feedback\Templates\generalInfo.html" />
-    <Content Include="SourceApp\Components\Feedback\Templates\index.html" />
-    <Content Include="SourceApp\Components\Feedback\Templates\listKPI.html" />
     <Content Include="SourceApp\Components\FlowManagement\export-personal-flow-setting-directive.js" />
     <Content Include="SourceApp\Components\FlowManagement\update-flowTemplate-basic-info-controller.js" />
     <Content Include="SourceApp\Components\FlowManagement\update-flowTemplate-controller.js" />
@@ -588,10 +574,6 @@
     <Content Include="SourceApp\Components\Report\export-monthly-epa-summary-report-directive.js" />
     <Content Include="SourceApp\Components\Report\export-epa-summary-report-directive.js" />
     <Content Include="SourceApp\Components\Report\export-recommendation-report-directive.js" />
-    <Content Include="SourceApp\Components\Report\Feedback\feedback-report-controller.js" />
-    <Content Include="SourceApp\Components\Report\Feedback\feedback-report-factory.js" />
-    <Content Include="SourceApp\Components\Report\Feedback\feedback-report-grid-directive.js" />
-    <Content Include="SourceApp\Components\Report\Feedback\Templates\index.html" />
     <Content Include="SourceApp\Components\Report\monthly-epa-summary-report-controller.js" />
     <Content Include="SourceApp\Components\Report\monthly-epa-detail-report-controller.js" />
     <Content Include="SourceApp\Components\Report\epa-summary-report-directive.js" />
@@ -932,6 +914,7 @@
     <Analyzer Include="..\packages\SonarAnalyzer.CSharp.8.9.0.19135\analyzers\SonarAnalyzer.CSharp.dll" />
     <Analyzer Include="..\packages\SonarAnalyzer.CSharp.8.9.0.19135\analyzers\SonarAnalyzer.dll" />
   </ItemGroup>
+  <ItemGroup />
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

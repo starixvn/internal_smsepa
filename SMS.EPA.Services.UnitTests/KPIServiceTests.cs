@@ -66,14 +66,14 @@
 
         #region Helpers
 
-        private IKPIRepository FakeKPIRepository()
+        private static IKPIRepository FakeKPIRepository()
         {
             var repository = Substitute.For<IKPIRepository>();
 
             return repository;
         }
 
-        private KPIService GetKPIService(IKPIRepository kpiRepository = null)
+        private static KPIService GetKPIService(IKPIRepository kpiRepository = null)
         {
             var service = new KPIService(kpiRepository);
 

@@ -49,7 +49,6 @@
                 Probation: 1,
                 Monthly: 2,
                 SemiAnnual: 3,
-                Feedback360: 4,
                 Promotion: 5
             },
             scoreRatingType = {

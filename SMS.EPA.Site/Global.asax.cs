@@ -13,8 +13,7 @@
 
     public class WebApiApplication : HttpApplication
     {
-        private const string WebApiPrefix = "api";
-        private static readonly string WebApiExecutionPath = $"~/{WebApiPrefix}";
+        private const string WebApiExecutionPath = "~/api";
         private readonly log4net.ILog logger = log4net.LogManager.GetLogger(typeof(WebApiApplication));
 
         protected void Application_Start()

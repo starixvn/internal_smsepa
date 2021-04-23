@@ -12,8 +12,7 @@
             </label>
             <div class="col-sm-8">
                 <select class="form-control" ng-options="targetType.TargetTypeId as targetType.Name for targetType in generalInfoCtrl.targetTypes"
-                        ng-model="updateCtrl.targetTemplate.TargetTypeId" required name="targetType"
-                        ng-change="generalInfoCtrl.handleChangeTargetType()">
+                        ng-model="updateCtrl.targetTemplate.TargetTypeId" required name="targetType">
                     <option value="">-- {{"Select" | translate}} --</option>
                 </select>
             </div>
@@ -23,8 +22,7 @@
             </label>
             <div class="col-sm-8">
                 <select class="form-control" ng-options="scoreType.ScoreRatingTypeId as scoreType.Name for scoreType in generalInfoCtrl.scoreRatingTypeOptions"
-                        ng-model="updateCtrl.targetTemplate.ScoreRatingTypeId" required
-                        ng-disabled="updateCtrl.targetTemplate.TargetTypeId == generalInfoCtrl.targetTypeEnum.Feedback360">
+                        ng-model="updateCtrl.targetTemplate.ScoreRatingTypeId" required>
                     <option value="">-- {{"Select" | translate}} --</option>
                 </select>
             </div>
@@ -34,8 +32,7 @@
             </label>
             <div class="col-sm-8">
                 <select class="form-control" ng-options="type.RatingTypeId as type.Name for type in generalInfoCtrl.ratingTypes"
-                        ng-model="updateCtrl.targetTemplate.RatingTypeId" required
-                        ng-disabled="updateCtrl.targetTemplate.TargetTypeId == generalInfoCtrl.targetTypeEnum.Feedback360">
+                        ng-model="updateCtrl.targetTemplate.RatingTypeId" required>
                     <option value="">-- {{"Select" | translate}} --</option>
                 </select>
             </div>

@@ -17,8 +17,7 @@
             <label class="col-sm-3 control-label" data-translate="TargetType"></label>
             <div class="col-sm-8 field">
                 <select class="form-control" ng-options="targetType.TargetTypeId as targetType.Name for targetType in createTargetTemplateCtrl.targetTypes"
-                        ng-model="createTargetTemplateCtrl.targetTemplate.TargetTypeId" required name="targetType"
-                        ng-change="createTargetTemplateCtrl.handleChangeTargetType()">
+                        ng-model="createTargetTemplateCtrl.targetTemplate.TargetTypeId" required name="targetType">
                     <option value="">-- {{"Select" | translate}} --</option>
                 </select>
             </div>
@@ -27,8 +26,7 @@
             <label class="col-sm-3 control-label" data-translate="ScoreRatingType"></label>
             <div class="col-sm-8">
                 <select class="form-control" ng-options="scoreType.ScoreRatingTypeId as scoreType.Name for scoreType in createTargetTemplateCtrl.scoreRatingTypeOptions"
-                        ng-model="createTargetTemplateCtrl.targetTemplate.ScoreRatingTypeId" required
-                        ng-disabled="createTargetTemplateCtrl.targetTemplate.TargetTypeId == createTargetTemplateCtrl.targetTypeEnum.Feedback360">
+                        ng-model="createTargetTemplateCtrl.targetTemplate.ScoreRatingTypeId" required>
                     <option value="">-- {{"Select" | translate}} --</option>
                 </select>
             </div>
@@ -37,8 +35,7 @@
             <label class="col-sm-3 control-label" data-translate="RatingType"></label>
             <div class="col-sm-8">
                 <select class="form-control" ng-options="type.RatingTypeId as type.Name for type in createTargetTemplateCtrl.ratingTypes"
-                        ng-model="createTargetTemplateCtrl.targetTemplate.RatingTypeId" required
-                        ng-disabled="createTargetTemplateCtrl.targetTemplate.TargetTypeId == createTargetTemplateCtrl.targetTypeEnum.Feedback360">
+                        ng-model="createTargetTemplateCtrl.targetTemplate.RatingTypeId" required>
                     <option value="">-- {{"Select" | translate}} --</option>
                 </select>
             </div>

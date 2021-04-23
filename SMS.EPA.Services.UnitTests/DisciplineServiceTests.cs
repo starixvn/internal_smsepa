@@ -100,31 +100,30 @@
 
         #region Helpers
 
-        private IDisciplineRepository FakeDisciplineRepository()
+        private static IDisciplineRepository FakeDisciplineRepository()
         {
             var repository = Substitute.For<IDisciplineRepository>();
 
             return repository;
         }
 
-        private DisciplineService GetDisciplineService(IDisciplineRepository employeeRepository = null)
+        private DisciplineService GetDisciplineService()
         {
+            disciplineRepository = FakeDisciplineRepository();
             var service = new DisciplineService(disciplineRepository);
             return service;
         }
 
         private void ArrangeGetDisciplineSummary(IEnumerable<DisciplineSummaryModel> result = null)
         {
-            disciplineRepository = FakeDisciplineRepository();
             disciplineRepository.GetDisciplineSummary(Arg.Any<GetDisciplineSummaryCriteria>()).Returns(result ?? new List<DisciplineSummaryModel>());
-            disciplineService = GetDisciplineService(disciplineRepository);
+            disciplineService = GetDisciplineService();
         }
 
         private void ArrangeGetDisciplineSummaryForOtherSystem(IEnumerable<DisciplineSummaryForOtherSystem> result = null)
         {
-            disciplineRepository = FakeDisciplineRepository();
             disciplineRepository.GetDisciplineSummaryForOtherSystem(Arg.Any<GetDisciplineSummaryForOtherSystemCriteria>()).Returns(result ?? new List<DisciplineSummaryForOtherSystem>());
-            disciplineService = GetDisciplineService(disciplineRepository);
+            disciplineService = GetDisciplineService();
         }
 
         #endregion Helpers

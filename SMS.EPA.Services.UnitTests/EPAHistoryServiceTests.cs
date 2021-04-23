@@ -36,7 +36,7 @@
         public void GetEPAHistory_VaidArg_ReturnExpectedEPAHistory()
         {
             // Arrange
-            var criteria = new GetEPAHistoryCriteria()
+            var criteria = new GetEPAHistoryCriteria
             {
                 EvaluatorId = 1
             };
@@ -86,7 +86,7 @@
         public void GetMonthlyEPAHistory_VaidArg_ReturnExpectedEPAHistory()
         {
             // Arrange
-            var criteria = new GetMonthlyEPAHistoryCriteria()
+            var criteria = new GetMonthlyEPAHistoryCriteria
             {
                 EvaluatorId = 1
             };
@@ -117,14 +117,14 @@
 
         #endregion GetMonthlyEPAHistory
 
-        private IEPAHistoryRepository FakeEPAHistoryRepository()
+        private static IEPAHistoryRepository FakeEPAHistoryRepository()
         {
             var repository = Substitute.For<IEPAHistoryRepository>();
 
             return repository;
         }
 
-        private ICryptographyService FakeCryptographyService()
+        private static ICryptographyService FakeCryptographyService()
         {
             var repository = Substitute.For<ICryptographyService>();
 

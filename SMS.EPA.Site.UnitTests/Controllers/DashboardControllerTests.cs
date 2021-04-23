@@ -55,7 +55,7 @@
 
         #region Helpers
 
-        private ISessionService FakeSessionService()
+        private static ISessionService FakeSessionService()
         {
             var service = Substitute.For<ISessionService>();
             service.EmployeeId = 1;
@@ -63,21 +63,21 @@
             return service;
         }
 
-        private IEmployeeService FakeEmployeeService()
+        private static IEmployeeService FakeEmployeeService()
         {
             var service = Substitute.For<IEmployeeService>();
 
             return service;
         }
 
-        private IReportService FakeReportService()
+        private static IReportService FakeReportService()
         {
             var service = Substitute.For<IReportService>();
 
             return service;
         }
 
-        private IBaseService FakeBaseService()
+        private static IBaseService FakeBaseService()
         {
             var service = Substitute.For<IBaseService>();
 

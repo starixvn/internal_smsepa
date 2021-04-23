@@ -227,16 +227,7 @@
                             "~/SourceApp/Components/Discipline/discipline-summary-directive.js",
                             "~/SourceApp/Components/Discipline/discipline-summary-by-period-directive.js",
                             "~/SourceApp/Components/Discipline/discipline-summary-controller.js",
-                            "~/SourceApp/Components/Discipline/discipline-summary-by-period-controller.js",
-                            "~/SourceApp/Components/Feedback/feedback-factory.js",
-                            "~/SourceApp/Components/Feedback/feedback-detail-controller.js",
-                            "~/SourceApp/Components/Feedback/feedback-access-controller.js",
-                            "~/SourceApp/Components/FeedbackSetting/feedback-setting-factory.js",
-                            "~/SourceApp/Components/FeedbackSetting/feedback-setting-access-controller.js",
-                            "~/SourceApp/Components/FeedbackSetting/update-feedback-setting-controller.js",
-                            "~/SourceApp/Components/Report/Feedback/feedback-report-factory.js",
-                            "~/SourceApp/Components/Report/Feedback/feedback-report-grid-directive.js",
-                            "~/SourceApp/Components/Report/Feedback/feedback-report-controller.js"));
+                            "~/SourceApp/Components/Discipline/discipline-summary-by-period-controller.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/common/js").Include(
                             "~/SourceApp/Shared/Directives/epa-addClassToRoleFilter-directive.js",

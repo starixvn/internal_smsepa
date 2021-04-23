@@ -153,26 +153,3 @@ angular.module('disciplineModule', ['ngRoute'])
         $routeProvider.when('/DisciplineSummary/Index',
             { templateUrl: baseUrl + 'SourceApp/Components/Discipline/Templates/disciplineSummary.html', caseInsensitiveMatch: true });
     }]);
-
-angular.module('feedbackModule', ['ngRoute'])
-    .config(['$routeProvider', function ($routeProvider) {
-        var baseUrl = $('base').first().attr('href');
-        $routeProvider.when('/Feedback/Index',
-            { templateUrl: baseUrl + 'SourceApp/Components/Feedback/Templates/index.html', caseInsensitiveMatch: true });
-        $routeProvider.when('/Feedback/Detail/:id',
-            { templateUrl: baseUrl + 'SourceApp/Components/Feedback/Templates/detail.html', caseInsensitiveMatch: true });
-    }]);
-
-angular.module('feedbackSettingModule', ['ngRoute'])
-    .config(['$routeProvider', function ($routeProvider) {
-        var baseUrl = $('base').first().attr('href');
-        $routeProvider.when('/FeedbackSetting/Index',
-            { templateUrl: baseUrl + 'SourceApp/Components/FeedbackSetting/Templates/index.html', caseInsensitiveMatch: true });
-    }]);
-
-angular.module('feedbackReportModule', ['ngRoute'])
-    .config(['$routeProvider', function ($routeProvider) {
-        var baseUrl = $('base').first().attr('href');
-        $routeProvider.when('/FeedbackReport/Index',
-            { templateUrl: baseUrl + 'SourceApp/Components/Report/Feedback/Templates/index.html', caseInsensitiveMatch: true });
-    }]);

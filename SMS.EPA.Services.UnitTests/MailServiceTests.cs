@@ -44,8 +44,8 @@
         {
             // Arrange
             var epaModel = new EPAModel();
-            epaModel.Process.Managements.Add(new EPAProcessModel() { TotalScore = "30" });
-            epaModel.Process.Reviewers.Add(new EPAProcessModel() { TotalScore = "30" });
+            epaModel.Process.Managements.Add(new EPAProcessModel { TotalScore = "30" });
+            epaModel.Process.Reviewers.Add(new EPAProcessModel { TotalScore = "30" });
 
             ArrangeEmail();
 
@@ -61,7 +61,7 @@
         {
             // Arrange
             var epaModel = new EPAModel();
-            epaModel.Process.Managements.Add(new EPAProcessModel() { TotalScore = "30" });
+            epaModel.Process.Managements.Add(new EPAProcessModel { TotalScore = "30" });
 
             ArrangeEmail();
 
@@ -77,7 +77,7 @@
         {
             // Arrange
             var epaModel = new EPAModel();
-            epaModel.Process.Reviewers.Add(new EPAProcessModel() { TotalScore = "30" });
+            epaModel.Process.Reviewers.Add(new EPAProcessModel { TotalScore = "30" });
 
             ArrangeEmail();
 

@@ -243,8 +243,8 @@
             var actual = _periodService.UpdateEmployeeSettingOfPeriod(criteria);
 
             // Assert
-            Assert.AreEqual(commandResult.Code, 0);
-            // _manualMailService.Received().SendNotifyMail(Arg.Any<PeriodModel>(), Arg.Any<List<PeriodFlowModel>>());
+            Assert.AreEqual(0, commandResult.Code);
+            //// _manualMailService.Received().SendNotifyMail(Arg.Any<PeriodModel>(), Arg.Any<List<PeriodFlowModel>>());
         }
 
         [TestCase("true")]
@@ -293,28 +293,28 @@
 
         #region Helpers
 
-        private IBaseService FakeBaseService()
+        private static IBaseService FakeBaseService()
         {
-            IBaseService repository = Substitute.For<IBaseService>();
+            var repository = Substitute.For<IBaseService>();
 
             return repository;
         }
 
-        private IPeriodRepository FakePeriodRepository()
+        private static IPeriodRepository FakePeriodRepository()
         {
-            IPeriodRepository repository = Substitute.For<IPeriodRepository>();
+            var repository = Substitute.For<IPeriodRepository>();
 
             return repository;
         }
 
-        private IPeriodMailService FakeManualMailService()
+        private static IPeriodMailService FakeManualMailService()
         {
-            IPeriodMailService service = Substitute.For<IPeriodMailService>();
+            var service = Substitute.For<IPeriodMailService>();
 
             return service;
         }
 
-        private PeriodService GetPeriodService(
+        private static PeriodService GetPeriodService(
             IBaseService baseService = null,
             IPeriodRepository periodRepository = null,
             IPeriodMailService manualMailService = null)

@@ -98,7 +98,7 @@
         public void AssignTargetTemplateToEmployee_AnyArg_ReturnExpectedCommandResult()
         {
             // Arrange
-            var expectedCommandResult = new CommandResult()
+            var expectedCommandResult = new CommandResult
             {
                 Code = 1
             };
@@ -132,7 +132,7 @@
         public void DeleteTargetEmployeeSetting_AnyArg_ReturnExpectedCommandResult()
         {
             // Arrange
-            var expectedCommandResult = new CommandResult()
+            var expectedCommandResult = new CommandResult
             {
                 Code = 1
             };
@@ -166,7 +166,7 @@
         public void AssignTargetTemplateToDepartment_ModelIsNotNull_ReturnExpectedCommandResult()
         {
             // Arrange
-            var expectedCommandResult = new CommandResult()
+            var expectedCommandResult = new CommandResult
             {
                 Code = 1
             };
@@ -214,7 +214,7 @@
         public void DeleteTargetDepartmentSetting_AnyArg_ReturnExpectedCommandResult()
         {
             // Arrange
-            var expectedCommandResult = new CommandResult()
+            var expectedCommandResult = new CommandResult
             {
                 Code = 1
             };
@@ -247,7 +247,7 @@
 
         #endregion GetUserPermissionOnTargetEmployeeSetting
 
-        private ISessionService FakeSessionService(int? permission = null)
+        private static ISessionService FakeSessionService(int? permission = null)
         {
             ISessionService service = Substitute.For<ISessionService>();
             service.EmployeeId = 1;
@@ -256,7 +256,7 @@
             return service;
         }
 
-        private IBaseService FakeBaseService()
+        private static IBaseService FakeBaseService()
         {
             var service = Substitute.For<IBaseService>();
 

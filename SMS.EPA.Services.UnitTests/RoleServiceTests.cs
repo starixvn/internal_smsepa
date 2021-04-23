@@ -51,14 +51,14 @@
 
         #region Helpers
 
-        private IBaseService FakeBaseService()
+        private static IBaseService FakeBaseService()
         {
             var service = Substitute.For<IBaseService>();
 
             return service;
         }
 
-        private RoleService GetRoleService(IBaseService baseService = null)
+        private static RoleService GetRoleService(IBaseService baseService = null)
         {
             var service = new RoleService(baseService);
 

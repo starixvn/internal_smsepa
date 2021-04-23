@@ -77,11 +77,6 @@
   <ItemGroup>
     <Compile Include="EmployeeEPA\GetPeriodByActorIdCriteria.cs" />
     <Compile Include="EmployeeEPA\GetExtendedQuestionCriteria.cs" />
-    <Compile Include="Feedback\GetFeedbackSettingCriteria.cs" />
-    <Compile Include="Feedback\GetFeedbackByIdCriteria.cs" />
-    <Compile Include="Feedback\GetFeedbackByActorCriteria.cs" />
-    <Compile Include="Feedback\UpdateFeedbackSettingCriteria.cs" />
-    <Compile Include="Feedback\UpdateFeedbackCriteria.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <!-- Exclude the file from analysis -->
       <SonarQubeExclude>true</SonarQubeExclude>
@@ -206,7 +201,6 @@
     <Compile Include="Report\GetEmployeeByActorIdCriteria.cs" />
     <Compile Include="Report\GetEPACommentCriteria.cs" />
     <Compile Include="Report\GetEPARecommendationCriteria.cs" />
-    <Compile Include="Report\GetFeedbackReportCriteria.cs" />
     <Compile Include="Report\GetMonthlyEPASummaryCriteria.cs" />
     <Compile Include="Report\GetMonthlyEPADetailCriteria.cs" />
     <Compile Include="Report\GetEPADetailCriteria.cs" />

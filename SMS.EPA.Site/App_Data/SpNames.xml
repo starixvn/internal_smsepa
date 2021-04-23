@@ -240,16 +240,4 @@
   <Function Name="Job Grade">
     <Setting Key="JobGrade_Get" SpName="JobGrade_Get" DbName="SMSEPA" Plain="0"></Setting>
   </Function>
-  <Function Name="Feedback">
-    <Setting Key="Feedback_GetByActor" SpName="Feedback_GetByActor" DbName="SMSEPA" Plain="0" />
-    <Setting Key="Feedback_GetById" SpName="Feedback_GetById" DbName="SMSEPA" Plain="0">
-      <Mapping DataField="EvaluatorId" ObjectProperty="EmployeeId" />
-    </Setting>
-    <Setting Key="Feedback_Update" SpName="Feedback_Update" DbName="SMSEPA" Plain="0" />
-    <Setting Key="Report_Feedback" SpName="Report_Feedback" DbName="SMSEPA" Plain="0">
-      <Mapping DataField="EvaluatorId" ObjectProperty="EmployeeId" />
-    </Setting>
-    <Setting Key="Feedback_GetSetting" SpName="Feedback_GetSetting" DbName="SMSEPA" Plain="0" />
-    <Setting Key="Feedback_UpdateSetting" SpName="Feedback_UpdateSetting" DbName="SMSEPA" Plain="0" />
-  </Function>
 </Functions>

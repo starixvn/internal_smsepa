@@ -78,7 +78,7 @@
         public void CreateDepartmentFlow_CriteriaIsNotNull_ReturnExpectedCommandResult()
         {
             // Arrange
-            var expectedCommandResult = new CommandResult()
+            var expectedCommandResult = new CommandResult
             {
                 Code = 1
             };
@@ -114,7 +114,7 @@
         public void DeleteDepartmentFlow_CriteriaIsNotNull_ReturnExpectedCommandResult()
         {
             // Arrange
-            var expectedCommandResult = new CommandResult()
+            var expectedCommandResult = new CommandResult
             {
                 Code = 1
             };
@@ -148,7 +148,7 @@
 
         #endregion GetDepartmentHasSetting
 
-        private ISessionService FakeSessionService(int? permission = null)
+        private static ISessionService FakeSessionService(int? permission = null)
         {
             var service = Substitute.For<ISessionService>();
             service.EmployeeId = 1;
@@ -157,14 +157,14 @@
             return service;
         }
 
-        private IDepartmentFlowService FakeDepartmentFlowService()
+        private static IDepartmentFlowService FakeDepartmentFlowService()
         {
             var service = Substitute.For<IDepartmentFlowService>();
 
             return service;
         }
 
-        private IBaseService FakeBaseService()
+        private static IBaseService FakeBaseService()
         {
             var service = Substitute.For<IBaseService>();
 

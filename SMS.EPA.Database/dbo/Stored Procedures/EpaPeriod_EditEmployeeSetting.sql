@@ -33,7 +33,6 @@ BEGIN
 		,@ProbationTarget TINYINT = 1
 		,@MonthlyTarget TINYINT = 2
 		,@SemiTarget TINYINT = 3
-		,@FeedbackTargetTypeId TINYINT = 4
 		,@PromotionTarget TINYINT = 5
 
 	SELECT @TargetTypeId = TargetTypeId
@@ -114,14 +113,6 @@ BEGIN
 	DELETE empA
 	FROM #tblEmployeeAssignments AS empA
 		INNER JOIN @OverlapEmployeeIds AS overId ON empA.EmployeeId = overId.Id
-
-	IF @TargetTypeId = @SemiTarget
-	BEGIN
-		EXEC dbo.EpaAuto_GenerateFeedback @PeriodId = @PeriodId
-			,@EmployeeIds = NULL
-			,@ErrCode = @ErrCode OUTPUT
-			,@ErrMsg = @ErrMsg OUTPUT
-	END
 
 	-- write log
 	DECLARE @OldData NVARCHAR(MAX)

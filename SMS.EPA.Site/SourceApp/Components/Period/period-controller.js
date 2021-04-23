@@ -84,8 +84,7 @@
                 vm.permission = PeriodModel.permission;
             });
 
-            var excludeTargetTypeIds = [vm.targetTypeEnum.Monthly, vm.targetTypeEnum.Feedback360];
-            CommonModel.getTargetType(true, excludeTargetTypeIds.join(',')).then(function () {
+            CommonModel.getTargetType(true, vm.targetTypeEnum.Monthly).then(function () {
                 vm.targetTypes = CommonModel.targetTypes;
             });
 

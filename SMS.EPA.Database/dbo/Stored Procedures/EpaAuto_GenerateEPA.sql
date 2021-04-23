@@ -371,14 +371,6 @@ BEGIN
 				INNER JOIN RefResource AS rs WITH (NOLOCK) ON rs.RefName = 'ProbationSubQuestion'
 		END
 
-		IF @TargetTypeId = @SemiTargetTypeId
-		BEGIN
-			EXEC dbo.EpaAuto_GenerateFeedback @PeriodId = @PeriodId
-				,@EmployeeIds = @EmployeeIds
-				,@ErrCode = @ErrCode OUTPUT
-				,@ErrMsg = @ErrMsg OUTPUT
-		END
-
 		EXEC @Data = dbo.fncGetDataForWriteLog_Period_GenerateEPA @PeriodId = @PeriodId
 			,@EmployeeIds = @EmployeeIds
 

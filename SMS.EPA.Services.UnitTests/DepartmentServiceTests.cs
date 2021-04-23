@@ -58,7 +58,7 @@
             Assert.AreNotEqual(expectedDepartments, actual);
         }
 
-        private IDepartmentRepository FakeDepartmentRepository()
+        private static IDepartmentRepository FakeDepartmentRepository()
         {
             var repository = Substitute.For<IDepartmentRepository>();
 

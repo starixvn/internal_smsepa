@@ -81,7 +81,7 @@
 
         #region Helpers
 
-        private ISessionService FakeSessionService()
+        private static ISessionService FakeSessionService()
         {
             var service = Substitute.For<ISessionService>();
             service.EmployeeId = 1;
@@ -89,14 +89,14 @@
             return service;
         }
 
-        private IPeriodService FakePeriodService()
+        private static IPeriodService FakePeriodService()
         {
             var service = Substitute.For<IPeriodService>();
 
             return service;
         }
 
-        private IBaseService FakeBaseService()
+        private static IBaseService FakeBaseService()
         {
             var service = Substitute.For<IBaseService>();
 

@@ -57,7 +57,7 @@
         {
             // Arrange
             var employeeId = 1;
-            var expectedEmployee = new Employee()
+            var expectedEmployee = new Employee
             {
                 EmployeeId = employeeId
             };
@@ -75,7 +75,7 @@
         {
             // Arrange
             var employeeId = -1;
-            var expectedEmployee = new Employee()
+            var expectedEmployee = new Employee
             {
                 EmployeeId = employeeId
             };
@@ -316,21 +316,21 @@
 
         #region Helpers
 
-        private IBaseService FakeBaseService()
+        private static IBaseService FakeBaseService()
         {
             var repository = Substitute.For<IBaseService>();
 
             return repository;
         }
 
-        private IEmployeeRepository FakeEmployeeRepository()
+        private static IEmployeeRepository FakeEmployeeRepository()
         {
             var repository = Substitute.For<IEmployeeRepository>();
 
             return repository;
         }
 
-        private EmployeeService GetEmployeeService(
+        private static EmployeeService GetEmployeeService(
             IEmployeeRepository employeeRepository = null,
             IBaseService baseService = null)
         {

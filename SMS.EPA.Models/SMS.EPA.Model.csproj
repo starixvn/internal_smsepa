@@ -67,11 +67,6 @@
     <Compile Include="Email\MailReminder.cs" />
     <Compile Include="EmployeeEPA\ProbationExtendedQuestion\EPAProbationExtendedQuestionModel.cs" />
     <Compile Include="EmployeeEPA\ProbationExtendedQuestion\ProbationSubQuestionModel.cs" />
-    <Compile Include="Feedback\Feedback.cs" />
-    <Compile Include="Feedback\FeedbackEmployee.cs" />
-    <Compile Include="Feedback\FeedbackKPI.cs" />
-    <Compile Include="Feedback\FeedbackKPIGroup.cs" />
-    <Compile Include="Feedback\FeedbackSetting.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <!-- Exclude the file from analysis -->
       <SonarQubeExclude>true</SonarQubeExclude>
@@ -152,8 +147,6 @@
     <Compile Include="Report\EPASummary\EPASummaryPeriodModel.cs" />
     <Compile Include="Report\EPARecommendation\EPASummaryRecommendationModel.cs" />
     <Compile Include="Report\EPARecommendation\EPASummaryRecommendationReportModel.cs" />
-    <Compile Include="Report\Feedback\FeedbackReport.cs" />
-    <Compile Include="Report\Feedback\FeedbackReportItem.cs" />
     <Compile Include="Report\IExcelRecord.cs" />
     <Compile Include="RoleManagement\RoleFunctionModel.cs" />
     <Compile Include="ScoreRatingType\ScoreRatingTypeModel.cs" />

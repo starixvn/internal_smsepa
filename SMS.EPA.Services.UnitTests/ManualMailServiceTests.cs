@@ -111,7 +111,7 @@
             // Arrange
             var employeeSettings = new List<PeriodFlowModel>
             {
-                new PeriodFlowModel()
+                new PeriodFlowModel
                 {
                     ProcessId = (int) ProcessType.Management
                 }

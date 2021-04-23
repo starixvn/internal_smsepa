@@ -1455,9 +1455,6 @@
   <data name="RequiredAnswer" xml:space="preserve">
     <value>Answer is required</value>
   </data>
-  <data name="Feedback" xml:space="preserve">
-    <value>Feedback</value>
-  </data>
   <data name="FromDate" xml:space="preserve">
     <value>From Date</value>
   </data>

@@ -2,7 +2,6 @@
 {
     using System.Collections.Generic;
     using System.Linq;
-    using Core.Repositories;
     using Criteria;
     using Implement;
     using Model;
@@ -116,23 +115,14 @@
 
         #region Helpers
 
-        private IBaseRepository FakeBaseRepository()
-        {
-            var repository = Substitute.For<IBaseRepository>();
-
-            return repository;
-        }
-
-        private IFlowTemplateRepository FakeFlowTemplateRepository()
+        private static IFlowTemplateRepository FakeFlowTemplateRepository()
         {
             var repository = Substitute.For<IFlowTemplateRepository>();
 
             return repository;
         }
 
-        private FlowTemplateService GetFlowTemplateService(
-            IFlowTemplateRepository flowTemplateRepository,
-            IBaseRepository baseRepository = null)
+        private static FlowTemplateService GetFlowTemplateService(IFlowTemplateRepository flowTemplateRepository)
         {
             var service = new FlowTemplateService(flowTemplateRepository);
 

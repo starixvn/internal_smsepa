@@ -83,7 +83,7 @@
         public void GetDepartmentFlowById_VaidArg_ReturnExpectedFlows()
         {
             // Arrange
-            var citeria = new GetDepartmentFlowByIdCriteria()
+            var citeria = new GetDepartmentFlowByIdCriteria
             {
                 DepartmentId = 1,
                 FlowTemplateId = 1
@@ -116,14 +116,7 @@
 
         #region Helpers
 
-        private IBaseRepository FakeBaseRepository()
-        {
-            var repository = Substitute.For<IBaseRepository>();
-
-            return repository;
-        }
-
-        private IFlowSettingRepository FakeFlowSettingRepository()
+        private static IFlowSettingRepository FakeFlowSettingRepository()
         {
             var repository = Substitute.For<IFlowSettingRepository>();
 

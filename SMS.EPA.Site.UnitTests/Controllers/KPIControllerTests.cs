@@ -156,7 +156,7 @@
 
         #region Helpers
 
-        private ISessionService FakeSessionService()
+        private static ISessionService FakeSessionService()
         {
             var service = Substitute.For<ISessionService>();
             service.EmployeeId = 1;
@@ -164,14 +164,14 @@
             return service;
         }
 
-        private IBaseService FakeBaseService()
+        private static IBaseService FakeBaseService()
         {
             var service = Substitute.For<IBaseService>();
 
             return service;
         }
 
-        private IKPIService FakeKPIService()
+        private static IKPIService FakeKPIService()
         {
             var service = Substitute.For<IKPIService>();
 
