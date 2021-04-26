@@ -17,6 +17,7 @@
         private readonly ISupervisorService _supervisorService;
         private readonly IDisciplineSummaryService _disciplineSummaryService;
         private readonly IPhotoService _photoService;
+        private readonly IJobLevelService jobLevelService;
 
         private TokenAccess _token = new TokenAccess();
 
@@ -28,7 +29,8 @@
             IJobTitleService jobtitleService,
             ISupervisorService supervisorService,
             IDisciplineSummaryService disciplineSummaryService,
-            IPhotoService photoService)
+            IPhotoService photoService,
+            IJobLevelService jobLevelService)
         {
             _tokenService = tokenService;
             _departmentService = departmentService;
@@ -38,6 +40,7 @@
             _supervisorService = supervisorService;
             _disciplineSummaryService = disciplineSummaryService;
             _photoService = photoService;
+            this.jobLevelService = jobLevelService;
         }
 
         public async Task Synchronize()
@@ -50,6 +53,7 @@
             await SynchronizeGroupDisciplinePermission();
             await SynchronizeDisciplineSummaryAsync();
             await SynchronizePhotoAsync();
+            await SynchronizeJobLevelAsync();
         }
 
         private async Task SynchronizeDepartmentAsync()
@@ -176,6 +180,22 @@
                 }
 
                 Console.WriteLine("Photo");
+            }
+        }
+
+        private async Task SynchronizeJobLevelAsync()
+        {
+            await InitToken();
+
+            if (_token.IsValid())
+            {
+                DateTime lastModifiedDate = await jobLevelService.GetLastModifiedDateAsync(_token);
+                IEnumerable<JobLevel> jobLevel = jobLevelService.GetJobLevel(lastModifiedDate);
+                if (jobLevel.Any())
+                {
+                    await jobLevelService.Update(jobLevel, _token);
+                }
+                Console.WriteLine("JobLevel");
             }
         }
 

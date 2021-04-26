@@ -133,6 +133,7 @@
       <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
     </Compile>
     <Compile Include="ApplicationConfig.cs" />
+    <Compile Include="Criteria\GetJobLevelCriteria.cs" />
     <Compile Include="Criteria\GetDepartmentCriteria.cs" />
     <Compile Include="Criteria\GetDisciplineSummaryCriteria.cs" />
     <Compile Include="Criteria\GetEmployeeCriteria.cs" />
@@ -152,11 +153,15 @@
       <SonarQubeExclude>true</SonarQubeExclude>
     </Compile>
     <Compile Include="Model\ApplicationInfo.cs" />
+    <Compile Include="Services\Interfaces\IJobLevelService.cs" />
+    <Compile Include="Services\JobLevelService.cs" />
     <Compile Include="Services\DisciplineSummaryService.cs" />
     <Compile Include="Services\Interfaces\IDisciplineSummaryService.cs" />
     <Compile Include="Services\PhotoService.cs" />
     <Compile Include="Services\Interfaces\IPhotoService.cs" />
+    <Compile Include="ThirdPartyAPI\JobLevelAPI.cs" />
     <Compile Include="ThirdPartyAPI\DisciplineSummaryAPI.cs" />
+    <Compile Include="ThirdPartyAPI\Interfaces\IJobLevelAPI.cs" />
     <Compile Include="ThirdPartyAPI\Interfaces\IDisciplineSummaryAPI.cs" />
     <Compile Include="ThirdPartyAPI\Interfaces\IPhotoAPI.cs" />
     <Compile Include="ThirdPartyAPI\PhotoAPI.cs" />

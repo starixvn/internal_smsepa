@@ -16,6 +16,7 @@
             Container = new Container();
 
             Container.Register<IDepartmentService, DepartmentService>(Lifestyle.Singleton);
+            Container.Register<IJobLevelService, JobLevelService>(Lifestyle.Singleton);
             Container.Register<IDisciplineSummaryService, DisciplineSummaryService>(Lifestyle.Singleton);
             Container.Register<IEmployeeService, EmployeeService>(Lifestyle.Singleton);
             Container.Register<IJobTitleService, JobTitleService>(Lifestyle.Singleton);

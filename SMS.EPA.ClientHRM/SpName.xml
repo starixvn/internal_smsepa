@@ -20,5 +20,6 @@
     <Setting Key="GroupSupervisor_GetForSync" SpName="GroupSupervisor_GetForSync" DbName="nexhr" Plain="0" >
       <Mapping DataField="GroupId" ObjectProperty="TeamId" />
     </Setting>
+    <Setting Key="Sync_JobLevel" SpName="Sync_JobLevel" DbName="nexhr" Plain="0" ></Setting>
   </Function>
 </Functions>

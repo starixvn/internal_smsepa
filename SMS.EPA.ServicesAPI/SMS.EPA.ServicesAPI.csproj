@@ -216,6 +216,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controllers\JobLevelController.cs" />
+    <Compile Include="Criteria\JobLevel\GetLastModifiedDateForJobLevelCriteria.cs" />
+    <Compile Include="Criteria\JobLevel\UpdateJobLevelCriteria.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <!-- Exclude the file from analysis -->
       <SonarQubeExclude>true</SonarQubeExclude>
