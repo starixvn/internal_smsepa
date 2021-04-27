@@ -35,6 +35,7 @@
             Container.Register<ITeamAPI, TeamAPI>(Lifestyle.Singleton);
             Container.Register<IPhotoAPI, PhotoAPI>(Lifestyle.Singleton);
             Container.Register<ITokenAPI, TokenAPI>(Lifestyle.Singleton);
+            Container.Register<IJobLevelAPI, JobLevelAPI>(Lifestyle.Singleton);
 
             Container.Verify();
         }
