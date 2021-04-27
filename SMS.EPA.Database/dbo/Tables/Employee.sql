@@ -23,8 +23,11 @@
     [HasMonthlyEPA]  BIT            NULL,
     [ResignedDate]   DATETIME       NULL,
     [ConfirmedDate]  DATETIME       NULL,
+    [JobLevelId]     INT            NULL,
     CONSTRAINT [PK_Employee] PRIMARY KEY CLUSTERED ([EmployeeId] ASC)
 );
+
+
 
 
 

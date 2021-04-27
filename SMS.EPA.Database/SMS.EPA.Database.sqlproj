@@ -357,6 +357,9 @@
     <Build Include="dbo\Stored Procedures\EpaAttendanceSummary_GetByEPA.sql" />
     <Build Include="dbo\Stored Procedures\EpaAttendanceSummary_Get.sql" />
     <Build Include="dbo\Stored Procedures\EPA_UpdateProbationExtendedQuestion.sql" />
+    <Build Include="dbo\Tables\JobLevel.sql" />
+    <Build Include="dbo\Stored Procedures\Sync_JobLevel_GetMaxModifiedDate.sql" />
+    <Build Include="dbo\Stored Procedures\Sync_JobLevel.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="scripts\auto-add-staff-into-semi-period.sql" />

@@ -39,5 +39,7 @@
         public DateTime? ResignedDate { get; set; }
 
         public DateTime? ModifiedDate { get; set; }
+
+        public int? JobLevelId { get; set; }
     }
 }

@@ -15,7 +15,7 @@ Param's Explanation:
 - @UserXML: <User EmployeeId='{0}' DomainUsername='{1}' Code='{2}' "
             + "NickName='{3}' FullName='{4}' TeamId='{5}' JobTitleId='{6}' Phone='{7}' "
             + " Email='{8}' CardNumber='{9}' IsEnabled='{10}' IsDeleted='{11}' Password='{12}' "
-            + " JoinedDate='{13}' ModifiedDate='{14}' IsLocal='{15}' ResignedDate = '{16}' ConfirmedDate='{17}'></User>
+            + " JoinedDate='{13}' ModifiedDate='{14}' IsLocal='{15}' ResignedDate = '{16}' ConfirmedDate='{17}' JobLevelId='{18}'></User>
 */
 BEGIN
 	SET NOCOUNT ON;
@@ -51,6 +51,7 @@ BEGIN
 		,[IsLocal] [bit] NULL
 		,[ResignedDate] [datetime] NULL
 		,[ConfirmedDate] [datetime] NULL
+		,[JobLevelId] [int] NULL
 		)
 
 	BEGIN TRY
@@ -76,6 +77,7 @@ BEGIN
 			,[IsLocal]
 			,[ResignedDate]
 			,[ConfirmedDate]
+			,[JobLevelId]
 			)
 		SELECT [EmployeeId]
 			,DomainUsername
@@ -107,7 +109,8 @@ BEGIN
 				WHEN ConfirmedDate = CONVERT(DATETIME, '1900-01-01 00:00:00.000') THEN NULL
 				ELSE ConfirmedDate
 				END
-		FROM OPENXML(@DocHandler, '/ROOT/User', 1) WITH (EmployeeId [int], DomainUsername NVARCHAR(50), Code [nvarchar](20), FullName [nvarchar](150), NickName [nvarchar](20), TeamId [int], JobTitleId [int], Phone VARCHAR(50), Email VARCHAR(50), CardNumber VARCHAR(20), IsEnabled [bit], IsDeleted [bit], Password [nvarchar](100), JoinedDate [nvarchar](100), ModifiedDate [datetime], [IsLocal] [bit], ResignedDate [datetime], ConfirmedDate [datetime]) AS Data
+			,JobLevelId
+		FROM OPENXML(@DocHandler, '/ROOT/User', 1) WITH (EmployeeId [int], DomainUsername NVARCHAR(50), Code [nvarchar](20), FullName [nvarchar](150), NickName [nvarchar](20), TeamId [int], JobTitleId [int], Phone VARCHAR(50), Email VARCHAR(50), CardNumber VARCHAR(20), IsEnabled [bit], IsDeleted [bit], Password [nvarchar](100), JoinedDate [nvarchar](100), ModifiedDate [datetime], [IsLocal] [bit], ResignedDate [datetime], ConfirmedDate [datetime], JobLevelId [int]) AS Data
 
 		EXEC sp_xml_removedocument @DocHandler
 	END TRY
@@ -140,6 +143,7 @@ BEGIN
 		,[IsLocal]
 		,[ResignedDate]
 		,[ConfirmedDate]
+		,[JobLevelId]
 		)
 	SELECT new.[EmployeeId]
 		,new.[DomainUsername]
@@ -161,6 +165,7 @@ BEGIN
 		,new.IsLocal
 		,new.ResignedDate
 		,new.ConfirmedDate
+		,new.JobLevelId
 	FROM #Employee new
 		LEFT JOIN [dbo].[Employee] curr WITH (NOLOCK) ON new.[EmployeeId] = curr.[EmployeeId]
 	WHERE curr.[EmployeeId] IS NULL
@@ -184,6 +189,7 @@ BEGIN
 		,curr.IsLocal = new.IsLocal
 		,curr.ResignedDate = new.ResignedDate
 		,curr.ConfirmedDate = new.ConfirmedDate
+		,curr.JobLevelId = new.JobLevelId
 	FROM [dbo].[Employee] curr WITH (ROWLOCK, UPDLOCK)
 		INNER JOIN #Employee new ON new.[EmployeeId] = curr.[EmployeeId]
 
