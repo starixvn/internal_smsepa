@@ -240,4 +240,9 @@
   <Function Name="Job Grade">
     <Setting Key="JobGrade_Get" SpName="JobGrade_Get" DbName="SMSEPA" Plain="0"></Setting>
   </Function>
+    <Function Name="Job Level">
+        <Setting Key="JobDescription_GetEmployeeSetting" SpName="JobDescription_GetEmployeeSetting" DbName="SMSEPA" Plain="0" />
+        <Setting Key="JobDescription_GetEmployeeSettingById" SpName="JobDescription_GetEmployeeSettingById" DbName="SMSEPA" Plain="0" />
+        <Setting Key="JobDescription_InsertGroupItem" SpName="JobDescription_InsertGroupItem" DbName="SMSEPA" Plain="0" />
+    </Function>
 </Functions>

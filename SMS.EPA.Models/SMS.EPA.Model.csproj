@@ -68,6 +68,10 @@
     <Compile Include="Email\MailReminder.cs" />
     <Compile Include="EmployeeEPA\ProbationExtendedQuestion\EPAProbationExtendedQuestionModel.cs" />
     <Compile Include="EmployeeEPA\ProbationExtendedQuestion\ProbationSubQuestionModel.cs" />
+    <Compile Include="JobDescription\JobDescriptionEmployeeInfo.cs" />
+    <Compile Include="JobDescription\JobDescriptionEmployeeSetting.cs" />
+    <Compile Include="JobDescription\JobDescriptionGroupItem.cs" />
+    <Compile Include="JobDescription\JobDescriptionItem.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <!-- Exclude the file from analysis -->
       <SonarQubeExclude>true</SonarQubeExclude>

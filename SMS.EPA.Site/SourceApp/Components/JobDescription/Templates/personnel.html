@@ -1,4 +1,30 @@
 ﻿<div ng-controller="PersonnelSettingController as personnelCtrl">
+    <form novalidate class="form-filter">
+        <div class="form-group">
+            <label class="label-form" data-translate="Section"></label>
+            <select class="form-control select-form" ng-model="personnelCtrl.filter.groupId"
+                    ng-options="item.DepartmentId as item.Name disable when item.DepartmentId > 0 for item in personnelCtrl.treeDepartment">
+                <option value="">-- {{"All" | translate}} --</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label class="label-form" data-translate="Employee"></label>
+            <input class="form-control input-form" type="text" placeholder="full name or nickname"
+                   ng-model="personnelCtrl.searchEmployee" search-auto-complete search-employees="personnelCtrl.getEmployee()"
+                   ng-change="personnelCtrl.unSelectEmployee()" employee="personnelCtrl.filter.employee" />
+        </div>
+        <div class="form-group">
+            <label class="label-form"></label>
+            <div class="checkbox checkbox-form">
+                <label>
+                    <input type="checkbox" ng-model="personnelCtrl.filter.showAll"> Show all
+                </label>
+            </div>
+        </div>
+        <div class="form-group">
+            <button class="btn btn-primary" ng-click="personnelCtrl.query()" data-translate="Search"></button>
+        </div>
+    </form>
     <table class="row table table-bordered table-striped">
         <thead>
             <tr class="header-table">
@@ -23,10 +49,10 @@
                 <td ng-bind="employee.Code"></td>
                 <td ng-bind="employee.Nickname"></td>
                 <td ng-bind="employee.FullName"></td>
-                <td ng-bind="employee.Team"></td>
+                <td ng-bind="employee.GroupName"></td>
                 <td ng-bind="employee.JobLevel"></td>
-                <td class="text-center" ng-if="jobDescriptionCtrl.permission === jobDescriptionCtrl.policyEnum.Host">
-                    <a class="glyphicon glyphicon-edit icon-edit" href="" ng-click="personnelCtrl.editJobDescription(employee)"
+                <td class="text-center" ng-if="jobDescriptionCtrl.permission === jobDescriptionCtrl.policy.Host">
+                    <a class="glyphicon glyphicon-edit icon-edit" href="" ng-click="personnelCtrl.edit($event, employee)"
                        ng-attr-title='{{"Edit" | translate}}'></a>
                 </td>
             </tr>

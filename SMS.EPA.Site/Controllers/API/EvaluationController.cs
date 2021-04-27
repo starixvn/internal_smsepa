@@ -36,7 +36,7 @@
             EPAModel epaInfo = new EPAModel();
             int permission = CheckEmployeePermission(epaId);
 
-            if (permission == (int)Policy.None)
+            if (permission == (byte)Policy.None)
             {
                 return Request.CreateResponse(HttpStatusCode.MethodNotAllowed, epaInfo);
             }

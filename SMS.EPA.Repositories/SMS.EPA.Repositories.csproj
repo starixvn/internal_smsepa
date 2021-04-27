@@ -74,7 +74,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Implement\JobDescriptionRepository.cs" />
     <Compile Include="Implement\ProbationExtendedQuestionRepository.cs" />
+    <Compile Include="Interfaces\IJobDescriptionRepository.cs" />
     <Compile Include="Interfaces\IProbationExtendedQuestionRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <!-- Exclude the file from analysis -->

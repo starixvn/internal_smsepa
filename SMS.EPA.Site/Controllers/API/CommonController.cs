@@ -221,7 +221,7 @@
         }
 
         [HttpGet]
-        public IEnumerable<JobGradeModel> GetJobGrade(bool? isActive)
+        public IEnumerable<JobGradeModel> GetJobGrade(bool? isActive = null)
         {
             return commonService.GetJobGrade(isActive);
         }

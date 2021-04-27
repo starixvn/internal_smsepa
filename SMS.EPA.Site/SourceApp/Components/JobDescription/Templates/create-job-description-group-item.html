@@ -1,0 +1,20 @@
+﻿<div class="modal-header">
+    <div class="popup-header">
+        Create Description Group
+        <span class="close-popup" ng-click="createGroupItemCtrl.cancel()"></span>
+    </div>
+</div>
+<div class="modal-body">
+    <form class="form-horizontal col-sm-11" role="form">
+        <div class="form-group required">
+            <label class="col-sm-4 control-label" data-translate="Name"></label>
+            <div class="col-sm-8 field">
+                <input type="text" class="form-control" ng-model="createGroupItemCtrl.name" required maxlength="500" />
+            </div>
+        </div>
+    </form>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-primary" ng-click="createKPIGroupCtrl.save()" data-translate="Submit"></button>
+    <button class="btn btn-cancel" ng-click="createKPIGroupCtrl.cancel()" data-translate="Cancel"></button>
+</div>

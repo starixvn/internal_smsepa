@@ -159,4 +159,6 @@ angular.module('jobDescriptionModule', ['ngRoute'])
         var baseUrl = $('base').first().attr('href');
         $routeProvider.when('/JobDescription/Index',
             { templateUrl: baseUrl + 'SourceApp/Components/JobDescription/Templates/index.html', caseInsensitiveMatch: true });
+        $routeProvider.when('/JobDescription/EditEmployee/:id',
+            { templateUrl: baseUrl + 'SourceApp/Components/JobDescription/Templates/edit-personnel.html', caseInsensitiveMatch: true });
     }]);

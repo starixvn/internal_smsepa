@@ -232,7 +232,9 @@
                             "~/SourceApp/Components/JobDescription/job-description-model.js",
                             "~/SourceApp/Components/JobDescription/job-description-controller.js",
                             "~/SourceApp/Components/JobDescription/team-setting-controller.js",
-                            "~/SourceApp/Components/JobDescription/personnel-setting-controller.js"));
+                            "~/SourceApp/Components/JobDescription/personnel-setting-controller.js",
+                            "~/SourceApp/Components/JobDescription/edit-personnel-setting-controller.js",
+                            "~/SourceApp/Components/JobDescription/create-job-description-group-item-controller.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/common/js").Include(
                             "~/SourceApp/Shared/Directives/epa-addClassToRoleFilter-directive.js",
