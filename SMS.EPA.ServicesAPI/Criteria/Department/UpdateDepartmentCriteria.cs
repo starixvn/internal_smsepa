@@ -35,7 +35,7 @@
                         department.ManagerId,
                         department.DepartmentLevel,
                         !department.IsDeleted,
-                        department.ModifiedDate);
+                        department.ModifiedDate.ToString(Constants.ModifiedDateTimeFormat));
                 }
 
                 return value.Append(Constants.EndRootTag).ToString();

@@ -36,7 +36,7 @@
                             team.AssistantLeaderId,
                             team.Rank,
                             team.IsDeleted,
-                            team.ModifiedDate,
+                            team.ModifiedDate.ToString(Constants.ModifiedDateTimeFormat),
                             team.DepartmentId);
                     }
                 }

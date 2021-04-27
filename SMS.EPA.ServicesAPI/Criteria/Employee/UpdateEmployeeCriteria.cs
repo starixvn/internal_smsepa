@@ -56,7 +56,7 @@
                             employee.IsDeleted,
                             password,
                             employee.JoinedDate,
-                            employee.ModifiedDate,
+                            employee.ModifiedDate.Value.ToString(Constants.ModifiedDateTimeFormat),
                             employee.IsLocal,
                             employee.ResignedDate,
                             employee.ConfirmedDate,

@@ -30,7 +30,7 @@
                             SupervisorTpl,
                             supervisor.OwnerId,
                             supervisor.EmployeeId,
-                            supervisor.ModifiedDate,
+                            supervisor.ModifiedDate.ToString(Constants.ModifiedDateTimeFormat),
                             supervisor.IsDeleted);
                     }
                 }

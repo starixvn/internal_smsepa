@@ -45,7 +45,7 @@
                             discipline.SevenDaysLeave,
                             discipline.OtherDisciplines,
                             discipline.SystemSubtractScore,
-                            discipline.ModifiedDate,
+                            discipline.ModifiedDate.ToString(Constants.ModifiedDateTimeFormat),
                             discipline.IsDeleted);
                     }
                 }

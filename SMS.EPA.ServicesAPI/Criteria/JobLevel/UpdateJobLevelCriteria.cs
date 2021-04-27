@@ -29,7 +29,7 @@
                         jobLevel.JobLevelId,
                         HttpUtility.HtmlEncode(jobLevel.Name),
                         jobLevel.IsActive,
-                        jobLevel.ModifiedDate);
+                        jobLevel.ModifiedDate.Value.ToString(Constants.ModifiedDateTimeFormat));
                 }
 
                 return value.Append(Constants.EndRootTag).ToString();
