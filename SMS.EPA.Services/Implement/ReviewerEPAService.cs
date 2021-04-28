@@ -9,9 +9,16 @@
 
     public class ReviewerEPAService : BaseActorEPAService, IReviewerEPAService
     {
-        public ReviewerEPAService()
+        private readonly ICommonService commonService;
+
+        public ReviewerEPAService() : this(null)
+        {
+        }
+
+        public ReviewerEPAService(ICommonService commonService)
             : base(null, null)
         {
+            this.commonService = commonService ?? new CommonService();
         }
 
         public IEnumerable<EPAModel> GetEPAByReviewer(GetEPAByReviewerCriteria criteria)
@@ -46,6 +53,7 @@
             if (criteria != null && criteria.IsValid())
             {
                 epaInfo = EvaluationRepository.GetEPAInfo(criteria);
+                epaInfo.JobDescriptions = commonService.GetJobDescriptionByEPAId(criteria.EPAId);
                 epaInfo.Process.CurrentProcess =
                     EvaluationService.CloneEPAProcess(epaInfo.Process.Reviewers.FirstOrDefault(x => x.EvaluatorInfo.EmployeeId == criteria.ReviewerId));
                 EvaluationService.SetMaxPerformanceScore(epaInfo);

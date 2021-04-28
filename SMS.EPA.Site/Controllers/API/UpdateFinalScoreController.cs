@@ -60,7 +60,7 @@
                 Query = query
             };
 
-            IEnumerable<EPAEmployeeModel> employees = baseService.GetData<EPAEmployeeModel>(criteria);
+            IEnumerable<EPAEmployeeInfo> employees = baseService.GetData<EPAEmployeeInfo>(criteria);
 
             return Request.CreateResponse(HttpStatusCode.OK, employees);
         }

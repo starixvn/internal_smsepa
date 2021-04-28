@@ -30,7 +30,7 @@
             {
                 using (IMultiResultReader multi = db.QueryMultiple(criteria.GetSpParams()))
                 {
-                    var epaInfos = multi.Read<EPAModel, EPAEmployeeModel, RatingTypeModel, EPAPeriodModel, ScoreRatingTypeModel, EPAModel>(
+                    var epaInfos = multi.Read<EPAModel, EPAEmployeeInfo, RatingTypeModel, EPAPeriodModel, ScoreRatingTypeModel, EPAModel>(
                         (epaInfo, employee, ratingType, period, scoreRatingType) =>
                             {
                                 epaInfo.Employee = employee;
@@ -42,7 +42,7 @@
                             },
                             "EmployeeId, RatingTypeId, PeriodId, ScoreRatingTypeId");
 
-                    var processes = multi.Read<EPAProcessModel, EPAEmployeeModel, EPAEmployeeModel, EPAProcessModel>(
+                    var processes = multi.Read<EPAProcessModel, EPAEmployeeInfo, EPAEmployeeInfo, EPAProcessModel>(
                             (process, evaluator, modifiedBy) =>
                             {
                                 process.EvaluatorInfo = evaluator;
@@ -74,7 +74,7 @@
             {
                 using (IMultiResultReader multi = db.QueryMultiple(criteria.GetSpParams()))
                 {
-                    var epaInfo = multi.Read<EPAModel, EPAEmployeeModel, RatingTypeModel, EPAPeriodModel, ScoreRatingTypeModel, EPAModel>(
+                    var epaInfo = multi.Read<EPAModel, EPAEmployeeInfo, RatingTypeModel, EPAPeriodModel, ScoreRatingTypeModel, EPAModel>(
                             (info, employee, ratingType, period, scoreRatingType) =>
                             {
                                 info.Employee = employee;
@@ -88,7 +88,7 @@
 
                     if (epaInfo != null)
                     {
-                        var processes = multi.Read<EPAProcessModel, EPAEmployeeModel, EPAEmployeeModel, EPAProcessModel>(
+                        var processes = multi.Read<EPAProcessModel, EPAEmployeeInfo, EPAEmployeeInfo, EPAProcessModel>(
                                 (process, evaluator, modifiedBy) =>
                                 {
                                     process.EvaluatorInfo = evaluator;
@@ -127,7 +127,7 @@
             {
                 using (IMultiResultReader multi = db.QueryMultiple(criteria.GetSpParams()))
                 {
-                    var epaInfos = multi.Read<EPAModel, EPAEmployeeModel, EPAPeriodModel, EPAModel>(
+                    var epaInfos = multi.Read<EPAModel, EPAEmployeeInfo, EPAPeriodModel, EPAModel>(
                         (epaInfo, emp, period) =>
                         {
                             epaInfo.Employee = emp;
@@ -137,7 +137,7 @@
                         },
                         "EmployeeId, PeriodId");
 
-                    var processes = multi.Read<EPAProcessModel, EPAEmployeeModel, EPAEmployeeModel, EPAProcessModel>(
+                    var processes = multi.Read<EPAProcessModel, EPAEmployeeInfo, EPAEmployeeInfo, EPAProcessModel>(
                             (process, evaluator, modifiedBy) =>
                             {
                                 process.EvaluatorInfo = evaluator;
@@ -165,7 +165,7 @@
             {
                 using (IMultiResultReader multi = db.QueryMultiple(criteria.GetSpParams()))
                 {
-                    IList<EPAModel> epaInfos = multi.Read<EPAModel, EPAEmployeeModel, EPAPeriodModel, EPAModel>(
+                    IList<EPAModel> epaInfos = multi.Read<EPAModel, EPAEmployeeInfo, EPAPeriodModel, EPAModel>(
                             (epaInfo, emp, period) =>
                             {
                                 epaInfo.Employee = emp;
@@ -175,7 +175,7 @@
                             },
                             "EmployeeId, PeriodId").ToList();
 
-                    var processes = multi.Read<EPAProcessModel, EPAEmployeeModel, EPAEmployeeModel, EPAProcessModel>(
+                    var processes = multi.Read<EPAProcessModel, EPAEmployeeInfo, EPAEmployeeInfo, EPAProcessModel>(
                             (process, evaluator, modifiedBy) =>
                             {
                                 process.EvaluatorInfo = evaluator;
@@ -215,7 +215,7 @@
                             "PeriodId")
                     };
 
-                    var processes = multi.Read<EPAProcessModel, EPAEmployeeModel, EPAEmployeeModel, EPAProcessModel>(
+                    var processes = multi.Read<EPAProcessModel, EPAEmployeeInfo, EPAEmployeeInfo, EPAProcessModel>(
                             (process, evaluator, modifiedBy) =>
                             {
                                 process.EvaluatorInfo = evaluator;
@@ -293,7 +293,7 @@
             {
                 using (IMultiResultReader multi = db.QueryMultiple(criteria.GetSpParams()))
                 {
-                    var epaInfos = multi.Read<RatingByKPIModel, EPAEmployeeModel, RatingTypeModel, TemporaryKPIGroupModel, RatingByKPIModel>(
+                    var epaInfos = multi.Read<RatingByKPIModel, EPAEmployeeInfo, RatingTypeModel, TemporaryKPIGroupModel, RatingByKPIModel>(
                             (epaInfo, employee, type, kgr) =>
                             {
                                 epaInfo.Employee = employee;

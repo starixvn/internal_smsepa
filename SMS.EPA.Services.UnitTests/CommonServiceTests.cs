@@ -521,39 +521,6 @@
 
         #endregion GetAllJobTitle
 
-        #region GetJobGrade
-
-        [Test]
-        public void GetJobGrade_AnyArg_ReturnInstanceOfListOfJobGradeModel()
-        {
-            // Arrange
-            ArrangeGetJobGrade();
-
-            // Act
-            var actual = commonService.GetJobGrade(Arg.Any<bool?>());
-
-            // Assert
-            Assert.IsInstanceOf(typeof(IEnumerable<JobGradeModel>), actual);
-        }
-
-        [Test]
-        public void GetJobGrade_ValidArg_ReturnListOfJobGradeModel()
-        {
-            // Arrange
-            bool? isActive = false;
-            IEnumerable<JobGradeModel> result = GetListOfJobGradeForTest();
-            ArrangeGetJobGrade(result);
-
-            // Act
-            var actual = commonService.GetJobGrade(isActive);
-
-            // Assert
-            Assert.IsNotNull(actual);
-            Assert.AreEqual(result, actual);
-        }
-
-        #endregion GetJobGrade
-
         [Test]
         public void GetScoreRatingType_AnyArg_ReturnExpectedRatingTypes()
         {
@@ -674,31 +641,6 @@
         {
             ArrangeCommon();
             baseService.GetData<JobTitle>(Arg.Any<GetAllJobTitleCriteria>()).Returns(jobTitles ?? new List<JobTitle>());
-        }
-
-        private IEnumerable<JobGradeModel> GetListOfJobGradeForTest()
-        {
-            var jobGrades = new List<JobGradeModel>
-            {
-                new JobGradeModel
-                {
-                    JobGradeId = 1,
-                    Name = "A1"
-                },
-                new JobGradeModel
-                {
-                    JobGradeId = 2,
-                    Name = "A2"
-                }
-            };
-
-            return jobGrades;
-        }
-
-        private void ArrangeGetJobGrade(IEnumerable<JobGradeModel> result = null)
-        {
-            ArrangeCommon();
-            baseService.GetData<JobGradeModel>(Arg.Any<GetJobGradeCriteria>()).Returns(result ?? new List<JobGradeModel>());
         }
 
         private void ArrangeGetScoreRatingType(IEnumerable<ScoreRatingTypeModel> ratingTypes = null)

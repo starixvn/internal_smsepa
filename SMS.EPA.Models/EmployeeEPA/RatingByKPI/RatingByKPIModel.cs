@@ -4,7 +4,7 @@
     {
         public int EPAId { get; set; }
 
-        public EPAEmployeeModel Employee { get; set; }
+        public EPAEmployeeInfo Employee { get; set; }
 
         public string TotalScore { get; set; }
 

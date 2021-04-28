@@ -13,7 +13,7 @@
         {
             using (var db = new ObjectDb(criteria.GetSettingKey()))
             {
-                IList<EPAHistoryModel> epas = db.Query<EPAHistoryModel, EPAPeriodModel, EPAEmployeeModel, EPAHistoryModel>(
+                IList<EPAHistoryModel> epas = db.Query<EPAHistoryModel, EPAPeriodModel, EPAEmployeeInfo, EPAHistoryModel>(
                     (epa, pe, emp) =>
                     {
                         epa.Employee = emp;
@@ -31,7 +31,7 @@
         {
             using (var db = new ObjectDb(criteria.GetSettingKey()))
             {
-                IList<EPAHistoryModel> epas = db.Query<EPAHistoryModel, EPAPeriodModel, EPAEmployeeModel, EPAHistoryModel>(
+                IList<EPAHistoryModel> epas = db.Query<EPAHistoryModel, EPAPeriodModel, EPAEmployeeInfo, EPAHistoryModel>(
                     (epa, pe, emp) =>
                     {
                         epa.Employee = emp;

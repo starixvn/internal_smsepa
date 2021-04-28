@@ -6,6 +6,7 @@
     using Criteria.TargetType;
     using Model;
     using Model.Enitites;
+    using SMS.EPA.Model.JobDescription;
 
     public interface ICommonService
     {
@@ -39,8 +40,8 @@
 
         IEnumerable<JobTitle> GetAllJobTitle();
 
-        IEnumerable<JobGradeModel> GetJobGrade(bool? isActive);
-
         IEnumerable<ScoreRatingTypeModel> GetScoreRatingType(GetScoreRatingTypeCriteria criteria);
+
+        IEnumerable<JobDescriptionItem> GetJobDescriptionByEPAId(int epaId);
     }
 }

@@ -1,6 +1,5 @@
 ﻿namespace SMS.EPA.Services.Implement
 {
-    using System;
     using System.Collections.Generic;
     using System.Linq;
     using Criteria;
@@ -8,13 +7,19 @@
     using Interfaces;
     using Model;
     using SMS.EPA.Core.Enumerations;
-    using SMS.EPA.Core.Services;
 
     public class EvaluatorEPAService : BaseActorEPAService, IEvaluatorEPAService
     {
-        public EvaluatorEPAService()
+        private readonly ICommonService commonService;
+
+        public EvaluatorEPAService() : this(null)
+        {
+        }
+
+        public EvaluatorEPAService(ICommonService commonService)
             : base(null, null)
         {
+            this.commonService = commonService ?? new CommonService();
         }
 
         public IEnumerable<EPAModel> GetEPAByEvaluator(GetEPAByEvaluatorCriteria criteria)
@@ -48,10 +53,10 @@
         public EPAModel GetEPAInfoByEvaluator(GetEPAInfoByEvaluatorCriteria criteria)
         {
             var epaInfo = new EPAModel();
-
             if (criteria != null && criteria.IsValid())
             {
                 epaInfo = EvaluationRepository.GetEPAInfo(criteria);
+                epaInfo.JobDescriptions = commonService.GetJobDescriptionByEPAId(criteria.EPAId);
                 epaInfo.Process.CurrentProcess =
                     EvaluationService.CloneEPAProcess(
                         epaInfo.Process.Evaluators.FirstOrDefault(

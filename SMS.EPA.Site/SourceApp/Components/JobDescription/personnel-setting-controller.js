@@ -43,6 +43,7 @@
         }
 
         vm.query = function () {
+            var groupId = vm.filter.groupId === null ? null : Math.abs(vm.filter.groupId);
             var employeeId = null;
             vm.searchKey = '';
             vm.currentPage = 1;
@@ -51,7 +52,7 @@
                 employeeId = vm.filter.employee.EmployeeId;
             }
 
-            getEmployeeSettingInfo(vm.filter.groupId, employeeId, vm.filter.showAll);
+            getEmployeeSettingInfo(groupId, employeeId, vm.filter.showAll);
         }
 
         vm.edit = function (event, employee) {

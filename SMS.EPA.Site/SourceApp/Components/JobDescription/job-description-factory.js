@@ -7,6 +7,8 @@
     function jobDescriptionFactory($http, baseUrl) {
         return {
             getUserPermission: getUserPermission,
+            getGroupSettingInfo: getGroupSettingInfo,
+            getGroupSettingById: getGroupSettingById,
             getEmployeeSettingInfo: getEmployeeSettingInfo,
             getEmployeeSettingById: getEmployeeSettingById,
             createJobDescriptionGroupItem: createJobDescriptionGroupItem
@@ -14,6 +16,14 @@
 
         function getUserPermission() {
             return $http.get(baseUrl + 'api/JobDescription/GetUserPermission');
+        }
+
+        function getGroupSettingInfo() {
+            return $http.post(baseUrl + 'api/JobDescription/GetGroupSettingInfo', {});
+        }
+
+        function getGroupSettingById(groupId, jobLevelId) {
+            return $http.get(baseUrl + 'api/JobDescription/GetGroupSettingById', { params: { groupId: groupId, jobLevelId: jobLevelId } });
         }
 
         function getEmployeeSettingInfo(groupId, employeeId, showAll) {

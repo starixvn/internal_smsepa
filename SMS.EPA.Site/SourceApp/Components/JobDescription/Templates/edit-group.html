@@ -1,0 +1,45 @@
+﻿<div class="col-sm-12 job-description" ng-controller="EditGroupSettingController as editGroupCtrl">
+    <div class="sub-header">
+        <ul class="row breadcrumb float-left">
+            <li data-translate="JobDescription"></li>
+            <li class="current" data-translate="Edit"></li>
+        </ul>
+        <button ng-click="editGroupCtrl.backToList()" class="btn btn-cancel">
+            <span class="glyphicon glyphicon-menu-left"></span> <span data-translate="BackToList"></span>
+        </button>
+    </div>
+    <form class="employee-info">
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="col-sm-2" data-translate="Code"></div>
+                <div class="col-sm-4"><strong ng-bind="editGroupCtrl.groupSettingInfo.Code"></strong></div>
+                <div class="col-sm-2" data-translate="Section"></div>
+                <div class="col-sm-4"><strong ng-bind="editGroupCtrl.groupSettingInfo.Name"></strong></div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="col-sm-2" data-translate="JobLevel"></div>
+                <div class="col-sm-4">
+                    <select class="form-control select-form" ng-model="editGroupCtrl.jobLevelId"
+                            ng-options="item.JobLevelId as item.Name for item in editGroupCtrl.jobLevels">
+                    </select>
+                </div>
+            </div>
+        </div>
+    </form>
+    <a class="btn btn-primary" ng-click="editGroupCtrl.createDescriptionGroupItem()" ng-if="editGroupCtrl.jobLevels.length > 0">
+        <span class="glyphicon glyphicon-plus icon-add"></span> Create Description Group
+    </a>
+    <table class="table table-bordered table-striped table-hover" ng-if="editGroupCtrl.jobLevels.length > 0">
+        <thead>
+            <tr>
+                <th></th>
+                <th></th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+</div>

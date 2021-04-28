@@ -1,0 +1,51 @@
+﻿<div ng-controller="GroupSettingController as groupCtrl">
+    <table class="row table table-bordered table-striped">
+        <thead>
+            <tr class="header-table">
+                <th colspan="5">
+                    <input type="text" ng-model="groupCtrl.searchKey" ng-change="groupCtrl.search()"
+                           class="search-inline-textbox search pull-right" />
+                </th>
+            </tr>
+            <tr class="headerName">
+                <th data-translate="SymbolCount"></th>
+                <th data-translate="Code"></th>
+                <th data-translate="Name"></th>
+                <th data-translate="JobLevel"></th>
+                <th data-translate="Action" ng-show="jobDescriptionCtrl.permission === jobDescriptionCtrl.policy.Host"></th>
+            </tr>
+        </thead>
+        <tbody class="table-body" ng-if="groupCtrl.filteredItems.length > 0">
+            <tr dir-paginate="group in groupCtrl.filteredItems | itemsPerPage: groupCtrl.pageSize" current-page="groupCtrl.currentPage">
+                <td class="text-center" ng-bind="groupCtrl.getIndex($index, groupCtrl.currentPage, groupCtrl.pageSize)"></td>
+                <td ng-bind="group.Code"></td>
+                <td ng-bind="group.Name"></td>
+                <td ng-bind="group.JobLevels"></td>
+                <td class="text-center" ng-if="jobDescriptionCtrl.permission === jobDescriptionCtrl.policy.Host">
+                    <a class="glyphicon glyphicon-edit icon-edit" href="" ng-click="groupCtrl.edit($event, group)"
+                       ng-attr-title='{{"Edit" | translate}}'></a>
+                </td>
+            </tr>
+        </tbody>
+        <tbody ng-if="groupCtrl.filteredItems.length === 0">
+            <tr>
+                <td class="empty-result" colspan="5" data-translate="EmptyResult"></td>
+            </tr>
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="5" class="paging">
+                    <span data-translate="Show"></span>
+                    <select class="dropdown-entry form-control" ng-model="groupCtrl.pageSize"
+                            ng-options="entry for entry in groupCtrl.entries" ng-change="groupCtrl.currentPage = 1"></select>
+                    <span data-translate="entries"></span>
+                    <div class="pull-right custom-paging">
+                        <ul uib-pagination total-items="groupCtrl.filteredItems.length" items-per-page="groupCtrl.pageSize"
+                            boundary-links="true" max-size="5" boundary-link-numbers="true" ng-model="groupCtrl.currentPage"
+                            class="pagination-sm" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></ul>
+                    </div>
+                </td>
+            </tr>
+        </tfoot>
+    </table>
+</div>

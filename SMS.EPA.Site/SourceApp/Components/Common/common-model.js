@@ -6,31 +6,32 @@
     commonModel.$inject = ['$uibModal', 'commonFactory', 'errorFactory'];
 
     function commonModel($uibModal, commonFactory, errorFactory) {
-        var model = {};
-
-        model.targetTypes = [];
-        model.systemRoles = [];
-        model.kpis = [];
-        model.kpiGroups = [];
-        model.groups = [];
-        model.employees = [];
-        model.employeesInDepartment = [];
-        model.employeesInGroup = [];
-        model.employee = {};
-        model.departments = [];
-        model.treeDepartment = {};
-        model.statusList = [];
-        model.periods = [];
-        model.monthlyPeriods = [];
-        model.standardGrades = [];
-        model.periodOptions = [];
-        model.otherViolationDetails = [];
-        model.targetTemplates = [];
-        model.menus = [];
-        model.remindDay = [0, 1, 2, 3, 4, 5, 6, 7];
-        model.jobTitles = [];
-        model.jobGrades = [];
-        model.permission = 0;
+        var model = {
+            targetTypes: [],
+            systemRoles: [],
+            kpis: [],
+            kpiGroups: [],
+            groups: [],
+            employees: [],
+            employeesInDepartment: [],
+            employeesInGroup: [],
+            employee: {},
+            departments: [],
+            treeDepartment: {},
+            statusList: [],
+            periods: [],
+            monthlyPeriods: [],
+            standardGrades: [],
+            periodOptions: [],
+            otherViolationDetails: [],
+            targetTemplates: [],
+            menus: [],
+            remindDay: [0, 1, 2, 3, 4, 5, 6, 7],
+            jobTitles: [],
+            jobGrades: [],
+            jobLevels: [],
+            permission: 0
+        };
 
         model.getTargetType = function (isActive, excludeTargetTypeIds) {
             return commonFactory.getTargetType(isActive, excludeTargetTypeIds).success(function (targetTypes) {
@@ -230,6 +231,14 @@
         model.getJobGrade = function (isActive) {
             return commonFactory.getJobGrade(isActive).success(function (jobGrades) {
                 model.jobGrades = jobGrades;
+            }).error(function (response, status) {
+                errorFactory.errorHandle(status);
+            });
+        };
+
+        model.getJobLevel = function (isActive) {
+            return commonFactory.getJobLevel(isActive).success(function (jobLevels) {
+                model.jobLevels = jobLevels;
             }).error(function (response, status) {
                 errorFactory.errorHandle(status);
             });

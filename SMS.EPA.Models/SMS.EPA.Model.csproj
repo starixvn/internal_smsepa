@@ -70,8 +70,11 @@
     <Compile Include="EmployeeEPA\ProbationExtendedQuestion\ProbationSubQuestionModel.cs" />
     <Compile Include="JobDescription\JobDescriptionEmployeeInfo.cs" />
     <Compile Include="JobDescription\JobDescriptionEmployeeSetting.cs" />
+    <Compile Include="JobDescription\JobDescriptionGroupInfo.cs" />
     <Compile Include="JobDescription\JobDescriptionGroupItem.cs" />
+    <Compile Include="JobDescription\JobDescriptionGroupSetting.cs" />
     <Compile Include="JobDescription\JobDescriptionItem.cs" />
+    <Compile Include="JobLevel\JobLevel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <!-- Exclude the file from analysis -->
       <SonarQubeExclude>true</SonarQubeExclude>
@@ -94,7 +97,7 @@
     <Compile Include="Authentication\LoginModel.cs" />
     <Compile Include="Discipline\DisciplineSummaryForOtherSystem.cs" />
     <Compile Include="EmployeeEPA\AdjustScoreViewModel.cs" />
-    <Compile Include="EmployeeEPA\EPAEmployeeModel.cs" />
+    <Compile Include="EmployeeEPA\EPAEmployeeInfo.cs" />
     <Compile Include="EmployeeEPA\EPAPeriodModel.cs" />
     <Compile Include="EmployeeEPA\EPASummaryImportModel.cs" />
     <Compile Include="EmployeeEPA\EvaluationProcessModel.cs" />

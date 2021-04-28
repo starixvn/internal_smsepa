@@ -7,7 +7,7 @@
     {
         public EPAProcessModel()
         {
-            EvaluatorInfo = new EPAEmployeeModel();
+            EvaluatorInfo = new EPAEmployeeInfo();
         }
 
         public int EPAId { get; set; }
@@ -22,7 +22,7 @@
 
         public bool IsEndProcess => DateTime.Compare(EndDate.Date, DateTime.Now.Date) < 0;
 
-        public EPAEmployeeModel EvaluatorInfo { get; set; }
+        public EPAEmployeeInfo EvaluatorInfo { get; set; }
 
         public string Comment { get; set; }
 
@@ -46,6 +46,6 @@
 
         public float MaxAdditionScore { get; set; }
 
-        public EPAEmployeeModel ModifiedBy { get; set; }
+        public EPAEmployeeInfo ModifiedBy { get; set; }
     }
 }

@@ -1,0 +1,10 @@
+﻿<div class="panel panel-default" ng-if="jobDescriptionCtrl.jobDescriptions.length > 0">
+    <div class="panel-heading" data-toggle="collapse" data-target=".job-description-collapse" data-translate="JobDescription"></div>
+    <div class="panel-collapse collapse in job-description-collapse" auto-collapse data-collapsed="true">
+        <div class="panel-body">
+            <ul>
+                <li ng-repeat="item in jobDescriptionCtrl.jobDescriptions" ng-bind="item.Name"></li>
+            </ul>
+        </div>
+    </div>
+</div>

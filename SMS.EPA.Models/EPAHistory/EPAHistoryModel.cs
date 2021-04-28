@@ -4,7 +4,7 @@
 
     public class EPAHistoryModel
     {
-        public EPAEmployeeModel Employee { get; set; }
+        public EPAEmployeeInfo Employee { get; set; }
 
         public EPAPeriodModel Period { get; set; }
 

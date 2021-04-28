@@ -7,8 +7,13 @@
     function jobDescriptionModel($uibModal, jobDescriptionFactory, errorFactory) {
         var model = {
             permission: 0,
+            groupSettingInfos: [],
+            groupSettingInfo: {},
             employeeSettingInfos: [],
+            employeeSettingInfo: {},
             getUserPermission: getUserPermission,
+            getGroupSettingInfo: getGroupSettingInfo,
+            getGroupSettingById: getGroupSettingById,
             getEmployeeSettingInfo: getEmployeeSettingInfo,
             getEmployeeSettingById: getEmployeeSettingById,
             openPopupCreateDescriptionGroupItem: openPopupCreateDescriptionGroupItem
@@ -22,6 +27,24 @@
             }).error(function (response, status) {
                 errorFactory.errorHandle(status);
             });
+        }
+
+        function getGroupSettingInfo() {
+            return jobDescriptionFactory.getGroupSettingInfo()
+                .success(function (groupSettingInfos) {
+                    model.groupSettingInfos = groupSettingInfos;
+                }).error(function (response, status) {
+                    errorFactory.errorHandle(status);
+                });
+        }
+
+        function getGroupSettingById(groupId, jobLevelId) {
+            return jobDescriptionFactory.getGroupSettingById(groupId, jobLevelId)
+                .success(function (groupSettingInfo) {
+                    model.groupSettingInfo = groupSettingInfo;
+                }).error(function (response, status) {
+                    errorFactory.errorHandle(status);
+                });
         }
 
         function getEmployeeSettingInfo(groupId, employeeId, showAll) {

@@ -6,6 +6,5 @@
         public int ItemId { get; set; }
         public string Name { get; set; }
         public bool IsSelected { get; set; }
-        public int JobLevelId { get; set; }
     }
 }

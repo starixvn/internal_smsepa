@@ -61,7 +61,7 @@
 
         [HttpGet]
         [ApiAuthorize(FunctionKey = EPAFunctionKey.Reviewer, Policy = Policy.Read)]
-        public IEnumerable<EPAEmployeeModel> GetMemberByReviewer(
+        public IEnumerable<EPAEmployeeInfo> GetMemberByReviewer(
             int? periodId = null,
             int? groupId = null,
             bool? isLocal = null,
@@ -77,7 +77,7 @@
                 IsMonthly = isMonthly
             };
 
-            return baseService.GetData<EPAEmployeeModel>(criteria);
+            return baseService.GetData<EPAEmployeeInfo>(criteria);
         }
 
         [HttpGet]

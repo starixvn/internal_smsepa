@@ -134,6 +134,7 @@
                             "~/SourceApp/Components/EPA/Share/Filters/custom-score-filter.js",
                             "~/SourceApp/Components/EPA/Share/Filters/split-score-filter.js",
                             "~/SourceApp/Components/EPA/Share/Directives/general-info-directive.js",
+                            "~/SourceApp/Components/EPA/Share/Directives/job-description-directive.js",
                             "~/SourceApp/Components/EPA/Share/Directives/evaluation-process-directive.js",
                             "~/SourceApp/Components/EPA/Share/Directives/rating-instruction-directive.js",
                             "~/SourceApp/Components/EPA/Share/Directives/performance-result-directive.js",
@@ -231,7 +232,8 @@
                             "~/SourceApp/Components/JobDescription/job-description-factory.js",
                             "~/SourceApp/Components/JobDescription/job-description-model.js",
                             "~/SourceApp/Components/JobDescription/job-description-controller.js",
-                            "~/SourceApp/Components/JobDescription/team-setting-controller.js",
+                            "~/SourceApp/Components/JobDescription/group-setting-controller.js",
+                            "~/SourceApp/Components/JobDescription/edit-group-setting-controller.js",
                             "~/SourceApp/Components/JobDescription/personnel-setting-controller.js",
                             "~/SourceApp/Components/JobDescription/edit-personnel-setting-controller.js",
                             "~/SourceApp/Components/JobDescription/create-job-description-group-item-controller.js"));

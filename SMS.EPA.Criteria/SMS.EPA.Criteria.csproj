@@ -77,9 +77,13 @@
   <ItemGroup>
     <Compile Include="EmployeeEPA\GetPeriodByActorIdCriteria.cs" />
     <Compile Include="EmployeeEPA\GetExtendedQuestionCriteria.cs" />
+    <Compile Include="EmployeeEPA\GetJobDescriptionByEPAIdCriteria.cs" />
     <Compile Include="JobDescription\CreateJobDescriptionGroupItemCriteria.cs" />
+    <Compile Include="JobDescription\GetGroupSettingJobDescriptionByIdCriteria.cs" />
     <Compile Include="JobDescription\GetEmployeeSettingJobDescriptionByIdCriteria.cs" />
     <Compile Include="JobDescription\GetEmployeeSettingJobDescriptionCriteria.cs" />
+    <Compile Include="JobDescription\GetGroupSettingJobDescriptionCriteria.cs" />
+    <Compile Include="JobLevel\GetJobGradeCriteria.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <!-- Exclude the file from analysis -->
       <SonarQubeExclude>true</SonarQubeExclude>

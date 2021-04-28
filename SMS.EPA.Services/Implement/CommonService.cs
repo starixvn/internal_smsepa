@@ -9,6 +9,7 @@
     using Interfaces;
     using Model;
     using Model.Enitites;
+    using SMS.EPA.Model.JobDescription;
 
     public class CommonService : ICommonService
     {
@@ -153,21 +154,16 @@
             return jobTitles;
         }
 
-        public IEnumerable<JobGradeModel> GetJobGrade(bool? isActive)
-        {
-            var criteria = new GetJobGradeCriteria
-            {
-                IsActive = isActive
-            };
-            IEnumerable<JobGradeModel> jobGrades = baseService.GetData<JobGradeModel>(criteria);
-
-            return jobGrades;
-        }
-
         public IEnumerable<ScoreRatingTypeModel> GetScoreRatingType(GetScoreRatingTypeCriteria criteria)
         {
             var scoreRatingTypes = baseService.GetData<ScoreRatingTypeModel>(criteria);
             return scoreRatingTypes;
+        }
+
+        public IEnumerable<JobDescriptionItem> GetJobDescriptionByEPAId(int epaId)
+        {
+            var criteria = new GetJobDescriptionByEPAIdCriteria { EPAId = epaId };
+            return baseService.GetData<JobDescriptionItem>(criteria);
         }
 
         private IList<MenuGroupModel> GroupMenuItem(IEnumerable<MenuItemModel> menuItems)

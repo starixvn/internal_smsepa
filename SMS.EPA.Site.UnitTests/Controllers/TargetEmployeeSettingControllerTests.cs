@@ -235,7 +235,7 @@
         public void GetUserPermissionOnTargetEmployeeSetting_AnyArg_ReturnExpectedPermission()
         {
             // Arrange
-            var expectedPermission = 2;
+            byte expectedPermission = 2;
             _targetEmployeeSettingController = new TargetEmployeeSettingController { SessionService = FakeSessionService(expectedPermission) };
 
             // Act
@@ -247,7 +247,7 @@
 
         #endregion GetUserPermissionOnTargetEmployeeSetting
 
-        private static ISessionService FakeSessionService(int? permission = null)
+        private static ISessionService FakeSessionService(byte? permission = null)
         {
             ISessionService service = Substitute.For<ISessionService>();
             service.EmployeeId = 1;

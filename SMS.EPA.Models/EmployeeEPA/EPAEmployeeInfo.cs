@@ -4,7 +4,7 @@
     using System;
 
     [Serializable]
-    public class EPAEmployeeModel
+    public class EPAEmployeeInfo
     {
         public int EPAId { get; set; }
 
@@ -46,5 +46,7 @@
         public string JobTitleName { get; set; }
 
         public DateTime JoinedDate { get; set; }
+
+        public string JobLevel { get; set; }
     }
 }

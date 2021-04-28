@@ -14,7 +14,6 @@
     using SMS.EPA.Model.JobDescription;
     using SMS.EPA.Services;
 
-    ////[ApiAuthorize(FunctionKey = EPAFunctionKey.JobDescription, Policy = Policy.Read)]
     public class JobDescriptionController : BaseController
     {
         private readonly IBaseService baseService;
@@ -30,12 +29,37 @@
             this.jobDescriptionService = jobDescriptionService ?? new JobDescriptionService();
         }
 
+        #region Group
+
         [HttpPost]
+        [ApiAuthorize(FunctionKey = EPAFunctionKey.JobDescription, Policy = Policy.Read)]
+        public async Task<IEnumerable<JobDescriptionGroupInfo>> GetGroupSettingInfo(GetGroupSettingJobDescriptionCriteria criteria)
+        {
+            return await baseService.GetDataAsync<JobDescriptionGroupInfo>(criteria);
+        }
+
+        [ApiAuthorize(FunctionKey = EPAFunctionKey.JobDescription, Policy = Policy.Read)]
+        public async Task<HttpResponseMessage> GetGroupSettingById(int groupId, int jobLevelId)
+        {
+            var groupInfo = await jobDescriptionService.GetGroupSettingByIdAsync(groupId, jobLevelId);
+            if (groupInfo == null)
+            {
+                return Request.CreateResponse(HttpStatusCode.NotFound, groupInfo);
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, groupInfo);
+        }
+
+        #endregion Group
+
+        [HttpPost]
+        [ApiAuthorize(FunctionKey = EPAFunctionKey.JobDescription, Policy = Policy.Read)]
         public async Task<IEnumerable<JobDescriptionEmployeeInfo>> GetEmployeeSettingInfo(GetEmployeeSettingJobDescriptionCriteria criteria)
         {
             return await baseService.GetDataAsync<JobDescriptionEmployeeInfo>(criteria);
         }
 
+        [ApiAuthorize(FunctionKey = EPAFunctionKey.JobDescription, Policy = Policy.Read)]
         public async Task<HttpResponseMessage> GetEmployeeSettingById(int employeeId)
         {
             var employeeInfo = await jobDescriptionService.GetEmployeeSettingByIdAsync(employeeId);
@@ -48,7 +72,7 @@
         }
 
         [HttpPost]
-        ////[ApiAuthorize(FunctionKey = EPAFunctionKey.JobDescription, Policy = Policy.Host)]
+        [ApiAuthorize(FunctionKey = EPAFunctionKey.JobDescription, Policy = Policy.Host)]
         public async Task<CommandResult> CreateJobDescriptionGroupItem(CreateJobDescriptionGroupItemCriteria criteria)
         {
             return await baseService.ExecuteNonQueryAsync(criteria);

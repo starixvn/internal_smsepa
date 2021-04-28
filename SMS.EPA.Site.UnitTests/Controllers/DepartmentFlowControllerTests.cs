@@ -148,7 +148,7 @@
 
         #endregion GetDepartmentHasSetting
 
-        private static ISessionService FakeSessionService(int? permission = null)
+        private static ISessionService FakeSessionService(byte? permission = null)
         {
             var service = Substitute.For<ISessionService>();
             service.EmployeeId = 1;

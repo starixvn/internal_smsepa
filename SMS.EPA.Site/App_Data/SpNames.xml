@@ -156,6 +156,7 @@
     <Setting Key="EPA_GetRecommendationById" SpName="EPA_GetRecommendationById" DbName="SMSEPA" Plain="0"></Setting>
     <Setting Key="EPA_GetPeriodByActorId" SpName="EPA_GetPeriodByActorId" DbName="SMSEPA" Plain="0"></Setting>
     <Setting Key="EPA_GetExtendedQuestion" SpName="EPA_GetExtendedQuestion" DbName="SMSEPA" Plain="0"></Setting>
+      <Setting Key="EPA_GetJobDescriptiontionById" SpName="EPA_GetJobDescriptiontionById" DbName="SMSEPA" Plain="0" />
   </Function>
   <Function Name="Period">
     <Setting Key="EpaPeriod_Get" SpName="EpaPeriod_Get" DbName="SMSEPA" Plain="0"></Setting>
@@ -241,6 +242,11 @@
     <Setting Key="JobGrade_Get" SpName="JobGrade_Get" DbName="SMSEPA" Plain="0"></Setting>
   </Function>
     <Function Name="Job Level">
+        <Setting Key="JobLevel_Get" SpName="JobLevel_Get" DbName="SMSEPA" Plain="0" />
+    </Function>
+    <Function Name="Job Description">
+        <Setting Key="JobDescription_GetGroupSetting" SpName="JobDescription_GetGroupSetting" DbName="SMSEPA" Plain="0" />
+        <Setting Key="JobDescription_GetGroupSettingById" SpName="JobDescription_GetGroupSettingById" DbName="SMSEPA" Plain="0" />
         <Setting Key="JobDescription_GetEmployeeSetting" SpName="JobDescription_GetEmployeeSetting" DbName="SMSEPA" Plain="0" />
         <Setting Key="JobDescription_GetEmployeeSettingById" SpName="JobDescription_GetEmployeeSettingById" DbName="SMSEPA" Plain="0" />
         <Setting Key="JobDescription_InsertGroupItem" SpName="JobDescription_InsertGroupItem" DbName="SMSEPA" Plain="0" />

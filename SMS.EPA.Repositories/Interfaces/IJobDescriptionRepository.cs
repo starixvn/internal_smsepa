@@ -6,6 +6,8 @@
 
     public interface IJobDescriptionRepository
     {
+        Task<JobDescriptionGroupSetting> GetGroupSettingByIdAsync(ICriteria criteria);
+
         Task<JobDescriptionEmployeeSetting> GetEmployeeSettingByIdAsync(ICriteria criteria);
     }
 }

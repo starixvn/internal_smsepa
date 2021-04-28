@@ -6,6 +6,7 @@
     using Core.Enumerations;
     using Newtonsoft.Json;
     using Report;
+    using SMS.EPA.Model.JobDescription;
 
     public class EPAModel : IExcelRecord
     {
@@ -16,14 +17,14 @@
             MonthlyEPA = new MonthlyEPAModel();
             Process = new EvaluationProcessModel();
             Period = new EPAPeriodModel();
-            Employee = new EPAEmployeeModel();
+            Employee = new EPAEmployeeInfo();
             RatingType = new RatingTypeModel();
             AllProcesses = new List<EPAProcessModel>();
         }
 
         public float DisciplineScore { get; set; }
 
-        public EPAEmployeeModel Employee { get; set; }
+        public EPAEmployeeInfo Employee { get; set; }
 
         public int EPAId { get; set; }
 
@@ -112,7 +113,7 @@
         public RatingTypeModel RatingType { get; set; }
 
         public IEnumerable<EPARecommendation> Recommendations { get; set; } = new List<EPARecommendation>();
-
+        public IEnumerable<JobDescriptionItem> JobDescriptions { get; set; } = new List<JobDescriptionItem>();
         public EPAProbationExtendedQuestionModel ExtendedQuestion { get; set; }
 
         public bool RequiredCommentOnMaxScore { get; set; }

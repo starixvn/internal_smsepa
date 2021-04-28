@@ -117,7 +117,7 @@
                     {
                         PhaseSelecteds = multi.Read<EvaluationPhaseModel>(),
                         EpaInfos = multi
-                            .Read<EPAModel, EPAEmployeeModel, EPAPeriodModel, ScoreRatingTypeModel, EPAModel>(
+                            .Read<EPAModel, EPAEmployeeInfo, EPAPeriodModel, ScoreRatingTypeModel, EPAModel>(
                                 (info, employee, period, scoreRatingType) =>
                                 {
                                     info.Employee = employee;
@@ -129,7 +129,7 @@
                                 "EmployeeId, PeriodId, ScoreRatingTypeId")
                     };
 
-                    var processes = multi.Read<EPAProcessModel, EPAEmployeeModel, EPAProcessModel>(
+                    var processes = multi.Read<EPAProcessModel, EPAEmployeeInfo, EPAProcessModel>(
                         (process, employee) =>
                         {
                             process.EvaluatorInfo = employee;
@@ -155,7 +155,7 @@
                     var epaDetail = new EPADetailModel
                     {
                         PhaseSelecteds = multi.Read<EvaluationPhaseModel>(),
-                        EpaInfos = multi.Read<EPAModel, EPAEmployeeModel, EPAPeriodModel, EPAModel>(
+                        EpaInfos = multi.Read<EPAModel, EPAEmployeeInfo, EPAPeriodModel, EPAModel>(
                             (info, employee, period) =>
                             {
                                 info.Employee = employee;

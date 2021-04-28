@@ -15,20 +15,26 @@
     using Model;
     using Repositories;
     using Resources;
+    using SMS.EPA.Model.JobDescription;
 
     public class EmployeeEPAService : IEmployeeEPAService
     {
         private readonly IEmployeeEPARepository employeeEPARepository;
         private readonly IProbationExtendedQuestionRepository extendedQuestionRepository;
+        private readonly ICommonService commonService;
 
-        public EmployeeEPAService() : this(null, null)
+        public EmployeeEPAService() : this(null, null, null)
         {
         }
 
-        public EmployeeEPAService(IEmployeeEPARepository employeeEPARepository, IProbationExtendedQuestionRepository extendedQuestionRepository)
+        public EmployeeEPAService(
+            IEmployeeEPARepository employeeEPARepository,
+            IProbationExtendedQuestionRepository extendedQuestionRepository,
+            ICommonService commonService)
         {
             this.employeeEPARepository = employeeEPARepository ?? new EmployeeEPARepository();
             this.extendedQuestionRepository = extendedQuestionRepository ?? new ProbationExtendedQuestionRepository();
+            this.commonService = commonService ?? new CommonService();
         }
 
         public EPAModel GetEPAInfoById(int epaId)
@@ -46,6 +52,7 @@
 
                 if (epaInfo != null)
                 {
+                    epaInfo.JobDescriptions = commonService.GetJobDescriptionByEPAId(epaInfo.EPAId);
                     SpreadKPIScore(epaInfo.KPIGroups);
 
                     if (epaInfo.IsSemiHasMonthly)

@@ -1,29 +1,30 @@
 ﻿namespace SMS.EPA.Services.Implement
 {
-    using System;
     using System.Collections.Generic;
     using System.Linq;
     using Criteria;
     using Interfaces;
     using Model;
     using Repositories;
-    using SMS.EPA.Core.Services;
 
     public class ManagementEPAService : IManagementEPAService
     {
         private readonly IEmployeeEPARepository evaluationRepository;
         private readonly IEmployeeEPAService evaluationService;
+        private readonly ICommonService commonService;
 
-        public ManagementEPAService() : this(null, null)
+        public ManagementEPAService() : this(null, null, null)
         {
         }
 
         public ManagementEPAService(
             IEmployeeEPARepository evaluationRepository,
-            IEmployeeEPAService evaluationService)
+            IEmployeeEPAService evaluationService,
+            ICommonService commonService)
         {
             this.evaluationRepository = evaluationRepository ?? new EmployeeEPARepository();
             this.evaluationService = evaluationService ?? new EmployeeEPAService();
+            this.commonService = commonService ?? new CommonService();
         }
 
         public IEnumerable<EPAModel> GetEPAByManagement(GetEPAByManagementCriteria criteria)
@@ -59,10 +60,10 @@
         public EPAModel GetEPAInfoByManagement(GetEPAInfoByManagementCriteria criteria)
         {
             var epaInfo = new EPAModel();
-
             if (criteria != null && criteria.IsValid())
             {
                 epaInfo = evaluationRepository.GetEPAInfo(criteria);
+                epaInfo.JobDescriptions = commonService.GetJobDescriptionByEPAId(criteria.EPAId);
                 epaInfo.Process.CurrentProcess =
                     evaluationService.CloneEPAProcess(epaInfo.Process.Managements.FirstOrDefault(x => x.EvaluatorInfo.EmployeeId == criteria.ManagementId));
                 evaluationService.SetMaxPerformanceScore(epaInfo);

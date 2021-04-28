@@ -5,6 +5,8 @@
 
     public interface IJobDescriptionService
     {
+        Task<JobDescriptionGroupSetting> GetGroupSettingByIdAsync(int groupId, int jobLevelId);
+
         Task<JobDescriptionEmployeeSetting> GetEmployeeSettingByIdAsync(int employeeId);
     }
 }

@@ -2,6 +2,7 @@
 {
     using System.Collections.Generic;
     using System.Linq;
+    using System.Threading.Tasks;
     using System.Web.Http;
     using Core.Constants;
     using Core.Enumerations;
@@ -13,17 +14,20 @@
     using Model.Enitites;
     using Services.Implement;
     using Services.Interfaces;
+    using SMS.EPA.Core.Services;
 
     public class CommonController : BaseController
     {
+        private readonly IBaseService baseService;
         private readonly ICommonService commonService;
 
-        public CommonController() : this(null)
+        public CommonController() : this(null, null)
         {
         }
 
-        public CommonController(ICommonService commonService)
+        public CommonController(IBaseService baseService, ICommonService commonService)
         {
+            this.baseService = baseService ?? new BaseService();
             this.commonService = commonService ?? new CommonService();
         }
 
@@ -221,9 +225,16 @@
         }
 
         [HttpGet]
-        public IEnumerable<JobGradeModel> GetJobGrade(bool? isActive = null)
+        public async Task<IEnumerable<JobGradeModel>> GetJobGrade(bool? isActive = true)
         {
-            return commonService.GetJobGrade(isActive);
+            var criteria = new GetJobGradeCriteria { IsActive = isActive };
+            return await baseService.GetDataAsync<JobGradeModel>(criteria);
+        }
+
+        public async Task<IEnumerable<JobLevel>> GetJobLevel(bool? isActive = true)
+        {
+            var criteria = new GetJobLevelCriteria { IsActive = isActive };
+            return await baseService.GetDataAsync<JobLevel>(criteria);
         }
     }
 }

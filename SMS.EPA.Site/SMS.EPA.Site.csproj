@@ -488,6 +488,7 @@
     <Content Include="SourceApp\Components\EPA\Evaluator\Templates\recommendationForProbationAndPromotion.html" />
     <Content Include="SourceApp\Components\EPA\Evaluator\Templates\recommendationForSemi.html" />
     <Content Include="SourceApp\Components\EPA\Share\Controllers\epa-detail-controller.js" />
+    <Content Include="SourceApp\Components\EPA\Share\Directives\job-description-directive.js" />
     <Content Include="SourceApp\Components\EPA\Share\Directives\repeat-end-directive.js" />
     <Content Include="SourceApp\Components\EPA\Share\Directives\auto-collapse-directive.js" />
     <Content Include="SourceApp\Components\EPA\Share\Directives\performance-grade-directive.js" />
@@ -501,6 +502,7 @@
     <Content Include="SourceApp\Components\EPA\Share\Directives\rating-instruction-directive.js" />
     <Content Include="SourceApp\Components\EPA\Share\Directives\evaluation-process-directive.js" />
     <Content Include="SourceApp\Components\EPA\Share\Directives\general-info-directive.js" />
+    <Content Include="SourceApp\Components\EPA\Share\Directives\Templates\job-description.tmpl.html" />
     <Content Include="SourceApp\Components\EPA\Share\Directives\Templates\recommendation.tmpl.html" />
     <Content Include="SourceApp\Components\EPA\Share\Directives\Templates\semiPerformanceResult.tmpl.html" />
     <Content Include="SourceApp\Components\EPA\Evaluator\evaluator-access-controller.js" />
@@ -538,17 +540,19 @@
     <Content Include="SourceApp\Components\FlowManagement\flowTemplate-factory.js" />
     <Content Include="SourceApp\Components\FlowManagement\Templates\modalCreateFlowTemplate.html" />
     <Content Include="SourceApp\Components\JobDescription\create-job-description-group-item-controller.js" />
+    <Content Include="SourceApp\Components\JobDescription\edit-group-setting-controller.js" />
     <Content Include="SourceApp\Components\JobDescription\job-description-controller.js" />
     <Content Include="SourceApp\Components\JobDescription\job-description-factory.js" />
     <Content Include="SourceApp\Components\JobDescription\job-description-model.js" />
     <Content Include="SourceApp\Components\JobDescription\edit-personnel-setting-controller.js" />
     <Content Include="SourceApp\Components\JobDescription\personnel-setting-controller.js" />
-    <Content Include="SourceApp\Components\JobDescription\team-setting-controller.js" />
+    <Content Include="SourceApp\Components\JobDescription\group-setting-controller.js" />
     <Content Include="SourceApp\Components\JobDescription\Templates\create-job-description-group-item.html" />
+    <Content Include="SourceApp\Components\JobDescription\Templates\edit-group.html" />
     <Content Include="SourceApp\Components\JobDescription\Templates\index.html" />
     <Content Include="SourceApp\Components\JobDescription\Templates\edit-personnel.html" />
     <Content Include="SourceApp\Components\JobDescription\Templates\personnel.html" />
-    <Content Include="SourceApp\Components\JobDescription\Templates\team.html" />
+    <Content Include="SourceApp\Components\JobDescription\Templates\group.html" />
     <Content Include="SourceApp\Components\KPIGroup\create-kpiGroup-controller.js" />
     <Content Include="SourceApp\Components\KPIGroup\update-kpiGroup-controller.js" />
     <Content Include="SourceApp\Components\KPI\create-kpi-controller.js" />
