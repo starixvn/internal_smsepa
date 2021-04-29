@@ -1473,4 +1473,7 @@
   <data name="JobDescription" xml:space="preserve">
     <value>Job Description</value>
   </data>
+  <data name="CreateDesciptionGroup" xml:space="preserve">
+    <value>Create Desciption Group</value>
+  </data>
 </root>

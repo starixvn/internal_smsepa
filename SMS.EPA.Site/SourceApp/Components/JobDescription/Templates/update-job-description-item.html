@@ -1,0 +1,26 @@
+﻿<div class="modal-header">
+    <div class="popup-header">
+        Update Description
+        <span class="close-popup" ng-click="updateItemCtrl.cancel()"></span>
+    </div>
+</div>
+<div class="modal-body descriptionGroup-modal-body">
+    <form class="form-horizontal col-sm-11" role="form">
+        <div class="form-group required">
+            <label class="col-sm-4 control-label" data-translate="Name"></label>
+            <div class="col-sm-8 field">
+                <input type="text" class="form-control" ng-model="updateItemCtrl.item.Name" required maxlength="500" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-4 control-label" data-translate="Active"></label>
+            <div class="col-sm-8 field active-label">
+                <input type="checkbox" ng-model="updateItemCtrl.item.IsActive" />
+            </div>
+        </div>
+    </form>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-primary" ng-click="updateItemCtrl.save()" data-translate="Submit"></button>
+    <button class="btn btn-cancel" ng-click="updateItemCtrl.cancel()" data-translate="Cancel"></button>
+</div>

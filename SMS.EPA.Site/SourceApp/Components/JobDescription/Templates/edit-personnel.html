@@ -17,18 +17,61 @@
             </div>
         </div>
     </form>
-    <a class="btn btn-primary" ng-click="editPersonnelCtrl.createDescriptionGroupItem()">
-        <span class="glyphicon glyphicon-plus icon-add"></span> Create Description Group
-    </a>
-    <table class="table table-bordered table-striped table-hover">
+    <table class="row table table-bordered table-striped">
         <thead>
-            <tr>
-                <th></th>
-                <th></th>
-                <th></th>
+            <tr class="header-table">
+                <th colspan="7">
+                    <a class="pull-left button-icon create-button" ng-click="editPersonnelCtrl.createDescriptionGroupItem()">
+                        <span class="glyphicon glyphicon-plus icon-add"></span>
+                        <span class="button-text" data-translate="CreateDesciptionGroup"></span>
+                    </a>
+                    <input type="text" ng-model="personnelCtrl.searchKey" ng-change="editPersonnelCtrl.search()" class="search-inline-textbox search pull-right">
+                </th>
+            </tr>
+            <tr class="headerName">
+                <th data-translate="SymbolCount"></th>
+                <th data-translate="Description"></th>
+                <th class="text-center col-active" data-translate="Active"></th>
+                <th data-translate="Action" ng-show="jobDescriptionCtrl.permission === jobDescriptionCtrl.policy.Host"></th>
             </tr>
         </thead>
-        <tbody>
+        <tbody class="table-body" ng-if="editPersonnelCtrl.employeeSettingInfo.GroupItems.length > 0">
+            <tr ng-repeat="groupItem in editPersonnelCtrl.employeeSettingInfo.GroupItems">
+                <td class="text-center" ng-bind="editPersonnelCtrl.getIndex($index, editPersonnelCtrl.currentPage, editPersonnelCtrl.pageSize)"></td>
+                <td ng-bind="groupItem.Name"></td>
+                <td class="text-center col-active">
+                    <input type="checkbox" ng-checked="groupItem.IsActive"
+                           ng-click="editPersonnelCtrl.updateStatusDescriptionGroupItem(groupItem)"
+                           ng-disabled="editPersonnelCtrl.permission != editPersonnelCtrl.policyEnum.Host" />
+                </td>
+                <td class="text-center col-action" ng-if="editPersonnelCtrl.permission === editPersonnelCtrl.policyEnum.Host">
+                    <a class="glyphicon glyphicon-edit icon-edit" href="" ng-click="editPersonnelCtrl.updateDescriptionGroupItem(groupItem)" ng-attr-title='{{"Edit" | translate}}'></a>
+                    <a class="glyphicon glyphicon-remove icon-remove" href="" ng-click="editPersonnelCtrl.deleteDescriptionGroupItem(groupItem)" ng-attr-title='{{"Delete" | translate}}'></a>
+                    <a class="glyphicon glyphicon-plus icon-add" href="" ng-if="editPersonnelCtrl.permission === editPersonnelCtrl.policyEnum.Host"
+                       ng-click="editPersonnelCtrl.addDescriptionItem(groupItem)" ng-attr-title='{{"AddDescriptonItem" | translate}}'></a>
+                </td>
+            </tr>
         </tbody>
+
+        <tbody ng-if="editPersonnelCtrl.employeeSettingInfo.GroupItems.length === 0">
+            <tr>
+                <td class="empty-result" colspan="7" data-translate="EmptyResult"></td>
+            </tr>
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="7" class="paging">
+                    <span data-translate="Show"></span>
+                    <select class="dropdown-entry form-control" ng-model="editPersonnelCtrl.pageSize"
+                            ng-options="entry for entry in editPersonnelCtrl.entries" ng-change="editPersonnelCtrl.currentPage = 1"></select>
+                    <span data-translate="entries"></span>
+                    <div class="pull-right custom-paging">
+                        <ul uib-pagination total-items="editPersonnelCtrl.filteredItems.length" items-per-page="editPersonnelCtrl.pageSize"
+                            boundary-links="true" max-size="5" boundary-link-numbers="true" ng-model="editPersonnelCtrl.currentPage"
+                            class="pagination-sm" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></ul>
+                    </div>
+                </td>
+            </tr>
+        </tfoot>
     </table>
 </div>

@@ -78,6 +78,36 @@
             return await baseService.ExecuteNonQueryAsync(criteria);
         }
 
+        //[HttpPut]
+        //[ApiAuthorize(FunctionKey = EPAFunctionKey.JobDescription, Policy = Policy.Host)]
+        public CommandResult UpdateJobDescriptionGroupItem(UpdateJobDescriptionGroupItemCriteria criteria)
+        {
+            CommandResult commandResult = baseService.ExecuteNonQuery(criteria);
+
+            return commandResult;
+        }
+
+        [HttpDelete]
+        [ApiAuthorize(FunctionKey = EPAFunctionKey.JobDescription, Policy = Policy.Host)]
+        public CommandResult DeleteJobDescriptionGroupItem(int groupItemId)
+        {
+            var criteria = new DeleteJobDescriptionGroupItemCriteria
+            {
+                GroupItemId = groupItemId
+            };
+
+            CommandResult commandResult = baseService.ExecuteNonQuery(criteria);
+
+            return commandResult;
+        }
+
+        [HttpPost]
+        ////[ApiAuthorize(FunctionKey = EPAFunctionKey.JobDescription, Policy = Policy.Host)]
+        public async Task<CommandResult> CreateJobDescriptionItem(CreateJobDescriptionItemCriteria criteria)
+        {
+            return await baseService.ExecuteNonQueryAsync(criteria);
+        }
+
         public byte GetUserPermission()
         {
             return SessionService.GetPermission(EPAFunctionKey.JobDescription);

@@ -488,7 +488,6 @@
     <Content Include="SourceApp\Components\EPA\Evaluator\Templates\recommendationForProbationAndPromotion.html" />
     <Content Include="SourceApp\Components\EPA\Evaluator\Templates\recommendationForSemi.html" />
     <Content Include="SourceApp\Components\EPA\Share\Controllers\epa-detail-controller.js" />
-    <Content Include="SourceApp\Components\EPA\Share\Directives\job-description-directive.js" />
     <Content Include="SourceApp\Components\EPA\Share\Directives\repeat-end-directive.js" />
     <Content Include="SourceApp\Components\EPA\Share\Directives\auto-collapse-directive.js" />
     <Content Include="SourceApp\Components\EPA\Share\Directives\performance-grade-directive.js" />
@@ -539,6 +538,10 @@
     <Content Include="SourceApp\Components\FlowManagement\flowTemplate-model.js" />
     <Content Include="SourceApp\Components\FlowManagement\flowTemplate-factory.js" />
     <Content Include="SourceApp\Components\FlowManagement\Templates\modalCreateFlowTemplate.html" />
+    <Content Include="SourceApp\Components\JobDescription\create-job-description-item-controller.js" />
+    <Content Include="SourceApp\Components\JobDescription\Templates\create-job-description-item.html" />
+    <Content Include="SourceApp\Components\JobDescription\Templates\update-job-description-item.html" />
+    <Content Include="SourceApp\Components\JobDescription\update-job-description-group-item-controller.js" />
     <Content Include="SourceApp\Components\JobDescription\create-job-description-group-item-controller.js" />
     <Content Include="SourceApp\Components\JobDescription\edit-group-setting-controller.js" />
     <Content Include="SourceApp\Components\JobDescription\job-description-controller.js" />
@@ -547,6 +550,7 @@
     <Content Include="SourceApp\Components\JobDescription\edit-personnel-setting-controller.js" />
     <Content Include="SourceApp\Components\JobDescription\personnel-setting-controller.js" />
     <Content Include="SourceApp\Components\JobDescription\group-setting-controller.js" />
+    <Content Include="SourceApp\Components\JobDescription\Templates\update-job-description-group-item.html" />
     <Content Include="SourceApp\Components\JobDescription\Templates\create-job-description-group-item.html" />
     <Content Include="SourceApp\Components\JobDescription\Templates\edit-group.html" />
     <Content Include="SourceApp\Components\JobDescription\Templates\index.html" />

@@ -565,6 +565,15 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Create Desciption Group.
+        /// </summary>
+        public static string CreateDesciptionGroup {
+            get {
+                return ResourceManager.GetString("CreateDesciptionGroup", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Created successfully!.
         /// </summary>
         public static string CreatedSuccessfully {

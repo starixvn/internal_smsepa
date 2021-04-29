@@ -4,17 +4,23 @@
         <span class="close-popup" ng-click="createGroupItemCtrl.cancel()"></span>
     </div>
 </div>
-<div class="modal-body">
+<div class="modal-body descriptionGroup-modal-body">
     <form class="form-horizontal col-sm-11" role="form">
         <div class="form-group required">
             <label class="col-sm-4 control-label" data-translate="Name"></label>
             <div class="col-sm-8 field">
-                <input type="text" class="form-control" ng-model="createGroupItemCtrl.name" required maxlength="500" />
+                <input type="text" class="form-control" ng-model="createGroupItemCtrl.groupItem.Name" required maxlength="500" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-4 control-label" data-translate="Active"></label>
+            <div class="col-sm-8 field active-label">
+                <input type="checkbox" ng-model="createGroupItemCtrl.groupItem.IsActive" />
             </div>
         </div>
     </form>
 </div>
 <div class="modal-footer">
-    <button class="btn btn-primary" ng-click="createKPIGroupCtrl.save()" data-translate="Submit"></button>
-    <button class="btn btn-cancel" ng-click="createKPIGroupCtrl.cancel()" data-translate="Cancel"></button>
+    <button class="btn btn-primary" ng-click="createGroupItemCtrl.save()" data-translate="Submit"></button>
+    <button class="btn btn-cancel" ng-click="createGroupItemCtrl.cancel()" data-translate="Cancel"></button>
 </div>

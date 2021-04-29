@@ -7,6 +7,7 @@
     {
         public int GroupItemId { get; set; }
         public string Name { get; set; }
+        public bool IsActive { get; set; }
         public IEnumerable<JobDescriptionItem> Items { get; set; } = new List<JobDescriptionItem>();
         public bool IsSelected => Items.Any(x => x.IsSelected);
     }
