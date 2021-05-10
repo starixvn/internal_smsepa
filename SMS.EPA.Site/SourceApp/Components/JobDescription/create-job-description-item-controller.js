@@ -1,15 +1,16 @@
 ﻿(function () {
     'use strict';
 
-    angular.module('jobDescriptionModule').controller('CreateDescriptionGroupItemController', createDescriptionGroupItemController);
-    createDescriptionGroupItemController.$inject = ['$uibModalInstance','JobDescriptionModel'];
+    angular.module('jobDescriptionModule').controller('CreateDescriptionItemController', createDescriptionItemController);
+    createDescriptionItemController.$inject = ['$uibModalInstance', 'JobDescriptionModel', 'groupItemId'];
 
-    function createDescriptionGroupItemController($uibModalInstance, JobDescriptionModel) {
+    function createDescriptionItemController($uibModalInstance, JobDescriptionModel, groupItemId) {
         var vm = this;
 
         vm.item = {
             Name: '',
-            IsActive: true
+            IsActive: true,
+            GroupItemId: groupItemId
         };
         vm.cancel = cancel;
         vm.save = save;

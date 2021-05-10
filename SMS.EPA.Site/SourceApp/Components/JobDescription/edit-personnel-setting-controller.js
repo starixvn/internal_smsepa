@@ -15,7 +15,11 @@
         vm.createDescriptionGroupItem = createDescriptionGroupItem;
         vm.updateDescriptionGroupItem = updateDescriptionGroupItem;
         vm.deleteDescriptionGroupItem = deleteDescriptionGroupItem;
-        vm.addDescriptionItem = addDescriptionItem;
+        vm.createDescriptionItem = createDescriptionItem;
+        vm.updateDescriptionItem = updateDescriptionItem;
+        vm.deleteDescriptionItem = deleteDescriptionItem;
+        vm.updateStatusDescriptionGroupItem = updateStatusDescriptionGroupItem;
+        vm.updateStatusDescriptionItem = updateStatusDescriptionItem;
 
         initialize();
 
@@ -30,6 +34,14 @@
                     vm.employeeSettingInfo = JobDescriptionModel.employeeSettingInfo;
                     lockScreenService.stop();
                 });
+        }
+
+        function updateStatusDescriptionGroupItem(groupItem) {
+            JobDescriptionModel.openPopupUpdateStatusDescriptionGroupItem(groupItem);
+        }
+
+        function updateStatusDescriptionItem(item) {
+            JobDescriptionModel.openPopupUpdateStatusDescriptionItem(item);
         }
 
         function createDescriptionGroupItem() {
@@ -53,12 +65,26 @@
             JobDescriptionModel.openPopupDeleteDescriptionGroupItem(vm, groupItem);
         }
 
-        function addDescriptionItem(groupItem) {
-            JobDescriptionModel.openPopupCreateDescriptionItem(vm, groupItem).then()['finally'](function () {
+        function createDescriptionItem(groupItemId) {
+            JobDescriptionModel.openPopupCreateDescriptionItem(vm, groupItemId).then()['finally'](function () {
                 vm.modalInstance = '';
+                getEmployeeSettingById();
             });
         }
 
+        function updateDescriptionItem(item) {
+            JobDescriptionModel.openPopupUpdateDescriptionItem(vm, item).then(function (updatedDescriptionItem) {
+                item.Name = updatedDescriptionItem.Name;
+                item.IsActive = updatedDescriptionItem.IsActive;
+            })['finally'](function () {
+                vm.modalInstance = '';
+                getEmployeeSettingById();
+            });
+        }
+
+        function deleteDescriptionItem(item) {
+            JobDescriptionModel.openPopupDeleteDescriptionItem(vm, item);
+        }
 
         function initialize() {
             getEmployeeSettingById();

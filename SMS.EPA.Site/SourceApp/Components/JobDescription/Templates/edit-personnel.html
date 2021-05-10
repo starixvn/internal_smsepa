@@ -36,7 +36,7 @@
             </tr>
         </thead>
         <tbody class="table-body" ng-if="editPersonnelCtrl.employeeSettingInfo.GroupItems.length > 0">
-            <tr ng-repeat="groupItem in editPersonnelCtrl.employeeSettingInfo.GroupItems">
+            <tr ng-repeat-start="groupItem in editPersonnelCtrl.employeeSettingInfo.GroupItems">
                 <td class="text-center" ng-bind="editPersonnelCtrl.getIndex($index, editPersonnelCtrl.currentPage, editPersonnelCtrl.pageSize)"></td>
                 <td ng-bind="groupItem.Name"></td>
                 <td class="text-center col-active">
@@ -48,7 +48,20 @@
                     <a class="glyphicon glyphicon-edit icon-edit" href="" ng-click="editPersonnelCtrl.updateDescriptionGroupItem(groupItem)" ng-attr-title='{{"Edit" | translate}}'></a>
                     <a class="glyphicon glyphicon-remove icon-remove" href="" ng-click="editPersonnelCtrl.deleteDescriptionGroupItem(groupItem)" ng-attr-title='{{"Delete" | translate}}'></a>
                     <a class="glyphicon glyphicon-plus icon-add" href="" ng-if="editPersonnelCtrl.permission === editPersonnelCtrl.policyEnum.Host"
-                       ng-click="editPersonnelCtrl.addDescriptionItem(groupItem)" ng-attr-title='{{"AddDescriptonItem" | translate}}'></a>
+                       ng-click="editPersonnelCtrl.createDescriptionItem(groupItem.GroupItemId)" ng-attr-title='{{"AddDescriptonItem" | translate}}'></a>
+                </td>
+            </tr>
+            <tr ng-repeat-end ng-repeat="item in groupItem.Items ">
+                <td class="text-center">.</td>
+                <td ng-bind="item.Name"></td>
+                <td class="text-center col-active">
+                    <input type="checkbox" ng-checked="item.IsActive"
+                           ng-click="editPersonnelCtrl.updateStatusDescriptionItem(item)"
+                           ng-disabled="editPersonnelCtrl.permission != editPersonnelCtrl.policyEnum.Host" />
+                </td>
+                <td class="text-center col-action" ng-if="editPersonnelCtrl.permission === editPersonnelCtrl.policyEnum.Host">
+                    <a class="glyphicon glyphicon-edit icon-edit" href="" ng-click="editPersonnelCtrl.updateDescriptionItem(item)" ng-attr-title='{{"Edit" | translate}}'></a>
+                    <a class="glyphicon glyphicon-remove icon-remove" href="" ng-click="editPersonnelCtrl.deleteDescriptionItem(item)" ng-attr-title='{{"Delete" | translate}}'></a>
                 </td>
             </tr>
         </tbody>

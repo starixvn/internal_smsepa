@@ -2,15 +2,15 @@
     'use strict';
 
     angular.module('jobDescriptionModule').controller('UpdateDescriptionGroupItemController', updateDescriptionGroupItemController);
-    updateDescriptionGroupItemController.$inject = ['$uibModalInstance', 'JobDescriptionModel', 'getEmployeeSettingInfo'];
+    updateDescriptionGroupItemController.$inject = ['$uibModalInstance', 'JobDescriptionModel', 'getGroupItem'];
 
-    function updateDescriptionGroupItemController($uibModalInstance, JobDescriptionModel, getEmployeeSettingInfo) {
+    function updateDescriptionGroupItemController($uibModalInstance, JobDescriptionModel, getGroupItem) {
         var vm = this;
 
         vm.groupItem = {
-            Name: getEmployeeSettingInfo.Name,
-            IsActive: getEmployeeSettingInfo.IsActive,
-            GroupItemId : getEmployeeSettingInfo.GroupItemId
+            Name: getGroupItem.Name,
+            IsActive: getGroupItem.IsActive,
+            GroupItemId: getGroupItem.GroupItemId
         };
         vm.cancel = cancel;
         vm.save = save;

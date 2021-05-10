@@ -6,7 +6,7 @@
     {
         public int GroupItemId { get; set; }
 
-        public override string GetSettingKey() => "JobDescription_Delete";
+        public override string GetSettingKey() => "JobDescription_DeleteGroupItem";
 
         public override bool IsValid() => GroupItemId > 0 ;
     }

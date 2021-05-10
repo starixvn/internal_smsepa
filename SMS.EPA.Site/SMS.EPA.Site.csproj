@@ -541,6 +541,7 @@
     <Content Include="SourceApp\Components\JobDescription\create-job-description-item-controller.js" />
     <Content Include="SourceApp\Components\JobDescription\Templates\create-job-description-item.html" />
     <Content Include="SourceApp\Components\JobDescription\Templates\update-job-description-item.html" />
+    <Content Include="SourceApp\Components\JobDescription\update-job-description-item-controller.js" />
     <Content Include="SourceApp\Components\JobDescription\update-job-description-group-item-controller.js" />
     <Content Include="SourceApp\Components\JobDescription\create-job-description-group-item-controller.js" />
     <Content Include="SourceApp\Components\JobDescription\edit-group-setting-controller.js" />

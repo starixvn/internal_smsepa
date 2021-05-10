@@ -80,12 +80,16 @@
     <Compile Include="EmployeeEPA\GetJobDescriptionByEPAIdCriteria.cs" />
     <Compile Include="JobDescription\CreateJobDescriptionItemCriteria.cs" />
     <Compile Include="JobDescription\CreateJobDescriptionGroupItemCriteria.cs" />
+    <Compile Include="JobDescription\DeleteJobDescriptionItemCriteria.cs" />
     <Compile Include="JobDescription\GetGroupSettingJobDescriptionByIdCriteria.cs" />
     <Compile Include="JobDescription\DeleteJobDescriptionGroupItemCriteria.cs" />
     <Compile Include="JobDescription\GetEmployeeSettingJobDescriptionByIdCriteria.cs" />
     <Compile Include="JobDescription\GetEmployeeSettingJobDescriptionCriteria.cs" />
     <Compile Include="JobDescription\GetGroupSettingJobDescriptionCriteria.cs" />
+    <Compile Include="JobDescription\UpdateJobDescriptionItemCriteria.cs" />
     <Compile Include="JobDescription\UpdateJobDescriptionGroupItemCriteria.cs" />
+    <Compile Include="JobDescription\UpdateStatusDescriptionGroupItemCriteria.cs" />
+    <Compile Include="JobDescription\UpdateStatusDescriptionItemCriteria.cs" />
     <Compile Include="JobLevel\GetJobGradeCriteria.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <!-- Exclude the file from analysis -->

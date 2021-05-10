@@ -15,6 +15,10 @@
             updateJobDescriptionGroupItem: updateJobDescriptionGroupItem,
             deleteJobDescriptionGroupItem: deleteJobDescriptionGroupItem,
             createJobDescriptionItem: createJobDescriptionItem,
+            updateJobDescriptionItem: updateJobDescriptionItem,
+            deleteJobDescriptionItem: deleteJobDescriptionItem,
+            updateStatusDescriptionGroupItem: updateStatusDescriptionGroupItem,
+            updateStatusDescriptionItem: updateStatusDescriptionItem,
         };
 
         function getUserPermission() {
@@ -53,8 +57,24 @@
             return $http.post(baseUrl + 'api/JobDescription/UpdateJobDescriptionGroupItem', groupItem);
         }
 
+        function updateJobDescriptionItem(item) {
+            return $http.post(baseUrl + 'api/JobDescription/UpdateJobDescriptionItem', item);
+        }
+
         function deleteJobDescriptionGroupItem(groupItemId) {
             return $http['delete'](baseUrl + 'api/JobDescription/DeleteJobDescriptionGroupItem', { params: { groupItemId: groupItemId } });
+        }
+
+        function deleteJobDescriptionItem(itemId) {
+            return $http['delete'](baseUrl + 'api/JobDescription/DeleteJobDescriptionItem', { params: { itemId: itemId } });
+        }
+
+        function updateStatusDescriptionGroupItem(groupItem) {
+            return $http.put(baseUrl + 'api/JobDescription/UpdateStatusDescriptionGroupItem', groupItem);
+        }
+
+        function updateStatusDescriptionItem(item) {
+            return $http.put(baseUrl + 'api/JobDescription/UpdateStatusDescriptionItem', item);
         }
     }
 })(angular);

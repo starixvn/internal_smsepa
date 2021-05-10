@@ -251,7 +251,11 @@
         <Setting Key="JobDescription_GetEmployeeSettingById" SpName="JobDescription_GetEmployeeSettingById" DbName="SMSEPA" Plain="0" />
         <Setting Key="JobDescription_InsertGroupItem" SpName="JobDescription_InsertGroupItem" DbName="SMSEPA" Plain="0" />
         <Setting Key="JobDescription_UpdateGroupItem" SpName="JobDescription_UpdateGroupItem" DbName="SMSEPA" Plain="0" />
-        <Setting Key="JobDescription_Delete" SpName="JobDescription_Delete" DbName="SMSEPA" Plain="0" />
+        <Setting Key="JobDescription_DeleteGroupItem" SpName="JobDescription_DeleteGroupItem" DbName="SMSEPA" Plain="0" />
         <Setting Key="JobDescription_InsertItem" SpName="JobDescription_InsertItem" DbName="SMSEPA" Plain="0" />
+        <Setting Key="JobDescription_UpdateItem" SpName="JobDescription_UpdateItem" DbName="SMSEPA" Plain="0" />
+        <Setting Key="JobDescription_DeleteItem" SpName="JobDescription_DeleteItem" DbName="SMSEPA" Plain="0" />
+        <Setting Key="JobDescription_UpdateStatusGroupItem" SpName="JobDescription_UpdateStatusGroupItem" DbName="SMSEPA" Plain="0" />
+        <Setting Key="JobDescription_UpdateStatusItem" SpName="JobDescription_UpdateStatusItem" DbName="SMSEPA" Plain="0" />
     </Function>
 </Functions>
