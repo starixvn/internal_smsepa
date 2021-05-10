@@ -50,6 +50,18 @@
             return Request.CreateResponse(HttpStatusCode.OK, groupInfo);
         }
 
+        [HttpPost]
+        [ApiAuthorize(FunctionKey = EPAFunctionKey.JobDescription, Policy = Policy.Host)]
+        public async Task<CommandResult> EditGroupSetting(EditGroupSettingJobDescriptionCriteria criteria)
+        {
+            if (criteria != null)
+            {
+                criteria.ModifiedBy = SessionService.EmployeeId;
+            }
+
+            return await baseService.ExecuteNonQueryAsync(criteria);
+        }
+
         #endregion Group
 
         [HttpPost]

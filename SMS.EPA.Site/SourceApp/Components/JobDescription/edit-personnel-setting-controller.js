@@ -49,7 +49,7 @@
         }
 
         function createDescriptionGroupItem() {
-            JobDescriptionModel.openPopupCreateDescriptionGroupItem(vm).then()['finally'](function () {
+            JobDescriptionModel.openPopupCreateDescriptionGroupItem(vm, null, vm.employeeId).then()['finally'](function () {
                 vm.modalInstance = '';
                 getEmployeeSettingById();
             });

@@ -1,15 +1,16 @@
-﻿(function () {
+﻿(function (angular) {
     'use strict';
 
     angular.module('jobDescriptionModule').controller('CreateDescriptionGroupItemController', createDescriptionGroupItemController);
-    createDescriptionGroupItemController.$inject = ['$uibModalInstance', 'JobDescriptionModel'];
+    createDescriptionGroupItemController.$inject = ['$uibModalInstance', 'JobDescriptionModel', 'groupId', 'employeeId'];
 
-    function createDescriptionGroupItemController($uibModalInstance, JobDescriptionModel) {
+    function createDescriptionGroupItemController($uibModalInstance, JobDescriptionModel, groupId, employeeId) {
         var vm = this;
 
         vm.groupItem = {
-            Name: '',
-            EmployeeId: JobDescriptionModel.employeeSettingInfo.EmployeeId
+            name: '',
+            groupId: groupId,
+            employeeId: employeeId
         };
         vm.cancel = cancel;
         vm.save = save;
@@ -19,7 +20,7 @@
         }
 
         function save() {
-            if (JobDescriptionModel.validateDescription(vm.groupItem.Name)) {
+            if (JobDescriptionModel.validateDescription(vm.groupItem.name)) {
                 JobDescriptionModel.createDescriptionGroupItem(vm.groupItem, $uibModalInstance);
             }
         }

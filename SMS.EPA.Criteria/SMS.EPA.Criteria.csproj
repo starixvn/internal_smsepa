@@ -80,6 +80,7 @@
     <Compile Include="EmployeeEPA\GetJobDescriptionByEPAIdCriteria.cs" />
     <Compile Include="JobDescription\CreateJobDescriptionItemCriteria.cs" />
     <Compile Include="JobDescription\CreateJobDescriptionGroupItemCriteria.cs" />
+    <Compile Include="JobDescription\EditGroupSettingJobDescriptionCriteria.cs" />
     <Compile Include="JobDescription\DeleteJobDescriptionItemCriteria.cs" />
     <Compile Include="JobDescription\GetGroupSettingJobDescriptionByIdCriteria.cs" />
     <Compile Include="JobDescription\DeleteJobDescriptionGroupItemCriteria.cs" />

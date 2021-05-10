@@ -77,12 +77,20 @@
                 });
         }
 
-        function openPopupCreateDescriptionGroupItem(vm) {
+        function openPopupCreateDescriptionGroupItem(vm, groupId, employeeId) {
             vm.modalInstance = $uibModal.open({
                 templateUrl: 'SourceApp/Components/JobDescription/Templates/create-job-description-group-item.html',
                 controller: 'CreateDescriptionGroupItemController as createGroupItemCtrl',
                 backdrop: 'static',
-                windowClass: 'modal-confirm-center'
+                windowClass: 'modal-confirm-center',
+                resolve: {
+                    groupId: function () {
+                        return groupId;
+                    },
+                    employeeId: function () {
+                        return employeeId;
+                    }
+                }
             });
 
             return vm.modalInstance.result;
@@ -103,7 +111,6 @@
 
             return vm.modalInstance.result;
         }
-
 
         function openPopupUpdateDescriptionGroupItem(vm, groupItem) {
             vm.modalInstance = $uibModal.open({
@@ -156,19 +163,17 @@
             });
         }
 
-
         function createDescriptionGroupItem(groupItem, modalInstance) {
             return jobDescriptionFactory.createJobDescriptionGroupItem(groupItem).success(function (response) {
                 if (response.IsSuccessful) {
                     notificationFactory.success('CreatedSuccessfully');
-                    modalInstance.close();
+                    modalInstance.close(response.IsSuccessful);
                 } else {
                     notificationFactory.error('', response.Message);
                 }
-            })
-                .error(function (response, status) {
-                    errorFactory.errorHandle(status);
-                });
+            }).error(function (response, status) {
+                errorFactory.errorHandle(status);
+            });
         }
 
         function openPopupUpdateDescriptionItem(vm, item) {
@@ -195,10 +200,9 @@
                 } else {
                     notificationFactory.error('', response.Message);
                 }
-            })
-                .error(function (response, status) {
-                    errorFactory.errorHandle(status);
-                });
+            }).error(function (response, status) {
+                errorFactory.errorHandle(status);
+            });
         }
 
         function openPopupDeleteDescriptionItem(vm, item) {

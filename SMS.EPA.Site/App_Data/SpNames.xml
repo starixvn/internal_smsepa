@@ -247,6 +247,7 @@
     <Function Name="Job Description">
         <Setting Key="JobDescription_GetGroupSetting" SpName="JobDescription_GetGroupSetting" DbName="SMSEPA" Plain="0" />
         <Setting Key="JobDescription_GetGroupSettingById" SpName="JobDescription_GetGroupSettingById" DbName="SMSEPA" Plain="0" />
+        <Setting Key="JobDescription_UpdateGroupSetting" SpName="JobDescription_UpdateGroupSetting" DbName="SMSEPA" Plain="0" />
         <Setting Key="JobDescription_GetEmployeeSetting" SpName="JobDescription_GetEmployeeSetting" DbName="SMSEPA" Plain="0" />
         <Setting Key="JobDescription_GetEmployeeSettingById" SpName="JobDescription_GetEmployeeSettingById" DbName="SMSEPA" Plain="0" />
         <Setting Key="JobDescription_InsertGroupItem" SpName="JobDescription_InsertGroupItem" DbName="SMSEPA" Plain="0" />

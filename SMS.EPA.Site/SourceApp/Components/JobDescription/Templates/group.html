@@ -16,7 +16,7 @@
             </tr>
         </thead>
         <tbody class="table-body" ng-if="groupCtrl.filteredItems.length > 0">
-            <tr dir-paginate="group in groupCtrl.filteredItems | itemsPerPage: groupCtrl.pageSize" current-page="groupCtrl.currentPage">
+            <tr pagination-id="group" dir-paginate="group in groupCtrl.filteredItems | itemsPerPage: groupCtrl.pageSize" current-page="groupCtrl.currentPage">
                 <td class="text-center" ng-bind="groupCtrl.getIndex($index, groupCtrl.currentPage, groupCtrl.pageSize)"></td>
                 <td ng-bind="group.Code"></td>
                 <td ng-bind="group.Name"></td>

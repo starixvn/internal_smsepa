@@ -44,7 +44,7 @@
             </tr>
         </thead>
         <tbody class="table-body" ng-if="personnelCtrl.filteredItems.length > 0">
-            <tr dir-paginate="employee in personnelCtrl.filteredItems | itemsPerPage: personnelCtrl.pageSize" current-page="personnelCtrl.currentPage">
+            <tr pagination-id="personnel" dir-paginate="employee in personnelCtrl.filteredItems | itemsPerPage: personnelCtrl.pageSize" current-page="personnelCtrl.currentPage">
                 <td class="text-center" ng-bind="personnelCtrl.getIndex($index, personnelCtrl.currentPage, personnelCtrl.pageSize)"></td>
                 <td ng-bind="employee.Code"></td>
                 <td ng-bind="employee.Nickname"></td>
