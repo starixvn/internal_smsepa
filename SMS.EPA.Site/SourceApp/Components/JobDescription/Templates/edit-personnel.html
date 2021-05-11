@@ -1,4 +1,13 @@
 ﻿<div class="col-sm-12 job-description" ng-controller="EditPersonnelSettingController as editPersonnelCtrl">
+    <div class="sub-header">
+        <ul class="row breadcrumb float-left">
+            <li data-translate="JobDescription"></li>
+            <li class="current" data-translate="Edit"></li>
+        </ul>
+        <button ng-click="editPersonnelCtrl.backToList()" class="btn btn-cancel">
+            <span class="glyphicon glyphicon-menu-left"></span> <span data-translate="BackToList"></span>
+        </button>
+    </div>
     <form class="employee-info">
         <div class="row">
             <div class="col-sm-6">
@@ -25,7 +34,7 @@
                         <span class="glyphicon glyphicon-plus icon-add"></span>
                         <span class="button-text" data-translate="CreateDesciptionGroup"></span>
                     </a>
-                    <input type="text" ng-model="personnelCtrl.searchKey" ng-change="editPersonnelCtrl.search()" class="search-inline-textbox search pull-right">
+                    <input type="text" ng-model="editPersonnelCtrl.searchKey" ng-change="editPersonnelCtrl.search()" class="search-inline-textbox search pull-right">
                 </th>
             </tr>
             <tr class="headerName">
@@ -44,7 +53,7 @@
                            ng-click="editPersonnelCtrl.updateStatusDescriptionGroupItem(groupItem)"
                            ng-disabled="editPersonnelCtrl.permission != editPersonnelCtrl.policyEnum.Host" />
                 </td>
-                <td class="text-center col-action" ng-if="editPersonnelCtrl.permission === editPersonnelCtrl.policyEnum.Host">
+                <td class=" col-action" ng-if="editPersonnelCtrl.permission === editPersonnelCtrl.policyEnum.Host">
                     <a class="glyphicon glyphicon-edit icon-edit" href="" ng-click="editPersonnelCtrl.updateDescriptionGroupItem(groupItem)" ng-attr-title='{{"Edit" | translate}}'></a>
                     <a class="glyphicon glyphicon-remove icon-remove" href="" ng-click="editPersonnelCtrl.deleteDescriptionGroupItem(groupItem)" ng-attr-title='{{"Delete" | translate}}'></a>
                     <a class="glyphicon glyphicon-plus icon-add" href="" ng-if="editPersonnelCtrl.permission === editPersonnelCtrl.policyEnum.Host"
@@ -52,14 +61,14 @@
                 </td>
             </tr>
             <tr ng-repeat-end ng-repeat="item in groupItem.Items ">
-                <td class="text-center">.</td>
+                <td class="text-center">•</td>
                 <td ng-bind="item.Name"></td>
                 <td class="text-center col-active">
                     <input type="checkbox" ng-checked="item.IsActive"
                            ng-click="editPersonnelCtrl.updateStatusDescriptionItem(item)"
                            ng-disabled="editPersonnelCtrl.permission != editPersonnelCtrl.policyEnum.Host" />
                 </td>
-                <td class="text-center col-action" ng-if="editPersonnelCtrl.permission === editPersonnelCtrl.policyEnum.Host">
+                <td class="col-action" ng-if="editPersonnelCtrl.permission === editPersonnelCtrl.policyEnum.Host">
                     <a class="glyphicon glyphicon-edit icon-edit" href="" ng-click="editPersonnelCtrl.updateDescriptionItem(item)" ng-attr-title='{{"Edit" | translate}}'></a>
                     <a class="glyphicon glyphicon-remove icon-remove" href="" ng-click="editPersonnelCtrl.deleteDescriptionItem(item)" ng-attr-title='{{"Delete" | translate}}'></a>
                 </td>

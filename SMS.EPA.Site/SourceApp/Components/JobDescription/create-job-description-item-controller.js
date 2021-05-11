@@ -9,7 +9,6 @@
 
         vm.item = {
             Name: '',
-            IsActive: true,
             GroupItemId: groupItemId
         };
         vm.cancel = cancel;

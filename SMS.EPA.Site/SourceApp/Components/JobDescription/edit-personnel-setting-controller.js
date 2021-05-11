@@ -2,9 +2,9 @@
     'use strict';
 
     angular.module('jobDescriptionModule').controller('EditPersonnelSettingController', editPersonnelSettingController);
-    editPersonnelSettingController.$inject = ['$routeParams', 'JobDescriptionModel', 'lockScreenService', 'CommonModel'];
+    editPersonnelSettingController.$inject = ['$routeParams', 'JobDescriptionModel', 'lockScreenService', 'CommonModel', 'historyFactory'];
 
-    function editPersonnelSettingController($routeParams, JobDescriptionModel, lockScreenService, CommonModel) {
+    function editPersonnelSettingController($routeParams, JobDescriptionModel, lockScreenService, CommonModel, historyFactory) {
         var vm = this;
 
         vm.currentPage = 1;
@@ -22,6 +22,10 @@
         vm.updateStatusDescriptionItem = updateStatusDescriptionItem;
 
         initialize();
+
+        vm.backToList = function () {
+            historyFactory.back();
+        };
 
          function getIndex (index, currentPage, pageSize) {
             return CommonModel.getIndex(index, currentPage, pageSize);
@@ -54,7 +58,6 @@
         function updateDescriptionGroupItem(groupItem) {
             JobDescriptionModel.openPopupUpdateDescriptionGroupItem(vm, groupItem).then(function (updatedDescriptionGroupItem) {
                 groupItem.Name = updatedDescriptionGroupItem.Name;
-                groupItem.IsActive = updatedDescriptionGroupItem.IsActive;
             })['finally'](function () {
                 vm.modalInstance = '';
                 getEmployeeSettingById();
@@ -75,7 +78,6 @@
         function updateDescriptionItem(item) {
             JobDescriptionModel.openPopupUpdateDescriptionItem(vm, item).then(function (updatedDescriptionItem) {
                 item.Name = updatedDescriptionItem.Name;
-                item.IsActive = updatedDescriptionItem.IsActive;
             })['finally'](function () {
                 vm.modalInstance = '';
                 getEmployeeSettingById();

@@ -9,7 +9,6 @@
 
         vm.item = {
             Name: getItem.Name,
-            IsActive: getItem.IsActive,
             ItemId: getItem.ItemId
         };
         vm.cancel = cancel;

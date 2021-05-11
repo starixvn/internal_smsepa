@@ -9,7 +9,6 @@
 
         vm.groupItem = {
             Name: '',
-            IsActive: true,
             EmployeeId: JobDescriptionModel.employeeSettingInfo.EmployeeId
         };
         vm.cancel = cancel;

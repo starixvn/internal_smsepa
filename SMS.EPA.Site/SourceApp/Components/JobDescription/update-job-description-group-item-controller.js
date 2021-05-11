@@ -9,7 +9,6 @@
 
         vm.groupItem = {
             Name: getGroupItem.Name,
-            IsActive: getGroupItem.IsActive,
             GroupItemId: getGroupItem.GroupItemId
         };
         vm.cancel = cancel;

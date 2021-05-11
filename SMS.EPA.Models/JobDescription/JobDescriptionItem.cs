@@ -5,7 +5,6 @@
         public int GroupItemId { get; set; }
         public int ItemId { get; set; }
         public string Name { get; set; }
-        public bool IsActive { get; set; }
         public bool IsSelected { get; set; }
     }
 }
