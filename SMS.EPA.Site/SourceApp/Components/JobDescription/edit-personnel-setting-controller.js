@@ -2,9 +2,9 @@
     'use strict';
 
     angular.module('jobDescriptionModule').controller('EditPersonnelSettingController', editPersonnelSettingController);
-    editPersonnelSettingController.$inject = ['$routeParams', 'JobDescriptionModel', 'lockScreenService', 'CommonModel', 'historyFactory'];
+    editPersonnelSettingController.$inject = ['$routeParams', 'JobDescriptionModel', 'lockScreenService', 'CommonModel', 'historyFactory', 'utilitiesFactory'];
 
-    function editPersonnelSettingController($routeParams, JobDescriptionModel, lockScreenService, CommonModel, historyFactory) {
+    function editPersonnelSettingController($routeParams, JobDescriptionModel, lockScreenService, CommonModel, historyFactory, utilitiesFactory) {
         var vm = this;
 
         vm.currentPage = 1;
@@ -18,14 +18,16 @@
         vm.createDescriptionItem = createDescriptionItem;
         vm.updateDescriptionItem = updateDescriptionItem;
         vm.deleteDescriptionItem = deleteDescriptionItem;
-        vm.updateStatusDescriptionGroupItem = updateStatusDescriptionGroupItem;
-        vm.updateStatusDescriptionItem = updateStatusDescriptionItem;
+        vm.updateEmployeeSettingGroupItem = updateEmployeeSettingGroupItem;
+        vm.updateEmployeeSettingItem = updateEmployeeSettingItem;
 
         initialize();
 
         vm.backToList = function () {
             historyFactory.back();
         };
+
+        utilitiesFactory.numberEntryList(vm);
 
          function getIndex (index, currentPage, pageSize) {
             return CommonModel.getIndex(index, currentPage, pageSize);
@@ -36,16 +38,17 @@
             JobDescriptionModel.getEmployeeSettingById(vm.employeeId).then(
                 function () {
                     vm.employeeSettingInfo = JobDescriptionModel.employeeSettingInfo;
+                    utilitiesFactory.searchOnPage(vm, vm.employeeSettingInfo.GroupItems);
                     lockScreenService.stop();
                 });
         }
 
-        function updateStatusDescriptionGroupItem(groupItem) {
-            JobDescriptionModel.openPopupUpdateStatusDescriptionGroupItem(groupItem);
+        function updateEmployeeSettingGroupItem(groupItem, employeeId) {
+            JobDescriptionModel.openPopupUpdateEmployeeSettingGroupItem(groupItem, employeeId);
         }
 
-        function updateStatusDescriptionItem(item) {
-            JobDescriptionModel.openPopupUpdateStatusDescriptionItem(item);
+        function updateEmployeeSettingItem(item, employeeId) {
+            JobDescriptionModel.openPopupUpdateEmployeeSettingItem(item, employeeId);
         }
 
         function createDescriptionGroupItem() {

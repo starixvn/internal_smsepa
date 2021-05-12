@@ -26,8 +26,8 @@
             openPopupCreateDescriptionItem: openPopupCreateDescriptionItem,
             openPopupUpdateDescriptionItem: openPopupUpdateDescriptionItem,
             openPopupDeleteDescriptionItem: openPopupDeleteDescriptionItem,
-            openPopupUpdateStatusDescriptionGroupItem: openPopupUpdateStatusDescriptionGroupItem,
-            openPopupUpdateStatusDescriptionItem: openPopupUpdateStatusDescriptionItem,
+            openPopupUpdateEmployeeSettingGroupItem: openPopupUpdateEmployeeSettingGroupItem,
+            openPopupUpdateEmployeeSettingItem: openPopupUpdateEmployeeSettingItem,
             validateDescription: validateDescription
         };
 
@@ -263,13 +263,14 @@
             });
         }
 
-        function openPopupUpdateStatusDescriptionGroupItem(groupItem) {
-            groupItem.IsActive = !groupItem.IsActive;
+        function openPopupUpdateEmployeeSettingGroupItem(groupItem, employeeId) {
+            groupItem.IsSelected = !groupItem.IsSelected;
 
-            var action = groupItem.IsActive ? 'activate' : 'deactivate',
+            var action = groupItem.IsSelected ? 'activate' : 'deactivate',
                 newGroupItem = {
                     GroupItemId: groupItem.GroupItemId,
-                    IsActive: groupItem.IsActive
+                    IsSelected: groupItem.IsSelected,
+                    EmployeeId: employeeId
                 };
 
             var modalInstance = $uibModal.open({
@@ -290,12 +291,12 @@
             var keyMessage = '';
 
             modalInstance.result.then(function () {
-                jobDescriptionFactory.updateStatusDescriptionGroupItem(newGroupItem).success(function (response) {
+                jobDescriptionFactory.updateEmployeeSettingGroupItem(newGroupItem).success(function (response) {
                     if (response.IsSuccessful) {
                         keyMessage = action === 'activate' ? 'ActivationSuccess' : 'DeactivationSuccess';
                         notificationFactory.success(keyMessage);
                     } else {
-                        groupItem.IsActive = !newGroupItem.IsActive;
+                        groupItem.IsSelected = !newGroupItem.IsSelected;
                         notificationFactory.error('', response.Message);
                     }
                 }).error(function (response, status) {
@@ -303,24 +304,25 @@
                         errorFactory.errorHandle(status);
                     } else {
                         keyMessage = action === 'activate' ? 'ActivationFail' : 'DeactivationFail';
-                        groupItem.IsActive = !newGroupItem.IsActive;
+                        groupItem.IsSelected = !newGroupItem.IsSelected;
                         notificationFactory.error(keyMessage);
                     }
                 });
             }, function () {
-                groupItem.IsActive = !newGroupItem.IsActive;
+                groupItem.IsSelected = !newGroupItem.IsSelected;
             })['finally'](function () {
                 modalInstance = '';
             });
         }
 
-        function openPopupUpdateStatusDescriptionItem(item) {
-            item.IsActive = !item.IsActive;
+        function openPopupUpdateEmployeeSettingItem(item, employeeId) {
+            item.IsSelected = !item.IsSelected;
 
-            var action = item.IsActive ? 'activate' : 'deactivate',
+            var action = item.IsSelected ? 'activate' : 'deactivate',
                 newItem = {
                     ItemId: item.ItemId,
-                    IsActive: item.IsActive
+                    IsSelected: item.IsSelected,
+                    EmployeeId: employeeId
                 };
 
             var modalInstance = $uibModal.open({
@@ -341,12 +343,12 @@
             var keyMessage = '';
 
             modalInstance.result.then(function () {
-                jobDescriptionFactory.updateStatusDescriptionItem(newItem).success(function (response) {
+                jobDescriptionFactory.updateEmployeeSettingItem(newItem).success(function (response) {
                     if (response.IsSuccessful) {
                         keyMessage = action === 'activate' ? 'ActivationSuccess' : 'DeactivationSuccess';
                         notificationFactory.success(keyMessage);
                     } else {
-                        item.IsActive = !newItem.IsActive;
+                        item.IsSelected = !newItem.IsSelected;
                         notificationFactory.error('', response.Message);
                     }
                 }).error(function (response, status) {
@@ -354,12 +356,12 @@
                         errorFactory.errorHandle(status);
                     } else {
                         keyMessage = action === 'activate' ? 'ActivationFail' : 'DeactivationFail';
-                        item.IsActive = !newItem.IsActive;
+                        item.IsSelected = !newItem.IsSelected;
                         notificationFactory.error(keyMessage);
                     }
                 });
             }, function () {
-                item.IsActive = !newItem.IsActive;
+                item.IsSelected = !newItem.IsSelected;
             })['finally'](function () {
                 modalInstance = '';
             });

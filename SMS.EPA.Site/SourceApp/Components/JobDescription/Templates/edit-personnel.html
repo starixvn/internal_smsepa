@@ -49,8 +49,8 @@
                 <td class="text-center" ng-bind="editPersonnelCtrl.getIndex($index, editPersonnelCtrl.currentPage, editPersonnelCtrl.pageSize)"></td>
                 <td ng-bind="groupItem.Name"></td>
                 <td class="text-center col-active">
-                    <input type="checkbox" ng-checked="groupItem.IsActive"
-                           ng-click="editPersonnelCtrl.updateStatusDescriptionGroupItem(groupItem)"
+                    <input type="checkbox" ng-checked="groupItem.IsSelected"
+                           ng-click="editPersonnelCtrl.updateEmployeeSettingGroupItem(groupItem, editPersonnelCtrl.employeeSettingInfo.EmployeeId)"
                            ng-disabled="editPersonnelCtrl.permission != editPersonnelCtrl.policyEnum.Host" />
                 </td>
                 <td class=" col-action" ng-if="editPersonnelCtrl.permission === editPersonnelCtrl.policyEnum.Host">
@@ -64,8 +64,8 @@
                 <td class="text-center">•</td>
                 <td ng-bind="item.Name"></td>
                 <td class="text-center col-active">
-                    <input type="checkbox" ng-checked="item.IsActive"
-                           ng-click="editPersonnelCtrl.updateStatusDescriptionItem(item)"
+                    <input type="checkbox" ng-checked="item.IsSelected"
+                           ng-click="editPersonnelCtrl.updateEmployeeSettingItem(item, editPersonnelCtrl.employeeSettingInfo.EmployeeId)"
                            ng-disabled="editPersonnelCtrl.permission != editPersonnelCtrl.policyEnum.Host" />
                 </td>
                 <td class="col-action" ng-if="editPersonnelCtrl.permission === editPersonnelCtrl.policyEnum.Host">
