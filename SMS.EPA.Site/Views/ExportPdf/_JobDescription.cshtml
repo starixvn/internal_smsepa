@@ -1,0 +1,21 @@
+﻿@using SMS.EPA.Resources
+@using SMS.EPA.Model.JobDescription
+@model IEnumerable<JobDescriptionItem>
+
+<table class="job-description">
+    <thead>
+        <tr class="table-title">
+            <th>@Lang.JobDescription</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td class="border-r-b-l">
+                @foreach(JobDescriptionItem item in Model)
+                {
+                    <p><span>&#8226;</span> @item.Name</p>
+                }
+            </td>
+        </tr>
+    </tbody>
+</table>

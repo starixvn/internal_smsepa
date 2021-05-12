@@ -16,6 +16,10 @@
     <div class="container">
         <div class="title">@Lang.EPATilte - @Model.Period.Name</div>
         @Html.Partial("_GeneralInfo", Model.Employee)
+        @if (Model.JobDescriptions != null && Model.JobDescriptions.Any())
+        {
+            @Html.Partial("_JobDescription", Model.JobDescriptions)
+        }
         <br />
         @Html.Partial("_PerformanceResult", Model)
 
