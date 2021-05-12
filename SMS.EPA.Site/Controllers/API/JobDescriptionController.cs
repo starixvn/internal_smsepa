@@ -92,7 +92,7 @@
 
         //[HttpPut]
         //[ApiAuthorize(FunctionKey = EPAFunctionKey.JobDescription, Policy = Policy.Host)]
-        public CommandResult UpdateJobDescriptionGroupItem(UpdateJobDescriptionGroupItemCriteria criteria)
+        public CommandResult EditJobDescriptionGroupItem(EditJobDescriptionGroupItemCriteria criteria)
         {
             CommandResult commandResult = baseService.ExecuteNonQuery(criteria);
 
@@ -120,7 +120,7 @@
             return await baseService.ExecuteNonQueryAsync(criteria);
         }
 
-        public CommandResult UpdateJobDescriptionItem(UpdateJobDescriptionItemCriteria criteria)
+        public CommandResult EditJobDescriptionItem(EditJobDescriptionItemCriteria criteria)
         {
             CommandResult commandResult = baseService.ExecuteNonQuery(criteria);
 
@@ -143,7 +143,7 @@
 
         [HttpPut]
         [ApiAuthorize(FunctionKey = EPAFunctionKey.JobDescription, Policy = Policy.Host)]
-        public CommandResult updateEmployeeSettingGroupItem(UpdateEmployeeSettingGroupItemCriteria criteria)
+        public CommandResult UpdateEmployeeSettingGroupItem(UpdateEmployeeSettingGroupItemCriteria criteria)
         {
 
             CommandResult commandResult = baseService.ExecuteNonQuery(criteria);
@@ -153,7 +153,7 @@
 
         [HttpPut]
         [ApiAuthorize(FunctionKey = EPAFunctionKey.JobDescription, Policy = Policy.Host)]
-        public CommandResult updateEmployeeSettingItem(UpdateEmployeeSettingItemCriteria criteria)
+        public CommandResult UpdateEmployeeSettingItem(UpdateEmployeeSettingItemCriteria criteria)
         {
 
             CommandResult commandResult = baseService.ExecuteNonQuery(criteria);

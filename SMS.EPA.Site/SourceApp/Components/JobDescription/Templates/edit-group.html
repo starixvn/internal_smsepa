@@ -42,13 +42,17 @@
             <tr>
                 <th></th>
                 <th data-translate="Description"></th>
-                <th data-translate="Action" ng-show="jobDescriptionCtrl.permission === jobDescriptionCtrl.policy.Host"></th>
+                <th data-translate="Action" ng-if="jobDescriptionCtrl.permission === jobDescriptionCtrl.policy.Host"></th>
             </tr>
         </thead>
         <tbody ng-repeat="groupItem in editGroupCtrl.groupSettingInfo.GroupItems">
             <tr class="row-highlight">
-                <td colspan="2" ng-bind="groupItem.Name"></td>
-                <td class="text-center" ng-show="jobDescriptionCtrl.permission === jobDescriptionCtrl.policy.Host">
+                <td class="text-center">
+                    <input type="checkbox" ng-model="groupItem.IsSelectedAll"
+                           ng-click="editGroupCtrl.handleSelectAllGroupItem(groupItem.IsSelectedAll, groupItem)" />
+                </td>
+                <td><strong ng-bind="groupItem.Name"></strong></td>
+                <td class="text-center" ng-if="jobDescriptionCtrl.permission === jobDescriptionCtrl.policy.Host">
                     <a class="glyphicon glyphicon-edit icon-edit" href=""
                        ng-click="editGroupCtrl.editDescriptionGroupItem(groupItem)" ng-attr-title='{{"Edit" | translate}}'></a>
                     <a class="glyphicon glyphicon-remove icon-remove" href=""
@@ -62,7 +66,7 @@
                     <input type="checkbox" ng-model="item.IsSelected" />
                 </td>
                 <td ng-bind="item.Name"></td>
-                <td class="text-center" ng-show="jobDescriptionCtrl.permission === jobDescriptionCtrl.policy.Host">
+                <td class="text-center" ng-if="jobDescriptionCtrl.permission === jobDescriptionCtrl.policy.Host">
                     <a class="glyphicon glyphicon-edit icon-edit" href=""
                        ng-click="editGroupCtrl.editDescriptionItem(item)" ng-attr-title='{{"Edit" | translate}}'></a>
                     <a class="glyphicon glyphicon-remove icon-remove" href=""
@@ -71,4 +75,10 @@
             </tr>
         </tbody>
     </table>
+    <div class="navbar navbar-default navbar-fixed-bottom action-section">
+        <div class="container text-center">
+            <button class="btn btn-primary" ng-click="editGroupCtrl.save()"
+                    ng-if="jobDescriptionCtrl.permission === jobDescriptionCtrl.policy.Host" data-translate="Save"></button>
+        </div>
+    </div>
 </div>

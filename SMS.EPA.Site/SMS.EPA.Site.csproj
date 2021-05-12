@@ -540,9 +540,9 @@
     <Content Include="SourceApp\Components\FlowManagement\Templates\modalCreateFlowTemplate.html" />
     <Content Include="SourceApp\Components\JobDescription\create-job-description-item-controller.js" />
     <Content Include="SourceApp\Components\JobDescription\Templates\create-job-description-item.html" />
-    <Content Include="SourceApp\Components\JobDescription\Templates\update-job-description-item.html" />
-    <Content Include="SourceApp\Components\JobDescription\update-job-description-item-controller.js" />
-    <Content Include="SourceApp\Components\JobDescription\update-job-description-group-item-controller.js" />
+    <Content Include="SourceApp\Components\JobDescription\Templates\edit-job-description-item.html" />
+    <Content Include="SourceApp\Components\JobDescription\edit-job-description-item-controller.js" />
+    <Content Include="SourceApp\Components\JobDescription\edit-job-description-group-item-controller.js" />
     <Content Include="SourceApp\Components\JobDescription\create-job-description-group-item-controller.js" />
     <Content Include="SourceApp\Components\JobDescription\edit-group-setting-controller.js" />
     <Content Include="SourceApp\Components\JobDescription\job-description-controller.js" />
@@ -551,7 +551,7 @@
     <Content Include="SourceApp\Components\JobDescription\edit-personnel-setting-controller.js" />
     <Content Include="SourceApp\Components\JobDescription\personnel-setting-controller.js" />
     <Content Include="SourceApp\Components\JobDescription\group-setting-controller.js" />
-    <Content Include="SourceApp\Components\JobDescription\Templates\update-job-description-group-item.html" />
+    <Content Include="SourceApp\Components\JobDescription\Templates\edit-job-description-group-item.html" />
     <Content Include="SourceApp\Components\JobDescription\Templates\create-job-description-group-item.html" />
     <Content Include="SourceApp\Components\JobDescription\Templates\edit-group.html" />
     <Content Include="SourceApp\Components\JobDescription\Templates\index.html" />

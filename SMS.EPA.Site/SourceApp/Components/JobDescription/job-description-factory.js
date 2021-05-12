@@ -9,14 +9,15 @@
             getUserPermission: getUserPermission,
             getGroupSettingInfo: getGroupSettingInfo,
             getGroupSettingById: getGroupSettingById,
+            editGroupSetting: editGroupSetting,
             getEmployeeSettingInfo: getEmployeeSettingInfo,
             getEmployeeSettingById: getEmployeeSettingById,
             createJobDescriptionGroupItem: createJobDescriptionGroupItem,
-            updateJobDescriptionGroupItem: updateJobDescriptionGroupItem,
+            editJobDescriptionGroupItem: editJobDescriptionGroupItem,
             deleteJobDescriptionGroupItem: deleteJobDescriptionGroupItem,
             createJobDescriptionItem: createJobDescriptionItem,
-            updateJobDescriptionItem: updateJobDescriptionItem,
-            deleteJobDescriptionItem: deleteJobDescriptionItem,
+            editJobDescriptionItem: editJobDescriptionItem,
+            deleteJobDescriptionItem: deleteJobDescriptionItem
             updateEmployeeSettingGroupItem: updateEmployeeSettingGroupItem,
             updateEmployeeSettingItem: updateEmployeeSettingItem,
         };
@@ -31,6 +32,10 @@
 
         function getGroupSettingById(groupId, jobLevelId) {
             return $http.get(baseUrl + 'api/JobDescription/GetGroupSettingById', { params: { groupId: groupId, jobLevelId: jobLevelId } });
+        }
+
+        function editGroupSetting(setting) {
+            return $http.post(baseUrl + 'api/JobDescription/EditGroupSetting', setting);
         }
 
         function getEmployeeSettingInfo(groupId, employeeId, showAll) {
@@ -53,12 +58,12 @@
             return $http.post(baseUrl + 'api/JobDescription/CreateJobDescriptionItem', item);
         }
 
-        function updateJobDescriptionGroupItem(groupItem) {
-            return $http.post(baseUrl + 'api/JobDescription/UpdateJobDescriptionGroupItem', groupItem);
+        function editJobDescriptionGroupItem(groupItem) {
+            return $http.post(baseUrl + 'api/JobDescription/EditJobDescriptionGroupItem', groupItem);
         }
 
-        function updateJobDescriptionItem(item) {
-            return $http.post(baseUrl + 'api/JobDescription/UpdateJobDescriptionItem', item);
+        function editJobDescriptionItem(item) {
+            return $http.post(baseUrl + 'api/JobDescription/EditJobDescriptionItem', item);
         }
 
         function deleteJobDescriptionGroupItem(groupItemId) {

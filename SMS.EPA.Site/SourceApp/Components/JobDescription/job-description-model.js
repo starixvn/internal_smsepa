@@ -14,17 +14,18 @@
             getUserPermission: getUserPermission,
             getGroupSettingInfo: getGroupSettingInfo,
             getGroupSettingById: getGroupSettingById,
+            editGroupSetting: editGroupSetting,
             getEmployeeSettingInfo: getEmployeeSettingInfo,
             getEmployeeSettingById: getEmployeeSettingById,
             createDescriptionGroupItem: createDescriptionGroupItem,
-            updateDescriptionGroupItem: updateDescriptionGroupItem,
+            editDescriptionGroupItem: editDescriptionGroupItem,
             createDescriptionItem: createDescriptionItem,
-            updateDescriptionItem: updateDescriptionItem,
+            editDescriptionItem: editDescriptionItem,
             openPopupCreateDescriptionGroupItem: openPopupCreateDescriptionGroupItem,
             openPopupDeleteDescriptionGroupItem: openPopupDeleteDescriptionGroupItem,
-            openPopupUpdateDescriptionGroupItem: openPopupUpdateDescriptionGroupItem,
+            openPopupEditDescriptionGroupItem: openPopupEditDescriptionGroupItem,
             openPopupCreateDescriptionItem: openPopupCreateDescriptionItem,
-            openPopupUpdateDescriptionItem: openPopupUpdateDescriptionItem,
+            openPopupEditDescriptionItem: openPopupEditDescriptionItem,
             openPopupDeleteDescriptionItem: openPopupDeleteDescriptionItem,
             openPopupUpdateEmployeeSettingGroupItem: openPopupUpdateEmployeeSettingGroupItem,
             openPopupUpdateEmployeeSettingItem: openPopupUpdateEmployeeSettingItem,
@@ -57,6 +58,18 @@
                 }).error(function (response, status) {
                     errorFactory.errorHandle(status);
                 });
+        }
+
+        function editGroupSetting(setting) {
+            return jobDescriptionFactory.editGroupSetting(setting).success(function (response) {
+                if (response.IsSuccessful) {
+                    notificationFactory.success("UpdatedSuccessfully");
+                } else {
+                    notificationFactory.error("", response.Message);
+                }
+            }).error(function (response, status) {
+                errorFactory.errorHandle(status);
+            });
         }
 
         function getEmployeeSettingInfo(groupId, employeeId, showAll) {
@@ -112,13 +125,13 @@
             return vm.modalInstance.result;
         }
 
-        function openPopupUpdateDescriptionGroupItem(vm, groupItem) {
+        function openPopupEditDescriptionGroupItem(vm, groupItem) {
             vm.modalInstance = $uibModal.open({
-                templateUrl: 'SourceApp/Components/JobDescription/Templates/update-job-description-group-item.html',
-                controller: 'UpdateDescriptionGroupItemController as updateGroupItemCtrl',
+                templateUrl: 'SourceApp/Components/JobDescription/Templates/edit-job-description-group-item.html',
+                controller: 'EditDescriptionGroupItemController as editGroupItemCtrl',
                 backdrop: 'static',
                 resolve: {
-                    getGroupItem: function () {
+                    descriptionGroupItem: function () {
                         return angular.copy(groupItem);
                     }
                 },
@@ -176,13 +189,13 @@
             });
         }
 
-        function openPopupUpdateDescriptionItem(vm, item) {
+        function openPopupEditDescriptionItem(vm, item) {
             vm.modalInstance = $uibModal.open({
-                templateUrl: 'SourceApp/Components/JobDescription/Templates/update-job-description-item.html',
-                controller: 'UpdateDescriptionItemController as updateItemCtrl',
+                templateUrl: 'SourceApp/Components/JobDescription/Templates/edit-job-description-item.html',
+                controller: 'EditDescriptionItemController as editItemCtrl',
                 backdrop: 'static',
                 resolve: {
-                    getItem: function () {
+                    descriptionItem: function () {
                         return angular.copy(item);
                     }
                 },
@@ -196,7 +209,7 @@
             return jobDescriptionFactory.createJobDescriptionItem(item).success(function (response) {
                 if (response.IsSuccessful) {
                     notificationFactory.success('CreatedSuccessfully');
-                    modalInstance.close();
+                    modalInstance.close(response.IsSuccessful);
                 } else {
                     notificationFactory.error('', response.Message);
                 }
@@ -237,8 +250,8 @@
             });
         }
 
-        function updateDescriptionGroupItem(groupItem, modalInstance) {
-            return jobDescriptionFactory.updateJobDescriptionGroupItem(groupItem).success(function (response) {
+        function editDescriptionGroupItem(groupItem, modalInstance) {
+            return jobDescriptionFactory.editJobDescriptionGroupItem(groupItem).success(function (response) {
                 if (response.IsSuccessful) {
                     notificationFactory.success('UpdatedSuccessfully');
                     modalInstance.close(groupItem);
@@ -250,8 +263,8 @@
             });
         }
 
-        function updateDescriptionItem(item, modalInstance) {
-            return jobDescriptionFactory.updateJobDescriptionItem(item).success(function (response) {
+        function editDescriptionItem(item, modalInstance) {
+            return jobDescriptionFactory.editJobDescriptionItem(item).success(function (response) {
                 if (response.IsSuccessful) {
                     notificationFactory.success('UpdatedSuccessfully');
                     modalInstance.close(groupItem);

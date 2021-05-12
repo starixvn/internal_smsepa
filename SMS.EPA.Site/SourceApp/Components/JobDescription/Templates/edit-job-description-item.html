@@ -1,7 +1,7 @@
 ﻿<div class="modal-header">
     <div class="popup-header">
         Update Description
-        <span class="close-popup" ng-click="updateItemCtrl.cancel()"></span>
+        <span class="close-popup" ng-click="editItemCtrl.cancel()"></span>
     </div>
 </div>
 <div class="modal-body descriptionGroup-modal-body">
@@ -9,12 +9,12 @@
         <div class="form-group required">
             <label class="col-sm-4 control-label" data-translate="Name"></label>
             <div class="col-sm-8 field">
-                <input type="text" class="form-control" ng-model="updateItemCtrl.item.Name" required maxlength="500" />
+                <input type="text" class="form-control" ng-model="editItemCtrl.item.Name" required maxlength="500" />
             </div>
         </div>
     </form>
 </div>
 <div class="modal-footer">
-    <button class="btn btn-primary" ng-click="updateItemCtrl.save()" data-translate="Submit"></button>
-    <button class="btn btn-cancel" ng-click="updateItemCtrl.cancel()" data-translate="Cancel"></button>
+    <button class="btn btn-primary" ng-click="editItemCtrl.save()" data-translate="Submit"></button>
+    <button class="btn btn-cancel" ng-click="editItemCtrl.cancel()" data-translate="Cancel"></button>
 </div>

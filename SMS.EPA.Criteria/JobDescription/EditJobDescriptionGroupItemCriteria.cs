@@ -2,7 +2,7 @@
 {
     using Fanex.Data.Repository;
 
-    public class UpdateJobDescriptionGroupItemCriteria : CriteriaBase
+    public class EditJobDescriptionGroupItemCriteria : CriteriaBase
     {
         public int GroupItemId { get; set; }
 

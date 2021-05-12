@@ -59,7 +59,7 @@
         }
 
         function updateDescriptionGroupItem(groupItem) {
-            JobDescriptionModel.openPopupUpdateDescriptionGroupItem(vm, groupItem).then(function (updatedDescriptionGroupItem) {
+            JobDescriptionModel.openPopupEditDescriptionGroupItem(vm, groupItem).then(function (updatedDescriptionGroupItem) {
                 groupItem.Name = updatedDescriptionGroupItem.Name;
             })['finally'](function () {
                 vm.modalInstance = '';
@@ -79,7 +79,7 @@
         }
 
         function updateDescriptionItem(item) {
-            JobDescriptionModel.openPopupUpdateDescriptionItem(vm, item).then(function (updatedDescriptionItem) {
+            JobDescriptionModel.openPopupEditDescriptionItem(vm, item).then(function (updatedDescriptionItem) {
                 item.Name = updatedDescriptionItem.Name;
             })['finally'](function () {
                 vm.modalInstance = '';

@@ -87,8 +87,8 @@
     <Compile Include="JobDescription\GetEmployeeSettingJobDescriptionByIdCriteria.cs" />
     <Compile Include="JobDescription\GetEmployeeSettingJobDescriptionCriteria.cs" />
     <Compile Include="JobDescription\GetGroupSettingJobDescriptionCriteria.cs" />
-    <Compile Include="JobDescription\UpdateJobDescriptionItemCriteria.cs" />
-    <Compile Include="JobDescription\UpdateJobDescriptionGroupItemCriteria.cs" />
+    <Compile Include="JobDescription\EditJobDescriptionItemCriteria.cs" />
+    <Compile Include="JobDescription\EditJobDescriptionGroupItemCriteria.cs" />
     <Compile Include="JobDescription\UpdateEmployeeSettingGroupItemCriteria.cs" />
     <Compile Include="JobDescription\UpdateEmployeeSettingItemCriteria.cs" />
     <Compile Include="JobLevel\GetJobGradeCriteria.cs" />

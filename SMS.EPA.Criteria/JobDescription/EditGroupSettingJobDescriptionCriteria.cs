@@ -5,6 +5,7 @@
     using System.Text;
     using Fanex.Data;
     using Fanex.Data.Repository;
+    using SMS.EPA.Core.Constants;
     using SMS.EPA.Model.JobDescription;
 
     public class EditGroupSettingJobDescriptionCriteria : CriteriaBase
@@ -24,10 +25,12 @@
                 var xml = new StringBuilder();
                 if (Items != null && Items.Any())
                 {
+                    xml.Append(Constants.BeginRootTag);
                     foreach (var item in Items)
                     {
                         xml.AppendFormat(XmlTemplate, item.ItemId, item.DisplayOrder);
                     }
+                    xml.Append(Constants.EndRootTag);
                 }
 
                 return xml.ToString();
