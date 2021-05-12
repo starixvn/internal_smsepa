@@ -17,7 +17,7 @@
             deleteJobDescriptionGroupItem: deleteJobDescriptionGroupItem,
             createJobDescriptionItem: createJobDescriptionItem,
             editJobDescriptionItem: editJobDescriptionItem,
-            deleteJobDescriptionItem: deleteJobDescriptionItem
+            deleteJobDescriptionItem: deleteJobDescriptionItem,
             updateEmployeeSettingGroupItem: updateEmployeeSettingGroupItem,
             updateEmployeeSettingItem: updateEmployeeSettingItem,
         };

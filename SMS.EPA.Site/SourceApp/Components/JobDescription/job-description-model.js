@@ -267,7 +267,7 @@
             return jobDescriptionFactory.editJobDescriptionItem(item).success(function (response) {
                 if (response.IsSuccessful) {
                     notificationFactory.success('UpdatedSuccessfully');
-                    modalInstance.close(groupItem);
+                    modalInstance.close(item);
                 } else {
                     notificationFactory.error('', response.Message);
                 }

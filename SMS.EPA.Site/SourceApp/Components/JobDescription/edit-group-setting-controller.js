@@ -2,20 +2,36 @@
     'use strict';
 
     angular.module('jobDescriptionModule').controller('EditGroupSettingController', editGroupSettingController);
-    editGroupSettingController.$inject = ['$routeParams', 'CommonModel', 'JobDescriptionModel', 'lockScreenService', 'historyFactory'];
+    editGroupSettingController.$inject = ['$routeParams', 'CommonModel', 'JobDescriptionModel', 'lockScreenService', 'notificationFactory', 'historyFactory'];
 
-    function editGroupSettingController($routeParams, CommonModel, JobDescriptionModel, lockScreenService, historyFactory) {
-        var vm = this;
+    function editGroupSettingController($routeParams, CommonModel, JobDescriptionModel, lockScreenService, notificationFactory, historyFactory) {
+        let vm = this;
 
         vm.groupId = parseInt($routeParams.id);
         vm.jobLevelId = 0;
+        vm.originalSelectedItems = [];
         vm.groupSettingInfo = {};
         vm.jobLevels = [];
+
+        function getSelectedItems() {
+            const items = [];
+            angular.forEach(vm.groupSettingInfo.GroupItems, function (groupItem) {
+                angular.forEach(groupItem.Items, function (item) {
+                    if (item.IsSelected) {
+                        items.push(item);
+                    }
+                });
+            });
+
+            return items;
+        }
 
         function getGroupSettingById() {
             lockScreenService.start();
             JobDescriptionModel.getGroupSettingById(vm.groupId, vm.jobLevelId).then(function () {
                 vm.groupSettingInfo = JobDescriptionModel.groupSettingInfo;
+                vm.originalSelectedItems = getSelectedItems();
+
                 lockScreenService.stop();
             });
         }
@@ -32,6 +48,17 @@
                     }
                 }
             );
+        }
+
+        function validate() {
+            let isValid = true;
+            const selectedItems = getSelectedItems();
+            if (selectedItems.length === 0) {
+                notificationFactory.error('', 'Please select at least one description item!');
+                isValid = false;
+            }
+
+            return isValid;
         }
 
         vm.backToList = function () {
@@ -53,10 +80,10 @@
         }
 
         vm.editDescriptionGroupItem = function (groupItem) {
-            JobDescriptionModel.openPopupEditDescriptionGroupItem(vm, groupItem).then(function (isSuccessful) {
-                if (isSuccessful) {
-                    getGroupSettingById();
-                }
+            groupItem.GroupId = vm.groupId;
+            JobDescriptionModel.openPopupEditDescriptionGroupItem(vm, groupItem).then(function (editedGroupItem) {
+                const index = vm.groupSettingInfo.GroupItems.findIndex(x => x.GroupItemId === editedGroupItem.GroupItemId);
+                vm.groupSettingInfo.GroupItems[index].Name = editedGroupItem.Name;
             })['finally'](function () {
                 vm.modalInstance = '';
             });
@@ -77,10 +104,10 @@
         }
 
         vm.editDescriptionItem = function (item) {
-            JobDescriptionModel.openPopupEditDescriptionItem(vm, item).then(function (isSuccessful) {
-                if (isSuccessful) {
-                    getGroupSettingById();
-                }
+            JobDescriptionModel.openPopupEditDescriptionItem(vm, item).then(function (editedItem) {
+                const groupIndex = vm.groupSettingInfo.GroupItems.findIndex(x => x.GroupItemId === editedItem.GroupItemId);
+                const index = vm.groupSettingInfo.GroupItems[groupIndex].Items.findIndex(x => x.ItemId === editedItem.ItemId);
+                vm.groupSettingInfo.GroupItems[groupIndex].Items[index].Name = editedItem.Name;
             })['finally'](function () {
                 vm.modalInstance = '';
             });
@@ -97,25 +124,28 @@
         }
 
         vm.save = function () {
-            const setting = {
-                groupId: vm.groupId,
-                jobLevelId: vm.jobLevelId,
-                items: []
-            };
+            const isValid = validate();
+            if (isValid) {
+                const setting = {
+                    groupId: vm.groupId,
+                    jobLevelId: vm.jobLevelId,
+                    items: []
+                };
 
-            angular.forEach(vm.groupSettingInfo.GroupItems, function (groupItem) {
-                angular.forEach(groupItem.Items, function (item) {
-                    if (item.IsSelected) {
-                        setting.items.push({
-                            groupItemId: groupItem.GroupItemId,
-                            itemId: item.ItemId,
-                            displayOrder: setting.items.length + 1
-                        });
-                    }
+                angular.forEach(vm.groupSettingInfo.GroupItems, function (groupItem) {
+                    angular.forEach(groupItem.Items, function (item) {
+                        if (item.IsSelected) {
+                            setting.items.push({
+                                groupItemId: groupItem.GroupItemId,
+                                itemId: item.ItemId,
+                                displayOrder: setting.items.length + 1
+                            });
+                        }
+                    });
                 });
-            });
 
-            JobDescriptionModel.editGroupSetting(setting);
+                JobDescriptionModel.editGroupSetting(setting);
+            }
         }
 
         initialize();
