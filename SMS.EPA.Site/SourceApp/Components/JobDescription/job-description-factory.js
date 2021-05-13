@@ -18,8 +18,7 @@
             createJobDescriptionItem: createJobDescriptionItem,
             editJobDescriptionItem: editJobDescriptionItem,
             deleteJobDescriptionItem: deleteJobDescriptionItem,
-            updateEmployeeSettingGroupItem: updateEmployeeSettingGroupItem,
-            updateEmployeeSettingItem: updateEmployeeSettingItem,
+            editEmployeeSetting: editEmployeeSetting,
         };
 
         function getUserPermission() {
@@ -36,6 +35,10 @@
 
         function editGroupSetting(setting) {
             return $http.post(baseUrl + 'api/JobDescription/EditGroupSetting', setting);
+        }
+
+        function editEmployeeSetting(setting) {
+            return $http.post(baseUrl + 'api/JobDescription/EditEmployeeSetting', setting);
         }
 
         function getEmployeeSettingInfo(groupId, employeeId, showAll) {
@@ -72,14 +75,6 @@
 
         function deleteJobDescriptionItem(itemId) {
             return $http['delete'](baseUrl + 'api/JobDescription/DeleteJobDescriptionItem', { params: { itemId: itemId } });
-        }
-
-        function updateEmployeeSettingGroupItem(groupItem) {
-            return $http.put(baseUrl + 'api/JobDescription/UpdateEmployeeSettingGroupItem', groupItem);
-        }
-
-        function updateEmployeeSettingItem(item) {
-            return $http.put(baseUrl + 'api/JobDescription/UpdateEmployeeSettingItem', item);
         }
     }
 })(angular);

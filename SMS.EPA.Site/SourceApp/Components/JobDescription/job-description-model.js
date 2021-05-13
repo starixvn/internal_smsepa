@@ -2,9 +2,9 @@
     'use strict';
 
     angular.module('jobDescriptionModule').factory('JobDescriptionModel', jobDescriptionModel);
-    jobDescriptionModel.$inject = ['$uibModal', 'jobDescriptionFactory', 'errorFactory', 'notificationFactory', 'utilitiesFactory'];
+    jobDescriptionModel.$inject = ['$uibModal', 'jobDescriptionFactory', 'errorFactory', 'notificationFactory'];
 
-    function jobDescriptionModel($uibModal, jobDescriptionFactory, errorFactory, notificationFactory, utilitiesFactory) {
+    function jobDescriptionModel($uibModal, jobDescriptionFactory, errorFactory, notificationFactory) {
         var model = {
             permission: 0,
             groupSettingInfos: [],
@@ -27,8 +27,7 @@
             openPopupCreateDescriptionItem: openPopupCreateDescriptionItem,
             openPopupEditDescriptionItem: openPopupEditDescriptionItem,
             openPopupDeleteDescriptionItem: openPopupDeleteDescriptionItem,
-            openPopupUpdateEmployeeSettingGroupItem: openPopupUpdateEmployeeSettingGroupItem,
-            openPopupUpdateEmployeeSettingItem: openPopupUpdateEmployeeSettingItem,
+            editEmployeeSetting: editEmployeeSetting,
             validateDescription: validateDescription
         };
 
@@ -62,6 +61,18 @@
 
         function editGroupSetting(setting) {
             return jobDescriptionFactory.editGroupSetting(setting).success(function (response) {
+                if (response.IsSuccessful) {
+                    notificationFactory.success("UpdatedSuccessfully");
+                } else {
+                    notificationFactory.error("", response.Message);
+                }
+            }).error(function (response, status) {
+                errorFactory.errorHandle(status);
+            });
+        }
+
+        function editEmployeeSetting(setting) {
+            return jobDescriptionFactory.editEmployeeSetting(setting).success(function (response) {
                 if (response.IsSuccessful) {
                     notificationFactory.success("UpdatedSuccessfully");
                 } else {
@@ -162,7 +173,6 @@
                     if (response.IsSuccessful) {
                         var index = vm.employeeSettingInfo.GroupItems.indexOf(groupItem);
                         vm.employeeSettingInfo.GroupItems.splice(index, 1);
-                        utilitiesFactory.searchOnPage(vm, vm.employeeSettingInfo.GroupItems);
 
                         notificationFactory.success('DeletedSuccessfully');
                     } else {
@@ -237,7 +247,9 @@
             modalInstance.result.then(function () {
                 jobDescriptionFactory.deleteJobDescriptionItem(item.ItemId).success(function (response) {
                     if (response.IsSuccessful) {
-                        //do it
+                        var indexOfGroupItem = vm.employeeSettingInfo.GroupItems.map(x => x.GroupItemId).indexOf(item.GroupItemId);
+                        var indexOfItem = vm.employeeSettingInfo.GroupItems[indexOfGroupItem].Items.map(x => x.ItemId).indexOf(item.ItemId);
+                        vm.employeeSettingInfo.GroupItems[indexOfGroupItem].Items.splice(indexOfItem, 1);
                         notificationFactory.success('DeletedSuccessfully');
                     } else {
                         notificationFactory.error('', response.Message);
@@ -273,110 +285,6 @@
                 }
             }).error(function (response, status) {
                 errorFactory.errorHandle(status);
-            });
-        }
-
-        function openPopupUpdateEmployeeSettingGroupItem(groupItem, employeeId) {
-            groupItem.IsSelected = !groupItem.IsSelected;
-
-            var action = groupItem.IsSelected ? 'activate' : 'deactivate',
-                newGroupItem = {
-                    GroupItemId: groupItem.GroupItemId,
-                    IsSelected: groupItem.IsSelected,
-                    EmployeeId: employeeId
-                };
-
-            var modalInstance = $uibModal.open({
-                templateUrl: 'SourceApp/Shared/Templates/ModalConfirmContent.html',
-                controller: 'ModalConfirmController as modalConfirmCtrl',
-                backdrop: 'static',
-                resolve: {
-                    name: function () {
-                        return groupItem.Name;
-                    },
-                    action: function () {
-                        return action;
-                    }
-                },
-                windowClass: 'modal-confirm-center'
-            });
-
-            var keyMessage = '';
-
-            modalInstance.result.then(function () {
-                jobDescriptionFactory.updateEmployeeSettingGroupItem(newGroupItem).success(function (response) {
-                    if (response.IsSuccessful) {
-                        keyMessage = action === 'activate' ? 'ActivationSuccess' : 'DeactivationSuccess';
-                        notificationFactory.success(keyMessage);
-                    } else {
-                        groupItem.IsSelected = !newGroupItem.IsSelected;
-                        notificationFactory.error('', response.Message);
-                    }
-                }).error(function (response, status) {
-                    if (status === 405) {
-                        errorFactory.errorHandle(status);
-                    } else {
-                        keyMessage = action === 'activate' ? 'ActivationFail' : 'DeactivationFail';
-                        groupItem.IsSelected = !newGroupItem.IsSelected;
-                        notificationFactory.error(keyMessage);
-                    }
-                });
-            }, function () {
-                groupItem.IsSelected = !newGroupItem.IsSelected;
-            })['finally'](function () {
-                modalInstance = '';
-            });
-        }
-
-        function openPopupUpdateEmployeeSettingItem(item, employeeId) {
-            item.IsSelected = !item.IsSelected;
-
-            var action = item.IsSelected ? 'activate' : 'deactivate',
-                newItem = {
-                    ItemId: item.ItemId,
-                    IsSelected: item.IsSelected,
-                    EmployeeId: employeeId
-                };
-
-            var modalInstance = $uibModal.open({
-                templateUrl: 'SourceApp/Shared/Templates/ModalConfirmContent.html',
-                controller: 'ModalConfirmController as modalConfirmCtrl',
-                backdrop: 'static',
-                resolve: {
-                    name: function () {
-                        return item.Name;
-                    },
-                    action: function () {
-                        return action;
-                    }
-                },
-                windowClass: 'modal-confirm-center'
-            });
-
-            var keyMessage = '';
-
-            modalInstance.result.then(function () {
-                jobDescriptionFactory.updateEmployeeSettingItem(newItem).success(function (response) {
-                    if (response.IsSuccessful) {
-                        keyMessage = action === 'activate' ? 'ActivationSuccess' : 'DeactivationSuccess';
-                        notificationFactory.success(keyMessage);
-                    } else {
-                        item.IsSelected = !newItem.IsSelected;
-                        notificationFactory.error('', response.Message);
-                    }
-                }).error(function (response, status) {
-                    if (status === 405) {
-                        errorFactory.errorHandle(status);
-                    } else {
-                        keyMessage = action === 'activate' ? 'ActivationFail' : 'DeactivationFail';
-                        item.IsSelected = !newItem.IsSelected;
-                        notificationFactory.error(keyMessage);
-                    }
-                });
-            }, function () {
-                item.IsSelected = !newItem.IsSelected;
-            })['finally'](function () {
-                modalInstance = '';
             });
         }
 

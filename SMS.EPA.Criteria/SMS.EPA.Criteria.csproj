@@ -89,8 +89,7 @@
     <Compile Include="JobDescription\GetGroupSettingJobDescriptionCriteria.cs" />
     <Compile Include="JobDescription\EditJobDescriptionItemCriteria.cs" />
     <Compile Include="JobDescription\EditJobDescriptionGroupItemCriteria.cs" />
-    <Compile Include="JobDescription\UpdateEmployeeSettingGroupItemCriteria.cs" />
-    <Compile Include="JobDescription\UpdateEmployeeSettingItemCriteria.cs" />
+    <Compile Include="JobDescription\EditEmployeeSettingJobDescriptionCriteria.cs" />
     <Compile Include="JobLevel\GetJobGradeCriteria.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <!-- Exclude the file from analysis -->

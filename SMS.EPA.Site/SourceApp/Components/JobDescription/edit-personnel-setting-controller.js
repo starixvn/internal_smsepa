@@ -2,35 +2,95 @@
     'use strict';
 
     angular.module('jobDescriptionModule').controller('EditPersonnelSettingController', editPersonnelSettingController);
-    editPersonnelSettingController.$inject = ['$routeParams', 'JobDescriptionModel', 'lockScreenService', 'CommonModel', 'historyFactory', 'utilitiesFactory'];
+    editPersonnelSettingController.$inject = ['$routeParams', 'JobDescriptionModel', 'lockScreenService', 'historyFactory', 'utilitiesFactory', 'notificationFactory'];
 
-    function editPersonnelSettingController($routeParams, JobDescriptionModel, lockScreenService, CommonModel, historyFactory, utilitiesFactory) {
+    function editPersonnelSettingController($routeParams, JobDescriptionModel, lockScreenService, historyFactory, utilitiesFactory, notificationFactory) {
         var vm = this;
 
-        vm.currentPage = 1;
-        vm.pageSize = 20;
         vm.employeeId = parseInt($routeParams.id);
         vm.employeeSettingInfo = {};
-        vm.getIndex = getIndex;
         vm.createDescriptionGroupItem = createDescriptionGroupItem;
         vm.updateDescriptionGroupItem = updateDescriptionGroupItem;
         vm.deleteDescriptionGroupItem = deleteDescriptionGroupItem;
         vm.createDescriptionItem = createDescriptionItem;
         vm.updateDescriptionItem = updateDescriptionItem;
         vm.deleteDescriptionItem = deleteDescriptionItem;
-        vm.updateEmployeeSettingGroupItem = updateEmployeeSettingGroupItem;
-        vm.updateEmployeeSettingItem = updateEmployeeSettingItem;
-
-        initialize();
+        vm.save = save;
 
         vm.backToList = function () {
             historyFactory.back();
         };
 
-        utilitiesFactory.numberEntryList(vm);
+        vm.checkAll = function (isSelectedAll, groupItem) {
+            angular.forEach(groupItem.Items, function (item) {
+                item.IsSelected = isSelectedAll;
+            });
+        }
 
-         function getIndex (index, currentPage, pageSize) {
-            return CommonModel.getIndex(index, currentPage, pageSize);
+        vm.check = function (groupItem) {
+            var countChecked = 0;
+
+            angular.forEach(groupItem.Items, function (item) {
+                if (item.IsSelected) {
+                    countChecked++;
+                }
+            });
+
+            if (groupItem.Items.length == countChecked) {
+                groupItem.IsSelectedAll = true;
+            }
+            else {
+                groupItem.IsSelectedAll = false;
+            }
+        };
+
+        initialize();
+
+        function save() {
+            const isValid = validate();
+            if (isValid) {
+                const setting = {
+                    employeeId: vm.employeeId,
+                    items: []
+                };
+
+                angular.forEach(vm.employeeSettingInfo.GroupItems, function (groupItem) {
+                    angular.forEach(groupItem.Items, function (item) {
+                        if (item.IsSelected) {
+                            setting.items.push({
+                                itemId: item.ItemId,
+                                displayOrder: setting.items.length + 1
+                            });
+                        }
+                    });
+                });
+
+                JobDescriptionModel.editEmployeeSetting(setting);
+            }
+        }
+
+        function validate() {
+            let isValid = true;
+            const selectedItems = getSelectedItems();
+            if (selectedItems.length === 0) {
+                notificationFactory.error('', 'Please select at least one description item!');
+                isValid = false;
+            }
+
+            return isValid;
+        }
+
+        function getSelectedItems() {
+            const items = [];
+            angular.forEach(vm.employeeSettingInfo.GroupItems, function (groupItem) {
+                angular.forEach(groupItem.Items, function (item) {
+                    if (item.IsSelected) {
+                        items.push(item);
+                    }
+                });
+            });
+
+            return items;
         }
 
         function getEmployeeSettingById() {
@@ -43,14 +103,6 @@
                 });
         }
 
-        function updateEmployeeSettingGroupItem(groupItem, employeeId) {
-            JobDescriptionModel.openPopupUpdateEmployeeSettingGroupItem(groupItem, employeeId);
-        }
-
-        function updateEmployeeSettingItem(item, employeeId) {
-            JobDescriptionModel.openPopupUpdateEmployeeSettingItem(item, employeeId);
-        }
-
         function createDescriptionGroupItem() {
             JobDescriptionModel.openPopupCreateDescriptionGroupItem(vm, null, vm.employeeId).then()['finally'](function () {
                 vm.modalInstance = '';
@@ -59,6 +111,7 @@
         }
 
         function updateDescriptionGroupItem(groupItem) {
+            groupItem.EmployeeId = vm.employeeId;
             JobDescriptionModel.openPopupEditDescriptionGroupItem(vm, groupItem).then(function (updatedDescriptionGroupItem) {
                 groupItem.Name = updatedDescriptionGroupItem.Name;
             })['finally'](function () {

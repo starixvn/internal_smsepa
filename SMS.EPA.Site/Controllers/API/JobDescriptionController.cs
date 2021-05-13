@@ -90,8 +90,8 @@
             return await baseService.ExecuteNonQueryAsync(criteria);
         }
 
-        //[HttpPut]
-        //[ApiAuthorize(FunctionKey = EPAFunctionKey.JobDescription, Policy = Policy.Host)]
+        [HttpPost]
+        [ApiAuthorize(FunctionKey = EPAFunctionKey.JobDescription, Policy = Policy.Host)]
         public CommandResult EditJobDescriptionGroupItem(EditJobDescriptionGroupItemCriteria criteria)
         {
             CommandResult commandResult = baseService.ExecuteNonQuery(criteria);
@@ -114,12 +114,14 @@
         }
 
         [HttpPost]
-        ////[ApiAuthorize(FunctionKey = EPAFunctionKey.JobDescription, Policy = Policy.Host)]
+        [ApiAuthorize(FunctionKey = EPAFunctionKey.JobDescription, Policy = Policy.Host)]
         public async Task<CommandResult> CreateJobDescriptionItem(CreateJobDescriptionItemCriteria criteria)
         {
             return await baseService.ExecuteNonQueryAsync(criteria);
         }
 
+        [HttpPost]
+        [ApiAuthorize(FunctionKey = EPAFunctionKey.JobDescription, Policy = Policy.Host)]
         public CommandResult EditJobDescriptionItem(EditJobDescriptionItemCriteria criteria)
         {
             CommandResult commandResult = baseService.ExecuteNonQuery(criteria);
@@ -141,19 +143,9 @@
             return commandResult;
         }
 
-        [HttpPut]
+        [HttpPost]
         [ApiAuthorize(FunctionKey = EPAFunctionKey.JobDescription, Policy = Policy.Host)]
-        public CommandResult UpdateEmployeeSettingGroupItem(UpdateEmployeeSettingGroupItemCriteria criteria)
-        {
-
-            CommandResult commandResult = baseService.ExecuteNonQuery(criteria);
-
-            return commandResult;
-        }
-
-        [HttpPut]
-        [ApiAuthorize(FunctionKey = EPAFunctionKey.JobDescription, Policy = Policy.Host)]
-        public CommandResult UpdateEmployeeSettingItem(UpdateEmployeeSettingItemCriteria criteria)
+        public CommandResult EditEmployeeSetting(EditEmployeeSettingJobDescriptionCriteria criteria)
         {
 
             CommandResult commandResult = baseService.ExecuteNonQuery(criteria);
