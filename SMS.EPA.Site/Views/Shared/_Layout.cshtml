@@ -9,29 +9,32 @@
 
     @{
         var title = string.Empty;
-        int siteId = 0;
-        int.TryParse(ConfigurationManager.AppSettings["SiteId"], out siteId);
+        byte siteId = 0;
+        byte.TryParse(ConfigurationManager.AppSettings["SiteId"], out siteId);
     }
 
     @switch (siteId)
     {
-        case (int)SiteId.SMS:
+        case (byte)SiteId.SMS:
             title = "SMS EPA";
             break;
-        case (int)SiteId.HM:
+        case (byte)SiteId.HM:
             title = "HM EPA";
             break;
-        case (int)SiteId.GWI:
+        case (byte)SiteId.GWI:
             title = "GWI EPA";
             break;
-        case (int)SiteId.GROUP:
+        case (byte)SiteId.GROUP:
             title = "Group EPA";
             break;
-        case (int)SiteId.LEXFIN:
+        case (byte)SiteId.LEXFIN:
             title = "LEXFIN EPA";
             break;
-        case (int)SiteId.CTI:
+        case (byte)SiteId.CTI:
             title = "CTI EPA";
+            break;
+        case (byte)SiteId.CTS:
+            title = "CTS EPA";
             break;
     }
 
