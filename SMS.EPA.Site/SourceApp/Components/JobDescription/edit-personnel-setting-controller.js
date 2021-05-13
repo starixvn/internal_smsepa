@@ -104,9 +104,12 @@
         }
 
         function createDescriptionGroupItem() {
-            JobDescriptionModel.openPopupCreateDescriptionGroupItem(vm, null, vm.employeeId).then()['finally'](function () {
+            JobDescriptionModel.openPopupCreateDescriptionGroupItem(vm, null, vm.employeeId).then(function (isSuccessful) {
+                if (isSuccessful) {
+                    getEmployeeSettingById();
+                }
+            })['finally'](function () {
                 vm.modalInstance = '';
-                getEmployeeSettingById();
             });
         }
 
@@ -116,7 +119,6 @@
                 groupItem.Name = updatedDescriptionGroupItem.Name;
             })['finally'](function () {
                 vm.modalInstance = '';
-                getEmployeeSettingById();
             });
         }
 
@@ -125,9 +127,12 @@
         }
 
         function createDescriptionItem(groupItemId) {
-            JobDescriptionModel.openPopupCreateDescriptionItem(vm, groupItemId).then()['finally'](function () {
+            JobDescriptionModel.openPopupCreateDescriptionItem(vm, groupItemId).then(function (isSuccessful) {
+                if (isSuccessful) {
+                    getEmployeeSettingById();
+                }
+            })['finally'](function () {
                 vm.modalInstance = '';
-                getEmployeeSettingById();
             });
         }
 
@@ -136,7 +141,6 @@
                 item.Name = updatedDescriptionItem.Name;
             })['finally'](function () {
                 vm.modalInstance = '';
-                getEmployeeSettingById();
             });
         }
 
