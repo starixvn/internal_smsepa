@@ -2,13 +2,13 @@
     'use strict';
 
     angular.module('jobDescriptionModule').controller('EditPersonnelSettingController', editPersonnelSettingController);
-    editPersonnelSettingController.$inject = ['$routeParams', 'JobDescriptionModel', 'lockScreenService', 'historyFactory', 'utilitiesFactory', 'notificationFactory'];
+    editPersonnelSettingController.$inject = ['$routeParams', 'JobDescriptionModel', 'lockScreenService', 'historyFactory', 'notificationFactory'];
 
-    function editPersonnelSettingController($routeParams, JobDescriptionModel, lockScreenService, historyFactory, utilitiesFactory, notificationFactory) {
-        var vm = this;
+    function editPersonnelSettingController($routeParams, JobDescriptionModel, lockScreenService, historyFactory, notificationFactory) {
+        let vm = this;
 
         vm.employeeId = parseInt($routeParams.id);
-        vm.employeeSettingInfo = {};
+        vm.settingInfo = {};
         vm.createDescriptionGroupItem = createDescriptionGroupItem;
         vm.updateDescriptionGroupItem = updateDescriptionGroupItem;
         vm.deleteDescriptionGroupItem = deleteDescriptionGroupItem;
@@ -54,7 +54,7 @@
                     items: []
                 };
 
-                angular.forEach(vm.employeeSettingInfo.GroupItems, function (groupItem) {
+                angular.forEach(vm.settingInfo.GroupItems, function (groupItem) {
                     angular.forEach(groupItem.Items, function (item) {
                         if (item.IsSelected) {
                             setting.items.push({
@@ -82,7 +82,7 @@
 
         function getSelectedItems() {
             const items = [];
-            angular.forEach(vm.employeeSettingInfo.GroupItems, function (groupItem) {
+            angular.forEach(vm.settingInfo.GroupItems, function (groupItem) {
                 angular.forEach(groupItem.Items, function (item) {
                     if (item.IsSelected) {
                         items.push(item);
@@ -97,8 +97,7 @@
             lockScreenService.start();
             JobDescriptionModel.getEmployeeSettingById(vm.employeeId).then(
                 function () {
-                    vm.employeeSettingInfo = JobDescriptionModel.employeeSettingInfo;
-                    utilitiesFactory.searchOnPage(vm, vm.employeeSettingInfo.GroupItems);
+                    vm.settingInfo = JobDescriptionModel.employeeSettingInfo;
                     lockScreenService.stop();
                 });
         }

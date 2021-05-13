@@ -556,6 +556,7 @@
     <Content Include="SourceApp\Components\JobDescription\Templates\edit-group.html" />
     <Content Include="SourceApp\Components\JobDescription\Templates\index.html" />
     <Content Include="SourceApp\Components\JobDescription\Templates\edit-personnel.html" />
+    <Content Include="SourceApp\Shared\Templates\modal-confirm-refresh-data.html" />
     <Content Include="SourceApp\Components\JobDescription\Templates\personnel.html" />
     <Content Include="SourceApp\Components\JobDescription\Templates\group.html" />
     <Content Include="SourceApp\Components\KPIGroup\create-kpiGroup-controller.js" />

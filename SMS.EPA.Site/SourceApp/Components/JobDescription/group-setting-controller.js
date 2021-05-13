@@ -5,7 +5,7 @@
     groupSettingController.$inject = ['$scope', 'CommonModel', 'JobDescriptionModel', 'utilitiesFactory', 'lockScreenService'];
 
     function groupSettingController($scope, CommonModel, JobDescriptionModel, utilitiesFactory, lockScreenService) {
-        var vm = this;
+        let vm = this;
 
         vm.isFirstLoad = true;
         vm.currentPage = 1;
@@ -13,22 +13,6 @@
         vm.groupSettingInfos = [];
 
         utilitiesFactory.numberEntryList(vm);
-
-        $scope.$watch(function () { return $scope.jobDescriptionCtrl.dataTab === 1; },
-            function (newVal) {
-                if (newVal && vm.isFirstLoad) {
-                    initialize();
-                }
-            }
-        );
-
-        vm.getIndex = function (index, currentPage, pageSize) {
-            return CommonModel.getIndex(index, currentPage, pageSize);
-        }
-
-        vm.edit = function (event, group) {
-            utilitiesFactory.handleOpenLink(event, 'JobDescription/EditGroup/' + group.GroupId);
-        }
 
         function initialize() {
             lockScreenService.start();
@@ -40,5 +24,21 @@
                     lockScreenService.stop();
                 });
         }
+
+        $scope.$watch(function () { return $scope.jobDescriptionCtrl.dataTab === 1; },
+            function (newVal) {
+                if (newVal && vm.isFirstLoad) {
+                    initialize();
+                }
+            }
+        );
+
+        vm.getIndex = function (index, currentPage, pageSize) {
+            return CommonModel.getIndex(index, currentPage, pageSize);
+        };
+
+        vm.edit = function (event, group) {
+            utilitiesFactory.handleOpenLink(event, 'JobDescription/EditGroup/' + group.GroupId);
+        };
     }
 })();

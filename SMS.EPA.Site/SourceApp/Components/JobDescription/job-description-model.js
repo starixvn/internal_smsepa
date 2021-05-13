@@ -21,6 +21,7 @@
             editDescriptionGroupItem: editDescriptionGroupItem,
             createDescriptionItem: createDescriptionItem,
             editDescriptionItem: editDescriptionItem,
+            openPopupConfirmRefreshData: openPopupConfirmRefreshData,
             openPopupCreateDescriptionGroupItem: openPopupCreateDescriptionGroupItem,
             openPopupDeleteDescriptionGroupItem: openPopupDeleteDescriptionGroupItem,
             openPopupEditDescriptionGroupItem: openPopupEditDescriptionGroupItem,
@@ -101,6 +102,17 @@
                 });
         }
 
+        function openPopupConfirmRefreshData(vm) {
+            vm.modalInstance = $uibModal.open({
+                templateUrl: 'SourceApp/Shared/Templates/modal-confirm-refresh-data.html',
+                controller: "ConfirmRefreshDataController as modalConfirmCtrl",
+                backdrop: 'static',
+                windowClass: "modal-confirm-center"
+            });
+
+            return vm.modalInstance.result;
+        }
+
         function openPopupCreateDescriptionGroupItem(vm, groupId, employeeId) {
             vm.modalInstance = $uibModal.open({
                 templateUrl: 'SourceApp/Components/JobDescription/Templates/create-job-description-group-item.html',
@@ -153,7 +165,7 @@
         }
 
         function openPopupDeleteDescriptionGroupItem(vm, groupItem) {
-            var modalInstance = $uibModal.open({
+            let modalInstance = $uibModal.open({
                 templateUrl: 'SourceApp/Shared/Templates/ModalConfirmContent.html',
                 controller: 'ModalConfirmController as modalConfirmCtrl',
                 backdrop: 'static',
@@ -171,8 +183,8 @@
             modalInstance.result.then(function () {
                 jobDescriptionFactory.deleteJobDescriptionGroupItem(groupItem.GroupItemId).success(function (response) {
                     if (response.IsSuccessful) {
-                        var index = vm.employeeSettingInfo.GroupItems.indexOf(groupItem);
-                        vm.employeeSettingInfo.GroupItems.splice(index, 1);
+                        const index = vm.settingInfo.GroupItems.indexOf(groupItem);
+                        vm.settingInfo.GroupItems.splice(index, 1);
 
                         notificationFactory.success('DeletedSuccessfully');
                     } else {
@@ -229,7 +241,7 @@
         }
 
         function openPopupDeleteDescriptionItem(vm, item) {
-            var modalInstance = $uibModal.open({
+            let modalInstance = $uibModal.open({
                 templateUrl: 'SourceApp/Shared/Templates/ModalConfirmContent.html',
                 controller: 'ModalConfirmController as modalConfirmCtrl',
                 backdrop: 'static',
@@ -247,9 +259,10 @@
             modalInstance.result.then(function () {
                 jobDescriptionFactory.deleteJobDescriptionItem(item.ItemId).success(function (response) {
                     if (response.IsSuccessful) {
-                        var indexOfGroupItem = vm.employeeSettingInfo.GroupItems.map(x => x.GroupItemId).indexOf(item.GroupItemId);
-                        var indexOfItem = vm.employeeSettingInfo.GroupItems[indexOfGroupItem].Items.map(x => x.ItemId).indexOf(item.ItemId);
-                        vm.employeeSettingInfo.GroupItems[indexOfGroupItem].Items.splice(indexOfItem, 1);
+                        const indexOfGroupItem = vm.settingInfo.GroupItems.map(x => x.GroupItemId).indexOf(item.GroupItemId);
+                        const indexOfItem = vm.settingInfo.GroupItems[indexOfGroupItem].Items.map(x => x.ItemId).indexOf(item.ItemId);
+                        vm.settingInfo.GroupItems[indexOfGroupItem].Items.splice(indexOfItem, 1);
+
                         notificationFactory.success('DeletedSuccessfully');
                     } else {
                         notificationFactory.error('', response.Message);
@@ -289,8 +302,7 @@
         }
 
         function validateDescription(name) {
-            var isValid = true;
-
+            let isValid = true;
             if (!name) {
                 notificationFactory.error('NameRequired');
                 isValid = false;

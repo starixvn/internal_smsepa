@@ -8,14 +8,15 @@
         let vm = this;
 
         vm.groupId = parseInt($routeParams.id);
+        vm.originalJobLevelId = 0;
         vm.jobLevelId = 0;
         vm.originalSelectedItems = [];
-        vm.groupSettingInfo = {};
+        vm.settingInfo = {};
         vm.jobLevels = [];
 
         function getSelectedItems() {
             const items = [];
-            angular.forEach(vm.groupSettingInfo.GroupItems, function (groupItem) {
+            angular.forEach(vm.settingInfo.GroupItems, function (groupItem) {
                 angular.forEach(groupItem.Items, function (item) {
                     if (item.IsSelected) {
                         items.push(item);
@@ -29,7 +30,7 @@
         function getGroupSettingById() {
             lockScreenService.start();
             JobDescriptionModel.getGroupSettingById(vm.groupId, vm.jobLevelId).then(function () {
-                vm.groupSettingInfo = JobDescriptionModel.groupSettingInfo;
+                vm.settingInfo = JobDescriptionModel.groupSettingInfo;
                 vm.originalSelectedItems = getSelectedItems();
 
                 lockScreenService.stop();
@@ -43,6 +44,7 @@
 
                     if (vm.jobLevels.length > 0) {
                         vm.jobLevelId = vm.jobLevels[0].JobLevelId;
+                        vm.originalJobLevelId = vm.jobLevelId;
 
                         getGroupSettingById();
                     }
@@ -66,8 +68,22 @@
         };
 
         vm.handleChangeJobLevel = function () {
-            getGroupSettingById();
-        }
+            const selectedItems = getSelectedItems();
+            if (vm.originalSelectedItems.length !== selectedItems.length
+                || vm.originalSelectedItems.filter(x => selectedItems.findIndex(y => y.ItemId === x.ItemId) < 0).length > 0) {
+                JobDescriptionModel.openPopupConfirmRefreshData(vm).then(function () {
+                    vm.originalJobLevelId = vm.jobLevelId;
+                    getGroupSettingById();
+                }, function () {
+                    vm.jobLevelId = vm.originalJobLevelId;
+                })['finally'](function () {
+                    vm.modalInstance = '';
+                });
+            } else {
+                vm.originalJobLevelId = vm.jobLevelId;
+                getGroupSettingById();
+            }
+        };
 
         vm.createDescriptionGroupItem = function () {
             JobDescriptionModel.openPopupCreateDescriptionGroupItem(vm, vm.groupId, null).then(function (isSuccessful) {
@@ -77,21 +93,20 @@
             })['finally'](function () {
                 vm.modalInstance = '';
             });
-        }
+        };
 
         vm.editDescriptionGroupItem = function (groupItem) {
             groupItem.GroupId = vm.groupId;
             JobDescriptionModel.openPopupEditDescriptionGroupItem(vm, groupItem).then(function (editedGroupItem) {
-                const index = vm.groupSettingInfo.GroupItems.findIndex(x => x.GroupItemId === editedGroupItem.GroupItemId);
-                vm.groupSettingInfo.GroupItems[index].Name = editedGroupItem.Name;
+                groupItem.Name = editedGroupItem.Name;
             })['finally'](function () {
                 vm.modalInstance = '';
             });
-        }
+        };
 
         vm.deleteDescriptionGroupItem = function (groupItem) {
             JobDescriptionModel.openPopupDeleteDescriptionGroupItem(vm, groupItem);
-        }
+        };
 
         vm.createDescriptionItem = function (groupItemId) {
             JobDescriptionModel.openPopupCreateDescriptionItem(vm, groupItemId).then(function (isSuccessful) {
@@ -101,27 +116,34 @@
             })['finally'](function () {
                 vm.modalInstance = '';
             });
-        }
+        };
 
         vm.editDescriptionItem = function (item) {
             JobDescriptionModel.openPopupEditDescriptionItem(vm, item).then(function (editedItem) {
-                const groupIndex = vm.groupSettingInfo.GroupItems.findIndex(x => x.GroupItemId === editedItem.GroupItemId);
-                const index = vm.groupSettingInfo.GroupItems[groupIndex].Items.findIndex(x => x.ItemId === editedItem.ItemId);
-                vm.groupSettingInfo.GroupItems[groupIndex].Items[index].Name = editedItem.Name;
+                item.Name = editedItem.Name;
             })['finally'](function () {
                 vm.modalInstance = '';
             });
-        }
+        };
 
         vm.deleteDescriptionItem = function (item) {
             JobDescriptionModel.openPopupDeleteDescriptionItem(vm, item);
-        }
+        };
 
         vm.handleSelectAllGroupItem = function (isSelectedAll, groupItem) {
             angular.forEach(groupItem.Items, function (item) {
                 item.IsSelected = isSelectedAll;
             });
         }
+
+        vm.handleSelectItem = function (groupItem) {
+            const selectedItems = groupItem.Items.filter(x => x.IsSelected);
+            if (groupItem.Items.length == selectedItems.length) {
+                groupItem.IsSelectedAll = true;
+            } else {
+                groupItem.IsSelectedAll = false;
+            }
+        };
 
         vm.save = function () {
             const isValid = validate();
@@ -132,7 +154,7 @@
                     items: []
                 };
 
-                angular.forEach(vm.groupSettingInfo.GroupItems, function (groupItem) {
+                angular.forEach(vm.settingInfo.GroupItems, function (groupItem) {
                     angular.forEach(groupItem.Items, function (item) {
                         if (item.IsSelected) {
                             setting.items.push({
@@ -144,9 +166,13 @@
                     });
                 });
 
-                JobDescriptionModel.editGroupSetting(setting);
+                JobDescriptionModel.editGroupSetting(setting).success(function (response) {
+                    if (response.IsSuccessful) {
+                        vm.originalSelectedItems = getSelectedItems();
+                    }
+                });
             }
-        }
+        };
 
         initialize();
     }

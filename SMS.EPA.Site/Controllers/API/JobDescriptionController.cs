@@ -94,9 +94,7 @@
         [ApiAuthorize(FunctionKey = EPAFunctionKey.JobDescription, Policy = Policy.Host)]
         public CommandResult EditJobDescriptionGroupItem(EditJobDescriptionGroupItemCriteria criteria)
         {
-            CommandResult commandResult = baseService.ExecuteNonQuery(criteria);
-
-            return commandResult;
+            return baseService.ExecuteNonQuery(criteria);
         }
 
         [HttpDelete]
@@ -107,10 +105,7 @@
             {
                 GroupItemId = groupItemId
             };
-
-            CommandResult commandResult = baseService.ExecuteNonQuery(criteria);
-
-            return commandResult;
+            return baseService.ExecuteNonQuery(criteria);
         }
 
         [HttpPost]
@@ -124,9 +119,7 @@
         [ApiAuthorize(FunctionKey = EPAFunctionKey.JobDescription, Policy = Policy.Host)]
         public CommandResult EditJobDescriptionItem(EditJobDescriptionItemCriteria criteria)
         {
-            CommandResult commandResult = baseService.ExecuteNonQuery(criteria);
-
-            return commandResult;
+            return baseService.ExecuteNonQuery(criteria);
         }
 
         [HttpDelete]
@@ -137,20 +130,14 @@
             {
                 ItemId = itemId
             };
-
-            CommandResult commandResult = baseService.ExecuteNonQuery(criteria);
-
-            return commandResult;
+            return baseService.ExecuteNonQuery(criteria);
         }
 
         [HttpPost]
         [ApiAuthorize(FunctionKey = EPAFunctionKey.JobDescription, Policy = Policy.Host)]
         public CommandResult EditEmployeeSetting(EditEmployeeSettingJobDescriptionCriteria criteria)
         {
-
-            CommandResult commandResult = baseService.ExecuteNonQuery(criteria);
-
-            return commandResult;
+            return baseService.ExecuteNonQuery(criteria);
         }
 
         public byte GetUserPermission()

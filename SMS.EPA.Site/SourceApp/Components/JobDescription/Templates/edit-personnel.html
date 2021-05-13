@@ -12,17 +12,17 @@
         <div class="row">
             <div class="col-sm-6">
                 <div class="col-sm-2" data-translate="EmployeeCode"></div>
-                <div class="col-sm-4"><strong ng-bind="editPersonnelCtrl.employeeSettingInfo.Code"></strong></div>
+                <div class="col-sm-4"><strong ng-bind="editPersonnelCtrl.settingInfo.Code"></strong></div>
                 <div class="col-sm-2" data-translate="NickName"></div>
-                <div class="col-sm-4"><strong ng-bind="editPersonnelCtrl.employeeSettingInfo.Nickname"></strong></div>
+                <div class="col-sm-4"><strong ng-bind="editPersonnelCtrl.settingInfo.Nickname"></strong></div>
             </div>
         </div>
         <div class="row">
             <div class="col-sm-6">
                 <div class="col-sm-2" data-translate="FullName"></div>
-                <div class="col-sm-4"><strong ng-bind="editPersonnelCtrl.employeeSettingInfo.FullName"></strong></div>
+                <div class="col-sm-4"><strong ng-bind="editPersonnelCtrl.settingInfo.FullName"></strong></div>
                 <div class="col-sm-2" data-translate="JobLevel"></div>
-                <div class="col-sm-4"><strong ng-bind="editPersonnelCtrl.employeeSettingInfo.JobLevel"></strong></div>
+                <div class="col-sm-4"><strong ng-bind="editPersonnelCtrl.settingInfo.JobLevel"></strong></div>
             </div>
         </div>
     </form>
@@ -42,8 +42,8 @@
                 <th data-translate="Action" ng-if="jobDescriptionCtrl.permission === jobDescriptionCtrl.policy.Host"></th>
             </tr>
         </thead>
-        <tbody ng-if="editPersonnelCtrl.employeeSettingInfo.GroupItems.length > 0">
-            <tr class="row-highlight" ng-repeat-start="groupItem in editPersonnelCtrl.employeeSettingInfo.GroupItems">
+        <tbody ng-if="editPersonnelCtrl.settingInfo.GroupItems.length > 0">
+            <tr class="row-highlight" ng-repeat-start="groupItem in editPersonnelCtrl.settingInfo.GroupItems">
                 <td class="text-center">
                     <input type="checkbox" ng-model="groupItem.IsSelectedAll"
                            ng-click="editPersonnelCtrl.checkAll(groupItem.IsSelectedAll, groupItem)"
@@ -69,7 +69,7 @@
                 </td>
             </tr>
         </tbody>
-        <tbody ng-if="editPersonnelCtrl.employeeSettingInfo.GroupItems.length === 0">
+        <tbody ng-if="editPersonnelCtrl.settingInfo.GroupItems.length === 0">
             <tr>
                 <td class="empty-result" colspan="7" data-translate="EmptyResult"></td>
             </tr>
