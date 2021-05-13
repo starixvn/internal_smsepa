@@ -327,6 +327,7 @@
     <Content Include="Content\Site\images\checkbox_no.png" />
     <Content Include="Content\Site\images\checkbox_yes.png" />
     <Content Include="Content\Site\images\CTI-logo.png" />
+    <Content Include="Content\Site\images\CTS-logo.png" />
     <Content Include="Content\Site\images\excel-icon.png" />
     <Content Include="Content\Site\images\GROUP-logo.png" />
     <Content Include="Content\Site\images\GWI-logo.png" />
@@ -892,6 +893,9 @@
     <Content Include="Libs\jquery-3.2.1.min.map" />
     <Content Include="Views\ExportPdf\_ProbationExtendedQuestion.cshtml" />
     <None Include="WebConfigs\Web.PRO.cti.config">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="WebConfigs\Web.PRO.cts.config">
       <SubType>Designer</SubType>
     </None>
   </ItemGroup>

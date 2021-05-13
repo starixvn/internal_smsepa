@@ -36,8 +36,7 @@
         [HttpGet]
         public ActionResult Login()
         {
-            int siteId = 0;
-            int.TryParse(ConfigurationManagerService.GetAppSetting("SiteId"), out siteId);
+            byte.TryParse(ConfigurationManagerService.GetAppSetting("SiteId"), out byte siteId);
             ViewBag.SiteId = siteId;
 
             return View();
@@ -60,8 +59,7 @@
         [HttpPost]
         public ActionResult Login(LoginModel model)
         {
-            int siteId = 0;
-            int.TryParse(ConfigurationManagerService.GetAppSetting("SiteId"), out siteId);
+            byte.TryParse(ConfigurationManagerService.GetAppSetting("SiteId"), out byte siteId);
             ViewBag.SiteId = siteId;
 
             if (!ModelState.IsValid || model == null)

@@ -2,12 +2,13 @@
 {
     public enum SiteId
     {
-        None = 0,
-        SMS = 1,
-        HM = 2,
-        GWI = 3,
-        GROUP = 4,
-        LEXFIN = 5,
-        CTI = 6
+        None,
+        SMS,
+        HM,
+        GWI,
+        GROUP,
+        LEXFIN,
+        CTI,
+        CTS
     }
 }

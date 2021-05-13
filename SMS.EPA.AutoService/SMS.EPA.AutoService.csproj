@@ -150,6 +150,7 @@
     <None Include="AppConfigs\App.PRO.gwi.config" />
     <None Include="AppConfigs\App.PRO.hm.config" />
     <None Include="AppConfigs\App.PRO.lexfin.config" />
+    <None Include="AppConfigs\App.PRO.cts.config" />
     <None Include="AppConfigs\App.PRO.sms.config" />
     <None Include="packages.config" />
     <None Include="SMS.EPA.AutoService.Debug.ruleset" />

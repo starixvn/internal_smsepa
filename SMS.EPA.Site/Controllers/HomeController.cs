@@ -20,8 +20,7 @@
 
         public ActionResult Index()
         {
-            int siteId = 0;
-            int.TryParse(ConfigurationManagerService.GetAppSetting("SiteId"), out siteId);
+            byte.TryParse(ConfigurationManagerService.GetAppSetting("SiteId"), out byte siteId);
             ViewBag.SiteId = siteId;
 
             if (_sessionService.CurrentUser != null)

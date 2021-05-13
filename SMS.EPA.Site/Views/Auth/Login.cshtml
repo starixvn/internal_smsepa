@@ -5,7 +5,7 @@
     Layout = null;
 
     var title = string.Empty;
-    int siteId = (int)ViewBag.SiteId;
+    byte siteId = (byte)ViewBag.SiteId;
 }
 <!DOCTYPE html>
 <html>
@@ -14,23 +14,26 @@
     <title>
         @switch (siteId)
         {
-            case (int)SiteId.SMS:
+            case (byte)SiteId.SMS:
                 title = "Welcome to SMS EPA";
                 break;
-            case (int)SiteId.HM:
+            case (byte)SiteId.HM:
                 title = "Welcome to HM EPA";
                 break;
-            case (int)SiteId.GWI:
+            case (byte)SiteId.GWI:
                 title = "Welcome to GWI EPA";
                 break;
-            case (int)SiteId.GROUP:
+            case (byte)SiteId.GROUP:
                 title = "Welcome to Group EPA";
                 break;
-            case (int)SiteId.LEXFIN:
+            case (byte)SiteId.LEXFIN:
                 title = "Welcome to LEXFIN EPA";
                 break;
-            case (int)SiteId.CTI:
+            case (byte)SiteId.CTI:
                 title = "Welcome to CTI EPA";
+                break;
+            case (byte)SiteId.CTS:
+                title = "Welcome to CTS EPA";
                 break;
         }
         @title
@@ -44,23 +47,26 @@
                 <div>
                     @switch (siteId)
                     {
-                        case (int)SiteId.SMS:
+                        case (byte)SiteId.SMS:
                             <img src="~/Content/Site/images/epa_logo.png" />
                             break;
-                        case (int)SiteId.HM:
+                        case (byte)SiteId.HM:
                             <img src="~/Content/Site/images/Hongma-logo.png" />
                             break;
-                        case (int)SiteId.GWI:
+                        case (byte)SiteId.GWI:
                             <img src="~/Content/Site/images/GWI-logo.png" />
                             break;
-                        case (int)SiteId.GROUP:
+                        case (byte)SiteId.GROUP:
                             <img src="~/Content/Site/images/GROUP-logo.png" />
                             break;
-                        case (int)SiteId.LEXFIN:
+                        case (byte)SiteId.LEXFIN:
                             <img src="~/Content/Site/images/LEXFIN-logo.png" />
                             break;
-                        case (int)SiteId.CTI:
+                        case (byte)SiteId.CTI:
                             <img src="~/Content/Site/images/CTI-logo.png" />
+                            break;
+                        case (byte)SiteId.CTS:
+                            <img src="~/Content/Site/images/CTS-logo.png" />
                             break;
                     }
                 </div>
