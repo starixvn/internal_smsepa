@@ -40,7 +40,7 @@
                 <th data-translate="FullName"></th>
                 <th data-translate="Section"></th>
                 <th data-translate="JobLevel"></th>
-                <th data-translate="Action" ng-show="jobDescriptionCtrl.permission === jobDescriptionCtrl.policy.Host"></th>
+                <th data-translate="Action"></th>
             </tr>
         </thead>
         <tbody class="table-body" ng-if="personnelCtrl.filteredItems.length > 0">
@@ -51,9 +51,15 @@
                 <td ng-bind="employee.FullName"></td>
                 <td ng-bind="employee.GroupName"></td>
                 <td ng-bind="employee.JobLevel"></td>
-                <td class="text-center" ng-if="jobDescriptionCtrl.permission === jobDescriptionCtrl.policy.Host">
-                    <a class="glyphicon glyphicon-edit icon-edit" href="" ng-click="personnelCtrl.edit($event, employee)"
+                <td class="text-center">
+                    <a class="glyphicon glyphicon-edit icon-edit"
+                       href="#/JobDescription/EditEmployee/{{employee.EmployeeId}}"
+                       ng-if="jobDescriptionCtrl.permission === jobDescriptionCtrl.policy.Host"
                        ng-attr-title='{{"Edit" | translate}}'></a>
+                    <a class="icon-view"
+                       href="#/JobDescription/EditEmployee/{{employee.EmployeeId}}"
+                       ng-if="jobDescriptionCtrl.permission !== jobDescriptionCtrl.policy.Host"
+                       ng-attr-title='{{"Details" | translate}}'></a>
                 </td>
             </tr>
         </tbody>

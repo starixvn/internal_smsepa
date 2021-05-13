@@ -2,7 +2,10 @@
     <div class="sub-header">
         <ul class="row breadcrumb float-left">
             <li data-translate="JobDescription"></li>
-            <li class="current" data-translate="Edit"></li>
+            <li class="current">
+                <span ng-if="editGroupCtrl.permission === editGroupCtrl.policy.Host" data-translate="Edit"></span>
+                <span ng-if="editGroupCtrl.permission !== editGroupCtrl.policy.Host" data-translate="Details"></span>
+            </li>
         </ul>
         <button ng-click="editGroupCtrl.backToList()" class="btn btn-cancel">
             <span class="glyphicon glyphicon-menu-left"></span> <span data-translate="BackToList"></span>
@@ -31,7 +34,7 @@
     </form>
     <table class="table table-bordered table-striped table-hover" ng-if="editGroupCtrl.jobLevels.length > 0">
         <thead>
-            <tr class="header-table" ng-if="jobDescriptionCtrl.permission === jobDescriptionCtrl.policy.Host">
+            <tr class="header-table" ng-if="editGroupCtrl.permission === editGroupCtrl.policy.Host">
                 <th colspan="7">
                     <a class="pull-left button-icon create-button" ng-click="editGroupCtrl.createDescriptionGroupItem()">
                         <span class="glyphicon glyphicon-plus icon-add"></span>
@@ -42,18 +45,18 @@
             <tr>
                 <th></th>
                 <th data-translate="Description"></th>
-                <th data-translate="Action" ng-if="jobDescriptionCtrl.permission === jobDescriptionCtrl.policy.Host"></th>
+                <th data-translate="Action" ng-if="editGroupCtrl.permission === editGroupCtrl.policy.Host"></th>
             </tr>
         </thead>
         <tbody ng-repeat="groupItem in editGroupCtrl.settingInfo.GroupItems">
             <tr class="row-highlight">
                 <td class="text-center">
                     <input type="checkbox" ng-model="groupItem.IsSelectedAll"
-                        ng-disabled="jobDescriptionCtrl.permission !== jobDescriptionCtrl.policy.Host"
+                        ng-disabled="editGroupCtrl.permission !== editGroupCtrl.policy.Host"
                         ng-click="editGroupCtrl.handleSelectAllGroupItem(groupItem.IsSelectedAll, groupItem)" />
                 </td>
                 <td><strong ng-bind="groupItem.Name"></strong></td>
-                <td class="text-center" ng-if="jobDescriptionCtrl.permission === jobDescriptionCtrl.policy.Host">
+                <td class="text-center" ng-if="editGroupCtrl.permission === editGroupCtrl.policy.Host">
                     <a class="glyphicon glyphicon-edit icon-edit" href=""
                         ng-click="editGroupCtrl.editDescriptionGroupItem(groupItem)" ng-attr-title='{{"Edit" | translate}}'></a>
                     <a class="glyphicon glyphicon-remove icon-remove" href=""
@@ -65,11 +68,11 @@
             <tr ng-repeat="item in groupItem.Items">
                 <td class="text-center">
                     <input type="checkbox" ng-model="item.IsSelected"
-                        ng-disabled="jobDescriptionCtrl.permission !== jobDescriptionCtrl.policy.Host"
+                        ng-disabled="editGroupCtrl.permission !== editGroupCtrl.policy.Host"
                         ng-click="editGroupCtrl.handleSelectItem(groupItem)" />
                 </td>
                 <td ng-bind="item.Name"></td>
-                <td class="text-center" ng-if="jobDescriptionCtrl.permission === jobDescriptionCtrl.policy.Host">
+                <td class="text-center" ng-if="editGroupCtrl.permission === editGroupCtrl.policy.Host">
                     <a class="glyphicon glyphicon-edit icon-edit" href=""
                         ng-click="editGroupCtrl.editDescriptionItem(item)" ng-attr-title='{{"Edit" | translate}}'></a>
                     <a class="glyphicon glyphicon-remove icon-remove" href=""
@@ -78,10 +81,9 @@
             </tr>
         </tbody>
     </table>
-    <div class="navbar navbar-default navbar-fixed-bottom action-section">
+    <div class="navbar navbar-default navbar-fixed-bottom action-section" ng-if="editGroupCtrl.permission === editGroupCtrl.policy.Host">
         <div class="container text-center">
-            <button class="btn btn-primary" ng-click="editGroupCtrl.save()"
-                ng-if="jobDescriptionCtrl.permission === jobDescriptionCtrl.policy.Host" data-translate="Save"></button>
+            <button class="btn btn-primary" ng-click="editGroupCtrl.save()" data-translate="Save"></button>
         </div>
     </div>
 </div>

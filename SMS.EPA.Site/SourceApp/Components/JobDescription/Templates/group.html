@@ -12,7 +12,7 @@
                 <th data-translate="Code"></th>
                 <th data-translate="Name"></th>
                 <th data-translate="JobLevel"></th>
-                <th data-translate="Action" ng-show="jobDescriptionCtrl.permission === jobDescriptionCtrl.policy.Host"></th>
+                <th data-translate="Action"></th>
             </tr>
         </thead>
         <tbody class="table-body" ng-if="groupCtrl.filteredItems.length > 0">
@@ -21,9 +21,15 @@
                 <td ng-bind="group.Code"></td>
                 <td ng-bind="group.Name"></td>
                 <td ng-bind="group.JobLevels"></td>
-                <td class="text-center" ng-if="jobDescriptionCtrl.permission === jobDescriptionCtrl.policy.Host">
-                    <a class="glyphicon glyphicon-edit icon-edit" href="" ng-click="groupCtrl.edit($event, group)"
+                <td class="text-center">
+                    <a class="glyphicon glyphicon-edit icon-edit"
+                       href="#/JobDescription/EditGroup/{{group.GroupId}}"
+                       ng-if="jobDescriptionCtrl.permission === jobDescriptionCtrl.policy.Host"
                        ng-attr-title='{{"Edit" | translate}}'></a>
+                    <a class="icon-view"
+                       href="#/JobDescription/EditGroup/{{group.GroupId}}"
+                       ng-if="jobDescriptionCtrl.permission !== jobDescriptionCtrl.policy.Host"
+                       ng-attr-title='{{"Details" | translate}}'></a>
                 </td>
             </tr>
         </tbody>

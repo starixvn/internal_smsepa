@@ -2,11 +2,13 @@
     'use strict';
 
     angular.module('jobDescriptionModule').controller('EditPersonnelSettingController', editPersonnelSettingController);
-    editPersonnelSettingController.$inject = ['$routeParams', 'JobDescriptionModel', 'lockScreenService', 'historyFactory', 'notificationFactory'];
+    editPersonnelSettingController.$inject = ['$routeParams', 'JobDescriptionModel', 'lockScreenService', 'utilitiesFactory', 'historyFactory', 'notificationFactory'];
 
-    function editPersonnelSettingController($routeParams, JobDescriptionModel, lockScreenService, historyFactory, notificationFactory) {
+    function editPersonnelSettingController($routeParams, JobDescriptionModel, lockScreenService, utilitiesFactory, historyFactory, notificationFactory) {
         let vm = this;
 
+        vm.permission = 0;
+        vm.policy = utilitiesFactory.policy;
         vm.employeeId = parseInt($routeParams.id);
         vm.settingInfo = {};
         vm.createDescriptionGroupItem = createDescriptionGroupItem;
@@ -148,6 +150,10 @@
         }
 
         function initialize() {
+            JobDescriptionModel.getUserPermission().then(function () {
+                vm.permission = JobDescriptionModel.permission;
+            });
+
             getEmployeeSettingById();
         }
     }

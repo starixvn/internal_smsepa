@@ -36,9 +36,5 @@
         vm.getIndex = function (index, currentPage, pageSize) {
             return CommonModel.getIndex(index, currentPage, pageSize);
         };
-
-        vm.edit = function (event, group) {
-            utilitiesFactory.handleOpenLink(event, 'JobDescription/EditGroup/' + group.GroupId);
-        };
     }
 })();

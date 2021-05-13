@@ -2,11 +2,15 @@
     'use strict';
 
     angular.module('jobDescriptionModule').controller('EditGroupSettingController', editGroupSettingController);
-    editGroupSettingController.$inject = ['$routeParams', 'CommonModel', 'JobDescriptionModel', 'lockScreenService', 'notificationFactory', 'historyFactory'];
+    editGroupSettingController.$inject = ['$routeParams', 'CommonModel', 'JobDescriptionModel', 'lockScreenService',
+        'utilitiesFactory', 'notificationFactory', 'historyFactory'];
 
-    function editGroupSettingController($routeParams, CommonModel, JobDescriptionModel, lockScreenService, notificationFactory, historyFactory) {
+    function editGroupSettingController($routeParams, CommonModel, JobDescriptionModel, lockScreenService,
+        utilitiesFactory, notificationFactory, historyFactory) {
         let vm = this;
 
+        vm.permission = 0;
+        vm.policy = utilitiesFactory.policy;
         vm.groupId = parseInt($routeParams.id);
         vm.originalJobLevelId = 0;
         vm.jobLevelId = 0;
@@ -38,6 +42,10 @@
         }
 
         function initialize() {
+            JobDescriptionModel.getUserPermission().then(function () {
+                vm.permission = JobDescriptionModel.permission;
+            });
+
             CommonModel.getJobLevel().then(
                 function () {
                     vm.jobLevels = CommonModel.jobLevels;

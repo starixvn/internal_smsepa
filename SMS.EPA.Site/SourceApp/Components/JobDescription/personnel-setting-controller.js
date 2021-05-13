@@ -55,10 +55,6 @@
             getEmployeeSettingInfo(groupId, employeeId, vm.filter.showAll);
         }
 
-        vm.edit = function (event, employee) {
-            utilitiesFactory.handleOpenLink(event, 'JobDescription/EditEmployee/' + employee.EmployeeId);
-        }
-
         function getEmployeeSettingInfo(groupId, employeeId, showAll) {
             lockScreenService.start();
             JobDescriptionModel.getEmployeeSettingInfo(groupId, employeeId, showAll).then(
