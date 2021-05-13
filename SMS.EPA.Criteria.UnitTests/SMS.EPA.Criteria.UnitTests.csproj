@@ -96,7 +96,6 @@
     <Compile Include="FlowSetting\GetDepartmentSectionHasSettingCriteriaTests.cs" />
     <Compile Include="FlowSetting\GetDepartmentFlowByIdCriteriaTests.cs" />
     <Compile Include="FlowSetting\GetDepartmentFlowByFlowTemplateIdCriteriaTests.cs" />
-    <Compile Include="JobGrade\GetJobGradeCriteriaTests.cs" />
     <Compile Include="KPIGroup\CreateKPIGroupCriteriaTests.cs" />
     <Compile Include="KPIGroup\DeleteKPIGroupCriteriaTests.cs" />
     <Compile Include="KPIGroup\GetKPIGroupByIdCriteriaTests.cs" />

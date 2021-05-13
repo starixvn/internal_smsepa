@@ -47,7 +47,7 @@
         vm.probationStatusTypes = utilitiesFactory.probationStatusTypes;
         vm.hasRatingByStar = false;
         vm.showRatingScoreByStar = true;
-        vm.jobGrades = [];
+        vm.jobLevels = [];
 
         vm.hoveringLeave = null;
 
@@ -220,8 +220,8 @@
                 vm.evaluateEPAInvalidMessage = message;
             });
 
-            CommonModel.getJobGrade(true).then(function () {
-                vm.jobGrades = CommonModel.jobGrades;
+            CommonModel.getJobLevel(true).then(function () {
+                vm.jobLevels = CommonModel.jobLevels;
             });
 
             CommonModel.getStandardGrade().then(function () {

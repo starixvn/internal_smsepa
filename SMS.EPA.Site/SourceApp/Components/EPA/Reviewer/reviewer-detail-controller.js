@@ -14,7 +14,7 @@
         vm.permission = 0;
         vm.epaId = parseInt($routeParams.id);
         vm.reviewerId = $routeParams.reviewerId;
-        vm.jobGrades = [];
+        vm.jobLevels = [];
         vm.standardGrades = CommonModel.standardGrades;
         vm.policyEnum = utilitiesFactory.policy;
         vm.targetTypeEnum = utilitiesFactory.targetType;
@@ -101,7 +101,6 @@
                 angular.forEach(vm.epaInfo.Process.Evaluators, function (evaluator) {
                     evaluator.TotalScore = utilitiesFactory.parseFloat(evaluator.TotalScore);
                 });
-                vm.epaInfo.Process.AverageScoreByEvaluators = vm.epaInfo.Process.AverageScoreByEvaluators;
                 vm.epaInfo.EvaluatorRecommendation = vm.epaInfo.Recommendations.filter(item => item.ProcessId == utilitiesFactory.processType.Evaluator)[0];
 
                 // reviewer
@@ -118,11 +117,11 @@
                     vm.standardGrades);
                 vm.evaluatedDate = vm.epaInfo.Process.CurrentProcess.EvaluateDate ? vm.epaInfo.Process.CurrentProcess.EvaluateDate : null;
 
-                if (vm.epaInfo.Recommendation && vm.epaInfo.Recommendation.JobGrade && vm.epaInfo.Recommendation.JobGrade.JobGradeId) {
-                    var index = vm.jobGrades.map(function (e) { return e.JobGradeId; }).indexOf(vm.epaInfo.Recommendation.JobGrade.JobGradeId);
+                if (vm.epaInfo.Recommendation && vm.epaInfo.Recommendation.JobLevel && vm.epaInfo.Recommendation.JobLevel.JobLevelId) {
+                    var index = vm.jobLevels.map(function (e) { return e.JobLevelId; }).indexOf(vm.epaInfo.Recommendation.JobLevel.JobLevelId);
 
                     if (index === -1) {
-                        vm.jobGrades.push(vm.epaInfo.Recommendation.JobGrade);
+                        vm.jobLevels.push(vm.epaInfo.Recommendation.JobLevel);
                     }
                 }
 
@@ -145,8 +144,8 @@
                 vm.scoreInputValidMessage = message;
             });
 
-            CommonModel.getJobGrade(true).then(function () {
-                vm.jobGrades = CommonModel.jobGrades;
+            CommonModel.getJobLevel(true).then(function () {
+                vm.jobLevels = CommonModel.jobLevels;
             });
 
             CommonModel.getStandardGrade().then(function () {

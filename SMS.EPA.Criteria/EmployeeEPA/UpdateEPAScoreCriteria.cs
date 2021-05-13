@@ -16,7 +16,7 @@
         private const string KPIScoreXmlTemplate = "<Row KPIId='{0}' KPIGroupId='{1}' Score='{2}' Rate='{3}' IsMaxScore='{4}' Comment='{5}' />";
         private const string ExtendedQuestionXMLTemplate = "<Row SubQuestionId='{0}' IsAgree='{1}' />";
         private const string RecommendationXmlTemplate = @"<Row EPAId='{0}' ProbationStatus='{1}' Promoted='{2}' PayIncreased='{3}'
-            JobGradeIncreased='{4}' JobGradeId='{5}' />";
+            JobLevelIncreased='{4}' JobLevelId='{5}' />";
 
         private readonly ICryptographyService _cryptographyService;
 
@@ -103,8 +103,8 @@
                     result.Append(Constants.BeginRootTag);
                     foreach (EPARecommendation recommendation in Recommendations)
                     {
-                        int? jobGradeId =
-                            (recommendation.JobGrade == null || !recommendation.JobGradeIncreased) ? (int?)null : recommendation.JobGrade.JobGradeId;
+                        int? jobLevelId =
+                            (recommendation.JobLevel == null || !recommendation.JobLevelIncreased) ? (int?)null : recommendation.JobLevel.JobLevelId;
 
                         result.AppendFormat(
                                 RecommendationXmlTemplate,
@@ -112,8 +112,8 @@
                                 recommendation.ProbationStatus,
                                 recommendation.Promoted,
                                 recommendation.PayIncreased,
-                                recommendation.JobGradeIncreased,
-                                jobGradeId);
+                                recommendation.JobLevelIncreased,
+                                jobLevelId);
                     }
 
                     result.Append(Constants.EndRootTag);

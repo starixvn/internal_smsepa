@@ -10,7 +10,7 @@
             restrict: 'E',
             scope: {
                 epaInfo: '=',
-                jobGrades: '='
+                jobLevels: '='
             },
             controller: function () {
                 var vm = this;

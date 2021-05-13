@@ -43,12 +43,12 @@
                         <td class="text-center">
                             <div>
                                 <input type="checkbox" disabled
-                                       ng-model="reviewerDetailCtrl.epaInfo.EvaluatorRecommendation.JobGradeIncreased" />
+                                       ng-model="reviewerDetailCtrl.epaInfo.EvaluatorRecommendation.JobLevelIncreased" />
                             </div>
-                            <div ng-if="reviewerDetailCtrl.epaInfo.EvaluatorRecommendation.JobGradeIncreased">
-                                <select class="jobGrades" disabled
-                                        ng-model="reviewerDetailCtrl.epaInfo.EvaluatorRecommendation.JobGrade.JobGradeId"
-                                        ng-options="opt.JobGradeId as opt.Name for opt in reviewerDetailCtrl.jobGrades">
+                            <div ng-if="reviewerDetailCtrl.epaInfo.EvaluatorRecommendation.JobLevelIncreased">
+                                <select class="jobLevels" disabled
+                                        ng-model="reviewerDetailCtrl.epaInfo.EvaluatorRecommendation.JobLevel.JobLevelId"
+                                        ng-options="opt.JobLevelId as opt.Name for opt in reviewerDetailCtrl.jobLevels">
                                     <option style="display: none" value="">-- Select a job level --</option>
                                 </select>
                             </div>
@@ -56,14 +56,14 @@
                         <td class="text-center">
                             <div>
                                 <input type="checkbox"
-                                       ng-model="reviewerDetailCtrl.epaInfo.Recommendation.JobGradeIncreased"
+                                       ng-model="reviewerDetailCtrl.epaInfo.Recommendation.JobLevelIncreased"
                                        ng-disabled="!reviewerDetailCtrl.epaInfo.IsAllowedToEdit" />
                             </div>
-                            <div ng-show="reviewerDetailCtrl.epaInfo.Recommendation.JobGradeIncreased">
-                                <select class="jobGrades"
-                                        ng-model="reviewerDetailCtrl.epaInfo.Recommendation.JobGrade.JobGradeId"
+                            <div ng-show="reviewerDetailCtrl.epaInfo.Recommendation.JobLevelIncreased">
+                                <select class="jobLevels"
+                                        ng-model="reviewerDetailCtrl.epaInfo.Recommendation.JobLevel.JobLevelId"
                                         ng-disabled="!reviewerDetailCtrl.epaInfo.IsAllowedToEdit"
-                                        ng-options="opt.JobGradeId as opt.Name for opt in reviewerDetailCtrl.jobGrades">
+                                        ng-options="opt.JobLevelId as opt.Name for opt in reviewerDetailCtrl.jobLevels">
                                     <option style="display: none" value="">-- Select a job level --</option>
                                 </select>
                                 <label class="error-message">(*)</label>

@@ -12,7 +12,7 @@
 
         vm.epaId = parseInt($routeParams.id);
         vm.allowedExportPdf = $routeParams.exportPdf;
-        vm.jobGrades = [];
+        vm.jobLevels = [];
         vm.standardGrades = [];
         vm.isViewDetail = true;
 
@@ -55,17 +55,6 @@
                     vm.epaInfo.Grade = result.Grade;
                 }
 
-                if (vm.epaInfo.Recommendation &&
-                    vm.epaInfo.Recommendation.JobGrade &&
-                    vm.epaInfo.Recommendation.JobGrade.JobGradeId) {
-                    var index = vm.jobGrades.map(function(e) { return e.JobGradeId; })
-                        .indexOf(vm.epaInfo.Recommendation.JobGrade.JobGradeId);
-
-                    if (index === -1) {
-                        vm.jobGrades.push(vm.epaInfo.Recommendation.JobGrade);
-                    }
-                }
-
                 lockScreenService.stop();
             });
         }
@@ -73,8 +62,8 @@
         function initialize() {
             lockScreenService.start();
 
-            CommonModel.getJobGrade(null).then(function () {
-                vm.jobGrades = CommonModel.jobGrades;
+            CommonModel.getJobLevel(null).then(function () {
+                vm.jobLevels = CommonModel.jobLevels;
             });
 
             CommonModel.getStandardGrade().then(function () {

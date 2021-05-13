@@ -13,9 +13,9 @@
 
         public bool PayIncreased { get; set; }
 
-        public bool JobGradeIncreased { get; set; }
+        public bool JobLevelIncreased { get; set; }
 
-        public JobGradeModel JobGrade { get; set; }
+        public JobLevel JobLevel { get; set; }
 
         public bool PassedProbation => ProbationStatus.HasValue && ProbationStatus.Value == (int)ProbationStatusType.PassProbation;
 

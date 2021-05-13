@@ -238,9 +238,6 @@
   <Function Name="Menu">
     <Setting Key="Menu_GetByEmployeeId" SpName="Menu_GetByEmployeeId" DbName="SMSEPA" Plain="0"></Setting>
   </Function>
-  <Function Name="Job Grade">
-    <Setting Key="JobGrade_Get" SpName="JobGrade_Get" DbName="SMSEPA" Plain="0"></Setting>
-  </Function>
     <Function Name="Job Level">
         <Setting Key="JobLevel_Get" SpName="JobLevel_Get" DbName="SMSEPA" Plain="0" />
     </Function>

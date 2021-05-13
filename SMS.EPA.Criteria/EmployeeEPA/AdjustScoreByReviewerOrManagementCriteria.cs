@@ -16,7 +16,7 @@
             EvaluatorId='{3}' AdjustScore='{4}' TotalScore='{5}' Comment='{6}' />";
 
         private const string RecommendationXmlTemplate = @"<Row EPAId='{0}' ProbationStatus='{1}' Promoted='{2}' PayIncreased='{3}'
-            JobGradeIncreased='{4}' JobGradeId='{5}' />";
+            JobLevelIncreased='{4}' JobLevelId='{5}' />";
 
         public string EPADetails
         {
@@ -56,8 +56,8 @@
                 {
                     foreach (EPARecommendation recommendation in Recommendations)
                     {
-                        int? jobGradeId =
-                            (recommendation.JobGrade == null || !recommendation.JobGradeIncreased) ? (int?)null : recommendation.JobGrade.JobGradeId;
+                        int? jobLevelId =
+                            (recommendation.JobLevel == null || !recommendation.JobLevelIncreased) ? (int?)null : recommendation.JobLevel.JobLevelId;
 
                         result.AppendFormat(
                                 RecommendationXmlTemplate,
@@ -65,8 +65,8 @@
                                 recommendation.ProbationStatus,
                                 recommendation.Promoted,
                                 recommendation.PayIncreased,
-                                recommendation.JobGradeIncreased,
-                                jobGradeId);
+                                recommendation.JobLevelIncreased,
+                                jobLevelId);
                     }
                 }
 

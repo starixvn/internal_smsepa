@@ -34,7 +34,7 @@
         vm.permission = 0;
         vm.epaId = parseInt($routeParams.id);
         vm.managementId = $routeParams.managementId;
-        vm.jobGrades = [];
+        vm.jobLevels = [];
         vm.standardGrades = CommonModel.standardGrades;
         vm.policyEnum = utilitiesFactory.policy;
         vm.targetTypeEnum = utilitiesFactory.targetType;
@@ -161,8 +161,8 @@
                 vm.scoreInputValidMessage = message;
             });
 
-            CommonModel.getJobGrade(true).then(function () {
-                vm.jobGrades = CommonModel.jobGrades;
+            CommonModel.getJobLevel(true).then(function () {
+                vm.jobLevels = CommonModel.jobLevels;
             });
 
             CommonModel.getStandardGrade().then(function () {

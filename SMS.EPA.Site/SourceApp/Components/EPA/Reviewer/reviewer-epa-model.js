@@ -123,8 +123,8 @@
                 if ((epaInfo.IsProbation || epaInfo.IsPromotion) && epaInfo.Recommendation.ProbationStatus === null) {
                     epaInfo.Recommendation.Invalid = true;
                     isValid = false;
-                } else if (epaInfo.IsSemiAnnual && epaInfo.Recommendation.JobGradeIncreased
-                    && (!epaInfo.Recommendation.JobGrade || !epaInfo.Recommendation.JobGrade.JobGradeId)) {
+                } else if (epaInfo.IsSemiAnnual && epaInfo.Recommendation.JobLevelIncreased
+                    && (!epaInfo.Recommendation.JobLevel || !epaInfo.Recommendation.JobLevel.JobLevelId)) {
                     epaInfo.Recommendation.Invalid = true;
                     isValid = false;
                 } else {

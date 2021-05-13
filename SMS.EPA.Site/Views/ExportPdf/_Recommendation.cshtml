@@ -101,13 +101,13 @@
                     <td class="border-r-b align-center">
                         @if (evaluator != null)
                         { 
-                            @(evaluator.JobGrade != null ? evaluator.JobGrade.Name : string.Empty)
+                            @(evaluator.JobLevel != null ? evaluator.JobLevel.Name : string.Empty)
                         }
                     </td>
                     <td class="border-r-b align-center">
                         @if (reviewer != null)
                         {
-                            @(reviewer.JobGrade != null ? reviewer.JobGrade.Name : string.Empty)
+                            @(reviewer.JobLevel != null ? reviewer.JobLevel.Name : string.Empty)
                         }
                     </td>
                 </tr>

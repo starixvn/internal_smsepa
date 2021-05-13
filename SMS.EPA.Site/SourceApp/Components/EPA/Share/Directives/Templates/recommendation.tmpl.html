@@ -41,12 +41,12 @@
                             <td class="text-center">
                                 <div>
                                     <input type="checkbox" disabled
-                                           ng-checked="recommendationCtrl.evaluatorRecommendation.JobGradeIncreased" />
+                                           ng-checked="recommendationCtrl.evaluatorRecommendation.JobLevelIncreased" />
                                 </div>
-                                <div ng-if="recommendationCtrl.evaluatorRecommendation.JobGradeIncreased">
-                                    <select class="jobGrades" disabled
-                                            ng-model="recommendationCtrl.evaluatorRecommendation.JobGrade.JobGradeId"
-                                            ng-options="opt.JobGradeId as opt.Name for opt in recommendationCtrl.jobGrades">
+                                <div ng-if="recommendationCtrl.evaluatorRecommendation.JobLevelIncreased">
+                                    <select class="jobLevels" disabled
+                                            ng-model="recommendationCtrl.evaluatorRecommendation.JobLevel.JobLevelId"
+                                            ng-options="opt.JobLevelId as opt.Name for opt in recommendationCtrl.jobLevels">
                                         <option style="display: none" value="">-- Select a job level --</option>
                                     </select>
                                 </div>
@@ -54,12 +54,12 @@
                             <td class="text-center">
                                 <div>
                                     <input type="checkbox" disabled
-                                           ng-checked="recommendationCtrl.recommendation.JobGradeIncreased" />
+                                           ng-checked="recommendationCtrl.recommendation.JobLevelIncreased" />
                                 </div>
-                                <div ng-show="recommendationCtrl.recommendation.JobGradeIncreased">
-                                    <select class="jobGrades" disabled
-                                            ng-model="recommendationCtrl.recommendation.JobGrade.JobGradeId"
-                                            ng-options="opt.JobGradeId as opt.Name for opt in recommendationCtrl.jobGrades">
+                                <div ng-show="recommendationCtrl.recommendation.JobLevelIncreased">
+                                    <select class="jobLevels" disabled
+                                            ng-model="recommendationCtrl.recommendation.JobLevel.JobLevelId"
+                                            ng-options="opt.JobLevelId as opt.Name for opt in recommendationCtrl.jobLevels">
                                         <option style="display: none" value="">-- Select a job level --</option>
                                     </select>
                                 </div>

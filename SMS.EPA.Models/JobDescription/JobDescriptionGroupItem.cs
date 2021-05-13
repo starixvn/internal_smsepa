@@ -8,7 +8,7 @@
         public int GroupItemId { get; set; }
         public string Name { get; set; }
         public IEnumerable<JobDescriptionItem> Items { get; set; } = new List<JobDescriptionItem>();
-        public bool IsSelectedAll => Items.All(x => x.IsSelected);
+        public bool IsSelectedAll => Items.Any() && Items.All(x => x.IsSelected);
        
     }
 }

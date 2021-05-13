@@ -28,7 +28,6 @@
             menus: [],
             remindDay: [0, 1, 2, 3, 4, 5, 6, 7],
             jobTitles: [],
-            jobGrades: [],
             jobLevels: [],
             permission: 0
         };
@@ -223,14 +222,6 @@
         model.getUserPermissionOnFlowManagement = function () {
             return commonFactory.getUserPermissionOnFlowManagement().success(function (permission) {
                 model.permission = parseInt(permission, 10);
-            }).error(function (response, status) {
-                errorFactory.errorHandle(status);
-            });
-        };
-
-        model.getJobGrade = function (isActive) {
-            return commonFactory.getJobGrade(isActive).success(function (jobGrades) {
-                model.jobGrades = jobGrades;
             }).error(function (response, status) {
                 errorFactory.errorHandle(status);
             });

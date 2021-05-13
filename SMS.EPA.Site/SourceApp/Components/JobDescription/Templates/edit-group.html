@@ -35,7 +35,7 @@
     <table class="table table-bordered table-striped table-hover" ng-if="editGroupCtrl.jobLevels.length > 0">
         <thead>
             <tr class="header-table" ng-if="editGroupCtrl.permission === editGroupCtrl.policy.Host">
-                <th colspan="7">
+                <th colspan="3">
                     <a class="pull-left button-icon create-button" ng-click="editGroupCtrl.createDescriptionGroupItem()">
                         <span class="glyphicon glyphicon-plus icon-add"></span>
                         <span class="button-text" data-translate="CreateDesciptionGroup"></span>
@@ -52,32 +52,37 @@
             <tr class="row-highlight">
                 <td class="text-center">
                     <input type="checkbox" ng-model="groupItem.IsSelectedAll"
-                        ng-disabled="editGroupCtrl.permission !== editGroupCtrl.policy.Host"
-                        ng-click="editGroupCtrl.handleSelectAllGroupItem(groupItem.IsSelectedAll, groupItem)" />
+                           ng-disabled="editGroupCtrl.permission !== editGroupCtrl.policy.Host"
+                           ng-click="editGroupCtrl.handleSelectAllGroupItem(groupItem.IsSelectedAll, groupItem)" />
                 </td>
                 <td><strong ng-bind="groupItem.Name"></strong></td>
                 <td class="text-center" ng-if="editGroupCtrl.permission === editGroupCtrl.policy.Host">
                     <a class="glyphicon glyphicon-edit icon-edit" href=""
-                        ng-click="editGroupCtrl.editDescriptionGroupItem(groupItem)" ng-attr-title='{{"Edit" | translate}}'></a>
+                       ng-click="editGroupCtrl.editDescriptionGroupItem(groupItem)" ng-attr-title='{{"Edit" | translate}}'></a>
                     <a class="glyphicon glyphicon-remove icon-remove" href=""
-                        ng-click="editGroupCtrl.deleteDescriptionGroupItem(groupItem)" ng-attr-title='{{"Delete" | translate}}'></a>
+                       ng-click="editGroupCtrl.deleteDescriptionGroupItem(groupItem)" ng-attr-title='{{"Delete" | translate}}'></a>
                     <a class="glyphicon glyphicon-plus icon-add" href=""
-                        ng-click="editGroupCtrl.createDescriptionItem(groupItem.GroupItemId)" title="Add Descripton Item"></a>
+                       ng-click="editGroupCtrl.createDescriptionItem(groupItem.GroupItemId)" title="Add Descripton Item"></a>
                 </td>
             </tr>
             <tr ng-repeat="item in groupItem.Items">
                 <td class="text-center">
                     <input type="checkbox" ng-model="item.IsSelected"
-                        ng-disabled="editGroupCtrl.permission !== editGroupCtrl.policy.Host"
-                        ng-click="editGroupCtrl.handleSelectItem(groupItem)" />
+                           ng-disabled="editGroupCtrl.permission !== editGroupCtrl.policy.Host"
+                           ng-click="editGroupCtrl.handleSelectItem(groupItem)" />
                 </td>
                 <td ng-bind="item.Name"></td>
                 <td class="text-center" ng-if="editGroupCtrl.permission === editGroupCtrl.policy.Host">
                     <a class="glyphicon glyphicon-edit icon-edit" href=""
-                        ng-click="editGroupCtrl.editDescriptionItem(item)" ng-attr-title='{{"Edit" | translate}}'></a>
+                       ng-click="editGroupCtrl.editDescriptionItem(item)" ng-attr-title='{{"Edit" | translate}}'></a>
                     <a class="glyphicon glyphicon-remove icon-remove" href=""
-                        ng-click="editGroupCtrl.deleteDescriptionItem(item)" ng-attr-title='{{"Delete" | translate}}'></a>
+                       ng-click="editGroupCtrl.deleteDescriptionItem(item)" ng-attr-title='{{"Delete" | translate}}'></a>
                 </td>
+            </tr>
+        </tbody>
+        <tbody ng-if="editGroupCtrl.settingInfo.GroupItems.length === 0">
+            <tr>
+                <td class="empty-result" colspan="3" data-translate="EmptyResult"></td>
             </tr>
         </tbody>
     </table>

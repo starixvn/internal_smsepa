@@ -14,7 +14,7 @@
 
         public string AnnualIncrement { get; set; }
 
-        public string JobGrade { get; set; }
+        public string JobLevel { get; set; }
 
         public byte? ProbationStatus { get; set; }
     }

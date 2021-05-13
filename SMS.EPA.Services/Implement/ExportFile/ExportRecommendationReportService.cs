@@ -121,10 +121,10 @@
 
         private void FormatProbationTemplate()
         {
-            const int jobGradeFieldColIndex = 6;
+            const int jobLevelFieldColIndex = 6;
             const int anualIncrementFieldColIndex = 5;
 
-            Sheet.RemoveColumn(jobGradeFieldColIndex);
+            Sheet.RemoveColumn(jobLevelFieldColIndex);
             Sheet.RemoveColumn(anualIncrementFieldColIndex);
 
             var recommendationCell = new CellRangeAddress(2, 3, 4, 4);
@@ -146,7 +146,7 @@
                 curRow.CreateCell(colIndex++).SetCellValue(recommendation.Section);
                 curRow.CreateCell(colIndex++).SetCellValue(recommendation.Promotion);
                 curRow.CreateCell(colIndex++).SetCellValue(recommendation.AnnualIncrement);
-                curRow.CreateCell(colIndex).SetCellValue(recommendation.JobGrade);
+                curRow.CreateCell(colIndex).SetCellValue(recommendation.JobLevel);
 
                 rowIndex++;
             }

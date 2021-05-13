@@ -241,14 +241,14 @@
         {
             using (var db = new ObjectDb(criteria.GetSettingKey()))
             {
-                return db.Query<EPARecommendation, JobGradeModel, EPARecommendation>(
+                return db.Query<EPARecommendation, JobLevel, EPARecommendation>(
                         (recommendation, job) =>
                         {
-                            recommendation.JobGrade = job;
+                            recommendation.JobLevel = job;
 
                             return recommendation;
                         },
-                        "JobGradeId",
+                        "JobLevelId",
                         criteria.GetSpParams());
             }
         }

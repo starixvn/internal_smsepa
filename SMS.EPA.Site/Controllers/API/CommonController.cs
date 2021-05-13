@@ -224,13 +224,6 @@
             return SessionService.GetPermission(EPAFunctionKey.FlowManagement);
         }
 
-        [HttpGet]
-        public async Task<IEnumerable<JobGradeModel>> GetJobGrade(bool? isActive = true)
-        {
-            var criteria = new GetJobGradeCriteria { IsActive = isActive };
-            return await baseService.GetDataAsync<JobGradeModel>(criteria);
-        }
-
         public async Task<IEnumerable<JobLevel>> GetJobLevel(bool? isActive = true)
         {
             var criteria = new GetJobLevelCriteria { IsActive = isActive };
