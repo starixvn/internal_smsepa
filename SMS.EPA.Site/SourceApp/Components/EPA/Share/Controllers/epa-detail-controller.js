@@ -4,11 +4,10 @@
     /* jshint validthis:true */
 
     angular.module('epaModule').controller('EPADetailController', epaDetailController);
-    epaDetailController.$inject = ['$location', '$routeParams', 'EvaluationModel', 'CommonModel', 'utilitiesFactory', 'historyFactory',
-        'lockScreenService', 'baseUrl'];
+    epaDetailController.$inject = ['$location', '$routeParams', 'EvaluationModel', 'CommonModel', 'historyFactory', 'lockScreenService', 'baseUrl'];
 
-    function epaDetailController($location, $routeParams, EvaluationModel, CommonModel, utilitiesFactory, historyFactory, lockScreenService, baseUrl) {
-        var vm = this;
+    function epaDetailController($location, $routeParams, EvaluationModel, CommonModel, historyFactory, lockScreenService, baseUrl) {
+        let vm = this;
 
         vm.epaId = parseInt($routeParams.id);
         vm.allowedExportPdf = $routeParams.exportPdf;
@@ -19,20 +18,20 @@
         vm.back = function () {
             if ($routeParams.detailRpt) {
                 $location.path(baseUrl + 'Report/EPADetailReport').search({
-                        periodId: $routeParams.periodId,
-                        departmentId: $routeParams.departmentId,
-                        phaseIds: $routeParams.phaseIds,
-                        isLocal: $routeParams.isLocal,
-                        employeeId: $routeParams.employeeId
-                    });
+                    periodId: $routeParams.periodId,
+                    departmentId: $routeParams.departmentId,
+                    phaseIds: $routeParams.phaseIds,
+                    isLocal: $routeParams.isLocal,
+                    employeeId: $routeParams.employeeId
+                });
             } else {
                 historyFactory.back();
             }
         };
 
         vm.exportPdf = function () {
-            var url = baseUrl + 'ExportPdf/ExportPdf/' + vm.epaId;
-            var iframe = $('body iframe');
+            const url = baseUrl + 'ExportPdf/ExportPdf/' + vm.epaId;
+            let iframe = $('body iframe');
 
             if (iframe.length === 0) {
                 iframe = $('<iframe width="0" height="0" class="display-none"></iframe>');
@@ -43,13 +42,12 @@
         };
 
         function getEPAInfoById() {
-            EvaluationModel.getEPAInfoById(vm.epaId).then(function() {
+            EvaluationModel.getEPAInfoById(vm.epaId).then(function () {
                 vm.epaInfo = EvaluationModel.epaInfo;
                 vm.epaInfo.Employee.Avatar = baseUrl + vm.epaInfo.Employee.Avatar;
 
                 if (vm.epaInfo.Process.PerformanceScore !== null) {
-
-                    var result = EvaluationModel.calculateScoreAndGradeToDisplay(vm.epaInfo);
+                    const result = EvaluationModel.calculateScoreAndGradeToDisplay(vm.epaInfo);
 
                     vm.epaInfo.FinalScore = result.FinalScore.toString();
                     vm.epaInfo.Grade = result.Grade;

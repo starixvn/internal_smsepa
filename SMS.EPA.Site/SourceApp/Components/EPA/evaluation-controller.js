@@ -1,144 +1,122 @@
-﻿'use strict';
-/*global epaModule*/
+﻿(function (angular) {
+    'use strict';
 
-epaModule.controller('ModalAdjustScoreController',
-    [
-        '$uibModalInstance',
-        'EvaluationModel',
-        'ReviewerEPAModel',
-        'ManagementEPAModel',
-        'ReviewerManagementModel',
-        'utilitiesFactory',
-        'notificationFactory',
-        'selectedEmployees',
-        'isReviewer',
-        function(
-            $uibModalInstance,
-            EvaluationModel,
-            ReviewerEPAModel,
-            ManagementEPAModel,
-            ReviewerManagementModel,
-            utilitiesFactory,
-            notificationFactory,
-            selectedEmployees,
-            isReviewer) {
-            var vm = this;
+    angular.module('epaModule').controller('ModalAdjustScoreController', modalAdjustScoreController);
+    modalAdjustScoreController.$inject = ['$uibModalInstance', 'ReviewerEPAModel', 'ManagementEPAModel',
+        'ReviewerManagementModel', 'notificationFactory', 'selectedEmployees', 'isReviewer'];
 
-            vm.adjust = {
-                Score: '',
-                Comment: ''
-            };
+    function modalAdjustScoreController($uibModalInstance, ReviewerEPAModel, ManagementEPAModel,
+        ReviewerManagementModel, notificationFactory, selectedEmployees, isReviewer) {
+        let vm = this;
 
-            vm.selectedEmployees = selectedEmployees;
-            vm.isReviewer = isReviewer;
+        vm.adjust = {
+            Score: '',
+            Comment: ''
+        };
 
-            vm.ok = function() {
-                if (!vm.adjust.Score) {
-                    notificationFactory.error("ScoreRequire");
-                } else {
-                    if (vm.isReviewer) {
-                        ReviewerManagementModel.calculateAdjustScoreMultiple(vm.selectedEmployees, vm.adjust, true);
-                        ReviewerEPAModel.adjustScoreByReviewer(vm, vm.selectedEmployees);
-                    } else {
-                        ReviewerManagementModel.calculateAdjustScoreMultiple(vm.selectedEmployees, vm.adjust, false);
-                        ManagementEPAModel.adjustScoreByManagement(vm, vm.selectedEmployees);
-                    }
+        vm.selectedEmployees = selectedEmployees;
+        vm.isReviewer = isReviewer;
 
-                    $uibModalInstance.close(vm.adjust);
-                }
-            };
-
-            vm.cancel = function() {
-                $uibModalInstance.dismiss('cancel');
-            };
-        }
-    ]);
-
-epaModule.controller('ModalUpdateCommentController',
-    [
-        '$uibModalInstance',
-        'EvaluationModel',
-        'ReviewerEPAModel',
-        'ManagementEPAModel',
-        'ReviewerManagementModel',
-        'utilitiesFactory',
-        'epaInfo',
-        'comment',
-        'isEdit',
-        'isReviewer',
-        function($uibModalInstance,
-            EvaluationModel,
-            ReviewerEPAModel,
-            ManagementEPAModel,
-            ReviewerManagementModel,
-            utilitiesFactory,
-            epaInfo,
-            comment,
-            isEdit,
-            isReviewer) {
-            var vm = this;
-
-            vm.comment = comment;
-            vm.isEdit = isEdit;
-            vm.isReviewer = isReviewer;
-            vm.epaInfo = epaInfo;
-
-            vm.ok = function() {
-                var model = [];
-                var scoreAdjusted = utilitiesFactory.parseFloat(vm.epaInfo.Process.CurrentProcess.AdjustScoreOriginal);
-                var averageScore = vm.epaInfo.Process.AverageScoreByEvaluators;
-
-                if (!vm.isReviewer && vm.epaInfo.Process.Reviewers.length > 0) {
-                    averageScore = vm.epaInfo.Process.AverageScoreByReviewers;
-                }
-
-                var totalScore = averageScore + scoreAdjusted;
-                vm.epaInfo.Process.CurrentProcess.TotalScore = totalScore;
-                vm.epaInfo.Process.CurrentProcess.AdjustScore = scoreAdjusted;
-                vm.epaInfo.Process.CurrentProcess.Comment = vm.comment;
-                model.push(vm.epaInfo);
-
+        vm.ok = function () {
+            if (!vm.adjust.Score) {
+                notificationFactory.error("ScoreRequire");
+            } else {
                 if (vm.isReviewer) {
-                    ReviewerEPAModel.adjustScoreByReviewer(vm, model);
+                    ReviewerManagementModel.calculateAdjustScoreMultiple(vm.selectedEmployees, vm.adjust, true);
+                    ReviewerEPAModel.adjustScoreByReviewer(vm, vm.selectedEmployees);
                 } else {
-                    ManagementEPAModel.adjustScoreByManagement(vm, model);
+                    ReviewerManagementModel.calculateAdjustScoreMultiple(vm.selectedEmployees, vm.adjust, false);
+                    ManagementEPAModel.adjustScoreByManagement(vm, vm.selectedEmployees);
                 }
 
-                $uibModalInstance.close(vm.comment);
-            };
+                $uibModalInstance.close(vm.adjust);
+            }
+        };
 
-            vm.cancel = function() {
-                $uibModalInstance.dismiss('cancel');
-            };
-        }
-    ]);
+        vm.cancel = function () {
+            $uibModalInstance.dismiss('cancel');
+        };
+    }
+})(angular);
 
-epaModule.controller('ModalNotificationController',
-    [
-        '$uibModalInstance', 'message',
-        function($uibModalInstance, message) {
-            var vm = this;
+(function (angular) {
+    'use strict';
 
-            vm.message = message;
+    angular.module('epaModule').controller('ModalUpdateCommentController', modalUpdateCommentController);
+    modalUpdateCommentController.$inject = ['$uibModalInstance', 'ReviewerEPAModel', 'ManagementEPAModel', 'utilitiesFactory',
+        'epaInfo', 'comment', 'isEdit', 'isReviewer'];
 
-            vm.cancel = function() {
-                $uibModalInstance.dismiss('cancel');
-            };
-        }
-    ]);
+    function modalUpdateCommentController($uibModalInstance, ReviewerEPAModel, ManagementEPAModel, utilitiesFactory,
+        epaInfo, comment, isEdit, isReviewer) {
+        let vm = this;
 
-epaModule.controller("ModalRemindController",
-    [
-        '$uibModalInstance',
-        function($uibModalInstance) {
-            var vm = this;
+        vm.comment = comment;
+        vm.isEdit = isEdit;
+        vm.isReviewer = isReviewer;
+        vm.epaInfo = epaInfo;
 
-            vm.ok = function() {
-                $uibModalInstance.close();
-            };
+        vm.ok = function () {
+            const model = [];
+            const scoreAdjusted = utilitiesFactory.parseFloat(vm.epaInfo.Process.CurrentProcess.AdjustScoreOriginal);
+            let averageScore = vm.epaInfo.Process.AverageScoreByEvaluators;
 
-            vm.cancel = function() {
-                $uibModalInstance.dismiss("cancel");
-            };
-        }
-    ]);
+            if (!vm.isReviewer && vm.epaInfo.Process.Reviewers.length > 0) {
+                averageScore = vm.epaInfo.Process.AverageScoreByReviewers;
+            }
+
+            var totalScore = averageScore + scoreAdjusted;
+            vm.epaInfo.Process.CurrentProcess.TotalScore = totalScore;
+            vm.epaInfo.Process.CurrentProcess.AdjustScore = scoreAdjusted;
+            vm.epaInfo.Process.CurrentProcess.Comment = vm.comment;
+            model.push(vm.epaInfo);
+
+            if (vm.isReviewer) {
+                ReviewerEPAModel.adjustScoreByReviewer(vm, model);
+            } else {
+                ManagementEPAModel.adjustScoreByManagement(vm, model);
+            }
+
+            $uibModalInstance.close(vm.comment);
+        };
+
+        vm.cancel = function () {
+            $uibModalInstance.dismiss('cancel');
+        };
+    }
+})(angular);
+
+(function (angular) {
+    'use strict';
+
+    angular.module('epaModule').controller('ModalNotificationController', modalNotificationController);
+    modalNotificationController.$inject = ['$uibModalInstance', 'message'];
+
+    function modalNotificationController($uibModalInstance, message) {
+        let vm = this;
+
+        vm.message = message;
+
+        vm.cancel = function () {
+            $uibModalInstance.dismiss('cancel');
+        };
+    }
+})(angular);
+
+(function (angular) {
+    'use strict';
+
+    angular.module('epaModule').controller('ModalRemindController', modalRemindController);
+    modalRemindController.$inject = ['$uibModalInstance'];
+
+    function modalRemindController($uibModalInstance) {
+        let vm = this;
+
+        vm.ok = function () {
+            $uibModalInstance.close();
+        };
+
+        vm.cancel = function () {
+            $uibModalInstance.dismiss("cancel");
+        };
+    }
+})(angular);

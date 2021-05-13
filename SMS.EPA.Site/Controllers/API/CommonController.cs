@@ -224,7 +224,7 @@
             return SessionService.GetPermission(EPAFunctionKey.FlowManagement);
         }
 
-        public async Task<IEnumerable<JobLevel>> GetJobLevel(bool? isActive = true)
+        public async Task<IEnumerable<JobLevel>> GetJobLevel(bool? isActive = null)
         {
             var criteria = new GetJobLevelCriteria { IsActive = isActive };
             return await baseService.GetDataAsync<JobLevel>(criteria);

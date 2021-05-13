@@ -46,17 +46,15 @@
                 vm.permission = JobDescriptionModel.permission;
             });
 
-            CommonModel.getJobLevel().then(
-                function () {
-                    vm.jobLevels = CommonModel.jobLevels;
+            CommonModel.getJobLevel(true).then(function () {
+                vm.jobLevels = CommonModel.jobLevels;
+                if (vm.jobLevels.length > 0) {
+                    vm.jobLevelId = vm.jobLevels[0].JobLevelId;
+                    vm.originalJobLevelId = vm.jobLevelId;
 
-                    if (vm.jobLevels.length > 0) {
-                        vm.jobLevelId = vm.jobLevels[0].JobLevelId;
-                        vm.originalJobLevelId = vm.jobLevelId;
-
-                        getGroupSettingById();
-                    }
+                    getGroupSettingById();
                 }
+            }
             );
         }
 

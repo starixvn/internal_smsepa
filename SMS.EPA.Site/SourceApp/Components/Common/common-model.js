@@ -41,8 +41,7 @@
         };
 
         model.getIndex = function (index, currentPage, pageSize) {
-            var indexOfRow = pageSize * (currentPage - 1) + index + 1;
-            return indexOfRow;
+            return pageSize * (currentPage - 1) + index + 1;
         };
 
         model.getSystemRoles = function (exceptNone) {
