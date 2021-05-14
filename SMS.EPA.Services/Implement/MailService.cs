@@ -20,7 +20,7 @@
         public MailService(IBaseMailService baseMailService)
         {
             this.baseMailService = baseMailService ?? new BaseMailService();
-            url = ConfigurationManagerService.GetAppSetting("SendMailWhenEditEmployeeSetting");
+            url = ConfigurationManagerService.GetAppSetting("url");
         }
 
         public void SendMailReminder(string templateEmailPath, PeriodFlowModel employeeSetting, string periodName, int mailMode)
