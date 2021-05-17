@@ -56,14 +56,11 @@
                     items: []
                 };
 
-                angular.forEach(vm.settingInfo.GroupItems, function (groupItem) {
-                    angular.forEach(groupItem.Items, function (item) {
-                        if (item.IsSelected) {
-                            setting.items.push({
-                                itemId: item.ItemId,
-                                displayOrder: setting.items.length + 1
-                            });
-                        }
+                var selectedRows = $('#tblItem').find('tr.row-data').has('.check-group:checked');
+                angular.forEach(selectedRows, function (selectedRow, index) {
+                    setting.items.push({
+                        itemId: parseInt($(selectedRow).find('td').attr('item-id')),
+                        displayOrder: index + 1
                     });
                 });
 

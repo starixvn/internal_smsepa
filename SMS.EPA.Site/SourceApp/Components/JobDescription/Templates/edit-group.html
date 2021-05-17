@@ -32,10 +32,10 @@
             </div>
         </div>
     </form>
-    <table class="table table-bordered table-striped table-hover" ng-if="editGroupCtrl.jobLevels.length > 0">
+    <table class="table table-bordered table-striped table-hover" id="tblGroup" ng-if="editGroupCtrl.jobLevels.length > 0">
         <thead>
             <tr class="header-table" ng-if="editGroupCtrl.permission === editGroupCtrl.policy.Host">
-                <th colspan="3">
+                <th colspan="4">
                     <a class="pull-left button-icon create-button" ng-click="editGroupCtrl.createDescriptionGroupItem()">
                         <span class="glyphicon glyphicon-plus icon-add"></span>
                         <span class="button-text" data-translate="CreateDesciptionGroup"></span>
@@ -46,10 +46,11 @@
                 <th></th>
                 <th data-translate="Description"></th>
                 <th data-translate="Action" ng-if="editGroupCtrl.permission === editGroupCtrl.policy.Host"></th>
+                <th class="middle-align" data-translate="Priority"></th>
             </tr>
         </thead>
-        <tbody ng-repeat="groupItem in editGroupCtrl.settingInfo.GroupItems">
-            <tr class="row-highlight">
+        <tbody ng-repeat="groupItem in editGroupCtrl.settingInfo.GroupItems" list-sortable>
+            <tr class="row-highlight unsortable">
                 <td class="text-center">
                     <input type="checkbox" ng-model="groupItem.IsSelectedAll"
                            ng-disabled="editGroupCtrl.permission !== editGroupCtrl.policy.Host"
@@ -64,10 +65,11 @@
                     <a class="glyphicon glyphicon-plus icon-add" href=""
                        ng-click="editGroupCtrl.createDescriptionItem(groupItem.GroupItemId)" title="Add Descripton Item"></a>
                 </td>
+                <td></td>
             </tr>
-            <tr ng-repeat="item in groupItem.Items">
-                <td class="text-center">
-                    <input type="checkbox" ng-model="item.IsSelected"
+            <tr class="row-data" ng-repeat="item in groupItem.Items">
+                <td class="text-center" group-id="{{groupItem.groupItemId}}" item-id="{{item.ItemId}}">
+                    <input class="check-group" type="checkbox" ng-model="item.IsSelected"
                            ng-disabled="editGroupCtrl.permission !== editGroupCtrl.policy.Host"
                            ng-click="editGroupCtrl.handleSelectItem(groupItem)" />
                 </td>
@@ -78,11 +80,17 @@
                     <a class="glyphicon glyphicon-remove icon-remove" href=""
                        ng-click="editGroupCtrl.deleteDescriptionItem(item)" ng-attr-title='{{"Delete" | translate}}'></a>
                 </td>
+                <td class="text-center priority-limit">
+                    <a href="javascript:;" title="Top" class="glyphicon glyphicon-open groupTop" move-group-row> | </a>
+                    <a href="javascript:;" title="Move Up" class="glyphicon glyphicon-arrow-up groupUp" move-group-row> | </a>
+                    <a href="javascript:;" title="Move Down" class="glyphicon glyphicon-arrow-down groupDown" move-group-row> | </a>
+                    <a href="javascript:;" title="Bottom" class="glyphicon glyphicon-save groupBottom" move-group-row></a>
+                </td>
             </tr>
         </tbody>
         <tbody ng-if="editGroupCtrl.settingInfo.GroupItems.length === 0">
             <tr>
-                <td class="empty-result" colspan="3" data-translate="EmptyResult"></td>
+                <td class="empty-result" colspan="4" data-translate="EmptyResult"></td>
             </tr>
         </tbody>
     </table>

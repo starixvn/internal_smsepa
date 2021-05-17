@@ -539,6 +539,10 @@
     <Content Include="SourceApp\Components\FlowManagement\flowTemplate-factory.js" />
     <Content Include="SourceApp\Components\FlowManagement\Templates\modalCreateFlowTemplate.html" />
     <Content Include="SourceApp\Components\JobDescription\create-job-description-item-controller.js" />
+    <Content Include="SourceApp\Components\JobDescription\Directives\draggable-directive.js" />
+    <Content Include="SourceApp\Components\JobDescription\Directives\move-group-row-directive.js" />
+    <Content Include="SourceApp\Components\JobDescription\Directives\move-item-row-directive.js" />
+    <Content Include="SourceApp\Components\JobDescription\Directives\sortable-directive.js" />
     <Content Include="SourceApp\Components\JobDescription\Templates\create-job-description-item.html" />
     <Content Include="SourceApp\Components\JobDescription\Templates\edit-job-description-item.html" />
     <Content Include="SourceApp\Components\JobDescription\edit-job-description-item-controller.js" />

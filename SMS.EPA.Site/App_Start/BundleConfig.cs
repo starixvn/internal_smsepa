@@ -239,7 +239,11 @@
                             "~/SourceApp/Components/JobDescription/create-job-description-group-item-controller.js",
                             "~/SourceApp/Components/JobDescription/create-job-description-item-controller.js",
                             "~/SourceApp/Components/JobDescription/edit-job-description-group-item-controller.js",
-                            "~/SourceApp/Components/JobDescription/edit-job-description-item-controller.js"));
+                            "~/SourceApp/Components/JobDescription/edit-job-description-item-controller.js",
+                            "~/SourceApp/Components/JobDescription/Directives/draggable-directive.js",
+                            "~/SourceApp/Components/JobDescription/Directives/sortable-directive.js",
+                            "~/SourceApp/Components/JobDescription/Directives/move-group-row-directive.js",
+                            "~/SourceApp/Components/JobDescription/Directives/move-item-row-directive.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/common/js").Include(
                             "~/SourceApp/Shared/Directives/epa-addClassToRoleFilter-directive.js",

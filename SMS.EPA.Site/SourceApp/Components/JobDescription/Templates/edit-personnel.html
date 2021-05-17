@@ -29,7 +29,7 @@
             </div>
         </div>
     </form>
-    <table class="row table table-bordered table-striped">
+    <table class="table table-bordered table-striped table-hover" id="tblItem">
         <thead>
             <tr class="header-table" ng-if="editPersonnelCtrl.permission === editPersonnelCtrl.policy.Host">
                 <th colspan="7">
@@ -43,10 +43,11 @@
                 <th></th>
                 <th data-translate="Description"></th>
                 <th data-translate="Action" ng-if="editPersonnelCtrl.permission === editPersonnelCtrl.policy.Host"></th>
+                <th class="middle-align" data-translate="Priority"></th>
             </tr>
         </thead>
-        <tbody ng-if="editPersonnelCtrl.settingInfo.GroupItems.length > 0">
-            <tr class="row-highlight" ng-repeat-start="groupItem in editPersonnelCtrl.settingInfo.GroupItems">
+        <tbody ng-if="editPersonnelCtrl.settingInfo.GroupItems.length > 0"  ng-repeat="groupItem in editPersonnelCtrl.settingInfo.GroupItems" list-sortable>
+            <tr class="row-highlight unsortable">
                 <td class="text-center">
                     <input type="checkbox" ng-model="groupItem.IsSelectedAll"
                            ng-click="editPersonnelCtrl.checkAll(groupItem.IsSelectedAll, groupItem)"
@@ -61,16 +62,23 @@
                     <a class="glyphicon glyphicon-plus icon-add" href=""
                        ng-click="editPersonnelCtrl.createDescriptionItem(groupItem.GroupItemId)" ng-attr-title='{{"AddDescriptonItem" | translate}}'></a>
                 </td>
+                <td></td>
             </tr>
-            <tr ng-repeat-end ng-repeat="item in groupItem.Items ">
-                <td class="text-center">
-                    <input type="checkbox" ng-model="item.IsSelected" ng-click="editPersonnelCtrl.check(groupItem)"
+            <tr class="row-data" ng-repeat="item in groupItem.Items ">
+                <td class="text-center" item-id="{{item.ItemId}}">
+                    <input class="check-group" type="checkbox" ng-model="item.IsSelected" ng-click="editPersonnelCtrl.check(groupItem)"
                            ng-disabled="editPersonnelCtrl.permission != editPersonnelCtrl.policy.Host" />
                 </td>
                 <td ng-bind="item.Name"></td>
                 <td class="text-center" ng-if="editPersonnelCtrl.permission === editPersonnelCtrl.policy.Host">
                     <a class="glyphicon glyphicon-edit icon-edit" href="" ng-click="editPersonnelCtrl.updateDescriptionItem(item)" ng-attr-title='{{"Edit" | translate}}'></a>
                     <a class="glyphicon glyphicon-remove icon-remove" href="" ng-click="editPersonnelCtrl.deleteDescriptionItem(item)" ng-attr-title='{{"Delete" | translate}}'></a>
+                </td>
+                <td class="text-center priority-limit">
+                    <a href="javascript:;" title="Top" class="glyphicon glyphicon-open itemTop" move-item-row> | </a>
+                    <a href="javascript:;" title="Move Up" class="glyphicon glyphicon-arrow-up itemUp" move-item-row> | </a>
+                    <a href="javascript:;" title="Move Down" class="glyphicon glyphicon-arrow-down itemDown" move-item-row> | </a>
+                    <a href="javascript:;" title="Bottom" class="glyphicon glyphicon-save itemBottom" move-item-row></a>
                 </td>
             </tr>
         </tbody>
