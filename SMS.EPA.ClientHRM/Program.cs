@@ -6,13 +6,15 @@
     using System.ServiceProcess;
     using Fanex.Data;
     using Fanex.Data.OldConnectionStringProvider;
-    using Fanex.Logging;
     using Services;
+    using SMS.EPA.Core.Utilities;
 
     public static class Program
     {
         public static void Main(string[] args)
         {
+            log4net.Config.XmlConfigurator.Configure();
+
             try
             {
                 Console.WriteLine("Start");
@@ -30,7 +32,7 @@
 
                 var servicesToRun = new ServiceBase[]
                 {
-                new WinService(Bootstrap.Container.GetInstance<ISynchronizeService>())
+                    new WinService(Bootstrap.Container.GetInstance<ISynchronizeService>())
                 };
 
                 if (Environment.UserInteractive)
@@ -60,7 +62,8 @@
             {
                 if (!string.IsNullOrWhiteSpace(ex.Message))
                 {
-                    LogService.Error(ex.Message, ex);
+                    log4net.ILog logger = log4net.LogManager.GetLogger(typeof(Program));
+                    logger.Error(ex.Message, ex);
                 }
             }
         }

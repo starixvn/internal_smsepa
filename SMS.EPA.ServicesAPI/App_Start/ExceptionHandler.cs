@@ -8,11 +8,12 @@
     using System.Web;
     using System.Web.Http.ExceptionHandling;
     using System.Web.Http.Results;
-    using Fanex.Logging;
     using Resources;
 
     public class GlobalExceptionHandler : IExceptionHandler
     {
+        private readonly log4net.ILog logger = log4net.LogManager.GetLogger(typeof(GlobalExceptionHandler));
+
         public Task HandleAsync(ExceptionHandlerContext context, CancellationToken cancellationToken)
         {
             var exception = context.Exception;
@@ -26,7 +27,7 @@
                 exception.TargetSite,
                 exception.StackTrace);
 
-            LogService.Error(message);
+            logger.Error(message);
 
             using (var response = new HttpResponseMessage())
             {

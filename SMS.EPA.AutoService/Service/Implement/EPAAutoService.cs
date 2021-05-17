@@ -2,12 +2,12 @@
 {
     using System;
     using System.Threading.Tasks;
-    using Fanex.Logging;
     using Interfaces;
     using Service;
 
     public class EPAAutoService : IEPAAutoService
     {
+        private readonly log4net.ILog logger = log4net.LogManager.GetLogger(typeof(EPAAutoService));
         private readonly IMonthlyService monthlyService;
         private readonly ISemiAnnualService semiAnnualService;
         private readonly IProbationService probationService;
@@ -63,12 +63,12 @@
             {
                 if (!string.IsNullOrWhiteSpace(ex.Message))
                 {
-                    LogService.Error(ex.Message, ex);
+                    logger.Error(ex.Message, ex);
                 }
 
                 if (ex.InnerException != null)
                 {
-                    LogService.Error(ex.InnerException.Message, ex);
+                    logger.Error(ex.InnerException.Message, ex);
                 }
             }
         }

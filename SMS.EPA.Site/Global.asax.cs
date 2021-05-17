@@ -9,13 +9,13 @@
     using System.Web.SessionState;
     using Fanex.Data;
     using Fanex.Data.OldConnectionStringProvider;
-    using Fanex.Logging;
     using Resources;
 
     public class WebApiApplication : HttpApplication
     {
         private const string WebApiPrefix = "api";
         private static readonly string WebApiExecutionPath = $"~/{WebApiPrefix}";
+        private readonly log4net.ILog logger = log4net.LogManager.GetLogger(typeof(WebApiApplication));
 
         protected void Application_Start()
         {
@@ -32,6 +32,8 @@
                 resourcePath: "~/App_Data",
                 enableWatching: true)
             .Run();
+
+            log4net.Config.XmlConfigurator.Configure();
         }
 
         protected void Application_PostAuthorizeRequest()
@@ -51,7 +53,7 @@
                         Environment.NewLine + Lang.TargetSite + ex.TargetSite +
                         Environment.NewLine + Lang.StackTrace + ex.StackTrace;
 
-            LogService.Error(message);
+            logger.Error(message);
         }
 
         private static bool IsWebApiRequest()

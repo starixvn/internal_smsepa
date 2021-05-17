@@ -99,6 +99,9 @@
       <HintPath>..\packages\itextsharp.xmlworker.5.5.11\lib\itextsharp.xmlworker.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="log4net, Version=2.0.12.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
+      <HintPath>..\packages\log4net.2.0.12\lib\net45\log4net.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Microsoft.Practices.EnterpriseLibrary.Common, Version=5.0.414.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\EnterpriseLibrary.Common.5.0.414.0\lib\net40\Microsoft.Practices.EnterpriseLibrary.Common.dll</HintPath>
@@ -454,6 +457,9 @@
     <Content Include="Libs\ui-bootstrap-tpls-2.5.0.js" />
     <Content Include="Libs\ui-bootstrap-tpls-2.5.0.min.js" />
     <Content Include="Libs\_references.js" />
+    <Content Include="logs\log.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="SourceApp\app.js" />
     <Content Include="SourceApp\Components\Dashboard\Templates\todoList.html" />
     <Content Include="SourceApp\Components\Discipline\discipline-summary-controller.js" />

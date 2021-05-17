@@ -8,13 +8,13 @@
     using Core.Services;
     using EPA.Criteria;
     using Fanex.Data.Repository;
-    using Fanex.Logging;
     using Model;
     using Services.Implement;
     using Services.Interfaces;
 
     public class BasePeriodService
     {
+        private readonly log4net.ILog logger = log4net.LogManager.GetLogger(typeof(BasePeriodService));
         protected readonly IPeriodMailService PeriodMailService;
         protected readonly IPeriodService PeriodService;
         protected readonly IBaseService BaseService;
@@ -52,7 +52,6 @@
         protected void InsertEmployeeToPeriod(int periodId, ICriteria criteria, string messageExplanation)
         {
             var commandResult = new CommandResult();
-
             if (criteria.IsValid())
             {
                 commandResult = BaseService.ExecuteNonQuery(criteria);
@@ -60,7 +59,7 @@
 
             if (!commandResult.IsSuccessful)
             {
-                LogService.Error(string.Format("{0} {1}: {2}", messageExplanation, periodId, commandResult.Message));
+                logger.Error(string.Format("{0} {1}: {2}", messageExplanation, periodId, commandResult.Message));
             }
         }
 
@@ -91,7 +90,7 @@
 
             if (!commandResult.IsSuccessful)
             {
-                LogService.Error(string.Format("{0} {1}: {2}", messageExplanation, periodId, commandResult.Message));
+                logger.Error(string.Format("{0} {1}: {2}", messageExplanation, periodId, commandResult.Message));
             }
         }
 
@@ -152,7 +151,7 @@
 
             if (!commandResult.IsSuccessful)
             {
-                LogService.Error(string.Format("{0} {1}: {2}", messageExplanation, employeePeriod.PeriodId, commandResult.Message));
+                logger.Error(string.Format("{0} {1}: {2}", messageExplanation, employeePeriod.PeriodId, commandResult.Message));
             }
         }
 

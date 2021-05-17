@@ -3,12 +3,13 @@
     using System.Collections.Generic;
     using Core.Model;
     using Criteria;
-    using Fanex.Logging;
     using Implement;
     using Model;
 
     public class ProbationService : BasePeriodService, IProbationService
     {
+        private readonly log4net.ILog logger = log4net.LogManager.GetLogger(typeof(ProbationService));
+
         public void CheckProbationPeriod()
         {
             IEnumerable<AutoEmployeePeriodModel> employeePeriods = GetEmployeeEvaluation(new GetEmployeeProbationEvaluationCriteria());
@@ -35,7 +36,7 @@
 
             if (!commandResult.IsSuccessful)
             {
-                LogService.Error("Auto add employee to probation period " + employeePeriod.PeriodId + ": " + commandResult.Message);
+                logger.Error("Auto add employee to probation period " + employeePeriod.PeriodId + ": " + commandResult.Message);
             }
         }
     }

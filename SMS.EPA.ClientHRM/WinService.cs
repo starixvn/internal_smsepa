@@ -5,12 +5,12 @@
     using System.Diagnostics.CodeAnalysis;
     using System.ServiceProcess;
     using System.Timers;
-    using Fanex.Logging;
     using Services;
 
     [RunInstaller(true)]
     public partial class WinService : ServiceBase
     {
+        private readonly log4net.ILog logger = log4net.LogManager.GetLogger(typeof(WinService));
         private readonly ISynchronizeService _service;
         private readonly Timer _timer;
 
@@ -50,7 +50,7 @@
             catch (Exception ex)
             {
                 _isWorking = false;
-                LogService.Error(ex.Message);
+                logger.Error(ex.Message);
             }
         }
     }

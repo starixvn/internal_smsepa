@@ -1,14 +1,15 @@
 ﻿namespace SMS.EPA.Core.Attribute
 {
-    using Fanex.Logging;
-    using Resources;
     using System;
     using System.Web;
     using System.Web.Http.Filters;
+    using Resources;
 
     [AttributeUsage(AttributeTargets.All)]
     public sealed class ExceptionHandlingAttribute : ExceptionFilterAttribute
     {
+        private readonly log4net.ILog logger = log4net.LogManager.GetLogger(typeof(ExceptionHandlingAttribute));
+
         public override void OnException(HttpActionExecutedContext actionExecutedContext)
         {
             if (actionExecutedContext != null)
@@ -24,7 +25,7 @@
                                      Environment.NewLine + Lang.TargetSite + exception.TargetSite +
                                      Environment.NewLine + Lang.StackTrace + exception.StackTrace;
 
-                    LogService.Error(message);
+                    logger.Error(message);
                 }
             }
         }

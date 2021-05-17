@@ -5,13 +5,14 @@
     using System.Linq;
     using System.Net;
     using System.Web.Http;
-    using Fanex.Logging;
     using Model.API;
     using Utilities;
 
     [Authorize]
     public class PhotoController : ApiController
     {
+        private readonly log4net.ILog logger = log4net.LogManager.GetLogger(typeof(PhotoController));
+
         public IHttpActionResult GetLastModifiedDate()
         {
             var lastModifiedDate = new DateTime(2016, 01, 01);
@@ -32,7 +33,7 @@
         [HttpPost]
         public IHttpActionResult Update(Photo[] photos)
         {
-            LogService.Info(photos.Length.ToString());
+            logger.Info(photos.Length.ToString());
             foreach (Photo photo in photos)
             {
                 var fullPath = AppConfig.PhotoPath + "\\" + photo.Code;

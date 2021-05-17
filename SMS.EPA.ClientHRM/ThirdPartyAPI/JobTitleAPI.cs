@@ -9,11 +9,12 @@
     using System.Threading.Tasks;
     using Core.Model;
     using EPA.Model.API;
-    using Fanex.Logging;
     using Model;
 
     public class JobTitleAPI : IJobTitleAPI
     {
+        private readonly log4net.ILog logger = log4net.LogManager.GetLogger(typeof(JobTitleAPI));
+
         public async Task<CommandResult> UpdateAsync(IEnumerable<JobTitle> jobTitles, TokenAccess token)
         {
             using (var client = new HttpClient())
@@ -24,7 +25,7 @@
 
                 if (result.StatusCode != HttpStatusCode.OK)
                 {
-                    LogService.Error(string.Format(
+                    logger.Error(string.Format(
                         CultureInfo.InvariantCulture,
                         "Update JobTitle: \r\n StatusCode: {0} \r\n ReasonPhrase: {1}",
                         (int)result.StatusCode,

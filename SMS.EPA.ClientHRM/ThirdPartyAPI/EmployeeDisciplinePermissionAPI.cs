@@ -1,20 +1,21 @@
 ﻿namespace SMS.EPA.ClientHrm.ThirdPartyAPI
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Globalization;
+    using System.Linq;
+    using System.Net;
+    using System.Net.Http;
+    using System.Net.Http.Headers;
+    using System.Threading.Tasks;
     using Core.Model;
     using EPA.Model.API;
     using Model;
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Net.Http;
-    using System.Net.Http.Headers;
-    using System.Net;
-    using Fanex.Logging;
-    using System.Globalization;
-    using System.Threading.Tasks;
 
     public class EmployeeDisciplinePermissionAPI : IEmployeeSupervisorAPI
     {
+        private readonly log4net.ILog logger = log4net.LogManager.GetLogger(typeof(EmployeeDisciplinePermissionAPI));
+
         public async Task<DateTime> GetLastModifiedDateAsync(TokenAccess token)
         {
             using (var client = new HttpClient())
@@ -37,7 +38,7 @@
 
                 if (result.StatusCode != HttpStatusCode.OK)
                 {
-                    LogService.Error(string.Format(
+                    logger.Error(string.Format(
                         CultureInfo.InvariantCulture,
                         "Update EmployeeDisciplinePermission: \r\n StatusCode: {0} \r\n ReasonPhrase: {1}",
                         (int)result.StatusCode,

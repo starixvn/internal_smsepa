@@ -34,6 +34,8 @@
                     resourcePath: "~/App_Data",
                     enableWatching: true)
                 .Run();
+
+                log4net.Config.XmlConfigurator.Configure();
             }
         }
 

@@ -8,12 +8,13 @@
     using Core.Model;
     using Criteria;
     using EPA.Criteria;
-    using Fanex.Logging;
     using Implement;
     using Model;
 
     public class MonthlyService : BasePeriodService, IMonthlyService
     {
+        private readonly log4net.ILog logger = log4net.LogManager.GetLogger(typeof(MonthlyService));
+
         public void CheckMonthlyPeriod()
         {
             IEnumerable<int> monthlyPeriods = GetStartedPeriods(new GetMonthlyPeriodStartedCriteria());
@@ -48,7 +49,7 @@
 
                     if (!commandResult.IsSuccessful)
                     {
-                        LogService.Error(string.Format("Error create monthly period: {0}", commandResult.Message));
+                        logger.Error(string.Format("Error create monthly period: {0}", commandResult.Message));
                     }
                 }
             }

@@ -3,14 +3,15 @@
     using System;
     using Fanex.Data;
     using Fanex.Data.OldConnectionStringProvider;
-    using Fanex.Logging;
     using Service.Implement;
     using Service.Interfaces;
+    using SMS.EPA.Core.Utilities;
 
     public static class Program
     {
         public static void Main()
         {
+            log4net.Config.XmlConfigurator.Configure();
             try
             {
                 DbSettingProviderManager
@@ -22,21 +23,20 @@
                     enableWatching: true)
                 .Run();
 
-                log4net.Config.XmlConfigurator.Configure();
-
                 IEPAAutoService service = new EPAAutoService();
                 service.Run();
             }
             catch (Exception ex)
             {
+                log4net.ILog logger = log4net.LogManager.GetLogger(typeof(Program));
                 if (!string.IsNullOrWhiteSpace(ex.Message))
                 {
-                    LogService.Error(ex.Message, ex);
+                    logger.Error(ex.Message, ex);
                 }
 
                 if (ex.InnerException != null)
                 {
-                    LogService.Error(ex.InnerException.Message, ex);
+                    logger.Error(ex.InnerException.Message, ex);
                 }
             }
         }
