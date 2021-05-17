@@ -197,10 +197,13 @@
     <Compile Include="Services\Interfaces\ITokenService.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.PRO.hm.config">
+    <None Include="AppConfigs\App.PRO.hm.config">
       <SubType>Designer</SubType>
     </None>
-    <None Include="App.PRO.sms.config">
+    <None Include="AppConfigs\App.PRO.cts.config">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="AppConfigs\App.PRO.sms.config">
       <SubType>Designer</SubType>
     </None>
     <None Include="App.config">

@@ -283,6 +283,7 @@
     <Content Include="SMS.EPA.ServicesAPI.Debug.ruleset" />
     <Content Include="SMS.EPA.ServicesAPI.ruleset" />
     <None Include="Properties\PublishProfiles\EPA-API.pubxml" />
+    <None Include="WebConfigs\Web.pro.cts.config" />
     <None Include="WebConfigs\Web.pro.gwi.config" />
     <None Include="WebConfigs\Web.pro.hm.config" />
     <None Include="WebConfigs\Web.pro.cti.config" />
