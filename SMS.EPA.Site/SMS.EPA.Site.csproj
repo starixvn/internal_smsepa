@@ -488,6 +488,7 @@
     <Content Include="SourceApp\Components\EPA\Evaluator\Templates\recommendationForProbationAndPromotion.html" />
     <Content Include="SourceApp\Components\EPA\Evaluator\Templates\recommendationForSemi.html" />
     <Content Include="SourceApp\Components\EPA\Share\Controllers\epa-detail-controller.js" />
+    <Content Include="SourceApp\Components\EPA\Share\Directives\job-description-directive.js" />
     <Content Include="SourceApp\Components\EPA\Share\Directives\repeat-end-directive.js" />
     <Content Include="SourceApp\Components\EPA\Share\Directives\auto-collapse-directive.js" />
     <Content Include="SourceApp\Components\EPA\Share\Directives\performance-grade-directive.js" />
