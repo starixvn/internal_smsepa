@@ -74,9 +74,18 @@
         };
 
         vm.handleChangeJobLevel = function () {
-            const selectedItems = getSelectedItems();
+            const selectedItems = [];
+            const selectedRows = $('.table').find('tr.row-data').has('.check-group:checked');
+            angular.forEach(selectedRows, function (selectedRow, index) {
+                selectedItems.push({
+                    ItemId: parseInt($(selectedRow).find('td').attr('item-id')),
+                    DisplayOrder: index + 1
+                });
+            });
+
             if (vm.originalSelectedItems.length !== selectedItems.length
-                || vm.originalSelectedItems.filter(x => selectedItems.findIndex(y => y.ItemId === x.ItemId) < 0).length > 0) {
+                || vm.originalSelectedItems.filter(x =>
+                    selectedItems.findIndex(y => y.ItemId === x.ItemId && y.DisplayOrder === x.DisplayOrder) < 0).length > 0) {
                 JobDescriptionModel.openPopupConfirmRefreshData(vm).then(function () {
                     vm.originalJobLevelId = vm.jobLevelId;
                     getGroupSettingById();
@@ -160,17 +169,17 @@
                     items: []
                 };
 
-                var selectedRows = $('.table').find('tr.row-data').has('.check-group:checked');
+                const selectedRows = $('.table').find('tr.row-data').has('.check-group:checked');
                 angular.forEach(selectedRows, function (selectedRow, index) {
                     setting.items.push({
-                        itemId: parseInt($(selectedRow).find('td').attr('item-id')),
-                        displayOrder: index + 1
+                        ItemId: parseInt($(selectedRow).find('td').attr('item-id')),
+                        DisplayOrder: index + 1
                     });
                 });
 
                 JobDescriptionModel.editGroupSetting(setting).success(function (response) {
                     if (response.IsSuccessful) {
-                        vm.originalSelectedItems = getSelectedItems();
+                        vm.originalSelectedItems = setting.items;
                     }
                 });
             }
