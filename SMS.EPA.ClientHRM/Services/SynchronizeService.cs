@@ -63,15 +63,14 @@
                 {
                     await _departmentService.Update(departments, _token);
                 }
-                Console.WriteLine("Dept");
 
+                Console.WriteLine("Dept");
             }
         }
 
         private async Task SynchronizeTeamAsync()
         {
             await InitToken();
-
             if (_token.IsValid())
             {
                 DateTime fromDate = await _teamService.GetLastModifiedDateAsync(_token);
@@ -80,15 +79,14 @@
                 {
                     await _teamService.UpdateAsync(teams, _token);
                 }
-                Console.WriteLine("Team");
 
+                Console.WriteLine("Team");
             }
         }
 
         private async Task SynchronizeEmployeeAsync()
         {
             await InitToken();
-
             if (_token.IsValid())
             {
                 DateTime fromDate = await _employeeService.GetLastModifiedDateAsync(_token);
@@ -97,15 +95,14 @@
                 {
                     await _employeeService.UpdateAsync(employees, _token);
                 }
-                Console.WriteLine("Employee");
 
+                Console.WriteLine("Employee");
             }
         }
 
         private async Task SynchronizeJobTitle()
         {
             await InitToken();
-
             if (_token.IsValid())
             {
                 IEnumerable<JobTitle> jobTitles = _jobTitleService.GetJobTitles();
@@ -113,14 +110,14 @@
                 {
                     await _jobTitleService.UpdateAsync(jobTitles, _token);
                 }
-            Console.WriteLine("JobTitle");
+
+                Console.WriteLine("JobTitle");
             }
         }
 
         private async Task SynchronizeEmployeeDisciplinePermissionAsync()
         {
             await InitToken();
-
             if (_token.IsValid())
             {
                 DateTime fromDate = await _supervisorService.GetLastModifiedDateForEmployeeAsync(_token);
@@ -129,14 +126,14 @@
                 {
                     await _supervisorService.UpdateEmployeesAsync(employees, _token);
                 }
-            Console.WriteLine("EmployeeDisciplinePermission");
+
+                Console.WriteLine("EmployeeDisciplinePermission");
             }
         }
 
         private async Task SynchronizeGroupDisciplinePermission()
         {
             await InitToken();
-
             if (_token.IsValid())
             {
                 DateTime fromDate = await _supervisorService.GetLastModifiedDateForGroup(_token);
@@ -145,14 +142,14 @@
                 {
                     await _supervisorService.UpdateGroupsAsync(groups, _token);
                 }
-            Console.WriteLine("GroupDisciplinePermission");
+
+                Console.WriteLine("GroupDisciplinePermission");
             }
         }
 
         private async Task SynchronizeDisciplineSummaryAsync()
         {
             await InitToken();
-
             if (_token.IsValid())
             {
                 DateTime lastModifiedDate = await _disciplineSummaryService.GetLastModifiedDateAsync(_token);
@@ -161,14 +158,14 @@
                 {
                     await _disciplineSummaryService.UpdateAsync(violations, _token);
                 }
-            Console.WriteLine("DisciplineSummary");
+
+                Console.WriteLine("DisciplineSummary");
             }
         }
 
         private async Task SynchronizePhotoAsync()
         {
             await InitToken();
-
             if (_token.IsValid())
             {
                 DateTime lastModifiedDate = await _photoService.GetLastModifiedDate(_token);
@@ -177,7 +174,8 @@
                 {
                     await _photoService.UpdateAsync(photos, _token);
                 }
-            Console.WriteLine("Photo");
+
+                Console.WriteLine("Photo");
             }
         }
 

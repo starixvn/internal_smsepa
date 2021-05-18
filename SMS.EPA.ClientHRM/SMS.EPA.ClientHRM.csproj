@@ -220,9 +220,6 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <CodeAnalysisDictionary Include="FxCopDictionary.xml">
-      <SubType>Designer</SubType>
-    </CodeAnalysisDictionary>
     <Content Include="logs\log.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

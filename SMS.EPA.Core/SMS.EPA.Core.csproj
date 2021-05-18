@@ -228,9 +228,6 @@
     <None Include="SMS.EPA.Core.ruleset" />
   </ItemGroup>
   <ItemGroup>
-    <CodeAnalysisDictionary Include="FxCopDictionary.xml" />
-  </ItemGroup>
-  <ItemGroup>
     <Analyzer Include="..\packages\SonarAnalyzer.CSharp.7.14.0.8411\analyzers\Google.Protobuf.dll" />
     <Analyzer Include="..\packages\SonarAnalyzer.CSharp.7.14.0.8411\analyzers\SonarAnalyzer.CSharp.dll" />
     <Analyzer Include="..\packages\SonarAnalyzer.CSharp.7.14.0.8411\analyzers\SonarAnalyzer.dll" />

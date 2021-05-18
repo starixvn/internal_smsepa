@@ -110,9 +110,6 @@
     <Compile Include="Interfaces\ITargetTemplateRepository.cs" />
   </ItemGroup>
   <ItemGroup>
-    <CodeAnalysisDictionary Include="FxCopDictionary.xml" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\SMS.EPA.Core\SMS.EPA.Core.csproj">
       <Project>{76ee2da4-7127-4c21-b218-adff51b2b74e}</Project>
       <Name>SMS.EPA.Core</Name>

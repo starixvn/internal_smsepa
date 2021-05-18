@@ -258,7 +258,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_Data\SpName.xml" />
-    <CodeAnalysisDictionary Include="FxCopDictionary.xml" />
     <Content Include="logs\log.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

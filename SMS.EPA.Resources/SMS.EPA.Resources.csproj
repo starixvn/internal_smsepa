@@ -66,9 +66,6 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <CodeAnalysisDictionary Include="FxCopDictionary.xml" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="packages.config" />
     <None Include="SMS.EPA.Resources.Debug.ruleset" />
     <None Include="SMS.EPA.Resources.ruleset" />

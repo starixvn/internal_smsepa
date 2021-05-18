@@ -7,7 +7,6 @@
     using Fanex.Data;
     using Fanex.Data.OldConnectionStringProvider;
     using Services;
-    using SMS.EPA.Core.Utilities;
 
     public static class Program
     {
