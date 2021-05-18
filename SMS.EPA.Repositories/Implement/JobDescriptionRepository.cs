@@ -24,7 +24,7 @@
                             groupitem.Items = items.Where(x => x.GroupItemId == groupitem.GroupItemId).ToList();
                         }
 
-                        groupInfo.GroupItems = groupInfo.GroupItems.OrderBy(x => x.Items.First().DisplayOrder);
+                        groupInfo.GroupItems = groupInfo.GroupItems.OrderBy(x => x.DisplayOrder);
                     }
 
                     return groupInfo;
@@ -48,7 +48,7 @@
                             groupitem.Items = items.Where(x => x.GroupItemId == groupitem.GroupItemId).ToList();
                         }
 
-                        employeeInfo.GroupItems = employeeInfo.GroupItems.OrderBy(x => x.Items.First().DisplayOrder);
+                        employeeInfo.GroupItems = employeeInfo.GroupItems.OrderBy(x => x.DisplayOrder);
                     }
 
                     return employeeInfo;

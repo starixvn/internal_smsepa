@@ -9,6 +9,14 @@
         public string Name { get; set; }
         public IEnumerable<JobDescriptionItem> Items { get; set; } = new List<JobDescriptionItem>();
         public bool IsSelectedAll => Items.Any() && Items.All(x => x.IsSelected);
-       
+
+        public short DisplayOrder
+        {
+            get
+            {
+                JobDescriptionItem item = Items.FirstOrDefault(x => x.IsSelected);
+                return item != null ? item.DisplayOrder : short.MaxValue;
+            }
+        }
     }
 }
