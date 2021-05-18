@@ -9,6 +9,11 @@
         return {
             link: function (scope, el) {
                 var currentUserId;
+                $(".table").sortable(
+                    {
+                        items: "> tbody"
+                    });
+
                 el.sortable({
                     revert: true,
                     receive: function (event, ui) {

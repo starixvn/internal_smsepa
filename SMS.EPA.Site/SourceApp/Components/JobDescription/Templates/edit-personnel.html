@@ -29,10 +29,10 @@
             </div>
         </div>
     </form>
-    <table class="table table-bordered table-striped table-hover" id="tblItem">
+    <table class="table table-bordered table-striped table-hover">
         <thead>
             <tr class="header-table" ng-if="editPersonnelCtrl.permission === editPersonnelCtrl.policy.Host">
-                <th colspan="7">
+                <th colspan="3">
                     <a class="pull-left button-icon create-button" ng-click="editPersonnelCtrl.createDescriptionGroupItem()">
                         <span class="glyphicon glyphicon-plus icon-add"></span>
                         <span class="button-text" data-translate="CreateDesciptionGroup"></span>
@@ -43,7 +43,6 @@
                 <th></th>
                 <th data-translate="Description"></th>
                 <th data-translate="Action" ng-if="editPersonnelCtrl.permission === editPersonnelCtrl.policy.Host"></th>
-                <th class="middle-align" data-translate="Priority"></th>
             </tr>
         </thead>
         <tbody ng-if="editPersonnelCtrl.settingInfo.GroupItems.length > 0"  ng-repeat="groupItem in editPersonnelCtrl.settingInfo.GroupItems" list-sortable>
@@ -62,7 +61,6 @@
                     <a class="glyphicon glyphicon-plus icon-add" href=""
                        ng-click="editPersonnelCtrl.createDescriptionItem(groupItem.GroupItemId)" ng-attr-title='{{"AddDescriptonItem" | translate}}'></a>
                 </td>
-                <td></td>
             </tr>
             <tr class="row-data" ng-repeat="item in groupItem.Items ">
                 <td class="text-center" item-id="{{item.ItemId}}">
@@ -74,17 +72,11 @@
                     <a class="glyphicon glyphicon-edit icon-edit" href="" ng-click="editPersonnelCtrl.updateDescriptionItem(item)" ng-attr-title='{{"Edit" | translate}}'></a>
                     <a class="glyphicon glyphicon-remove icon-remove" href="" ng-click="editPersonnelCtrl.deleteDescriptionItem(item)" ng-attr-title='{{"Delete" | translate}}'></a>
                 </td>
-                <td class="text-center priority-limit">
-                    <a href="javascript:;" title="Top" class="glyphicon glyphicon-open itemTop" move-item-row> | </a>
-                    <a href="javascript:;" title="Move Up" class="glyphicon glyphicon-arrow-up itemUp" move-item-row> | </a>
-                    <a href="javascript:;" title="Move Down" class="glyphicon glyphicon-arrow-down itemDown" move-item-row> | </a>
-                    <a href="javascript:;" title="Bottom" class="glyphicon glyphicon-save itemBottom" move-item-row></a>
-                </td>
             </tr>
         </tbody>
         <tbody ng-if="editPersonnelCtrl.settingInfo.GroupItems.length === 0">
             <tr>
-                <td class="empty-result" colspan="7" data-translate="EmptyResult"></td>
+                <td class="empty-result" colspan="3" data-translate="EmptyResult"></td>
             </tr>
         </tbody>
     </table>

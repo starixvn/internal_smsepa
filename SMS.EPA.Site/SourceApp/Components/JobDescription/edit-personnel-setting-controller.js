@@ -56,7 +56,7 @@
                     items: []
                 };
 
-                var selectedRows = $('#tblItem').find('tr.row-data').has('.check-group:checked');
+                var selectedRows = $('.table').find('tr.row-data').has('.check-group:checked');
                 angular.forEach(selectedRows, function (selectedRow, index) {
                     setting.items.push({
                         itemId: parseInt($(selectedRow).find('td').attr('item-id')),
