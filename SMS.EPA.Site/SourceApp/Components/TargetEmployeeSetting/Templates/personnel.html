@@ -2,8 +2,8 @@
     <form novalidate class="form-filter">
         <div class="form-group">
             <label class="label-form" data-translate="Section"></label>
-            <select ng-model="personnelCtrl.filter.groupId" ng-options="opt.GroupId as opt.GroupName for opt in personnelCtrl.groupOptions"
-                    class="form-control select-form">
+            <select class="form-control select-form" ng-model="personnelCtrl.filter.groupId"
+                    ng-options="item.DepartmentId as item.Name disable when item.DepartmentId > 0 for item in personnelCtrl.treeDepartment">
                 <option value="">-- {{"All" | translate}} --</option>
             </select>
         </div>
@@ -48,7 +48,7 @@
                     <button class="btn btn-primary pull-left btn-assign" data-translate="Assign" ng-click="personnelCtrl.assignTargetTemplate()"
                             ng-show="targetCtrl.permission == targetCtrl.policyEnum.Host"></button>
                     <input class="btnExcel pull-right"
-                           ng-click="personnelCtrl.exportReport(personnelCtrl.filter)"
+                           ng-click="personnelCtrl.exportReport()"
                            type="button" title="Export to Excel">
                     <input type="text" ng-model="personnelCtrl.searchKey" ng-change="personnelCtrl.search()" class="search-inline-textbox search pull-right">
                 </th>

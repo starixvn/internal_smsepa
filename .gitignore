@@ -40,3 +40,4 @@ SMS.EPA.Site/ExportPDFFolder/*
 # Visual Studio 2015 cache/options directory
 .vs/
 /SMS.EPA.Database/SMS.EPA.Database.jfm
+logs/

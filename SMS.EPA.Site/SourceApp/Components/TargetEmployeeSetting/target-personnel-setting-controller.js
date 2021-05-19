@@ -3,32 +3,17 @@
     /* jshint latedef:nofunc */
     /* jshint validthis:true */
 
-    angular.module('targetEmployeeSettingModule')
-        .controller('TargetPersonnelSettingController', targetPersonnelSettingController);
-    targetPersonnelSettingController.$inject = [
-        '$scope',
-        'baseUrl',
-        'TargetEmployeeSettingModel',
-        'CommonModel',
-        'TargetTemplateModel',
-        'utilitiesFactory',
-        'lockScreenService'
-    ];
+    angular.module('targetEmployeeSettingModule').controller('TargetPersonnelSettingController', targetPersonnelSettingController);
+    targetPersonnelSettingController.$inject = ['$scope', 'baseUrl', 'TargetEmployeeSettingModel',
+        'CommonModel', 'TargetTemplateModel', 'utilitiesFactory', 'lockScreenService'];
 
-    function targetPersonnelSettingController(
-        $scope,
-        baseUrl,
-        TargetEmployeeSettingModel,
-        CommonModel,
-        TargetTemplateModel,
-        utilitiesFactory,
-        lockScreenService) {
+    function targetPersonnelSettingController( $scope, baseUrl, TargetEmployeeSettingModel,
+        CommonModel, TargetTemplateModel, utilitiesFactory, lockScreenService) {
 
         var vm = this;
 
         vm.currentPage = 1;
         vm.filter = {};
-        vm.groupOptions = [];
         vm.isFirstLoad = true;
         vm.pageSize = 20;
         vm.selectedAll = false;
@@ -86,7 +71,8 @@
         }
 
         function getEmployee() {
-            return CommonModel.getAllEmployee(vm.searchEmployee, vm.filter.groupId);
+            const groupId = vm.filter.groupId === null ? null : Math.abs(vm.filter.groupId);
+            return CommonModel.getAllEmployee(vm.searchEmployee, groupId);
         }
 
         function getIndex(index, currentPage, pageSize) {
@@ -131,8 +117,8 @@
         function initialize() {
             initFilter();
 
-            CommonModel.getAllGroup().then(function() {
-                vm.groupOptions = CommonModel.groups;
+            CommonModel.getDepartment(null, true).then(function () {
+                vm.treeDepartment = CommonModel.generateTreeDepartment(CommonModel.treeDepartment.Childrens);
             });
 
             CommonModel.getTargetType().then(function() {
@@ -151,6 +137,7 @@
         }
 
         function query(filter) {
+            const groupId = vm.filter.groupId === null ? null : Math.abs(vm.filter.groupId);
             var employeeId = null;
             vm.searchKey = '';
             vm.currentPage = 1;
@@ -159,7 +146,7 @@
                 employeeId = filter.employee.EmployeeId;
             }
 
-            getTargetEmployeeSetting(filter.groupId, employeeId, filter.targetTypeId, filter.showAll);
+            getTargetEmployeeSetting(groupId, employeeId, filter.targetTypeId, filter.showAll);
         }
 
         function syncSelectedEmployee(employeeId, selected) {
@@ -183,8 +170,9 @@
             }
         }
 
-        function exportReport(filter) {
-            vm.exportCriteria = angular.copy(filter);
+        function exportReport() {
+            vm.exportCriteria = angular.copy(vm.filter);
+            vm.exportCriteria.groupId = vm.filter.groupId === null ? null : Math.abs(vm.filter.groupId);
 
             var url = baseUrl + "ExportReport/ExportTargetPersonnelSettingReport";
             var data = $.param(vm.exportCriteria);
