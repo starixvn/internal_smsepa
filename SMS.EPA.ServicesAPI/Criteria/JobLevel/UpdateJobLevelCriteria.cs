@@ -11,7 +11,7 @@
 
     public class UpdateJobLevelCriteria : CriteriaBase
     {
-        private const string JobLevelTpl = "<JobLevel JobLevelId='{0}' Name='{1}' IsActive='{2}' ModifiedDate='{3}'></JobLevel>";
+        private const string JobLevelTpl = "<JobLevel JobLevelId='{0}' Name='{1}' IsDeleted='{2}' ModifiedDate='{3}'></JobLevel>";
 
         [SpParam(Ignored = true)]
         public IList<JobLevel> JobLevels { get; set; }
@@ -28,7 +28,7 @@
                         JobLevelTpl,
                         jobLevel.JobLevelId,
                         HttpUtility.HtmlEncode(jobLevel.Name),
-                        jobLevel.IsActive,
+                        jobLevel.IsDeleted,
                         jobLevel.ModifiedDate.Value.ToString(Constants.ModifiedDateTimeFormat));
                 }
 

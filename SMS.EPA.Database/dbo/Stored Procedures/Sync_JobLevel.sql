@@ -10,7 +10,7 @@ Original:
 
 Revisions:  
 Param's Explanation:
-- @JobLevelXml: "<JobLevel JobLevelId='{0}' Name='{1}' IsActive='{2}' ModifiedDate='{3}'></JobLevel>"
+- @JobLevelXml: "<JobLevel JobLevelId='{0}' Name='{1}' IsDeleted='{2}' ModifiedDate='{3}'></JobLevel>"
 */
 BEGIN
 	SET NOCOUNT ON;
@@ -22,7 +22,7 @@ BEGIN
 	CREATE TABLE #tblJobLevel (
 		JobLevelId INT NULL
 		,[Name] NVARCHAR(150) NULL
-		,IsActive BIT NULL
+		,IsDeleted BIT NULL
 		,ModifiedDate DATETIME
 		)
 
@@ -33,14 +33,14 @@ BEGIN
 		INSERT INTO #tblJobLevel (
 			JobLevelId
 			,[Name]
-			,IsActive
+			,IsDeleted
 			,ModifiedDate
 			)
 		SELECT JobLevelId
 			,REPLACE(REPLACE(REPLACE(REPLACE(REPLACE([Name], '&amp;', '&'), '&#39;', ''''), '&lt;', '<'), '&gt;', '>'), '&quot;', '"')
-			,IsActive
+			,IsDeleted
 			,ModifiedDate
-		FROM OPENXML(@DocHandler, '/ROOT/JobLevel', 1) WITH (JobLevelId INT, [Name] NVARCHAR(150), IsActive BIT, ModifiedDate DATETIME) AS Data
+		FROM OPENXML(@DocHandler, '/ROOT/JobLevel', 1) WITH (JobLevelId INT, [Name] NVARCHAR(150), IsDeleted BIT, ModifiedDate DATETIME) AS Data
 
 		EXEC sp_xml_removedocument @DocHandler
 	END TRY
@@ -55,13 +55,13 @@ BEGIN
 	INSERT INTO dbo.JobLevel(
 		JobLevelId
 		,[Name]
-		,IsActive
+		,IsDeleted
 		,ModifiedDate
 		,SyncDate
 		)
 	SELECT new.JobLevelId
 		,new.[Name]
-		,new.IsActive
+		,new.IsDeleted
 		,new.ModifiedDate
 		,@SyncDate
 	FROM #tblJobLevel AS new WITH (NOLOCK)
@@ -70,7 +70,7 @@ BEGIN
 
 	UPDATE curr
 	SET curr.[Name] = new.[Name]
-		,curr.IsActive = ISNULL(new.IsActive, 0)
+		,curr.IsDeleted = ISNULL(new.IsDeleted, 0)
 		,curr.ModifiedDate = new.ModifiedDate
 		,curr.SyncDate = @SyncDate
 	FROM dbo.JobLevel AS curr WITH (ROWLOCK, UPDLOCK)
