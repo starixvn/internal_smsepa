@@ -94,8 +94,8 @@
             getUserPermissionOnFlowManagement: function () {
                 return $http.get(baseUrl + 'api/Common/GetUserPermissionOnFlowManagement');
             },
-            getJobLevel: function (isActive) {
-                return $http.get(baseUrl + 'api/Common/GetJobLevel', { params: { isActive: isActive } });
+            getJobLevel: function (isDeleted) {
+                return $http.get(baseUrl + 'api/Common/GetJobLevel', { params: { isDeleted: isDeleted } });
             }
         };
     }

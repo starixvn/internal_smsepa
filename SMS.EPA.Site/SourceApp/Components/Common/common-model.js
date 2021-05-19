@@ -226,8 +226,8 @@
             });
         };
 
-        model.getJobLevel = function (isActive) {
-            return commonFactory.getJobLevel(isActive).success(function (jobLevels) {
+        model.getJobLevel = function (isDeleted) {
+            return commonFactory.getJobLevel(isDeleted).success(function (jobLevels) {
                 model.jobLevels = jobLevels;
             }).error(function (response, status) {
                 errorFactory.errorHandle(status);

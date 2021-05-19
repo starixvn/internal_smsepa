@@ -161,7 +161,7 @@
                 vm.scoreInputValidMessage = message;
             });
 
-            CommonModel.getJobLevel(true).then(function () {
+            CommonModel.getJobLevel(false).then(function () {
                 vm.jobLevels = CommonModel.jobLevels;
             });
 

@@ -46,7 +46,7 @@
                 vm.permission = JobDescriptionModel.permission;
             });
 
-            CommonModel.getJobLevel(true).then(function () {
+            CommonModel.getJobLevel(false).then(function () {
                 vm.jobLevels = CommonModel.jobLevels;
                 if (vm.jobLevels.length > 0) {
                     vm.jobLevelId = vm.jobLevels[0].JobLevelId;

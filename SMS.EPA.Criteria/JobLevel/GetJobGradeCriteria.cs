@@ -4,7 +4,7 @@
 
     public class GetJobLevelCriteria : CriteriaBase
     {
-        public bool? IsActive { get; set; }
+        public bool? IsDeleted { get; set; }
 
         public override string GetSettingKey() => "JobLevel_Get";
 
