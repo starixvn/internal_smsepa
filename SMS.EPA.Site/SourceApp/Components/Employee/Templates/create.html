@@ -73,6 +73,17 @@
             </div>
         </div>
         <div class="form-group">
+            <label class="col-sm-3 control-label" data-translate="JobLevel">
+            </label>
+            <div class="col-sm-8 field">
+                <select ng-model="employeeCtrl.employee.JobLevelId"
+                        ng-options="jobLevel.JobLevelId as jobLevel.Name for jobLevel in employeeCtrl.jobLevelOptions"
+                        required class="form-control">
+                    <option value="">-- {{"Select" | translate}} --</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-group">
             <label class="col-sm-3 control-label side-dish-active-label" data-translate="Enabled">
             </label>
             <div class="col-sm-8 field employee-active-div">

@@ -1,0 +1,41 @@
+﻿<div class="col-sm-6" ng-controller="JobLevelController as jobLevelCtrl">
+    <div class="sub-header">
+        <ul class="row breadcrumb">
+            <li class="current" data-translate="ManageJobLevel"></li>
+        </ul>
+    </div>
+    <table class="row table table-bordered table-striped">
+        <thead>
+            <tr class="header-table" ng-if="jobLevelCtrl.permission === jobLevelCtrl.policy.Host">
+                <th colspan="7">
+                    <a class="pull-left button-icon create-button" ng-click="jobLevelCtrl.createJobLevel()">
+                        <span class="glyphicon glyphicon-plus icon-add"></span>
+                        <span class="button-text" data-translate="CreateJobLevel"></span>
+                    </a>
+                </th>
+            </tr>
+            <tr class="headerName">
+                <th class="text-center" data-translate="SymbolCount"></th>
+                <th class="text-center" data-translate="Name"></th>
+                <th class="text-center col-action" data-translate="Action" ng-if="jobLevelCtrl.permission === jobLevelCtrl.policy.Host"></th>
+            </tr>
+        </thead>
+        <tbody ng-if="jobLevelCtrl.jobLevels.length > 0" ng-repeat="jobLevel in jobLevelCtrl.jobLevels">
+            <tr>
+                <td class="text-center" ng-bind="($index + 1)"></td>
+                <td ng-bind="jobLevel.Name"></td>
+                <td class="text-center" ng-if="jobLevelCtrl.permission === jobLevelCtrl.policy.Host">
+                    <a class="glyphicon glyphicon-edit icon-edit" href=""
+                       ng-click="jobLevelCtrl.editJobLevel(jobLevel)" ng-attr-title='{{"Edit" | translate}}'></a>
+                    <a class="glyphicon glyphicon-remove icon-remove" href=""
+                       ng-click="jobLevelCtrl.deleteJobLevel(jobLevel)" ng-attr-title='{{"Delete" | translate}}'></a>
+                </td>
+            </tr>
+        </tbody>
+        <tbody ng-if="jobLevelCtrl.jobLevels.length === 0">
+            <tr>
+                <td class="empty-result" colspan="3" data-translate="EmptyResult"></td>
+            </tr>
+        </tbody>
+    </table>
+</div>

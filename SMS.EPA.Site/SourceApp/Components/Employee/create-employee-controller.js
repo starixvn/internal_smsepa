@@ -11,6 +11,7 @@
 
         vm.jobTitleOptions = [];
         vm.groupOptions = [];
+        vm.jobLevelOptions = [];
 
         vm.employee = {
             NickName: '',
@@ -21,7 +22,8 @@
             Password: '',
             Enabled: true,
             IsLocal: 'true',
-            Email: ''
+            Email: '',
+            JobLevelId: ''
         };
 
         vm.cancel = cancel;
@@ -40,6 +42,10 @@
 
             CommonModel.getAllJobTitle().then(function () {
                 vm.jobTitleOptions = CommonModel.jobTitles;
+            });
+
+            CommonModel.getJobLevel(false).then(function () {
+                vm.jobLevelOptions = CommonModel.jobLevels;
             });
         }
 

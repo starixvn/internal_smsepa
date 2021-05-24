@@ -201,6 +201,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controllers\API\JobDescriptionController.cs" />
+    <Compile Include="Controllers\API\JobLevelController.cs" />
     <Compile Include="Controllers\Export\ExportCommentReportController.cs" />
     <Compile Include="Controllers\Export\ExportRecommendationReportController.cs" />
     <Compile Include="Controllers\Export\ExportTargetTemplateController.cs" />
@@ -558,6 +559,14 @@
     <Content Include="SourceApp\Components\JobDescription\Templates\edit-group.html" />
     <Content Include="SourceApp\Components\JobDescription\Templates\index.html" />
     <Content Include="SourceApp\Components\JobDescription\Templates\edit-personnel.html" />
+    <Content Include="SourceApp\Components\JobLevel\create-job-level-controller.js" />
+    <Content Include="SourceApp\Components\JobLevel\job-level-controller.js" />
+    <Content Include="SourceApp\Components\JobLevel\job-level-factory.js" />
+    <Content Include="SourceApp\Components\JobLevel\job-level-model.js" />
+    <Content Include="SourceApp\Components\JobLevel\Templates\create.html" />
+    <Content Include="SourceApp\Components\JobLevel\Templates\edit.html" />
+    <Content Include="SourceApp\Components\JobLevel\Templates\index.html" />
+    <Content Include="SourceApp\Components\JobLevel\edit-job-level-controller.js" />
     <Content Include="SourceApp\Shared\Templates\modal-confirm-refresh-data.html" />
     <Content Include="SourceApp\Components\JobDescription\Templates\personnel.html" />
     <Content Include="SourceApp\Components\JobDescription\Templates\group.html" />

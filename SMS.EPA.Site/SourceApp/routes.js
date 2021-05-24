@@ -164,3 +164,10 @@ angular.module('jobDescriptionModule', ['ngRoute'])
         $routeProvider.when('/JobDescription/EditEmployee/:id',
             { templateUrl: baseUrl + 'SourceApp/Components/JobDescription/Templates/edit-personnel.html', caseInsensitiveMatch: true });
     }]);
+
+angular.module('jobLevelModule', ['ngRoute'])
+    .config(['$routeProvider', function ($routeProvider) {
+        var baseUrl = $('base').first().attr('href');
+        $routeProvider.when('/JobLevel/Index',
+            { templateUrl: baseUrl + 'SourceApp/Components/JobLevel/Templates/index.html', caseInsensitiveMatch: true });
+    }]);

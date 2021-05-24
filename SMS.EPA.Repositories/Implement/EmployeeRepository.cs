@@ -16,16 +16,17 @@
             {
                 using (IMultiResultReader multi = db.QueryMultiple(criteria.GetSpParams()))
                 {
-                    var employees = multi.Read<Employee, JobTitle, Group, Department, Employee>(
-                           (emp, jb, gr, dept) =>
+                    var employees = multi.Read<Employee, JobTitle, JobLevel, Group, Department, Employee>(
+                           (emp, jb, jl, gr, dept) =>
                            {
                                emp.JobTitle = jb;
+                               emp.JobLevel = jl;
                                emp.Group = gr;
                                emp.Department = dept;
 
                                return emp;
                            },
-                           "JobTitleId, GroupId, DepartmentId");
+                           "JobTitleId, JobLevelId, GroupId, DepartmentId");
 
                     var roles = multi.Read<EmployeeRoleModel>();
 

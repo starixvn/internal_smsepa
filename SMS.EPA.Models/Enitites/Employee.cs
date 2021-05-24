@@ -61,6 +61,8 @@
 
         public JobTitle JobTitle { get; set; }
 
+        public JobLevel JobLevel { get; set; }
+
         public Department Department { get; set; }
 
         public Group Group { get; set; }

@@ -90,7 +90,10 @@
     <Compile Include="JobDescription\EditJobDescriptionItemCriteria.cs" />
     <Compile Include="JobDescription\EditJobDescriptionGroupItemCriteria.cs" />
     <Compile Include="JobDescription\EditEmployeeSettingJobDescriptionCriteria.cs" />
-    <Compile Include="JobLevel\GetJobGradeCriteria.cs" />
+    <Compile Include="JobLevel\CreateJobLevelCriteria.cs" />
+    <Compile Include="JobLevel\DeleteJobLevelCriteria.cs" />
+    <Compile Include="JobLevel\EditJobLevelCriteria.cs" />
+    <Compile Include="JobLevel\GetJobLevelCriteria.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <!-- Exclude the file from analysis -->
       <SonarQubeExclude>true</SonarQubeExclude>

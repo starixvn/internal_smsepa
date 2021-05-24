@@ -10,6 +10,7 @@
         var vm = this;
 
         vm.jobTitleOptions = [];
+        vm.jobLevelOptions = [];
         vm.groupOptions = [];
         vm.originalEmployee = employee;
 
@@ -19,6 +20,7 @@
             FullName: employee.FullName,
             GroupId: employee.Group ? employee.Group.GroupId : '',
             JobTitleId: employee.JobTitle ? employee.JobTitle.JobTitleId : '',
+            JobLevelId: employee.JobLevel ? employee.JobLevel.JobLevelId : '',
             Username: employee.Username,
             Enabled: employee.Enabled,
             IsLocal: employee.IsLocal ? 'true' : 'false',
@@ -41,6 +43,10 @@
 
             CommonModel.getAllJobTitle().then(function () {
                 vm.jobTitleOptions = CommonModel.jobTitles;
+            });
+
+            CommonModel.getJobLevel(false).then(function () {
+                vm.jobLevelOptions = CommonModel.jobLevels;
             });
         }
 

@@ -1479,4 +1479,10 @@
   <data name="Details" xml:space="preserve">
     <value>Details</value>
   </data>
+  <data name="ManageJobLevel" xml:space="preserve">
+    <value>Job Level Management</value>
+  </data>
+  <data name="CreateJobLevel" xml:space="preserve">
+    <value>Create Job Level</value>
+  </data>
 </root>

@@ -15,6 +15,8 @@
 
         public int JobTitleId { get; set; }
 
+        public int JobLevelId { get; set; }
+
         [SpParam(Ignored = true)]
         public string Username { get; set; }
 

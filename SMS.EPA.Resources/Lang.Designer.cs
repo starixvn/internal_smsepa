@@ -601,6 +601,15 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Create Job Level.
+        /// </summary>
+        public static string CreateJobLevel {
+            get {
+                return ResourceManager.GetString("CreateJobLevel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Create KPI.
         /// </summary>
         public static string CreateKPI {
@@ -2064,6 +2073,15 @@ namespace SMS.EPA.Resources {
         public static string ManageFlowSetting {
             get {
                 return ResourceManager.GetString("ManageFlowSetting", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Job Level Management.
+        /// </summary>
+        public static string ManageJobLevel {
+            get {
+                return ResourceManager.GetString("ManageJobLevel", resourceCulture);
             }
         }
         

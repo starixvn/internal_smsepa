@@ -20,6 +20,7 @@
                 'monthlyPeriodModule',
                 'disciplineModule',
                 'jobDescriptionModule',
+                'jobLevelModule',
                 'ui.bootstrap.contextMenu',
                 'ui.bootstrap',
                 'angular.chosen',

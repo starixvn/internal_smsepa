@@ -65,5 +65,7 @@
         public const string DisciplineSummaryByPeriod = "DisciplineSummaryByPeriod";
 
         public const string JobDescription = "JobDescription";
+
+        public const string JobLevel = "JobLevel";
     }
 }

@@ -7,7 +7,9 @@
     <Setting Key="Login_GetEmployee" SpName="Login_GetEmployee" DbName="SMSEPA" Plain="0"></Setting>
   </Function>
   <Function Name="Employee">
-    <Setting Key="EpaEmployee_Get" SpName="EpaEmployee_Get" DbName="SMSEPA" Plain="0"></Setting>
+    <Setting Key="EpaEmployee_Get" SpName="EpaEmployee_Get" DbName="SMSEPA" Plain="0">
+        <Mapping DataField="JobLevelName" ObjectProperty="Name" />
+    </Setting>
     <Setting Key="EpaEmployee_GetById" SpName="EpaEmployee_GetById" DbName="SMSEPA" Plain="0"></Setting>
     <Setting Key="EpaGroup_Get" SpName="EpaGroup_Get" DbName="SMSEPA" Plain="0"></Setting>
     <Setting Key="EpaEmployee_Insert" SpName="EpaEmployee_Insert" DbName="SMSEPA" Plain="0"></Setting>
@@ -240,6 +242,9 @@
   </Function>
     <Function Name="Job Level">
         <Setting Key="JobLevel_Get" SpName="JobLevel_Get" DbName="SMSEPA" Plain="0" />
+        <Setting Key="JobLevel_Insert" SpName="JobLevel_Insert" DbName="SMSEPA" Plain="0" />
+        <Setting Key="JobLevel_Update" SpName="JobLevel_Update" DbName="SMSEPA" Plain="0" />
+        <Setting Key="JobLevel_Delete" SpName="JobLevel_Delete" DbName="SMSEPA" Plain="0" />
     </Function>
     <Function Name="Job Description">
         <Setting Key="JobDescription_GetGroupSetting" SpName="JobDescription_GetGroupSetting" DbName="SMSEPA" Plain="0" />
