@@ -38,7 +38,11 @@ BEGIN
 		,[ModifiedDate]
 		)
 	VALUES (
-		ISNULL(@JobLevelId, 0) - 1
+		CASE @JobLevelId
+			WHEN 1 THEN -1
+			WHEN NULL THEN -1
+			ELSE @JobLevelId -1
+			END
 		,@Name
 		,0
 		,GETDATE()
