@@ -14,5 +14,7 @@
         public static int StartDayCreateMonthlyPeriod => Convert.ToInt32(ConfigurationManager.AppSettings["StartDayCreateMonthlyPeriod"]);
 
         public static string RelativeEmailPath => ConfigurationManager.AppSettings["RelativeEmailPath"];
+
+        public static bool ProbationExtendedQuestionEnabled => Convert.ToBoolean(ConfigurationManager.AppSettings["ProbationExtendedQuestionEnabled"]);
     }
 }

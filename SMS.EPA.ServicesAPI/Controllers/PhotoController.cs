@@ -33,7 +33,6 @@
         [HttpPost]
         public IHttpActionResult Update(Photo[] photos)
         {
-            logger.Info(photos.Length.ToString());
             foreach (Photo photo in photos)
             {
                 var fullPath = AppConfig.PhotoPath + "\\" + photo.Code;

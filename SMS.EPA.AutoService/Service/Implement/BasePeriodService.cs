@@ -145,7 +145,8 @@
             var criteria = new AutoGenerateEvaluationCriteria
             {
                 PeriodId = employeePeriod.PeriodId,
-                EmployeeIds = employeePeriod.EmployeeIds
+                EmployeeIds = employeePeriod.EmployeeIds,
+                ExtendedQuestionEnabled = AppSetting.ProbationExtendedQuestionEnabled
             };
             CommandResult commandResult = BaseService.ExecuteNonQuery(criteria);
 
