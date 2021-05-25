@@ -364,6 +364,7 @@
     <Build Include="dbo\Stored Procedures\JobLevel_Get.sql" />
     <Build Include="dbo\Stored Procedures\JobLevel_Insert.sql" />
     <Build Include="dbo\Stored Procedures\JobLevel_Update.sql" />
+    <Build Include="dbo\Stored Procedures\EpaEmployee_UpdateJobLevel.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="scripts\auto-add-staff-into-semi-period.sql" />
