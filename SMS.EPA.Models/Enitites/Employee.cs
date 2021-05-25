@@ -81,6 +81,7 @@
                 Department = Department != null ? Department.Name : string.Empty,
                 Section = Group != null ? Group.GroupName : string.Empty,
                 JobTitle = JobTitle.JobTitleName,
+                JobLevel = JobLevel.Name,
                 Category,
                 JoinedDate = JoinedDate.ToString(Constants.DateFormat),
                 Email,

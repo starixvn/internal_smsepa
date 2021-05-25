@@ -79,6 +79,15 @@
         }
 
         [HttpPut]
+        [ApiAuthorize(FunctionKey = EPAFunctionKey.UserManagement, Policy = Policy.Host)]
+        public CommandResult UpdateJobLevel(UpdateJobLevelCriteria criteria)
+        {
+
+            CommandResult commandResult = baseService.ExecuteNonQuery(criteria);
+            return commandResult;
+        }
+
+        [HttpPut]
         public CommandResult ChangePassword(ChangePasswordCriteria criteria)
         {
             if (criteria != null)

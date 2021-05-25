@@ -4,6 +4,7 @@ CREATE PROCEDURE [dbo].[EpaEmployee_Update] @EmployeeId INT
 	,@FullName NVARCHAR(50) = ''
 	,@GroupId INT = ''
 	,@JobTitleId INT = ''
+	,@JobLevelId INT = ''
 	,@DomainUsername NVARCHAR(50)
 	,@Enabled BIT = 1
 	,@IsLocal BIT = 1
@@ -68,6 +69,7 @@ BEGIN
 			,[ModifiedBy] = @ModifiedBy
 			,[ModifiedDate] = GETDATE()
 			,[JobTitle] = @JobTitleId
+			,[JobLevelId] =  @JobLevelId
 			,[IsLocal] = @IsLocal
 			,[Email] = @Email
 		WHERE [EmployeeId] = @EmployeeId

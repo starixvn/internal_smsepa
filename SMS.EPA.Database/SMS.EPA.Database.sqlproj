@@ -360,6 +360,10 @@
     <Build Include="dbo\Tables\JobLevel.sql" />
     <Build Include="dbo\Stored Procedures\Sync_JobLevel_GetMaxModifiedDate.sql" />
     <Build Include="dbo\Stored Procedures\Sync_JobLevel.sql" />
+    <Build Include="dbo\Stored Procedures\JobLevel_Delete.sql" />
+    <Build Include="dbo\Stored Procedures\JobLevel_Get.sql" />
+    <Build Include="dbo\Stored Procedures\JobLevel_Insert.sql" />
+    <Build Include="dbo\Stored Procedures\JobLevel_Update.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="scripts\auto-add-staff-into-semi-period.sql" />

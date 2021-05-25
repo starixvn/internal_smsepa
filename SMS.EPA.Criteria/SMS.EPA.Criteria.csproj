@@ -78,6 +78,7 @@
     <Compile Include="EmployeeEPA\GetPeriodByActorIdCriteria.cs" />
     <Compile Include="EmployeeEPA\GetExtendedQuestionCriteria.cs" />
     <Compile Include="EmployeeEPA\GetJobDescriptionByEPAIdCriteria.cs" />
+    <Compile Include="Employee\UpdateJobLevelCriteria.cs" />
     <Compile Include="JobDescription\CreateJobDescriptionItemCriteria.cs" />
     <Compile Include="JobDescription\CreateJobDescriptionGroupItemCriteria.cs" />
     <Compile Include="JobDescription\EditGroupSettingJobDescriptionCriteria.cs" />

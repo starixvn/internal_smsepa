@@ -1,0 +1,24 @@
+﻿<div class="modal-header">
+    <div class="popup-header">
+        Update Job Level
+        <span class="close-popup" ng-click="editJobLevelEmployeeCtrl.cancel()"></span>
+    </div>
+</div>
+<div class="modal-body descriptionGroup-modal-body">
+    <form class="form-horizontal col-sm-11" role="form">
+        <div class="form-group">
+            <label class="col-sm-4 control-label" data-translate="JobLevel"></label>
+            <div class="col-sm-8 field">
+                <select ng-model="editJobLevelEmployeeCtrl.employee.JobLevelId"
+                        ng-options="jobLevel.JobLevelId as jobLevel.Name for jobLevel in editJobLevelEmployeeCtrl.jobLevelOptions"
+                        required class="form-control">
+                    <option value="">-- {{"Select" | translate}} --</option>
+                </select>
+            </div>
+        </div>
+    </form>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-primary" ng-click="editJobLevelEmployeeCtrl.save()" data-translate="Submit"></button>
+    <button class="btn btn-cancel" ng-click="editJobLevelEmployeeCtrl.cancel()" data-translate="Cancel"></button>
+</div>

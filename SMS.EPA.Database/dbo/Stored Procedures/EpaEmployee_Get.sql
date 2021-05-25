@@ -127,6 +127,8 @@ BEGIN
 		,emp.JoinedDate
 		,emp.JobTitle AS JobTitleId
 		,job.[Name] AS JobTitleName
+		,emp.JobLevelId AS JobLevelId
+		,jlevel.[Name] AS JobLevelName
 		,gr.GroupId
 		,gr.[Name] AS GroupName
 		,gr.Code AS GroupCode
@@ -138,6 +140,7 @@ BEGIN
 		LEFT JOIN dbo.[Group] AS gr WITH (NOLOCK) ON emp.GroupId = gr.GroupId
 		LEFT JOIN dbo.Department AS dept WITH (NOLOCK) ON gr.DepartmentId = dept.DepartmentId
 		LEFT JOIN dbo.HRMJobTitle AS job WITH (NOLOCK) ON emp.JobTitle = job.Id
+		LEFT JOIN dbo.JobLevel AS jlevel WITH (NOLOCK) ON  emp.JobLevelId = jlevel.JobLevelId
 
 	SELECT ro.EmployeeId
 		,ro.RoleId

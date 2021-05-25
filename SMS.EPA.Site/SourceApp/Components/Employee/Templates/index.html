@@ -94,7 +94,18 @@
                 <td class="text-center" ng-bind="employee.NickName"></td>
                 <td ng-bind="employee.FullName"></td>
                 <td ng-bind="employee.JobTitle.JobTitleName"></td>
-                <td ng-bind="employee.JobLevel.Name"></td>
+                <td class="text-center" ng-if="employee.JobLevel.JobLevelId">
+                    <div ng-if="employeeCtrl.permission === employeeCtrl.policyEnum.Host">
+                        <a class="link" ng-click="employeeCtrl.editJobLevel(employee)" ng-bind="employee.JobLevel.Name"></a>
+                    </div>
+                    <span ng-bind="employee.JobLevel.Name" ng-if="employeeCtrl.permission !== employeeCtrl.policyEnum.Host"></span>
+                </td>
+                <td class="text-center" ng-if="!employee.JobLevel.JobLevelId">
+                    <div ng-if="employeeCtrl.permission == employeeCtrl.policyEnum.Host">
+                        <a class="glyphicon glyphicon-edit icon-edit" href=""
+                           ng-click="employeeCtrl.editJobLevel(employee)" ng-attr-title='{{"Edit" | translate}}'></a>
+                    </div>
+                </td>
                 <td ng-bind="employee.Department.Name"></td>
                 <td class="text-center">
                     <span uib-tooltip="{{employee.Group.GroupName}}" ng-bind="employee.Group.GroupCode"></span>

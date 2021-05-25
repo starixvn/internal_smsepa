@@ -76,6 +76,7 @@
                             "~/SourceApp/Components/Employee/update-employee-controller.js",
                             "~/SourceApp/Components/Employee/reset-password-controller.js",
                             "~/SourceApp/Components/Employee/set-monthly-evaluation-controller.js",
+                            "~/SourceApp/Components/Employee/edit-job-level-controller.js",
                             "~/SourceApp/Components/KPI/kpi-factory.js",
                             "~/SourceApp/Components/KPI/kpi-model.js",
                             "~/SourceApp/Components/KPI/kpi-directive.js",

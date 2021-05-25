@@ -24,12 +24,21 @@
         vm.resetPassword = resetPassword;
         vm.updateEmployee = updateEmployee;
         vm.updateHasMonthlyEPA = updateHasMonthlyEPA;
+        vm.editJobLevel = editJobLevel;
 
         utilitiesFactory.numberEntryList(vm);
         initialize();
 
         function assignRole(employee) {
             EmployeeModel.openPopupAssignRole(employee);
+        }
+
+        function editJobLevel(employee) {
+            EmployeeModel.openPopupEditJobLevel(vm, employee).then(function () {
+            })['finally'](function () {
+                vm.modalInstance = '';
+                getEmployee(vm.filter.query, vm.filter.departmentId, vm.filter.isLocal, vm.filter.isSpecialUser, vm.filter.isDisabledUser, vm.filter.hasMonthlyEPA);
+            });
         }
 
         function createEmployee() {

@@ -110,6 +110,19 @@
             });
         };
 
+        model.updateJobLevel = function (employee, modalInstance) {
+            return employeeFactory.updateJobLevel(employee).success(function (response) {
+                if (response.IsSuccessful) {
+                    notificationFactory.success("UpdatedSuccessfully");
+                    modalInstance.close(employee);
+                } else {
+                    notificationFactory.error('', response.Message);
+                }
+            }).error(function (response, status) {
+                errorFactory.errorHandle(status);
+            });
+        };
+
         function findEmployeeGroupById(groupId) {
             var groupResult = {};
 
@@ -342,6 +355,22 @@
                 errorFactory.errorHandle(status);
             });
         };
+
+        model.openPopupEditJobLevel = function (vm, employee) {
+            vm.modalInstance = $uibModal.open({
+                templateUrl: 'SourceApp/Components/Employee/Templates/edit-job-level.html',
+                controller: 'EditJobLevelEmployeeController as editJobLevelEmployeeCtrl',
+                backdrop: 'static',
+                resolve: {
+                    employee: function () {
+                        return angular.copy(employee);
+                    }
+                },
+                windowClass: 'modal-confirm-center'
+            });
+
+            return vm.modalInstance.result;
+        }
 
         return model;
     }

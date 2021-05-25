@@ -465,11 +465,13 @@
     <Content Include="SourceApp\Components\Discipline\discipline-summary-by-period-controller.js" />
     <Content Include="SourceApp\Components\Discipline\Templates\disciplineSummary.html" />
     <Content Include="SourceApp\Components\Employee\assign-role-controller.js" />
+    <Content Include="SourceApp\Components\Employee\edit-job-level-controller.js" />
     <Content Include="SourceApp\Components\Employee\export-employee-info-directive.js" />
     <Content Include="SourceApp\Components\Employee\set-monthly-evaluation-controller.js" />
     <Content Include="SourceApp\Components\Employee\employee-profile-controller.js" />
     <Content Include="SourceApp\Components\Employee\reset-password-controller.js" />
     <Content Include="SourceApp\Components\Employee\change-password-controller.js" />
+    <Content Include="SourceApp\Components\Employee\Templates\edit-job-level.html" />
     <Content Include="SourceApp\Components\Employee\update-employee-controller.js" />
     <Content Include="SourceApp\Components\Employee\employee-access-controller.js" />
     <Content Include="SourceApp\Components\Employee\get-employee-permission-directive.js" />

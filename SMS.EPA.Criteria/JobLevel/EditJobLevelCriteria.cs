@@ -9,6 +9,6 @@
 
         public override string GetSettingKey() => "JobLevel_Update";
 
-        public override bool IsValid() => JobLevelId > 0 && !string.IsNullOrWhiteSpace(Name);
+        public override bool IsValid() => !string.IsNullOrWhiteSpace(Name);
     }
 }

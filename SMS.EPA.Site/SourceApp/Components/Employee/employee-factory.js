@@ -15,7 +15,8 @@
             getUserPermissionOnEmployee: getUserPermissionOnEmployee,
             resetPassword: resetPassword,
             updateHasMonthlyEPA: updateHasMonthlyEPA,
-            updateSpecialEmployee: updateSpecialEmployee
+            updateSpecialEmployee: updateSpecialEmployee,
+            updateJobLevel: updateJobLevel
         };
 
         function assignRoleToEmployee(employeeRoles) {
@@ -62,6 +63,10 @@
 
         function updateSpecialEmployee(employee) {
             return $http.put(baseUrl + 'api/Employee/UpdateSpecialEmployee', employee);
+        }
+
+        function updateJobLevel(employee) {
+            return $http.put(baseUrl + 'api/Employee/UpdateJobLevel', employee);
         }
     }
 })(angular);

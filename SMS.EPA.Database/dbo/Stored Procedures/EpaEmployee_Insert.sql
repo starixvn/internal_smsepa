@@ -4,6 +4,7 @@ CREATE PROCEDURE [dbo].[EpaEmployee_Insert] @NickName NVARCHAR(20)
 	,@FullName NVARCHAR(50) = ''
 	,@GroupId INT = ''
 	,@JobTitleId INT = ''
+	,@JobLevelId INT = ''
 	,@DomainUsername NVARCHAR(50)
 	,@Password NVARCHAR(100)
 	,@Email VARCHAR(50) = NULL
@@ -85,6 +86,7 @@ BEGIN
 			,[JobTitle]
 			,[IsLocal]
 			,[Email]
+			,[JobLevelId]
 			)
 		VALUES (
 			@EmpId
@@ -107,6 +109,7 @@ BEGIN
 			,@JobTitleId
 			,@IsLocal
 			,@Email
+			,@JobLevelId
 			)
 
 		EXEC [dbo].[EpaEmployee_AssignRoleToEmployee] @EmployeeId = @EmpId
