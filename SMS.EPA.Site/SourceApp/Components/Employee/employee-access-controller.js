@@ -35,16 +35,17 @@
 
         function editJobLevel(employee) {
             EmployeeModel.openPopupEditJobLevel(vm, employee).then(function () {
+                getEmployee(vm.filter.query, vm.filter.departmentId, vm.filter.isLocal, vm.filter.isSpecialUser, vm.filter.isDisabledUser, vm.filter.hasMonthlyEPA);
             })['finally'](function () {
                 vm.modalInstance = '';
-                getEmployee(vm.filter.query, vm.filter.departmentId, vm.filter.isLocal, vm.filter.isSpecialUser, vm.filter.isDisabledUser, vm.filter.hasMonthlyEPA);
             });
         }
 
         function createEmployee() {
-            EmployeeModel.openPopupCreateNewEmployee(vm).then()['finally'](function () {
+            EmployeeModel.openPopupCreateNewEmployee(vm).then(function () {
+                getEmployee(vm.filter.query, vm.filter.departmentId, vm.filter.isLocal, vm.filter.isSpecialUser, vm.filter.isDisabledUser, vm.filter.hasMonthlyEPA);
+            })['finally'](function () {
                 vm.modalInstance = '';
-                getEmployee(vm.filter.query, vm.filter.departmentId, vm.filter.isLocal, vm.filter.isSpecialUser);
             });
         }
 
@@ -114,9 +115,9 @@
         function updateEmployee(employee) {
             EmployeeModel.openPopupUpdateEmployee(vm, employee).then(function (updatedEmployee) {
                 EmployeeModel.updateChangedEmployee(employee, updatedEmployee);
+                getEmployee(vm.filter.query, vm.filter.departmentId, vm.filter.isLocal, vm.filter.isSpecialUser, vm.filter.isDisabledUser, vm.filter.hasMonthlyEPA);
             })['finally'](function () {
                 vm.modalInstance = '';
-                getEmployee(vm.filter.query, vm.filter.departmentId, vm.filter.isLocal, vm.filter.isSpecialUser, vm.filter.isDisabledUser, vm.filter.hasMonthlyEPA);
             });
         }
 
