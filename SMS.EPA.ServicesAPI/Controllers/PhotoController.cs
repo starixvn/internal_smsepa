@@ -11,8 +11,6 @@
     [Authorize]
     public class PhotoController : ApiController
     {
-        private readonly log4net.ILog logger = log4net.LogManager.GetLogger(typeof(PhotoController));
-
         public IHttpActionResult GetLastModifiedDate()
         {
             var lastModifiedDate = new DateTime(2016, 01, 01);
