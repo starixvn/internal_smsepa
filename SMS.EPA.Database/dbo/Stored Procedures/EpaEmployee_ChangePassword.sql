@@ -28,6 +28,7 @@ BEGIN
 		UPDATE [dbo].[Employee] WITH (ROWLOCK, UPDLOCK)
 		SET [Password] = @NewPassword
 			,[ModifiedBy] = @ModifiedBy
+			,ModifiedDate = GETDATE()
 		WHERE [EmployeeId] = @EmployeeId
 
 		EXEC @Data = [dbo].[fncGetDataForWriteLog_Employee_ChangePassWord] @EmployeeId = @EmployeeId
