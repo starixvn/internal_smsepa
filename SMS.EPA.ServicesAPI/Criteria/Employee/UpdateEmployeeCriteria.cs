@@ -18,7 +18,7 @@
             "<User EmployeeId='{0}' DomainUsername='{1}' Code='{2}'"
             + " NickName='{3}' FullName='{4}' TeamId='{5}' JobTitleId='{6}' Phone='{7}'"
             + " Email='{8}' CardNumber='{9}' IsEnabled='{10}' IsDeleted='{11}' Password='{12}'"
-            + " JoinedDate='{13}' ModifiedDate='{14}' IsLocal='{15}' ResignedDate ='{16}' ConfirmedDate='{17}'></User>";
+            + " JoinedDate='{13}' ModifiedDate='{14}' IsLocal='{15}' ResignedDate ='{16}' ConfirmedDate='{17}' JobLevelId='{18}'></User>";
 
         [SpParam(Ignored = true)]
         public IList<Employee> Employees { get; set; }
@@ -56,10 +56,11 @@
                             employee.IsDeleted,
                             password,
                             employee.JoinedDate,
-                            employee.ModifiedDate,
+                            employee.ModifiedDate.ToString(Constants.ModifiedDateTimeFormat),
                             employee.IsLocal,
                             employee.ResignedDate,
-                            employee.ConfirmedDate);
+                            employee.ConfirmedDate,
+                            employee.JobLevelId);
                     }
                 }
 

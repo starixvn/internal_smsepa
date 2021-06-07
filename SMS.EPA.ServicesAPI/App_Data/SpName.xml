@@ -1,18 +1,20 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Functions>
-  <Function Name="Attendance">
-    <Setting Key="Sync_Employee_GetMaxModifiedDate" SpName="Sync_Employee_GetMaxModifiedDate" DbName="SMSEPA" Plain="0"></Setting>
-    <Setting Key="Sync_Group_GetMaxModifiedDate" SpName="Sync_Group_GetMaxModifiedDate" DbName="SMSEPA" Plain="0"></Setting>
-    <Setting Key="Sync_Department_GetMaxModifiedDate" SpName="Sync_Department_GetMaxModifiedDate" DbName="SMSEPA" Plain="0"></Setting>
-    <Setting Key="Sync_DisciplineSummary_GetLastModifiedDate" SpName="Sync_DisciplineSummary_GetLastModifiedDate" DbName="SMSEPA" Plain="0"></Setting>
-    <Setting Key="Sync_DisciplineSummary" SpName="Sync_DisciplineSummary" DbName="SMSEPA" Plain="0"></Setting>
-    <Setting Key="Sync_EmployeeDisciplinePermission_GetMaxModifiedDate" SpName="Sync_EmployeeDisciplinePermission_GetMaxModifiedDate" DbName="SMSEPA" Plain="0"></Setting>
-    <Setting Key="Sync_TeamDisciplinePermission_GetMaxModifiedDate" SpName="Sync_TeamDisciplinePermission_GetMaxModifiedDate" DbName="SMSEPA" Plain="0"></Setting>
-    <Setting Key="Sync_Group" SpName="Sync_Group" DbName="SMSEPA" Plain="0"></Setting>
-    <Setting Key="Sync_Employee" SpName="Sync_Employee" DbName="SMSEPA" Plain="0"></Setting>
-    <Setting Key="Sync_JobTitle" SpName="Sync_JobTitle" DbName="SMSEPA" Plain="0"></Setting>
-    <Setting Key="Sync_Department" SpName="Sync_Department" DbName="SMSEPA" Plain="0"></Setting>
-    <Setting Key="Sync_EmployeeDisciplinePermission" SpName="Sync_EmployeeDisciplinePermission" DbName="SMSEPA" Plain="0"></Setting>
-    <Setting Key="Sync_TeamDisciplinePermission" SpName="Sync_TeamDisciplinePermission" DbName="SMSEPA" Plain="0"></Setting>
-  </Function>
+    <Function Name="Attendance">
+        <Setting Key="Sync_Employee_GetMaxModifiedDate" SpName="Sync_Employee_GetMaxModifiedDate" DbName="SMSEPA" Plain="0"></Setting>
+        <Setting Key="Sync_Group_GetMaxModifiedDate" SpName="Sync_Group_GetMaxModifiedDate" DbName="SMSEPA" Plain="0"></Setting>
+        <Setting Key="Sync_Department_GetMaxModifiedDate" SpName="Sync_Department_GetMaxModifiedDate" DbName="SMSEPA" Plain="0"></Setting>
+        <Setting Key="Sync_DisciplineSummary_GetLastModifiedDate" SpName="Sync_DisciplineSummary_GetLastModifiedDate" DbName="SMSEPA" Plain="0"></Setting>
+        <Setting Key="Sync_DisciplineSummary" SpName="Sync_DisciplineSummary" DbName="SMSEPA" Plain="0"></Setting>
+        <Setting Key="Sync_EmployeeDisciplinePermission_GetMaxModifiedDate" SpName="Sync_EmployeeDisciplinePermission_GetMaxModifiedDate" DbName="SMSEPA" Plain="0"></Setting>
+        <Setting Key="Sync_TeamDisciplinePermission_GetMaxModifiedDate" SpName="Sync_TeamDisciplinePermission_GetMaxModifiedDate" DbName="SMSEPA" Plain="0"></Setting>
+        <Setting Key="Sync_JobLevel_GetMaxModifiedDate" SpName="Sync_JobLevel_GetMaxModifiedDate" DbName="SMSEPA" Plain="0"></Setting>
+        <Setting Key="Sync_Group" SpName="Sync_Group" DbName="SMSEPA" Plain="0"></Setting>
+        <Setting Key="Sync_Employee" SpName="Sync_Employee" DbName="SMSEPA" Plain="0"></Setting>
+        <Setting Key="Sync_JobTitle" SpName="Sync_JobTitle" DbName="SMSEPA" Plain="0"></Setting>
+        <Setting Key="Sync_Department" SpName="Sync_Department" DbName="SMSEPA" Plain="0"></Setting>
+        <Setting Key="Sync_EmployeeDisciplinePermission" SpName="Sync_EmployeeDisciplinePermission" DbName="SMSEPA" Plain="0"></Setting>
+        <Setting Key="Sync_TeamDisciplinePermission" SpName="Sync_TeamDisciplinePermission" DbName="SMSEPA" Plain="0"></Setting>
+        <Setting Key="Sync_JobLevel" SpName="Sync_JobLevel" DbName="SMSEPA" Plain="0"></Setting>
+    </Function>
 </Functions>

@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31019.35
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Business", "Business", "{829FE15F-60A7-40AF-B3C8-03D0760BC522}"
 EndProject
@@ -57,6 +57,10 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "API", "API", "{32FD6659-4EE4-4B2B-856F-06DE6B88E466}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SMS.EPA.AutoService", "SMS.EPA.AutoService\SMS.EPA.AutoService.csproj", "{3072A671-2F7E-43F5-8FF3-FB1C14FE76C5}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WindowsService", "WindowsService\WindowsService.csproj", "{3F03AA3C-121C-4322-A55D-645EA62D1C93}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SMS.EPA.WindowsService.UnitTests", "SMS.EPA.WindowsService.UnitTests\SMS.EPA.WindowsService.UnitTests.csproj", "{FF1CEA4E-B016-4B1C-BD04-70B29216C2F9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -122,6 +126,14 @@ Global
 		{3072A671-2F7E-43F5-8FF3-FB1C14FE76C5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3072A671-2F7E-43F5-8FF3-FB1C14FE76C5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3072A671-2F7E-43F5-8FF3-FB1C14FE76C5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3F03AA3C-121C-4322-A55D-645EA62D1C93}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3F03AA3C-121C-4322-A55D-645EA62D1C93}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3F03AA3C-121C-4322-A55D-645EA62D1C93}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3F03AA3C-121C-4322-A55D-645EA62D1C93}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FF1CEA4E-B016-4B1C-BD04-70B29216C2F9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FF1CEA4E-B016-4B1C-BD04-70B29216C2F9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FF1CEA4E-B016-4B1C-BD04-70B29216C2F9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FF1CEA4E-B016-4B1C-BD04-70B29216C2F9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -141,8 +153,10 @@ Global
 		{7CDE6CEE-75E7-4E27-B67D-8B9255F4AB8E} = {14B58E2B-4A04-421B-ADE5-3E222C3B8706}
 		{8F83B6D6-8A29-40E1-BB27-9E24F90668B8} = {14B58E2B-4A04-421B-ADE5-3E222C3B8706}
 		{3072A671-2F7E-43F5-8FF3-FB1C14FE76C5} = {C21A15A7-9F35-4ED3-AD64-8C2EE5A5DD16}
+		{FF1CEA4E-B016-4B1C-BD04-70B29216C2F9} = {14B58E2B-4A04-421B-ADE5-3E222C3B8706}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		EnterpriseLibraryConfigurationToolBinariesPathV6 = packages\EnterpriseLibrary.Common.6.0.1304.0\lib\NET45;packages\EnterpriseLibrary.Logging.6.0.1304.0\lib\NET45
+		SolutionGuid = {D5E40F6B-49C4-46CB-8428-F8653B31619C}
 	EndGlobalSection
 EndGlobal

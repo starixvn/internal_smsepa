@@ -1,0 +1,16 @@
+﻿namespace SMS.EPA.WindowsService.ThirdPartyAPI
+{
+    using Core.Model;
+    using EPA.Model.API;
+    using Model;
+    using System;
+    using System.Collections.Generic;
+    using System.Threading.Tasks;
+
+    public interface ITeamSupervisorAPI
+    {
+        Task<CommandResult> Update(IEnumerable<TeamDisciplinePermission> groupSupervisors, TokenAccess token);
+
+        Task<DateTime> GetLastModifiedDateAsync(TokenAccess token);
+    }
+}

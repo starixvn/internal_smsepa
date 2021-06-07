@@ -62,11 +62,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="API\JobLevel.cs" />
     <Compile Include="AutoService\AutoEvaluationProcessModel.cs" />
     <Compile Include="Email\MailModel.cs" />
     <Compile Include="Email\MailReminder.cs" />
     <Compile Include="EmployeeEPA\ProbationExtendedQuestion\EPAProbationExtendedQuestionModel.cs" />
     <Compile Include="EmployeeEPA\ProbationExtendedQuestion\ProbationSubQuestionModel.cs" />
+    <Compile Include="JobLevel\JobLevel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <!-- Exclude the file from analysis -->
       <SonarQubeExclude>true</SonarQubeExclude>

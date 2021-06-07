@@ -47,7 +47,7 @@
                 TokenEndpointPath = new PathString("/Token"),
                 Provider = new ApplicationOAuthProvider(PublicClientId),
                 AccessTokenExpireTimeSpan = TimeSpan.FromMinutes(AppConfig.TokenTimeOut),
-                AllowInsecureHttp = false
+                AllowInsecureHttp = true
             };
             app.UseOAuthBearerTokens(OAuthOptions);
         }
