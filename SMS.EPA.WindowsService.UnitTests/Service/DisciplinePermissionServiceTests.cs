@@ -3,12 +3,15 @@
     using AutoFixture;
     using Fanex.Data.Repository;
     using NSubstitute;
+    using SMS.EPA.Core.Model;
     using SMS.EPA.Model.API;
+    using SMS.EPA.WindowsService.Criteria;
     using SMS.EPA.WindowsService.Model;
     using SMS.EPA.WindowsService.Services;
     using SMS.EPA.WindowsService.ThirdPartyAPI;
     using System;
     using System.Collections.Generic;
+    using System.Threading.Tasks;
     using Xunit;
 
     public class DisciplinePermissionServiceTests
@@ -17,96 +20,106 @@
         private IDynamicRepository dynamicRepository;
         private IEmployeeSupervisorAPI employeeSupervisorApi;
         private ITeamSupervisorAPI teamSupervisorApi;
-        private ITokenAPI tokenApi;
 
         [Fact]
-        public void GetLastModifiedDateForEmployeeAsync_WhenCalled_ReturnExpectedResult()
+        public async Task GetLastModifiedDateForGroup_WhenCalled_ReturnExpectedResult()
         {
             // Arrange
-            var info = new ApplicationInfo { UserName = "aenfJVK95Xu2Znh8", Password = "aenfJVK95Xu2Znh8" };
-            var token = GetTokenService().Request(info);
+            var token = fixture.Create<TokenAccess>();
             var service = GetService();
+            var expected = fixture.Create<DateTime>();
+            teamSupervisorApi.GetLastModifiedDateAsync(token).Returns(expected);
 
             // Act
-            var actual = service.GetLastModifiedDateForEmployeeAsync(token.Result);
+            var actual = await service.GetLastModifiedDateForGroup(token);
 
             // Assert
-            Assert.NotNull(actual);
+            Assert.Equal(expected, actual);
         }
 
         [Fact]
-        public void GetLastModifiedDateForGroup_WhenCalled_ReturnExpectedResult()
+        public async Task GetLastModifiedDateForEmployeeAsync_WhenCalled_ReturnExpectedResult()
         {
             // Arrange
-            var info = new ApplicationInfo { UserName = "aenfJVK95Xu2Znh8", Password = "aenfJVK95Xu2Znh8" };
-            var token = GetTokenService().Request(info);
+            var token = fixture.Create<TokenAccess>();
             var service = GetService();
+            var expected = fixture.Create<DateTime>();
+            employeeSupervisorApi.GetLastModifiedDateAsync(token).Returns(expected);
 
             // Act
-            var actual = service.GetLastModifiedDateForGroup(token.Result);
+            var actual = await service.GetLastModifiedDateForEmployeeAsync(token);
 
             // Assert
-            Assert.NotNull(actual);
+            Assert.Equal(expected, actual);
+        }
+
+
+        [Fact]
+        public void GetEmployees_WhenCalled_ReturnExpectedResult()
+        {
+            // Arrange
+            var fromDate = fixture.Create<DateTime>();
+            var criteria = fixture.Create<GetEmployeeDisciplinePermissionCriteria>();
+            var expected = fixture.Create<IEnumerable<EmployeeDisciplinePermission>>();
+            var service = GetService();
+            dynamicRepository.Fetch<EmployeeDisciplinePermission>(criteria).Returns(expected);
+
+            // Act
+            var groups = service.GetEmployees(fromDate);
+
+            // Assert
+            Assert.Equal(expected, groups);
         }
 
         [Fact]
-        public void GetDepartments_WhenCalledInputValid_ReturnExpectedResult()
+        public void GetGroups_WhenCalled_ReturnExpectedResult()
         {
             // Arrange
-            var fromDate = new DateTime(1900, 01, 01);
+            var fromDate = fixture.Create<DateTime>();
+            var criteria = fixture.Create<GetGroupDisciplinePermissionCriteria>();
+            var expected = fixture.Create<IEnumerable<TeamDisciplinePermission>>();
             var service = GetService();
-
-            // Act
-            var employees = service.GetEmployees(fromDate);
-
-            // Assert
-            Assert.NotNull(employees);
-        }
-
-        [Fact]
-        public void GetGroups_WhenCalledInputValid_ReturnExpectedResult()
-        {
-            // Arrange
-            var fromDate = new DateTime(1900, 01, 01);
-            var service = GetService();
+            dynamicRepository.Fetch<TeamDisciplinePermission>(criteria).Returns(expected);
 
             // Act
             var groups = service.GetGroups(fromDate);
 
             // Assert
-            Assert.NotNull(groups);
+            Assert.Equal(expected, groups);
         }
 
         [Fact]
-        public void UpdateEmployeesAsync_WhenCalledInputValid_ReturnExpectedResult()
+        public async Task UpdateEmployeesAsync_WhenCalled_ReturnExpectedResultAsync()
         {
             // Arrange
-            var info = new ApplicationInfo { UserName = "aenfJVK95Xu2Znh8", Password = "aenfJVK95Xu2Znh8" };
-            var token = GetTokenService().Request(info);
+            var token = fixture.Create<TokenAccess>();
             var employees = fixture.Create<IEnumerable<EmployeeDisciplinePermission>>();
+            var expected = fixture.Create<CommandResult>();
             var service = GetService();
+            employeeSupervisorApi.UpdateAsync(employees, token).Returns(expected);
 
             // Act
-            var actual = service.UpdateEmployeesAsync(employees, token.Result);
+            var actual = await service.UpdateEmployeesAsync(employees, token);
 
             // Assert
-            Assert.True(actual.Result.IsSuccessful);
+            Assert.Equal(actual, expected);
         }
 
         [Fact]
-        public void UpdateGroupsAsync_WhenCalledInputValid_ReturnExpectedResult()
+        public async Task UpdateGroupsAsync_WhenCalled_ReturnExpectedResultAsync()
         {
             // Arrange
-            var info = new ApplicationInfo { };
-            var token = GetTokenService().Request(info);
+            var token = fixture.Create<TokenAccess>();
             var groups = fixture.Create<IEnumerable<TeamDisciplinePermission>>();
+            var expected = fixture.Create<CommandResult>();
             var service = GetService();
+            teamSupervisorApi.Update(groups, token).Returns(expected);
 
             // Act
-            var actual = service.UpdateGroupsAsync(groups, token.Result);
+            var actual = await service.UpdateGroupsAsync(groups, token);
 
             // Assert
-            Assert.False(actual.Result.IsSuccessful);
+            Assert.Equal(actual, expected);
         }
 
         private DisciplinePermissionService GetService()
@@ -115,12 +128,6 @@
             employeeSupervisorApi = Substitute.For<IEmployeeSupervisorAPI>();
             teamSupervisorApi = Substitute.For<ITeamSupervisorAPI>();
             return new DisciplinePermissionService(dynamicRepository, employeeSupervisorApi, teamSupervisorApi);
-        }
-
-        private TokenService GetTokenService()
-        {
-            tokenApi = Substitute.For<ITokenAPI>();
-            return new TokenService(tokenApi);
         }
     }
 }

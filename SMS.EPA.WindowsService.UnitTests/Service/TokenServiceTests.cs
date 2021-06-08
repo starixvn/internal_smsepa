@@ -1,45 +1,32 @@
 ﻿namespace SMS.EPA.WindowsService.UnitTests.Service
 {
+    using AutoFixture;
     using NSubstitute;
     using SMS.EPA.WindowsService.Model;
     using SMS.EPA.WindowsService.Services;
     using SMS.EPA.WindowsService.ThirdPartyAPI;
+    using System.Threading.Tasks;
     using Xunit;
 
     public class TokenServiceTests
     {
+        private Fixture fixture = new Fixture();
         private ITokenAPI tokenApi;
 
         [Fact]
-        public void Request_WhenCalled_ReturnExpectedResult()
+        public async Task GetTeams_WhenCalled_ReturnExpectedResult()
         {
             // Arrange
-            var info = new ApplicationInfo { UserName = "aenfJVK95Xu2Znh8", Password= "aenfJVK95Xu2Znh8" };
+            var info = fixture.Create<ApplicationInfo>();
+            var expected = fixture.Create<TokenAccess>();
             var service = GetService();
+            tokenApi.RequestAsync(info).Returns(expected);
 
             // Act
-            var actual = service.Request(info);
+            var token = await service.Request(info);
 
             // Assert
-            Assert.NotNull(actual.Result.Value);
-            Assert.NotNull(actual.Result.Type);
-            Assert.NotNull(actual.Result.Expires);
-        }
-
-        [Fact]
-        public void Request_WhenCalledInputInvalid_ReturnExpectedResult()
-        {
-            // Arrange
-            var info = new ApplicationInfo { UserName = "123", Password = "123" };
-            var service = GetService();
-
-            // Act
-            var actual = service.Request(info);
-
-            // Assert
-            Assert.Null(actual.Result.Value);
-            Assert.Null(actual.Result.Type);
-            Assert.Null(actual.Result.Expires);
+            Assert.Equal(expected, token);
         }
 
         private TokenService GetService()

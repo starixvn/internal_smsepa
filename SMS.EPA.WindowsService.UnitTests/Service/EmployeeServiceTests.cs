@@ -3,12 +3,15 @@
     using AutoFixture;
     using Fanex.Data.Repository;
     using NSubstitute;
+    using SMS.EPA.Core.Model;
     using SMS.EPA.Model.API;
+    using SMS.EPA.WindowsService.Criteria;
     using SMS.EPA.WindowsService.Model;
     using SMS.EPA.WindowsService.Services;
     using SMS.EPA.WindowsService.ThirdPartyAPI;
     using System;
     using System.Collections.Generic;
+    using System.Threading.Tasks;
     using Xunit;
 
     public class EmployeeServiceTests
@@ -16,80 +19,54 @@
         private Fixture fixture = new Fixture();
         private IDynamicRepository dynamicRepository;
         private IEmployeeAPI employeeApi;
-        private ITokenAPI tokenApi;
 
         [Fact]
-        public void GetLastModifiedDateAsync_WhenCalled_ReturnExpectedResult()
+        public void GetEmployees_WhenCalled_ReturnExpectedResult()
         {
             // Arrange
-            var info = new ApplicationInfo { UserName = "aenfJVK95Xu2Znh8", Password = "aenfJVK95Xu2Znh8" };
-            var token = GetTokenService().Request(info);
+            var criteria = fixture.Create<GetEmployeeCriteria>();
+            var expected = fixture.Create<IEnumerable<Employee>>();
             var service = GetService();
+            dynamicRepository.Fetch<Employee>(criteria).Returns(expected);
 
             // Act
-            var actual = service.GetLastModifiedDateAsync(token.Result);
+            var employees = service.GetEmployees(criteria.FromDate);
 
             // Assert
-            Assert.NotNull(actual);
+            Assert.Equal(expected, employees);
         }
 
         [Fact]
-        public void GetEmployees_WhenCalledInputValid_ReturnExpectedResult()
+        public async Task GetLastModifiedDateAsync_WhenCalled_ReturnExpectedResult()
         {
             // Arrange
+            var token = fixture.Create<TokenAccess>();
             var service = GetService();
+            var expected = fixture.Create<DateTime>();
+            employeeApi.GetLastModifiedDateAsync(token).Returns(expected);
 
             // Act
-            var employees = service.GetEmployees(null);
+            var actual = await service.GetLastModifiedDateAsync(token);
 
             // Assert
-            Assert.NotNull(employees);
+            Assert.Equal(expected, actual);
         }
 
         [Fact]
-        public void GetEmployees_WhenCalledInputInValid_ReturnExpectedResult()
+        public void UpdateAsync_WhenCalled_ReturnExpectedResult()
         {
             // Arrange
-            var fromDate = new DateTime(9999, 01, 01);
-            var service = GetService();
-
-            // Act
-            var employees = service.GetEmployees(fromDate);
-
-            // Assert
-            Assert.Null(employees);
-        }
-
-        [Fact]
-        public void UpdateAsync_WhenCalledInputValid_ReturnExpectedResult()
-        {
-            // Arrange
-            var info = new ApplicationInfo { UserName = "aenfJVK95Xu2Znh8", Password = "aenfJVK95Xu2Znh8" };
-            var token = GetTokenService().Request(info);
+            var token = fixture.Create<TokenAccess>();
             var employees = fixture.Create<IEnumerable<Employee>>();
+            var expected = fixture.Create<CommandResult>();
             var service = GetService();
+            employeeApi.Update(employees, token).Returns(expected);
 
             // Act
-            var actual = service.UpdateAsync(employees, token.Result);
+            var actual = service.UpdateAsync(employees, token);
 
             // Assert
-            Assert.True(actual.Result.IsSuccessful);
-        }
-
-        [Fact]
-        public void UpdateAsync_WhenCalledInputInValid_ReturnExpectedResult()
-        {
-            // Arrange
-            var info = new ApplicationInfo { };
-            var token = GetTokenService().Request(info);
-            var employees = fixture.Create<IEnumerable<Employee>>();
-            var service = GetService();
-
-            // Act
-            var actual = service.UpdateAsync(employees, token.Result);
-
-            // Assert
-            Assert.False(actual.Result.IsSuccessful);
+            Assert.Equal(expected, actual.Result);
         }
 
         private EmployeeService GetService()
@@ -97,12 +74,6 @@
             dynamicRepository = Substitute.For<IDynamicRepository>();
             employeeApi = Substitute.For<IEmployeeAPI>();
             return new EmployeeService(dynamicRepository, employeeApi);
-        }
-
-        private TokenService GetTokenService()
-        {
-            tokenApi = Substitute.For<ITokenAPI>();
-            return new TokenService(tokenApi);
         }
     }
 }

@@ -3,12 +3,15 @@
     using AutoFixture;
     using Fanex.Data.Repository;
     using NSubstitute;
+    using SMS.EPA.Core.Model;
     using SMS.EPA.Model.API;
+    using SMS.EPA.WindowsService.Criteria;
     using SMS.EPA.WindowsService.Model;
     using SMS.EPA.WindowsService.Services;
     using SMS.EPA.WindowsService.ThirdPartyAPI;
     using System;
     using System.Collections.Generic;
+    using System.Threading.Tasks;
     using Xunit;
 
     public class DisciplineSummaryServiceTests
@@ -16,81 +19,54 @@
         private Fixture fixture = new Fixture();
         private IDynamicRepository dynamicRepository;
         private IDisciplineSummaryAPI attendanceApi;
-        private ITokenAPI tokenApi;
 
         [Fact]
-        public void GetLastModifiedDateAsync_WhenCalled_ReturnExpectedResult()
+        public void GetDisciplineSummary_WhenCalled_ReturnExpectedResult()
         {
             // Arrange
-            var info = new ApplicationInfo { UserName = "aenfJVK95Xu2Znh8", Password = "aenfJVK95Xu2Znh8" };
-            var token = GetTokenService().Request(info);
+            var criteria = fixture.Create<GetDisciplineSummaryCriteria>();
+            var expected = fixture.Create<IEnumerable<DisciplineSummary>>();
             var service = GetService();
+            dynamicRepository.Fetch<DisciplineSummary>(criteria).Returns(expected);
 
             // Act
-            var actual = service.GetLastModifiedDateAsync(token.Result);
+            var disciplines = service.GetDisciplineSummary(criteria.LastModifiedDate);
 
             // Assert
-            Assert.NotNull(actual);
+            Assert.Equal(expected, disciplines);
         }
 
         [Fact]
-        public void GetDisciplineSummary_WhenCalledInputInValid_ReturnExpectedResult()
+        public async Task GetLastModifiedDateAsync_WhenCalled_ReturnExpectedResult()
         {
             // Arrange
-            var lastModifiedDate = new DateTime(9999, 01, 01);
+            var token = fixture.Create<TokenAccess>();
             var service = GetService();
+            var expected = fixture.Create<DateTime>();
+            attendanceApi.GetLastModifiedDateAsync(token).Returns(expected);
 
             // Act
-            var disciplineSummary = service.GetDisciplineSummary(lastModifiedDate);
+            var actual = await service.GetLastModifiedDateAsync(token);
 
             // Assert
-            Assert.Null(disciplineSummary);
+            Assert.Equal(expected, actual);
         }
 
         [Fact]
-        public void GetDisciplineSummary_WhenCalledInputValid_ReturnExpectedResult()
+        public void Update_WhenCalled_ReturnExpectedResult()
         {
             // Arrange
-            var fromDate = new DateTime(1900, 01, 01);
+            var token = fixture.Create<TokenAccess>();
+            var disciplines = fixture.Create<IEnumerable<DisciplineSummary>>();
+            var expected = fixture.Create<CommandResult>();
             var service = GetService();
+            attendanceApi.UpdateAsync(disciplines, token).Returns(expected);
 
             // Act
-            var disciplineSummary = service.GetDisciplineSummary(fromDate);
+            var actual = service.UpdateAsync(disciplines, token);
 
             // Assert
-            Assert.NotNull(disciplineSummary);
-        }
-
-        [Fact]
-        public void UpdateAsync_WhenCalledInputValid_ReturnExpectedResult()
-        {
-            // Arrange
-            var info = new ApplicationInfo { UserName = "aenfJVK95Xu2Znh8", Password = "aenfJVK95Xu2Znh8" };
-            var token = GetTokenService().Request(info);
-            var disciplineSummary = fixture.Create<IEnumerable<DisciplineSummary>>();
-            var service = GetService();
-
-            // Act
-            var actual = service.UpdateAsync(disciplineSummary, token.Result);
-
-            // Assert
-            Assert.True(actual.Result.IsSuccessful);
-        }
-
-        [Fact]
-        public void UpdateAsync_WhenCalledInputInValid_ReturnExpectedResult()
-        {
-            // Arrange
-            var info = new ApplicationInfo { };
-            var token = GetTokenService().Request(info);
-            var disciplineSummary = fixture.Create<IEnumerable<DisciplineSummary>>();
-            var service = GetService();
-
-            // Act
-            var actual = service.UpdateAsync(disciplineSummary, token.Result);
-
-            // Assert
-            Assert.False(actual.Result.IsSuccessful);
+            Assert.Equal(expected, actual.Result);
         }
 
         private DisciplineSummaryService GetService()
@@ -99,11 +75,6 @@
             attendanceApi = Substitute.For<IDisciplineSummaryAPI>();
             return new DisciplineSummaryService(dynamicRepository, attendanceApi);
         }
-
-        private TokenService GetTokenService()
-        {
-            tokenApi = Substitute.For<ITokenAPI>();
-            return new TokenService(tokenApi);
-        }
+        
     }
 }
