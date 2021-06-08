@@ -2,6 +2,7 @@ namespace WindowsService
 {
     using Fanex.Data;
     using Fanex.Data.Repository;
+    using Fanex.Data.SqlServer;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Hosting;
@@ -14,6 +15,7 @@ namespace WindowsService
     using System;
     using System.Configuration;
     using System.IO;
+    using System.Linq;
 
     public class Program
     {
@@ -53,7 +55,21 @@ namespace WindowsService
                 .UseContentRoot(Directory.GetCurrentDirectory())
                 .ConfigureAppConfiguration((context, config) =>
                 {
-                    config.AddJsonFile("appsettings.json", optional: true, reloadOnChange: true).Build();
+                    var configuration = config.AddJsonFile("appsettings.json", optional: false, reloadOnChange: true).Build();
+                    var connections = configuration.GetSection("ConnectionStrings")
+                     .GetChildren()
+                     .AsEnumerable()
+                     .Where(x => !string.IsNullOrWhiteSpace(x.GetValue<string>("Name")))
+                     .ToDictionary(x => x.GetValue<string>("Name"),
+                    y => new ConnectionConfiguration(y.GetValue<string>("Name"), y.GetValue<string>("ConnectionString"), y.GetValue<string>("ProviderName")));
+                    string spSettings = "~/App_Data";
+
+                    DbSettingProviderManager
+                       .StartNewSession()
+                       .Use(connections)
+                       .WithSqlServer()
+                       .UseDefaultDbSettingProvider(spSettings)
+                       .Run();
                 })
                 .ConfigureServices((hostContext, services) =>
                 {
