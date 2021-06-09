@@ -14,7 +14,7 @@
 
     public class PhotoServiceTests
     {
-        private Fixture fixture = new Fixture();
+        private readonly Fixture fixture = new Fixture();
         private IPhotoAPI photoApi;
 
         [Fact]

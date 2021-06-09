@@ -15,7 +15,7 @@
     using Xunit;
     public class DepartmentServiceTests
     {
-        private Fixture fixture = new Fixture();
+        private readonly Fixture fixture = new Fixture();
         private IDynamicRepository dynamicRepository;
         private IDepartmentAPI departmentApi;
 
@@ -23,11 +23,10 @@
         public void GetDepartments_WhenCalled_ReturnExpectedResult()
         {
             // Arrange
-            var fromDate = new DateTime(2020, 01, 01);
             var criteria = fixture.Create<GetDepartmentCriteria>();
             var expected = fixture.Create<IEnumerable<Department>>();
             var service = GetService();
-            dynamicRepository.Fetch<Department>(criteria).Returns(expected);
+            dynamicRepository.Fetch<Department>(Arg.Do<GetDepartmentCriteria>(x => criteria = x)).Returns(expected);
 
             // Act
             var department = service.GetDepartments(criteria.FromDate);

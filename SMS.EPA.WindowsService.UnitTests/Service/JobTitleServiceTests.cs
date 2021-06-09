@@ -14,7 +14,7 @@
 
     public class JobTitleServiceTests
     {
-        private Fixture fixture = new Fixture();
+        private readonly Fixture fixture = new Fixture();
         private IDynamicRepository dynamicRepository;
         private IJobTitleAPI jobTitleApi;
 
@@ -25,7 +25,7 @@
             var criteria = fixture.Create<GetJobTitleCriteria>();
             var expected = fixture.Create<IEnumerable<JobTitle>>();
             var service = GetService();
-            dynamicRepository.Fetch<JobTitle>(criteria).Returns(expected);
+            dynamicRepository.Fetch<JobTitle>(Arg.Do<GetJobTitleCriteria>(x => criteria = x)).Returns(expected);
 
             // Act
             var jobTitles = service.GetJobTitles();

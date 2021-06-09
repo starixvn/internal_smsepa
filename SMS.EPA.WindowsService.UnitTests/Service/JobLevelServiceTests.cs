@@ -16,7 +16,7 @@
 
     public class JobLevelServiceTests
     {
-        private Fixture fixture = new Fixture();
+        private readonly Fixture fixture = new Fixture();
         private IDynamicRepository dynamicRepository;
         private IJobLevelAPI jobLevelApi;
 
@@ -27,7 +27,7 @@
             var criteria = fixture.Create<GetJobLevelCriteria>();
             var expected = fixture.Create<IEnumerable<JobLevel>>();
             var service = GetService();
-            dynamicRepository.Fetch<JobLevel>(criteria).Returns(expected);
+            dynamicRepository.Fetch<JobLevel>(Arg.Do<GetJobLevelCriteria>(x => criteria = x)).Returns(expected);
 
             // Act
             var employees = service.GetJobLevel(criteria.FromDate);

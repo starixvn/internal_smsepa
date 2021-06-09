@@ -13,7 +13,6 @@ namespace WindowsService
     using SMS.EPA.WindowsService.Services;
     using SMS.EPA.WindowsService.ThirdPartyAPI;
     using System;
-    using System.Configuration;
     using System.IO;
     using System.Linq;
 

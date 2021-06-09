@@ -10,7 +10,7 @@
 
     public class TokenServiceTests
     {
-        private Fixture fixture = new Fixture();
+        private readonly Fixture fixture = new Fixture();
         private ITokenAPI tokenApi;
 
         [Fact]

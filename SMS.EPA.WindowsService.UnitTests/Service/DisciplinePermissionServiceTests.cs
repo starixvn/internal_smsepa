@@ -16,7 +16,7 @@
 
     public class DisciplinePermissionServiceTests
     {
-        private Fixture fixture = new Fixture();
+        private readonly Fixture fixture = new Fixture();
         private IDynamicRepository dynamicRepository;
         private IEmployeeSupervisorAPI employeeSupervisorApi;
         private ITeamSupervisorAPI teamSupervisorApi;
@@ -53,7 +53,6 @@
             Assert.Equal(expected, actual);
         }
 
-
         [Fact]
         public void GetEmployees_WhenCalled_ReturnExpectedResult()
         {
@@ -62,7 +61,7 @@
             var criteria = fixture.Create<GetEmployeeDisciplinePermissionCriteria>();
             var expected = fixture.Create<IEnumerable<EmployeeDisciplinePermission>>();
             var service = GetService();
-            dynamicRepository.Fetch<EmployeeDisciplinePermission>(criteria).Returns(expected);
+            dynamicRepository.Fetch<EmployeeDisciplinePermission>(Arg.Do<GetEmployeeDisciplinePermissionCriteria>(x => criteria = x)).Returns(expected);
 
             // Act
             var groups = service.GetEmployees(fromDate);
@@ -79,7 +78,7 @@
             var criteria = fixture.Create<GetGroupDisciplinePermissionCriteria>();
             var expected = fixture.Create<IEnumerable<TeamDisciplinePermission>>();
             var service = GetService();
-            dynamicRepository.Fetch<TeamDisciplinePermission>(criteria).Returns(expected);
+            dynamicRepository.Fetch<TeamDisciplinePermission>(Arg.Do<GetGroupDisciplinePermissionCriteria>(x => criteria = x)).Returns(expected);
 
             // Act
             var groups = service.GetGroups(fromDate);

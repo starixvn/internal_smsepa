@@ -16,7 +16,7 @@
 
     public class DisciplineSummaryServiceTests
     {
-        private Fixture fixture = new Fixture();
+        private readonly Fixture fixture = new Fixture();
         private IDynamicRepository dynamicRepository;
         private IDisciplineSummaryAPI attendanceApi;
 
@@ -27,7 +27,7 @@
             var criteria = fixture.Create<GetDisciplineSummaryCriteria>();
             var expected = fixture.Create<IEnumerable<DisciplineSummary>>();
             var service = GetService();
-            dynamicRepository.Fetch<DisciplineSummary>(criteria).Returns(expected);
+            dynamicRepository.Fetch<DisciplineSummary>(Arg.Do<GetDisciplineSummaryCriteria>(x => criteria = x)).Returns(expected);
 
             // Act
             var disciplines = service.GetDisciplineSummary(criteria.LastModifiedDate);

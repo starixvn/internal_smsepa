@@ -16,7 +16,7 @@
 
     public class TeamServiceTests
     {
-        private Fixture fixture = new Fixture();
+        private readonly Fixture fixture = new Fixture();
         private IDynamicRepository dynamicRepository;
         private ITeamAPI teamApi;
 
@@ -27,7 +27,7 @@
             var criteria = fixture.Create<GetTeamCriteria>();
             var expected = fixture.Create<IEnumerable<Team>>();
             var service = GetService();
-            dynamicRepository.Fetch<Team>(criteria).Returns(expected);
+            dynamicRepository.Fetch<Team>(Arg.Do<GetTeamCriteria>(x => criteria = x)).Returns(expected);
 
             // Act
             var teams = service.GetTeams(criteria.FromDate);

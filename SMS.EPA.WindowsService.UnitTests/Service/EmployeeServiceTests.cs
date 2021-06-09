@@ -16,7 +16,7 @@
 
     public class EmployeeServiceTests
     {
-        private Fixture fixture = new Fixture();
+        private readonly Fixture fixture = new Fixture();
         private IDynamicRepository dynamicRepository;
         private IEmployeeAPI employeeApi;
 
@@ -27,7 +27,7 @@
             var criteria = fixture.Create<GetEmployeeCriteria>();
             var expected = fixture.Create<IEnumerable<Employee>>();
             var service = GetService();
-            dynamicRepository.Fetch<Employee>(criteria).Returns(expected);
+            dynamicRepository.Fetch<Employee>(Arg.Do<GetEmployeeCriteria>(x => criteria = x)).Returns(expected);
 
             // Act
             var employees = service.GetEmployees(criteria.FromDate);
