@@ -32,7 +32,7 @@
                 .Use(new OldConnectionStringProvider())
                 .UseDefaultDbSettingProvider(
                     resourcePath: "~/App_Data",
-                    enableWatching: true)
+                    enableWatching: false)
                 .Run();
 
                 log4net.Config.XmlConfigurator.Configure();

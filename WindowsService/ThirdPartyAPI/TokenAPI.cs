@@ -9,17 +9,22 @@
 
     public class TokenAPI : ITokenAPI
     {
+        private readonly IHttpClientFactory clientFactory;
+
+        public TokenAPI(IHttpClientFactory clientFactory)
+        {
+            this.clientFactory = clientFactory;
+        }
+
         public async Task<TokenAccess> RequestAsync(ApplicationInfo info)
         {
-            using (var client = new HttpClient())
+            var client = clientFactory.CreateClient();
+            var form = new Dictionary<string, string> { { "grant_type", info.GrantType }, { "username", info.UserName }, { "password", info.Password } };
+            using (var encodedContent = new FormUrlEncodedContent(form))
             {
-                var form = new Dictionary<string, string> { { "grant_type", info.GrantType }, { "username", info.UserName }, { "password", info.Password } };
-                using (var encodedContent = new FormUrlEncodedContent(form))
-                {
-                    var tokenResponse = await client.PostAsync(new Uri(ApplicationConfig.ServiceAPI + "token"), encodedContent);
+                var tokenResponse = await client.PostAsync(new Uri(ApplicationConfig.ServiceAPI + "token"), encodedContent);
 
-                    return JsonConvert.DeserializeObject<TokenAccess>(await tokenResponse.Content.ReadAsStringAsync());
-                }
+                return JsonConvert.DeserializeObject<TokenAccess>(await tokenResponse.Content.ReadAsStringAsync());
             }
         }
     }

@@ -72,6 +72,7 @@ namespace WindowsService
                 })
                 .ConfigureServices((hostContext, services) =>
                 {
+                    services.AddHttpClient();
                     services.AddSingleton<IDepartmentService, DepartmentService>();
                     services.AddSingleton<IDisciplineSummaryService, DisciplineSummaryService>();
                     services.AddSingleton<IEmployeeService, EmployeeService>();

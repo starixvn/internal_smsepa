@@ -12,7 +12,7 @@
             config.SuppressDefaultHostAuthentication();
             config.Filters.Add(new HostAuthenticationFilter(OAuthDefaults.AuthenticationType));
             config.Filters.Add(new IPHostValidationAttribute());
-           // config.Filters.Add(new HttpsRequiredAttribute());
+            config.Filters.Add(new HttpsRequiredAttribute());
             config.Services.Replace(typeof(IExceptionHandler), new GlobalExceptionHandler());
 
             config.MapHttpAttributeRoutes();

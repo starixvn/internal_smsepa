@@ -17,38 +17,40 @@
     public class TeamDisciplinePermissionAPI : ITeamSupervisorAPI
     {
         private readonly log4net.ILog logger = log4net.LogManager.GetLogger(typeof(TeamDisciplinePermissionAPI));
+        private readonly IHttpClientFactory clientFactory;
+
+        public TeamDisciplinePermissionAPI(IHttpClientFactory clientFactory)
+        {
+            this.clientFactory = clientFactory;
+        }
 
         public async Task<DateTime> GetLastModifiedDateAsync(TokenAccess token)
         {
-            using (var client = new HttpClient())
-            {
-                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token.Value);
+            var client = clientFactory.CreateClient();
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token.Value);
 
-                var result = await client.GetAsync(new Uri(ApplicationConfig.ServiceAPI + "TeamDisciplinePermission"));
+            var result = await client.GetAsync(new Uri(ApplicationConfig.ServiceAPI + "TeamDisciplinePermission"));
 
-                return JsonConvert.DeserializeObject<DateTime>(await result.Content.ReadAsStringAsync());
-            }
+            return JsonConvert.DeserializeObject<DateTime>(await result.Content.ReadAsStringAsync());
         }
 
         public async Task<CommandResult> Update(IEnumerable<TeamDisciplinePermission> groupSupervisors, TokenAccess token)
         {
-            using (var client = new HttpClient())
+            var client = clientFactory.CreateClient();
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token.Value);
+
+            var result = await client.PostAsJsonAsync(ApplicationConfig.ServiceAPI + "TeamDisciplinePermission", groupSupervisors.ToArray());
+
+            if (result.StatusCode != HttpStatusCode.OK)
             {
-                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token.Value);
-
-                var result = await client.PostAsJsonAsync(ApplicationConfig.ServiceAPI + "TeamDisciplinePermission", groupSupervisors.ToArray());
-
-                if (result.StatusCode != HttpStatusCode.OK)
-                {
-                    logger.Error(string.Format(
-                        CultureInfo.InvariantCulture,
-                        "Update TeamDisciplinePermission: \r\n StatusCode: {0} \r\n ReasonPhrase: {1}",
-                        (int)result.StatusCode,
-                        result.ReasonPhrase));
-                }
-
-                return new CommandResult { Code = (int)result.StatusCode };
+                logger.Error(string.Format(
+                    CultureInfo.InvariantCulture,
+                    "Update TeamDisciplinePermission: \r\n StatusCode: {0} \r\n ReasonPhrase: {1}",
+                    (int)result.StatusCode,
+                    result.ReasonPhrase));
             }
+
+            return new CommandResult { Code = (int)result.StatusCode };
         }
     }
 }

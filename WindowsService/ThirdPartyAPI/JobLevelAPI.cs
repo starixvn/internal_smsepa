@@ -17,38 +17,40 @@
     public class JobLevelAPI : IJobLevelAPI
     {
         private readonly log4net.ILog logger = log4net.LogManager.GetLogger(typeof(JobLevelAPI));
+        private readonly IHttpClientFactory clientFactory;
+
+        public JobLevelAPI(IHttpClientFactory clientFactory)
+        {
+            this.clientFactory = clientFactory;
+        }
 
         public async Task<DateTime> GetLastModifiedDate(TokenAccess token)
         {
-            using (var client = new HttpClient())
-            {
-                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token.Value);
+            var client = clientFactory.CreateClient();
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token.Value);
 
-                var result = await client.GetAsync(new Uri(ApplicationConfig.ServiceAPI + "JobLevel"));
+            var result = await client.GetAsync(new Uri(ApplicationConfig.ServiceAPI + "JobLevel"));
 
-                return JsonConvert.DeserializeObject<DateTime>(await result.Content.ReadAsStringAsync());
-            }
+            return JsonConvert.DeserializeObject<DateTime>(await result.Content.ReadAsStringAsync());
         }
 
         public async Task<CommandResult> UpdateAsync(IEnumerable<JobLevel> jobLevel, TokenAccess token)
         {
-            using (var client = new HttpClient())
+            var client = clientFactory.CreateClient();
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token.Value);
+
+            var result = await client.PostAsJsonAsync(ApplicationConfig.ServiceAPI + "JobLevel", jobLevel.ToArray());
+
+            if (result.StatusCode != HttpStatusCode.OK)
             {
-                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token.Value);
-
-                var result = await client.PostAsJsonAsync(ApplicationConfig.ServiceAPI + "JobLevel", jobLevel.ToArray());
-
-                if (result.StatusCode != HttpStatusCode.OK)
-                {
-                    logger.Error(string.Format(
-                        CultureInfo.InvariantCulture,
-                        "Update JobLevel: \r\n StatusCode: {0} \r\n ReasonPhrase: {1}",
-                        (int)result.StatusCode,
-                        result.ReasonPhrase));
-                }
-
-                return new CommandResult { Code = (int)result.StatusCode };
+                logger.Error(string.Format(
+                    CultureInfo.InvariantCulture,
+                    "Update JobLevel: \r\n StatusCode: {0} \r\n ReasonPhrase: {1}",
+                    (int)result.StatusCode,
+                    result.ReasonPhrase));
             }
+
+            return new CommandResult { Code = (int)result.StatusCode };
         }
     }
 }
