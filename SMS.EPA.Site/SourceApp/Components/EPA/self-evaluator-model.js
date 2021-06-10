@@ -82,7 +82,7 @@
                     kpis.push(kpi);
                 }
 
-                if (!kpi.IsRequiredEvaluate && Number.isNaN(kpi.CurrentEvaluation.Score)) {
+                if (!kpi.IsRequiredEvaluate && (kpi.CurrentEvaluation.Score === null || kpi.CurrentEvaluation.Score === '')) {
                     totalScoreNotEvaluate += kpi.Weight;
                 }
             });

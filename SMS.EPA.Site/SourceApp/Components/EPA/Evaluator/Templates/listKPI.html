@@ -75,7 +75,7 @@
                                ng-change="evaluatorDetailCtrl.hoveringLeave(kpiGroup, kpi)">
                     </div>
                     <div class="score">
-                        <span class="badge" ng-show="kpi.CurrentEvaluation.Score !== '' && kpi.CurrentEvaluation.Score !== null">
+                        <span class="badge" ng-show="kpiGroup.NumberKPIOptional == 0 && kpi.CurrentEvaluation.Score !== '' && kpi.CurrentEvaluation.Score !== null">
                             {{kpi.CurrentEvaluation.Score | splitScore}} pts
                         </span>
                     </div>
