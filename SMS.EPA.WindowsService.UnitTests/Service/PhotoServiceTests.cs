@@ -18,21 +18,6 @@
         private IPhotoAPI photoApi;
 
         [Fact]
-        public void GetPhotos_WhenCalled_ReturnExpectedResult()
-        {
-            // Arrange
-            var fromDate = fixture.Create<DateTime>();
-            var expected = fixture.Create<IEnumerable<Photo>>();
-            var service = GetService();
-
-            // Act
-            var photos = service.GetPhotos(fromDate);
-
-            // Assert
-            Assert.Equal(expected, photos);
-        }
-
-        [Fact]
         public async Task GetLastModifiedDate_WhenCalled_ReturnExpectedResult()
         {
             // Arrange
