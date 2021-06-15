@@ -1,16 +1,11 @@
 ﻿namespace SMS.EPA.WindowsService.UnitTests.ThirdPartyAPI
 {
     using AutoFixture;
-    using Moq;
-    using Moq.Protected;
-    using SMS.EPA.Model.API;
+    using Newtonsoft.Json;
+    using NSubstitute;
     using SMS.EPA.WindowsService.Model;
     using SMS.EPA.WindowsService.ThirdPartyAPI;
-    using System.Collections.Generic;
-    using System.Net;
     using System.Net.Http;
-    using System.Threading;
-    using System.Threading.Tasks;
     using Xunit;
 
     public class TokenAPITests
@@ -21,31 +16,25 @@
         public void RequestAsync_WhenCalled_ReturnExpectedResult()
         {
             //Arrange
-            var mockFactory = new Mock<IHttpClientFactory>();
-            var mockHttpMessageHandler = new Mock<HttpMessageHandler>();
-
-            mockHttpMessageHandler.Protected()
-                .Setup<Task<HttpResponseMessage>>("SendAsync", ItExpr.IsAny<HttpRequestMessage>(), ItExpr.IsAny<CancellationToken>())
-                .ReturnsAsync(new HttpResponseMessage
-                {
-                    StatusCode = HttpStatusCode.OK,
-                    Content = new StringContent(fixture.Create<string>()),
-                });
-
-            var client = new HttpClient(mockHttpMessageHandler.Object);
-            mockFactory.Setup(_ => _.CreateClient(It.IsAny<string>())).Returns(client);
-            var info = fixture.Create< ApplicationInfo>();
+            var info = fixture.Create<ApplicationInfo>();
+            var token = fixture.Create<TokenAccess>();
+            token.Issued = "Mon, 14 Jun 2021 07:24:55 GMT";
+            token.Expires = "Mon, 14 Jun 2021 08:24:55 GMT";
+            ApplicationConfig.ServiceAPI = "http://localhost:63238/";
+            var httpClientFactoryMock = Substitute.For<IHttpClientFactory>();
+            var fakeHttpMessageHandler = new FakeHttpMessageHandler(new HttpResponseMessage()
+            {
+                Content = new StringContent(JsonConvert.SerializeObject(token))
+            });
+            var fakeHttpClient = new HttpClient(fakeHttpMessageHandler);
+            httpClientFactoryMock.CreateClient().Returns(fakeHttpClient);
 
             // Act
-            var service = new TokenAPI(mockFactory.Object);
+            var service = new TokenAPI(httpClientFactoryMock);
             var result = service.RequestAsync(info);
 
-            //Assert
-            mockHttpMessageHandler.Protected().Verify(
-               "SendAsync",
-               Times.Exactly(1),
-               ItExpr.Is<HttpRequestMessage>(req => req.Method == HttpMethod.Post),
-               ItExpr.IsAny<CancellationToken>());
+            // Assert
+            Assert.Equal(result.Result.Value, token.Value);
         }
     }
 }

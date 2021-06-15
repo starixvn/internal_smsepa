@@ -2,7 +2,6 @@
 {
     using Newtonsoft.Json;
     using System;
-    using System.Diagnostics.CodeAnalysis;
     using System.Globalization;
 
     public class TokenAccess
@@ -17,7 +16,6 @@
         [JsonProperty("access_token")]
         public string Value { get; set; }
 
-        [SuppressMessage("Microsoft.Naming", "CA1721:PropertyNamesShouldNotMatchGetMethods", Justification = "Ok.")]
         [JsonProperty("token_type")]
         public string Type { get; set; }
 
