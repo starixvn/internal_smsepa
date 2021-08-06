@@ -113,7 +113,7 @@
         public RatingTypeModel RatingType { get; set; }
 
         public IEnumerable<EPARecommendation> Recommendations { get; set; } = new List<EPARecommendation>();
-        public IEnumerable<JobDescriptionItem> JobDescriptions { get; set; } = new List<JobDescriptionItem>();
+        public IEnumerable<JobDescriptionGroupItem> JobDescriptions { get; set; } = new List<JobDescriptionGroupItem>();
         public EPAProbationExtendedQuestionModel ExtendedQuestion { get; set; }
 
         public bool RequiredCommentOnMaxScore { get; set; }

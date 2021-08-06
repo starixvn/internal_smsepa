@@ -3,7 +3,12 @@
     <div class="panel-collapse collapse in job-description-collapse" auto-collapse data-collapsed="true">
         <div class="panel-body">
             <ul>
-                <li ng-repeat="item in jobDescriptionCtrl.jobDescriptions" ng-bind="item.Name"></li>
+                <li ng-repeat-start="gitem in jobDescriptionCtrl.jobDescriptions">
+                    <strong ng-bind="gitem.Name"></strong>
+                </li>
+                <ul ng-repeat-end>
+                    <li ng-repeat="item in gitem.Items" ng-bind="item.Name"></li>
+                </ul>
             </ul>
         </div>
     </div>

@@ -1,4 +1,5 @@
-﻿CREATE PROCEDURE [dbo].[EPA_AdjustScoreByReviewerOrManagement] @EPADetails NVARCHAR(MAX) = ''
+﻿
+CREATE PROCEDURE [dbo].[EPA_AdjustScoreByReviewerOrManagement] @EPADetails NVARCHAR(MAX) = ''
 	,@RecommendationXml NVARCHAR(MAX) = ''
 	,@ProcessId TINYINT
 	,@ModifiedBy INT
@@ -15,29 +16,25 @@ Revisions:
 Param's Explanation:
 • @EPADetails: N'
      <ROOT>
-        <EPA EPAId='' ProcessId='' EmployeeId='' EvaluatorId='' AdjustScore='dsd' TotalScore='xyz' Comment='' />
+        <Row EPAId='' ProcessId='' EmployeeId='' EvaluatorId='' AdjustScore='dsd' TotalScore='xyz' Comment='' />
      </ROOT>
 
 • @RecommendationXml: N'
      <ROOT>
-        <Recommendation EPAId='' ProbationStatus='' Promoted='' PayIncreased=''
-            JobGradeIncreased='' JobGradeId=''></Recommendation>
+        <Row EPAId='' ProbationStatus='' Promoted='' PayIncreased='' JobLevelIncreased='' JobLevelId='' />
      </ROOT>
-
-• @ErrCode:
-	= 0: Transaction recorded successfully.
-	> 0: Specific Error.
-• @ErrMsg: Error description.
-
 */
 BEGIN
-	SET NOCOUNT ON
+	SET NOCOUNT ON;
 
 	DECLARE @ModifiedDate DATETIME = GETDATE()
 		,@Today DATE = GETDATE()
 		,@DocHandler INT
 		,@NumberAdjustEmployee INT
 		,@Data NVARCHAR(MAX)
+		-- process
+		,@ReviewerProcessId TINYINT = 4
+		,@ManagementProcessId TINYINT = 5
 
 	CREATE TABLE #tblDetails (
 		EPAId INT
@@ -54,8 +51,8 @@ BEGIN
 		,ProbationStatus TINYINT
 		,Promoted BIT
 		,PayIncreased BIT
-		,JobGradeIncreased BIT
-		,JobGradeId INT
+		,JobLevelIncreased BIT
+		,JobLevelId INT
 		)
 
 	BEGIN TRY
@@ -78,7 +75,7 @@ BEGIN
 			,AdjustScore
 			,TotalScore
 			,Comment
-		FROM OPENXML(@DocHandler, '/ROOT/EPA', 1) WITH (EPAId INT '@EPAId', ProcessId INT '@ProcessId', EmployeeId INT '@EmployeeId', EvaluatorId INT '@EvaluatorId', AdjustScore NVARCHAR(100) '@AdjustScore', TotalScore NVARCHAR(100) '@TotalScore', Comment NVARCHAR(MAX) '@Comment') AS Data
+		FROM OPENXML(@DocHandler, '/ROOT/Row', 1) WITH (EPAId INT '@EPAId', ProcessId INT '@ProcessId', EmployeeId INT '@EmployeeId', EvaluatorId INT '@EvaluatorId', AdjustScore NVARCHAR(100) '@AdjustScore', TotalScore NVARCHAR(100) '@TotalScore', Comment NVARCHAR(MAX) '@Comment') AS Data
 
 		EXEC sp_xml_preparedocument @DocHandler OUTPUT
 			,@RecommendationXml
@@ -88,16 +85,16 @@ BEGIN
 			,ProbationStatus
 			,Promoted
 			,PayIncreased
-			,JobGradeIncreased
-			,JobGradeId
+			,JobLevelIncreased
+			,JobLevelId
 			)
 		SELECT EPAId
 			,ProbationStatus
 			,Promoted
 			,PayIncreased
-			,JobGradeIncreased
-			,JobGradeId
-		FROM OPENXML(@DocHandler, '/ROOT/Recommendation', 1) WITH (EPAId INT, ProbationStatus TINYINT, Promoted BIT, PayIncreased BIT, JobGradeIncreased BIT, JobGradeId INT) AS Data
+			,JobLevelIncreased
+			,JobLevelId
+		FROM OPENXML(@DocHandler, '/ROOT/Row', 1) WITH (EPAId INT, ProbationStatus TINYINT, Promoted BIT, PayIncreased BIT, JobLevelIncreased BIT, JobLevelId INT) AS Data
 
 		EXEC sp_xml_removedocument @DocHandler
 	END TRY
@@ -149,13 +146,24 @@ BEGIN
 		END
 	END
 
-	BEGIN TRY
-		BEGIN TRANSACTION
+	UPDATE pc
+	SET pc.AdjustScore = dt.AdjustScore
+		,pc.TotalScore = dt.TotalScore
+		,pc.Comment = dt.Comment
+		,pc.ModifiedBy = @ModifiedBy
+		,pc.ModifiedDate = @ModifiedDate
+		,pc.EvaluateDate = @ModifiedDate
+	FROM dbo.EPAProcess AS pc WITH (ROWLOCK, UPDLOCK)
+		INNER JOIN dbo.EPA AS epa WITH (NOLOCK) ON pc.EPAId = epa.EPAId
+		INNER JOIN #tblDetails AS dt WITH (NOLOCK) ON pc.EPAId = dt.EPAId
+		AND pc.ProcessId = dt.ProcessId
+		AND pc.EvaluatorId = dt.EvaluatorId
 
+	IF @ProcessId = @ManagementProcessId
+	BEGIN
 		UPDATE pc
 		SET pc.AdjustScore = dt.AdjustScore
 			,pc.TotalScore = dt.TotalScore
-			,pc.Comment = dt.Comment
 			,pc.ModifiedBy = @ModifiedBy
 			,pc.ModifiedDate = @ModifiedDate
 			,pc.EvaluateDate = @ModifiedDate
@@ -163,54 +171,34 @@ BEGIN
 			INNER JOIN dbo.EPA AS epa WITH (NOLOCK) ON pc.EPAId = epa.EPAId
 			INNER JOIN #tblDetails AS dt WITH (NOLOCK) ON pc.EPAId = dt.EPAId
 			AND pc.ProcessId = dt.ProcessId
-			AND pc.EvaluatorId = dt.EvaluatorId
+			AND pc.EvaluatorId <> dt.EvaluatorId
+	END
 
-		IF @ProcessId = 5 -- management
-		BEGIN
-			UPDATE pc
-			SET pc.AdjustScore = dt.AdjustScore
-				,pc.TotalScore = dt.TotalScore
-				,pc.ModifiedBy = @ModifiedBy
-				,pc.ModifiedDate = @ModifiedDate
-				,pc.EvaluateDate = @ModifiedDate
-			FROM dbo.EPAProcess AS pc WITH (ROWLOCK, UPDLOCK)
-				INNER JOIN dbo.EPA AS epa WITH (NOLOCK) ON pc.EPAId = epa.EPAId
-				INNER JOIN #tblDetails AS dt WITH (NOLOCK) ON pc.EPAId = dt.EPAId
-				AND pc.ProcessId = dt.ProcessId
-				AND pc.EvaluatorId <> dt.EvaluatorId
-		END
-
+	IF @ProcessId = @ReviewerProcessId
+	BEGIN
 		UPDATE re
 		SET re.ProbationStatus = dt.ProbationStatus
 			,re.Promoted = dt.Promoted
 			,re.PayIncreased = dt.PayIncreased
-			,re.JobGradeIncreased = dt.JobGradeIncreased
-			,re.JobGradeId = dt.JobGradeId
+			,re.JobLevelIncreased = dt.JobLevelIncreased
+			,re.JobLevelId = dt.JobLevelId
 			,re.ModifiedBy = @ModifiedBy
 			,re.ModifiedDate = @ModifiedDate
 		FROM dbo.EPARecommendation AS re WITH (ROWLOCK, UPDLOCK)
 			INNER JOIN dbo.EPA AS epa WITH (NOLOCK) ON re.EPAId = epa.EPAId
 			INNER JOIN #tblRecommendations AS dt WITH (NOLOCK) ON re.EPAId = dt.EPAId
+		WHERE re.ProcessId = @ReviewerProcessId
+	END
 
-		EXEC @Data = [dbo].[fncGetDataForWriteLog_EPA_AdjustScore] @EPADetails = @EPADetails
+	EXEC @Data = [dbo].[fncGetDataForWriteLog_EPA_AdjustScore] @EPADetails = @EPADetails
 
-		EXEC [dbo].[LogDetail_Insert] @ActorId = @ModifiedBy
-			,@SpName = 'EPA_AdjustScoreByReviewerOrManagement'
-			,@ObjectId = NULL
-			,@ObjectTypeId = 10
-			,@Data = @Data
-			,@OldData = NULL
-			,@ObjectIds = NULL
-
-		COMMIT TRANSACTION
-	END TRY
-
-	BEGIN CATCH
-		ROLLBACK TRANSACTION
-
-		SELECT @ErrCode = 1
-			,@ErrMsg = N'Update unsuccessfully.'
-	END CATCH
+	EXEC [dbo].[LogDetail_Insert] @ActorId = @ModifiedBy
+		,@SpName = 'EPA_AdjustScoreByReviewerOrManagement'
+		,@ObjectId = NULL
+		,@ObjectTypeId = 10
+		,@Data = @Data
+		,@OldData = NULL
+		,@ObjectIds = NULL
 
 	DROP TABLE #tblDetails
 

@@ -39,7 +39,7 @@
 
         public int ModifiedBy { get; set; }
 
-        public override bool IsValid() => GroupId > 0 && JobLevelId > 0;
+        public override bool IsValid() => GroupId > 0;
 
         public override string GetSettingKey() => "JobDescription_UpdateGroupSetting";
     }

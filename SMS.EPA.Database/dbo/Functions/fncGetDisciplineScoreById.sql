@@ -13,9 +13,7 @@ Param's Explanation:
 
 */
 BEGIN
-	DECLARE @Score DECIMAL(5, 2)
-
-	SET @Score = 0
+	DECLARE @Score DECIMAL(5, 2) = 0
 
 	SELECT @Score = Score
 	FROM dbo.DisciplineType WITH (NOLOCK)

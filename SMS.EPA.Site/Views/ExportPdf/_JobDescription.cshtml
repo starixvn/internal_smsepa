@@ -1,6 +1,6 @@
 ﻿@using SMS.EPA.Resources
 @using SMS.EPA.Model.JobDescription
-@model IEnumerable<JobDescriptionItem>
+@model IEnumerable<JobDescriptionGroupItem>
 
 <table class="job-description">
     <thead>
@@ -11,9 +11,13 @@
     <tbody>
         <tr>
             <td class="border-r-b-l">
-                @foreach(JobDescriptionItem item in Model)
+                @foreach(JobDescriptionGroupItem gitem in Model)
                 {
-                    <p><span>&#8226;</span> @item.Name</p>
+                    <p><span>&#8226;</span> <strong>@gitem.Name</strong></p>
+                    foreach(JobDescriptionItem item in gitem.Items)
+                    {
+                        <p style="padding-left: 8px">- @item.Name</p>
+                    }
                 }
             </td>
         </tr>

@@ -15,7 +15,6 @@
     using Model;
     using Repositories;
     using Resources;
-    using SMS.EPA.Model.JobDescription;
 
     public class EmployeeEPAService : IEmployeeEPAService
     {

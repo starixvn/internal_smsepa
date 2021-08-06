@@ -156,6 +156,7 @@ BEGIN
 		,emp.FullName
 		,emp.Email
 		,emp.JoinedDate
+		,joblevel.[Name] AS JobLevel
 		,dept.DepartmentId
 		,dept.[Name] AS DepartmentName
 		,gr.GroupId
@@ -199,6 +200,7 @@ BEGIN
 		LEFT JOIN dbo.[Group] AS gr WITH (NOLOCK) ON emp.GroupId = gr.GroupId
 		LEFT JOIN dbo.Department AS dept WITH (NOLOCK) ON gr.DepartmentId = dept.DepartmentId
 		LEFT JOIN dbo.HRMJobTitle AS job WITH (NOLOCK) ON emp.[JobTitle] = job.[Id]
+		LEFT JOIN dbo.JobLevel AS joblevel WITH (NOLOCK) ON emp.JobLevelId = joblevel.JobLevelId
 		INNER JOIN dbo.Period AS period WITH (NOLOCK) ON epa.PeriodId = period.PeriodId
 		AND period.IsActive = 1
 		INNER JOIN dbo.ScoreRatingType AS srt WITH (NOLOCK) ON epa.ScoreRatingTypeId = srt.ScoreRatingTypeId

@@ -18,24 +18,25 @@ BEGIN
 	SET NOCOUNT ON
 
 	DECLARE @TargetTypeId INT
+		,@ProbationTargetTypeId TINYINT = 2
 		,@SemiTargetTypeId TINYINT = 3
+		-- process
+		,@EmployeeProcessId TINYINT = 2
+		,@EvaluatorProcessId TINYINT = 3
+		,@ReviewerProcessId TINYINT = 4
 		-- epa status
 		,@OpenStatusId TINYINT = 0
 		,@CloseStatusId TINYINT = 1
 		,@RejectStatusId TINYINT = 2
 		,@NumberEmployeeHasEPA INT
 		,@Today DATE = GETDATE()
+		,@ModifiedDate DATETIME = GETDATE()
 
 	SELECT @TargetTypeId = TargetTypeId
 	FROM dbo.Period WITH (NOLOCK)
 	WHERE PeriodId = @PeriodId
 
-	CREATE TABLE #tblPeriodEmployee (
-		PeriodId INT
-		,EmployeeId INT
-		,HasMonthlyEPA INT
-		,TargetTemplateId INT
-		)
+	CREATE TABLE #tblPeriodEmployee (PeriodId INT, EmployeeId INT, HasMonthlyEPA INT, TargetTemplateId INT)
 
 	IF ISNULL(@EmployeeIds, '') = ''
 	BEGIN
@@ -72,17 +73,10 @@ BEGIN
 	END
 	ELSE
 	BEGIN
-		CREATE TABLE #tblEmployee (
-			PeriodId INT
-			,EmployeeId INT
-			)
+		CREATE TABLE #tblEmployee (PeriodId INT, EmployeeId INT)
 
-		INSERT INTO #tblEmployee (
-			PeriodId
-			,EmployeeId
-			)
-		SELECT DISTINCT @PeriodId
-			,val
+		INSERT INTO #tblEmployee (PeriodId, EmployeeId)
+		SELECT DISTINCT @PeriodId, val
 		FROM dbo.fnc_strSplit(@EmployeeIds, ',')
 
 		SELECT @NumberEmployeeHasEPA = COUNT(epa.EPAId)
@@ -170,7 +164,7 @@ BEGIN
 			,NULL
 			,NULL
 			,NULL
-			,GETDATE()
+			,@ModifiedDate
 		FROM #tblPeriodEmployee AS peEmp
 			INNER JOIN dbo.TargetTemplate AS tg WITH (NOLOCK) ON peEmp.TargetTemplateId = tg.TargetTemplateId
 			INNER JOIN (
@@ -240,7 +234,7 @@ BEGIN
 			,tarGr.[Weight]
 			,tarKPI.[Weight]
 			,NULL
-			,GETDATE()
+			,@ModifiedDate
 		FROM #tblPeriodEmployee AS peEmp
 			INNER JOIN dbo.EPA AS epa WITH (NOLOCK) ON peEmp.PeriodId = epa.PeriodId
 			AND peEmp.EmployeeId = epa.EmployeeId
@@ -251,7 +245,7 @@ BEGIN
 			INNER JOIN dbo.TargetTemplateKPI AS tarKPI WITH (NOLOCK) ON peEmp.TargetTemplateId = tarKPI.TargetTemplateId
 			AND tarGr.KPIGroupId = tarKPI.KPIGroupId
 			INNER JOIN dbo.KPI AS kpi WITH (NOLOCK) ON tarKPI.KPIId = kpi.KPIId
-		WHERE peFS.ProcessId IN (2, 3) -- Self and Evaluator process
+		WHERE peFS.ProcessId IN (@EmployeeProcessId, @EvaluatorProcessId)
 
 		INSERT INTO dbo.EPAProcess (
 			EPAId
@@ -284,7 +278,7 @@ BEGIN
 			,(CASE 
 				WHEN (
 						@TargetTypeId = @SemiTargetTypeId
-						AND peFS.ProcessId IN (2, 3) -- self
+						AND peFS.ProcessId IN (@EmployeeProcessId, @EvaluatorProcessId)
 						AND peEmp.HasMonthlyEPA = 1
 						)
 					OR (CAST(peFS.EndDate AS DATE) < @Today) THEN 1
@@ -297,7 +291,7 @@ BEGIN
 			,@OpenStatusId
 			,NULL
 			,NULL
-			,GETDATE()
+			,@ModifiedDate
 		FROM #tblPeriodEmployee AS peEmp
 			INNER JOIN dbo.EPA AS epa WITH (NOLOCK) ON peEmp.PeriodId = epa.PeriodId
 			AND peEmp.EmployeeId = epa.EmployeeId
@@ -332,42 +326,32 @@ BEGIN
 		WHERE epa.HasMonthlyEPA = 1
 
 		-- recommendation
-		INSERT INTO dbo.EPARecommendation (
-			EPAId
-			,ProbationStatus
-			,Promoted
-			,PayIncreased
-			,JobGradeIncreased
-			,JobGradeId
-			)
-		SELECT epa.EPAId
-			,NULL
-			,NULL
-			,NULL
-			,NULL
-			,NULL
+		INSERT INTO dbo.EPARecommendation (EPAId, ProcessId, ProbationStatus, Promoted, PayIncreased, JobLevelIncreased, JobLevelId)
+		SELECT epa.EPAId, @EvaluatorProcessId, NULL, NULL, NULL, NULL, NULL
 		FROM #tblPeriodEmployee AS peEmp
 			INNER JOIN dbo.EPA AS epa WITH (NOLOCK) ON peEmp.PeriodId = epa.PeriodId
 			AND peEmp.EmployeeId = epa.EmployeeId
 			INNER JOIN dbo.Period AS period WITH (NOLOCK) ON epa.PeriodId = period.PeriodId
 			AND period.TargetTypeId <> 2 -- monthly
 
-			-- extended question for probation
-		IF @ExtendedQuestionEnabled = 1
+		INSERT INTO dbo.EPARecommendation (EPAId, ProcessId, ProbationStatus, Promoted, PayIncreased, JobLevelIncreased, JobLevelId)
+		SELECT epa.EPAId, @ReviewerProcessId, NULL, NULL, NULL, NULL, NULL
+		FROM #tblPeriodEmployee AS peEmp
+			INNER JOIN dbo.EPA AS epa WITH (NOLOCK) ON peEmp.PeriodId = epa.PeriodId
+			AND peEmp.EmployeeId = epa.EmployeeId
+			INNER JOIN dbo.Period AS period WITH (NOLOCK) ON epa.PeriodId = period.PeriodId
+			AND period.TargetTypeId <> 2 -- monthly
+
+		-- extended question for probation
+		IF @TargetTypeId = @ProbationTargetTypeId AND @ExtendedQuestionEnabled = 1
 		BEGIN
-			INSERT INTO dbo.ProbationExtendedQuestion (
-			EPAId,
-			SubQuestionId,
-			IsAgree
-			)
-			SELECT epa.EPAId,
-				rs.ResourceId,
-				NULL
+			INSERT INTO dbo.ProbationExtendedQuestion (EPAId, SubQuestionId, IsAgree)
+			SELECT epa.EPAId, rs.ResourceId, NULL
 			FROM #tblPeriodEmployee AS peEmp
 				INNER JOIN dbo.EPA AS epa WITH (NOLOCK) ON peEmp.PeriodId = epa.PeriodId
 				AND peEmp.EmployeeId = epa.EmployeeId
 				INNER JOIN dbo.Period AS period WITH (NOLOCK) ON epa.PeriodId = period.PeriodId
-				AND period.TargetTypeId = 1 -- Probation
+				AND period.TargetTypeId = @ProbationTargetTypeId
 				INNER JOIN RefResource AS rs WITH (NOLOCK) ON rs.RefName = 'ProbationSubQuestion'
 		END
 

@@ -8,17 +8,21 @@
         return {
             getUserPermission: getUserPermission,
             getGroupSettingInfo: getGroupSettingInfo,
+            getGroupHasSetting: getGroupHasSetting,
             getGroupSettingById: getGroupSettingById,
             editGroupSetting: editGroupSetting,
+            copyGroupSetting: copyGroupSetting,
             getEmployeeSettingInfo: getEmployeeSettingInfo,
+            getEmployeeHasSetting: getEmployeeHasSetting,
             getEmployeeSettingById: getEmployeeSettingById,
+            editEmployeeSetting: editEmployeeSetting,
+            copyEmployeeSetting: copyEmployeeSetting,
             createJobDescriptionGroupItem: createJobDescriptionGroupItem,
             editJobDescriptionGroupItem: editJobDescriptionGroupItem,
             deleteJobDescriptionGroupItem: deleteJobDescriptionGroupItem,
             createJobDescriptionItem: createJobDescriptionItem,
             editJobDescriptionItem: editJobDescriptionItem,
-            deleteJobDescriptionItem: deleteJobDescriptionItem,
-            editEmployeeSetting: editEmployeeSetting,
+            deleteJobDescriptionItem: deleteJobDescriptionItem
         };
 
         function getUserPermission() {
@@ -29,6 +33,10 @@
             return $http.post(baseUrl + 'api/JobDescription/GetGroupSettingInfo', {});
         }
 
+        function getGroupHasSetting() {
+            return $http.get(baseUrl + 'api/JobDescription/GetGroupHasSetting');
+        }
+
         function getGroupSettingById(groupId, jobLevelId) {
             return $http.get(baseUrl + 'api/JobDescription/GetGroupSettingById', { params: { groupId: groupId, jobLevelId: jobLevelId } });
         }
@@ -37,8 +45,8 @@
             return $http.post(baseUrl + 'api/JobDescription/EditGroupSetting', setting);
         }
 
-        function editEmployeeSetting(setting) {
-            return $http.post(baseUrl + 'api/JobDescription/EditEmployeeSetting', setting);
+        function copyGroupSetting(setting) {
+            return $http.post(baseUrl + 'api/JobDescription/CopyGroupSetting', setting);
         }
 
         function getEmployeeSettingInfo(groupId, employeeId, showAll) {
@@ -49,8 +57,20 @@
             });
         }
 
+        function getEmployeeHasSetting() {
+            return $http.get(baseUrl + 'api/JobDescription/GetEmployeeHasSetting',);
+        }
+
         function getEmployeeSettingById(employeeId) {
             return $http.get(baseUrl + 'api/JobDescription/GetEmployeeSettingById', { params: { employeeId: employeeId } });
+        }
+
+        function editEmployeeSetting(setting) {
+            return $http.post(baseUrl + 'api/JobDescription/EditEmployeeSetting', setting);
+        }
+
+        function copyEmployeeSetting(setting) {
+            return $http.post(baseUrl + 'api/JobDescription/CopyEmployeeSetting', setting);
         }
 
         function createJobDescriptionGroupItem(groupItem) {

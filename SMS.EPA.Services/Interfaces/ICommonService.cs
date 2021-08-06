@@ -42,6 +42,6 @@
 
         IEnumerable<ScoreRatingTypeModel> GetScoreRatingType(GetScoreRatingTypeCriteria criteria);
 
-        IEnumerable<JobDescriptionItem> GetJobDescriptionByEPAId(int epaId);
+        IEnumerable<JobDescriptionGroupItem> GetJobDescriptionByEPAId(int epaId);
     }
 }

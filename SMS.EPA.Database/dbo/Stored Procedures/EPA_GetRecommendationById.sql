@@ -15,14 +15,15 @@ BEGIN
 	SET NOCOUNT ON
 
 	SELECT epa.EPAId
+		,re.ProcessId
 		,re.ProbationStatus
 		,re.Promoted
 		,re.PayIncreased
-		,re.JobGradeIncreased
-		,job.JobGradeId
+		,re.JobLevelIncreased
+		,job.JobLevelId
 		,job.[Name]
 	FROM dbo.EPA AS epa WITH (NOLOCK)
 		INNER JOIN dbo.EPARecommendation AS re WITH (NOLOCK) ON epa.EPAId = re.EPAId
-		LEFT JOIN dbo.JobGrade AS job WITH (NOLOCK) ON re.JobGradeId = job.JobGradeId
+		LEFT JOIN dbo.JobLevel AS job WITH (NOLOCK) ON re.JobLevelId = job.JobLevelId
 	WHERE epa.EPAId = @EPAId
 END

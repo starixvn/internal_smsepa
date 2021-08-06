@@ -7,6 +7,7 @@
     function groupSettingController($scope, CommonModel, JobDescriptionModel, utilitiesFactory, lockScreenService) {
         let vm = this;
 
+        vm.modalInstance = '';
         vm.isFirstLoad = true;
         vm.currentPage = 1;
         vm.pageSize = 20;
@@ -14,15 +15,19 @@
 
         utilitiesFactory.numberEntryList(vm);
 
-        function initialize() {
+        function getGroupSettingInfo() {
             lockScreenService.start();
             JobDescriptionModel.getGroupSettingInfo().then(
                 function () {
                     vm.groupSettingInfos = JobDescriptionModel.groupSettingInfos;
                     utilitiesFactory.searchOnPage(vm, vm.groupSettingInfos);
-                    vm.isFirstLoad = false;
                     lockScreenService.stop();
                 });
+        }
+
+        function initialize() {
+            getGroupSettingInfo();
+            vm.isFirstLoad = false;
         }
 
         $scope.$watch(function () { return $scope.jobDescriptionCtrl.dataTab === 1; },
@@ -32,6 +37,16 @@
                 }
             }
         );
+
+        vm.copyGroupSetting = function (group) {
+            JobDescriptionModel.openPopupCopyGroupSetting(vm, group).then(function (isSuccessful) {
+                if (isSuccessful) {
+                    getGroupSettingInfo();
+                }
+            })['finally'](function () {
+                vm.modalInstance = '';
+            });
+        };
 
         vm.getIndex = function (index, currentPage, pageSize) {
             return CommonModel.getIndex(index, currentPage, pageSize);

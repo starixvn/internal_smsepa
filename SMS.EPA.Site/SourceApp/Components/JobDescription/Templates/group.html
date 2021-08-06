@@ -26,6 +26,9 @@
                        href="#/JobDescription/EditGroup/{{group.GroupId}}"
                        ng-if="jobDescriptionCtrl.permission === jobDescriptionCtrl.policy.Host"
                        ng-attr-title='{{"Edit" | translate}}'></a>
+                    <a class="glyphicon glyphicon-duplicate cursor-pointer" title="Copy Setting"
+                       ng-if="jobDescriptionCtrl.permission === jobDescriptionCtrl.policy.Host"
+                       ng-click="groupCtrl.copyGroupSetting(group)"></a>
                     <a class="icon-view"
                        href="#/JobDescription/EditGroup/{{group.GroupId}}"
                        ng-if="jobDescriptionCtrl.permission !== jobDescriptionCtrl.policy.Host"

@@ -433,9 +433,9 @@ BEGIN
 			,job.[Name] AS JobTitleName
 			,epa.PeriodId
 			,epa.PeriodName AS [Name]
-			,NULL AS TargetTemplateName
 			,NULL AS TargetTypeId
 			,NULL AS TargetTypeName
+			,NULL AS TargetTemplate
 			,NULL AS ScoreRatingTypeId
 			,NULL AS SelfEvaluated
 			,NULL AS Evaluator

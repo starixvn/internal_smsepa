@@ -56,6 +56,9 @@
                        href="#/JobDescription/EditEmployee/{{employee.EmployeeId}}"
                        ng-if="jobDescriptionCtrl.permission === jobDescriptionCtrl.policy.Host"
                        ng-attr-title='{{"Edit" | translate}}'></a>
+                    <a class="glyphicon glyphicon-duplicate cursor-pointer" title="Copy Setting"
+                       ng-if="jobDescriptionCtrl.permission === jobDescriptionCtrl.policy.Host"
+                       ng-click="personnelCtrl.copyEmployeeSetting(employee)"></a>
                     <a class="icon-view"
                        href="#/JobDescription/EditEmployee/{{employee.EmployeeId}}"
                        ng-if="jobDescriptionCtrl.permission !== jobDescriptionCtrl.policy.Host"

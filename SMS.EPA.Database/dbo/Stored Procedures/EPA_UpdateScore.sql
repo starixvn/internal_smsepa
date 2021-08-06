@@ -7,6 +7,7 @@ CREATE PROCEDURE [dbo].[EPA_UpdateScore] @EPAId INT
 	,@Score NVARCHAR(100) = ''
 	,@KPIDetails NVARCHAR(MAX) = ''
 	,@ExtendedQuestions NVARCHAR(MAX) = ''
+	,@RecommendationXml NVARCHAR(MAX) = ''
 	,@ModifiedBy INT
 	,@ErrCode INT = 0 OUTPUT
 	,@ErrMsg VARCHAR(200) = '' OUTPUT
@@ -21,16 +22,16 @@ Revisions:
 Param's Explanation:
 • @KPIDetails=
     N'<ROOT>
-	   <KPI KPIId="1" KPIGroupId="1" Score="3" Rate="5" IsMaxScore="0" Comment="Comment"></KPI>
+	   <Row KPIId="1" KPIGroupId="1" Score="3" Rate="5" IsMaxScore="0" Comment="Comment" />
     </ROOT>'
 • @KPIDetails=
 	N'<ROOT>
-		<ExtendedQuestion SubQuestionId='1' IsAgree='0'></ExtendedQuestion>
+		<Row SubQuestionId='1' IsAgree='0' />
 	</ROOT>'
-• @ErrCode:
-	= 0: Transaction recorded successfully.
-	> 0: Specific Error.
-• @ErrMsg: Error description.
+• @RecommendationXml: N'
+     <ROOT>
+        <Row EPAId='' ProbationStatus='' Promoted='' PayIncreased='' JobLevelIncreased='' JobLevelId='' />
+     </ROOT>
 
 */
 BEGIN
@@ -38,19 +39,9 @@ BEGIN
 
 	DECLARE @ModifiedDate DATETIME = GETDATE()
 	DECLARE @tblEvaluator TABLE (EvaluatorId INT)
-	DECLARE @tblKPIScores TABLE (
-		KPIId INT
-		,KPIGroupId INT
-		,Score NVARCHAR(100)
-		,Rate NVARCHAR(100)
-		,IsMaxScore BIT
-		,Comment NVARCHAR(MAX)
-		)
-	DECLARE @tblExtendedQuestions TABLE (
-		SubQuestionId TINYINT
-		,IsAgree BIT
-		)
-	DECLARE @EmptyXML NVARCHAR(MAX) = '<ROOT></ROOT>'
+	DECLARE @tblKPIScores TABLE (KPIId INT, KPIGroupId INT, Score NVARCHAR(100), Rate NVARCHAR(100), IsMaxScore BIT, Comment NVARCHAR(MAX))
+	DECLARE @tblExtendedQuestions TABLE (SubQuestionId TINYINT, IsAgree BIT)
+	DECLARE @tblRecommendation TABLE (EPAId INT, ProbationStatus TINYINT, Promoted BIT, PayIncreased BIT, JobLevelIncreased BIT, JobLevelId INT)
 
 	INSERT INTO @tblEvaluator (EvaluatorId)
 	SELECT DISTINCT EvaluatorId
@@ -72,7 +63,7 @@ BEGIN
 			)
 	BEGIN
 		SELECT @ErrCode = 1
-			,@ErrMsg = N'You are not authorized.'
+			,@ErrMsg = N'You do not have permission.'
 
 		RETURN
 	END
@@ -92,7 +83,7 @@ BEGIN
 			)
 	BEGIN
 		SELECT @ErrCode = 1
-			,@ErrMsg = N'Your phase is closed. You can not update.'
+			,@ErrMsg = N'Your phase is closed.'
 
 		RETURN
 	END
@@ -111,7 +102,7 @@ BEGIN
 			)
 	BEGIN
 		SELECT @ErrCode = 1
-			,@ErrMsg = N'This EPA is closed. You can not update.'
+			,@ErrMsg = N'EPA is closed.'
 
 		RETURN
 	END
@@ -122,57 +113,60 @@ BEGIN
 		EXEC sp_xml_preparedocument @DocHandler OUTPUT
 			,@KPIDetails
 
-		INSERT INTO @tblKPIScores (
-			KPIId
-			,KPIGroupId
-			,Score
-			,Rate
-			,IsMaxScore
-			,Comment
-			)
-		SELECT KPIId
-			,KPIGroupId
-			,Score
-			,Rate
-			,IsMaxScore
-			,Comment
-		FROM OPENXML(@DocHandler, '/ROOT/KPI', 1) WITH (KPIId INT, KPIGroupId INT, Score NVARCHAR(100), Rate NVARCHAR(100), IsMaxScore BIT, Comment NVARCHAR(MAX)) AS Data
+		INSERT INTO @tblKPIScores (KPIId, KPIGroupId, Score, Rate, IsMaxScore, Comment)
+		SELECT KPIId, KPIGroupId, Score, Rate, IsMaxScore, Comment
+		FROM OPENXML(@DocHandler, '/ROOT/Row', 1) WITH (KPIId INT, KPIGroupId INT, Score NVARCHAR(100), Rate NVARCHAR(100), IsMaxScore BIT, Comment NVARCHAR(MAX)) AS Data
 
 		EXEC sp_xml_removedocument @DocHandler
 	END TRY
 
 	BEGIN CATCH
 		SELECT @ErrCode = 1
-			,@ErrMsg = N'Parameter invalid.'
+			,@ErrMsg = N'KPIDetails param is invalid.'
 
 		RETURN
 	END CATCH
 
-	IF(@ExtendedQuestions != @EmptyXML)
+	IF ISNULL(@ExtendedQuestions, '') != ''
 	BEGIN
 		BEGIN TRY
-		DECLARE @DocHandler2 INT
+			EXEC sp_xml_preparedocument @DocHandler OUTPUT
+				,@ExtendedQuestions
 
-		EXEC sp_xml_preparedocument @DocHandler2 OUTPUT
-			,@ExtendedQuestions
+			INSERT INTO @tblExtendedQuestions (SubQuestionId, IsAgree)
+			SELECT SubQuestionId, IsAgree
+			FROM OPENXML(@DocHandler, '/ROOT/Row', 1) WITH (SubQuestionId TINYINT, IsAgree BIT) AS Data
 
-		INSERT INTO @tblExtendedQuestions (
-			SubQuestionId
-			,IsAgree
-			)
-		SELECT SubQuestionId
-			,IsAgree
-		FROM OPENXML(@DocHandler2, '/ROOT/ExtendedQuestion', 1) WITH (SubQuestionId TINYINT, IsAgree BIT) AS Data
+			EXEC sp_xml_removedocument @DocHandler
+		END TRY
 
-		EXEC sp_xml_removedocument @DocHandler2
-	END TRY
+		BEGIN CATCH
+			SELECT @ErrCode = 1
+				,@ErrMsg = N'ExtendedQuestions param is invalid.'
 
-	BEGIN CATCH
-		SELECT @ErrCode = 1
-			,@ErrMsg = N'Parameter invalid.'
+			RETURN
+		END CATCH
+	END
 
-		RETURN
-	END CATCH
+	IF ISNULL(@RecommendationXml, '') != ''
+	BEGIN
+		BEGIN TRY
+			EXEC sp_xml_preparedocument @DocHandler OUTPUT
+				,@RecommendationXml
+
+			INSERT INTO @tblRecommendation (EPAId, ProbationStatus, Promoted, PayIncreased, JobLevelIncreased, JobLevelId)
+			SELECT EPAId, ProbationStatus, Promoted, PayIncreased, JobLevelIncreased, JobLevelId
+			FROM OPENXML(@DocHandler, '/ROOT/Row', 1) WITH (EPAId INT, ProbationStatus TINYINT, Promoted BIT, PayIncreased BIT, JobLevelIncreased BIT, JobLevelId INT) AS Data
+
+			EXEC sp_xml_removedocument @DocHandler
+		END TRY
+
+		BEGIN CATCH
+			SELECT @ErrCode = 1
+				,@ErrMsg = N'Recommendation param is invalid.'
+
+			RETURN
+		END CATCH
 	END
 
 	DECLARE @Data NVARCHAR(MAX)
@@ -223,6 +217,23 @@ BEGIN
 			FROM dbo.ProbationExtendedQuestion AS extendedQ WITH (ROWLOCK, UPDLOCK)
 				INNER JOIN @tblExtendedQuestions AS data ON data.SubQuestionId = extendedQ.SubQuestionId
 			WHERE extendedQ.EPAId = @EPAId
+
+		-- update recommendation
+		IF @ProcessId = 3 -- evaluator
+		BEGIN
+			UPDATE re
+			SET re.ProbationStatus = dt.ProbationStatus
+				,re.Promoted = dt.Promoted
+				,re.PayIncreased = dt.PayIncreased
+				,re.JobLevelIncreased = dt.JobLevelIncreased
+				,re.JobLevelId = dt.JobLevelId
+				,re.ModifiedBy = @ModifiedBy
+				,re.ModifiedDate = @ModifiedDate
+			FROM dbo.EPARecommendation AS re WITH (ROWLOCK, UPDLOCK)
+				INNER JOIN dbo.EPA AS epa WITH (NOLOCK) ON re.EPAId = epa.EPAId
+				INNER JOIN @tblRecommendation AS dt ON re.EPAId = dt.EPAId
+			WHERE re.ProcessId = 3
+		END
 
 		EXEC @Data = [dbo].[fncGetDataForWriteLog_EPA_UpdateScore] @EPAId = @EPAId
 			,@ProcessId = @ProcessId

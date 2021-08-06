@@ -8,15 +8,24 @@
         var model = {
             permission: 0,
             groupSettingInfos: [],
+            groupHasSettings: [],
             groupSettingInfo: {},
             employeeSettingInfos: [],
+            employeeHasSettings: [],
             employeeSettingInfo: {},
             getUserPermission: getUserPermission,
             getGroupSettingInfo: getGroupSettingInfo,
+            getGroupHasSetting: getGroupHasSetting,
             getGroupSettingById: getGroupSettingById,
             editGroupSetting: editGroupSetting,
+            openPopupCopyGroupSetting: openPopupCopyGroupSetting,
+            copyGroupSetting: copyGroupSetting,
             getEmployeeSettingInfo: getEmployeeSettingInfo,
+            getEmployeeHasSetting: getEmployeeHasSetting,
             getEmployeeSettingById: getEmployeeSettingById,
+            editEmployeeSetting: editEmployeeSetting,
+            openPopupCopyEmployeeSetting: openPopupCopyEmployeeSetting,
+            copyEmployeeSetting: copyEmployeeSetting,
             createDescriptionGroupItem: createDescriptionGroupItem,
             editDescriptionGroupItem: editDescriptionGroupItem,
             createDescriptionItem: createDescriptionItem,
@@ -28,7 +37,6 @@
             openPopupCreateDescriptionItem: openPopupCreateDescriptionItem,
             openPopupEditDescriptionItem: openPopupEditDescriptionItem,
             openPopupDeleteDescriptionItem: openPopupDeleteDescriptionItem,
-            editEmployeeSetting: editEmployeeSetting,
             validateDescription: validateDescription
         };
 
@@ -44,8 +52,17 @@
 
         function getGroupSettingInfo() {
             return jobDescriptionFactory.getGroupSettingInfo()
-                .success(function (groupSettingInfos) {
-                    model.groupSettingInfos = groupSettingInfos;
+                .success(function (settings) {
+                    model.groupSettingInfos = settings;
+                }).error(function (response, status) {
+                    errorFactory.errorHandle(status);
+                });
+        }
+
+        function getGroupHasSetting() {
+            return jobDescriptionFactory.getGroupHasSetting()
+                .success(function (settings) {
+                    model.groupHasSettings = settings;
                 }).error(function (response, status) {
                     errorFactory.errorHandle(status);
                 });
@@ -53,8 +70,8 @@
 
         function getGroupSettingById(groupId, jobLevelId) {
             return jobDescriptionFactory.getGroupSettingById(groupId, jobLevelId)
-                .success(function (groupSettingInfo) {
-                    model.groupSettingInfo = groupSettingInfo;
+                .success(function (setting) {
+                    model.groupSettingInfo = setting;
                 }).error(function (response, status) {
                     errorFactory.errorHandle(status);
                 });
@@ -63,21 +80,38 @@
         function editGroupSetting(setting) {
             return jobDescriptionFactory.editGroupSetting(setting).success(function (response) {
                 if (response.IsSuccessful) {
-                    notificationFactory.success("UpdatedSuccessfully");
+                    notificationFactory.success('UpdatedSuccessfully');
                 } else {
-                    notificationFactory.error("", response.Message);
+                    notificationFactory.error('', response.Message);
                 }
             }).error(function (response, status) {
                 errorFactory.errorHandle(status);
             });
         }
 
-        function editEmployeeSetting(setting) {
-            return jobDescriptionFactory.editEmployeeSetting(setting).success(function (response) {
+        function openPopupCopyGroupSetting(vm, group) {
+            vm.modalInstance = $uibModal.open({
+                templateUrl: 'SourceApp/Components/JobDescription/Templates/copy-group-setting.html',
+                controller: 'CopyGroupSettingController as copyGroupSettingCtrl',
+                backdrop: 'static',
+                windowClass: 'modal-confirm-center',
+                resolve: {
+                    group: function () {
+                        return group;
+                    }
+                }
+            });
+
+            return vm.modalInstance.result;
+        }
+
+        function copyGroupSetting(setting, modalInstance) {
+            return jobDescriptionFactory.copyGroupSetting(setting).success(function (response) {
                 if (response.IsSuccessful) {
-                    notificationFactory.success("UpdatedSuccessfully");
+                    notificationFactory.success('UpdatedSuccessfully');
+                    modalInstance.close(true);
                 } else {
-                    notificationFactory.error("", response.Message);
+                    notificationFactory.error('', response.Message);
                 }
             }).error(function (response, status) {
                 errorFactory.errorHandle(status);
@@ -86,8 +120,17 @@
 
         function getEmployeeSettingInfo(groupId, employeeId, showAll) {
             return jobDescriptionFactory.getEmployeeSettingInfo(groupId, employeeId, showAll)
-                .success(function (employeeSettingInfos) {
-                    model.employeeSettingInfos = employeeSettingInfos;
+                .success(function (settings) {
+                    model.employeeSettingInfos = settings;
+                }).error(function (response, status) {
+                    errorFactory.errorHandle(status);
+                });
+        }
+
+        function getEmployeeHasSetting(groupId, employeeId, showAll) {
+            return jobDescriptionFactory.getEmployeeSettingInfo(groupId, employeeId, showAll)
+                .success(function (settings) {
+                    model.employeeHasSettings = settings;
                 }).error(function (response, status) {
                     errorFactory.errorHandle(status);
                 });
@@ -95,19 +138,60 @@
 
         function getEmployeeSettingById(employeeId) {
             return jobDescriptionFactory.getEmployeeSettingById(employeeId)
-                .success(function (employeeSettingInfo) {
-                    model.employeeSettingInfo = employeeSettingInfo;
+                .success(function (setting) {
+                    model.employeeSettingInfo = setting;
                 }).error(function (response, status) {
                     errorFactory.errorHandle(status);
                 });
         }
 
+        function editEmployeeSetting(setting) {
+            return jobDescriptionFactory.editEmployeeSetting(setting).success(function (response) {
+                if (response.IsSuccessful) {
+                    notificationFactory.success('UpdatedSuccessfully');
+                } else {
+                    notificationFactory.error('', response.Message);
+                }
+            }).error(function (response, status) {
+                errorFactory.errorHandle(status);
+            });
+        }
+
+        function openPopupCopyEmployeeSetting(vm, employee) {
+            vm.modalInstance = $uibModal.open({
+                templateUrl: 'SourceApp/Components/JobDescription/Templates/copy-personnel-setting.html',
+                controller: 'CopyEmployeeSettingController as copyEmployeeSettingCtrl',
+                backdrop: 'static',
+                windowClass: 'modal-confirm-center',
+                resolve: {
+                    employee: function () {
+                        return employee;
+                    }
+                }
+            });
+
+            return vm.modalInstance.result;
+        }
+
+        function copyEmployeeSetting(setting, modalInstance) {
+            return jobDescriptionFactory.copyEmployeeSetting(setting).success(function (response) {
+                if (response.IsSuccessful) {
+                    notificationFactory.success('UpdatedSuccessfully');
+                    modalInstance.close(true);
+                } else {
+                    notificationFactory.error('', response.Message);
+                }
+            }).error(function (response, status) {
+                errorFactory.errorHandle(status);
+            });
+        }
+
         function openPopupConfirmRefreshData(vm) {
             vm.modalInstance = $uibModal.open({
                 templateUrl: 'SourceApp/Shared/Templates/modal-confirm-refresh-data.html',
-                controller: "ConfirmRefreshDataController as modalConfirmCtrl",
+                controller: 'ConfirmRefreshDataController as modalConfirmCtrl',
                 backdrop: 'static',
-                windowClass: "modal-confirm-center"
+                windowClass: 'modal-confirm-center'
             });
 
             return vm.modalInstance.result;

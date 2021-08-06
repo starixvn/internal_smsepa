@@ -1,4 +1,5 @@
-﻿CREATE PROCEDURE [dbo].[JobGrade_Get] @IsActive BIT = NULL
+﻿
+CREATE PROCEDURE [dbo].[JobGrade_Get] @IsActive BIT = NULL
 AS
 /*
 Created: 20161010@Tim.Trinh
@@ -14,6 +15,7 @@ BEGIN
 
 	SELECT JobGradeId
 		,[Name]
+		,IsActive
 	FROM dbo.JobGrade WITH (NOLOCK)
 	WHERE @IsActive IS NULL
 		OR IsActive = @IsActive

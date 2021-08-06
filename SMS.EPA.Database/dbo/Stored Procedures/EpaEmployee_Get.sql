@@ -32,7 +32,7 @@ BEGIN
 	WHERE emp.IsDeleted = 0
 		AND (
 			@GroupId IS NULL
-			OR gr.GroupId = gr.GroupId
+			OR gr.GroupId = @GroupId
 			)
 		AND (
 			emp.FullName LIKE @query
@@ -44,7 +44,7 @@ BEGIN
 			)
 		AND (
 			@IsSpecialUser IS NULL
-			OR emp.IsSpecialUser = emp.IsSpecialUser
+			OR emp.IsSpecialUser = @IsSpecialUser
 			)
 		AND (
 			@DepartmentId IS NULL

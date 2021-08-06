@@ -160,10 +160,18 @@
             return scoreRatingTypes;
         }
 
-        public IEnumerable<JobDescriptionItem> GetJobDescriptionByEPAId(int epaId)
+        public IEnumerable<JobDescriptionGroupItem> GetJobDescriptionByEPAId(int epaId)
         {
             var criteria = new GetJobDescriptionByEPAIdCriteria { EPAId = epaId };
-            return baseService.GetData<JobDescriptionItem>(criteria);
+            var tuple = baseService.FetchMultiple<JobDescriptionGroupItem, JobDescriptionItem>(criteria);
+            IEnumerable<JobDescriptionGroupItem> groupItems = tuple.Item1;
+            IEnumerable<JobDescriptionItem> items = tuple.Item2;
+            foreach (var groupitem in groupItems)
+            {
+                groupitem.Items = items.Where(x => x.GroupItemId == groupitem.GroupItemId).ToList();
+            }
+
+            return groupItems.OrderBy(x => x.DisplayOrder).ToList();
         }
 
         private IList<MenuGroupModel> GroupMenuItem(IEnumerable<MenuItemModel> menuItems)

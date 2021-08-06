@@ -1,0 +1,39 @@
+﻿<div class="modal-header">
+    <div class="popup-header">
+        Copy Setting
+        <span class="close-popup" ng-click="copyGroupSettingCtrl.cancel()"></span>
+    </div>
+</div>
+<div class="modal-body copy-setting-modal-body">
+    <form class="form-horizontal col-sm-11" role="form">
+        <div class="form-group">
+            <div class="col-sm-4 control-label" data-translate="JobLevel"></div>
+            <div class="col-sm-8 field">
+                <select class="form-control" ng-model="copyGroupSettingCtrl.jobLevelId"
+                        ng-options="item.JobLevelId as item.Name for item in copyGroupSettingCtrl.jobLevels">
+                    <option value="">-- {{"All" | translate}} --</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-group required">
+            <label class="col-sm-4 control-label" data-translate="From"></label>
+            <div class="col-sm-8 field">
+                <select ng-model="copyGroupSettingCtrl.fromGroupId"
+                        ng-options="item.GroupId as item.Name for item in copyGroupSettingCtrl.groupHasSettings"
+                        required class="form-control">
+                    <option value="" hidden disabled>-- {{"Select" | translate}} --</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-4 control-label" data-translate="To"></label>
+            <div class="col-sm-8 field">
+                <input type="text" class="form-control" ng-model="copyGroupSettingCtrl.group.Name" readonly />
+            </div>
+        </div>
+    </form>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-primary" ng-click="copyGroupSettingCtrl.save()" data-translate="Submit"></button>
+    <button class="btn btn-cancel" ng-click="copyGroupSettingCtrl.cancel()" data-translate="Cancel"></button>
+</div>

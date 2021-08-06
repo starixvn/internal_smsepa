@@ -5,8 +5,9 @@
     personnelSettingController.$inject = ['$scope', 'CommonModel', 'JobDescriptionModel', 'utilitiesFactory', 'lockScreenService'];
 
     function personnelSettingController($scope, CommonModel, JobDescriptionModel, utilitiesFactory, lockScreenService) {
-        var vm = this;
+        let vm = this;
 
+        vm.modalInstance = '';
         vm.isFirstLoad = true;
         vm.currentPage = 1;
         vm.pageSize = 20;
@@ -55,13 +56,22 @@
             getEmployeeSettingInfo(groupId, employeeId, vm.filter.showAll);
         }
 
+        vm.copyEmployeeSetting = function (employee) {
+            JobDescriptionModel.openPopupCopyEmployeeSetting(vm, employee).then(function (isSuccessful) {
+                if (isSuccessful) {
+                    vm.query();
+                }
+            })['finally'](function () {
+                vm.modalInstance = '';
+            });
+        };
+
         function getEmployeeSettingInfo(groupId, employeeId, showAll) {
             lockScreenService.start();
             JobDescriptionModel.getEmployeeSettingInfo(groupId, employeeId, showAll).then(
                 function () {
                     vm.employeeSettingInfos = JobDescriptionModel.employeeSettingInfos;
                     utilitiesFactory.searchOnPage(vm, vm.employeeSettingInfos);
-                    vm.isFirstLoad = false;
                     lockScreenService.stop();
                 });
         }
@@ -72,6 +82,7 @@
             });
 
             getEmployeeSettingInfo(vm.filter.groupId, null, vm.filter.showAll);
+            vm.isFirstLoad = false;
         }
     }
 })();
