@@ -1,17 +1,19 @@
 ﻿namespace SMS.EPA.Services.Interfaces
 {
-    using Model;
+    using SMS.EPA.Model;
+    using SMS.EPA.Core.Enumerations;
+    using SMS.EPA.Model.AutoService;
 
     public interface IMailService
     {
-        void SendMailReminder(string templateEmailPath, PeriodFlowModel employeeSetting, string periodName, int mailMode);
+        void SendMailReminder(string emailTemplatePath, EmployeeSettingToSendMail employeeSetting, MailMode mailMode);
 
-        void SendMailToNotifyChangeSetting(string templateEmailPath, PeriodFlowModel employeeSetting, string periodName);
+        void SendMailToNotifyChangeSetting(string emailTemplatePath, EmployeeSettingToSendMail employeeSetting);
 
-        void SendMailToSelfEndEvaluation(string templateEmailPath, EPAModel evaluationInfo, float? averagePerformanceScore, float disciplineScore);
+        void SendMailToSelfEndEvaluation(string emailTemplatePath, EPAModel evaluationInfo, float? averagePerformanceScore, float disciplineScore);
 
-        void SendMailEndToHumanResourcesByEmployee(string templateEmailPath, EPAModel evaluationInfo, EPAProcessModel humanResource);
+        void SendMailEndToHumanResourcesByEmployee(string emailTemplatePath, EPAModel evaluationInfo, EPAProcessModel humanResource);
 
-        void SendMailEndToHumanResourceByPeriod(string templateEmailPath, PeriodFlowModel employeeSetting, string periodName);
+        void SendMailEndToHumanResourceByPeriod(string emailTemplatePath, EmployeeSettingToSendMail employeeSetting);
     }
 }

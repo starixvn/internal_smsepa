@@ -1,23 +1,23 @@
 ﻿namespace SMS.EPA.Model.Email
 {
     using System;
-    using Core.Constants;
-    using Core.Enumerations;
-    using Core.Services;
-    using Resources;
+    using SMS.EPA.Core.Constants;
+    using SMS.EPA.Core.Enumerations;
+    using SMS.EPA.Core.Services;
+    using SMS.EPA.Model.AutoService;
+    using SMS.EPA.Resources;
 
     public class MailReminder
     {
-        private readonly int _processId;
+        private readonly byte _processId;
         private readonly string _fromDate;
         private readonly string _toDate;
-        private readonly string _periodName;
 
         public static string SenderName => ConfigurationManagerService.GetAppSetting("Email.SenderName");
 
         public static string SiteLink => ConfigurationManagerService.GetAppSetting("url");
 
-        public MailReminder(PeriodFlowModel employeeSetting, string bodyTemplate, string periodName, int mailMode)
+        public MailReminder(EmployeeSettingToSendMail employeeSetting, string bodyTemplate, MailMode mailMode)
         {
             _processId = employeeSetting.ProcessId;
             _fromDate = employeeSetting.StartDate.HasValue
@@ -28,24 +28,20 @@
                 ? ChangeEndDate(employeeSetting.EndDate.Value)
                 : string.Empty;
 
-            _periodName = periodName;
-
             Email = new MailModel
             {
-                Subject = GetSubject(mailMode),
+                Subject = GetSubject(employeeSetting.Period, mailMode),
                 Body = string.Format(
                     bodyTemplate,
-                    employeeSetting.EvaluatorInfo.NickName,
+                    employeeSetting.Nickname,
                     SenderName,
-                    periodName,
+                    employeeSetting.Period,
                     SiteLink,
                     _fromDate,
                     _toDate),
-                ReceiverEmail = employeeSetting.EvaluatorInfo.Email
+                ReceiverEmail = employeeSetting.Email
             };
         }
-
-        public string PeriodName { get; private set; }
 
         public MailModel Email { get; }
 
@@ -61,37 +57,37 @@
             return result.ToString(Constants.FormatDateTimeEmail);
         }
 
-        private string GetSubject(int mailMode)
+        private string GetSubject(string period, MailMode mailMode)
         {
             string subject;
             switch (_processId)
             {
-                case (int)ProcessType.HumanResource:
-                    subject = mailMode == (int)MailMode.Start
+                case (byte)ProcessType.HumanResource:
+                    subject = mailMode == MailMode.Start
                         ? Lang.StartDateEmailToHRSubject
                         : Lang.RemindDateEmailToHRSubject;
                     break;
 
-                case (int)ProcessType.Self:
-                    subject = mailMode == (int)MailMode.Start
+                case (byte)ProcessType.Self:
+                    subject = mailMode == MailMode.Start
                         ? Lang.StartDateEmailToSelfSubject
                         : Lang.RemindDateEmailToSelfSubject;
                     break;
 
-                case (int)ProcessType.Evaluator:
-                    subject = mailMode == (int)MailMode.Start
+                case (byte)ProcessType.Evaluator:
+                    subject = mailMode == MailMode.Start
                         ? Lang.StartDateEmailToEvaluatorSubject
                         : Lang.RemindDateEmailToEvaluatorSubject;
                     break;
 
-                case (int)ProcessType.Reviewer:
-                    subject = mailMode == (int)MailMode.Start
+                case (byte)ProcessType.Reviewer:
+                    subject = mailMode == MailMode.Start
                         ? Lang.StartDateEmailToReviewerSubject
                         : Lang.RemindDateEmailToReviewerSubject;
                     break;
 
-                case (int)ProcessType.Management:
-                    subject = mailMode == (int)MailMode.Start
+                case (byte)ProcessType.Management:
+                    subject = mailMode == MailMode.Start
                         ? Lang.StartDateEmailToManagementSubject
                         : Lang.RemindDateEmailToManagementSubject;
                     break;
@@ -101,7 +97,7 @@
                     break;
             }
 
-            return string.Format(subject, _periodName, _fromDate, _toDate);
+            return string.Format(subject, period, _fromDate, _toDate);
         }
     }
 }

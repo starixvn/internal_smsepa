@@ -20,7 +20,7 @@
                 {
                     InsertEmployeeToPeriod(employeePeriod);
                     GenerateEPA(employeePeriod, "Auto generate EPA for probation period");
-                    SendStartEmail(employeePeriod.PeriodId, employeePeriod.EmployeeIds);
+                    SendReminderStartEmail(employeePeriod.PeriodId, employeePeriod.EmployeeIds);
                 }
             }
         }

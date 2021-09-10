@@ -9,15 +9,11 @@
         </Setting>
         <Setting Key="EpaAuto_Probation_AddEmployeeToPeriod" SpName="EpaAuto_Probation_AddEmployeeToPeriod" DbName="SMSEPA" Plain="0">
         </Setting>
-        <Setting Key="EpaAuto_GetPeriodHasReminderProcess" SpName="EpaAuto_GetPeriodHasReminderProcess" DbName="SMSEPA" Plain="0">
-        </Setting>
         <Setting Key="EpaPeriod_GetById" SpName="EpaPeriod_GetById" DbName="SMSEPA" Plain="0">
         </Setting>
         <Setting Key="EpaAuto_GenerateEPA" SpName="EpaAuto_GenerateEPA" DbName="SMSEPA" Plain="0">
         </Setting>
         <Setting Key="EpaAuto_GetEmployeeSettingToSendMail" SpName="EpaAuto_GetEmployeeSettingToSendMail" DbName="SMSEPA" Plain="0">
-        </Setting>
-        <Setting Key="EpaAuto_GetPeriodHasStartedProcess" SpName="EpaAuto_GetPeriodHasStartedProcess" DbName="SMSEPA" Plain="0">
         </Setting>
         <Setting Key="EpaAuto_Promotion_GetEmployees" SpName="EpaAuto_Promotion_GetEmployees" DbName="SMSEPA" Plain="0">
         </Setting>

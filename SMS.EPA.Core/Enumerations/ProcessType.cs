@@ -7,18 +7,18 @@
         None = 0,
 
         [Description("Human Resource")]
-        HumanResource = 1,
+        HumanResource,
 
         [Description("Self")]
-        Self = 2,
+        Self,
 
         [Description("Evaluator")]
-        Evaluator = 3,
+        Evaluator,
 
         [Description("Reviewer")]
-        Reviewer = 4,
+        Reviewer,
 
         [Description("Management")]
-        Management = 5
+        Management
     }
 }

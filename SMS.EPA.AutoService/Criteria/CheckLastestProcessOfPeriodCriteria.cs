@@ -6,14 +6,8 @@
     {
         public int PeriodId { get; set; }
 
-        public override bool IsValid()
-        {
-            return PeriodId > 0;
-        }
+        public override bool IsValid() => PeriodId > 0;
 
-        public override string GetSettingKey()
-        {
-            return "EpaAuto_CheckLastestEndEvaluationPeriod";
-        }
+        public override string GetSettingKey() => "EpaAuto_CheckLastestEndEvaluationPeriod";
     }
 }

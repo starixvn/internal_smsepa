@@ -12,6 +12,7 @@
     using Model;
     using Services.Implement;
     using Services.Interfaces;
+    using SMS.EPA.Model.AutoService;
 
     public class EvaluationPeriodService : IEvaluationPeriodService
     {
@@ -44,7 +45,6 @@
         {
             var criteria = new GetEPAEndEvaluationPeriodCriteria();
             IEnumerable<EPAModel> epaInfos = employeeEPAService.GetEPAEndEvaluationPeriod(criteria);
-
             if (epaInfos != null && epaInfos.Any())
             {
                 UpdateFinalScoreAndSendMail(epaInfos);
@@ -96,7 +96,7 @@
                 }
             }
 
-            SendMailEndPeriod(periods);
+            SendMailEndPeriodToHR(periods);
         }
 
         private void SendMailEndEvaluation(IList<int> periods, EPAModel epaInfo, float? averagePerformanceScore)
@@ -119,21 +119,22 @@
             }
         }
 
-        private void SendMailEndPeriod(IList<int> periods)
+        private void SendMailEndPeriodToHR(IList<int> periods)
         {
             if (AppSetting.SendMailEndPeriod && periods.Any())
             {
                 foreach (int periodId in periods)
                 {
-                    int lastestProcessOfPeriod = CheckLastestProcessOfPeriod(periodId);
-
-                    if (lastestProcessOfPeriod == 1)
+                    var criteria = new CheckLastestProcessOfPeriodCriteria
                     {
-                        GetAndSendEmailToAllRelatedEmployee(
-                            periodId,
-                            string.Empty,
-                            (int)ProcessType.HumanResource,
-                            (int)MailMode.EndPeriod);
+                        PeriodId = periodId
+                    };
+                    var isEndPeriod = baseService.GetDataEntity<bool>(criteria);
+                    if (isEndPeriod)
+                    {
+                        IEnumerable<EmployeeSettingToSendMail> employeeSettings =
+                            periodService.GetEmployeeSettingToSendMail(periodId, (byte)ProcessType.HumanResource);
+                        periodMailService.SendEndEvaluationMailToHumanResourceByPeriod(employeeSettings);
                     }
                 }
             }
@@ -146,7 +147,6 @@
             string grade)
         {
             float? finalScore = performanceScore + disciplineScore;
-
             if (finalScore.HasValue)
             {
                 finalScore = finalScore.Value > Constants.MaxFinalScore ? Constants.MaxFinalScore : finalScore.Value;
@@ -170,60 +170,6 @@
             {
                 baseService.ExecuteNonQuery(criteria);
             }
-        }
-
-        private int CheckLastestProcessOfPeriod(int periodId)
-        {
-            var criteria = new CheckLastestProcessOfPeriodCriteria
-            {
-                PeriodId = periodId
-            };
-            int lastestProcess = 0;
-
-            if (criteria.IsValid())
-            {
-                lastestProcess = baseService.GetDataEntity<int>(criteria);
-            }
-
-            return lastestProcess;
-        }
-
-        private void GetAndSendEmailToAllRelatedEmployee(int periodId, string employeeIds, int? processId, int mailMode)
-        {
-            PeriodModel period = periodService.GetPeriodById(periodId);
-            IEnumerable<PeriodFlowModel> employeeSettings = GetEmployeeSettings(periodId, employeeIds, processId);
-
-            switch (mailMode)
-            {
-                case (int)MailMode.Start:
-                    periodMailService.SendReminderMail(period, employeeSettings, (int)MailMode.Start);
-                    break;
-
-                case (int)MailMode.Reminder:
-                    periodMailService.SendReminderMail(period, employeeSettings, (int)MailMode.Reminder);
-                    break;
-
-                case (int)MailMode.EndPeriod:
-                    periodMailService.SendEndEvaluationMailToHumanResourceByPeriod(period, employeeSettings);
-                    break;
-
-                default:
-                    return;
-            }
-        }
-
-        private IEnumerable<PeriodFlowModel> GetEmployeeSettings(int periodId, string employeeIds, int? processId)
-        {
-            var criteria = new GetEmployeeSettingByPeriodIdCriteria
-            {
-                PeriodId = periodId,
-                EmployeeIds = employeeIds,
-                ProcessId = processId
-            };
-
-            IEnumerable<PeriodFlowModel> employeeSettings = periodService.GetEmployeeSettingByPeriodId(criteria);
-
-            return employeeSettings;
         }
     }
 }

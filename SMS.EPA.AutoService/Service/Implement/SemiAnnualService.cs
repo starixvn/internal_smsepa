@@ -1,6 +1,5 @@
 ﻿namespace SMS.EPA.AutoService.Service
 {
-    using System.Collections.Generic;
     using Criteria;
     using Implement;
 
@@ -8,13 +7,12 @@
     {
         public void CheckSemiAnnualPeriod()
         {
-            IEnumerable<int> semiAnnualPeriods = GetStartedPeriods(new GetSemiAnnualPeriodStartedCriteria());
-
+            var semiAnnualPeriods = BaseService.GetData<int>(new GetSemiAnnualPeriodStartedCriteria());
             foreach (int periodId in semiAnnualPeriods)
             {
                 InsertEmployeeToPeriod(periodId, new InsertEmployeeToSemiAnnualPeriodCriteria(periodId), "Auto add employee to semi annual period");
                 GenerateEPA(periodId, "Auto generate EPA for semi annual period");
-                SendStartEmail(periodId);
+                SendReminderStartEmail(periodId);
             }
         }
     }

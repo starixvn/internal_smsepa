@@ -1,8 +1,8 @@
 ﻿namespace SMS.EPA.Repositories
 {
-    using Fanex.Data.Repository;
-    using Model;
     using System.Collections.Generic;
+    using Fanex.Data.Repository;
+    using SMS.EPA.Model;
 
     public interface IPeriodRepository
     {
@@ -11,7 +11,5 @@
         PeriodModel GetPeriodById(ICriteria criteria);
 
         IEnumerable<PeriodEmployeeSettingModel> GetPeriodEmployeeSettingById(ICriteria criteria);
-
-        IEnumerable<PeriodFlowModel> GetEmployeeSettingByPeriodId(ICriteria criteria);
     }
 }

@@ -1,13 +1,14 @@
 ﻿namespace SMS.EPA.Services.Implement
 {
-    using Core.Enumerations;
-    using Core.Services;
-    using Interfaces;
-    using Model;
     using System;
     using System.Collections.Generic;
     using System.IO;
     using System.Linq;
+    using Core.Enumerations;
+    using Core.Services;
+    using Interfaces;
+    using Model;
+    using SMS.EPA.Model.AutoService;
 
     public class PeriodMailService : IPeriodMailService
     {
@@ -35,27 +36,27 @@
             this.mailService = mailService ?? new MailService();
         }
 
-        public void SendReminderMail(PeriodModel period, IEnumerable<PeriodFlowModel> employeeSettings, int mailMode)
+        public void SendReminderMail(IEnumerable<EmployeeSettingToSendMail> employeeSettings, MailMode mailMode)
         {
-            if (employeeSettings != null && employeeSettings.Any() && period != null)
+            if (employeeSettings != null && employeeSettings.Any())
             {
-                foreach (PeriodFlowModel employeeSetting in employeeSettings.Where(x => x.HasSendMail))
+                IEnumerable<EmployeeSettingToSendMail> settings = employeeSettings.Where(x => x.HasSendMail).ToList();
+                foreach (EmployeeSettingToSendMail setting in settings)
                 {
-                    string templateEmailPath = GetEmailtemplatePath(employeeSetting.ProcessId);
-                    mailService.SendMailReminder(templateEmailPath, employeeSetting, period.Name, mailMode);
+                    string emailTemplatePath = GetEmailtemplatePath(setting.ProcessId);
+                    mailService.SendMailReminder(emailTemplatePath, setting, mailMode);
                 }
             }
         }
 
-        public void SendNotifyMail(PeriodModel period, IEnumerable<PeriodFlowModel> employeeSettings)
+        public void SendNotifyMail(IEnumerable<EmployeeSettingToSendMail> employeeSettings)
         {
-            if (employeeSettings != null && employeeSettings.Any() && period != null)
+            if (employeeSettings != null && employeeSettings.Any())
             {
-                string templateEmailPath = GetEmailPath(MailNotifyChangeSetting);
-
-                foreach (PeriodFlowModel employeeSetting in employeeSettings)
+                string emailTemplatePath = GetEmailPath(MailNotifyChangeSetting);
+                foreach (EmployeeSettingToSendMail employeeSetting in employeeSettings)
                 {
-                    mailService.SendMailToNotifyChangeSetting(templateEmailPath, employeeSetting, period.Name);
+                    mailService.SendMailToNotifyChangeSetting(emailTemplatePath, employeeSetting);
                 }
             }
         }
@@ -84,16 +85,15 @@
             }
         }
 
-        public void SendEndEvaluationMailToHumanResourceByPeriod(PeriodModel period, IEnumerable<PeriodFlowModel> employeeSettings)
+        public void SendEndEvaluationMailToHumanResourceByPeriod(IEnumerable<EmployeeSettingToSendMail> employeeSettings)
         {
-            if (employeeSettings != null && employeeSettings.Any() && period != null)
+            if (employeeSettings != null && employeeSettings.Any())
             {
                 string assemblyPath = AppDomain.CurrentDomain.BaseDirectory;
-                string templateEmailPath = Path.Combine(assemblyPath, _endMailToHumanReouscesByPeriod);
-
-                foreach (PeriodFlowModel employeeSetting in employeeSettings)
+                string emailTemplatePath = Path.Combine(assemblyPath, _endMailToHumanReouscesByPeriod);
+                foreach (EmployeeSettingToSendMail employeeSetting in employeeSettings)
                 {
-                    mailService.SendMailEndToHumanResourceByPeriod(templateEmailPath, employeeSetting, period.Name);
+                    mailService.SendMailEndToHumanResourceByPeriod(emailTemplatePath, employeeSetting);
                 }
             }
         }
@@ -101,34 +101,31 @@
         private static string GetEmailPath(string fileName)
         {
             string assemblyPath = AppDomain.CurrentDomain.BaseDirectory;
-            string emailPath = Path.Combine(assemblyPath, ConfigurationManagerService.GetAppSetting("RelativeEmailPath") + fileName);
-
-            return emailPath;
+            return Path.Combine(assemblyPath, ConfigurationManagerService.GetAppSetting("RelativeEmailPath") + fileName);
         }
 
         private string GetEmailtemplatePath(int processId)
         {
             string emailtemplatePath;
-
             switch (processId)
             {
-                case (int)ProcessType.HumanResource:
+                case (byte)ProcessType.HumanResource:
                     emailtemplatePath = _reminderMailToHumanResources;
                     break;
 
-                case (int)ProcessType.Self:
+                case (byte)ProcessType.Self:
                     emailtemplatePath = _reminderMailToSelf;
                     break;
 
-                case (int)ProcessType.Evaluator:
+                case (byte)ProcessType.Evaluator:
                     emailtemplatePath = _reminderMailToEvaluator;
                     break;
 
-                case (int)ProcessType.Reviewer:
+                case (byte)ProcessType.Reviewer:
                     emailtemplatePath = _reminderMailToReviewer;
                     break;
 
-                case (int)ProcessType.Management:
+                case (byte)ProcessType.Management:
                     emailtemplatePath = _reminderMailToManagement;
                     break;
 

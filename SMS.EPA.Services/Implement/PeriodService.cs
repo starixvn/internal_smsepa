@@ -2,13 +2,14 @@
 {
     using System;
     using System.Collections.Generic;
-    using Core.Enumerations;
-    using Core.Model;
-    using Core.Services;
-    using Criteria;
-    using Interfaces;
-    using Model;
-    using Repositories;
+    using SMS.EPA.Core.Enumerations;
+    using SMS.EPA.Core.Model;
+    using SMS.EPA.Core.Services;
+    using SMS.EPA.Criteria;
+    using SMS.EPA.Model;
+    using SMS.EPA.Model.AutoService;
+    using SMS.EPA.Repositories;
+    using SMS.EPA.Services.Interfaces;
 
     public class PeriodService : IPeriodService
     {
@@ -33,7 +34,6 @@
         public IEnumerable<PeriodModel> GetPeriod(GetPeriodCriteria criteria)
         {
             IEnumerable<PeriodModel> periods = new List<PeriodModel>();
-
             if (criteria != null && criteria.IsValid())
             {
                 periods = periodRepository.GetPeriod(criteria);
@@ -49,7 +49,6 @@
                 PeriodId = periodId
             };
             var period = new PeriodModel();
-
             if (criteria.IsValid())
             {
                 period = periodRepository.GetPeriodById(criteria);
@@ -61,7 +60,6 @@
         public IEnumerable<PeriodEmployeeSettingModel> GetPeriodEmployeeSettingById(GetPeriodEmployeeSettingCriteria criteria)
         {
             IEnumerable<PeriodEmployeeSettingModel> employeeSettings = new List<PeriodEmployeeSettingModel>();
-
             if (criteria != null && criteria.IsValid())
             {
                 employeeSettings = periodRepository.GetPeriodEmployeeSettingById(criteria);
@@ -73,79 +71,40 @@
         public CommandResult UpdateEmployeeSettingOfPeriod(UpdateEmployeeSettingOfPeriodCriteria criteria)
         {
             CommandResult commandResult = baseService.ExecuteNonQuery(criteria);
-            string sendMailWhenEditEmployeeSetting = ConfigurationManagerService.GetAppSetting("SendMailWhenEditEmployeeSetting");
+            string isEnableSetting = ConfigurationManagerService.GetAppSetting("SendMailWhenEditEmployeeSetting");
 
-            if (commandResult.IsSuccessful && sendMailWhenEditEmployeeSetting.Equals("true", StringComparison.OrdinalIgnoreCase))
+            if (commandResult.IsSuccessful && isEnableSetting.Equals("true", StringComparison.OrdinalIgnoreCase))
             {
-                GetAndSendEmailToAllRelatedEmployee(MailMode.NotifyChange, criteria.PeriodId, criteria.EmployeeIds, null);
+                IEnumerable<EmployeeSettingToSendMail> employeeSettings =
+                    GetEmployeeSettingToSendMail(criteria.PeriodId, employeeIds: criteria.EmployeeIds);
+                manualMailService.SendNotifyMail(employeeSettings);
             }
 
             return commandResult;
         }
 
-        public void SendEmailNoticeAtBegin(int? periodId)
+        public void SendEmailNoticeAtBegin(int? periodId = null)
         {
-            var criteria = new GetPeriodHasStartedProcessCriteria
-            {
-                PeriodId = periodId
-            };
-            IEnumerable<AutoEmployeePeriodModel> startedProcess = baseService.GetData<AutoEmployeePeriodModel>(criteria);
-
-            foreach (AutoEmployeePeriodModel periodProcess in startedProcess)
-            {
-                GetAndSendEmailToAllRelatedEmployee(MailMode.Start, periodProcess.PeriodId, string.Empty, periodProcess.ProcessId);
-            }
+            IEnumerable<EmployeeSettingToSendMail> employeeSettings = GetEmployeeSettingToSendMail(periodId, mailMode: (byte)MailMode.Start);
+            manualMailService.SendReminderMail(employeeSettings, MailMode.Start);
         }
 
-        public IEnumerable<PeriodFlowModel> GetEmployeeSettingByPeriodId(GetEmployeeSettingByPeriodIdCriteria criteria)
+        public IEnumerable<EmployeeSettingToSendMail> GetEmployeeSettingToSendMail(
+            int? periodId = null,
+            byte? processId = null,
+            byte? mailMode = null,
+            string employeeIds = null,
+            bool? isEvaluated = null)
         {
-            IEnumerable<PeriodFlowModel> employeeSettings = new List<PeriodFlowModel>();
-
-            if (criteria != null && criteria.IsValid())
-            {
-                employeeSettings = periodRepository.GetEmployeeSettingByPeriodId(criteria);
-            }
-
-            return employeeSettings;
-        }
-
-        private void GetAndSendEmailToAllRelatedEmployee(MailMode mailMode, int periodId, string employeeIds, int? processId)
-        {
-            PeriodModel period = GetPeriodById(periodId);
-            IEnumerable<PeriodFlowModel> employeeSettings = GetEmployeeSettings(periodId, employeeIds, processId);
-
-            switch (mailMode)
-            {
-                case MailMode.Start:
-                    manualMailService.SendReminderMail(period, employeeSettings, (int)MailMode.Start);
-                    break;
-
-                case MailMode.NotifyChange:
-                    manualMailService.SendNotifyMail(period, employeeSettings);
-                    break;
-
-                case MailMode.None:
-                case MailMode.Reminder:
-                case MailMode.EndPeriod:
-                    break;
-
-                default:
-                    return;
-            }
-        }
-
-        private IEnumerable<PeriodFlowModel> GetEmployeeSettings(int periodId, string employeeIds, int? processId)
-        {
-            var criteria = new GetEmployeeSettingByPeriodIdCriteria
+            var criteria = new GetEmployeeSettingToSendMailCriteria
             {
                 PeriodId = periodId,
+                ProcessId = processId,
+                MailMode = mailMode,
                 EmployeeIds = employeeIds,
-                ProcessId = processId
+                IsEvaluated = isEvaluated
             };
-
-            var employeeSettings = GetEmployeeSettingByPeriodId(criteria);
-
-            return employeeSettings;
+            return baseService.GetData<EmployeeSettingToSendMail>(criteria);
         }
     }
 }

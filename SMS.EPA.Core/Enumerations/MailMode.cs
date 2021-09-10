@@ -3,13 +3,9 @@
     public enum MailMode
     {
         None = 0,
-
-        Start = 1,
-
-        Reminder = 2,
-
-        NotifyChange = 3,
-
-        EndPeriod = 4
+        Start,
+        Reminder,
+        NotifyChange,
+        EndPeriod
     }
 }

@@ -12,6 +12,7 @@
     using NSubstitute;
     using NUnit.Framework;
     using Repositories;
+    using SMS.EPA.Model.AutoService;
 
     [TestFixture]
     public class PeriodServiceTests
@@ -221,7 +222,7 @@
 
             // Assert
             Assert.AreEqual(commandResult.Code, actual.Code);
-            _manualMailService.DidNotReceive().SendNotifyMail(Arg.Any<PeriodModel>(), Arg.Any<List<PeriodFlowModel>>());
+            _manualMailService.DidNotReceive().SendNotifyMail(Arg.Any<List<EmployeeSettingToSendMail>>());
         }
 
         [Test]
@@ -269,27 +270,28 @@
 
             // Assert
             Assert.AreEqual(commandResult.Code, actual.Code);
-            _manualMailService.DidNotReceive().SendNotifyMail(Arg.Any<PeriodModel>(), Arg.Any<List<PeriodFlowModel>>());
+            _manualMailService.DidNotReceive().SendNotifyMail(Arg.Any<List<EmployeeSettingToSendMail>>());
         }
 
         #endregion UpdateEmployeeSettingOfPeriod
 
-        #region GetEmployeeSettingByPeriodId
+        #region GetEmployeeSettingToSendMail
 
         [Test]
-        public void GetEmployeeSettingByPeriodId_AnyArg_ReturnInstanceOfListOfPeriodFlowModel()
+        public void GetEmployeeSettingToSendMail_AnyArg_ReturnInstanceOfListOfPeriodFlowModel()
         {
             // Arrange
-            ArrangeGetEmployeeSettingByPeriodId();
+            var employeeSettings = new List<EmployeeSettingToSendMail>();
+            baseService.GetData<EmployeeSettingToSendMail>(Arg.Any<GetEmployeeSettingToSendMailCriteria>()).Returns(employeeSettings);
 
             // Act
-            var actual = _periodService.GetEmployeeSettingByPeriodId(Arg.Any<GetEmployeeSettingByPeriodIdCriteria>());
+            var actual = _periodService.GetEmployeeSettingToSendMail();
 
             // Assert
             Assert.IsInstanceOf(typeof(IEnumerable<PeriodFlowModel>), actual);
         }
 
-        #endregion GetEmployeeSettingByPeriodId
+        #endregion GetEmployeeSettingToSendMail
 
         #region Helpers
 
@@ -388,24 +390,17 @@
             _periodService = GetPeriodService(null, _periodRepository);
         }
 
-        private void ArrangeGetEmployeeSettingByPeriodId(IEnumerable<PeriodFlowModel> result = null)
-        {
-            _periodRepository = FakePeriodRepository();
-            _periodRepository.GetEmployeeSettingByPeriodId(Arg.Any<GetEmployeeSettingByPeriodIdCriteria>()).Returns(result ?? new List<PeriodFlowModel>());
-            _periodService = GetPeriodService(null, _periodRepository);
-        }
-
         private void ArrangeUpdateEmployeeSettingOfPeriod(CommandResult result = null)
         {
             var period = new PeriodModel();
-            var employeeSettings = new List<PeriodFlowModel>();
+            var employeeSettings = new List<EmployeeSettingToSendMail>();
 
             baseService = FakeBaseService();
             _manualMailService = FakeManualMailService();
             _periodRepository = FakePeriodRepository();
             baseService.ExecuteNonQuery(Arg.Any<UpdateEmployeeSettingOfPeriodCriteria>()).Returns(result ?? new CommandResult());
             _periodRepository.GetPeriodById(Arg.Any<GetPeriodByIdCriteria>()).Returns(period);
-            _periodRepository.GetEmployeeSettingByPeriodId(Arg.Any<GetEmployeeSettingByPeriodIdCriteria>()).Returns(employeeSettings);
+            baseService.GetData<EmployeeSettingToSendMail>(Arg.Any<GetEmployeeSettingToSendMailCriteria>()).Returns(employeeSettings);
             _periodService = GetPeriodService(baseService, _periodRepository, _manualMailService);
         }
 

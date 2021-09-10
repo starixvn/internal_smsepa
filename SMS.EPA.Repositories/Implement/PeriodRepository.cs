@@ -5,8 +5,8 @@
     using Core.Enumerations;
     using Fanex.Data;
     using Fanex.Data.Repository;
-    using Model;
-    using Model.Enitites;
+    using SMS.EPA.Model;
+    using SMS.EPA.Model.Enitites;
 
     public class PeriodRepository : IPeriodRepository
     {
@@ -75,21 +75,6 @@
 
                     return employeeSettings;
                 }
-            }
-        }
-
-        public IEnumerable<PeriodFlowModel> GetEmployeeSettingByPeriodId(ICriteria criteria)
-        {
-            using (var db = new ObjectDb(criteria.GetSettingKey()))
-            {
-                return db.Query<PeriodFlowModel, EvaluatorInfoViewModel, PeriodFlowModel>(
-                    (empS, eva) =>
-                    {
-                        empS.EvaluatorInfo = eva;
-                        return empS;
-                    },
-                    "EvaluatorId",
-                    criteria.GetSpParams());
             }
         }
 

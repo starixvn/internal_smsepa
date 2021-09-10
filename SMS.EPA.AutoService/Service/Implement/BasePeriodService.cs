@@ -3,7 +3,6 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
-    using Core.Enumerations;
     using Core.Model;
     using Core.Services;
     using EPA.Criteria;
@@ -11,6 +10,8 @@
     using Model;
     using Services.Implement;
     using Services.Interfaces;
+    using SMS.EPA.Core.Enumerations;
+    using SMS.EPA.Model.AutoService;
 
     public class BasePeriodService
     {
@@ -33,22 +34,6 @@
             BaseService = baseService ?? new BaseService();
         }
 
-        protected IEnumerable<PeriodFlowModel> GetEmployeeSettings(int periodId)
-        {
-            IEnumerable<PeriodFlowModel> employeeSettings = new List<PeriodFlowModel>();
-            var criteria = new GetEmployeeSettingByPeriodIdCriteria
-            {
-                PeriodId = periodId
-            };
-
-            if (criteria.IsValid())
-            {
-                employeeSettings = PeriodService.GetEmployeeSettingByPeriodId(criteria);
-            }
-
-            return employeeSettings;
-        }
-
         protected void InsertEmployeeToPeriod(int periodId, ICriteria criteria, string messageExplanation)
         {
             var commandResult = new CommandResult();
@@ -63,23 +48,6 @@
             }
         }
 
-        protected void SendStartEmail(int periodId)
-        {
-            if (AppSetting.SendMailAllWhenPeriodStarted)
-            {
-                Task.Factory.StartNew(() =>
-                {
-                    PeriodModel period = PeriodService.GetPeriodById(periodId);
-                    IEnumerable<PeriodFlowModel> employeeSettings = GetEmployeeSettings(periodId);
-
-                    if (employeeSettings != null && employeeSettings.Any())
-                    {
-                        PeriodMailService.SendReminderMail(period, employeeSettings, (int)MailMode.Start);
-                    }
-                });
-            }
-        }
-
         protected void GenerateEPA(int periodId, string messageExplanation)
         {
             var criteria = new AutoGenerateEvaluationCriteria
@@ -91,52 +59,6 @@
             if (!commandResult.IsSuccessful)
             {
                 logger.Error(string.Format("{0} {1}: {2}", messageExplanation, periodId, commandResult.Message));
-            }
-        }
-
-        protected IEnumerable<int> GetStartedPeriods(ICriteria criteria)
-        {
-            IEnumerable<int> startedPeriods = new List<int>();
-
-            if (criteria.IsValid())
-            {
-                startedPeriods = BaseService.GetData<int>(criteria);
-            }
-
-            return startedPeriods;
-        }
-
-        protected IEnumerable<PeriodFlowModel> GetEmployeeSettings(int periodId, string employeeIds)
-        {
-            IEnumerable<PeriodFlowModel> employeeSettings = new List<PeriodFlowModel>();
-            var criteria = new GetEmployeeSettingByPeriodIdCriteria
-            {
-                PeriodId = periodId,
-                EmployeeIds = employeeIds
-            };
-
-            if (criteria.IsValid())
-            {
-                employeeSettings = PeriodService.GetEmployeeSettingByPeriodId(criteria);
-            }
-
-            return employeeSettings;
-        }
-
-        protected void SendStartEmail(int periodId, string employeeIds)
-        {
-            if (AppSetting.SendMailAllWhenPeriodStarted)
-            {
-                Task.Factory.StartNew(() =>
-                {
-                    PeriodModel period = PeriodService.GetPeriodById(periodId);
-                    IEnumerable<PeriodFlowModel> employeeSettings = GetEmployeeSettings(periodId, employeeIds);
-
-                    if (employeeSettings != null && employeeSettings.Any())
-                    {
-                        PeriodMailService.SendReminderMail(period, employeeSettings, (int)MailMode.Start);
-                    }
-                });
             }
         }
 
@@ -171,6 +93,19 @@
             }
 
             return employeePeriods;
+        }
+
+        protected void SendReminderStartEmail(int periodId, string employeeIds = null)
+        {
+            Task.Factory.StartNew(() =>
+            {
+                IEnumerable<EmployeeSettingToSendMail> employeeSettings = 
+                    PeriodService.GetEmployeeSettingToSendMail(periodId, mailMode: (byte)MailMode.Start, employeeIds: employeeIds);
+                if (employeeSettings != null && employeeSettings.Any())
+                {
+                    PeriodMailService.SendReminderMail(employeeSettings, MailMode.Start);
+                }
+            });
         }
     }
 }

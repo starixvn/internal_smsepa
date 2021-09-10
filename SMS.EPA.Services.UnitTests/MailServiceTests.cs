@@ -6,6 +6,8 @@
     using Model.Email;
     using NSubstitute;
     using NUnit.Framework;
+    using SMS.EPA.Core.Enumerations;
+    using SMS.EPA.Model.AutoService;
 
     [TestFixture]
     public class MailServiceTests
@@ -20,7 +22,7 @@
             ArrangeEmail();
 
             // Act
-            mailService.SendMailReminder("template", new PeriodFlowModel(), Arg.Any<string>(), Arg.Any<int>());
+            mailService.SendMailReminder("template", new EmployeeSettingToSendMail(), Arg.Any<MailMode>());
 
             // Assert
             baseMailService.Received().SendEmail(Arg.Any<MailModel>());
@@ -33,7 +35,7 @@
             ArrangeEmail();
 
             // Act
-            mailService.SendMailToNotifyChangeSetting("template", new PeriodFlowModel(), Arg.Any<string>());
+            mailService.SendMailToNotifyChangeSetting("template", new EmployeeSettingToSendMail());
 
             // Assert
             baseMailService.Received().SendEmail(Arg.Any<MailModel>());
@@ -108,7 +110,7 @@
             ArrangeEmail();
 
             // Act
-            mailService.SendMailEndToHumanResourceByPeriod("template", new PeriodFlowModel(), Arg.Any<string>());
+            mailService.SendMailEndToHumanResourceByPeriod("template", new EmployeeSettingToSendMail());
 
             // Assert
             baseMailService.Received().SendEmail(Arg.Any<MailModel>());

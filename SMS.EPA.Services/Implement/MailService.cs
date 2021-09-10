@@ -2,11 +2,13 @@
 {
     using System.Collections.Generic;
     using System.Linq;
-    using Core.Services;
-    using Interfaces;
-    using Model;
-    using Model.Email;
-    using Resources;
+    using SMS.EPA.Core.Enumerations;
+    using SMS.EPA.Core.Services;
+    using SMS.EPA.Model;
+    using SMS.EPA.Model.AutoService;
+    using SMS.EPA.Model.Email;
+    using SMS.EPA.Resources;
+    using SMS.EPA.Services.Interfaces;
 
     public class MailService : IMailService
     {
@@ -23,40 +25,39 @@
             url = ConfigurationManagerService.GetAppSetting("url");
         }
 
-        public void SendMailReminder(string templateEmailPath, PeriodFlowModel employeeSetting, string periodName, int mailMode)
+        public void SendMailReminder(string emailTemplatePath, EmployeeSettingToSendMail employeeSetting, MailMode mailMode)
         {
-            if (employeeSetting != null && !string.IsNullOrWhiteSpace(templateEmailPath))
+            if (employeeSetting != null && !string.IsNullOrWhiteSpace(emailTemplatePath))
             {
-                var bodyTemplate = baseMailService.ReadTextFile(templateEmailPath);
-                var emailReminder = new MailReminder(employeeSetting, bodyTemplate, periodName, mailMode);
+                var bodyTemplate = baseMailService.ReadTextFile(emailTemplatePath);
+                var emailReminder = new MailReminder(employeeSetting, bodyTemplate, mailMode);
                 baseMailService.SendEmail(emailReminder.Email);
             }
         }
 
-        public void SendMailToNotifyChangeSetting(string templateEmailPath, PeriodFlowModel employeeSetting, string periodName)
+        public void SendMailToNotifyChangeSetting(string emailTemplatePath, EmployeeSettingToSendMail employeeSetting)
         {
-            if (employeeSetting != null && !string.IsNullOrWhiteSpace(templateEmailPath))
+            if (employeeSetting != null && !string.IsNullOrWhiteSpace(emailTemplatePath))
             {
                 var email = new MailModel
                 {
-                    Subject = string.Format(Lang.NotifyEmailChangeSetting, periodName),
-                    Body = baseMailService.ReadTextFile(templateEmailPath)
+                    Subject = string.Format(Lang.NotifyEmailChangeSetting, employeeSetting.Period),
+                    Body = baseMailService.ReadTextFile(emailTemplatePath)
                 };
-
-                email.Body = string.Format(email.Body, employeeSetting.EvaluatorInfo.NickName, periodName, url);
-                email.ReceiverEmail = employeeSetting.EvaluatorInfo.Email;
+                email.Body = string.Format(email.Body, employeeSetting.Nickname, employeeSetting.Period, url);
+                email.ReceiverEmail = employeeSetting.Email;
 
                 baseMailService.SendEmail(email);
             }
         }
 
         public void SendMailToSelfEndEvaluation(
-            string templateEmailPath,
+            string emailTemplatePath,
             EPAModel evaluationInfo,
             float? averagePerformanceScore,
             float disciplineScore)
         {
-            if (evaluationInfo != null && !string.IsNullOrWhiteSpace(templateEmailPath))
+            if (evaluationInfo != null && !string.IsNullOrWhiteSpace(emailTemplatePath))
             {
                 MailModel email = new MailModel
                 {
@@ -70,7 +71,7 @@
                 string evaluatorNames = GetEvaluator(evaluationInfo.Process.Evaluators);
                 string reviewerNames = GetEvaluator(evaluationInfo.Process.Reviewers);
                 string managementNames = GetEvaluator(evaluationInfo.Process.Managements);
-                email.Body = baseMailService.ReadTextFile(templateEmailPath);
+                email.Body = baseMailService.ReadTextFile(emailTemplatePath);
                 email.Body = string.Format(
                     email.Body,
                     evaluationInfo.Employee.NickName,
@@ -91,16 +92,16 @@
         }
 
         public void SendMailEndToHumanResourcesByEmployee(
-            string templateEmailPath,
+            string emailTemplatePath,
             EPAModel evaluationInfo,
             EPAProcessModel humanResource)
         {
-            if (evaluationInfo != null && humanResource != null && !string.IsNullOrWhiteSpace(templateEmailPath))
+            if (evaluationInfo != null && humanResource != null && !string.IsNullOrWhiteSpace(emailTemplatePath))
             {
                 MailModel email = new MailModel
                 {
                     Subject = string.Format(Lang.EndMailEvaluationToSelf, evaluationInfo.Period.Name),
-                    Body = baseMailService.ReadTextFile(templateEmailPath)
+                    Body = baseMailService.ReadTextFile(emailTemplatePath)
                 };
 
                 email.Body = string.Format(
@@ -116,21 +117,17 @@
             }
         }
 
-        public void SendMailEndToHumanResourceByPeriod(
-            string templateEmailPath,
-            PeriodFlowModel employeeSetting,
-            string periodName)
+        public void SendMailEndToHumanResourceByPeriod(string emailTemplatePath, EmployeeSettingToSendMail employeeSetting)
         {
-            if (employeeSetting != null && !string.IsNullOrWhiteSpace(templateEmailPath))
+            if (employeeSetting != null && !string.IsNullOrWhiteSpace(emailTemplatePath))
             {
                 var email = new MailModel
                 {
-                    Subject = string.Format(Lang.EndMailEvaluationToSelf, periodName),
-                    Body = baseMailService.ReadTextFile(templateEmailPath)
+                    Subject = string.Format(Lang.EndMailEvaluationToSelf, employeeSetting.Period),
+                    Body = baseMailService.ReadTextFile(emailTemplatePath)
                 };
-
-                email.Body = string.Format(email.Body, employeeSetting.EvaluatorInfo.NickName, periodName);
-                email.ReceiverEmail = employeeSetting.EvaluatorInfo.Email;
+                email.Body = string.Format(email.Body, employeeSetting.Nickname, employeeSetting.Period);
+                email.ReceiverEmail = employeeSetting.Email;
 
                 baseMailService.SendEmail(email);
             }

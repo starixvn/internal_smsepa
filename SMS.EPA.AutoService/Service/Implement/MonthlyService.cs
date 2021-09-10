@@ -17,13 +17,12 @@
 
         public void CheckMonthlyPeriod()
         {
-            IEnumerable<int> monthlyPeriods = GetStartedPeriods(new GetMonthlyPeriodStartedCriteria());
-
+            var monthlyPeriods = BaseService.GetData<int>(new GetMonthlyPeriodStartedCriteria());
             foreach (int periodId in monthlyPeriods)
             {
                 InsertEmployeeToPeriod(periodId, new InsertEmployeeToMonthlyPeriodCriteria(periodId), "Auto add employee to monthly period");
                 GenerateEPA(periodId, "Auto generate EPA for monthly period");
-                SendStartEmail(periodId);
+                SendReminderStartEmail(periodId);
             }
         }
 

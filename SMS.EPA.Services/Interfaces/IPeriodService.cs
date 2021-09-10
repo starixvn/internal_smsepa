@@ -4,6 +4,7 @@
     using Core.Model;
     using Criteria;
     using Model;
+    using SMS.EPA.Model.AutoService;
 
     public interface IPeriodService
     {
@@ -15,8 +16,13 @@
 
         CommandResult UpdateEmployeeSettingOfPeriod(UpdateEmployeeSettingOfPeriodCriteria criteria);
 
-        void SendEmailNoticeAtBegin(int? periodId);
+        void SendEmailNoticeAtBegin(int? periodId = null);
 
-        IEnumerable<PeriodFlowModel> GetEmployeeSettingByPeriodId(GetEmployeeSettingByPeriodIdCriteria criteria);
+        IEnumerable<EmployeeSettingToSendMail> GetEmployeeSettingToSendMail(
+            int? periodId = null,
+            byte? processId = null,
+            byte? mailMode = null,
+            string employeeIds = null,
+            bool? isEvaluated = null);
     }
 }

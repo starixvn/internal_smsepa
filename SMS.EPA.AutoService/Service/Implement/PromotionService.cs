@@ -15,8 +15,8 @@
             {
                 if (!string.IsNullOrWhiteSpace(employeePeriod.EmployeeIds) && employeePeriod.PeriodId > 0)
                 {
-                    GenerateEPA(employeePeriod, "Auto generate EPA for promotion period ");
-                    SendStartEmail(employeePeriod.PeriodId, employeePeriod.EmployeeIds);
+                    GenerateEPA(employeePeriod, "Auto generate EPA for promotion period");
+                    SendReminderStartEmail(employeePeriod.PeriodId, employeePeriod.EmployeeIds);
                 }
             }
         }

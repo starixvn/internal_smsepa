@@ -5,6 +5,7 @@
     using NUnit.Framework;
     using SMS.EPA.Core.Enumerations;
     using SMS.EPA.Model;
+    using SMS.EPA.Model.AutoService;
     using SMS.EPA.Services.Implement;
     using SMS.EPA.Services.Interfaces;
 
@@ -109,20 +110,20 @@
         public void SendNotifyMail_ValidArg_ExpectedToSendMailToNotifyChangeSetting()
         {
             // Arrange
-            var employeeSettings = new List<PeriodFlowModel>
+            var employeeSettings = new List<EmployeeSettingToSendMail>
             {
-                new PeriodFlowModel
+                new EmployeeSettingToSendMail
                 {
-                    ProcessId = (int) ProcessType.Management
+                    ProcessId = (byte)ProcessType.Management
                 }
             };
             ArrangeEmail();
 
             // Act
-            manualMailService.SendNotifyMail(new PeriodModel(), employeeSettings);
+            manualMailService.SendNotifyMail(employeeSettings);
 
             // Assert
-            mailService.Received().SendMailToNotifyChangeSetting(Arg.Any<string>(), Arg.Any<PeriodFlowModel>(), Arg.Any<string>());
+            mailService.Received().SendMailToNotifyChangeSetting(Arg.Any<string>(), Arg.Any<EmployeeSettingToSendMail>());
         }
 
         private void ArrangeEmail()
