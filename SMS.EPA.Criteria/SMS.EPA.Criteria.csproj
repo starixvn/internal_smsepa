@@ -75,9 +75,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="EmployeeEPA\GetDataToUpdateTotalScoreOfProcessCriteria.cs" />
     <Compile Include="EmployeeEPA\GetPeriodByActorIdCriteria.cs" />
     <Compile Include="EmployeeEPA\GetExtendedQuestionCriteria.cs" />
     <Compile Include="EmployeeEPA\GetJobDescriptionByEPAIdCriteria.cs" />
+    <Compile Include="EmployeeEPA\UpdateTotalScoreOfProcessCriteria.cs" />
+    <Compile Include="EmployeeEPA\UpdateTotalScoreOfSemiHasMonthlyCriteria.cs" />
     <Compile Include="Employee\UpdateJobLevelCriteria.cs" />
     <Compile Include="JobDescription\CopyEmployeeSettingJobDescriptionCriteria.cs" />
     <Compile Include="JobDescription\CopyGroupSettingJobDescriptionCriteria.cs" />

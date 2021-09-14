@@ -3,9 +3,8 @@
     using System;
     using Fanex.Data;
     using Fanex.Data.OldConnectionStringProvider;
-    using Service.Implement;
-    using Service.Interfaces;
-    using SMS.EPA.Core.Utilities;
+    using SMS.EPA.AutoService.Service.Implement;
+    using SMS.EPA.AutoService.Service.Interfaces;
 
     public static class Program
     {

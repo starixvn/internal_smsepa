@@ -4,15 +4,15 @@
     using System.Globalization;
     using System.Linq;
     using System.Reflection;
-    using Core.Constants;
-    using Core.Enumerations;
-    using Core.Services;
-    using Criteria;
-    using EPA.Criteria;
-    using Model;
-    using Services.Implement;
-    using Services.Interfaces;
+    using SMS.EPA.AutoService.Criteria;
+    using SMS.EPA.Core.Constants;
+    using SMS.EPA.Core.Enumerations;
+    using SMS.EPA.Core.Services;
+    using SMS.EPA.Criteria;
+    using SMS.EPA.Model;
     using SMS.EPA.Model.AutoService;
+    using SMS.EPA.Services.Implement;
+    using SMS.EPA.Services.Interfaces;
 
     public class EvaluationPeriodService : IEvaluationPeriodService
     {

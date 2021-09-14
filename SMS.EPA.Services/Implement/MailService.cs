@@ -13,7 +13,6 @@
     public class MailService : IMailService
     {
         private readonly IBaseMailService baseMailService;
-        private readonly string url;
 
         public MailService() : this(null)
         {
@@ -22,7 +21,6 @@
         public MailService(IBaseMailService baseMailService)
         {
             this.baseMailService = baseMailService ?? new BaseMailService();
-            url = ConfigurationManagerService.GetAppSetting("url");
         }
 
         public void SendMailReminder(string emailTemplatePath, EmployeeSettingToSendMail employeeSetting, MailMode mailMode)
@@ -44,7 +42,11 @@
                     Subject = string.Format(Lang.NotifyEmailChangeSetting, employeeSetting.Period),
                     Body = baseMailService.ReadTextFile(emailTemplatePath)
                 };
-                email.Body = string.Format(email.Body, employeeSetting.Nickname, employeeSetting.Period, url);
+                email.Body = string.Format(
+                    email.Body,
+                    employeeSetting.Nickname,
+                    employeeSetting.Period,
+                    ConfigurationManagerService.GetAppSetting("url"));
                 email.ReceiverEmail = employeeSetting.Email;
 
                 baseMailService.SendEmail(email);
@@ -84,7 +86,7 @@
                     evaluatorNames,
                     reviewerNames,
                     managementNames,
-                    url);
+                    ConfigurationManagerService.GetAppSetting("url"));
                 email.ReceiverEmail = evaluationInfo.Employee.Email;
 
                 baseMailService.SendEmail(email);
@@ -110,7 +112,7 @@
                     evaluationInfo.Employee.NickName,
                     evaluationInfo.Employee.EmployeeId,
                     evaluationInfo.Period.Name,
-                    url);
+                    ConfigurationManagerService.GetAppSetting("url"));
                 email.ReceiverEmail = humanResource.EvaluatorInfo.Email;
 
                 baseMailService.SendEmail(email);

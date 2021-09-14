@@ -1,12 +1,12 @@
-﻿namespace SMS.EPA.AutoService.Criteria
+﻿namespace SMS.EPA.Criteria.EmployeeEPA
 {
-    using Core.Constants;
-    using Core.Enumerations;
-    using Core.Services;
+    using System.Text;
     using Fanex.Data;
     using Fanex.Data.Repository;
-    using Model;
-    using System.Text;
+    using SMS.EPA.Core.Constants;
+    using SMS.EPA.Core.Enumerations;
+    using SMS.EPA.Core.Services;
+    using SMS.EPA.Model;
 
     public class UpdateTotalScoreOfSemiHasMonthlyCriteria : CriteriaBase
     {
@@ -45,14 +45,8 @@
             }
         }
 
-        public override bool IsValid()
-        {
-            return EPAId > 0;
-        }
+        public override bool IsValid() => EPAId > 0;
 
-        public override string GetSettingKey()
-        {
-            return "EpaAuto_SemiAnnual_UpdateTotalScore";
-        }
+        public override string GetSettingKey() => "EpaAuto_SemiAnnual_UpdateTotalScore";
     }
 }

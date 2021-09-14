@@ -94,8 +94,6 @@
     <Compile Include="Criteria\Monthly\InsertEmployeeToMonthlyPeriodCriteria.cs" />
     <Compile Include="Criteria\UpdateFinalScoreEndEvaluationCriteria.cs" />
     <Compile Include="Criteria\UpdateIsEndProcessCriteria.cs" />
-    <Compile Include="Criteria\UpdateTotalScoreOfProcessCriteria.cs" />
-    <Compile Include="Criteria\UpdateTotalScoreOfSemiHasMonthlyCriteria.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Service\Implement\AutoMailService.cs" />

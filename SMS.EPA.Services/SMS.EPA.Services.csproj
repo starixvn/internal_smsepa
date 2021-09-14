@@ -110,6 +110,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Implement\BaseMailService.cs" />
+    <Compile Include="Implement\EPAProcessService.cs" />
     <Compile Include="Implement\ExportFile\ExportCommentReportService.cs" />
     <Compile Include="Implement\ExportFile\ExportRecommendationReportService.cs" />
     <Compile Include="Implement\ExportFile\ExportTargetTemplateService.cs" />

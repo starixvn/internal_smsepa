@@ -2,11 +2,12 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
     using System.Text;
-    using Core.Constants;
     using Fanex.Data;
     using Fanex.Data.Repository;
-    using Model;
+    using SMS.EPA.Core.Constants;
+    using SMS.EPA.Model;
 
     public class UpdateEmployeeSettingOfPeriodCriteria : CriteriaBase
     {
@@ -19,9 +20,7 @@
         public string EmployeeIds { get; set; }
 
         public int? TargetTemplateId { get; set; }
-
         public DateTime? DisciplineStartDate { get; set; }
-
         public DateTime? DisciplineEndDate { get; set; }
 
         [SpParam(SqlParamName = "EmployeeAssignments")]
@@ -29,10 +28,10 @@
         {
             get
             {
-                var assignmentXml = new StringBuilder(Constants.BeginRootTag);
-
-                if (EmployeeAssignments != null)
+                var assignmentXml = new StringBuilder();
+                if (EmployeeAssignments != null && EmployeeAssignments.Any())
                 {
+                    assignmentXml.Append(Constants.BeginRootTag);
                     foreach (PeriodFlowModel assignment in EmployeeAssignments)
                     {
                         assignmentXml.AppendFormat(
@@ -44,9 +43,11 @@
                             assignment.EndDate,
                             assignment.Priority);
                     }
+
+                    assignmentXml.Append(Constants.EndRootTag);
                 }
 
-                return assignmentXml.Append(Constants.EndRootTag).ToString();
+                return assignmentXml.ToString();
             }
         }
 
@@ -55,14 +56,8 @@
 
         public int ModifiedBy { get; set; }
 
-        public override bool IsValid()
-        {
-            return PeriodId > 0 && ModifiedBy > 0;
-        }
+        public override bool IsValid() => PeriodId > 0 && ModifiedBy > 0 && EmployeeAssignments != null && EmployeeAssignments.Any();
 
-        public override string GetSettingKey()
-        {
-            return "EpaPeriod_EditEmployeeSetting";
-        }
+        public override string GetSettingKey() => "EpaPeriod_EditEmployeeSetting";
     }
 }
