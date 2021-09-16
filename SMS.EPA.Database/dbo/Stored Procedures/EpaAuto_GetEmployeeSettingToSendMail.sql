@@ -1,130 +1,97 @@
 ﻿
-CREATE PROCEDURE [dbo].[EpaAuto_GetEmployeeSettingToSendMail] @PeriodId INT
-	,@EmployeeIds VARCHAR(MAX) = NULL
-	,@ProcessId INT = NULL
+CREATE PROCEDURE [dbo].[EpaAuto_GetEmployeeSettingToSendMail] @PeriodId INT = NULL
+	,@ProcessId TINYINT = NULL
+	,@MailMode TINYINT = NULL
 	,@IsEvaluated BIT = NULL
+	,@EmployeeIds VARCHAR(MAX) = NULL
 AS
 /*
-Created: 2015-06-12@Josh.Phan
-Task: Get all employee setting of evaluation period to send mail.
+Created: 2021-09-09@Tim.Trinh
+Task: Get employee setting to send mail.
 DB: SMSEPA
-Original: 
+Original:
 
-Revisions:  
+Revisions:
 Param's Explanation:
 */
 BEGIN
 	SET NOCOUNT ON;
 
-	DECLARE @TargetTypeId INT
-		,@StartDate DATE
-		,@Today DATE = GETDATE()
-	-- target type
-	DECLARE @SemiId INT = 3
-		,@MonthlyId INT = 2
+	DECLARE @Today DATE = GETDATE()
+		,@SemiTargetTypeId TINYINT = 3
+		-- mail mode
+		,@startMode TINYINT = 1
+		,@reminderMode TINYINT = 2
+		,@endPeriodMode TINYINT = 4
 
 	CREATE TABLE #tblEmployee (EmployeeId INT)
 
-	SELECT @TargetTypeId = TargetTypeId
-		,@StartDate = StartDate
-	FROM dbo.Period WITH (NOLOCK)
-	WHERE PeriodId = @PeriodId
-
-	IF @EmployeeIds IS NOT NULL
+	IF ISNULL(@EmployeeIds, '') = ''
 	BEGIN
 		INSERT INTO #tblEmployee (EmployeeId)
 		SELECT DISTINCT val
 		FROM dbo.fnc_strSplit(@EmployeeIds, ',')
 	END
 
-	IF @TargetTypeId IN (@MonthlyId, @SemiId)
-	BEGIN
-		IF ISNULL(@StartDate, '') <> ''
-		BEGIN
-			SELECT DISTINCT pc.ProcessId
-				,periodPS.NoticeAtBegin AS HasSendMail
-				,DATEADD(DAY, - periodPS.RemindDay, pc.EndDate) AS RemindDate
-				,pc.StartDate
-				,pc.EndDate
-				,pc.EvaluatorId
-				,eva.NickName
-				,eva.FullName
-				,eva.Email
-			FROM dbo.EPA AS epa WITH (NOLOCK)
-				INNER JOIN dbo.EPAProcess AS pc WITH (NOLOCK) ON epa.EPAId = pc.EPAId
-				INNER JOIN dbo.Employee AS eva WITH (NOLOCK) ON pc.EvaluatorId = eva.EmployeeId
-				AND eva.[Enabled] = 1
-				AND eva.IsDeleted = 0
-				INNER JOIN dbo.Period AS period WITH (NOLOCK) ON epa.PeriodId = period.PeriodId
-				INNER JOIN dbo.PeriodProcessSetting AS periodPS WITH (NOLOCK) ON period.PeriodId = periodPS.PeriodId
-				AND pc.ProcessId = periodPS.ProcessId
-				LEFT JOIN #tblEmployee AS emp WITH (NOLOCK) ON epa.EmployeeId = emp.EmployeeId
-			WHERE ISNULL(epa.[Status], 0) <> 2 -- rejected
-				AND epa.PeriodId = @PeriodId
-				AND ISNULL(@ProcessId, pc.ProcessId) = pc.ProcessId
-				AND (
-					epa.HasMonthlyEPA = 0
-					OR (
-						period.TargetTypeId = @SemiId
-						AND epa.HasMonthlyEPA = 1
-						AND pc.ProcessId NOT IN (2, 3) -- self, evaluator
-						)
-					)
-				AND (
-					ISNULL(@EmployeeIds, '') = ''
-					OR emp.EmployeeId IS NOT NULL
-					)
-				AND (@Today BETWEEN pc.StartDate AND pc.EndDate)
-				AND (
-					@IsEvaluated IS NULL
-					OR (
-						@IsEvaluated = 0
-						AND pc.EvaluateDate IS NULL
-					)
-					OR (
-						@IsEvaluated = 1
-						AND pc.EvaluateDate IS NOT NULL
-					)
-				)
-		END
-	END
-	ELSE
-	BEGIN
-		SELECT DISTINCT pc.ProcessId
-			,pc.NoticeAtBegin AS HasSendMail
-			,pc.RemindDate
-			,pc.StartDate
-			,pc.EndDate
-			,pc.EvaluatorId
-			,eva.NickName
-			,eva.FullName
-			,eva.Email
-		FROM dbo.EPAProcess AS pc WITH (NOLOCK)
-			INNER JOIN dbo.EPA AS epa WITH (NOLOCK) ON pc.EPAId = epa.EPAId
-			AND epa.PeriodId = @PeriodId
-			AND ISNULL(epa.[Status], 0) <> 2 -- rejected
-			INNER JOIN dbo.Employee AS eva WITH (NOLOCK) ON pc.EvaluatorId = eva.EmployeeId
-			AND eva.[Enabled] = 1
-			AND eva.IsDeleted = 0
-			LEFT JOIN #tblEmployee AS emp WITH (NOLOCK) ON epa.EmployeeId = emp.EmployeeId
-		WHERE ISNULL(@ProcessId, pc.ProcessId) = pc.ProcessId
-			AND (
-				ISNULL(@EmployeeIds, '') = ''
-				OR emp.EmployeeId IS NOT NULL
-				)
-			AND (@Today BETWEEN pc.StartDate AND pc.EndDate)
-			AND (
-				@IsEvaluated IS NULL
-				OR (
-					@IsEvaluated = 0
-					AND pc.EvaluateDate IS NULL
-				)
-				OR (
-					@IsEvaluated = 1
-					AND pc.EvaluateDate IS NOT NULL
-				)
+	SELECT DISTINCT period.PeriodId
+		,period.[Name] AS Period
+		,psetting.NoticeAtBegin AS HasSendMail
+		,pc.ProcessId
+		,pc.StartDate
+		,pc.EndDate
+		,pc.EvaluatorId
+		,eva.NickName
+		,eva.FullName
+		,eva.Email
+	FROM dbo.EPA AS epa WITH (NOLOCK)
+		INNER JOIN dbo.EPAProcess AS pc WITH (NOLOCK) ON epa.EPAId = pc.EPAId
+		AND pc.StartDate = @Today
+		INNER JOIN dbo.Employee AS eva WITH (NOLOCK) ON pc.EvaluatorId = eva.EmployeeId
+		AND eva.[Enabled] = 1
+		AND eva.IsDeleted = 0
+		INNER JOIN dbo.Period AS period WITH (NOLOCK) ON epa.PeriodId = period.PeriodId
+		AND period.IsActive = 1
+		INNER JOIN dbo.PeriodProcessSetting AS psetting WITH (NOLOCK) ON period.PeriodId = psetting.PeriodId
+		AND pc.ProcessId = psetting.ProcessId
+		LEFT JOIN #tblEmployee AS emp WITH (NOLOCK) ON epa.EmployeeId = emp.EmployeeId
+	WHERE (
+			@PeriodId IS NULL
+			OR period.PeriodId = @PeriodId
+		)
+		AND (@ProcessId IS NULL OR pc.ProcessId = @ProcessId)
+		AND (
+			ISNULL(@EmployeeIds, '') = ''
+			OR emp.EmployeeId IS NOT NULL
+		)
+		AND ISNULL(epa.[Status], 0) <> 2 -- rejected
+		AND (
+			epa.HasMonthlyEPA = 0
+			OR (
+				period.TargetTypeId = @SemiTargetTypeId
+				AND epa.HasMonthlyEPA = 1
+				AND pc.ProcessId NOT IN (2, 3) -- self, evaluator
 			)
-	END
+		)
+		AND (
+			@IsEvaluated IS NULL
+			OR (
+				@IsEvaluated = 0
+				AND pc.EvaluateDate IS NULL
+				AND pc.ProcessId > 1 -- hr
+			)
+			OR (
+				@IsEvaluated = 1
+				AND pc.EvaluateDate IS NOT NULL
+				AND pc.ProcessId > 1 -- hr
+			)
+		)
+		AND (
+			@MailMode IS NULL
+			OR (@MailMode = @startMode AND pc.StartDate = @Today)
+			OR (@MailMode = @reminderMode AND CAST(DATEADD(DAY, - psetting.RemindDay, pc.EndDate) AS DATE) = @Today)
+		)
+	ORDER BY period.PeriodId
+		,pc.ProcessId
 
 	DROP TABLE #tblEmployee
 END

@@ -5,29 +5,24 @@ AS
 Created: 2015-08-26@Josh.Phan
 Task: Check lastest end process of period.
 DB: SMSEPA
-Original: 
+Original:
 
-Revisions:  
+Revisions:
 Param's Explanation:
 */
 BEGIN
 	SET NOCOUNT ON;
 
 	DECLARE @Yesterday DATE = DATEADD(DAY, - 1, GETDATE())
+		,@EndDate DATE
 
-	IF EXISTS (
-			SELECT 1
-			FROM [dbo].[EPAProcess] AS epaP WITH (NOLOCK)
-				INNER JOIN [dbo].[EPA] AS epa WITH (NOLOCK) ON epaP.[EPAId] = epa.[EPAId]
-				AND epa.[PeriodId] = @PeriodId
-			WHERE epaP.[EndDate] > @Yesterday
-				AND [ProcessId] IN (
-					SELECT MAX([ProcessId])
-					FROM [dbo].[EPAProcess] WITH (NOLOCK)
-					WHERE [EPAId] = epa.[EPAId]
-					)
-				AND ISNULL(epa.[Status], 0) <> 2 -- rejected
-			)
+	SELECT @EndDate = MAX(pc.EndDate)
+	FROM dbo.EPAProcess AS pc WITH (NOLOCK)
+		INNER JOIN dbo.EPA AS epa WITH (NOLOCK) ON pc.EPAId = epa.EPAId
+	WHERE epa.PeriodId = @PeriodId
+		AND ISNULL(epa.[Status], 0) <> 2 -- rejected
+
+	IF @EndDate > @Yesterday
 	BEGIN
 		SELECT 0
 	END

@@ -31,6 +31,5 @@ BEGIN
 
 	UPDATE dbo.JobLevel WITH (ROWLOCK, UPDLOCK)
 	SET IsDeleted = 1
-		,ModifiedDate = GETDATE()
 	WHERE JobLevelId = @JobLevelId
 END

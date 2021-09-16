@@ -14,8 +14,11 @@
     [OldDisciplineScore] FLOAT (53)     NULL,
     [OldFinalScore]      NVARCHAR (100) NULL,
     [OldGrade]           NVARCHAR (100) NULL,
+    [JobLevel]           NVARCHAR (150) NULL,
     CONSTRAINT [PK_EPA_1] PRIMARY KEY CLUSTERED ([EPAId] ASC)
 );
+
+
 
 
 

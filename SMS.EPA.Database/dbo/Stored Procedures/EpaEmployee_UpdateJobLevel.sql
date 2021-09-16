@@ -30,7 +30,6 @@ BEGIN
 
 	UPDATE dbo.Employee WITH (ROWLOCK, UPDLOCK)
 	SET JobLevelId = @JobLevelId
-		,ModifiedDate = GETDATE()
 	WHERE EmployeeId = @EmployeeId
 END
 

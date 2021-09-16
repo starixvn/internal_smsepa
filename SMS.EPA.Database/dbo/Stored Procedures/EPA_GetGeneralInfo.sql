@@ -156,7 +156,10 @@ BEGIN
 		,emp.FullName
 		,emp.Email
 		,emp.JoinedDate
-		,joblevel.[Name] AS JobLevel
+		,(CASE 
+			WHEN tblstatus.StatusId = 1 THEN epa.JobLevel
+			ELSE joblevel.[Name] END
+			) AS JobLevel
 		,dept.DepartmentId
 		,dept.[Name] AS DepartmentName
 		,gr.GroupId

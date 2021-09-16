@@ -1,5 +1,5 @@
-﻿CREATE PROCEDURE [dbo].[JobLevel_Insert]
-	@Name nvarchar(150)
+﻿
+CREATE PROCEDURE [dbo].[JobLevel_Insert] @Name NVARCHAR(150)
 	,@ErrCode INT = 0 OUTPUT
 	,@ErrMsg VARCHAR(200) = '' OUTPUT
 AS
@@ -29,22 +29,21 @@ BEGIN
 
 	DECLARE @JobLevelId INT
 
-	SELECT @JobLevelId = MIN(JobLevelId) FROM JobLevel WITH (NOLOCK)
+	SELECT @JobLevelId = MIN(JobLevelId)
+	FROM dbo.JobLevel WITH (NOLOCK)
 
-	INSERT INTO dbo.JobLevel(
+	SET @JobLevelId = ISNULL(@JobLevelId, 0)
+
+	INSERT INTO dbo.JobLevel (
 		JobLevelId
 		,[Name]
-		,[IsDeleted]
-		,[ModifiedDate]
+		,IsDeleted
 		)
-	VALUES (
-		CASE @JobLevelId
-			WHEN 1 THEN -1
-			WHEN NULL THEN -1
-			ELSE @JobLevelId -1
+	VALUES (CASE 
+			WHEN @JobLevelId >= 0 THEN - 1
+			ELSE @JobLevelId - 1
 			END
 		,@Name
 		,0
-		,GETDATE()
 		)
 END

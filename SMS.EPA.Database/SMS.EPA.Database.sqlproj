@@ -259,7 +259,6 @@
     <Build Include="dbo\Stored Procedures\EpaEmployee_Get.sql" />
     <Build Include="dbo\Stored Procedures\EpaEmployee_ChangePassword.sql" />
     <Build Include="dbo\Stored Procedures\EpaEmployee_AssignRoleToEmployee.sql" />
-    <Build Include="dbo\Stored Procedures\EpaAuto_UpdateTotalScoreWhenNull.sql" />
     <Build Include="dbo\Stored Procedures\EpaAuto_UpdateStatusEndEvaluationPeriod.sql" />
     <Build Include="dbo\Stored Procedures\EpaAuto_UpdateIsEndProcess.sql" />
     <Build Include="dbo\Stored Procedures\EpaAuto_UpdateFinalScoreEndEvaluation.sql" />
@@ -272,8 +271,6 @@
     <Build Include="dbo\Stored Procedures\EpaAuto_Monthly_InsertPeriod.sql" />
     <Build Include="dbo\Stored Procedures\EpaAuto_Monthly_GetPeriodStartedToday.sql" />
     <Build Include="dbo\Stored Procedures\EpaAuto_Monthly_AddEmployeeToPeriod.sql" />
-    <Build Include="dbo\Stored Procedures\EpaAuto_GetPeriodHasStartedProcess.sql" />
-    <Build Include="dbo\Stored Procedures\EpaAuto_GetPeriodHasReminderProcess.sql" />
     <Build Include="dbo\Stored Procedures\EpaAuto_GetEPAEndEvaluationPeriod.sql" />
     <Build Include="dbo\Stored Procedures\EpaAuto_GetEmployeeSettingToSendMail.sql" />
     <Build Include="dbo\Stored Procedures\EpaAuto_GenerateEPA.sql" />
@@ -384,6 +381,11 @@
     <Build Include="dbo\Stored Procedures\JobDescription_CopyGroupSetting.sql" />
     <Build Include="dbo\Stored Procedures\JobDescription_CopyEmployeeSetting.sql" />
     <Build Include="dbo\Stored Procedures\EPA_GetJobDescriptiontionById.sql" />
+    <Build Include="dbo\Tables\EPAJobDescription.sql" />
+    <Build Include="dbo\Stored Procedures\EpaAuto_UpdateTotalScoreOfProcess.sql" />
+    <Build Include="dbo\Stored Procedures\EPA_UpdateJobLevelAndJobDescription.sql" />
+    <Build Include="dbo\Stored Procedures\EPA_GetDataToUpdateTotalScoreOfProcess.sql" />
+    <Build Include="dbo\Stored Procedures\EPA_GetDataToUpdateFinalScore.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="scripts\auto-add-staff-into-semi-period.sql" />

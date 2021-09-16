@@ -20,31 +20,20 @@ BEGIN
 	DECLARE @OldData NVARCHAR(MAX)
 		,@Data NVARCHAR(MAX)
 
-	EXEC @OldData = [dbo].[fncGetDataForWriteLog_Employee_ChangePassWord] @EmployeeId = @EmployeeId
+	EXEC @OldData = dbo.fncGetDataForWriteLog_Employee_ChangePassWord @EmployeeId = @EmployeeId
 
-	BEGIN TRY
-		BEGIN TRANSACTION
+	UPDATE dbo.Employee WITH (ROWLOCK, UPDLOCK)
+	SET [Password] = @NewPassword
+		,ModifiedBy = @ModifiedBy
+	WHERE EmployeeId = @EmployeeId
 
-		UPDATE [dbo].[Employee] WITH (ROWLOCK, UPDLOCK)
-		SET [Password] = @NewPassword
-			,[ModifiedBy] = @ModifiedBy
-			,ModifiedDate = GETDATE()
-		WHERE [EmployeeId] = @EmployeeId
+	EXEC @Data = dbo.fncGetDataForWriteLog_Employee_ChangePassWord @EmployeeId = @EmployeeId
 
-		EXEC @Data = [dbo].[fncGetDataForWriteLog_Employee_ChangePassWord] @EmployeeId = @EmployeeId
-
-		EXEC [dbo].[LogDetail_Insert] @ActorId = @ModifiedBy
-			,@SpName = 'EpaEmployee_ChangePassword'
-			,@ObjectId = @EmployeeId
-			,@ObjectTypeId = 4
-			,@Data = @Data
-			,@OldData = @OldData
-			,@ObjectIds = NULL
-
-		COMMIT TRANSACTION
-	END TRY
-
-	BEGIN CATCH
-		ROLLBACK TRANSACTION
-	END CATCH
+	EXEC dbo.LogDetail_Insert @ActorId = @ModifiedBy
+		,@SpName = 'EpaEmployee_ChangePassword'
+		,@ObjectId = @EmployeeId
+		,@ObjectTypeId = 4
+		,@Data = @Data
+		,@OldData = @OldData
+		,@ObjectIds = NULL
 END
