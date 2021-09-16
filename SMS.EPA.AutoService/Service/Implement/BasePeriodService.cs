@@ -97,15 +97,18 @@
 
         protected void SendReminderStartEmail(int periodId, string employeeIds = null)
         {
-            Task.Factory.StartNew(() =>
+            if (AppSetting.SendMailAllWhenPeriodStarted)
             {
-                IEnumerable<EmployeeSettingToSendMail> employeeSettings = 
-                    PeriodService.GetEmployeeSettingToSendMail(periodId, mailMode: (byte)MailMode.Start, employeeIds: employeeIds);
-                if (employeeSettings != null && employeeSettings.Any())
+                Task.Factory.StartNew(() =>
                 {
-                    PeriodMailService.SendReminderMail(employeeSettings, MailMode.Start);
-                }
-            });
+                    IEnumerable<EmployeeSettingToSendMail> employeeSettings =
+                        PeriodService.GetEmployeeSettingToSendMail(periodId, mailMode: (byte)MailMode.Start, employeeIds: employeeIds);
+                    if (employeeSettings != null && employeeSettings.Any())
+                    {
+                        PeriodMailService.SendReminderMail(employeeSettings, MailMode.Start);
+                    }
+                });
+            }
         }
     }
 }

@@ -21,7 +21,6 @@
         private IBaseService baseService;
         private IPeriodRepository _periodRepository;
         private IPeriodMailService _manualMailService;
-        private IEPAProcessService _processService;
 
         #region GetPeriod
 
@@ -322,8 +321,7 @@
             IPeriodRepository periodRepository = null,
             IPeriodMailService manualMailService = null)
         {
-            _processService = Substitute.For<IEPAProcessService>();
-            var service = new PeriodService(periodRepository, manualMailService, baseService, _processService);
+            var service = new PeriodService(periodRepository, manualMailService, baseService);
 
             return service;
         }

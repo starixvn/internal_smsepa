@@ -73,7 +73,7 @@
         private void UpdateFinalScoreAndSendMail(IEnumerable<EPAModel> epaInfos)
         {
             IList<int> periods = new List<int>();
-            IEnumerable<StandardGradeModel> standardGrades = baseService.GetData<StandardGradeModel>(new GetStandardGradeCriteria());
+            var standardGrades = baseService.GetData<StandardGradeModel>(new GetStandardGradeCriteria());
 
             foreach (EPAModel epaInfo in epaInfos)
             {

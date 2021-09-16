@@ -15,24 +15,32 @@
     using Model;
     using Repositories;
     using Resources;
+    using SMS.EPA.Core.Model;
+    using SMS.EPA.Criteria.EmployeeEPA;
 
     public class EmployeeEPAService : IEmployeeEPAService
     {
         private readonly IEmployeeEPARepository employeeEPARepository;
         private readonly IProbationExtendedQuestionRepository extendedQuestionRepository;
+        private readonly IBaseService baseService;
         private readonly ICommonService commonService;
+        private readonly ICryptographyService cryptographyService;
 
-        public EmployeeEPAService() : this(null, null, null)
+        public EmployeeEPAService() : this(null, null, null, null, null)
         {
         }
 
         public EmployeeEPAService(
             IEmployeeEPARepository employeeEPARepository,
             IProbationExtendedQuestionRepository extendedQuestionRepository,
-            ICommonService commonService)
+            IBaseService baseService,
+            ICommonService commonService,
+            ICryptographyService cryptographyService)
         {
             this.employeeEPARepository = employeeEPARepository ?? new EmployeeEPARepository();
             this.extendedQuestionRepository = extendedQuestionRepository ?? new ProbationExtendedQuestionRepository();
+            this.cryptographyService = cryptographyService ?? new CryptographyService();
+            this.baseService = baseService ?? new BaseService();
             this.commonService = commonService ?? new CommonService();
         }
 
@@ -145,7 +153,6 @@
         public IEnumerable<EPAModel> GetEPAEndEvaluationPeriod(GetEPAEndEvaluationPeriodCriteria criteria)
         {
             IEnumerable<EPAModel> epaInfos = new List<EPAModel>();
-
             if (criteria != null && criteria.IsValid())
             {
                 epaInfos = employeeEPARepository.GetEPAEndEvaluationPeriod(criteria);
@@ -256,6 +263,41 @@
             }
 
             return epaInfos;
+        }
+
+        public CommandResult GetDataAndUpdateFinalScore(int modifiedBy, int periodId, string employeeIds = null)
+        {
+            var criteria = new GetDataToUpdateFinalScoreCriteria
+            {
+                PeriodId = periodId,
+                EmployeeIds = employeeIds
+            };
+            IEnumerable<EPAModel> epaInfos = employeeEPARepository.GetEPAEndEvaluationPeriod(criteria);
+            IEnumerable<StandardGradeModel> standardGrades = commonService.GetStandardGrade();
+            foreach (EPAModel epaInfo in epaInfos)
+            {
+                float? performanceScore = GetFinalScoreOfEvalution(epaInfo);
+                float? finalScore = performanceScore.HasValue ? (performanceScore.Value + epaInfo.DisciplineScore) : (float?)null;
+
+                if (finalScore.HasValue)
+                {
+                    finalScore = finalScore.Value > Constants.MaxFinalScore ? Constants.MaxFinalScore : finalScore.Value;
+                }
+
+                epaInfo.FinalScore = finalScore.HasValue
+                         ? cryptographyService.Encrypt(finalScore.Value.ToString(CultureInfo.InvariantCulture))
+                         : string.Empty;
+                string grade = performanceScore.HasValue
+                    ? ConvertScoreToGrade(performanceScore, epaInfo.DisciplineScore, epaInfo.HasDisciplineScore, standardGrades)
+                    : string.Empty;
+                epaInfo.Grade = !string.IsNullOrWhiteSpace(grade) ? cryptographyService.Encrypt(grade) : string.Empty;
+            }
+
+            return baseService.ExecuteNonQuery(new UpdateFinalScoreEPAEndEvaluationCriteria
+            {
+                ModifiedBy = modifiedBy,
+                EPAInfos = epaInfos
+            });
         }
 
         public void GroupMonthlyEPABySemi(EPAModel semiEPA, IList<EPAModel> monthlyEPAs)
@@ -602,6 +644,24 @@
             rowIndex++;
 
             return record;
+        }
+
+        private static float? GetFinalScoreOfEvalution(EPAModel epaInfo)
+        {
+            float? finalScore = null;
+            if (epaInfo.Process.Managements.Any() && epaInfo.Process.AverageScoreByManagements.HasValue)
+            {
+                finalScore = epaInfo.Process.AverageScoreByManagements.Value;
+            }
+            else
+            {
+                if (epaInfo.Process.Reviewers.Any() && epaInfo.Process.AverageScoreByReviewers.HasValue)
+                {
+                    finalScore = epaInfo.Process.AverageScoreByReviewers.Value;
+                }
+            }
+
+            return finalScore;
         }
     }
 }

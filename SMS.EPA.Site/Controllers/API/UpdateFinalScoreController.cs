@@ -107,7 +107,7 @@
                 string grade = performanceScore.HasValue
                     ? evaluationService.ConvertScoreToGrade(performanceScore, epaInfo.DisciplineScore, epaInfo.HasDisciplineScore, standardGrades)
                     : string.Empty;
-                epaInfo.Grade = !string.IsNullOrEmpty(grade) ? cryptographyService.Encrypt(grade) : string.Empty;
+                epaInfo.Grade = !string.IsNullOrWhiteSpace(grade) ? cryptographyService.Encrypt(grade) : string.Empty;
             }
 
             var criteria = new UpdateFinalScoreEPAEndEvaluationCriteria

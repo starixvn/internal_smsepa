@@ -75,6 +75,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="EmployeeEPA\GetDataToUpdateFinalScoreCriteria.cs" />
     <Compile Include="EmployeeEPA\GetDataToUpdateTotalScoreOfProcessCriteria.cs" />
     <Compile Include="EmployeeEPA\GetPeriodByActorIdCriteria.cs" />
     <Compile Include="EmployeeEPA\GetExtendedQuestionCriteria.cs" />

@@ -4,6 +4,7 @@
     using Core.Services;
     using Criteria;
     using Model;
+    using SMS.EPA.Core.Model;
 
     public interface IEmployeeEPAService
     {
@@ -36,5 +37,7 @@
         void SpreadKPIScore(IList<EPAKpiGroupModel> kpiGroups);
 
         EPAProbationExtendedQuestionModel GetExtendedQuestionByEPAId(int epaId);
+
+        CommandResult GetDataAndUpdateFinalScore(int modifiedBy, int periodId, string employeeIds = null);
     }
 }

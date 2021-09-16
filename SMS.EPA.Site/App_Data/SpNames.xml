@@ -161,6 +161,7 @@
     <Setting Key="EPA_GetExtendedQuestion" SpName="EPA_GetExtendedQuestion" DbName="SMSEPA" Plain="0"></Setting>
     <Setting Key="EPA_GetJobDescriptiontionById" SpName="EPA_GetJobDescriptiontionById" DbName="SMSEPA" Plain="0" />
     <Setting Key="EPA_GetDataToUpdateTotalScoreOfProcess" SpName="EPA_GetDataToUpdateTotalScoreOfProcess" DbName="SMSEPA" Plain="0" />
+    <Setting Key="EPA_GetDataToUpdateFinalScore" SpName="EPA_GetDataToUpdateFinalScore" DbName="SMSEPA" Plain="0" />
   </Function>
   <Function Name="Period">
     <Setting Key="EpaPeriod_Get" SpName="EpaPeriod_Get" DbName="SMSEPA" Plain="0"></Setting>

@@ -11,7 +11,7 @@
 
     public interface IEPAProcessService
     {
-        void UpdateTotalScoreOfProcess(string employeeIds = null);
+        void UpdateTotalScoreOfProcess(int periodId, string employeeIds = null);
 
         void UpdateTotalScoreOfSemiHasMonthly(IEnumerable<AutoEvaluationProcessModel> processes);
 
@@ -38,10 +38,11 @@
             this.baseService = baseService ?? new BaseService();
         }
 
-        public void UpdateTotalScoreOfProcess(string employeeIds = null)
+        public void UpdateTotalScoreOfProcess(int periodId, string employeeIds = null)
         {
             var criteria = new GetDataToUpdateTotalScoreOfProcessCriteria
             {
+                PeriodId = periodId,
                 EmployeeIds = employeeIds
             };
             var processes = baseService.GetData<AutoEvaluationProcessModel>(criteria);
@@ -76,6 +77,8 @@
                 {
                     EPAModel epaInfo = employeeEPAService.GetEPAInfoById(process.EPAId);
                     float? averageScore = GetAverageScorePreProcess(epaInfo, process.ProcessId);
+                    float? adjustScore = !string.IsNullOrWhiteSpace(process.AdjustScore) ? float.Parse(process.AdjustScore) : (float?)null;
+                    averageScore += adjustScore;
 
                     var criteria = new UpdateTotalScoreOfProcessCriteria
                     {

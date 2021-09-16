@@ -3,6 +3,7 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Threading.Tasks;
     using System.Web.Http;
     using SMS.EPA.Core.Attribute;
     using SMS.EPA.Core.Constants;
@@ -18,15 +19,23 @@
     {
         private readonly IPeriodService periodService;
         private readonly IBaseService baseService;
+        private readonly IEPAProcessService processService;
+        private readonly IEmployeeEPAService epaService;
 
-        public PeriodController() : this(null, null)
+        public PeriodController() : this(null, null, null, null)
         {
         }
 
-        public PeriodController(IPeriodService periodService, IBaseService baseService)
+        public PeriodController(
+            IPeriodService periodService,
+            IBaseService baseService,
+            IEPAProcessService processService,
+            IEmployeeEPAService epaService)
         {
             this.periodService = periodService ?? new PeriodService();
             this.baseService = baseService ?? new BaseService();
+            this.processService = processService ?? new EPAProcessService();
+            this.epaService = epaService ?? new EmployeeEPAService();
         }
 
         [ApiAuthorize(FunctionKey = EPAFunctionKey.Period, Policy = Policy.Read)]
@@ -197,6 +206,15 @@
             {
                 criteria.ModifiedBy = SessionService.EmployeeId;
                 commandResult = periodService.UpdateEmployeeSettingOfPeriod(criteria);
+
+                if (commandResult.IsSuccessful)
+                {
+                    Task.Factory.StartNew(() =>
+                    {
+                        processService.UpdateTotalScoreOfProcess(criteria.PeriodId, criteria.EmployeeIds);
+                        epaService.GetDataAndUpdateFinalScore(SessionService.EmployeeId, criteria.PeriodId, criteria.EmployeeIds);
+                    });
+                }
             }
 
             return commandResult;

@@ -2,7 +2,6 @@
 {
     using System;
     using System.Collections.Generic;
-    using System.Threading.Tasks;
     using SMS.EPA.Core.Enumerations;
     using SMS.EPA.Core.Model;
     using SMS.EPA.Core.Services;
@@ -17,22 +16,19 @@
         private readonly IPeriodRepository periodRepository;
         private readonly IPeriodMailService manualMailService;
         private readonly IBaseService baseService;
-        private readonly IEPAProcessService processService;
 
-        public PeriodService() : this(null, null, null, null)
+        public PeriodService() : this(null, null, null)
         {
         }
 
         public PeriodService(
             IPeriodRepository periodRepository,
             IPeriodMailService manualMailService,
-            IBaseService baseService,
-            IEPAProcessService processService)
+            IBaseService baseService)
         {
             this.periodRepository = periodRepository ?? new PeriodRepository();
             this.manualMailService = manualMailService ?? new PeriodMailService();
             this.baseService = baseService ?? new BaseService();
-            this.processService = processService ?? new EPAProcessService();
         }
 
         public IEnumerable<PeriodModel> GetPeriod(GetPeriodCriteria criteria)
@@ -77,19 +73,11 @@
             CommandResult commandResult = baseService.ExecuteNonQuery(criteria);
             string isEnableSetting = ConfigurationManagerService.GetAppSetting("SendMailWhenEditEmployeeSetting");
 
-            if (commandResult.IsSuccessful)
+            if (commandResult.IsSuccessful && isEnableSetting.Equals("true", StringComparison.OrdinalIgnoreCase))
             {
-                Task.Factory.StartNew(() =>
-                {
-                    processService.UpdateTotalScoreOfProcess(criteria.EmployeeIds);
-                });
-
-                if (isEnableSetting.Equals("true", StringComparison.OrdinalIgnoreCase))
-                {
-                    IEnumerable<EmployeeSettingToSendMail> employeeSettings =
-                        GetEmployeeSettingToSendMail(criteria.PeriodId, employeeIds: criteria.EmployeeIds);
-                    manualMailService.SendNotifyMail(employeeSettings);
-                }
+                IEnumerable<EmployeeSettingToSendMail> employeeSettings =
+                    GetEmployeeSettingToSendMail(criteria.PeriodId, employeeIds: criteria.EmployeeIds);
+                manualMailService.SendNotifyMail(employeeSettings);
             }
 
             return commandResult;
