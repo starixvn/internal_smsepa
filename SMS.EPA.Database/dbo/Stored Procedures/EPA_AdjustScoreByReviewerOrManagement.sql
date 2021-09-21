@@ -1,4 +1,5 @@
 ﻿
+
 CREATE PROCEDURE [dbo].[EPA_AdjustScoreByReviewerOrManagement] @EPADetails NVARCHAR(MAX) = ''
 	,@RecommendationXml NVARCHAR(MAX) = ''
 	,@ProcessId TINYINT
@@ -10,9 +11,9 @@ AS
 Created: 20150828@Tim.Trinh
 Task: adjust score.
 DB: SMSEPA
-Original: 
+Original:
 
-Revisions:  
+Revisions:
 Param's Explanation:
 • @EPADetails: N'
      <ROOT>
@@ -178,11 +179,14 @@ BEGIN
 	BEGIN
 		UPDATE re
 		SET re.ProbationStatus = dt.ProbationStatus
+			,re.ModifiedBy = CASE WHEN re.ProbationStatus != dt.ProbationStatus THEN @ModifiedBy ELSE re.ModifiedBy END
 			,re.Promoted = dt.Promoted
+			,re.PromotedBy = CASE WHEN re.Promoted != dt.Promoted THEN @ModifiedBy ELSE re.PromotedBy END
 			,re.PayIncreased = dt.PayIncreased
+			,re.PayIncreasedBy = CASE WHEN re.PayIncreased != dt.PayIncreased THEN @ModifiedBy ELSE re.PayIncreasedBy END
 			,re.JobLevelIncreased = dt.JobLevelIncreased
+			,re.JobLevelIncreasedBy = CASE WHEN re.JobLevelIncreased != dt.JobLevelIncreased OR re.JobLevelId != dt.JobLevelId THEN @ModifiedBy ELSE re.JobLevelIncreasedBy END
 			,re.JobLevelId = dt.JobLevelId
-			,re.ModifiedBy = @ModifiedBy
 			,re.ModifiedDate = @ModifiedDate
 		FROM dbo.EPARecommendation AS re WITH (ROWLOCK, UPDLOCK)
 			INNER JOIN dbo.EPA AS epa WITH (NOLOCK) ON re.EPAId = epa.EPAId

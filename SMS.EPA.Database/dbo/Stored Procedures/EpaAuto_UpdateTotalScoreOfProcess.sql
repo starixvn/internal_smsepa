@@ -1,6 +1,7 @@
 ﻿
+
 CREATE PROCEDURE [dbo].[EpaAuto_UpdateTotalScoreOfProcess] @EPAId INT
-	,@ProcessId INT
+	,@ProcessId TINYINT
 	,@TotalScore NVARCHAR(100) = NULL
 	,@ErrCode INT = 0 OUTPUT
 	,@ErrMsg VARCHAR(200) = '' OUTPUT

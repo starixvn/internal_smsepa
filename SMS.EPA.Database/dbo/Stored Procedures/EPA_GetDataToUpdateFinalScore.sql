@@ -1,4 +1,5 @@
 ﻿
+
 CREATE PROCEDURE [dbo].[EPA_GetDataToUpdateFinalScore] @PeriodId INT
 	,@EmployeeIds VARCHAR(MAX) = NULL
 AS
@@ -40,7 +41,8 @@ BEGIN
 		INNER JOIN dbo.EPAProcess AS process WITH (NOLOCK) ON epa.EPAId = process.EPAId
 		INNER JOIN dbo.Period AS pe WITH (NOLOCK) ON epa.PeriodId = pe.PeriodId
 		LEFT JOIN #tblEmployee AS emp WITH (NOLOCK) ON epa.EmployeeId = emp.EmployeeId
-	WHERE ProcessId IN (
+	WHERE pe.PeriodId = @PeriodId
+		AND process.ProcessId IN (
 			SELECT MAX(process1.ProcessId)
 			FROM dbo.EPAProcess AS process1 WITH (NOLOCK)
 			WHERE process1.EPAId = process.EPAId
@@ -49,7 +51,7 @@ BEGIN
 			(
 				pe.TargetTypeId IN (2, 3) -- Monthly, Semi
 				AND pe.EndDate < @Today
-				AND process.EndDate < pe.EndDate
+				AND process.EndDate < @Today
 				)
 			OR (
 				pe.TargetTypeId NOT IN (2, 3) -- Monthly, Semi

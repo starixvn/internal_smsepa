@@ -1,4 +1,5 @@
 ﻿
+
 CREATE PROCEDURE [dbo].[EPA_UpdateScore] @EPAId INT
 	,@ProcessId TINYINT
 	,@EmployeeId INT
@@ -16,9 +17,9 @@ AS
 Created: 20150813@Tim.Trinh
 Task: Set KPI score.
 DB: SMSEPA
-Original: 
+Original:
 
-Revisions:  
+Revisions:
 Param's Explanation:
 • @KPIDetails=
     N'<ROOT>
@@ -223,11 +224,14 @@ BEGIN
 		BEGIN
 			UPDATE re
 			SET re.ProbationStatus = dt.ProbationStatus
+				,re.ModifiedBy = CASE WHEN re.ProbationStatus != dt.ProbationStatus THEN @ModifiedBy ELSE re.ModifiedBy END
 				,re.Promoted = dt.Promoted
+				,re.PromotedBy = CASE WHEN re.Promoted != dt.Promoted THEN @ModifiedBy ELSE re.PromotedBy END
 				,re.PayIncreased = dt.PayIncreased
+				,re.PayIncreasedBy = CASE WHEN re.PayIncreased != dt.PayIncreased THEN @ModifiedBy ELSE re.PayIncreasedBy END
 				,re.JobLevelIncreased = dt.JobLevelIncreased
+				,re.JobLevelIncreasedBy = CASE WHEN re.JobLevelIncreased != dt.JobLevelIncreased OR re.JobLevelId != dt.JobLevelId THEN @ModifiedBy ELSE re.JobLevelIncreasedBy END
 				,re.JobLevelId = dt.JobLevelId
-				,re.ModifiedBy = @ModifiedBy
 				,re.ModifiedDate = @ModifiedDate
 			FROM dbo.EPARecommendation AS re WITH (ROWLOCK, UPDLOCK)
 				INNER JOIN dbo.EPA AS epa WITH (NOLOCK) ON re.EPAId = epa.EPAId
