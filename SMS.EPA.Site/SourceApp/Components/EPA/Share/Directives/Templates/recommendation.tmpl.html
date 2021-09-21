@@ -17,49 +17,57 @@
                         <tr>
                             <td>{{"Promotion" | translate}}</td>
                             <td class="text-center">
-                                <input type="checkbox" disabled
+                                <div ng-if="recommendationCtrl.evaluatorRecommendation.PromotedBy"
+                                     uib-tooltip="{{recommendationCtrl.evaluatorRecommendation.PromotedBy}}" tooltip-placement="top">
+                                    <input type="checkbox" disabled
+                                           ng-checked="recommendationCtrl.evaluatorRecommendation.Promoted" />
+                                </div>
+                                <input type="checkbox" disabled ng-if="!recommendationCtrl.evaluatorRecommendation.PromotedBy"
                                        ng-checked="recommendationCtrl.evaluatorRecommendation.Promoted" />
                             </td>
                             <td class="text-center">
-                                <input type="checkbox" disabled
+                                <div ng-if="recommendationCtrl.recommendation.PromotedBy"
+                                     uib-tooltip="{{recommendationCtrl.recommendation.PromotedBy}}" tooltip-placement="top">
+                                    <input type="checkbox" disabled
+                                           ng-checked="recommendationCtrl.recommendation.Promoted" />
+                                </div>
+                                <input type="checkbox" disabled ng-if="!recommendationCtrl.recommendation.PromotedBy"
                                        ng-checked="recommendationCtrl.recommendation.Promoted" />
                             </td>
                         </tr>
                         <tr>
                             <td>{{"AnnualIncrement" | translate}}</td>
                             <td class="text-center">
-                                <input type="checkbox" disabled
+                                <div ng-if="recommendationCtrl.evaluatorRecommendation.PayIncreasedBy"
+                                     uib-tooltip="{{recommendationCtrl.evaluatorRecommendation.PayIncreasedBy}}" tooltip-placement="top">
+                                    <input type="checkbox" disabled
+                                           ng-checked="recommendationCtrl.evaluatorRecommendation.PayIncreased" />
+                                </div>
+                                <input type="checkbox" disabled ng-if="!recommendationCtrl.evaluatorRecommendation.PayIncreasedBy"
                                        ng-checked="recommendationCtrl.evaluatorRecommendation.PayIncreased" />
                             </td>
                             <td class="text-center">
-                                <input type="checkbox" disabled
+                                <div ng-if="recommendationCtrl.recommendation.PayIncreasedBy"
+                                     uib-tooltip="{{recommendationCtrl.recommendation.PayIncreasedBy}}" tooltip-placement="top">
+                                    <input type="checkbox" disabled
+                                           ng-checked="recommendationCtrl.recommendation.PayIncreased" />
+                                </div>
+                                <input type="checkbox" disabled ng-if="!recommendationCtrl.recommendation.PayIncreasedBy"
                                        ng-checked="recommendationCtrl.recommendation.PayIncreased" />
                             </td>
                         </tr>
                         <tr>
                             <td>{{"JobLevel" | translate}}</td>
                             <td class="text-center">
-                                <div>
-                                    <input type="checkbox" disabled
-                                           ng-checked="recommendationCtrl.evaluatorRecommendation.JobLevelIncreased" />
-                                </div>
-                                <div ng-if="recommendationCtrl.evaluatorRecommendation.JobLevelIncreased">
-                                    <select class="jobLevels" disabled
-                                            ng-model="recommendationCtrl.evaluatorRecommendation.JobLevel.JobLevelId"
-                                            ng-options="opt.JobLevelId as opt.Name for opt in recommendationCtrl.jobLevels">
-                                    </select>
+                                <div ng-if="recommendationCtrl.evaluatorRecommendation.JobLevelIncreased"
+                                     ng-bind="recommendationCtrl.evaluatorRecommendation.JobLevel"
+                                     uib-tooltip="{{recommendationCtrl.evaluatorRecommendation.JobLevelIncreasedBy}}" tooltip-placement="top">
                                 </div>
                             </td>
                             <td class="text-center">
-                                <div>
-                                    <input type="checkbox" disabled
-                                           ng-checked="recommendationCtrl.recommendation.JobLevelIncreased" />
-                                </div>
-                                <div ng-show="recommendationCtrl.recommendation.JobLevelIncreased">
-                                    <select class="jobLevels" disabled
-                                            ng-model="recommendationCtrl.recommendation.JobLevel.JobLevelId"
-                                            ng-options="opt.JobLevelId as opt.Name for opt in recommendationCtrl.jobLevels">
-                                    </select>
+                                <div ng-show="recommendationCtrl.recommendation.JobLevelIncreased"
+                                     ng-bind="recommendationCtrl.recommendation.JobLevel"
+                                     uib-tooltip="{{recommendationCtrl.recommendation.JobLevelIncreasedBy}}" tooltip-placement="top">
                                 </div>
                             </td>
                         </tr>
@@ -79,33 +87,63 @@
                         <tr>
                             <td>{{recommendationCtrl.epaInfo.IsProbation ? "PassProbation" : "PassPromotion" | translate}}</td>
                             <td class="text-center">
-                                <input type="radio" disabled
+                                <div ng-if="recommendationCtrl.evaluatorRecommendation.PassedProbation"
+                                     uib-tooltip="{{recommendationCtrl.evaluatorRecommendation.ModifiedBy}}" tooltip-placement="top">
+                                    <input type="radio" disabled
+                                           ng-checked="recommendationCtrl.evaluatorRecommendation.PassedProbation" />
+                                </div>
+                                <input type="radio" disabled ng-if="!recommendationCtrl.evaluatorRecommendation.PassedProbation"
                                        ng-checked="recommendationCtrl.evaluatorRecommendation.PassedProbation" />
                             </td>
                             <td class="text-center">
-                                <input type="radio" disabled
+                                <div ng-if="recommendationCtrl.recommendation.PassedProbation"
+                                     uib-tooltip="{{recommendationCtrl.recommendation.ModifiedBy}}" tooltip-placement="top">
+                                    <input type="radio" disabled
+                                           ng-checked="recommendationCtrl.recommendation.PassedProbation" />
+                                </div>
+                                <input type="radio" disabled ng-if="!recommendationCtrl.recommendation.PassedProbation"
                                        ng-checked="recommendationCtrl.recommendation.PassedProbation" />
                             </td>
                         </tr>
                         <tr ng-if="recommendationCtrl.epaInfo.IsProbation">
                             <td>{{"ExtendProbation" | translate}}</td>
                             <td class="text-center">
-                                <input type="radio" disabled
+                                <div ng-if="recommendationCtrl.evaluatorRecommendation.ExtendedProbation"
+                                     uib-tooltip="{{recommendationCtrl.evaluatorRecommendation.ModifiedBy}}" tooltip-placement="top">
+                                    <input type="radio" disabled
+                                           ng-checked="recommendationCtrl.evaluatorRecommendation.ExtendedProbation" />
+                                </div>
+                                <input type="radio" disabled ng-if="!recommendationCtrl.evaluatorRecommendation.ExtendedProbation"
                                        ng-checked="recommendationCtrl.evaluatorRecommendation.ExtendedProbation" />
                             </td>
                             <td class="text-center">
-                                <input type="radio" disabled
+                                <div ng-if="recommendationCtrl.recommendation.ExtendedProbation"
+                                     uib-tooltip="{{recommendationCtrl.recommendation.ModifiedBy}}" tooltip-placement="top">
+                                    <input type="radio" disabled
+                                           ng-checked="recommendationCtrl.recommendation.ExtendedProbation" />
+                                </div>
+                                <input type="radio" disabled ng-if="!recommendationCtrl.recommendation.ExtendedProbation"
                                        ng-checked="recommendationCtrl.recommendation.ExtendedProbation" />
                             </td>
                         </tr>
                         <tr>
                             <td>{{ recommendationCtrl.epaInfo.IsProbation ? "FailProbation" : "FailPromotion" | translate}}</td>
                             <td class="text-center">
-                                <input type="radio" disabled
+                                <div ng-if="recommendationCtrl.evaluatorRecommendation.FailedProbation"
+                                     uib-tooltip="{{recommendationCtrl.evaluatorRecommendation.ModifiedBy}}" tooltip-placement="top">
+                                    <input type="radio" disabled
+                                           ng-checked="recommendationCtrl.evaluatorRecommendation.FailedProbation" />
+                                </div>
+                                <input type="radio" disabled ng-if="!recommendationCtrl.evaluatorRecommendation.FailedProbation"
                                        ng-checked="recommendationCtrl.evaluatorRecommendation.FailedProbation" />
                             </td>
                             <td class="text-center">
-                                <input type="radio" disabled
+                                <div ng-if="recommendationCtrl.recommendation.FailedProbation"
+                                     uib-tooltip="{{recommendationCtrl.recommendation.ModifiedBy}}" tooltip-placement="top">
+                                    <input type="radio" disabled
+                                           ng-checked="recommendationCtrl.recommendation.FailedProbation" />
+                                </div>
+                                <input type="radio" disabled ng-if="!recommendationCtrl.recommendation.FailedProbation"
                                        ng-checked="reviewerDetailCtrl.epaInfo.Recommendation.FailedProbation" />
                             </td>
                         </tr>

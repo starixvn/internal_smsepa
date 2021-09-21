@@ -21,7 +21,5 @@
         DashboardModel GetDashboard(ICriteria criteria);
 
         IList<EPAModel> GetEPAToUpdateFinalScore(ICriteria criteria);
-
-        IEnumerable<EPARecommendation> GetRecommendationById(ICriteria criteria);
     }
 }

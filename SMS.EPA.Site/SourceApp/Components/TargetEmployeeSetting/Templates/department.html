@@ -30,7 +30,7 @@
     <table class="row table table-bordered table-striped target-setting-template" id="data">
         <thead>
             <tr class="header-table">
-                <th colspan="6">
+                <th colspan="7">
                     <div class="pull-left div-target-templatesetting" ng-show="targetCtrl.permission == targetCtrl.policyEnum.Host">
                         <label class="control-label" data-translate="TargetTemplate"></label>
                         <select ng-model="departmentCtrl.targetDepartmentSetting.targetTemplateId"
@@ -48,7 +48,8 @@
                            ng-model="departmentCtrl.selectedAll" />
                 </th>
                 <th data-translate="SymbolCount"></th>
-                <th data-translate="DepartmentSection"></th>
+                <th data-translate="Department"></th>
+                <th>Section/Team</th>
                 <th data-translate="TargetType"></th>
                 <th data-translate="TargetTemplate"></th>
                 <th data-translate="Delete" ng-show="targetCtrl.permission === targetCtrl.policyEnum.Host"></th>
@@ -62,7 +63,8 @@
                 </td>
                 <td class="text-center" ng-bind="departmentCtrl.getIndex($parent.$index, departmentCtrl.currentPage, departmentCtrl.pageSize)"
                     ng-show="$first" rowspan="{{department.NumberTargetTemplates}}"></td>
-                <td class="text-center" ng-bind="department.Department.Name" ng-show="$first" rowspan="{{department.NumberTargetTemplates}}"></td>
+                <td ng-show="$first" rowspan="{{department.NumberTargetTemplates}}" ng-bind="department.Department"></td>
+                <td ng-show="$first" rowspan="{{department.NumberTargetTemplates}}" ng-bind="department.Section"></td>
                 <td ng-bind="targetTemplate.TargetTypeName"></td>
                 <td ng-bind="targetTemplate.Name"></td>
                 <td class="text-center" ng-show="targetCtrl.permission === targetCtrl.policyEnum.Host">
@@ -75,7 +77,8 @@
                     <input type="checkbox" ng-model="department.Selected" ng-click="departmentCtrl.syncSelectedDepartment(department, department.Selected)" />
                 </td>
                 <td class="text-center" ng-bind="departmentCtrl.getIndex($index, departmentCtrl.currentPage, departmentCtrl.pageSize)"></td>
-                <td class="text-center" ng-bind="department.Department.Name"></td>
+                <td ng-bind="department.Department"></td>
+                <td ng-bind="department.Section"></td>
                 <td></td>
                 <td></td>
                 <td></td>
@@ -83,12 +86,12 @@
         </tbody>
         <tbody ng-show="departmentCtrl.filteredItems.length === 0">
             <tr>
-                <td class="empty-result" colspan="6" data-translate="EmptyResult"></td>
+                <td class="empty-result" colspan="7" data-translate="EmptyResult"></td>
             </tr>
         </tbody>
         <tfoot>
             <tr>
-                <td colspan="6" class="paging">
+                <td colspan="7" class="paging">
                     <span data-translate="Show"></span>
                     <select class="dropdown-entry form-control" ng-model="departmentCtrl.pageSize"
                             ng-options="entry for entry in departmentCtrl.entries" ng-change="departmentCtrl.currentPage = 1"></select>

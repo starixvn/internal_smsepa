@@ -7,6 +7,7 @@
         public int EPAId { get; set; }
         public int PeriodId { get; set; }
         public int TargetTypeId { get; set; }
+        public int EvaluatorId { get; set; }
         public byte ProcessId { get; set; }
         public string TotalScore { get; set; }
         public string AdjustScore { get; set; }

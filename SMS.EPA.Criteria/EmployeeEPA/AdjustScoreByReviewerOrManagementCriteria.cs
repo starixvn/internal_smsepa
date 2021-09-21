@@ -57,7 +57,7 @@
                     foreach (EPARecommendation recommendation in Recommendations)
                     {
                         int? jobLevelId =
-                            (recommendation.JobLevel == null || !recommendation.JobLevelIncreased) ? (int?)null : recommendation.JobLevel.JobLevelId;
+                            (!recommendation.JobLevelId.HasValue || !recommendation.JobLevelIncreased) ? (int?)null : recommendation.JobLevelId;
 
                         result.AppendFormat(
                                 RecommendationXmlTemplate,

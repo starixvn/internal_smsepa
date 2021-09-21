@@ -71,25 +71,52 @@
 
         public void UpdateTotalScoreOfProcess(IEnumerable<AutoEvaluationProcessModel> processes)
         {
+            var epaInfos = new List<EPAModel>();
             foreach (AutoEvaluationProcessModel process in processes)
             {
-                if (string.IsNullOrEmpty(process.TotalScore))
+                if (!string.IsNullOrWhiteSpace(process.TotalScore))
                 {
-                    EPAModel epaInfo = employeeEPAService.GetEPAInfoById(process.EPAId);
+                    EPAModel epaInfo = epaInfos.Any(x => x.EPAId == process.EPAId)
+                        ? epaInfos.First(x => x.EPAId == process.EPAId)
+                        : employeeEPAService.GetEPAInfoById(process.EPAId);
+
                     float? averageScore = GetAverageScorePreProcess(epaInfo, process.ProcessId);
                     float? adjustScore = !string.IsNullOrWhiteSpace(process.AdjustScore) ? float.Parse(process.AdjustScore) : (float?)null;
                     averageScore += adjustScore;
 
+                    UpdateTotalScoreOfProcess(epaInfo, process, averageScore);
+
                     var criteria = new UpdateTotalScoreOfProcessCriteria
                     {
                         EPAId = process.EPAId,
+                        EvaluatorId = process.EvaluatorId,
                         ProcessId = process.ProcessId,
-                        AverageScore = averageScore.HasValue
+                        TotalScore = averageScore.HasValue
                             ? cryptographyService.Encrypt(averageScore.Value.ToString(CultureInfo.InvariantCulture))
                             : string.Empty
                     };
                     baseService.ExecuteNonQuery(criteria);
                 }
+            }
+        }
+
+        private static void UpdateTotalScoreOfProcess(EPAModel epaInfo, AutoEvaluationProcessModel process, float? averageScore = null)
+        {
+            switch (process.ProcessId)
+            {
+                case (byte)ProcessType.Reviewer:
+                    epaInfo.Process.Reviewers.First(x => x.EvaluatorInfo.EmployeeId == process.EvaluatorId).TotalScore
+                        = averageScore.HasValue ? averageScore.Value.ToString(CultureInfo.InvariantCulture) : string.Empty;
+                    break;
+
+                case (byte)ProcessType.Management:
+                    epaInfo.Process.Managements.First(x => x.EvaluatorInfo.EmployeeId == process.EvaluatorId).TotalScore
+                        = averageScore.HasValue ? averageScore.Value.ToString(CultureInfo.InvariantCulture) : string.Empty;
+                    break;
+
+                default:
+                    // do nothing
+                    break;
             }
         }
 

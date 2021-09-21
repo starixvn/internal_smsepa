@@ -167,14 +167,7 @@
             {
                 EPAId = epaId
             };
-            IEnumerable<EPARecommendation> recommendations = new List<EPARecommendation>();
-
-            if (criteria.IsValid())
-            {
-                recommendations = employeeEPARepository.GetRecommendationById(criteria);
-            }
-
-            return recommendations;
+            return baseService.GetData<EPARecommendation>(criteria);
         }
 
         public EPAProbationExtendedQuestionModel GetExtendedQuestionByEPAId(int epaId)

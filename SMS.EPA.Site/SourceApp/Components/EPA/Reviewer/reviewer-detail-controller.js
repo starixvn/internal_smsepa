@@ -117,11 +117,13 @@
                     vm.standardGrades);
                 vm.evaluatedDate = vm.epaInfo.Process.CurrentProcess.EvaluateDate ? vm.epaInfo.Process.CurrentProcess.EvaluateDate : null;
 
-                if (vm.epaInfo.Recommendation && vm.epaInfo.Recommendation.JobLevel && vm.epaInfo.Recommendation.JobLevel.JobLevelId) {
-                    var index = vm.jobLevels.map(function (e) { return e.JobLevelId; }).indexOf(vm.epaInfo.Recommendation.JobLevel.JobLevelId);
-
+                if (vm.epaInfo.Recommendation && vm.epaInfo.Recommendation.JobLevelId !== null) {
+                    var index = vm.jobLevels.map(function (e) { return e.JobLevelId; }).indexOf(vm.epaInfo.Recommendation.JobLevelId);
                     if (index === -1) {
-                        vm.jobLevels.push(vm.epaInfo.Recommendation.JobLevel);
+                        vm.jobLevels.push({
+                            JobLevelId: vm.epaInfo.Recommendation.JobLevelId,
+                            Name: vm.epaInfo.Recommendation.JobLevel
+                        });
                     }
                 }
 

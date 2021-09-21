@@ -19,7 +19,12 @@
                     <tr>
                         <td>{{reviewerDetailCtrl.epaInfo.IsProbation ? "PassProbation" : "PassPromotion" | translate}}</td>
                         <td class="text-center">
-                            <input type="radio" disabled
+                            <div ng-if="reviewerDetailCtrl.epaInfo.EvaluatorRecommendation.PassedProbation"
+                                 uib-tooltip="{{reviewerDetailCtrl.epaInfo.EvaluatorRecommendation.ModifiedBy}}" tooltip-placement="top">
+                                <input type="radio" disabled
+                                       ng-checked="reviewerDetailCtrl.epaInfo.EvaluatorRecommendation.PassedProbation" />
+                            </div>
+                            <input type="radio" disabled ng-if="!reviewerDetailCtrl.epaInfo.EvaluatorRecommendation.PassedProbation"
                                    ng-checked="reviewerDetailCtrl.epaInfo.EvaluatorRecommendation.PassedProbation" />
                         </td>
                         <td class="text-center">
@@ -32,7 +37,12 @@
                     <tr ng-if="reviewerDetailCtrl.epaInfo.IsProbation">
                         <td>{{"ExtendProbation" | translate}}</td>
                         <td class="text-center">
-                            <input type="radio" disabled
+                            <div ng-if="reviewerDetailCtrl.epaInfo.EvaluatorRecommendation.ExtendedProbation"
+                                 uib-tooltip="{{reviewerDetailCtrl.epaInfo.EvaluatorRecommendation.ModifiedBy}}" tooltip-placement="top">
+                                <input type="radio" disabled
+                                       ng-checked="reviewerDetailCtrl.epaInfo.EvaluatorRecommendation.ExtendedProbation" />
+                            </div>
+                            <input type="radio" disabled ng-if="!reviewerDetailCtrl.epaInfo.EvaluatorRecommendation.ExtendedProbation"
                                    ng-checked="reviewerDetailCtrl.epaInfo.EvaluatorRecommendation.ExtendedProbation" />
                         </td>
                         <td class="text-center">
@@ -45,7 +55,12 @@
                     <tr>
                         <td>{{ reviewerDetailCtrl.epaInfo.IsProbation ? "FailProbation" : "FailPromotion" | translate}}</td>
                         <td class="text-center">
-                            <input type="radio" disabled
+                            <div ng-if="reviewerDetailCtrl.epaInfo.EvaluatorRecommendation.FailedProbation"
+                                 uib-tooltip="{{reviewerDetailCtrl.epaInfo.EvaluatorRecommendation.ModifiedBy}}" tooltip-placement="top">
+                                <input type="radio" disabled
+                                       ng-checked="reviewerDetailCtrl.epaInfo.EvaluatorRecommendation.FailedProbation" />
+                            </div>
+                            <input type="radio" disabled ng-if="!reviewerDetailCtrl.epaInfo.EvaluatorRecommendation.FailedProbation"
                                    ng-checked="reviewerDetailCtrl.epaInfo.EvaluatorRecommendation.FailedProbation" />
                         </td>
                         <td class="text-center">

@@ -212,7 +212,7 @@
                     Task.Factory.StartNew(() =>
                     {
                         processService.UpdateTotalScoreOfProcess(criteria.PeriodId, criteria.EmployeeIds);
-                        epaService.GetDataAndUpdateFinalScore(SessionService.EmployeeId, criteria.PeriodId, criteria.EmployeeIds);
+                        epaService.GetDataAndUpdateFinalScore(criteria.ModifiedBy, criteria.PeriodId, criteria.EmployeeIds);
                     });
                 }
             }

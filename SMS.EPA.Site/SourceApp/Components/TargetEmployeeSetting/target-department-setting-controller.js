@@ -75,8 +75,8 @@
             angular.forEach(targetDepartmentSettings, function (targetDepartment) {
                 if (targetDepartment.Selected) {
                     var department = {
-                        DepartmentId: targetDepartment.Department.DepartmentId,
-                        IsGroup: targetDepartment.Department.IsGroup
+                        DepartmentId: targetDepartment.DepartmentId,
+                        IsGroup: targetDepartment.IsGroup
                     };
                     departments.push(department);
                 }
@@ -141,11 +141,9 @@
 
         function syncSelectedDepartment(department, selected) {
             angular.forEach(vm.targetDepartmentSettings, function (targetDepartment) {
-                if (targetDepartment.Department.DepartmentId === department.Department.DepartmentId
-                        && targetDepartment.Department.IsGroup === department.Department.IsGroup) {
+                if (targetDepartment.DepartmentId === department.DepartmentId && targetDepartment.IsGroup === department.IsGroup) {
                     angular.forEach(vm.filteredItems, function (filterItem) {
-                        if (targetDepartment.Department.DepartmentId === filterItem.Department.DepartmentId
-                                && targetDepartment.Department.IsGroup === filterItem.Department.IsGroup) {
+                        if (targetDepartment.DepartmentId === filterItem.DepartmentId && targetDepartment.IsGroup === filterItem.IsGroup) {
                             filterItem.Selected = selected;
                             targetDepartment.Selected = selected;
                         }

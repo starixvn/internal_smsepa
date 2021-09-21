@@ -44,7 +44,7 @@
                         </td>
                         <td ng-show="evaluatorDetailCtrl.epaInfo.Recommendation.JobLevelIncreased">
                             <select class="jobLevels"
-                                    ng-model="evaluatorDetailCtrl.epaInfo.Recommendation.JobLevel.JobLevelId"
+                                    ng-model="evaluatorDetailCtrl.epaInfo.Recommendation.JobLevelId"
                                     ng-disabled="!evaluatorDetailCtrl.epaInfo.IsAllowedToEdit"
                                     ng-options="opt.JobLevelId as opt.Name for opt in evaluatorDetailCtrl.jobLevels">
                                 <option style="display: none" value="">-- Select a job level --</option>

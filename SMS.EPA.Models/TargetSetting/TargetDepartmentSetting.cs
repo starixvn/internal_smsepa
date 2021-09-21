@@ -5,14 +5,12 @@
 
     public class TargetDepartmentSetting
     {
-        public TargetDepartmentSetting()
-        {
-            TargetTemplates = new List<TargetTemplateDepartment>();
-        }
+        public int DepartmentId { get; set; }
+        public string Department { get; set; }
+        public string Section { get; set; }
+        public bool IsGroup { get; set; }
 
-        public Department Department { get; set; }
-
-        public IList<TargetTemplateDepartment> TargetTemplates { get; set; }
+        public IList<TargetTemplateDepartment> TargetTemplates { get; set; } = new List<TargetTemplateDepartment>();
 
         public int NumberTargetTemplates
         {

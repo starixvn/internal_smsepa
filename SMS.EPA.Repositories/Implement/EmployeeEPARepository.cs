@@ -237,22 +237,6 @@
             }
         }
 
-        public IEnumerable<EPARecommendation> GetRecommendationById(ICriteria criteria)
-        {
-            using (var db = new ObjectDb(criteria.GetSettingKey()))
-            {
-                return db.Query<EPARecommendation, JobLevel, EPARecommendation>(
-                        (recommendation, job) =>
-                        {
-                            recommendation.JobLevel = job;
-
-                            return recommendation;
-                        },
-                        "JobLevelId",
-                        criteria.GetSpParams());
-            }
-        }
-
         #region Rating By KPI
 
         public IEnumerable<TemporaryKPIModel> GetKPIByTargetTemplate(ICriteria criteria)

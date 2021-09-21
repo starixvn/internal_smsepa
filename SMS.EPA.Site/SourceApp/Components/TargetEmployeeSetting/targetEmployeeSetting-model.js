@@ -96,10 +96,8 @@
             });
 
             modalInstance.result.then(function () {
-                return targetEmployeeSettingFactory.deleteTargetDepartmentSetting(
-                    targetTemplate.TargetTemplateId,
-                    department.Department.DepartmentId,
-                    department.Department.IsGroup).success(function (response) {
+                return targetEmployeeSettingFactory.deleteTargetDepartmentSetting(targetTemplate.TargetTemplateId, department.DepartmentId, department.IsGroup)
+                    .success(function (response) {
                         if (response.IsSuccessful) {
                             var index = department.TargetTemplates.indexOf(targetTemplate);
                             department.TargetTemplates.splice(index, 1);

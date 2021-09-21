@@ -1,5 +1,6 @@
 ﻿namespace SMS.EPA.Services.Implement
 {
+    using System;
     using System.Collections.Generic;
     using System.Diagnostics;
     using System.IO;
@@ -99,15 +100,24 @@
                 switch (recommendation.ProbationStatus)
                 {
                     case (byte)ProbationStatusType.FailProbation:
-                        curRow.CreateCell(colIndex).SetCellValue(RecommendationFail);
+                        curRow.CreateCell(colIndex).SetCellValue(string.Format("{0}{1}",
+                            RecommendationFail,
+                            !string.IsNullOrWhiteSpace(recommendation.ModifiedBy)
+                                ? string.Format("{0}(by {1})", Environment.NewLine, recommendation.ModifiedBy) : string.Empty));
                         break;
 
                     case (byte)ProbationStatusType.PassProbation:
-                        curRow.CreateCell(colIndex).SetCellValue(RecommendationPass);
+                        curRow.CreateCell(colIndex).SetCellValue(string.Format("{0}{1}",
+                            RecommendationPass,
+                            !string.IsNullOrWhiteSpace(recommendation.ModifiedBy)
+                                ? string.Format("{0}(by {1})", Environment.NewLine, recommendation.ModifiedBy) : string.Empty));
                         break;
 
                     case (byte)ProbationStatusType.ExtendProbation:
-                        curRow.CreateCell(colIndex).SetCellValue(RecommendationExtend);
+                        curRow.CreateCell(colIndex).SetCellValue(string.Format("{0}{1}",
+                            RecommendationExtend,
+                            !string.IsNullOrWhiteSpace(recommendation.ModifiedBy)
+                                ? string.Format("{0}(by {1})", Environment.NewLine, recommendation.ModifiedBy) : string.Empty));
                         break;
 
                     default:
@@ -144,9 +154,18 @@
                 curRow.CreateCell(colIndex++).SetCellValue(recommendation.NickName);
                 curRow.CreateCell(colIndex++).SetCellValue(recommendation.FullName);
                 curRow.CreateCell(colIndex++).SetCellValue(recommendation.Section);
-                curRow.CreateCell(colIndex++).SetCellValue(recommendation.Promotion);
-                curRow.CreateCell(colIndex++).SetCellValue(recommendation.AnnualIncrement);
-                curRow.CreateCell(colIndex).SetCellValue(recommendation.JobLevel);
+                curRow.CreateCell(colIndex++).SetCellValue(string.Format("{0}{1}",
+                    recommendation.Promotion,
+                    !string.IsNullOrWhiteSpace(recommendation.Promotion) && !string.IsNullOrWhiteSpace(recommendation.PromotedBy)
+                        ? string.Format("{0}(by {1})", Environment.NewLine, recommendation.PromotedBy) : string.Empty));
+                curRow.CreateCell(colIndex++).SetCellValue(string.Format("{0}{1}",
+                    recommendation.AnnualIncrement,
+                    !string.IsNullOrWhiteSpace(recommendation.AnnualIncrement) && !string.IsNullOrWhiteSpace(recommendation.PayIncreasedBy)
+                        ? string.Format("{0}(by {1})", Environment.NewLine, recommendation.PayIncreasedBy) : string.Empty));
+                curRow.CreateCell(colIndex).SetCellValue(string.Format("{0}{1}",
+                    recommendation.JobLevel,
+                    !string.IsNullOrWhiteSpace(recommendation.JobLevel) && !string.IsNullOrWhiteSpace(recommendation.JobLevelIncreasedBy)
+                        ? string.Format("{0}(by {1})", Environment.NewLine, recommendation.JobLevelIncreasedBy) : string.Empty));
 
                 rowIndex++;
             }

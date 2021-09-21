@@ -1,11 +1,11 @@
 ﻿namespace SMS.EPA.Repositories
 {
+    using System.Collections.Generic;
+    using System.Linq;
     using Fanex.Data;
     using Fanex.Data.Repository;
     using Model;
     using Model.Enitites;
-    using System.Collections.Generic;
-    using System.Linq;
 
     public class TargetEmployeeSettingRepository : ITargetEmployeeSettingRepository
     {
@@ -36,11 +36,15 @@
             {
                 using (IMultiResultReader multi = db.QueryMultiple(criteria.GetSpParams()))
                 {
-                    var deparments = multi.Read<Department>();
+                    var departments = multi.Read<TargetDepartmentSetting>();
+                    var templates = multi.Read<TargetTemplateDepartment>();
 
-                    var targetDepartments = multi.Read<TargetTemplateDepartment>();
+                    foreach (TargetDepartmentSetting department in departments)
+                    {
+                        department.TargetTemplates = templates.Where(t => t.DepartmentId == department.DepartmentId && t.IsGroup == department.IsGroup).ToList();
+                    }
 
-                    return MappingTargetTemplateDepartment(deparments, targetDepartments);
+                    return departments.ToList();
                 }
             }
         }
@@ -53,7 +57,7 @@
 
             foreach (Employee employee in employees)
             {
-                IList<TargetTemplateEmployee> tempTargetTemplateEmployees = 
+                IList<TargetTemplateEmployee> tempTargetTemplateEmployees =
                     targetTemplateEmployees.Where(t => t.EmployeeId == employee.EmployeeId).ToList();
                 targetEmployees.Add(new TargetEmployeeSetting
                 {
@@ -63,26 +67,6 @@
             }
 
             return targetEmployees;
-        }
-
-        private static IList<TargetDepartmentSetting> MappingTargetTemplateDepartment(
-            IEnumerable<Department> departments,
-            IEnumerable<TargetTemplateDepartment> targetTemplateDepartments)
-        {
-            var targetDepartments = new List<TargetDepartmentSetting>();
-
-            foreach (Department department in departments)
-            {
-                IList<TargetTemplateDepartment> tempTargetTemplateDepartments =
-                    targetTemplateDepartments.Where(t => t.DepartmentId == department.DepartmentId && t.IsGroup == department.IsGroup).ToList();
-                targetDepartments.Add(new TargetDepartmentSetting
-                {
-                    Department = department,
-                    TargetTemplates = tempTargetTemplateDepartments
-                });
-            }
-
-            return targetDepartments;
         }
     }
 }

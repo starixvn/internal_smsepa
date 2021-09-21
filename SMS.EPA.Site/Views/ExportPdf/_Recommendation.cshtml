@@ -46,10 +46,24 @@
             <tr>
                 <td class="border-r-b-l">@(Model.IsProbation ? Lang.PassProbation : Lang.PassPromotion)</td>
                 <td class="border-r-b align-center">
-                    @if (evaluator != null ) { @GetRadioButton(evaluator.PassedProbation) }
+                    @if (evaluator != null)
+                    {
+                        <div>@GetRadioButton(evaluator.PassedProbation)</div>
+                        <div>
+                            @(evaluator.PassedProbation && !string.IsNullOrWhiteSpace(evaluator.ModifiedBy)
+                                    ? string.Format("(by {0})", evaluator.ModifiedBy) : string.Empty)
+                        </div>
+                    }
                 </td>
                 <td class="border-r-b align-center">
-                    @if (reviewer != null ) { @GetRadioButton(reviewer.PassedProbation) }
+                    @if (reviewer != null)
+                    {
+                        <div>@GetRadioButton(reviewer.PassedProbation)</div>
+                        <div>
+                            @(reviewer.PassedProbation && !string.IsNullOrWhiteSpace(reviewer.ModifiedBy)
+                                    ? string.Format("(by {0})", reviewer.ModifiedBy) : string.Empty)
+                        </div>
+                    }
                 </td>
             </tr>
             if (Model.IsProbation)
@@ -57,20 +71,48 @@
                 <tr>
                     <td class="border-r-b-l">@Lang.ExtendProbation</td>
                     <td class="border-r-b align-center">
-                        @if (evaluator != null ) { @GetRadioButton(evaluator.ExtendedProbation) }
+                        @if (evaluator != null)
+                        {
+                            <div>@GetRadioButton(evaluator.ExtendedProbation)</div>
+                            <div>
+                                @(evaluator.ExtendedProbation && !string.IsNullOrWhiteSpace(evaluator.ModifiedBy)
+                                    ? string.Format("(by {0})", evaluator.ModifiedBy) : string.Empty)
+                            </div>
+                        }
                     </td>
                     <td class="border-r-b align-center">
-                        @if (reviewer != null ) { @GetRadioButton(reviewer.ExtendedProbation) }
+                        @if (reviewer != null)
+                        {
+                            <div>@GetRadioButton(reviewer.ExtendedProbation)</div>
+                            <div>
+                                @(reviewer.ExtendedProbation && !string.IsNullOrWhiteSpace(reviewer.ModifiedBy)
+                                    ? string.Format("(by {0})", reviewer.ModifiedBy) : string.Empty)
+                            </div>
+                        }
                     </td>
                 </tr>
             }
             <tr>
                 <td class="border-r-b-l">@(Model.IsProbation ? Lang.FailProbation : Lang.FailPromotion)</td>
                 <td class="border-r-b align-center">
-                    @if (evaluator != null ) { @GetRadioButton(evaluator.FailedProbation) }
+                    @if (evaluator != null)
+                    {
+                        <div>@GetRadioButton(evaluator.FailedProbation)</div>
+                        <div>
+                            @(evaluator.FailedProbation && !string.IsNullOrWhiteSpace(evaluator.ModifiedBy)
+                                    ? string.Format("(by {0})", evaluator.ModifiedBy) : string.Empty)
+                        </div>
+                    }
                 </td>
                 <td class="border-r-b align-center">
-                    @if (reviewer != null ) { @GetRadioButton(reviewer.FailedProbation) }
+                    @if (reviewer != null)
+                    {
+                        <div>@GetRadioButton(reviewer.FailedProbation)</div>
+                        <div>
+                            @(reviewer.FailedProbation && !string.IsNullOrWhiteSpace(reviewer.ModifiedBy)
+                                    ? string.Format("(by {0})", reviewer.ModifiedBy) : string.Empty)
+                        </div>
+                    }
                 </td>
             </tr>
         }
@@ -81,33 +123,69 @@
                 <tr>
                     <td class="border-r-b-l">@Lang.Promotion</td>
                     <td class="border-r-b align-center">
-                        @if (evaluator != null) { @GetCheckbox(evaluator.Promoted) }
+                        @if (evaluator != null)
+                        {
+                            <div>@GetCheckbox(evaluator.Promoted)</div>
+                            <div>
+                                @(!string.IsNullOrWhiteSpace(evaluator.PromotedBy)
+                                    ? string.Format("(by {0})", evaluator.PromotedBy) : string.Empty)
+                            </div>
+                        }
                     </td>
                     <td class="border-r-b align-center">
-                        @if (reviewer != null) { @GetCheckbox(reviewer.Promoted) }
+                        @if (reviewer != null)
+                        {
+                            <div>@GetCheckbox(reviewer.Promoted)</div>
+                            <div>
+                                @(!string.IsNullOrWhiteSpace(reviewer.PromotedBy)
+                                    ? string.Format("(by {0})", reviewer.PromotedBy) : string.Empty)
+                            </div>
+                        }
                     </td>
                 </tr>
                 <tr>
                     <td class="border-r-b-l">@Lang.AnnualIncrement</td>
                     <td class="border-r-b align-center">
-                        @if (evaluator != null) { @GetCheckbox(evaluator.PayIncreased) }
+                        @if (evaluator != null)
+                        {
+                            <div>@GetCheckbox(evaluator.PayIncreased)</div>
+                            <div>
+                                @(!string.IsNullOrWhiteSpace(evaluator.PayIncreasedBy)
+                                    ? string.Format("(by {0})", evaluator.PayIncreasedBy) : string.Empty)
+                            </div>
+                        }
                     </td>
                     <td class="border-r-b align-center">
-                        @if (reviewer != null) { @GetCheckbox(reviewer.PayIncreased) }
+                        @if (reviewer != null)
+                        {
+                            <div>@GetCheckbox(reviewer.PayIncreased)</div>
+                            <div>
+                                @(!string.IsNullOrWhiteSpace(reviewer.PayIncreasedBy)
+                                        ? string.Format("(by {0})", reviewer.PayIncreasedBy) : string.Empty)
+                            </div>
+                        }
                     </td>
                 </tr>
                 <tr>
                     <td class="border-r-b-l">@Lang.JobLevel</td>
                     <td class="border-r-b align-center">
                         @if (evaluator != null)
-                        { 
-                            @(evaluator.JobLevel != null ? evaluator.JobLevel.Name : string.Empty)
+                        {
+                            <div>@evaluator.JobLevel</div>
+                            <div>
+                                @(!string.IsNullOrWhiteSpace(evaluator.JobLevelIncreasedBy)
+                                    ? string.Format("(by {0})", evaluator.JobLevelIncreasedBy) : string.Empty)
+                            </div>
                         }
                     </td>
                     <td class="border-r-b align-center">
                         @if (reviewer != null)
                         {
-                            @(reviewer.JobLevel != null ? reviewer.JobLevel.Name : string.Empty)
+                            <div>@reviewer.JobLevel</div>
+                            <div>
+                                @(!string.IsNullOrWhiteSpace(reviewer.JobLevelIncreasedBy)
+                                    ? string.Format("(by {0})", reviewer.JobLevelIncreasedBy) : string.Empty)
+                            </div>
                         }
                     </td>
                 </tr>
