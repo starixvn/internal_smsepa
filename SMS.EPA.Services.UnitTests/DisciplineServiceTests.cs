@@ -6,49 +6,33 @@
     using Model.Discipline;
     using NSubstitute;
     using NUnit.Framework;
-    using Repositories;
+    using SMS.EPA.Core.Services;
 
     [TestFixture]
     public class DisciplineServiceTests
     {
-        private IDisciplineRepository disciplineRepository;
-        private DisciplineService disciplineService;
+        private IBaseService baseService;
 
         #region GetDisciplineSummary
 
         [Test]
-        public void GetDisciplineSummary_InValidArg_ReturnDefaultObject()
-        {
-            // Arrange
-            ArrangeGetDisciplineSummary();
-            var criteria = Substitute.For<GetDisciplineSummaryCriteria>();
-            criteria.IsValid().Returns(false);
-
-            // Act
-            var actual = disciplineService.GetDisciplineSummary(criteria);
-
-            // Assert
-            Assert.IsInstanceOf(typeof(IEnumerable<DisciplineSummaryModel>), actual);
-        }
-
-        [Test]
-        public void GetDisciplineSummary_ValidArg_ReturnExpectedEmployee()
+        public void GetDisciplineSummary_WhenCalled_ReturnAsExpected()
         {
             // Arrange
             var expected = new List<DisciplineSummaryModel>
             {
                 new DisciplineSummaryModel
                 {
-                    Employee = new Model.Enitites.Employee { EmployeeId = 1 },
+                    EmployeeId = 1,
                     LateIn = 2.5M
                 }
             };
-            ArrangeGetDisciplineSummary(expected);
-            var criteria = Substitute.For<GetDisciplineSummaryCriteria>();
-            criteria.IsValid().Returns(true);
+            var criteria = new GetDisciplineSummaryCriteria();
+            var service = GetDisciplineService();
+            baseService.GetData<DisciplineSummaryModel>(Arg.Any<GetDisciplineSummaryCriteria>()).Returns(expected);
 
             // Act
-            var actual = disciplineService.GetDisciplineSummary(criteria);
+            var actual = service.GetDisciplineSummary(criteria);
 
             // Assert
             Assert.AreEqual(expected, actual);
@@ -59,38 +43,23 @@
         #region GetDisciplineSummaryForOtherSystem
 
         [Test]
-        public void GetDisciplineSummaryForOtherSystem_InValidArg_ReturnDefaultObject()
-        {
-            // Arrange
-            ArrangeGetDisciplineSummary();
-            var criteria = Substitute.For<GetDisciplineSummaryForOtherSystemCriteria>();
-            criteria.IsValid().Returns(false);
-
-            // Act
-            var actual = disciplineService.GetDisciplineSummaryForOtherSystem(criteria);
-
-            // Assert
-            Assert.IsInstanceOf(typeof(IEnumerable<DisciplineSummaryForOtherSystem>), actual);
-        }
-
-        [Test]
-        public void GetDisciplineSummaryForOtherSystem_ValidArg_ReturnExpectedEmployee()
+        public void GetDisciplineSummaryForOtherSystem_WhenCalled_ReturnAsExpected()
         {
             // Arrange
             var expected = new List<DisciplineSummaryForOtherSystem>
             {
                 new DisciplineSummaryForOtherSystem
                 {
-                    Employee = new Model.Enitites.Employee { EmployeeId = 1 },
+                    EmployeeId = 1,
                     LateIn = 2.5M
                 }
             };
-            ArrangeGetDisciplineSummaryForOtherSystem(expected);
-            var criteria = Substitute.For<GetDisciplineSummaryForOtherSystemCriteria>();
-            criteria.IsValid().Returns(true);
+            var criteria = new GetDisciplineSummaryForOtherSystemCriteria();
+            var service = GetDisciplineService();
+            baseService.GetData<DisciplineSummaryForOtherSystem>(Arg.Any<GetDisciplineSummaryForOtherSystemCriteria>()).Returns(expected);
 
             // Act
-            var actual = disciplineService.GetDisciplineSummaryForOtherSystem(criteria);
+            var actual = service.GetDisciplineSummaryForOtherSystem(criteria);
 
             // Assert
             Assert.AreEqual(expected, actual);
@@ -100,30 +69,10 @@
 
         #region Helpers
 
-        private static IDisciplineRepository FakeDisciplineRepository()
-        {
-            var repository = Substitute.For<IDisciplineRepository>();
-
-            return repository;
-        }
-
         private DisciplineService GetDisciplineService()
         {
-            disciplineRepository = FakeDisciplineRepository();
-            var service = new DisciplineService(disciplineRepository);
-            return service;
-        }
-
-        private void ArrangeGetDisciplineSummary(IEnumerable<DisciplineSummaryModel> result = null)
-        {
-            disciplineRepository.GetDisciplineSummary(Arg.Any<GetDisciplineSummaryCriteria>()).Returns(result ?? new List<DisciplineSummaryModel>());
-            disciplineService = GetDisciplineService();
-        }
-
-        private void ArrangeGetDisciplineSummaryForOtherSystem(IEnumerable<DisciplineSummaryForOtherSystem> result = null)
-        {
-            disciplineRepository.GetDisciplineSummaryForOtherSystem(Arg.Any<GetDisciplineSummaryForOtherSystemCriteria>()).Returns(result ?? new List<DisciplineSummaryForOtherSystem>());
-            disciplineService = GetDisciplineService();
+            baseService = Substitute.For<IBaseService>();
+            return new DisciplineService(baseService);
         }
 
         #endregion Helpers

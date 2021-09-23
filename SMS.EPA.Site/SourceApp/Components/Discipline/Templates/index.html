@@ -81,7 +81,7 @@
     <table class="row table table-bordered table-striped">
         <thead>
             <tr class="header-table">
-                <th colspan="18">
+                <th colspan="19">
                     <input class="btnExcel pull-right" export-discipline-summary-report
                            ng-click="disciplineCtrl.exportReport(disciplineCtrl.filter)" type="button" title="Export to Excel">
                     <input type="text" ng-model="disciplineCtrl.searchKey" ng-change="disciplineCtrl.search()" class="search-inline-textbox search pull-right">
@@ -103,80 +103,83 @@
                 <th data-translate="ChangeShift"></th>
                 <th data-translate="UnplannedLeave"></th>
                 <th data-translate="WeekendLeave"></th>
+                <th data-translate="SevenDaysLeave"></th>
                 <th data-translate="OtherViolations"></th>
                 <th data-translate="MinusScoringSystem"></th>
                 <th data-translate="MinusScoringApprover"></th>
             </tr>
         </thead>
         <tbody>
-            <tr dir-paginate="employee in disciplineCtrl.filteredItems | itemsPerPage: disciplineCtrl.pageSize" pagination-id="summary" current-page="disciplineCtrl.currentPage">
+            <tr dir-paginate="discipline in disciplineCtrl.filteredItems | itemsPerPage: disciplineCtrl.pageSize" pagination-id="summary" current-page="disciplineCtrl.currentPage">
                 <td class="text-center" ng-bind="disciplineCtrl.getIndex($index, disciplineCtrl.currentPage, disciplineCtrl.pageSize)"></td>
-                <td class="text-left" ng-bind="employee.Employee.Code"></td>
-                <td>
-                    <span ng-bind="employee.Employee.NickName" popover-avatar avatar-src="{{employee.Employee.Avatar}}"></span>
-                </td>
-                <td ng-bind="employee.Employee.FullName"></td>
-                <td class="text-left" ng-bind="employee.Employee.Group.GroupName"></td>
+                <td class="text-left" ng-bind="discipline.Code"></td>
+                <td ng-bind="discipline.Nickname"></td>
+                <td ng-bind="discipline.FullName"></td>
+                <td class="text-left" ng-bind="discipline.Section"></td>
                 <td class="text-right">
-                    <span ng-if="employee.MissingCheckInOut > 0" class="red">-{{employee.MissingCheckInOut | number: 1}}</span>
-                    <span ng-if="employee.MissingCheckInOut === 0">{{employee.MissingCheckInOut | number: 1}}</span>
+                    <span ng-if="discipline.MissingCheckInOut > 0" class="red">-{{discipline.MissingCheckInOut | number: 1}}</span>
+                    <span ng-if="discipline.MissingCheckInOut === 0">{{discipline.MissingCheckInOut | number: 1}}</span>
                 </td>
                 <td class="text-right">
-                    <span ng-if="employee.WorkingUndertime > 0" class="red">-{{employee.WorkingUndertime | number: 1}}</span>
-                    <span ng-if="employee.WorkingUndertime === 0">{{employee.WorkingUndertime | number: 1}}</span>
+                    <span ng-if="discipline.WorkingUndertime > 0" class="red">-{{discipline.WorkingUndertime | number: 1}}</span>
+                    <span ng-if="discipline.WorkingUndertime === 0">{{discipline.WorkingUndertime | number: 1}}</span>
                 </td>
                 <td class="text-right">
-                    <span ng-if="employee.LateIn > 0" class="red">-{{employee.LateIn | number: 1}}</span>
-                    <span ng-if="employee.LateIn === 0">{{employee.LateIn | number: 1}}</span>
+                    <span ng-if="discipline.LateIn > 0" class="red">-{{discipline.LateIn | number: 1}}</span>
+                    <span ng-if="discipline.LateIn === 0">{{discipline.LateIn | number: 1}}</span>
                 </td>
                 <td class="text-right">
-                    <span ng-if="employee.EarlyOut > 0" class="red">-{{employee.EarlyOut | number: 1}}</span>
-                    <span ng-if="employee.EarlyOut === 0">{{employee.EarlyOut | number: 1}}</span>
+                    <span ng-if="discipline.EarlyOut > 0" class="red">-{{discipline.EarlyOut | number: 1}}</span>
+                    <span ng-if="discipline.EarlyOut === 0">{{discipline.EarlyOut | number: 1}}</span>
                 </td>
                 <td class="text-right">
-                    <span ng-if="employee.Absent > 0" class="red">-{{employee.Absent | number: 1}}</span>
-                    <span ng-if="employee.Absent === 0">{{employee.Absent | number: 1}}</span>
+                    <span ng-if="discipline.Absent > 0" class="red">-{{discipline.Absent | number: 1}}</span>
+                    <span ng-if="discipline.Absent === 0">{{discipline.Absent | number: 1}}</span>
                 </td>
                 <td class="text-right">
-                    <span ng-if="employee.UnpaidLeave > 0" class="red">-{{employee.UnpaidLeave | number: 1}}</span>
-                    <span ng-if="employee.UnpaidLeave === 0">{{employee.UnpaidLeave | number: 1}}</span>
+                    <span ng-if="discipline.UnpaidLeave > 0" class="red">-{{discipline.UnpaidLeave | number: 1}}</span>
+                    <span ng-if="discipline.UnpaidLeave === 0">{{discipline.UnpaidLeave | number: 1}}</span>
                 </td>
                 <td class="text-right">
-                    <span ng-if="employee.UnpaidLeaveAbsent > 0" class="red">-{{employee.UnpaidLeaveAbsent | number: 1}}</span>
-                    <span ng-if="employee.UnpaidLeaveAbsent === 0">{{employee.UnpaidLeaveAbsent | number: 1}}</span>
+                    <span ng-if="discipline.UnpaidLeaveAbsent > 0" class="red">-{{discipline.UnpaidLeaveAbsent | number: 1}}</span>
+                    <span ng-if="discipline.UnpaidLeaveAbsent === 0">{{discipline.UnpaidLeaveAbsent | number: 1}}</span>
                 </td>
                 <td class="text-right">
-                    <span ng-if="employee.ChangeShift > 0" class="red">-{{employee.ChangeShift | number: 1}}</span>
-                    <span ng-if="employee.ChangeShift === 0">{{employee.ChangeShift | number: 1}}</span>
+                    <span ng-if="discipline.ChangeShift > 0" class="red">-{{discipline.ChangeShift | number: 1}}</span>
+                    <span ng-if="discipline.ChangeShift === 0">{{discipline.ChangeShift | number: 1}}</span>
                 </td>
                 <td class="text-right">
-                    <span ng-if="employee.UnplannedLeave > 0" class="red">-{{employee.UnplannedLeave | number: 1}}</span>
-                    <span ng-if="employee.UnplannedLeave === 0">{{employee.UnplannedLeave | number: 1}}</span>
+                    <span ng-if="discipline.UnplannedLeave > 0" class="red">-{{discipline.UnplannedLeave | number: 1}}</span>
+                    <span ng-if="discipline.UnplannedLeave === 0">{{discipline.UnplannedLeave | number: 1}}</span>
                 </td>
                 <td class="text-right">
-                    <span ng-if="employee.WeekendLeave > 0" class="red">-{{employee.WeekendLeave | number: 1}}</span>
-                    <span ng-if="employee.WeekendLeave === 0">{{employee.WeekendLeave | number: 1}}</span>
+                    <span ng-if="discipline.WeekendLeave > 0" class="red">-{{discipline.WeekendLeave | number: 1}}</span>
+                    <span ng-if="discipline.WeekendLeave === 0">{{discipline.WeekendLeave | number: 1}}</span>
                 </td>
                 <td class="text-right">
-                    <span ng-if="employee.OtherDisciplines > 0" class="red">-{{employee.OtherDisciplines | number: 1}}</span>
-                    <span ng-if="employee.OtherDisciplines === 0">{{employee.OtherDisciplines | number: 1}}</span>
+                    <span ng-if="discipline.SevenDaysLeave > 0" class="red">-{{discipline.SevenDaysLeave | number: 1}}</span>
+                    <span ng-if="discipline.SevenDaysLeave === 0">{{discipline.SevenDaysLeave | number: 1}}</span>
                 </td>
                 <td class="text-right">
-                    <span ng-if="employee.SystemSubtractScore > 0" class="red">-{{employee.SystemSubtractScore | number: 1}}</span>
-                    <span ng-if="employee.SystemSubtractScore === 0">{{employee.SystemSubtractScore | number: 1}}</span>
+                    <span ng-if="discipline.OtherDisciplines > 0" class="red">-{{discipline.OtherDisciplines | number: 1}}</span>
+                    <span ng-if="discipline.OtherDisciplines === 0">{{discipline.OtherDisciplines | number: 1}}</span>
                 </td>
                 <td class="text-right">
-                    <span ng-if="employee.ApproverSubtractScore > 0" class="red">-{{employee.ApproverSubtractScore | number: 1}}</span>
-                    <span ng-if="employee.ApproverSubtractScore === 0">{{employee.ApproverSubtractScore | number: 1}}</span>
+                    <span ng-if="discipline.SystemSubtractScore > 0" class="red">-{{discipline.SystemSubtractScore | number: 1}}</span>
+                    <span ng-if="discipline.SystemSubtractScore === 0">{{discipline.SystemSubtractScore | number: 1}}</span>
+                </td>
+                <td class="text-right">
+                    <span ng-if="discipline.ApproverSubtractScore > 0" class="red">-{{discipline.ApproverSubtractScore | number: 1}}</span>
+                    <span ng-if="discipline.ApproverSubtractScore === 0">{{discipline.ApproverSubtractScore | number: 1}}</span>
                 </td>
             </tr>
             <tr ng-show="disciplineCtrl.filteredItems.length === 0">
-                <td class="empty-result" colspan="18" data-translate="EmptyResult"></td>
+                <td class="empty-result" colspan="19" data-translate="EmptyResult"></td>
             </tr>
         </tbody>
         <tfoot>
             <tr>
-                <td colspan="18" class="paging">
+                <td colspan="19" class="paging">
                     <span data-translate="Show"></span>
                     <select class="dropdown-entry form-control" ng-model="disciplineCtrl.pageSize"
                             ng-options="entry for entry in disciplineCtrl.entries" ng-change="disciplineCtrl.currentPage = 1"></select>

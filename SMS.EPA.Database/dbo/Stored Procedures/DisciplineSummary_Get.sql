@@ -1,5 +1,4 @@
-﻿
-CREATE PROCEDURE [dbo].[DisciplineSummary_Get] @StartDate DATE
+﻿CREATE PROCEDURE [dbo].[DisciplineSummary_Get] @StartDate DATE
 	,@EndDate DATE
 	,@ApproverId INT
 	,@DepartmentId INT = NULL
@@ -32,6 +31,7 @@ BEGIN
 		,UnpaidLeaveAbsent DECIMAL(5, 2)
 		,UnplannedLeave DECIMAL(5, 2)
 		,WeekendLeave DECIMAL(5, 2)
+		,SevenDaysLeave DECIMAL(5, 2)
 		,OtherViolationsScore DECIMAL(5, 2)
 		,SystemSubtractScore DECIMAL(5, 2)
 		,ApproverSubtractScore DECIMAL(5, 2)
@@ -49,6 +49,7 @@ BEGIN
 		,UnpaidLeaveAbsent
 		,UnplannedLeave
 		,WeekendLeave
+		,SevenDaysLeave
 		,OtherViolationsScore
 		,SystemSubtractScore
 		,ApproverSubtractScore
@@ -64,9 +65,10 @@ BEGIN
 		,SUM(d.UnpaidLeaveAbsent)
 		,SUM(ISNULL(d.UnplannedLeave, 0))
 		,SUM(ISNULL(d.WeekendLeave, 0))
+		,SUM(ISNULL(d.SevenDaysLeave, 0))
 		,SUM(d.OtherDisciplines)
 		,SUM(d.SystemSubtractScore)
-		,SUM(d.ChangeShift) + SUM(d.MissingCheckInOut) + SUM(d.LateIn) + SUM(d.EarlyOut) + SUM(d.[Absent]) + SUM(d.UnpaidLeave) + SUM(d.WorkingUndertime) + SUM(d.UnpaidLeaveAbsent) + SUM(ISNULL(d.UnplannedLeave, 0)) + SUM(ISNULL(d.WeekendLeave, 0))
+		,SUM(d.ChangeShift) + SUM(d.MissingCheckInOut) + SUM(d.LateIn) + SUM(d.EarlyOut) + SUM(d.[Absent]) + SUM(d.UnpaidLeave) + SUM(d.WorkingUndertime) + SUM(d.UnpaidLeaveAbsent) + SUM(ISNULL(d.UnplannedLeave, 0)) + SUM(ISNULL(d.WeekendLeave, 0)) + SUM(ISNULL(d.SevenDaysLeave, 0))
 	FROM dbo.Employee AS emp WITH (NOLOCK)
 		INNER JOIN dbo.DisciplineSummary AS d WITH (NOLOCK) ON emp.EmployeeId = d.EmployeeId
 		AND d.IsDeleted = 0
@@ -100,6 +102,7 @@ BEGIN
 		,SUM(ISNULL(d.UnpaidLeaveAbsent, 0)) AS UnpaidLeaveAbsent
 		,SUM(ISNULL(d.UnplannedLeave, 0)) AS UnplannedLeave
 		,SUM(ISNULL(d.WeekendLeave, 0)) AS WeekendLeave
+		,SUM(ISNULL(d.SevenDaysLeave, 0)) AS SevenDaysLeave
 		,SUM(ISNULL(d.OtherViolationsScore, 0)) AS OtherDisciplines
 		,SUM(ISNULL(d.SystemSubtractScore, 0) + ISNULL(d.OtherViolationsScore, 0)) AS SystemSubtractScore
 		,SUM(ISNULL(d.ApproverSubtractScore, 0) + ISNULL(d.OtherViolationsScore, 0)) AS ApproverSubtractScore
@@ -112,10 +115,8 @@ BEGIN
 			ELSE 'Expat' END
 			) AS Category
 		,emp.Code
-		,gr.GroupId
-		,gr.[Name] AS GroupName
-		,emp.JobTitle AS JobTitleId
-		,job.[Name] AS JobTitleName
+		,gr.[Name] AS Section
+		,job.[Name] AS JobTitle
 	FROM dbo.Employee AS emp WITH (NOLOCK)
 		INNER JOIN dbo.[Group] AS gr WITH (NOLOCK) ON emp.GroupId = gr.GroupId
 		LEFT JOIN dbo.HRMJobTitle AS job WITH (NOLOCK) ON emp.JobTitle = job.Id
@@ -234,6 +235,11 @@ BEGIN
 				AND d.WeekendLeave > 0
 				)
 			OR (
+				@ReasonId = 11
+				AND d.EmployeeId IS NOT NULL
+				AND d.SevenDaysLeave > 0
+				)
+			OR (
 				@ReasonId < 0
 				AND d.EmployeeId IS NOT NULL
 				AND d.OtherViolationsScore > 0
@@ -243,12 +249,10 @@ BEGIN
 		,emp.NickName
 		,emp.FullName
 		,emp.JoinedDate
-		,emp.JobTitle
-		,job.[Name]
 		,emp.IsLocal
 		,emp.Code
-		,gr.GroupId
 		,gr.[Name]
+		,job.[Name]
 	ORDER BY gr.[Name] ASC
 		,emp.Code ASC
 

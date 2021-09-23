@@ -1,5 +1,4 @@
-﻿
-CREATE PROCEDURE [dbo].[DisciplineSummary_GetForOtherSystem] @StartDate DATE
+﻿CREATE PROCEDURE [dbo].[DisciplineSummary_GetForOtherSystem] @StartDate DATE
 	,@EndDate DATE
 	,@DepartmentId INT = NULL
 	,@EmployeeId INT = NULL
@@ -94,6 +93,7 @@ BEGIN
 		,SUM(ISNULL(d.SystemSubtractScore, 0) + ISNULL(d.OtherViolationsScore, 0)) AS SystemSubtractScore
 		,SUM(ISNULL(d.ApproverSubtractScore, 0) + ISNULL(d.OtherViolationsScore, 0)) AS ApproverSubtractScore
 		,emp.EmployeeId
+		,emp.Code
 		,emp.NickName
 		,emp.FullName
 		,emp.JoinedDate
@@ -101,11 +101,8 @@ BEGIN
 			WHEN emp.IsLocal = 1 THEN 'Local'
 			ELSE 'Expat' END
 			) AS Category
-		,emp.Code
-		,gr.GroupId
-		,gr.[Name] AS GroupName
-		,emp.JobTitle AS JobTitleId
-		,job.[Name] AS JobTitleName
+		,gr.[Name] AS Section
+		,job.[Name] AS JobTitle
 	FROM dbo.Employee AS emp WITH (NOLOCK)
 		INNER JOIN #tblEmployeeDiscipline AS d WITH (NOLOCK) ON emp.EmployeeId = d.EmployeeId
 		INNER JOIN dbo.[Group] AS gr WITH (NOLOCK) ON emp.GroupId = gr.GroupId
@@ -202,9 +199,7 @@ BEGIN
 		,emp.IsLocal
 		,emp.Code
 		,emp.JoinedDate
-		,gr.GroupId
 		,gr.[Name]
-		,emp.JobTitle
 		,job.[Name]
 	ORDER BY gr.[Name] ASC
 		,emp.Code ASC

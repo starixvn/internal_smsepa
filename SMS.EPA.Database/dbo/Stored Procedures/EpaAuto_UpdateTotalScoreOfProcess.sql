@@ -2,6 +2,7 @@
 
 CREATE PROCEDURE [dbo].[EpaAuto_UpdateTotalScoreOfProcess] @EPAId INT
 	,@ProcessId TINYINT
+	,@EvaluatorId INT
 	,@TotalScore NVARCHAR(100) = NULL
 	,@ErrCode INT = 0 OUTPUT
 	,@ErrMsg VARCHAR(200) = '' OUTPUT
@@ -22,5 +23,6 @@ BEGIN
 	SET pc.TotalScore = @TotalScore
 	FROM dbo.EPAProcess AS pc WITH (ROWLOCK, UPDLOCK)
 	WHERE pc.EPAId = @EPAId
+		AND pc.EvaluatorId = @EvaluatorId
 		AND pc.ProcessId = @ProcessId
 END

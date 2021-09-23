@@ -4,43 +4,29 @@
     using Criteria;
     using Interfaces;
     using Model.Discipline;
-    using Repositories;
+    using SMS.EPA.Core.Services;
 
     public class DisciplineService : IDisciplineService
     {
-        private readonly IDisciplineRepository disciplineRepository;
+        private readonly IBaseService baseService;
 
         public DisciplineService() : this(null)
         {
         }
 
-        public DisciplineService(IDisciplineRepository disciplineRepository)
+        public DisciplineService(IBaseService baseService)
         {
-            this.disciplineRepository = disciplineRepository ?? new DisciplineRepository();
+            this.baseService = baseService ?? new BaseService();
         }
 
         public IEnumerable<DisciplineSummaryModel> GetDisciplineSummary(GetDisciplineSummaryCriteria criteria)
         {
-            IEnumerable<DisciplineSummaryModel> employeeDisciplines = new List<DisciplineSummaryModel>();
-
-            if (criteria != null && criteria.IsValid())
-            {
-                employeeDisciplines = disciplineRepository.GetDisciplineSummary(criteria);
-            }
-
-            return employeeDisciplines;
+            return baseService.GetData<DisciplineSummaryModel>(criteria);
         }
 
         public IEnumerable<DisciplineSummaryForOtherSystem> GetDisciplineSummaryForOtherSystem(GetDisciplineSummaryForOtherSystemCriteria criteria)
         {
-            IEnumerable<DisciplineSummaryForOtherSystem> employeeDisciplines = new List<DisciplineSummaryForOtherSystem>();
-
-            if (criteria != null && criteria.IsValid())
-            {
-                employeeDisciplines = disciplineRepository.GetDisciplineSummaryForOtherSystem(criteria);
-            }
-
-            return employeeDisciplines;
+            return baseService.GetData<DisciplineSummaryForOtherSystem>(criteria);
         }
     }
 }

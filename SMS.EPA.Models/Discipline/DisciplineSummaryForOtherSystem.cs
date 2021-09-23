@@ -1,12 +1,19 @@
 ﻿namespace SMS.EPA.Model.Discipline
 {
+    using System;
     using Core.Constants;
-    using Enitites;
     using Report;
 
     public class DisciplineSummaryForOtherSystem : DisciplineSummaryBase, IExcelRecord
     {
-        public Employee Employee { get; set; }
+        public int EmployeeId { get; set; }
+        public string Code { get; set; }
+        public string Nickname { get; set; }
+        public string FullName { get; set; }
+        public string Category { get; set; }
+        public DateTime JoinedDate { get; set; }
+        public string Section { get; set; }
+        public string JobTitle { get; set; }
 
         public object ConvertToExcelRecord()
         {
@@ -27,13 +34,13 @@
             var record = new
             {
                 Count = 0,
-                Code = Employee.Code,
-                Nick = Employee.NickName,
-                FullName = Employee.FullName,
-                Section = Employee.Group != null ? Employee.Group.GroupName : string.Empty,
-                JobTitle = Employee.JobTitle != null ? Employee.JobTitle.JobTitleName : string.Empty,
-                JoinedDate = Employee.JoinedDate.ToString(Constants.DateFormat),
-                Category = Employee.Category,
+                Code,
+                Nickname,
+                FullName,
+                Section,
+                JobTitle,
+                JoinedDate = JoinedDate.ToString(Constants.DateFormat),
+                Category,
                 MissingCheckInOut = missingCheckInOut,
                 WorkingUndertime = workingUndertime,
                 LateIn = lateIn,

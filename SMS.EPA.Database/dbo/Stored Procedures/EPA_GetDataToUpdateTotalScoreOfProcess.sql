@@ -1,4 +1,5 @@
 ﻿
+
 CREATE PROCEDURE [dbo].[EPA_GetDataToUpdateTotalScoreOfProcess] @PeriodId INT
 	,@EmployeeIds VARCHAR(MAX) = NULL
 AS
@@ -25,10 +26,11 @@ BEGIN
 		FROM dbo.fnc_strSplit(@EmployeeIds, ',')
 	END
 
-	SELECT DISTINCT epa.EPAId
+	SELECT epa.EPAId
 		,period.PeriodId
 		,period.TargetTypeId
 		,pc.ProcessId
+		,pc.EvaluatorId
 		,pc.TotalScore
 		,pc.AdjustScore
 		,(CASE 

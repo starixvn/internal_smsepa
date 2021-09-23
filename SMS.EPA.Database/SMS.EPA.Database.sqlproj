@@ -334,7 +334,6 @@
     <Build Include="dbo\Stored Procedures\Dashboard_GetToDoList.sql" />
     <Build Include="dbo\Stored Procedures\Report_GetEmployees.sql" />
     <Build Include="dbo\Stored Procedures\EpaAuto_Probation_InsertPeriod.sql" />
-    <Build Include="dbo\Stored Procedures\EPA_UpdateScoreByReviewerOrManagement.sql" />
     <Build Include="dbo\Tables\RefResource.sql" />
     <Build Include="dbo\Tables\DisciplineSummary.sql" />
     <Build Include="dbo\Stored Procedures\DisciplineSummary_GetForOtherSystem.sql" />
