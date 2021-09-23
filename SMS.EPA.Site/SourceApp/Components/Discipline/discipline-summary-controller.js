@@ -27,8 +27,9 @@
             { Id: 6, Name: 'Unpaid Leave' },
             { Id: 7, Name: 'Working Under Time' },
             { Id: 8, Name: 'Unpaid Leave Absent' },
-            { Id: 9, Name: 'Not Following Leave Procedures' },
+            { Id: 9, Name: 'Late Leave Request' },
             { Id: 10, Name: 'Weekend Leave' },
+            { Id: 11, Name: 'Seven Days Leave' },
             { Id: -1, Name: 'Other Violations' }
         ];
 

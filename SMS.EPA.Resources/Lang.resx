@@ -1485,4 +1485,7 @@
   <data name="CreateJobLevel" xml:space="preserve">
     <value>Create Job Level</value>
   </data>
+  <data name="LateLeaveRequest" xml:space="preserve">
+    <value>Late Leave Request</value>
+  </data>
 </root>

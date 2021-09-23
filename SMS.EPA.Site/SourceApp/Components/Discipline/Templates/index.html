@@ -30,7 +30,7 @@
             <label class="label-form" data-translate="Reason"></label>
             <select class="form-control select-form" ng-model="disciplineCtrl.filter.reasonId"
                     ng-options="opt.Id as opt.Name for opt in disciplineCtrl.disciplineTypes">
-                <option value="">-- Select a Reason --</option>
+                <option value="">-- {{"All" | translate}} --</option>
             </select>
         </div>
         <div class="form-group">
@@ -101,7 +101,7 @@
                 <th data-translate="UnpaidLeaveShort"></th>
                 <th data-translate="UnpaidLeaveAbsentShort"></th>
                 <th data-translate="ChangeShift"></th>
-                <th data-translate="UnplannedLeave"></th>
+                <th data-translate="LateLeaveRequest"></th>
                 <th data-translate="WeekendLeave"></th>
                 <th data-translate="SevenDaysLeave"></th>
                 <th data-translate="OtherViolations"></th>

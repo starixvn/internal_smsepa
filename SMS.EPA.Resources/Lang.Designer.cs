@@ -2059,6 +2059,15 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Late Leave Request.
+        /// </summary>
+        public static string LateLeaveRequest {
+            get {
+                return ResourceManager.GetString("LateLeaveRequest", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Logout.
         /// </summary>
         public static string Logout {
