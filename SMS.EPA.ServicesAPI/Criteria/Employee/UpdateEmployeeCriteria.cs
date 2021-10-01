@@ -1,5 +1,6 @@
 ﻿namespace SMS.EPA.ServicesAPI.Criteria.Employee
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Text;
@@ -55,11 +56,11 @@
                             employee.IsEnabled,
                             employee.IsDeleted,
                             password,
-                            employee.JoinedDate,
-                            employee.ModifiedDate.ToString(Constants.ModifiedDateTimeFormat),
+                            FormatDateTime(employee.JoinedDate),
+                            FormatDateTime(employee.ModifiedDate),
                             employee.IsLocal,
-                            employee.ResignedDate,
-                            employee.ConfirmedDate,
+                            FormatDateTime(employee.ResignedDate),
+                            FormatDateTime(employee.ConfirmedDate),
                             employee.JobLevelId);
                     }
                 }
@@ -71,5 +72,8 @@
         public override string GetSettingKey() => "Sync_Employee";
 
         public override bool IsValid() => Employees != null && Employees.Any();
+
+        private static string FormatDateTime(DateTime? date)
+            => date.HasValue ? date.Value.ToString(Constants.ModifiedDateTimeFormat) : string.Empty;
     }
 }

@@ -31,6 +31,7 @@
         <Setting Key="EpaAuto_SemiAnnual_UpdateTotalScore" SpName="EpaAuto_SemiAnnual_UpdateTotalScore" DbName="SMSEPA" Plain="0" />
         <Setting Key="EPA_GetRecommendationById" SpName="EPA_GetRecommendationById" DbName="SMSEPA" Plain="0" />
         <Setting Key="EPA_GetJobDescriptiontionById" SpName="EPA_GetJobDescriptiontionById" DbName="SMSEPA" Plain="0" />
+        <Setting Key="EPA_GetExtendedQuestion" SpName="EPA_GetExtendedQuestion" DbName="SMSEPA" Plain="0" />
     </Function>
     <Function Name="Auto Monthly">
         <Setting Key="EpaPeriod_GetEvaluationGlobalSettingByTargetTypeId" SpName="EpaPeriod_GetEvaluationGlobalSettingByTargetTypeId" DbName="SMSEPA" Plain="0">
