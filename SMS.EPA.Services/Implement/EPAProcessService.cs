@@ -82,7 +82,7 @@
 
                     float? averageScore = GetAverageScorePreProcess(epaInfo, process.ProcessId);
                     float? adjustScore = !string.IsNullOrWhiteSpace(process.AdjustScore) ? float.Parse(process.AdjustScore) : (float?)null;
-                    averageScore += adjustScore;
+                    averageScore = CalculateTotalScoreOfProcess(averageScore, adjustScore);
 
                     UpdateTotalScoreOfProcess(epaInfo, process, averageScore);
 
@@ -98,6 +98,16 @@
                     baseService.ExecuteNonQuery(criteria);
                 }
             }
+        }
+
+        private static float? CalculateTotalScoreOfProcess(float? averageScore = null, float? adjustScore = null)
+        {
+            if (averageScore.HasValue)
+            {
+                return adjustScore.HasValue ? averageScore.Value + adjustScore.Value : averageScore;
+            }
+
+            return adjustScore;
         }
 
         private static void UpdateTotalScoreOfProcess(EPAModel epaInfo, AutoEvaluationProcessModel process, float? averageScore = null)
