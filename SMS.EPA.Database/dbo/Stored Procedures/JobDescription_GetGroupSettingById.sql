@@ -18,7 +18,9 @@ BEGIN
 	SELECT gr.GroupId
 		,gr.Code
 		,gr.[Name]
+		,dept.[Name] AS Department
 	FROM dbo.[Group] AS gr WITH (NOLOCK)
+		LEFT JOIN dbo.Department AS dept WITH (NOLOCK) ON gr.DepartmentId = dept.DepartmentId
 	WHERE gr.GroupId = @GroupId
 
 	SELECT gitem.JobDescription_GroupItemId AS GroupItemId

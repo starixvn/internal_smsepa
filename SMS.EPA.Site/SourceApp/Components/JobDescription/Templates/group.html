@@ -9,8 +9,8 @@
             </tr>
             <tr class="headerName">
                 <th data-translate="SymbolCount"></th>
-                <th data-translate="Code"></th>
-                <th data-translate="Name"></th>
+                <th data-translate="Department"></th>
+                <th>Section/Team</th>
                 <th data-translate="JobLevel"></th>
                 <th data-translate="Action"></th>
             </tr>
@@ -18,7 +18,7 @@
         <tbody class="table-body" ng-if="groupCtrl.filteredItems.length > 0">
             <tr pagination-id="group" dir-paginate="group in groupCtrl.filteredItems | itemsPerPage: groupCtrl.pageSize" current-page="groupCtrl.currentPage">
                 <td class="text-center" ng-bind="groupCtrl.getIndex($index, groupCtrl.currentPage, groupCtrl.pageSize)"></td>
-                <td ng-bind="group.Code"></td>
+                <td ng-bind="group.Department"></td>
                 <td ng-bind="group.Name"></td>
                 <td ng-bind="group.JobLevels"></td>
                 <td class="text-center">

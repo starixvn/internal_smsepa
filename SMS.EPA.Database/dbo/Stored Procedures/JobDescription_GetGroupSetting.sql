@@ -26,6 +26,8 @@ BEGIN
 				FOR XML PATH
 					,TYPE
 				).value(N'.[1]', N'NVARCHAR(MAX)'), 1, 2, N'') JobLevels
+		,dept.[Name] AS Department
 	FROM dbo.[Group] AS gr WITH (NOLOCK)
+		LEFT JOIN dbo.Department AS dept WITH (NOLOCK) ON gr.DepartmentId = dept.DepartmentId
 	WHERE gr.IsDeleted = 0
 END

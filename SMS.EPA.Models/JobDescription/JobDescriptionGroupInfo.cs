@@ -6,5 +6,6 @@
         public string Code { get; set; }
         public string Name { get; set; }
         public string JobLevels { get; set; }
+        public string Department { get; set; }
     }
 }
