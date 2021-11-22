@@ -82,6 +82,8 @@
             const string RecommendationPass = "Pass";
             const string RecommendationFail = "Fail";
             const string RecommendationExtend = "Extend";
+            const string StatusFormat = "{0}{1}";
+            const string ActorFormat = "{0}(by {1})";
 
             FormatProbationTemplate();
 
@@ -100,24 +102,24 @@
                 switch (recommendation.ProbationStatus)
                 {
                     case (byte)ProbationStatusType.FailProbation:
-                        curRow.CreateCell(colIndex).SetCellValue(string.Format("{0}{1}",
+                        curRow.CreateCell(colIndex).SetCellValue(string.Format(StatusFormat,
                             RecommendationFail,
                             !string.IsNullOrWhiteSpace(recommendation.ModifiedBy)
-                                ? string.Format("{0}(by {1})", Environment.NewLine, recommendation.ModifiedBy) : string.Empty));
+                                ? string.Format(ActorFormat, Environment.NewLine, recommendation.ModifiedBy) : string.Empty));
                         break;
 
                     case (byte)ProbationStatusType.PassProbation:
-                        curRow.CreateCell(colIndex).SetCellValue(string.Format("{0}{1}",
+                        curRow.CreateCell(colIndex).SetCellValue(string.Format(StatusFormat,
                             RecommendationPass,
                             !string.IsNullOrWhiteSpace(recommendation.ModifiedBy)
-                                ? string.Format("{0}(by {1})", Environment.NewLine, recommendation.ModifiedBy) : string.Empty));
+                                ? string.Format(ActorFormat, Environment.NewLine, recommendation.ModifiedBy) : string.Empty));
                         break;
 
                     case (byte)ProbationStatusType.ExtendProbation:
-                        curRow.CreateCell(colIndex).SetCellValue(string.Format("{0}{1}",
+                        curRow.CreateCell(colIndex).SetCellValue(string.Format(StatusFormat,
                             RecommendationExtend,
                             !string.IsNullOrWhiteSpace(recommendation.ModifiedBy)
-                                ? string.Format("{0}(by {1})", Environment.NewLine, recommendation.ModifiedBy) : string.Empty));
+                                ? string.Format(ActorFormat, Environment.NewLine, recommendation.ModifiedBy) : string.Empty));
                         break;
 
                     default:
@@ -144,6 +146,8 @@
         private void FillContentSemiTpye()
         {
             int rowIndex = ContentStartRowIndex;
+            const string StatusFormat = "{0}{1}";
+            const string ActorFormat = "{0}(by {1})";
 
             foreach (var recommendation in Recommendations)
             {
@@ -154,18 +158,18 @@
                 curRow.CreateCell(colIndex++).SetCellValue(recommendation.NickName);
                 curRow.CreateCell(colIndex++).SetCellValue(recommendation.FullName);
                 curRow.CreateCell(colIndex++).SetCellValue(recommendation.Section);
-                curRow.CreateCell(colIndex++).SetCellValue(string.Format("{0}{1}",
+                curRow.CreateCell(colIndex++).SetCellValue(string.Format(StatusFormat,
                     recommendation.Promotion,
                     !string.IsNullOrWhiteSpace(recommendation.Promotion) && !string.IsNullOrWhiteSpace(recommendation.PromotedBy)
-                        ? string.Format("{0}(by {1})", Environment.NewLine, recommendation.PromotedBy) : string.Empty));
-                curRow.CreateCell(colIndex++).SetCellValue(string.Format("{0}{1}",
+                        ? string.Format(ActorFormat, Environment.NewLine, recommendation.PromotedBy) : string.Empty));
+                curRow.CreateCell(colIndex++).SetCellValue(string.Format(StatusFormat,
                     recommendation.AnnualIncrement,
                     !string.IsNullOrWhiteSpace(recommendation.AnnualIncrement) && !string.IsNullOrWhiteSpace(recommendation.PayIncreasedBy)
-                        ? string.Format("{0}(by {1})", Environment.NewLine, recommendation.PayIncreasedBy) : string.Empty));
-                curRow.CreateCell(colIndex).SetCellValue(string.Format("{0}{1}",
+                        ? string.Format(ActorFormat, Environment.NewLine, recommendation.PayIncreasedBy) : string.Empty));
+                curRow.CreateCell(colIndex).SetCellValue(string.Format(StatusFormat,
                     recommendation.JobLevel,
                     !string.IsNullOrWhiteSpace(recommendation.JobLevel) && !string.IsNullOrWhiteSpace(recommendation.JobLevelIncreasedBy)
-                        ? string.Format("{0}(by {1})", Environment.NewLine, recommendation.JobLevelIncreasedBy) : string.Empty));
+                        ? string.Format(ActorFormat, Environment.NewLine, recommendation.JobLevelIncreasedBy) : string.Empty));
 
                 rowIndex++;
             }
