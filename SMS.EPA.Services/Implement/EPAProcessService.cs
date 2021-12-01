@@ -74,7 +74,7 @@
             var epaInfos = new List<EPAModel>();
             foreach (AutoEvaluationProcessModel process in processes)
             {
-                if (!string.IsNullOrWhiteSpace(process.TotalScore))
+                if (string.IsNullOrWhiteSpace(process.TotalScore))
                 {
                     EPAModel epaInfo = epaInfos.Any(x => x.EPAId == process.EPAId)
                         ? epaInfos.First(x => x.EPAId == process.EPAId)

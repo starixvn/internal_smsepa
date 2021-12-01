@@ -18,6 +18,7 @@ BEGIN
 	SELECT DISTINCT epa.EPAId
 		,period.PeriodId
 		,period.TargetTypeId
+		,pc.EvaluatorId
 		,pc.ProcessId
 		,pc.TotalScore
 		,(CASE 
