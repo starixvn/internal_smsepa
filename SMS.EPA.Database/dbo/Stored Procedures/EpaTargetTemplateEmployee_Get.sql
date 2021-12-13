@@ -8,9 +8,9 @@ AS
 Created: 2015-06-12@Josh.Phan
 Task: Get users and their target template.
 DB: SMSEPA
-Original: 
+Original:
 
-Revisions:  
+Revisions:
 Param's Explanation:
 */
 BEGIN
@@ -20,20 +20,19 @@ BEGIN
 		,emp.Code
 		,emp.NickName
 		,emp.FullName
-		,emp.[Enabled]
-		,gr.GroupId
-		,gr.[Name] AS GroupName
-		,gr.Code AS GroupCode
+		,gr.[Name] AS Section
+		,dept.[Name] AS Department
 	FROM dbo.Employee AS emp WITH (NOLOCK)
 		LEFT JOIN dbo.[Group] AS gr WITH (NOLOCK) ON emp.GroupId = gr.GroupId
+		LEFT JOIN dbo.Department AS dept WITH (NOLOCK) ON gr.DepartmentId = dept.DepartmentId
 	WHERE emp.[Enabled] = 1
 		AND emp.IsDeleted = 0
 		AND (
-			ISNULL(@GroupId, '') = ''
-			OR gr.[GroupId] = @GroupId
+			@GroupId IS NULL
+			OR gr.GroupId = @GroupId
 			)
 		AND (
-			ISNULL(@EmployeeId, '') = ''
+			@EmployeeId IS NULL
 			OR emp.EmployeeId = @EmployeeId
 			)
 		AND (
@@ -47,30 +46,30 @@ BEGIN
 			OR @ShowAll = 1
 			)
 		AND (
-			ISNULL(@TargetTypeId, '') = ''
-			OR emp.[EmployeeId] IN (
-				SELECT emp.[EmployeeId]
-				FROM [dbo].[Employee] AS emp WITH (NOLOCK)
-					INNER JOIN [dbo].[TargetTemplateEmployee] AS tarEmp WITH (NOLOCK) ON emp.[EmployeeId] = tarEmp.[EmployeeId]
-					INNER JOIN [dbo].[TargetTemplate] AS tarTemp WITH (NOLOCK) ON tarEmp.[TargetTemplateId] = tarTemp.[TargetTemplateId]
-					INNER JOIN [dbo].[TargetType] AS tar WITH (NOLOCK) ON tarTemp.[TargetTypeId] = tar.[TargetTypeId]
-				WHERE tar.[TargetTypeId] = @TargetTypeId
+			@TargetTypeId IS NULL
+			OR emp.EmployeeId IN (
+				SELECT emp.EmployeeId
+				FROM dbo.Employee AS emp WITH (NOLOCK)
+					INNER JOIN dbo.TargetTemplateEmployee AS tarEmp WITH (NOLOCK) ON emp.EmployeeId = tarEmp.EmployeeId
+					INNER JOIN dbo.TargetTemplate AS tarTemp WITH (NOLOCK) ON tarEmp.TargetTemplateId = tarTemp.TargetTemplateId
+					INNER JOIN dbo.TargetType AS tar WITH (NOLOCK) ON tarTemp.TargetTypeId = tar.TargetTypeId
+				WHERE tar.TargetTypeId = @TargetTypeId
 				)
 			)
-	ORDER BY emp.[EmployeeId] ASC
+	ORDER BY emp.EmployeeId ASC
 
-	SELECT tarEmp.[EmployeeId]
-		,tarEmp.[TargetTemplateId]
+	SELECT tarEmp.EmployeeId
+		,tarEmp.TargetTemplateId
 		,tar.[Name]
-		,tar.[TargetTypeId]
+		,tar.TargetTypeId
 		,tarTy.[Name] AS TargetTypeName
-	FROM [dbo].[TargetTemplateEmployee] AS tarEmp WITH (NOLOCK)
-		INNER JOIN [dbo].[TargetTemplate] AS tar WITH (NOLOCK) ON tarEmp.[TargetTemplateId] = tar.[TargetTemplateId]
-		INNER JOIN [dbo].[TargetType] AS tarTy WITH (NOLOCK) ON tar.[TargetTypeId] = tarTy.[TargetTypeId]
+	FROM dbo.TargetTemplateEmployee AS tarEmp WITH (NOLOCK)
+		INNER JOIN dbo.TargetTemplate AS tar WITH (NOLOCK) ON tarEmp.TargetTemplateId = tar.TargetTemplateId
+		INNER JOIN dbo.TargetType AS tarTy WITH (NOLOCK) ON tar.TargetTypeId = tarTy.TargetTypeId
 	WHERE (
-			ISNULL(@EmployeeId, '') = ''
-			OR tarEmp.[EmployeeId] = @EmployeeId
+			@EmployeeId IS NULL
+			OR tarEmp.EmployeeId = @EmployeeId
 			)
-	ORDER BY tarEmp.[EmployeeId] ASC
-		,tar.[TargetTypeId] ASC
+	ORDER BY tarEmp.EmployeeId ASC
+		,tar.TargetTypeId ASC
 END

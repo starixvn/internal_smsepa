@@ -1,46 +1,45 @@
 ﻿namespace SMS.EPA.Services.Implement
 {
     using System.Collections.Generic;
-    using Criteria;
-    using Interfaces;
-    using Model;
-    using Repositories;
+    using System.Linq;
+    using SMS.EPA.Core.Services;
+    using SMS.EPA.Criteria;
+    using SMS.EPA.Model;
+    using SMS.EPA.Services.Interfaces;
 
     public class TargetEmployeeSettingService : ITargetEmployeeSettingService
     {
-        private readonly ITargetEmployeeSettingRepository targetEmployeeSettingRepository;
+        private readonly IBaseService baseService;
 
         public TargetEmployeeSettingService() : this(null)
         {
         }
 
-        public TargetEmployeeSettingService(ITargetEmployeeSettingRepository targetEmployeeSettingRepository)
+        public TargetEmployeeSettingService(IBaseService baseService)
         {
-            this.targetEmployeeSettingRepository = targetEmployeeSettingRepository ?? new TargetEmployeeSettingRepository();
+            this.baseService = baseService ?? new BaseService();
         }
 
         public IList<TargetEmployeeSetting> GetTargetEmployeeSetting(GetAllTargetEmployeeSettingCriteria criteria)
         {
-            IList<TargetEmployeeSetting> targetEmployees = null;
-
-            if (criteria != null && criteria.IsValid())
+            var tuple = baseService.FetchMultiple<TargetEmployeeSetting, TargetTemplateEmployee>(criteria);
+            foreach (TargetEmployeeSetting employee in tuple.Item1)
             {
-                targetEmployees = targetEmployeeSettingRepository.GetTargetTemplateEmployee(criteria);
+                employee.TargetTemplates = tuple.Item2.Where(t => t.EmployeeId == employee.EmployeeId).ToList();
             }
 
-            return targetEmployees ?? new List<TargetEmployeeSetting>();
+            return tuple.Item1.ToList();
         }
 
         public IList<TargetDepartmentSetting> GetTargetDepartmentSetting(GetTargetDepartmentSettingCriteria criteria)
         {
-            IList<TargetDepartmentSetting> targetDepartments = null;
-
-            if (criteria != null && criteria.IsValid())
+            var tuple = baseService.FetchMultiple<TargetDepartmentSetting, TargetTemplateDepartment>(criteria);
+            foreach (TargetDepartmentSetting department in tuple.Item1)
             {
-                targetDepartments = targetEmployeeSettingRepository.GetTargetTemplateDepartment(criteria);
+                department.TargetTemplates = tuple.Item2.Where(t => t.DepartmentId == department.DepartmentId && t.IsGroup == department.IsGroup).ToList();
             }
 
-            return targetDepartments ?? new List<TargetDepartmentSetting>();
+            return tuple.Item1.ToList();
         }
     }
 }

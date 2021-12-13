@@ -32,7 +32,7 @@
 
             if (processSettings != null && processSettings.Any())
             {
-                DateTime today = DateTime.Today;
+                var today = DateTime.Today;
                 int startDayCreateMonthlyPeriod = AppSetting.StartDayCreateMonthlyPeriod;
 
                 if (today.Day.Equals(startDayCreateMonthlyPeriod))

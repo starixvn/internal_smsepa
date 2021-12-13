@@ -130,7 +130,7 @@
             });
 
             modalInstance.result.then(function () {
-                return targetEmployeeSettingFactory.deleteTargetEmployeeSetting(targetTemplate.TargetTemplateId, employee.Employee.EmployeeId)
+                return targetEmployeeSettingFactory.deleteTargetEmployeeSetting(targetTemplate.TargetTemplateId, employee.EmployeeId)
                     .success(function (response) {
                         if (response.IsSuccessful) {
                             var index = employee.TargetTemplates.indexOf(targetTemplate);

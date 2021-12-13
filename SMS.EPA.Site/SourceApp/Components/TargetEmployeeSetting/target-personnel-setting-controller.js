@@ -85,9 +85,7 @@
             angular.forEach(targetEmployeeSettings,
                 function(targetEmployee) {
                     if (targetEmployee.Selected) {
-                        employeeIds += employeeIds
-                            ? ',' + targetEmployee.Employee.EmployeeId
-                            : targetEmployee.Employee.EmployeeId;
+                        employeeIds += employeeIds ? ',' + targetEmployee.EmployeeId : targetEmployee.EmployeeId;
                     }
                 });
 
@@ -152,10 +150,10 @@
         function syncSelectedEmployee(employeeId, selected) {
             angular.forEach(vm.targetEmployeeSettings,
                 function(targetEmployee) {
-                    if (targetEmployee.Employee.EmployeeId === employeeId) {
+                    if (targetEmployee.EmployeeId === employeeId) {
                         angular.forEach(vm.filteredItems,
                             function(filterItem) {
-                                if (targetEmployee.Employee.EmployeeId === filterItem.Employee.EmployeeId) {
+                                if (targetEmployee.EmployeeId === filterItem.EmployeeId) {
                                     filterItem.Selected = selected;
                                     targetEmployee.Selected = selected;
                                 }

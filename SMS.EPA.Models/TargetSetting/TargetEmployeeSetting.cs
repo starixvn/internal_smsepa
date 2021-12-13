@@ -7,14 +7,14 @@
 
     public class TargetEmployeeSetting : IExcelRecord
     {
-        public TargetEmployeeSetting()
-        {
-            TargetTemplates = new List<TargetTemplateEmployee>();
-        }
+        public int EmployeeId { get; set; }
+        public string Code { get; set; }
+        public string Nickname { get; set; }
+        public string FullName { get; set; }
+        public string Department { get; set; }
+        public string Section { get; set; }
 
-        public Employee Employee { get; set; }
-
-        public IList<TargetTemplateEmployee> TargetTemplates { get; set; }
+        public IList<TargetTemplateEmployee> TargetTemplates { get; set; } = new List<TargetTemplateEmployee>();
 
         public int NumberTargetTemplates
         {
@@ -32,10 +32,11 @@
             var record = new
             {
                 No = 0,
-                Code = Employee.Code,
-                NickName = Employee.NickName,
-                FullName = Employee.FullName,
-                Section = Employee.Group != null ? Employee.Group.GroupName : string.Empty,
+                Code,
+                Nickname,
+                FullName,
+                Department,
+                Section,
                 TargetType = TargetTemplates.FirstOrDefault()?.TargetTypeName,
                 TargetTemplate = TargetTemplates.FirstOrDefault()?.Name
             };

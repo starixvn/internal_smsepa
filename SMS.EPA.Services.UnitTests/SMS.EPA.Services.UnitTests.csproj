@@ -165,7 +165,6 @@
     <Compile Include="DepartmentFlowServiceTests.cs" />
     <Compile Include="DisciplineServiceTests.cs" />
     <Compile Include="PeriodServiceTests.cs" />
-    <Compile Include="TargetEmployeeSettingServiceTests.cs" />
     <Compile Include="CommonServiceTests.cs" />
     <Compile Include="ManualMailServiceTests.cs" />
     <Compile Include="MailServiceTests.cs" />

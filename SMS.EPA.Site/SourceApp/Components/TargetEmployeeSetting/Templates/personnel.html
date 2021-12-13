@@ -38,7 +38,7 @@
     <table class="row table table-bordered table-striped target-setting-template" id="data">
         <thead>
             <tr class="header-table">
-                <th colspan="9">
+                <th colspan="10">
                     <div class="pull-left div-target-templatesetting" ng-show="targetCtrl.permission == targetCtrl.policyEnum.Host">
                         <label class="control-label" data-translate="TargetTemplate"></label>
                         <select ng-model="personnelCtrl.targetEmployeeSetting.targetTemplateId"
@@ -62,7 +62,8 @@
                 <th data-translate="Code"></th>
                 <th data-translate="NickName"></th>
                 <th data-translate="FullName"></th>
-                <th data-translate="Section"></th>
+                <th data-translate="Department"></th>
+                <th>Section/Team</th>
                 <th data-translate="TargetType"></th>
                 <th data-translate="TargetTemplate"></th>
                 <th data-translate="Delete" ng-show="targetCtrl.permission === targetCtrl.policyEnum.Host"></th>
@@ -72,15 +73,16 @@
                dir-paginate="employee in personnelCtrl.filteredItems | itemsPerPage: personnelCtrl.pageSize" pagination-id="personnel">
             <tr ng-repeat="targetTemplate in employee.TargetTemplates" ng-show="employee.TargetTemplates.length > 0">
                 <td class="text-center" rowspan="{{employee.NumberTargetTemplates}}" ng-show="$first">
-                    <input type="checkbox" ng-model="employee.Selected" 
-                           ng-click="personnelCtrl.syncSelectedEmployee(employee.Employee.EmployeeId, employee.Selected)" />
+                    <input type="checkbox" ng-model="employee.Selected"
+                           ng-click="personnelCtrl.syncSelectedEmployee(employee.EmployeeId, employee.Selected)" />
                 </td>
                 <td class="text-center" ng-bind="personnelCtrl.getIndex($parent.$index, personnelCtrl.currentPage, personnelCtrl.pageSize)"
                     ng-show="$first" rowspan="{{employee.NumberTargetTemplates}}"></td>
-                <td class="text-center" ng-bind="employee.Employee.Code" ng-show="$first" rowspan="{{employee.NumberTargetTemplates}}"></td>
-                <td class="text-center" ng-bind="employee.Employee.NickName" ng-show="$first" rowspan="{{employee.NumberTargetTemplates}}"></td>
-                <td ng-bind="employee.Employee.FullName" ng-show="$first" rowspan="{{employee.NumberTargetTemplates}}"></td>
-                <td ng-show="$first" rowspan="{{employee.NumberTargetTemplates}}" ng-bind="employee.Employee.Group.GroupName"></td>
+                <td class="text-center" ng-bind="employee.Code" ng-show="$first" rowspan="{{employee.NumberTargetTemplates}}"></td>
+                <td class="text-center" ng-bind="employee.Nickname" ng-show="$first" rowspan="{{employee.NumberTargetTemplates}}"></td>
+                <td ng-bind="employee.FullName" ng-show="$first" rowspan="{{employee.NumberTargetTemplates}}"></td>
+                <td ng-show="$first" rowspan="{{employee.NumberTargetTemplates}}" ng-bind="employee.Department"></td>
+                <td ng-show="$first" rowspan="{{employee.NumberTargetTemplates}}" ng-bind="employee.Section"></td>
                 <td ng-bind="targetTemplate.TargetTypeName"></td>
                 <td ng-bind="targetTemplate.Name"></td>
                 <td class="text-center" ng-show="targetCtrl.permission === targetCtrl.policyEnum.Host">
@@ -90,13 +92,14 @@
             </tr>
             <tr ng-class="{oddRow: $index % 2 === 0, evenRow: $index % 2 !== 0}" ng-show="employee.TargetTemplates.length === 0">
                 <td class="text-center">
-                    <input type="checkbox" ng-model="employee.Selected" ng-click="personnelCtrl.syncSelectedEmployee(employee.Employee.EmployeeId, employee.Selected)" />
+                    <input type="checkbox" ng-model="employee.Selected" ng-click="personnelCtrl.syncSelectedEmployee(employee.EmployeeId, employee.Selected)" />
                 </td>
                 <td class="text-center" ng-bind="personnelCtrl.getIndex($index, personnelCtrl.currentPage, personnelCtrl.pageSize)"></td>
-                <td class="text-center" ng-bind="employee.Employee.Code"></td>
-                <td class="text-center" ng-bind="employee.Employee.NickName"></td>
-                <td ng-bind="employee.Employee.FullName"></td>
-                <td ng-bind="employee.Employee.Group.GroupName"></td>
+                <td class="text-center" ng-bind="employee.Code"></td>
+                <td class="text-center" ng-bind="employee.Nickname"></td>
+                <td ng-bind="employee.FullName"></td>
+                <td ng-bind="employee.Department"></td>
+                <td ng-bind="employee.Section"></td>
                 <td></td>
                 <td></td>
                 <td></td>
@@ -104,12 +107,12 @@
         </tbody>
         <tbody ng-show="personnelCtrl.filteredItems.length === 0">
             <tr>
-                <td class="empty-result" colspan="9" data-translate="EmptyResult"></td>
+                <td class="empty-result" colspan="10" data-translate="EmptyResult"></td>
             </tr>
         </tbody>
         <tfoot>
             <tr>
-                <td colspan="9" class="paging">
+                <td colspan="10" class="paging">
                     <span data-translate="Show"></span>
                     <select class="dropdown-entry form-control" ng-model="personnelCtrl.pageSize"
                             ng-options="entry for entry in personnelCtrl.entries" ng-change="personnelCtrl.currentPage = 1"></select>

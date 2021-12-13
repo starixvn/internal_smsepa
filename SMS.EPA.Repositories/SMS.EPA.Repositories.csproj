@@ -92,7 +92,6 @@
     <Compile Include="Implement\EmployeeEPARepository.cs" />
     <Compile Include="Implement\PeriodRepository.cs" />
     <Compile Include="Implement\ReportRepository.cs" />
-    <Compile Include="Implement\TargetEmployeeSettingRepository.cs" />
     <Compile Include="Implement\TargetTemplateRepository.cs" />
     <Compile Include="Interfaces\IDepartmentRepository.cs" />
     <Compile Include="Interfaces\IEmployeeRepository.cs" />
@@ -104,7 +103,6 @@
     <Compile Include="Interfaces\IEmployeeEPARepository.cs" />
     <Compile Include="Interfaces\IPeriodRepository.cs" />
     <Compile Include="Interfaces\IReportRepository.cs" />
-    <Compile Include="Interfaces\ITargetEmployeeSettingRepository.cs" />
     <Compile Include="Interfaces\ITargetTemplateRepository.cs" />
   </ItemGroup>
   <ItemGroup>
