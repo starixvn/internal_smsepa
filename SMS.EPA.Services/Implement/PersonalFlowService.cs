@@ -1,22 +1,27 @@
-﻿namespace SMS.EPA.Services.Implement
+﻿namespace SMS.EPA.Services
 {
     using System.Collections.Generic;
     using System.Linq;
-    using Criteria;
-    using Interfaces;
-    using Model;
-    using Repositories;
+    using SMS.EPA.Core.Enumerations;
+    using SMS.EPA.Core.Services;
+    using SMS.EPA.Criteria;
+    using SMS.EPA.Model;
+    using SMS.EPA.Repositories;
 
     public class PersonalFlowService : IPersonalFlowService
     {
+        private readonly IBaseService baseService;
         private readonly IFlowSettingRepository flowSettingRepository;
 
-        public PersonalFlowService() : this(null)
+        public PersonalFlowService() : this(null, null)
         {
         }
 
-        public PersonalFlowService(IFlowSettingRepository flowSettingRepository)
+        public PersonalFlowService(
+            IBaseService baseService,
+            IFlowSettingRepository flowSettingRepository)
         {
+            this.baseService = baseService ?? new BaseService();
             this.flowSettingRepository = flowSettingRepository ?? new FlowSettingRepository();
         }
 
@@ -26,14 +31,10 @@
             {
                 FlowTemplateId = flowTemplateId
             };
-            IEnumerable<PersonalFlowModel> flows = new List<PersonalFlowModel>();
+            var tuple = baseService.FetchMultiple<PersonalFlowModel, ProcessFlowModel>(criteria);
+            MappingFlow(tuple.Item1, tuple.Item2);
 
-            if (criteria.IsValid())
-            {
-                flows = flowSettingRepository.GetPersonalFlowByFlowTemplateId(criteria).OrderBy(i => i.Group?.GroupName);
-            }
-
-            return flows;
+            return tuple.Item1.OrderBy(i => i.Department).ThenBy(x => x.Section);
         }
 
         public IEnumerable<FlowModel> GetPersonalFlowById(GetPersonalFlowByIdCriteria criteria)
@@ -46,6 +47,37 @@
             }
 
             return flow;
+        }
+
+        private static void MappingFlow(IEnumerable<PersonalFlowModel> flows, IEnumerable<ProcessFlowModel> processes)
+        {
+            foreach (PersonalFlowModel flow in flows)
+            {
+                foreach (ProcessFlowModel process in processes.Where(x => x.EmployeeId == flow.EmployeeId))
+                {
+                    switch (process.ProcessId)
+                    {
+                        case (byte)ProcessType.HumanResource:
+                            flow.HumanResources.Add(process);
+                            break;
+
+                        case (byte)ProcessType.Evaluator:
+                            flow.Evaluators.Add(process);
+                            break;
+
+                        case (byte)ProcessType.Reviewer:
+                            flow.Reviewers.Add(process);
+                            break;
+
+                        case (byte)ProcessType.Management:
+                            flow.Managements.Add(process);
+                            break;
+
+                        default:
+                            continue;
+                    }
+                }
+            }
         }
     }
 }

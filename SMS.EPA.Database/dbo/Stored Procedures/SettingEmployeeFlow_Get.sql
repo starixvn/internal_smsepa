@@ -1,12 +1,13 @@
-﻿CREATE PROCEDURE [dbo].[SettingEmployeeFlow_Get] @FlowTemplateId INT
+﻿
+CREATE PROCEDURE [dbo].[SettingEmployeeFlow_Get] @FlowTemplateId INT
 AS
 /*
 Created: 20150722@Tim.Trinh
 Task: Get employee flow setting.
 DB: SMSEPA
-Original: 
+Original:
 
-Revisions:  
+Revisions:
 Param's Explanation:
 
 */
@@ -17,14 +18,14 @@ BEGIN
 		,emp.Code
 		,emp.NickName
 		,emp.FullName
-		,gr.GroupId
-		,gr.Code AS GroupCode
-		,gr.[Name] AS GroupName
+		,dept.[Name] AS Department
+		,gr.[Name] AS Section
 	FROM dbo.SettingEmployeeFlow AS ef WITH (NOLOCK)
-		INNER JOIN dbo.Employee AS emp WITH (NOLOCK) ON ef.EmployeeId = emp.EmployeeId
-		LEFT JOIN dbo.[Group] AS gr WITH (NOLOCK) ON emp.GroupId = gr.GroupId
 		INNER JOIN dbo.FlowTemplate AS ft WITH (NOLOCK) ON ef.FlowTemplateId = ft.FlowTemplateId
 		AND ft.FlowTemplateId = @FlowTemplateId
+		INNER JOIN dbo.Employee AS emp WITH (NOLOCK) ON ef.EmployeeId = emp.EmployeeId
+		LEFT JOIN dbo.[Group] AS gr WITH (NOLOCK) ON emp.GroupId = gr.GroupId
+		LEFT JOIN dbo.Department AS dept WITH (NOLOCK) ON gr.DepartmentId = dept.DepartmentId
 	WHERE emp.[Enabled] = 1
 		AND ISNULL(emp.IsDeleted, 0) = 0
 

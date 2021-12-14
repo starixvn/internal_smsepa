@@ -1,68 +1,20 @@
 ﻿namespace SMS.EPA.Services.UnitTests
 {
     using System.Collections.Generic;
-    using Core.Model;
-    using Core.Repositories;
     using Criteria;
-    using Fanex.Data.Repository;
     using Implement;
     using Model;
     using NSubstitute;
     using NUnit.Framework;
     using Repositories;
+    using SMS.EPA.Core.Services;
 
     [TestFixture]
     public class DepartmentFlowServiceTests
     {
         private DepartmentFlowService departmentFlowService;
+        private IBaseService baseService;
         private IFlowSettingRepository flowSettingRepository;
-
-        #region GetDepartmentFlowByFlowTemplateId
-
-        [Test]
-        public void GetDepartmentFlowByFlowTemplateId_AnyArg_ReturnInstanceOfListOfDepartmentFlowModel()
-        {
-            // Arrange
-            ArrangeGetDepartmentFlowByFlowTemplateId();
-
-            // Act
-            var actual = departmentFlowService.GetDepartmentFlowByFlowTemplateId(0);
-
-            // Assert
-            Assert.IsInstanceOf(typeof(IEnumerable<DepartmentFlowModel>), actual);
-        }
-
-        [Test]
-        public void GetDepartmentFlowByFlowTemplateId_VaidArg_ReturnExpectedDepartmentFlows()
-        {
-            // Arrange
-            int flowTemplateId = 1;
-            var expectedDepartmentFlows = GetListOfDepartmentFlowForTest();
-            ArrangeGetDepartmentFlowByFlowTemplateId(expectedDepartmentFlows);
-
-            // Act
-            var actual = departmentFlowService.GetDepartmentFlowByFlowTemplateId(flowTemplateId);
-
-            // Assert
-            Assert.AreEqual(expectedDepartmentFlows, actual);
-        }
-
-        [Test]
-        public void GetDepartmentFlowByFlowTemplateId_InVaidArg_ReturnEmptyDepartmentFlows()
-        {
-            // Arrange
-            int flowTemplateId = 0;
-            var expectedDepartmentFlows = GetListOfDepartmentFlowForTest();
-            ArrangeGetDepartmentFlowByFlowTemplateId(expectedDepartmentFlows);
-
-            // Act
-            var actual = departmentFlowService.GetDepartmentFlowByFlowTemplateId(flowTemplateId);
-
-            // Assert
-            Assert.IsEmpty(actual);
-        }
-
-        #endregion GetDepartmentFlowByFlowTemplateId
 
         #region GetDepartmentFlowById
 
@@ -116,38 +68,6 @@
 
         #region Helpers
 
-        private static IFlowSettingRepository FakeFlowSettingRepository()
-        {
-            var repository = Substitute.For<IFlowSettingRepository>();
-
-            return repository;
-        }
-
-        private IEnumerable<DepartmentFlowModel> GetListOfDepartmentFlowForTest()
-        {
-            var flowTemplates = new List<DepartmentFlowModel>
-            {
-                new DepartmentFlowModel
-                {
-                    DepartmentId = 1,
-                    Code = "HR",
-                    Name = "HR",
-                    HumanResources = new List<ProcessFlowModel>
-                    {
-                        new ProcessFlowModel { EmployeeId = 1, FullName = "a" }
-                    }
-                },
-                new DepartmentFlowModel
-                {
-                    DepartmentId = 2,
-                    Code = "Management",
-                    Name = "Management"
-                }
-            };
-
-            return flowTemplates;
-        }
-
         private IEnumerable<FlowModel> GetListOfFlowForTest()
         {
             var flows = new List<FlowModel>
@@ -161,22 +81,14 @@
             return flows;
         }
 
-        private void ArrangeGetDepartmentFlowByFlowTemplateId(IEnumerable<DepartmentFlowModel> departmentFlows = null)
-        {
-            flowSettingRepository = FakeFlowSettingRepository();
-
-            flowSettingRepository.GetDepartmentFlowByFlowTemplateId(Arg.Any<GetDepartmentFlowByFlowTemplateIdCriteria>())
-                .Returns(departmentFlows ?? new List<DepartmentFlowModel>());
-            departmentFlowService = new DepartmentFlowService(flowSettingRepository);
-        }
-
         private void ArrangeGetDepartmentFlowById(IEnumerable<FlowModel> departmentFlows = null)
         {
-            flowSettingRepository = FakeFlowSettingRepository();
+            baseService = Substitute.For<IBaseService>();
+            flowSettingRepository = Substitute.For<IFlowSettingRepository>();
 
             flowSettingRepository.GetFlowSettingByFlowTemplateId(Arg.Any<GetDepartmentFlowByIdCriteria>())
                 .Returns(departmentFlows ?? new List<FlowModel>());
-            departmentFlowService = new DepartmentFlowService(flowSettingRepository);
+            departmentFlowService = new DepartmentFlowService(baseService, flowSettingRepository);
         }
 
         #endregion Helpers

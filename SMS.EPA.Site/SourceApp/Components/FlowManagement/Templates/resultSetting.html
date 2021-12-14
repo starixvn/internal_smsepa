@@ -5,7 +5,8 @@
                 <thead>
                     <tr>
                         <th class="text-center" data-translate="SymbolCount"></th>
-                        <th data-translate="DepartmentSection"></th>
+                        <th data-translate="Department"></th>
+                        <th>Section/Team</th>
                         <th data-translate="HumanResource"></th>
                         <th data-translate="Evaluator"></th>
                         <th data-translate="Reviewer"></th>
@@ -15,7 +16,8 @@
                 <tbody>
                     <tr ng-repeat="flow in resultFlowSettingCtrl.flowSettings">
                         <td class="text-center" ng-bind="$index + 1"></td>
-                        <td ng-bind="flow.Name"></td>
+                        <td ng-bind="flow.Department"></td>
+                        <td ng-bind="flow.Section"></td>
                         <td>
                             <div ng-show="flow.HumanResources.length == 1">
                                 {{flow.HumanResources[0].FullName}} ({{flow.HumanResources[0].NickName}})
@@ -50,7 +52,7 @@
                         </td>
                     </tr>
                     <tr ng-show="resultFlowSettingCtrl.flowSettings.length == 0">
-                        <td class="empty-result" colspan="6" data-translate="EmptyResult"></td>
+                        <td class="empty-result" colspan="7" data-translate="EmptyResult"></td>
                     </tr>
                 </tbody>
             </table>
@@ -59,7 +61,7 @@
             <table table class="row table table-bordered table-striped">
                 <thead>
                     <tr class="header-table">
-                        <th colspan="9">
+                        <th colspan="10">
                             <input class="btnExcel pull-right" export-personal-flow-setting-report
                                    ng-click="resultFlowSettingCtrl.exportPersonalFlowSetting()"
                                    type="button" title="Export to Excel">
@@ -70,7 +72,8 @@
                         <th data-translate="Code"></th>
                         <th data-translate="NickName"></th>
                         <th data-translate="FullName"></th>
-                        <th data-translate="DepartmentSection"></th>
+                        <th data-translate="Department"></th>
+                        <th>Section/Team</th>
                         <th data-translate="HumanResource"></th>
                         <th data-translate="Evaluator"></th>
                         <th data-translate="Reviewer"></th>
@@ -81,9 +84,10 @@
                     <tr ng-repeat="flow in resultFlowSettingCtrl.flowSettings">
                         <td class="text-center" ng-bind="$index + 1"></td>
                         <td class="text-center" ng-bind="flow.Code"></td>
-                        <td class="text-center" ng-bind="flow.NickName"></td>
+                        <td class="text-center" ng-bind="flow.Nickname"></td>
                         <td ng-bind="flow.FullName"></td>
-                        <td ng-bind="flow.Group.GroupName"></td>
+                        <td ng-bind="flow.Department"></td>
+                        <td ng-bind="flow.Section"></td>
                         <td>
                             <div ng-show="flow.HumanResources.length == 1">
                                 {{flow.HumanResources[0].FullName}} ({{flow.HumanResources[0].NickName}})
@@ -118,7 +122,7 @@
                         </td>
                     </tr>
                     <tr ng-show="resultFlowSettingCtrl.flowSettings.length == 0">
-                        <td class="empty-result" colspan="9" data-translate="EmptyResult"></td>
+                        <td class="empty-result" colspan="10" data-translate="EmptyResult"></td>
                     </tr>
                 </tbody>
             </table>

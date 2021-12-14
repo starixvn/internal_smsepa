@@ -7,7 +7,7 @@ Task: Get department flow setting.
 DB: SMSEPA
 Original:
 
-Revisions:  
+Revisions:
 Param's Explanation:
 
 */
@@ -15,16 +15,17 @@ BEGIN
 	SET NOCOUNT ON
 
 	SELECT dept.DepartmentId
-		,dept.Code
-		,dept.[Name]
+		,dept.[Name] AS Department
+		,NULL AS Section
 	FROM dbo.Department AS dept WITH (NOLOCK)
 	WHERE dept.IsActive = 1
 	
 	UNION ALL
 	SELECT (- g.GroupId) AS DepartmentId
-		,g.Code
-		,g.[Name]
+		,dept.[Name] AS Department
+		,g.[Name] AS Section
 	FROM dbo.[Group] AS g WITH (NOLOCK)
+		LEFT JOIN dbo.Department AS dept WITH (NOLOCK) ON g.DepartmentId = dept.DepartmentId
 	WHERE g.IsDeleted = 0
 
 	SELECT (CASE 
