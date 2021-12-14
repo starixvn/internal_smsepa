@@ -13,17 +13,27 @@
         vm.flowSettings = [];
         vm.flowTemplateId = parseInt($routeParams.id);
 
+        vm.exportDepartmentFlowSetting = exportDepartmentFlowSetting;
         vm.exportPersonalFlowSetting = exportPersonalFlowSetting;
         vm.tabDepartmentSelected = null;
         vm.tabPersonalSelected = null;
 
-        function exportPersonalFlowSetting() {
-            vm.exportCriteria = {
+        function exportDepartmentFlowSetting() {
+            vm.exportDepartmentFlowCriteria = {
                 flowTemplateId: vm.flowTemplateId,
                 flowTemplateName: vm.flowTemplate.Name
             };
 
-            $scope.$broadcast('exportPersonalFlowSettingReport');
+            $scope.$broadcast('exportDepartmentFlowSetting');
+        }
+
+        function exportPersonalFlowSetting() {
+            vm.exportPersonalFlowCriteria = {
+                flowTemplateId: vm.flowTemplateId,
+                flowTemplateName: vm.flowTemplate.Name
+            };
+
+            $scope.$broadcast('exportPersonalFlowSetting');
         }
 
         function tabDepartmentSelected() {

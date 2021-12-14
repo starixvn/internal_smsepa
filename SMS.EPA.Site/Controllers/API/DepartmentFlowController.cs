@@ -3,16 +3,15 @@
     using System;
     using System.Collections.Generic;
     using System.Web.Http;
-    using Core.Attribute;
-    using Core.Constants;
-    using Core.Enumerations;
-    using Core.Model;
-    using Core.Services;
-    using Criteria;
-    using Model;
-    using Model.Enitites;
-    using Services.Implement;
-    using Services.Interfaces;
+    using SMS.EPA.Core.Attribute;
+    using SMS.EPA.Core.Constants;
+    using SMS.EPA.Core.Enumerations;
+    using SMS.EPA.Core.Model;
+    using SMS.EPA.Core.Services;
+    using SMS.EPA.Criteria;
+    using SMS.EPA.Model;
+    using SMS.EPA.Model.API;
+    using SMS.EPA.Services;
 
     public class DepartmentFlowController : BaseController
     {
@@ -31,14 +30,14 @@
 
         [HttpGet]
         [ApiAuthorize(FunctionKey = EPAFunctionKey.FlowManagement, Policy = Policy.Read)]
-        public IEnumerable<DepartmentFlowModel> GetDepartmentFlowByFlowTemplateId(int flowTemplateId)
+        public IEnumerable<DepartmentFlowModel> GetByFlowTemplateId(int flowTemplateId)
         {
-            return departmentFlowService.GetDepartmentFlowByFlowTemplateId(flowTemplateId);
+            return departmentFlowService.GetByFlowTemplateId(flowTemplateId);
         }
 
         [HttpGet]
         [ApiAuthorize(FunctionKey = EPAFunctionKey.FlowManagement, Policy = Policy.Read)]
-        public IEnumerable<FlowModel> GetDepartmentFlowById(int departmentId, int flowTemplateId)
+        public IEnumerable<FlowModel> GetById(int departmentId, int flowTemplateId)
         {
             var criteria = new GetDepartmentFlowByIdCriteria
             {
@@ -47,7 +46,7 @@
                 IsGroup = departmentId <= 0
             };
 
-            return departmentFlowService.GetDepartmentFlowById(criteria);
+            return departmentFlowService.GetById(criteria);
         }
 
         [HttpPost]
@@ -55,12 +54,10 @@
         public CommandResult CreateDepartmentFlow(CreateDepartmentFlowCriteria criteria)
         {
             var commandResult = new CommandResult();
-
             if (criteria != null)
             {
                 criteria.DepartmentId = Math.Abs(criteria.DepartmentId);
                 criteria.ModifiedBy = SessionService.EmployeeId;
-
                 commandResult = baseService.ExecuteNonQuery(criteria);
             }
 
@@ -89,7 +86,6 @@
             {
                 FlowTemplateId = flowTemplateId
             };
-
             return baseService.GetData<Department>(criteria);
         }
     }

@@ -29,21 +29,21 @@
 
         [HttpGet]
         [ApiAuthorize(FunctionKey = EPAFunctionKey.FlowManagement, Policy = Policy.Read)]
-        public IEnumerable<PersonalFlowModel> GetPersonalFlowByFlowTemplateId(int flowTemplateId)
+        public IEnumerable<PersonalFlowModel> GetByFlowTemplateId(int flowTemplateId)
         {
-            return personalFlowService.GetPersonalFlowByFlowTemplateId(flowTemplateId);
+            return personalFlowService.GetByFlowTemplateId(flowTemplateId);
         }
 
         [HttpGet]
         [ApiAuthorize(FunctionKey = EPAFunctionKey.FlowManagement, Policy = Policy.Read)]
-        public IEnumerable<FlowModel> GetPersonalFlowById(int employeeId, int flowTemplateId)
+        public IEnumerable<FlowModel> GetById(int employeeId, int flowTemplateId)
         {
             var criteria = new GetPersonalFlowByIdCriteria
             {
                 EmployeeId = employeeId,
                 FlowTemplateId = flowTemplateId
             };
-            return personalFlowService.GetPersonalFlowById(criteria);
+            return personalFlowService.GetById(criteria);
         }
 
         [HttpPost]

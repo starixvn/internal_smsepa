@@ -19,14 +19,14 @@
                 });
             },
             getDepartmentFlow: function (flowTemplateId) {
-                return $http.get(baseUrl + 'api/DepartmentFlow/GetDepartmentFlowByFlowTemplateId', {
+                return $http.get(baseUrl + 'api/DepartmentFlow/GetByFlowTemplateId', {
                     params: {
                         flowTemplateId: flowTemplateId
                     }
                 });
             },
             getDepartmentFlowById: function (departmentId, flowTemplateId) {
-                return $http.get(baseUrl + 'api/DepartmentFlow/GetDepartmentFlowById', {
+                return $http.get(baseUrl + 'api/DepartmentFlow/GetById', {
                     params: {
                         departmentId: departmentId,
                         flowTemplateId: flowTemplateId

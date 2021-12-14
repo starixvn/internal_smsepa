@@ -30,6 +30,7 @@
         private const string DisciplineSummaryTemplatePath = @"~\ExcelTemplates\DisciplineSummaryReport.xls";
         private const string EmployeeBasicInfoTemplate = @"~\ExcelTemplates\EmployeeBasicInfoTemplate.xls";
         private const string EmployeeFlowSettingTemplate = @"~\ExcelTemplates\EmployeeFlowSettingTemplate.xls";
+        private const string DepartmentFlowSettingTemplate = @"~\ExcelTemplates\DepartmentFlowSettingTemplate.xls";
         private const string PersonalFlowSettingTemplate = @"~\ExcelTemplates\PersonalFlowSettingTemplate.xls";
         private const string TargetPersonnelSettingTemplate = @"~\ExcelTemplates\TargetPersonnelSettingTemplate.xls";
         private const string UpdateFinalScoreTemplatePath = @"~\ExcelTemplates\UpdateFinalScore.xls";
@@ -44,9 +45,10 @@
         private readonly IReportService _reportService;
         private readonly ISessionService _sessionService;
         private readonly ITargetEmployeeSettingService _targetEmployeeSettingService;
+        private readonly IDepartmentFlowService departmentFlowService;
 
         public ExportReportController()
-            : this(null, null, null, null, null, null, null, null, null, null, null)
+            : this(null, null, null, null, null, null, null, null, null, null, null, null)
         {
         }
 
@@ -61,8 +63,8 @@
             IPeriodService periodService,
             IEmployeeService employeeService,
             IPersonalFlowService personalFlowService,
-            ISessionService sessionService
-            )
+            ISessionService sessionService,
+            IDepartmentFlowService departmentFlowService)
         {
             _reportService = reportService ?? new ReportService();
             _epaDetailReportService = epaDetailReportService ?? new EPADetailReportService();
@@ -75,6 +77,7 @@
             _periodService = periodService ?? new PeriodService();
             _employeeService = employeeService ?? new EmployeeService();
             _personalFlowService = personalFlowService ?? new PersonalFlowService();
+            this.departmentFlowService = departmentFlowService ?? new DepartmentFlowService();
         }
 
         public ActionResult ExportDisciplineSummaryForOtherSystemReport(GetDisciplineSummaryForOtherSystemCriteria criteria)
@@ -252,18 +255,37 @@
             return File(output.ToArray(), "application/vnd.ms-excel", fileName);
         }
 
-        public ActionResult ExportPersonalFlowSettingReport(int flowTemplateId, string flowTemplateName)
+        public ActionResult ExportPersonalFlowSetting(int flowTemplateId, string flowTemplateName)
         {
             if (flowTemplateId > 0 && !string.IsNullOrEmpty(flowTemplateName))
             {
-                IEnumerable<PersonalFlowModel> flowSettings =
-                    _personalFlowService.GetPersonalFlowByFlowTemplateId(flowTemplateId);
+                IEnumerable<PersonalFlowModel> flowSettings = _personalFlowService.GetByFlowTemplateId(flowTemplateId);
 
                 _exportExcelService.FileName = "Personal_Flow_Setting";
                 _exportExcelService.SheetName = "Personal Flow";
                 _exportExcelService.Title = $"{flowTemplateName} - Personal Flow Setting";
 
                 _exportExcelService.InitializeWithTemplate(Server.MapPath(PersonalFlowSettingTemplate));
+
+                _exportExcelService.ContentRowStartIndex = DefaultContentRowStartIndexForTemplate;
+
+                _exportExcelService.ExportWithTemplate(flowSettings, true, true);
+            }
+
+            return new EmptyResult();
+        }
+
+        public ActionResult ExportDepartmentFlowSetting(int flowTemplateId, string flowTemplateName)
+        {
+            if (flowTemplateId > 0 && !string.IsNullOrEmpty(flowTemplateName))
+            {
+                IEnumerable<DepartmentFlowModel> flowSettings = departmentFlowService.GetByFlowTemplateId(flowTemplateId);
+
+                _exportExcelService.FileName = "Department_Flow_Setting";
+                _exportExcelService.SheetName = "Department Flow";
+                _exportExcelService.Title = $"{flowTemplateName} - Department Flow Setting";
+
+                _exportExcelService.InitializeWithTemplate(Server.MapPath(DepartmentFlowSettingTemplate));
 
                 _exportExcelService.ContentRowStartIndex = DefaultContentRowStartIndexForTemplate;
 
@@ -300,9 +322,7 @@
                 Condition = currentObject =>
                 {
                     var value = currentObject.GetType().GetProperties()[columnIndex].GetValue(currentObject, null);
-                    float number;
-
-                    if (!float.TryParse(value.ToString(), out number))
+                    if (!float.TryParse(value.ToString(), out float number))
                     {
                         return false;
                     }

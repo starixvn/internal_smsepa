@@ -1,13 +1,13 @@
-﻿namespace SMS.EPA.Services.Interfaces
+﻿namespace SMS.EPA.Services
 {
     using System.Collections.Generic;
-    using Criteria;
-    using Model;
+    using SMS.EPA.Criteria;
+    using SMS.EPA.Model;
 
     public interface IDepartmentFlowService
     {
-        IEnumerable<DepartmentFlowModel> GetDepartmentFlowByFlowTemplateId(int flowTemplateId);
+        IEnumerable<DepartmentFlowModel> GetByFlowTemplateId(int flowTemplateId);
 
-        IEnumerable<FlowModel> GetDepartmentFlowById(GetDepartmentFlowByIdCriteria criteria);
+        IEnumerable<FlowModel> GetById(GetDepartmentFlowByIdCriteria criteria);
     }
 }

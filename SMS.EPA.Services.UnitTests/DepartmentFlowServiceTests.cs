@@ -2,7 +2,6 @@
 {
     using System.Collections.Generic;
     using Criteria;
-    using Implement;
     using Model;
     using NSubstitute;
     using NUnit.Framework;
@@ -16,23 +15,23 @@
         private IBaseService baseService;
         private IFlowSettingRepository flowSettingRepository;
 
-        #region GetDepartmentFlowById
+        #region GetById
 
         [Test]
-        public void GetDepartmentFlowById_AnyArg_ReturnInstanceOfListOfDepartmentFlowModel()
+        public void GetById_AnyArg_ReturnInstanceOfListOfDepartmentFlowModel()
         {
             // Arrange
             ArrangeGetDepartmentFlowById();
 
             // Act
-            var actual = departmentFlowService.GetDepartmentFlowById(null);
+            var actual = departmentFlowService.GetById(null);
 
             // Assert
             Assert.IsInstanceOf(typeof(IEnumerable<FlowModel>), actual);
         }
 
         [Test]
-        public void GetDepartmentFlowById_VaidArg_ReturnExpectedFlows()
+        public void GetById_VaidArg_ReturnExpectedFlows()
         {
             // Arrange
             var citeria = new GetDepartmentFlowByIdCriteria
@@ -44,27 +43,27 @@
             ArrangeGetDepartmentFlowById(expectedFlows);
 
             // Act
-            var actual = departmentFlowService.GetDepartmentFlowById(citeria);
+            var actual = departmentFlowService.GetById(citeria);
 
             // Assert
             Assert.AreEqual(expectedFlows, actual);
         }
 
         [Test]
-        public void GetDepartmentFlowById_InVaidArg_ReturnEmptyFlows()
+        public void GetById_InVaidArg_ReturnEmptyFlows()
         {
             // Arrange
             IEnumerable<FlowModel> expectedFlows = GetListOfFlowForTest();
             ArrangeGetDepartmentFlowById(expectedFlows);
 
             // Act
-            var actual = departmentFlowService.GetDepartmentFlowById(null);
+            var actual = departmentFlowService.GetById(null);
 
             // Assert
             Assert.IsEmpty(actual);
         }
 
-        #endregion GetDepartmentFlowById
+        #endregion GetById
 
         #region Helpers
 

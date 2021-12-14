@@ -111,6 +111,7 @@
                             "~/SourceApp/Components/FlowManagement/flowSetting-model.js",
                             "~/SourceApp/Components/FlowManagement/flowTemplate-factory.js",
                             "~/SourceApp/Components/FlowManagement/flowTemplate-model.js",
+                            "~/SourceApp/Components/FlowManagement/export-department-flow-setting-directive.js",
                             "~/SourceApp/Components/FlowManagement/export-personal-flow-setting-directive.js",
                             "~/SourceApp/Components/FlowManagement/flowTemplate-access-controller.js",
                             "~/SourceApp/Components/FlowManagement/create-flowTemplate-controller.js",

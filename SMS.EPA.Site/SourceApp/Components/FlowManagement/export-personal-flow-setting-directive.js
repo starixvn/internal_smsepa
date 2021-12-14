@@ -2,15 +2,15 @@
     'use strict';
     /* jshint latedef:nofunc */
 
-    angular.module('periodModule').directive('exportPersonalFlowSettingReport', exportPersonalFlowSettingReport);
-    exportPersonalFlowSettingReport.$inject = ['baseUrl'];
+    angular.module('flowMngModule').directive('exportPersonalFlowSetting', exportPersonalFlowSetting);
+    exportPersonalFlowSetting.$inject = ['baseUrl'];
 
-    function exportPersonalFlowSettingReport(baseUrl) {
+    function exportPersonalFlowSetting(baseUrl) {
         return {
             link: function (scope) {
-                scope.$on('exportPersonalFlowSettingReport', function () {
-                    var data = $.param(scope.resultFlowSettingCtrl.exportCriteria),
-                        url = baseUrl + 'ExportReport/ExportPersonalFlowSettingReport',
+                scope.$on('exportPersonalFlowSetting', function () {
+                    var data = $.param(scope.resultFlowSettingCtrl.exportPersonalFlowCriteria),
+                        url = baseUrl + 'exportReport/exportPersonalFlowSetting',
                         downloadUrl = url + "?" + data,
                         iframe = $('body iframe');
 

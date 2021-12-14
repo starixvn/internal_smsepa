@@ -1,9 +1,8 @@
 ﻿namespace SMS.EPA.Model
 {
-    using Enitites;
     using System.Collections.Generic;
     using System.Linq;
-    using Report;
+    using SMS.EPA.Model.Report;
 
     public class PersonalFlowModel : IExcelRecord
     {

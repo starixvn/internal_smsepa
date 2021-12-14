@@ -1,13 +1,12 @@
-﻿namespace SMS.EPA.Services.Implement
+﻿namespace SMS.EPA.Services
 {
     using System.Collections.Generic;
     using System.Linq;
-    using Criteria;
-    using Interfaces;
-    using Model;
-    using Repositories;
     using SMS.EPA.Core.Enumerations;
     using SMS.EPA.Core.Services;
+    using SMS.EPA.Criteria;
+    using SMS.EPA.Model;
+    using SMS.EPA.Repositories;
 
     public class DepartmentFlowService : IDepartmentFlowService
     {
@@ -26,7 +25,7 @@
             this.flowSettingRepository = flowSettingRepository ?? new FlowSettingRepository();
         }
 
-        public IEnumerable<DepartmentFlowModel> GetDepartmentFlowByFlowTemplateId(int flowTemplateId)
+        public IEnumerable<DepartmentFlowModel> GetByFlowTemplateId(int flowTemplateId)
         {
             var criteria = new GetDepartmentFlowByFlowTemplateIdCriteria
             {
@@ -37,10 +36,9 @@
             return tuple.Item1.OrderBy(i => i.Department).ThenBy(x => x.Section);
         }
 
-        public IEnumerable<FlowModel> GetDepartmentFlowById(GetDepartmentFlowByIdCriteria criteria)
+        public IEnumerable<FlowModel> GetById(GetDepartmentFlowByIdCriteria criteria)
         {
             IEnumerable<FlowModel> flow = new List<FlowModel>();
-
             if (criteria != null && criteria.IsValid())
             {
                 flow = flowSettingRepository.GetFlowSettingByFlowTemplateId(criteria);

@@ -25,7 +25,7 @@
             this.flowSettingRepository = flowSettingRepository ?? new FlowSettingRepository();
         }
 
-        public IEnumerable<PersonalFlowModel> GetPersonalFlowByFlowTemplateId(int flowTemplateId)
+        public IEnumerable<PersonalFlowModel> GetByFlowTemplateId(int flowTemplateId)
         {
             var criteria = new GetPersonalFlowByFlowTemplateIdCriteria
             {
@@ -37,7 +37,7 @@
             return tuple.Item1.OrderBy(i => i.Department).ThenBy(x => x.Section);
         }
 
-        public IEnumerable<FlowModel> GetPersonalFlowById(GetPersonalFlowByIdCriteria criteria)
+        public IEnumerable<FlowModel> GetById(GetPersonalFlowByIdCriteria criteria)
         {
             IEnumerable<FlowModel> flow = new List<FlowModel>();
 

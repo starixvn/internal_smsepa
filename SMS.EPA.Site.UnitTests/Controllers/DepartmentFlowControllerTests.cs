@@ -9,8 +9,8 @@
     using Model.Enitites;
     using NSubstitute;
     using NUnit.Framework;
-    using Services.Interfaces;
     using Site.Controllers.API;
+    using SMS.EPA.Services;
 
     [TestFixture]
     public class DepartmentFlowControllerTests
@@ -19,43 +19,43 @@
         private DepartmentFlowController _departmentFlowController;
         private IBaseService baseService;
 
-        #region GetDepartmentFlowByFlowTemplateId
+        #region GetByFlowTemplateId
 
         [Test]
-        public void GetDepartmentFlowByFlowTemplateId_WhenCalled_ReturnExpectedDepartmentFlows()
+        public void GetByFlowTemplateId_WhenCalled_ReturnExpectedDepartmentFlows()
         {
             // Arrange
             var expected = new List<DepartmentFlowModel> { new DepartmentFlowModel() };
             ArrangeGetDepartmentFlowByFlowTemplateId(expected);
 
             // Act
-            var actual = _departmentFlowController.GetDepartmentFlowByFlowTemplateId(Arg.Any<int>());
+            var actual = _departmentFlowController.GetByFlowTemplateId(Arg.Any<int>());
 
             // Assert
             Assert.IsInstanceOf(typeof(IEnumerable<DepartmentFlowModel>), actual);
             Assert.AreEqual(expected, actual);
         }
 
-        #endregion GetDepartmentFlowByFlowTemplateId
+        #endregion GetByFlowTemplateId
 
-        #region GetDepartmentFlowById
+        #region GetById
 
         [Test]
-        public void GetDepartmentFlowById_WhenCalled_ReturnExpectedFlows()
+        public void GetById_WhenCalled_ReturnExpectedFlows()
         {
             // Arrange
             var expectedFlows = new List<FlowModel> { new FlowModel() };
             ArrangeGetDepartmentFlowById(expectedFlows);
 
             // Act
-            var actual = _departmentFlowController.GetDepartmentFlowById(Arg.Any<int>(), Arg.Any<int>());
+            var actual = _departmentFlowController.GetById(Arg.Any<int>(), Arg.Any<int>());
 
             // Assert
             Assert.IsInstanceOf(typeof(IEnumerable<FlowModel>), actual);
             Assert.AreEqual(expectedFlows, actual);
         }
 
-        #endregion GetDepartmentFlowById
+        #endregion GetById
 
         #region CreateDepartmentFlow
 
@@ -176,7 +176,7 @@
             _departmentFlowService = FakeDepartmentFlowService();
             baseService = FakeBaseService();
 
-            _departmentFlowService.GetDepartmentFlowByFlowTemplateId(Arg.Any<int>()).Returns(departmentFlows ?? new List<DepartmentFlowModel>());
+            _departmentFlowService.GetByFlowTemplateId(Arg.Any<int>()).Returns(departmentFlows ?? new List<DepartmentFlowModel>());
             _departmentFlowController = new DepartmentFlowController(_departmentFlowService, baseService);
         }
 
@@ -185,7 +185,7 @@
             _departmentFlowService = FakeDepartmentFlowService();
             baseService = FakeBaseService();
 
-            _departmentFlowService.GetDepartmentFlowById(Arg.Any<GetDepartmentFlowByIdCriteria>()).Returns(flows ?? new List<FlowModel>());
+            _departmentFlowService.GetById(Arg.Any<GetDepartmentFlowByIdCriteria>()).Returns(flows ?? new List<FlowModel>());
             _departmentFlowController = new DepartmentFlowController(_departmentFlowService, baseService);
         }
 

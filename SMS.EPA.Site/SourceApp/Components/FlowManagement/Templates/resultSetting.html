@@ -3,6 +3,13 @@
         <uib-tab heading="DEPARTMENT / SECTION" class="tab-cursor" index="1" select="resultFlowSettingCtrl.tabDepartmentSelected()">
             <table class="row table table-bordered table-striped">
                 <thead>
+                    <tr class="header-table">
+                        <th colspan="7">
+                            <input class="btnExcel pull-right" export-department-flow-setting
+                                   ng-click="resultFlowSettingCtrl.exportDepartmentFlowSetting()"
+                                   type="button" title="Export to Excel">
+                        </th>
+                    </tr>
                     <tr>
                         <th class="text-center" data-translate="SymbolCount"></th>
                         <th data-translate="Department"></th>
@@ -62,7 +69,7 @@
                 <thead>
                     <tr class="header-table">
                         <th colspan="10">
-                            <input class="btnExcel pull-right" export-personal-flow-setting-report
+                            <input class="btnExcel pull-right" export-personal-flow-setting
                                    ng-click="resultFlowSettingCtrl.exportPersonalFlowSetting()"
                                    type="button" title="Export to Excel">
                         </th>

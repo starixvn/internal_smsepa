@@ -8,14 +8,14 @@
     function personalFlowFactory($http, baseUrl) {
         return {
             getPersonalFlow: function (flowTemplateId) {
-                return $http.get(baseUrl + 'api/PersonalFlow/GetPersonalFlowByFlowTemplateId', {
+                return $http.get(baseUrl + 'api/PersonalFlow/GetByFlowTemplateId', {
                     params: {
                         flowTemplateId: flowTemplateId
                     }
                 });
             },
             getPersonalFlowById: function (employeeId, flowTemplateId) {
-                return $http.get(baseUrl + 'api/PersonalFlow/GetPersonalFlowById', {
+                return $http.get(baseUrl + 'api/PersonalFlow/GetById', {
                     params: {
                         employeeId: employeeId,
                         flowTemplateId: flowTemplateId
