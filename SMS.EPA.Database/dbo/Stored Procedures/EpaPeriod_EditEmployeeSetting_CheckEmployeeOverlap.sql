@@ -9,12 +9,12 @@ Task: Check overlap date between semi and monthly.
 DB: SMSEPA
 Original:
 
-Revisions:  
+Revisions:
 Param's Explanation:
      @EmployeeAssignments = 
 		'<ROOT>
-			<Assignment EmployeeId='' ProcessId='' EvaluatorId='' StartDate='' EndDate='' Priority=''></Assignment>
-			<Assignment EmployeeId=''ProcessId='' EvaluatorId='' StartDate='' EndDate='' Priority=''></Assignment>
+			<Assignment EmployeeId='' ProcessId='' EvaluatorId='' StartDate='' EndDate='' Priority='' />
+			<Assignment EmployeeId=''ProcessId='' EvaluatorId='' StartDate='' EndDate='' Priority='' />
 		</ROOT>'
 */
 BEGIN
@@ -85,17 +85,22 @@ BEGIN
 			,[Year]
 			)
 		SELECT period.PeriodId
-			,semiSD.[Month]
+			,sdetail.[Month]
 			,(CASE 
-				WHEN semiSD.IsLastYear = 1 THEN YEAR(period.StartDate) - 1
+				WHEN sdetail.IsLastYear = 1 THEN YEAR(period.StartDate) - 1
 				ELSE YEAR(period.StartDate) END
 				) AS [Year]
 		FROM dbo.Period AS period WITH (NOLOCK)
-			INNER JOIN dbo.SemiPeriodSetting AS semiS WITH (NOLOCK) ON CAST(period.StartDate AS DATE) BETWEEN CAST(CAST(YEAR(period.StartDate) AS VARCHAR) + '-' + semiS.FromDate AS DATE)
-				AND CAST(CAST(YEAR(period.StartDate) AS VARCHAR) + '-' + semiS.ToDate AS DATE)
-			INNER JOIN dbo.SemiPeriodSettingDetail AS semiSD WITH (NOLOCK) ON semiS.SemiPeriodSettingId = semiSD.SemiPeriodSettingId
-			AND semiSD.IsActive = 1
+			INNER JOIN dbo.SemiPeriodSetting AS setting WITH (NOLOCK) ON CAST(period.StartDate AS DATE) BETWEEN CAST(CAST(YEAR(period.StartDate) AS VARCHAR) + '-' + setting.FromDate AS DATE)
+				AND CAST(CAST(YEAR(period.StartDate) AS VARCHAR) + '-' + setting.ToDate AS DATE)
+			INNER JOIN dbo.SemiPeriodSettingDetail AS sdetail WITH (NOLOCK) ON setting.SemiPeriodSettingId = sdetail.SemiPeriodSettingId
+			AND sdetail.IsActive = 1
 		WHERE period.TargetTypeId = @SemiTarget
+			AND setting.EffectiveDate = (
+				SELECT MAX(setting1.EffectiveDate)
+				FROM dbo.SemiPeriodSetting AS setting1 WITH (NOLOCK)
+				WHERE setting1.EffectiveDate < period.StartDate
+			)
 
 		SELECT @OverlapEmployeeIds = COALESCE(@OverlapEmployeeIds + ',', '') + CAST(semiFS.EmployeeId AS NVARCHAR)
 		FROM dbo.Period AS period WITH (NOLOCK)
@@ -134,18 +139,23 @@ BEGIN
 			,[Year]
 			)
 		SELECT period.PeriodId
-			,semiSD.[Month]
+			,sdetail.[Month]
 			,(CASE 
-				WHEN semiSD.IsLastYear = 1 THEN YEAR(period.StartDate) - 1
+				WHEN sdetail.IsLastYear = 1 THEN YEAR(period.StartDate) - 1
 				ELSE YEAR(period.StartDate) END
 				) AS [Year]
 		FROM dbo.Period AS period WITH (NOLOCK)
-			INNER JOIN dbo.SemiPeriodSetting AS semiS WITH (NOLOCK) ON CAST(period.StartDate AS DATE) BETWEEN CAST(CAST(YEAR(period.StartDate) AS VARCHAR) + '-' + semiS.FromDate AS DATE)
-				AND CAST(CAST(YEAR(period.StartDate) AS VARCHAR) + '-' + semiS.ToDate AS DATE)
-			INNER JOIN dbo.SemiPeriodSettingDetail AS semiSD WITH (NOLOCK) ON semiS.SemiPeriodSettingId = semiSD.SemiPeriodSettingId
-			AND semiSD.IsActive = 1
+			INNER JOIN dbo.SemiPeriodSetting AS setting WITH (NOLOCK) ON CAST(period.StartDate AS DATE) BETWEEN CAST(CAST(YEAR(period.StartDate) AS VARCHAR) + '-' + setting.FromDate AS DATE)
+				AND CAST(CAST(YEAR(period.StartDate) AS VARCHAR) + '-' + setting.ToDate AS DATE)
+			INNER JOIN dbo.SemiPeriodSettingDetail AS sdetail WITH (NOLOCK) ON setting.SemiPeriodSettingId = sdetail.SemiPeriodSettingId
+			AND sdetail.IsActive = 1
 		WHERE period.TargetTypeId = @SemiTarget
 			AND period.PeriodId = @PeriodId
+			AND setting.EffectiveDate = (
+				SELECT MAX(setting1.EffectiveDate)
+				FROM dbo.SemiPeriodSetting AS setting1 WITH (NOLOCK)
+				WHERE setting1.EffectiveDate < period.StartDate
+			)
 
 		SELECT @OverlapEmployeeIds = COALESCE(@OverlapEmployeeIds + ',', '') + CAST(monthlyFS.EmployeeId AS NVARCHAR)
 		FROM dbo.Period AS period WITH (NOLOCK)
