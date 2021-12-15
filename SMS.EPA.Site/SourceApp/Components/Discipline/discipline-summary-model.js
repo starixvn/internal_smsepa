@@ -12,18 +12,14 @@
                 pageSize: 20
             },
             rangeDateFilter = {
-                firstRangeStartDate: new Date(date.getFullYear(), 1, 1), // 1-2
-                firstRangeEndDate: new Date(date.getFullYear(), 7, 0), // 31-07
-                firstStartDate: new Date(date.getFullYear(), 0, 1), // 1-1
-                firstEndDate: new Date(date.getFullYear(), 6, 0), // 30-06
-                secondRangeStartDate: new Date(date.getFullYear(), 7, 1), // 1-8
-                secondRangeEndDate: new Date(date.getFullYear() + 1, 1, 0), // 31-01-next year
-                secondStartDate: new Date(date.getFullYear(), 6, 1), // 1-7
-                secondEndDate: new Date(date.getFullYear(), 12, 0), // 31-12
-                thirdRangeStartDate: new Date(date.getFullYear() - 1, 7, 1), // 1-8-last year
-                thirdRangeEndDate: new Date(date.getFullYear(), 1, 0), // 31-1
-                thirdStartDate: new Date(date.getFullYear() - 1, 6, 1), // 1-7-last year
-                thirdEndDate: new Date(date.getFullYear() - 1, 12, 0) // 31-12-last year
+                firstRangeStartDate: new Date(date.getFullYear(), 0, 1), // 1-1
+                firstRangeEndDate: new Date(date.getFullYear(), 6, 0), // 31-06
+                firstStartDate: new Date(date.getFullYear() - 1, 11, 1), // 1-12-last year
+                firstEndDate: new Date(date.getFullYear(), 5, 0), // 31-05
+                secondRangeStartDate: new Date(date.getFullYear(), 6, 1), // 1-7
+                secondRangeEndDate: new Date(date.getFullYear(), 12, 0), // 31-12
+                secondStartDate: new Date(date.getFullYear(), 5, 1), // 1-6
+                secondEndDate: new Date(date.getFullYear(), 11, 0), // 30-11
             };
 
         var model = {
@@ -61,7 +57,6 @@
         function getRangeDateFilter() {
             var startDate = new Date(),
                 endDate = new Date(),
-                date = new Date(),
                 dateNoTime = new Date(date.getFullYear(), date.getMonth(), date.getDate(), 0, 0, 0);
 
             if (dateNoTime >= model.rangeDateFilter.firstRangeStartDate && dateNoTime <= model.rangeDateFilter.firstRangeEndDate) {
@@ -70,9 +65,6 @@
             } else if (dateNoTime >= model.rangeDateFilter.secondRangeStartDate && dateNoTime <= model.rangeDateFilter.secondRangeEndDate) {
                 startDate = model.rangeDateFilter.secondStartDate;
                 endDate = model.rangeDateFilter.secondEndDate;
-            } else if (dateNoTime >= model.rangeDateFilter.thirdRangeStartDate && dateNoTime <= model.rangeDateFilter.thirdRangeEndDate) {
-                startDate = model.rangeDateFilter.thirdStartDate;
-                endDate = model.rangeDateFilter.thirdEndDate;
             }
 
             return {
