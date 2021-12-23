@@ -4,16 +4,17 @@
     using System.Net;
     using System.Net.Http;
     using System.Web.Http;
-    using Core.Attribute;
-    using Core.Constants;
-    using Core.Enumerations;
-    using Core.Model;
-    using Core.Services;
-    using Criteria;
-    using Model;
-    using Model.Enitites;
-    using Services.Implement;
-    using Services.Interfaces;
+    using HRM.UserControl.Client.Core.Enumerables;
+    using SMS.EPA.Core.Attribute;
+    using SMS.EPA.Core.Constants;
+    using SMS.EPA.Core.Enumerations;
+    using SMS.EPA.Core.Model;
+    using SMS.EPA.Core.Services;
+    using SMS.EPA.Criteria;
+    using SMS.EPA.Model;
+    using SMS.EPA.Model.Enitites;
+    using SMS.EPA.Services.Implement;
+    using SMS.EPA.Services.Interfaces;
 
     public class EvaluatorEPAController : BaseController
     {
@@ -38,7 +39,7 @@
         {
             var criteria = new GetPeriodByActorIdCriteria
             {
-                ActorId = SessionService.EmployeeId,
+                ActorId = CurrentEmployeeId,
                 ProcessId = (byte)ProcessType.Evaluator
             };
 
@@ -51,7 +52,7 @@
         {
             var criteria = new GetGroupByActorIdCriteria
             {
-                ActorUserId = SessionService.EmployeeId,
+                ActorUserId = CurrentEmployeeId,
                 ProcessId = (byte)ProcessType.Evaluator,
                 PeriodId = periodId
             };
@@ -69,7 +70,7 @@
         {
             var criteria = new GetMemberByActorIdCriteria
             {
-                ActorUserId = SessionService.EmployeeId,
+                ActorUserId = CurrentEmployeeId,
                 ProcessId = (byte)ProcessType.Evaluator,
                 PeriodId = periodId,
                 GroupId = groupId,
@@ -92,7 +93,7 @@
         {
             var criteria = new GetEPAByEvaluatorCriteria
             {
-                EvaluatorId = SessionService.EmployeeId,
+                EvaluatorId = CurrentEmployeeId,
                 PeriodId = periodId,
                 GroupId = groupId,
                 IsLocal = isLocal,
@@ -111,11 +112,11 @@
         public HttpResponseMessage GetEPAInfoByEvaluator(int epaId, int? evaluatorId = null)
         {
             var epaInfo = new EPAModel();
-            var processId = evaluatorId == null ? (int?)ProcessType.Evaluator : null;
-            var sessionServiceEmployeeId = evaluatorId ?? SessionService.EmployeeId;
-            int permission = CheckEmployeePermission(epaId, sessionServiceEmployeeId, processId);
+            var processId = evaluatorId == null ? (byte?)ProcessType.Evaluator : null;
+            var sessionServiceEmployeeId = evaluatorId ?? CurrentEmployeeId;
+            byte permission = CheckEmployeePermission(epaId, sessionServiceEmployeeId, processId);
 
-            if (permission == (int)Policy.None)
+            if (permission == (byte)Policy.None)
             {
                 return Request.CreateResponse(HttpStatusCode.MethodNotAllowed, epaInfo);
             }
@@ -139,8 +140,8 @@
             if (criteria != null)
             {
                 criteria.ProcessId = (byte)ProcessType.Evaluator;
-                criteria.EvaluatorId = SessionService.EmployeeId;
-                criteria.ModifiedBy = SessionService.EmployeeId;
+                criteria.EvaluatorId = CurrentEmployeeId;
+                criteria.ModifiedBy = CurrentEmployeeId;
 
                 commandResult = baseService.ExecuteNonQuery(criteria);
             }
@@ -150,13 +151,13 @@
 
         public byte GetUserPermissionOnEvaluator()
         {
-            return SessionService.GetPermission(EPAFunctionKey.Evaluator);
+            return GetPermissionOnFunction(EPAFunctionKey.Evaluator);
         }
 
-        private int CheckEmployeePermission(
+        private byte CheckEmployeePermission(
             int epaId,
             int actorUserId,
-            int? processId = null)
+            byte? processId = null)
         {
             var criteria = new GetEmployeePermissionCriteria
             {
@@ -165,7 +166,7 @@
                 ProcessId = processId
             };
 
-            return baseService.GetDataEntity<int>(criteria);
+            return baseService.GetDataEntity<byte>(criteria);
         }
     }
 }

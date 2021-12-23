@@ -1,4 +1,4 @@
-﻿namespace SMS.EPA.Services.Implement
+﻿namespace SMS.EPA.Services
 {
     using System.Collections.Generic;
     using System.Linq;
@@ -8,7 +8,6 @@
     using SMS.EPA.Model.AutoService;
     using SMS.EPA.Model.Email;
     using SMS.EPA.Resources;
-    using SMS.EPA.Services.Interfaces;
 
     public class MailService : IMailService
     {

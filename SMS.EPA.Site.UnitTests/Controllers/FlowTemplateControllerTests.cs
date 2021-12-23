@@ -5,19 +5,20 @@
     using Core.Model;
     using Core.Services;
     using Criteria;
+    using HRM.UserControl.Client.Core.Session;
     using Model;
     using NSubstitute;
     using NUnit.Framework;
     using Services.Interfaces;
     using Site.Controllers.API;
+    using SMS.EPA.Core.Constants;
 
     [TestFixture]
     public class FlowTemplateControllerTests
     {
-        private IFlowTemplateService _flowTemplateService;
+        private IFlowTemplateService flowTemplateService;
         private IBaseService baseService;
-        private ISessionService _sessionService;
-        private FlowTemplateController _flowTemplateController;
+        private IUserControlSession userControlSession;
 
         #region GetFlowTemplate
 
@@ -26,12 +27,11 @@
         {
             // Arrange
             IEnumerable<FlowTemplateModel> result = GetListOfFlowTemplateForTest();
-            _flowTemplateService = FakeFlowTemplateService();
-            _flowTemplateService.GetFlowTemplate(Arg.Any<GetFlowTemplateCriteria>()).Returns(result);
-            _flowTemplateController = GetFlowTemplateController(_flowTemplateService);
+            var controller = GetFlowTemplateController();
+            flowTemplateService.GetFlowTemplate(Arg.Any<GetFlowTemplateCriteria>()).Returns(result);
 
             // Act
-            var actual = _flowTemplateController.GetFlowTemplate(Arg.Any<int?>(), Arg.Any<bool?>());
+            var actual = controller.GetFlowTemplate(Arg.Any<int?>(), Arg.Any<bool?>());
 
             // Assert
             Assert.IsNotNull(actual);
@@ -48,12 +48,11 @@
             // Arrange
             int flowTemplateId = 1;
             FlowTemplateModel result = GetListOfFlowTemplateForTest().First();
-            _flowTemplateService = FakeFlowTemplateService();
-            _flowTemplateService.GetFlowTemplateById(flowTemplateId).Returns(result);
-            _flowTemplateController = GetFlowTemplateController(_flowTemplateService);
+            var controller = GetFlowTemplateController();
+            flowTemplateService.GetFlowTemplateById(flowTemplateId).Returns(result);
 
             // Act
-            var actual = _flowTemplateController.GetFlowTemplateById(flowTemplateId);
+            var actual = controller.GetFlowTemplateById(flowTemplateId);
 
             // Assert
             Assert.IsNotNull(actual);
@@ -69,14 +68,11 @@
         {
             // Arrange
             var expected = new CommandResult();
-            _flowTemplateService = FakeFlowTemplateService();
-            _sessionService = FakeSessionService();
-            baseService = FakeBaseService();
+            var controller = GetFlowTemplateController();
             baseService.ExecuteNonQuery(Arg.Any<CreateFlowTemplateCriteria>()).Returns(expected);
-            _flowTemplateController = GetFlowTemplateController(_flowTemplateService, _sessionService, baseService);
 
             // Act
-            var actual = _flowTemplateController.CreateFlowTemplate(Arg.Any<CreateFlowTemplateCriteria>());
+            var actual = controller.CreateFlowTemplate(Arg.Any<CreateFlowTemplateCriteria>());
 
             // Assert
             Assert.IsInstanceOf(typeof(CommandResult), actual);
@@ -92,14 +88,11 @@
         {
             // Arrange
             var expected = new CommandResult();
-            _flowTemplateService = FakeFlowTemplateService();
-            _sessionService = FakeSessionService();
-            baseService = FakeBaseService();
+            var controller = GetFlowTemplateController();
             baseService.ExecuteNonQuery(Arg.Any<UpdateFlowTemplateCriteria>()).Returns(expected);
-            _flowTemplateController = GetFlowTemplateController(_flowTemplateService, _sessionService, baseService);
 
             // Act
-            var actual = _flowTemplateController.UpdateFlowTemplate(Arg.Any<UpdateFlowTemplateCriteria>());
+            var actual = controller.UpdateFlowTemplate(Arg.Any<UpdateFlowTemplateCriteria>());
 
             // Assert
             Assert.IsInstanceOf(typeof(CommandResult), actual);
@@ -115,14 +108,11 @@
         {
             // Arrange
             var expected = new CommandResult();
-            _flowTemplateService = FakeFlowTemplateService();
-            _sessionService = FakeSessionService();
-            baseService = FakeBaseService();
+            var controller = GetFlowTemplateController();
             baseService.ExecuteNonQuery(Arg.Any<UpdateStatusFlowTemplateCriteria>()).Returns(expected);
-            _flowTemplateController = GetFlowTemplateController(_flowTemplateService, _sessionService, baseService);
 
             // Act
-            var actual = _flowTemplateController.UpdateStatusFlowTemplate(Arg.Any<UpdateStatusFlowTemplateCriteria>());
+            var actual = controller.UpdateStatusFlowTemplate(Arg.Any<UpdateStatusFlowTemplateCriteria>());
 
             // Assert
             Assert.IsInstanceOf(typeof(CommandResult), actual);
@@ -138,14 +128,11 @@
         {
             // Arrange
             var expected = new CommandResult();
-            _flowTemplateService = FakeFlowTemplateService();
-            _sessionService = FakeSessionService();
-            baseService = FakeBaseService();
+            var controller = GetFlowTemplateController();
             baseService.ExecuteNonQuery(Arg.Any<DeleteFlowTemplateCriteria>()).Returns(expected);
-            _flowTemplateController = GetFlowTemplateController(_flowTemplateService, _sessionService, baseService);
 
             // Act
-            var actual = _flowTemplateController.DeleteFlowTemplate(Arg.Any<int>());
+            var actual = controller.DeleteFlowTemplate(Arg.Any<int>());
 
             // Assert
             Assert.IsInstanceOf(typeof(CommandResult), actual);
@@ -156,34 +143,23 @@
 
         #region Helpers
 
-        private static ISessionService FakeSessionService()
+        private static IUserControlSession FakeUserControlSession()
         {
-            var service = Substitute.For<ISessionService>();
-            service.EmployeeId = 1;
+            var session = Substitute.For<IUserControlSession>();
+            session.Set<int>(Constants.CurrentEmployeeIdKey, 1);
 
-            return service;
+            return session;
         }
 
-        private static IBaseService FakeBaseService()
+        private FlowTemplateController GetFlowTemplateController()
         {
-            var service = Substitute.For<IBaseService>();
-
-            return service;
-        }
-
-        private static IFlowTemplateService FakeFlowTemplateService()
-        {
-            var service = Substitute.For<IFlowTemplateService>();
-
-            return service;
-        }
-
-        private FlowTemplateController GetFlowTemplateController(
-            IFlowTemplateService flowTemplateService,
-            ISessionService sessionService = null,
-            IBaseService baseService = null)
-        {
-            var controller = new FlowTemplateController(flowTemplateService, baseService) { SessionService = sessionService };
+            userControlSession = FakeUserControlSession();
+            flowTemplateService = Substitute.For<IFlowTemplateService>();
+            baseService = Substitute.For<IBaseService>();
+            var controller = new FlowTemplateController(flowTemplateService, baseService)
+            {
+                UserControlSession = userControlSession
+            };
 
             return controller;
         }

@@ -1,20 +1,22 @@
 ﻿<nav id="navbar-example" class="navbar navbar-static top-menu" role="navigation" data-ng-controller="MenuController as menuCtrl">
     <div class="bs-example-js-navbar-collapse">
         <ul class="nav navbar-nav" ng-repeat="menu in menuCtrl.menus">
-            <li class="dropdown" uib-dropdown ng-if="menu.MenuItems && menu.MenuItems.length > 0">
-                <a id="drop{{$index}}" ng-click="openLink($event, '#')" data-role="button" class="dropdown-toggle" uib-dropdown-toggle>
-                    {{menu.MenuName}}<b class="caret"></b>
+            <li class="dropdown" uib-dropdown ng-if="menu.Childs && menu.Childs.length > 0">
+                <a id="drop{{$index}}" ng-click="openLink($event, '#')"
+                   data-role="button" class="dropdown-toggle" uib-dropdown-toggle>
+                    {{menu.MenuItemName}}<b class="caret"></b>
                 </a>
                 <ul class="dropdown-menu" data-role="button" aria-labelledby="drop{{$index}}">
-                    <li data-role="presentation" ng-repeat="childMenu in menu.MenuItems">
-                        <a data-role="menuitem" tabindex="-1" data-menu-tab ng-click="menuCtrl.openLink($event, childMenu.MenuLink)">
-                            {{childMenu.MenuName}}
+                    <li data-role="presentation" ng-repeat="child in menu.Childs">
+                        <a data-role="menuitem" tabindex="-1" data-menu-tab
+                           ng-click="menuCtrl.openLink($event, child.URL)">
+                            {{child.MenuItemName}}
                         </a>
                     </li>
                 </ul>
             </li>
-            <li ng-if="!menu.MenuItems || menu.MenuItems.length === 0">
-                <a data-menu-tab ng-click="menuCtrl.openLink($event, menu.MenuLink)">{{menu.MenuName}}</a>
+            <li ng-if="!menu.Childs || menu.Childs.length === 0">
+                <a data-menu-tab ng-click="menuCtrl.openLink($event, menu.URL)">{{menu.MenuItemName}}</a>
             </li>
         </ul>
     </div>

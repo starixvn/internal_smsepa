@@ -4,16 +4,17 @@
     using System.Net;
     using System.Net.Http;
     using System.Web.Http;
-    using Core.Attribute;
-    using Core.Constants;
-    using Core.Enumerations;
-    using Core.Model;
-    using Core.Services;
-    using Criteria;
-    using Model;
-    using Model.Enitites;
-    using Services.Implement;
-    using Services.Interfaces;
+    using HRM.UserControl.Client.Core.Enumerables;
+    using SMS.EPA.Core.Attribute;
+    using SMS.EPA.Core.Constants;
+    using SMS.EPA.Core.Enumerations;
+    using SMS.EPA.Core.Model;
+    using SMS.EPA.Core.Services;
+    using SMS.EPA.Criteria;
+    using SMS.EPA.Model;
+    using SMS.EPA.Model.Enitites;
+    using SMS.EPA.Services.Implement;
+    using SMS.EPA.Services.Interfaces;
 
     public class ReviewerEPAController : BaseController
     {
@@ -38,7 +39,7 @@
         {
             var criteria = new GetPeriodByActorIdCriteria
             {
-                ActorId = SessionService.EmployeeId,
+                ActorId = CurrentEmployeeId,
                 ProcessId = (byte)ProcessType.Reviewer
             };
 
@@ -51,7 +52,7 @@
         {
             var criteria = new GetGroupByActorIdCriteria
             {
-                ActorUserId = SessionService.EmployeeId,
+                ActorUserId = CurrentEmployeeId,
                 ProcessId = (byte)ProcessType.Reviewer,
                 PeriodId = periodId
             };
@@ -69,7 +70,7 @@
         {
             var criteria = new GetMemberByActorIdCriteria
             {
-                ActorUserId = SessionService.EmployeeId,
+                ActorUserId = CurrentEmployeeId,
                 ProcessId = (byte)ProcessType.Reviewer,
                 PeriodId = periodId,
                 GroupId = groupId,
@@ -92,7 +93,7 @@
         {
             var criteria = new GetEPAByReviewerCriteria
             {
-                ReviewerId = SessionService.EmployeeId,
+                ReviewerId = CurrentEmployeeId,
                 PeriodId = periodId,
                 GroupId = groupId,
                 IsLocal = isLocal,
@@ -109,11 +110,11 @@
         public HttpResponseMessage GetEPAInfoByReviewer(int epaId, int? reviewerId = null)
         {
             var epaInfo = new EPAModel();
-            var processId = reviewerId == null ? (int?)ProcessType.Reviewer : null;
-            var sessionServiceEmployeeId = reviewerId ?? SessionService.EmployeeId;
-            int permission = CheckEmployeePermission(epaId, sessionServiceEmployeeId, processId);
+            var processId = reviewerId == null ? (byte?)ProcessType.Reviewer : null;
+            var sessionServiceEmployeeId = reviewerId ?? CurrentEmployeeId;
+            byte permission = CheckEmployeePermission(epaId, sessionServiceEmployeeId, processId);
 
-            if (permission == (int)Policy.None)
+            if (permission == (byte)Policy.None)
             {
                 return Request.CreateResponse(HttpStatusCode.MethodNotAllowed, epaInfo);
             }
@@ -121,7 +122,7 @@
             var criteria = new GetEPAInfoByReviewerCriteria
             {
                 EPAId = epaId,
-                ReviewerId = SessionService.EmployeeId
+                ReviewerId = CurrentEmployeeId
             };
 
             epaInfo = reviewerEPAService.GetEPAInfoByReviewer(criteria);
@@ -137,7 +138,7 @@
             if (criteria != null)
             {
                 criteria.ProcessId = (byte)ProcessType.Reviewer;
-                criteria.ModifiedBy = SessionService.EmployeeId;
+                criteria.ModifiedBy = CurrentEmployeeId;
 
                 commandResult = baseService.ExecuteNonQuery(criteria);
             }
@@ -147,13 +148,13 @@
 
         public byte GetUserPermissionOnReviewer()
         {
-            return SessionService.GetPermission(EPAFunctionKey.Reviewer);
+            return GetPermissionOnFunction(EPAFunctionKey.Reviewer);
         }
 
-        private int CheckEmployeePermission(
+        private byte CheckEmployeePermission(
             int epaId,
             int actorUserId,
-            int? processId = null)
+            byte? processId = null)
         {
             var criteria = new GetEmployeePermissionCriteria
             {
@@ -162,7 +163,7 @@
                 ProcessId = processId
             };
 
-            return baseService.GetDataEntity<int>(criteria);
+            return baseService.GetDataEntity<byte>(criteria);
         }
     }
 }

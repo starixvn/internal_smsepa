@@ -2,16 +2,16 @@
 {
     using System.Collections.Generic;
     using System.Web.Http;
-    using Core.Attribute;
-    using Core.Constants;
-    using Core.Enumerations;
-    using Core.Model;
-    using Core.Services;
-    using Criteria;
-    using Model;
-    using Model.Enitites;
-    using Services.Implement;
-    using Services.Interfaces;
+    using HRM.UserControl.Client.Core.Enumerables;
+    using SMS.EPA.Core.Attribute;
+    using SMS.EPA.Core.Constants;
+    using SMS.EPA.Core.Model;
+    using SMS.EPA.Core.Services;
+    using SMS.EPA.Criteria;
+    using SMS.EPA.Model;
+    using SMS.EPA.Model.Enitites;
+    using SMS.EPA.Services.Implement;
+    using SMS.EPA.Services.Interfaces;
 
     public class TargetTemplateController : BaseController
     {
@@ -65,7 +65,7 @@
         {
             if (criteria != null)
             {
-                criteria.CreatedBy = SessionService.EmployeeId;
+                criteria.CreatedBy = CurrentEmployeeId;
             }
 
             CommandResult commandResult = baseService.ExecuteNonQuery(criteria);
@@ -78,7 +78,7 @@
         {
             if (criteria != null)
             {
-                criteria.ModifiedBy = SessionService.EmployeeId;
+                criteria.ModifiedBy = CurrentEmployeeId;
             }
 
             CommandResult commandResult = baseService.ExecuteNonQuery(criteria);
@@ -91,7 +91,7 @@
         {
             if (criteria != null)
             {
-                criteria.ModifiedBy = SessionService.EmployeeId;
+                criteria.ModifiedBy = CurrentEmployeeId;
             }
 
             CommandResult commandResult = baseService.ExecuteNonQuery(criteria);
@@ -104,7 +104,7 @@
         {
             if (criteria != null)
             {
-                criteria.ModifiedBy = SessionService.EmployeeId;
+                criteria.ModifiedBy = CurrentEmployeeId;
             }
 
             CommandResult commandResult = baseService.ExecuteNonQuery(criteria);
@@ -118,7 +118,7 @@
             var criteria = new DeleteTargetTemplateCriteria
             {
                 TargetTemplateId = targetTemplateId,
-                ModifiedBy = SessionService.EmployeeId
+                ModifiedBy = CurrentEmployeeId
             };
 
             CommandResult commandResult = baseService.ExecuteNonQuery(criteria);
@@ -131,7 +131,7 @@
         {
             if (criteria != null)
             {
-                criteria.ModifiedBy = SessionService.EmployeeId;
+                criteria.ModifiedBy = CurrentEmployeeId;
             }
 
             CommandResult commandResult = baseService.ExecuteNonQuery(criteria);
@@ -170,7 +170,7 @@
             {
                 TargetTemplateId = targetTemplateId,
                 KPIGroupId = kpiGroupId,
-                ModifiedBy = SessionService.EmployeeId
+                ModifiedBy = CurrentEmployeeId
             };
             CommandResult commandResult = baseService.ExecuteNonQuery(criteria);
 
@@ -179,7 +179,7 @@
 
         public byte GetUserPermissionOnTargetTemplate()
         {
-            return SessionService.GetPermission(EPAFunctionKey.TargetTemplate);
+            return GetPermissionOnFunction(EPAFunctionKey.TargetTemplate);
         }
 
         public IEnumerable<ScoreRatingTypeModel> GetScoreRatingType(int? scoreRatingTypeId = null, bool isActive = true)
@@ -189,7 +189,7 @@
                 ScoreRatingTypeId = scoreRatingTypeId,
                 IsActive = isActive
             };
-            IEnumerable<ScoreRatingTypeModel> scoreRatingTypes = baseService.GetData<ScoreRatingTypeModel>(criteria);
+            var scoreRatingTypes = baseService.GetData<ScoreRatingTypeModel>(criteria);
 
             return scoreRatingTypes;
         }
@@ -197,7 +197,7 @@
         public IEnumerable<RatingType> GetRatingType()
         {
             var criteria = new GetRatingTypeCriteria();
-            IEnumerable<RatingType> ratingTypes = baseService.GetData<RatingType>(criteria);
+            var ratingTypes = baseService.GetData<RatingType>(criteria);
 
             return ratingTypes;
         }

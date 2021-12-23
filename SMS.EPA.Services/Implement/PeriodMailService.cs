@@ -1,4 +1,4 @@
-﻿namespace SMS.EPA.Services.Implement
+﻿namespace SMS.EPA.Services
 {
     using System;
     using System.Collections.Generic;
@@ -6,7 +6,6 @@
     using System.Linq;
     using Core.Enumerations;
     using Core.Services;
-    using Interfaces;
     using Model;
     using SMS.EPA.Model.AutoService;
 

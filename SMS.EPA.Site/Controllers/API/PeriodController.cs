@@ -5,6 +5,7 @@
     using System.Linq;
     using System.Threading.Tasks;
     using System.Web.Http;
+    using HRM.UserControl.Client.Core.Enumerables;
     using SMS.EPA.Core.Attribute;
     using SMS.EPA.Core.Constants;
     using SMS.EPA.Core.Enumerations;
@@ -12,8 +13,7 @@
     using SMS.EPA.Core.Services;
     using SMS.EPA.Criteria;
     using SMS.EPA.Model;
-    using SMS.EPA.Services.Implement;
-    using SMS.EPA.Services.Interfaces;
+    using SMS.EPA.Services;
 
     public class PeriodController : BaseController
     {
@@ -81,7 +81,7 @@
             var commandResult = new CommandResult();
             if (criteria != null)
             {
-                criteria.CreatedBy = SessionService.EmployeeId;
+                criteria.CreatedBy = CurrentEmployeeId;
                 commandResult = baseService.ExecuteNonQuery(criteria);
             }
 
@@ -95,7 +95,7 @@
             var commandResult = new CommandResult();
             if (criteria != null)
             {
-                criteria.ModifiedBy = SessionService.EmployeeId;
+                criteria.ModifiedBy = CurrentEmployeeId;
                 commandResult = baseService.ExecuteNonQuery(criteria);
             }
 
@@ -115,7 +115,7 @@
             var commandResult = new CommandResult();
             if (criteria != null)
             {
-                criteria.ModifiedBy = SessionService.EmployeeId;
+                criteria.ModifiedBy = CurrentEmployeeId;
                 commandResult = baseService.ExecuteNonQuery(criteria);
             }
 
@@ -129,7 +129,7 @@
             var criteria = new DeletePeriodCriteria
             {
                 PeriodId = periodId,
-                ModifiedBy = SessionService.EmployeeId
+                ModifiedBy = CurrentEmployeeId
             };
             return baseService.ExecuteNonQuery(criteria);
         }
@@ -192,7 +192,7 @@
             var commandResult = new CommandResult();
             if (criteria != null)
             {
-                criteria.ModifiedBy = SessionService.EmployeeId;
+                criteria.ModifiedBy = CurrentEmployeeId;
                 commandResult = baseService.ExecuteNonQuery(criteria);
             }
 
@@ -206,7 +206,7 @@
             var commandResult = new CommandResult();
             if (criteria != null)
             {
-                criteria.ModifiedBy = SessionService.EmployeeId;
+                criteria.ModifiedBy = CurrentEmployeeId;
                 commandResult = periodService.UpdateEmployeeSettingOfPeriod(criteria);
 
                 if (commandResult.IsSuccessful)
@@ -229,7 +229,7 @@
             var commandResult = new CommandResult();
             if (criteria != null)
             {
-                criteria.ModifiedBy = SessionService.EmployeeId;
+                criteria.ModifiedBy = CurrentEmployeeId;
                 commandResult = baseService.ExecuteNonQuery(criteria);
             }
 
@@ -273,7 +273,7 @@
             var commandResult = new CommandResult();
             if (criteria != null)
             {
-                criteria.ModifiedBy = SessionService.EmployeeId;
+                criteria.ModifiedBy = CurrentEmployeeId;
                 commandResult = baseService.ExecuteNonQuery(criteria);
             }
 
@@ -293,7 +293,7 @@
 
         public byte GetUserPermissionOnPeriod()
         {
-            return SessionService.GetPermission(EPAFunctionKey.Period);
+            return GetPermissionOnFunction(EPAFunctionKey.Period);
         }
     }
 }

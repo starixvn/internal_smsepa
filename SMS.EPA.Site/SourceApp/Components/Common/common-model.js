@@ -45,8 +45,8 @@
             return pageSize * (currentPage - 1) + index + 1;
         };
 
-        model.getSystemRoles = function (exceptNone) {
-            return commonFactory.getSystemRoles(exceptNone).success(function (systemRoles) {
+        model.getSystemRoles = function (isActive) {
+            return commonFactory.getSystemRoles(isActive).success(function (systemRoles) {
                 model.systemRoles = systemRoles;
             }).error(function (response, status) {
                 errorFactory.errorHandle(status);

@@ -123,19 +123,6 @@
             return baseService.GetData<TargetTemplate>(criteria);
         }
 
-        public IEnumerable<MenuGroupModel> GetMenusByEmployeeId(int employeeId)
-        {
-            var criteria = new GetMenusByEmployeeIdCriteria
-            {
-                EmployeeId = employeeId
-            };
-
-            var menuItems = baseService.GetData<MenuItemModel>(criteria);
-            IList<MenuGroupModel> menus = GroupMenuItem(menuItems);
-
-            return menus;
-        }
-
         public IEnumerable<JobTitle> GetAllJobTitle()
         {
             var criteria = new GetAllJobTitleCriteria();
@@ -199,29 +186,6 @@
             }
 
             return string.Empty;
-        }
-
-        private IList<MenuGroupModel> GroupMenuItem(IEnumerable<MenuItemModel> menuItems)
-        {
-            var menuGroups = new List<MenuGroupModel>();
-            IEnumerable<MenuItemModel> parentMenu = menuItems.Where(item => item.ParentId == null).OrderBy(item => item.DisplayOrder).ToList();
-
-            foreach (MenuItemModel parent in parentMenu)
-            {
-                var menuGroupItem = new MenuGroupModel
-                {
-                    MenuId = parent.MenuId,
-                    MenuName = parent.MenuName,
-                    MenuLink = parent.MenuLink
-                };
-
-                menuGroupItem.MenuItems = menuItems.Where(menuItem => menuItem.ParentId == menuGroupItem.MenuId)
-                    .OrderBy(menuItem => menuItem.DisplayOrder).ToList();
-
-                menuGroups.Add(menuGroupItem);
-            }
-
-            return menuGroups;
         }
     }
 }

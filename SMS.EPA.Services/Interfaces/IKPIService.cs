@@ -1,8 +1,8 @@
-﻿namespace SMS.EPA.Services.Interfaces
+﻿namespace SMS.EPA.Services
 {
     using System.Collections.Generic;
-    using Criteria;
-    using Model;
+    using SMS.EPA.Criteria;
+    using SMS.EPA.Model;
 
     public interface IKPIService
     {

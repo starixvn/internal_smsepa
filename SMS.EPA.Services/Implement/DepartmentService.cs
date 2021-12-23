@@ -1,9 +1,8 @@
-﻿namespace SMS.EPA.Services.Implement
+﻿namespace SMS.EPA.Services
 {
     using System.Collections.Generic;
     using System.Linq;
     using Criteria;
-    using Interfaces;
     using Model.Enitites;
     using Repositories;
 

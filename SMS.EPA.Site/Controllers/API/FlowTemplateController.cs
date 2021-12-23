@@ -2,15 +2,15 @@
 {
     using System.Collections.Generic;
     using System.Web.Http;
-    using Core.Attribute;
-    using Core.Constants;
-    using Core.Enumerations;
-    using Core.Model;
-    using Core.Services;
-    using Criteria;
-    using Model;
-    using Services.Implement;
-    using Services.Interfaces;
+    using HRM.UserControl.Client.Core.Enumerables;
+    using SMS.EPA.Core.Attribute;
+    using SMS.EPA.Core.Constants;
+    using SMS.EPA.Core.Model;
+    using SMS.EPA.Core.Services;
+    using SMS.EPA.Criteria;
+    using SMS.EPA.Model;
+    using SMS.EPA.Services.Implement;
+    using SMS.EPA.Services.Interfaces;
 
     public class FlowTemplateController : BaseController
     {
@@ -55,7 +55,7 @@
         {
             if (criteria != null)
             {
-                criteria.CreatedBy = SessionService.EmployeeId;
+                criteria.CreatedBy = CurrentEmployeeId;
             }
 
             return baseService.ExecuteNonQuery(criteria);
@@ -67,7 +67,7 @@
         {
             if (criteria != null)
             {
-                criteria.ModifiedBy = SessionService.EmployeeId;
+                criteria.ModifiedBy = CurrentEmployeeId;
             }
 
             return baseService.ExecuteNonQuery(criteria);
@@ -79,7 +79,7 @@
         {
             if (criteria != null)
             {
-                criteria.ModifiedBy = SessionService.EmployeeId;
+                criteria.ModifiedBy = CurrentEmployeeId;
             }
 
             return baseService.ExecuteNonQuery(criteria);
@@ -92,7 +92,7 @@
             var criteria = new DeleteFlowTemplateCriteria
             {
                 FlowTemplateId = flowTemplateId,
-                ModifiedBy = SessionService.EmployeeId
+                ModifiedBy = CurrentEmployeeId
             };
 
             return baseService.ExecuteNonQuery(criteria);

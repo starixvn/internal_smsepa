@@ -4,28 +4,42 @@
     using System.Linq;
     using System.Threading.Tasks;
     using System.Web.Http;
-    using Core.Constants;
-    using Core.Enumerations;
-    using Core.Utilities;
-    using Criteria;
-    using Criteria.EPAHistory;
-    using Criteria.TargetType;
-    using Model;
-    using Model.Enitites;
+    using HRM.UserControl.Client.AspNetMvc.Session;
+    using HRM.UserControl.Client.Core.Models;
+    using HRM.UserControl.Client.Core.Models.Role;
+    using HRM.UserControl.Client.Core.Services;
+    using HRM.UserControl.Client.Core.Session;
+    using SMS.EPA.Core.Constants;
     using SMS.EPA.Core.Services;
+    using SMS.EPA.Core.Utilities;
     using SMS.EPA.Services;
+    using SMS.EPA.Criteria;
+    using SMS.EPA.Criteria.EPAHistory;
+    using SMS.EPA.Criteria.TargetType;
+    using SMS.EPA.Model;
+    using SMS.EPA.Model.Enitites;
+    using SMS.EPA.Services;
+    using SMS.EPA.Services.Implement;
 
     public class CommonController : BaseController
     {
+        private readonly IUserControlSession userControlSession;
+        private readonly IRoleService roleService;
         private readonly IBaseService baseService;
         private readonly ICommonService commonService;
 
-        public CommonController() : this(null, null)
+        public CommonController() : this(null, null, null, null)
         {
         }
 
-        public CommonController(IBaseService baseService, ICommonService commonService)
+        public CommonController(
+            IUserControlSession userControlSession,
+            IRoleService roleService,
+            IBaseService baseService,
+            ICommonService commonService)
         {
+            this.userControlSession = userControlSession ?? new UserControlSession();
+            this.roleService = roleService ?? new RoleService();
             this.baseService = baseService ?? new BaseService();
             this.commonService = commonService ?? new CommonService();
         }
@@ -71,32 +85,10 @@
             return commonService.GetKPIGroup(criteria);
         }
 
-        public List<object> GetSystemRoles(bool exceptNone)
+        public IList<Role> GetSystemRoles(bool? isActive = true)
         {
-            var roles = new List<object>();
-
-            foreach (SystemRole roleEnum in (SystemRole[])System.Enum.GetValues(typeof(SystemRole)))
-            {
-                var role = new
-                {
-                    RoleId = (int)roleEnum,
-                    RoleCode = Enumerations.GetDescription(roleEnum)
-                };
-
-                if (exceptNone && roleEnum != 0)
-                {
-                    roles.Add(role);
-                }
-                else
-                {
-                    if (!exceptNone)
-                    {
-                        roles.Add(role);
-                    }
-                }
-            }
-
-            return roles;
+            IList<Role> systemRoles = roleService.GetBySiteId(userControlSession.SiteId, isActive);
+            return systemRoles;
         }
 
         [HttpGet]
@@ -114,7 +106,7 @@
                 TeamIds = teamIds,
                 IsSpecialUser = isSpecialUser,
                 IsDisabledUser = isDisabledUser,
-                ApproverId = getByApprover == true && SessionService != null ? (int?)SessionService.EmployeeId : null,
+                ApproverId = getByApprover == true ? (int?)CurrentEmployeeId : null,
                 IncludeVerifier = includeVerifier
             };
 
@@ -209,9 +201,10 @@
         }
 
         [HttpGet]
-        public IEnumerable<MenuGroupModel> GetMenusByEmployeeId()
+        public IEnumerable<MenuItem> GetMenusByEmployeeId()
         {
-            return commonService.GetMenusByEmployeeId(SessionService.EmployeeId);
+            IEnumerable<MenuItem> menus = userControlSession.MenuItems;
+            return GroupMenuItem(menus);
         }
 
         public IEnumerable<JobTitle> GetAllJobTitle()
@@ -221,7 +214,7 @@
 
         public byte GetUserPermissionOnFlowManagement()
         {
-            return SessionService.GetPermission(EPAFunctionKey.FlowManagement);
+            return GetPermissionOnFunction(EPAFunctionKey.FlowManagement);
         }
 
         public async Task<IEnumerable<JobLevel>> GetJobLevel(bool? isDeleted = null)
@@ -240,6 +233,21 @@
             var teams = tuple.Item3.ToList();
 
             return GetOrgChart(departments, sections, teams);
+        }
+
+        private IList<MenuItem> GroupMenuItem(IEnumerable<MenuItem> menuItems)
+        {
+            var menuGroups = new List<MenuItem>();
+            IList<MenuItem> parents = menuItems.Where(item => !item.ParentId.HasValue)
+                .OrderBy(item => item.DisplayOrder).ToList();
+
+            foreach (MenuItem parent in parents)
+            {
+                parent.Childs = menuItems.Where(x => x.ParentId.HasValue && x.ParentId.Value == parent.MenuItemId)
+                    .OrderBy(menuItem => menuItem.DisplayOrder).ToList();
+            }
+
+            return parents;
         }
     }
 }

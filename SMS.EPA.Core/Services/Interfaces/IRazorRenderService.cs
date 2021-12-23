@@ -1,4 +1,4 @@
-﻿namespace SMS.EPA.Core.Services.Interfaces
+﻿namespace SMS.EPA.Core.Services
 {
     using System.Web.Mvc;
 

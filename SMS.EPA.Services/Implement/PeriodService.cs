@@ -1,4 +1,4 @@
-﻿namespace SMS.EPA.Services.Implement
+﻿namespace SMS.EPA.Services
 {
     using System;
     using System.Collections.Generic;
@@ -9,7 +9,6 @@
     using SMS.EPA.Model;
     using SMS.EPA.Model.AutoService;
     using SMS.EPA.Repositories;
-    using SMS.EPA.Services.Interfaces;
 
     public class PeriodService : IPeriodService
     {

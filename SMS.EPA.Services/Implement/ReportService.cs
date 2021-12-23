@@ -1,34 +1,34 @@
-﻿namespace SMS.EPA.Services.Implement
+﻿namespace SMS.EPA.Services
 {
     using System;
     using System.Collections.Generic;
-    using System.Diagnostics.CodeAnalysis;
     using System.Globalization;
     using System.IO;
     using System.Linq;
     using System.Text;
-    using Core.Constants;
-    using Core.Enumerations;
-    using Core.Services;
-    using Criteria;
-    using Criteria.Report;
-    using Interfaces;
-    using Model;
+    using HRM.UserControl.Client.AspNetMvc.Session;
+    using HRM.UserControl.Client.Core.Session;
     using NPOI.HSSF.UserModel;
     using NPOI.HSSF.Util;
     using NPOI.SS.UserModel;
     using NPOI.SS.Util;
-    using Repositories;
-    using Resources;
+    using SMS.EPA.Core.Constants;
+    using SMS.EPA.Core.Enumerations;
+    using SMS.EPA.Core.Services;
+    using SMS.EPA.Criteria;
+    using SMS.EPA.Criteria.Report;
+    using SMS.EPA.Model;
+    using SMS.EPA.Repositories;
+    using SMS.EPA.Resources;
 
-    [SuppressMessage("Major Code Smell", "S109:Magic numbers should not be used", Justification = "<Pending>")]
+#pragma warning disable S109 // Magic numbers should not be used
     public class ReportService : IReportService
     {
         private const int ExcelColumnWidth = 256;
+        private readonly IUserControlSession userControlSession;
         private readonly IEmployeeEPARepository employeeEPARepository;
         private readonly IEmployeeEPAService employeeEPAService;
         private readonly IReportRepository reportRepository;
-        private readonly ISessionService sessionService;
         private readonly IBaseService baseService;
 
         public ReportService() : this(null, null, null, null, null)
@@ -36,16 +36,16 @@
         }
 
         public ReportService(
+            IUserControlSession userControlSession,
             IReportRepository reportRepository,
             IEmployeeEPARepository employeeEPARepository,
             IEmployeeEPAService employeeEPAService,
-            ISessionService sessionService,
             IBaseService baseService)
         {
+            this.userControlSession = userControlSession ?? new UserControlSession();
             this.reportRepository = reportRepository ?? new ReportRepository();
             this.employeeEPARepository = employeeEPARepository ?? new EmployeeEPARepository();
             this.employeeEPAService = employeeEPAService ?? new EmployeeEPAService();
-            this.sessionService = sessionService ?? new SessionService();
             this.baseService = baseService ?? new BaseService();
         }
 
@@ -99,7 +99,7 @@
             EPADetailModel result = reportRepository.GetEPADetail(criteria);
             foreach (EPAModel epaInfo in result.EpaInfos)
             {
-                employeeEPAService.RemoveSensitiveDataOnEmployeeRole(epaInfo, sessionService);
+                    employeeEPAService.RemoveSensitiveDataOnEmployeeRole(epaInfo, userControlSession);
             }
 
             string epaIds = string.Join(",", result.EpaInfos.Where(x => x.IsSemiHasMonthly && x.EPAId > 0).Select(x => x.EPAId));
@@ -164,7 +164,7 @@
             EPADetailModel result = reportRepository.GetMonthlyEPADetail(criteria);
             foreach (EPAModel epaInfo in result.EpaInfos)
             {
-                employeeEPAService.RemoveSensitiveDataOnEmployeeRole(epaInfo, sessionService);
+                    employeeEPAService.RemoveSensitiveDataOnEmployeeRole(epaInfo, userControlSession);
             }
 
             return result;
@@ -580,4 +580,5 @@
             return performanceScore;
         }
     }
+#pragma warning restore S109 // Magic numbers should not be used
 }

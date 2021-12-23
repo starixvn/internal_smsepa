@@ -4,11 +4,12 @@
     using System.IO;
     using System.Linq;
     using System.Web.Mvc;
+    using HRM.UserControl.Client.AspNetMvc.Session;
+    using HRM.UserControl.Client.Core.Session;
     using NPOI.HSSF.Util;
     using NPOI.SS.UserModel;
     using SMS.EPA.Core.Constants;
     using SMS.EPA.Core.Enumerations;
-    using SMS.EPA.Core.Services;
     using SMS.EPA.Criteria;
     using SMS.EPA.Criteria.Report;
     using SMS.EPA.Model;
@@ -43,7 +44,7 @@
         private readonly IPeriodService _periodService;
         private readonly IPersonalFlowService _personalFlowService;
         private readonly IReportService _reportService;
-        private readonly ISessionService _sessionService;
+        private readonly IUserControlSession userControlSession;
         private readonly ITargetEmployeeSettingService _targetEmployeeSettingService;
         private readonly IDepartmentFlowService departmentFlowService;
 
@@ -66,7 +67,7 @@
             IPeriodService periodService,
             IEmployeeService employeeService,
             IPersonalFlowService personalFlowService,
-            ISessionService sessionService,
+            IUserControlSession userControlSession,
             IDepartmentFlowService departmentFlowService)
 #pragma warning restore S107 // Methods should not have too many parameters
         {
@@ -74,7 +75,7 @@
             _epaDetailReportService = epaDetailReportService ?? new EPADetailReportService();
             _monthlyEPADetailReportService = monthlyEPADetailReportService ?? new MonthlyEPADetailReportService();
             _disciplineService = disciplineService ?? new DisciplineService();
-            _sessionService = sessionService ?? new SessionService();
+            this.userControlSession = userControlSession ?? new UserControlSession();
             _employeeEPAService = employeeEPAService ?? new EmployeeEPAService();
             _exportExcelService = exportExcelService ?? new ExportExcelService();
             _targetEmployeeSettingService = targetEmployeeSettingService ?? new TargetEmployeeSettingService();
@@ -114,7 +115,7 @@
             const int contentFirstRowIndex = 3;
             if (criteria != null)
             {
-                criteria.ApproverId = _sessionService.CurrentUser.EmployeeId;
+                criteria.ApproverId = userControlSession.Get<int>(Constants.CurrentEmployeeIdKey);
                 IEnumerable<DisciplineSummaryModel> employeeDisciplines = _disciplineService.GetDisciplineSummary(criteria);
 
                 if (employeeDisciplines != null && employeeDisciplines.Any())
@@ -201,7 +202,7 @@
 
         public ActionResult ExportEPADetailReport(GetEPADetailCriteria criteria)
         {
-            criteria.ActorId = _sessionService.CurrentUser.EmployeeId;
+            criteria.ActorId = userControlSession.Get<int>(Constants.CurrentEmployeeIdKey);
 
             EPADetailModel epaDetail = _reportService.GetEPADetailReport(criteria);
 
@@ -221,7 +222,7 @@
 
         public ActionResult ExportEPASummaryReport(GetEPASummaryCriteria criteria)
         {
-            criteria.ActorId = _sessionService.CurrentUser.EmployeeId;
+            criteria.ActorId = userControlSession.Get<int>(Constants.CurrentEmployeeIdKey);
 
             EPASummaryModel epaSummary = _reportService.GetEPASummaryReport(criteria);
             epaSummary.Period = _reportService.GetEPADetailPeriodForExportedFileName(criteria.PeriodIds);
@@ -235,7 +236,7 @@
 
         public ActionResult ExportMonthlyEPADetailReport(GetMonthlyEPADetailCriteria criteria)
         {
-            criteria.EmployeeId = _sessionService.CurrentUser.EmployeeId;
+            criteria.EmployeeId = userControlSession.Get<int>(Constants.CurrentEmployeeIdKey);
 
             EPADetailModel epaDetail = _reportService.GetMonthlyEPADetailReport(criteria);
             epaDetail.Period = _reportService.GetEPADetailPeriodForExportedFileName(criteria.PeriodId?.ToString());
@@ -248,7 +249,7 @@
         {
             string fileName = Lang.MonthlyEPASummaryReportName + ".xls";
 
-            criteria.EmployeeId = _sessionService.CurrentUser.EmployeeId;
+            criteria.EmployeeId = userControlSession.Get<int>(Constants.CurrentEmployeeIdKey);
 
             EPASummaryModel epaSummary = _reportService.GetMonthlyEPASummaryReport(criteria);
 

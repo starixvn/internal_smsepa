@@ -1,10 +1,10 @@
-﻿namespace SMS.EPA.Services.Interfaces
+﻿namespace SMS.EPA.Services
 {
     using System.Collections.Generic;
-    using Core.Services;
-    using Criteria;
-    using Model;
+    using HRM.UserControl.Client.Core.Session;
     using SMS.EPA.Core.Model;
+    using SMS.EPA.Criteria;
+    using SMS.EPA.Model;
 
     public interface IEmployeeEPAService
     {
@@ -20,7 +20,7 @@
 
         EPAModel GetEPAInfoById(int epaId);
 
-        void RemoveSensitiveDataOnEmployeeRole(EPAModel epaInfo, ISessionService sessionService);
+        void RemoveSensitiveDataOnEmployeeRole(EPAModel epaInfo, IUserControlSession userControlSession);
 
         IList<EPAModel> GetEPAToUpdateFinalScore(GetEPAToUpdateFinalScoreCriteria criteria);
 

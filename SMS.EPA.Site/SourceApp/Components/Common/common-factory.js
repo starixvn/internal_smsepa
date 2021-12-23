@@ -20,8 +20,8 @@
                     }
                 });
             },
-            getSystemRoles: function (exceptNone) {
-                return $http.get(baseUrl + 'api/Common/GetSystemRoles', { params: { exceptNone: exceptNone } });
+            getSystemRoles: function (isActive) {
+                return $http.get(baseUrl + 'api/Common/GetSystemRoles', { params: { isActive } });
             },
             getKPI: function (kpiGroupId, isActive, isRequiredEvaluate) {
                 return $http.get(baseUrl + 'api/Common/GetKPI', {

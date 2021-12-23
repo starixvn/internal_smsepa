@@ -3,9 +3,9 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Web.Http;
+    using HRM.UserControl.Client.Core.Enumerables;
     using SMS.EPA.Core.Attribute;
     using SMS.EPA.Core.Constants;
-    using SMS.EPA.Core.Enumerations;
     using SMS.EPA.Core.Model;
     using SMS.EPA.Core.Services;
     using SMS.EPA.Criteria;
@@ -53,7 +53,7 @@
             var commandResult = new CommandResult();
             if (criteria != null)
             {
-                criteria.ModifiedBy = SessionService.EmployeeId;
+                criteria.ModifiedBy = CurrentEmployeeId;
                 commandResult = baseService.ExecuteNonQuery(criteria);
             }
 
@@ -68,7 +68,7 @@
             {
                 EmployeeId = employeeId,
                 FlowTemplateId = flowTemplateId,
-                ModifiedBy = SessionService.EmployeeId
+                ModifiedBy = CurrentEmployeeId
             };
             return baseService.ExecuteNonQuery(criteria);
         }

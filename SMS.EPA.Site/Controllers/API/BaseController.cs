@@ -1,45 +1,68 @@
 ﻿namespace SMS.EPA.Site.Controllers.API
 {
-    using Core.Attribute;
-    using Core.Services;
     using SMS.EPA.Model.Enitites;
     using System.Collections.Generic;
     using System.Linq;
     using System.Web.Http;
     using System.Web.Security;
+    using HRM.UserControl.Client.AspNetMvc.Session;
+    using HRM.UserControl.Client.Core.Enumerables;
+    using HRM.UserControl.Client.Core.Session;
+    using SMS.EPA.Core.Attribute;
+    using SMS.EPA.Core.Constants;
 
     [WebApiValidateAntiForgeryToken]
     [CustomActionFilter]
     public class BaseController : ApiController
     {
-        private ISessionService _sessionService;
+        private IUserControlSession userControlSession;
 
         public BaseController()
             : this(null)
         {
         }
 
-        public BaseController(ISessionService sessionService)
+        public BaseController(IUserControlSession userControlSession)
         {
-            _sessionService = sessionService ?? new SessionService();
+            this.userControlSession = userControlSession ?? new UserControlSession();
         }
 
-        public ISessionService SessionService
+        public IUserControlSession UserControlSession
         {
             get
             {
-                if (_sessionService == null || _sessionService.EmployeeId <= 0)
+                if (userControlSession == null || userControlSession.UserId <= 0)
                 {
                     FormsAuthentication.RedirectToLoginPage();
                 }
 
-                return _sessionService;
+                return userControlSession;
             }
 
             set
             {
-                _sessionService = value;
+                userControlSession = value;
             }
+        }
+
+        protected int CurrentEmployeeId => UserControlSession.Get<int>(Constants.CurrentEmployeeIdKey);
+
+        protected byte GetPermissionOnFunction(string functionKey)
+        {
+            byte policy = (byte)Policy.None;
+            if (UserControlSession.HasPermissionOnFunction(EPAFunctionKey.FlowManagement, Policy.Host))
+            {
+                policy = (byte)Policy.Host;
+            }
+            else
+            {
+                if (UserControlSession.HasPermissionOnFunction(EPAFunctionKey.FlowManagement, Policy.Read))
+                {
+                    policy = (byte)Policy.Read;
+                }
+            }
+
+            return policy;
         }
 
         protected IList<MultiSelectItem> GetOrgChart(IList<Department> departments, IList<Section> sections, IList<Team> teams)

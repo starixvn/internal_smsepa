@@ -1,22 +1,22 @@
 ﻿namespace SMS.EPA.Site.UnitTests
 {
-    using System.Diagnostics.CodeAnalysis;
     using Core.Model;
     using Core.Services;
     using Criteria;
+    using HRM.UserControl.Client.Core.Session;
     using Model;
     using NSubstitute;
     using NUnit.Framework;
-    using Services.Interfaces;
     using Site.Controllers.API;
+    using SMS.EPA.Core.Constants;
+    using SMS.EPA.Services;
 
     [TestFixture]
     public class MonthlyPeriodControllerTests
     {
-        private IPeriodService _periodService;
+        private IPeriodService periodService;
         private IBaseService baseService;
-        private ISessionService _sessionService;
-        private MonthlyPeriodController _monthlyPeriodController;
+        private IUserControlSession userControlSession;
 
         [Test]
         public void GetMonthlyPeriodById_WhenCalled_ReturnExpectedPeriod()
@@ -28,13 +28,11 @@
                 PeriodId = periodId,
                 Name = "test 1"
             };
-
-            _periodService = FakePeriodService();
-            _periodService.GetPeriodById(periodId).Returns(period);
-            _monthlyPeriodController = GetMonthlyPeriodController(_periodService);
+            var controller = GetMonthlyPeriodController();
+            periodService.GetPeriodById(periodId).Returns(period);
 
             // Act
-            var actual = _monthlyPeriodController.GetMonthlyPeriodById(periodId);
+            var actual = controller.GetMonthlyPeriodById(periodId);
 
             // Assert
             Assert.AreEqual(period, actual);
@@ -46,14 +44,11 @@
         {
             // Arrange
             var expected = new CommandResult();
-            _periodService = FakePeriodService();
-            _sessionService = FakeSessionService();
-            baseService = FakeBaseService();
+            var controller = GetMonthlyPeriodController();
             baseService.ExecuteNonQuery(Arg.Any<CreatePeriodCriteria>()).Returns(expected);
-            _monthlyPeriodController = GetMonthlyPeriodController(_periodService, _sessionService, baseService);
 
             // Act
-            var actual = _monthlyPeriodController.CreateMonthlyPeriod(new CreatePeriodCriteria());
+            var actual = controller.CreateMonthlyPeriod(new CreatePeriodCriteria());
 
             // Assert
             Assert.IsInstanceOf(typeof(CommandResult), actual);
@@ -65,14 +60,11 @@
         {
             // Arrange
             var expected = new CommandResult();
-            _periodService = FakePeriodService();
-            _sessionService = FakeSessionService();
-            baseService = FakeBaseService();
+            var controller = GetMonthlyPeriodController();
             baseService.ExecuteNonQuery(Arg.Any<UpdateBasicInformationPeriodCriteria>()).Returns(expected);
-            _monthlyPeriodController = GetMonthlyPeriodController(_periodService, _sessionService, baseService);
 
             // Act
-            var actual = _monthlyPeriodController.UpdateBasicInfoMonthlyPeriod(new UpdateBasicInformationPeriodCriteria());
+            var actual = controller.UpdateBasicInfoMonthlyPeriod(new UpdateBasicInformationPeriodCriteria());
 
             // Assert
             Assert.IsInstanceOf(typeof(CommandResult), actual);
@@ -81,35 +73,23 @@
 
         #region Helpers
 
-        private static ISessionService FakeSessionService()
+        private static IUserControlSession FakeUserControlSession()
         {
-            var service = Substitute.For<ISessionService>();
-            service.EmployeeId = 1;
+            var session = Substitute.For<IUserControlSession>();
+            session.Set<int>(Constants.CurrentEmployeeIdKey, 1);
 
-            return service;
+            return session;
         }
 
-        private static IPeriodService FakePeriodService()
+        private MonthlyPeriodController GetMonthlyPeriodController()
         {
-            var service = Substitute.For<IPeriodService>();
-
-            return service;
-        }
-
-        private static IBaseService FakeBaseService()
-        {
-            var service = Substitute.For<IBaseService>();
-
-            return service;
-        }
-
-        [SuppressMessage("Microsoft.Reliability", "CA2000:Dispose objects before losing scope", Justification = "Reviewed")]
-        private MonthlyPeriodController GetMonthlyPeriodController(
-            IPeriodService periodService = null,
-            ISessionService sessionService = null,
-            IBaseService baseService = null)
-        {
-            var controller = new MonthlyPeriodController(periodService, baseService) { SessionService = sessionService };
+            userControlSession = FakeUserControlSession();
+            periodService = Substitute.For<IPeriodService>();
+            baseService = Substitute.For<IBaseService>();
+            var controller = new MonthlyPeriodController(periodService, baseService)
+            {
+                UserControlSession = userControlSession
+            };
 
             return controller;
         }

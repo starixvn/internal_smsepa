@@ -1,28 +1,34 @@
 ﻿namespace SMS.EPA.Site.Controllers.API
 {
-    using Core.Attribute;
-    using Core.Constants;
-    using Core.Enumerations;
-    using Criteria.EPAHistory;
-    using Model.EPAHistory;
-    using Services.Implement;
-    using Services.Interfaces;
     using System.Collections.Generic;
     using System.Linq;
     using System.Web.Http;
+    using HRM.UserControl.Client.Core.Enumerables;
+    using HRM.UserControl.Client.Core.Services;
+    using SMS.EPA.Core.Attribute;
+    using SMS.EPA.Core.Constants;
+    using SMS.EPA.Core.Enumerations;
+    using SMS.EPA.Criteria.EPAHistory;
+    using SMS.EPA.Model.EPAHistory;
+    using SMS.EPA.Services.Implement;
+    using SMS.EPA.Services.Interfaces;
 
     public class EPAHistoryController : BaseController
     {
         private readonly IEPAHistoryService epaHistoryService;
+        private readonly IRoleService roleService;
 
         public EPAHistoryController()
-            : this(null)
+            : this(null, null)
         {
         }
 
-        public EPAHistoryController(IEPAHistoryService epaHistoryService)
+        public EPAHistoryController(
+            IEPAHistoryService epaHistoryService,
+            IRoleService roleService)
         {
             this.epaHistoryService = epaHistoryService ?? new EPAHistoryService();
+            this.roleService = roleService ?? new RoleService();
         }
 
         [HttpGet]
@@ -36,7 +42,7 @@
             var criteria = new GetEPAHistoryCriteria
             {
                 PeriodId = periodId,
-                EvaluatorId = SessionService.EmployeeId,
+                EvaluatorId = CurrentEmployeeId,
                 TeamIds = teamIds,
                 IsLocal = isLocal,
                 EmployeeId = employeeId
@@ -52,7 +58,7 @@
             var criteria = new GetMonthlyEPAHistoryCriteria
             {
                 PeriodId = periodId,
-                EvaluatorId = SessionService.EmployeeId,
+                EvaluatorId = CurrentEmployeeId,
                 EmployeeId = employeeId
             };
 
@@ -63,8 +69,8 @@
         [HttpGet]
         public bool HasOnlyEmployeeRole()
         {
-            bool onlyEmployeeRole = SessionService.CurrentUser.Roles.All(x => x.RoleId == (int)SystemRole.Employee);
-            return onlyEmployeeRole;
+            return roleService.GetByUserId(UserControlSession.UserId)
+                .All(x => x.RoleId == (byte)SystemRole.Employee);
         }
     }
 }

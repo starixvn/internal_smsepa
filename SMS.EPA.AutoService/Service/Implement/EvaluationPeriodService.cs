@@ -11,8 +11,7 @@
     using SMS.EPA.Criteria;
     using SMS.EPA.Model;
     using SMS.EPA.Model.AutoService;
-    using SMS.EPA.Services.Implement;
-    using SMS.EPA.Services.Interfaces;
+    using SMS.EPA.Services;
 
     public class EvaluationPeriodService : IEvaluationPeriodService
     {

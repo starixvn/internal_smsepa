@@ -2,48 +2,49 @@
 {
     using System.Collections.Generic;
     using System.Web.Http;
-    using Core.Attribute;
-    using Core.Constants;
-    using Core.Enumerations;
-    using Core.Model;
-    using Core.Services;
-    using Criteria;
-    using Model;
-    using Services.Implement;
-    using Services.Interfaces;
+    using HRM.UserControl.Client.AspNetMvc.Session;
+    using HRM.UserControl.Client.Core.Enumerables;
+    using HRM.UserControl.Client.Core.Models;
+    using HRM.UserControl.Client.Core.Services;
+    using HRM.UserControl.Client.Core.Session;
+    using SMS.EPA.Core.Attribute;
+    using SMS.EPA.Core.Constants;
 
     public class RoleController : BaseController
     {
+        private readonly IUserControlSession userControlSession;
         private readonly IRoleService roleService;
-        private readonly IBaseService baseService;
+        private readonly IFunctionService functionService;
 
-        public RoleController() : this(null, null)
+        public RoleController() : this(null, null, null)
         {
         }
 
-        public RoleController(IRoleService roleService, IBaseService baseService)
+        public RoleController(
+            IUserControlSession userControlSession,
+            IRoleService roleService,
+            IFunctionService functionService)
         {
+            this.userControlSession = userControlSession ?? new UserControlSession();
             this.roleService = roleService ?? new RoleService();
-            this.baseService = baseService ?? new BaseService();
+            this.functionService = functionService ?? new FunctionService();
         }
 
         [ApiAuthorize(FunctionKey = EPAFunctionKey.RoleManagement, Policy = Policy.Read)]
-        public IEnumerable<RoleFunctionModel> GetRoleFunctionByRoleId(int roleId)
+        public object GetRoleFunctionByRoleId(short roleId)
         {
-            IEnumerable<RoleFunctionModel> functions = roleService.GetFunctionByRoleId(roleId);
-            return functions;
+            return new
+            {
+                Functions = functionService.GetHierarchyBySiteId(userControlSession.SiteId),
+                FunctionPermissions = functionService.GetPermissionBySiteAndRoleId(userControlSession.SiteId, roleId)
+            };
         }
 
         [HttpPut]
         [ApiAuthorize(FunctionKey = EPAFunctionKey.RoleManagement, Policy = Policy.Host)]
-        public CommandResult AssignFunctionToRole(AssignFunctionToRoleCriteria criteria)
+        public CommandResult AssignFunctionToRole(short roleId, IList<FunctionPermission> permissions)
         {
-            if (criteria != null)
-            {
-                criteria.ModifiedBy = SessionService.EmployeeId;
-            }
-
-            CommandResult commandResult = baseService.ExecuteNonQuery(criteria);
+            CommandResult commandResult = roleService.AssignPermission(userControlSession.SiteId, roleId, permissions);
             return commandResult;
         }
     }

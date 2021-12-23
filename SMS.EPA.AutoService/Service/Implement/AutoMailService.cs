@@ -2,9 +2,8 @@
 {
     using System.Collections.Generic;
     using Core.Enumerations;
-    using Services.Implement;
-    using Services.Interfaces;
     using SMS.EPA.Model.AutoService;
+    using SMS.EPA.Services;
 
     public class AutoMailService : IAutoMailService
     {

@@ -2,16 +2,16 @@
 {
     using System.Collections.Generic;
     using System.Web.Http;
-    using Core.Attribute;
-    using Core.Constants;
-    using Core.Enumerations;
-    using Core.Model;
-    using Core.Services;
-    using Criteria;
-    using Model;
-    using Model.Enitites;
-    using Services.Implement;
-    using Services.Interfaces;
+    using HRM.UserControl.Client.Core.Enumerables;
+    using SMS.EPA.Core.Attribute;
+    using SMS.EPA.Core.Constants;
+    using SMS.EPA.Core.Model;
+    using SMS.EPA.Core.Services;
+    using SMS.EPA.Criteria;
+    using SMS.EPA.Model;
+    using SMS.EPA.Model.Enitites;
+    using SMS.EPA.Services.Implement;
+    using SMS.EPA.Services.Interfaces;
 
     public class EvaluatorByKPIController : BaseController
     {
@@ -34,7 +34,7 @@
         {
             var criteria = new GetPeriodByEvaluatorCriteria
             {
-                EvaluatorId = SessionService.EmployeeId
+                EvaluatorId = CurrentEmployeeId
             };
 
             return baseService.GetData<EPAPeriodModel>(criteria);
@@ -46,7 +46,7 @@
         {
             var criteria = new GetTargetTemplateByEvaluatorCriteria
             {
-                EvaluatorId = SessionService.EmployeeId,
+                EvaluatorId = CurrentEmployeeId,
                 PeriodId = periodId
             };
 
@@ -59,7 +59,7 @@
         {
             var criteria = new GetPeriodToViewCriteria
             {
-                EvaluatorId = SessionService.EmployeeId
+                EvaluatorId = CurrentEmployeeId
             };
 
             return baseService.GetData<EPAPeriodModel>(criteria);
@@ -71,7 +71,7 @@
         {
             var criteria = new GetTargetTemplateToViewCriteria
             {
-                EvaluatorId = SessionService.EmployeeId,
+                EvaluatorId = CurrentEmployeeId,
                 PeriodId = periodId
             };
 
@@ -137,7 +137,7 @@
         {
             var criteria = new GetKPIByTargetTemplateCriteria
             {
-                EvaluatorId = SessionService.EmployeeId,
+                EvaluatorId = CurrentEmployeeId,
                 TargetTemplateId = targetTemplateId,
                 PeriodId = periodId
             };
@@ -156,7 +156,7 @@
         {
             var criteria = new GetEmployeeEPAByKPICriteria
             {
-                EvaluatorId = SessionService.EmployeeId,
+                EvaluatorId = CurrentEmployeeId,
                 PeriodId = periodId,
                 TargetTemplateId = targetTemplateId,
                 KPIId = kpiId,
@@ -173,7 +173,7 @@
         {
             var criteria = new UpdateKPIScoreCriteria
             {
-                EvaluatorId = SessionService.EmployeeId,
+                EvaluatorId = CurrentEmployeeId,
                 EpaInfos = epaInfos
             };
 
@@ -182,7 +182,7 @@
 
         public byte GetUserPermissionOnRatingByKPI()
         {
-            return SessionService.GetPermission(EPAFunctionKey.RatingByKPI);
+            return GetPermissionOnFunction(EPAFunctionKey.RatingByKPI);
         }
     }
 }

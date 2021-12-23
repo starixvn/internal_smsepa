@@ -8,10 +8,9 @@
     using EPA.Criteria;
     using Fanex.Data.Repository;
     using Model;
-    using Services.Implement;
-    using Services.Interfaces;
     using SMS.EPA.Core.Enumerations;
     using SMS.EPA.Model.AutoService;
+    using SMS.EPA.Services;
 
     public class BasePeriodService
     {

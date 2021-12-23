@@ -5,19 +5,20 @@
     using Core.Services;
     using Criteria;
     using Fanex.Data.Repository;
+    using HRM.UserControl.Client.Core.Session;
     using Model.Enitites;
     using NSubstitute;
     using NUnit.Framework;
-    using Services.Interfaces;
     using Site.Controllers.API;
+    using SMS.EPA.Core.Constants;
+    using SMS.EPA.Services;
 
     [TestFixture]
     public class EmployeeControllerTests
     {
-        private IEmployeeService _employeeService;
+        private IEmployeeService employeeService;
         private IBaseService baseService;
-        private ISessionService _sessionService;
-        private EmployeeController _employeeController;
+        private IUserControlSession userControlSession;
 
         #region GetAllEmployee
 
@@ -26,12 +27,11 @@
         {
             // Arrange
             var expected = new List<Employee>();
-            _employeeService = FakeEmployeeService();
-            _employeeService.GetEmployee(Arg.Any<GetEmployeeCriteria>()).Returns(expected);
-            _employeeController = GetEmployeeController(_employeeService);
+            var controller = GetEmployeeController();
+            employeeService.GetAllEmployee(Arg.Any<GetAllEmployeeCriteria>()).Returns(expected);
 
             // Act
-            var actual = _employeeController.GetAllEmployee(Arg.Any<string>(), Arg.Any<string>(), Arg.Any<bool?>(), Arg.Any<bool?>(), Arg.Any<bool?>(), Arg.Any<bool?>());
+            var actual = controller.GetAllEmployee(Arg.Any<string>(), Arg.Any<int?>(), Arg.Any<bool?>(), Arg.Any<bool?>(), Arg.Any<bool?>(), Arg.Any<bool?>());
 
             // Assert
             Assert.IsInstanceOf(typeof(IEnumerable<Employee>), actual);
@@ -47,13 +47,11 @@
         {
             // Arrange
             var expected = new CommandResult();
-            _employeeService = FakeEmployeeService();
-            _sessionService = FakeSessionService();
-            _employeeService.CreateSpecialEmployee(Arg.Any<CreateSpecialEmployeeCriteria>()).Returns(expected);
-            _employeeController = GetEmployeeController(_employeeService, _sessionService);
+            var controller = GetEmployeeController();
+            employeeService.CreateSpecialEmployee(Arg.Any<CreateSpecialEmployeeCriteria>()).Returns(expected);
 
             // Act
-            var actual = _employeeController.CreateSpecialEmployee(Arg.Any<CreateSpecialEmployeeCriteria>());
+            var actual = controller.CreateSpecialEmployee(Arg.Any<CreateSpecialEmployeeCriteria>());
 
             // Assert
             Assert.IsInstanceOf(typeof(CommandResult), actual);
@@ -69,14 +67,11 @@
         {
             // Arrange
             var expected = new CommandResult();
-            _employeeService = FakeEmployeeService();
-            _sessionService = FakeSessionService();
-            baseService = FakeBaseService();
+            var controller = GetEmployeeController();
             baseService.ExecuteNonQuery(Arg.Any<UpdateSpecialEmployeeCriteria>()).Returns(expected);
-            _employeeController = GetEmployeeController(_employeeService, _sessionService, baseService);
 
             // Act
-            var actual = _employeeController.UpdateSpecialEmployee(Arg.Any<UpdateSpecialEmployeeCriteria>());
+            var actual = controller.UpdateSpecialEmployee(Arg.Any<UpdateSpecialEmployeeCriteria>());
 
             // Assert
             Assert.IsInstanceOf(typeof(CommandResult), actual);
@@ -92,14 +87,11 @@
         {
             // Arrange
             var expected = new CommandResult();
-            _employeeService = FakeEmployeeService();
-            _sessionService = FakeSessionService();
-            baseService = FakeBaseService();
+            var controller = GetEmployeeController();
             baseService.ExecuteNonQuery(Arg.Any<ICriteria>()).Returns(expected);
-            _employeeController = GetEmployeeController(_employeeService, _sessionService, baseService);
 
             // Act
-            var actual = _employeeController.AssignRoleToEmployee(Arg.Any<AssignRoleToEmployeeCriteria>());
+            var actual = controller.AssignRoleToEmployee(Arg.Any<AssignRoleToEmployeeCriteria>());
 
             // Assert
             Assert.IsInstanceOf(typeof(CommandResult), actual);
@@ -115,13 +107,11 @@
         {
             // Arrange
             var expected = new CommandResult();
-            _employeeService = FakeEmployeeService();
-            _sessionService = FakeSessionService();
-            _employeeService.ChangePassword(Arg.Any<ChangePasswordCriteria>()).Returns(expected);
-            _employeeController = GetEmployeeController(_employeeService, _sessionService);
+            var controller = GetEmployeeController();
+            employeeService.ChangePassword(Arg.Any<ChangePasswordCriteria>()).Returns(expected);
 
             // Act
-            var actual = _employeeController.ChangePassword(Arg.Any<ChangePasswordCriteria>());
+            var actual = controller.ChangePassword(Arg.Any<ChangePasswordCriteria>());
 
             // Assert
             Assert.IsInstanceOf(typeof(CommandResult), actual);
@@ -137,14 +127,11 @@
         {
             // Arrange
             var expected = new CommandResult();
-            _employeeService = FakeEmployeeService();
-            _sessionService = FakeSessionService();
-            baseService = FakeBaseService();
+            var controller = GetEmployeeController();
             baseService.ExecuteNonQuery(Arg.Any<UpdateHasMonthlyEPACriteria>()).Returns(expected);
-            _employeeController = GetEmployeeController(_employeeService, _sessionService, baseService);
 
             // Act
-            var actual = _employeeController.UpdateHasMonthlyEPA(Arg.Any<UpdateHasMonthlyEPACriteria>());
+            var actual = controller.UpdateHasMonthlyEPA(Arg.Any<UpdateHasMonthlyEPACriteria>());
 
             // Assert
             Assert.IsInstanceOf(typeof(CommandResult), actual);
@@ -155,34 +142,23 @@
 
         #region Helpers
 
-        private static ISessionService FakeSessionService()
+        private static IUserControlSession FakeUserControlSession()
         {
-            var service = Substitute.For<ISessionService>();
-            service.EmployeeId = 1;
+            var session = Substitute.For<IUserControlSession>();
+            session.Set<int>(Constants.CurrentEmployeeIdKey, 1);
 
-            return service;
+            return session;
         }
 
-        private static IEmployeeService FakeEmployeeService()
+        private EmployeeController GetEmployeeController()
         {
-            var service = Substitute.For<IEmployeeService>();
-
-            return service;
-        }
-
-        private static IBaseService FakeBaseService()
-        {
-            var service = Substitute.For<IBaseService>();
-
-            return service;
-        }
-
-        private EmployeeController GetEmployeeController(
-            IEmployeeService employeeService = null,
-            ISessionService sessionService = null,
-            IBaseService baseService = null)
-        {
-            var controller = new EmployeeController(employeeService, baseService) { SessionService = sessionService };
+            userControlSession = FakeUserControlSession();
+            employeeService = Substitute.For<IEmployeeService>();
+            baseService = Substitute.For<IBaseService>();
+            var controller = new EmployeeController(employeeService, baseService)
+            {
+                UserControlSession = userControlSession
+            };
 
             return controller;
         }

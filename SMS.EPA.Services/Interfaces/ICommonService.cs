@@ -35,8 +35,6 @@
 
         IEnumerable<TargetTemplate> GetAllTargetTemplate(GetAllTargetTemplateCriteria criteria);
 
-        IEnumerable<MenuGroupModel> GetMenusByEmployeeId(int employeeId);
-
         IEnumerable<JobTitle> GetAllJobTitle();
 
         IEnumerable<ScoreRatingTypeModel> GetScoreRatingType(GetScoreRatingTypeCriteria criteria);

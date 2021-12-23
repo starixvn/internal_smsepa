@@ -1,4 +1,4 @@
-﻿namespace SMS.EPA.Services.Interfaces
+﻿namespace SMS.EPA.Services
 {
     using System.Collections.Generic;
     using Core.Model;

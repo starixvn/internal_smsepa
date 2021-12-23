@@ -1,12 +1,12 @@
 ﻿namespace SMS.EPA.Site.Controllers.API
 {
-    using Core.Attribute;
-    using Core.Constants;
-    using Core.Enumerations;
-    using Criteria;
-    using Model;
-    using SMS.EPA.Services;
     using System.Web.Http;
+    using HRM.UserControl.Client.Core.Enumerables;
+    using SMS.EPA.Core.Attribute;
+    using SMS.EPA.Core.Constants;
+    using SMS.EPA.Criteria;
+    using SMS.EPA.Model;
+    using SMS.EPA.Services;
 
     public class DepartmentController : BaseController
     {

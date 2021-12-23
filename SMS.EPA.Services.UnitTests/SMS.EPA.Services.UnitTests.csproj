@@ -162,7 +162,6 @@
     <Compile Include="DisciplineServiceTests.cs" />
     <Compile Include="PeriodServiceTests.cs" />
     <Compile Include="CommonServiceTests.cs" />
-    <Compile Include="ManualMailServiceTests.cs" />
     <Compile Include="MailServiceTests.cs" />
     <Compile Include="EPAHistoryServiceTests.cs" />
     <Compile Include="DepartmentServiceTests.cs" />
@@ -170,7 +169,6 @@
     <Compile Include="FlowTemplateServiceTests.cs" />
     <Compile Include="KPIServiceTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RoleServiceTests.cs" />
     <Compile Include="TargetTemplateServiceTests.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -2,13 +2,13 @@
 {
     using System;
     using System.Collections.Generic;
-    using Core.Attribute;
-    using Core.Constants;
-    using Core.Enumerations;
-    using Criteria;
-    using Model.Discipline;
-    using Services.Implement;
-    using Services.Interfaces;
+    using HRM.UserControl.Client.Core.Enumerables;
+    using SMS.EPA.Core.Attribute;
+    using SMS.EPA.Core.Constants;
+    using SMS.EPA.Criteria;
+    using SMS.EPA.Model.Discipline;
+    using SMS.EPA.Services.Implement;
+    using SMS.EPA.Services.Interfaces;
 
     public class DisciplineController : BaseController
     {
@@ -41,7 +41,7 @@
                 IsLocal = isLocal,
                 EmployeeId = employeeId,
                 ReasonId = reasonId,
-                ApproverId = SessionService.EmployeeId,
+                ApproverId = CurrentEmployeeId,
                 IsShowAll = isShowAll
             };
             IEnumerable<DisciplineSummaryModel> employeeDisciplines = disciplineService.GetDisciplineSummary(criteria);

@@ -2,15 +2,14 @@
 {
     using System.Collections.Generic;
     using System.Web.Http;
-    using Core.Attribute;
-    using Core.Constants;
-    using Core.Enumerations;
-    using Core.Model;
-    using Core.Services;
-    using Criteria;
-    using Model;
-    using Services.Implement;
-    using Services.Interfaces;
+    using HRM.UserControl.Client.Core.Enumerables;
+    using SMS.EPA.Core.Attribute;
+    using SMS.EPA.Core.Constants;
+    using SMS.EPA.Core.Model;
+    using SMS.EPA.Core.Services;
+    using SMS.EPA.Criteria;
+    using SMS.EPA.Model;
+    using SMS.EPA.Services;
 
     public class KPIController : BaseController
     {
@@ -51,7 +50,7 @@
         {
             if (criteria != null)
             {
-                criteria.CreatedBy = SessionService.EmployeeId;
+                criteria.CreatedBy = CurrentEmployeeId;
             }
 
             CommandResult commandResult = baseService.ExecuteNonQuery(criteria);
@@ -65,7 +64,7 @@
         {
             if (criteria != null)
             {
-                criteria.ModifiedBy = SessionService.EmployeeId;
+                criteria.ModifiedBy = CurrentEmployeeId;
             }
 
             CommandResult commandResult = baseService.ExecuteNonQuery(criteria);
@@ -79,7 +78,7 @@
         {
             if (criteria != null)
             {
-                criteria.ModifiedBy = SessionService.EmployeeId;
+                criteria.ModifiedBy = CurrentEmployeeId;
             }
 
             CommandResult commandResult = baseService.ExecuteNonQuery(criteria);
@@ -93,7 +92,7 @@
         {
             if (criteria != null)
             {
-                criteria.ModifiedBy = SessionService.EmployeeId;
+                criteria.ModifiedBy = CurrentEmployeeId;
             }
 
             CommandResult commandResult = baseService.ExecuteNonQuery(criteria);
@@ -108,7 +107,7 @@
             var criteria = new DeleteKPICriteria
             {
                 KPIId = kpiId,
-                ModifiedBy = SessionService.EmployeeId
+                ModifiedBy = CurrentEmployeeId
             };
 
             CommandResult commandResult = baseService.ExecuteNonQuery(criteria);
@@ -118,7 +117,7 @@
 
         public byte GetUserPermissionOnKPI()
         {
-            return SessionService.GetPermission(EPAFunctionKey.KPI);
+            return GetPermissionOnFunction(EPAFunctionKey.KPI);
         }
     }
 }

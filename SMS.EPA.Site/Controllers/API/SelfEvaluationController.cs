@@ -4,15 +4,15 @@
     using System.Net;
     using System.Net.Http;
     using System.Web.Http;
-    using Core.Attribute;
-    using Core.Constants;
-    using Core.Enumerations;
-    using Core.Model;
-    using Core.Services;
-    using Criteria;
-    using Model;
-    using Services.Implement;
-    using Services.Interfaces;
+    using HRM.UserControl.Client.Core.Enumerables;
+    using SMS.EPA.Core.Attribute;
+    using SMS.EPA.Core.Constants;
+    using SMS.EPA.Core.Enumerations;
+    using SMS.EPA.Core.Model;
+    using SMS.EPA.Core.Services;
+    using SMS.EPA.Criteria;
+    using SMS.EPA.Model;
+    using SMS.EPA.Services;
 
     public class SelfEvaluationController : BaseController
     {
@@ -40,7 +40,7 @@
         {
             var criteria = new GetEPAByEmployeeCriteria
             {
-                EmployeeId = SessionService.EmployeeId
+                EmployeeId = CurrentEmployeeId
             };
 
             return selfEvaluationService.GetEPAByEmployee(criteria);
@@ -51,9 +51,9 @@
         public HttpResponseMessage GetEPAInfoByEmployee(int epaId)
         {
             var epaInfo = new EPAModel();
-            int permission = CheckEmployeePermission(epaId);
+            byte permission = CheckEmployeePermission(epaId);
 
-            if (permission == (int)Policy.None)
+            if (permission == (byte)Policy.None)
             {
                 return Request.CreateResponse(HttpStatusCode.MethodNotAllowed, epaInfo);
             }
@@ -61,7 +61,7 @@
             var criteria = new GetEPAInfoByEmployeeCriteria
             {
                 EPAId = epaId,
-                EmployeeId = SessionService.EmployeeId
+                EmployeeId = CurrentEmployeeId
             };
 
             epaInfo = selfEvaluationService.GetEPAInfoByEmployee(criteria);
@@ -78,13 +78,12 @@
         [ApiAuthorize(FunctionKey = EPAFunctionKey.Self, Policy = Policy.Host)]
         public CommandResult UpdateEPAScoreByEmployee(UpdateEPAScoreCriteria criteria)
         {
-            CommandResult commandResult = new CommandResult();
-
+            var commandResult = new CommandResult();
             if (criteria != null)
             {
                 criteria.ProcessId = (byte)ProcessType.Self;
-                criteria.EvaluatorId = SessionService.EmployeeId;
-                criteria.ModifiedBy = SessionService.EmployeeId;
+                criteria.EvaluatorId = CurrentEmployeeId;
+                criteria.ModifiedBy = CurrentEmployeeId;
 
                 commandResult = baseService.ExecuteNonQuery(criteria);
             }
@@ -94,19 +93,19 @@
 
         public byte GetUserPermissionOnEmployee()
         {
-            return SessionService.GetPermission(EPAFunctionKey.Self);
+            return GetPermissionOnFunction(EPAFunctionKey.Self);
         }
 
-        private int CheckEmployeePermission(int epaId)
+        private byte CheckEmployeePermission(int epaId)
         {
             var criteria = new GetEmployeePermissionCriteria
             {
                 EPAId = epaId,
-                ActorUserId = SessionService.EmployeeId,
+                ActorUserId = CurrentEmployeeId,
                 ProcessId = (byte)ProcessType.Self
             };
 
-            return baseService.GetDataEntity<int>(criteria);
+            return baseService.GetDataEntity<byte>(criteria);
         }
     }
 }

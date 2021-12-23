@@ -2,14 +2,13 @@
 {
     using System.Collections.Generic;
     using System.Web.Http;
-    using Core.Attribute;
-    using Core.Constants;
-    using Core.Enumerations;
-    using Core.Services;
-    using Criteria;
-    using Model;
-    using Services.Implement;
-    using Services.Interfaces;
+    using HRM.UserControl.Client.Core.Enumerables;
+    using SMS.EPA.Core.Attribute;
+    using SMS.EPA.Core.Constants;
+    using SMS.EPA.Core.Services;
+    using SMS.EPA.Criteria;
+    using SMS.EPA.Model;
+    using SMS.EPA.Services;
     using SMS.EPA.Criteria.Dashboard;
     using SMS.EPA.Model.Dashboard;
 
@@ -37,8 +36,8 @@
         [ApiAuthorize(FunctionKey = EPAFunctionKey.Home, Policy = Policy.Read)]
         public DashboardModel GetDashboard()
         {
-            DashboardModel dashboard = reportService.GetDashboard(SessionService.EmployeeId);
-            dashboard.Employee = employeeService.GetEmployeeById(SessionService.EmployeeId);
+            DashboardModel dashboard = reportService.GetDashboard(CurrentEmployeeId);
+            dashboard.Employee = employeeService.GetEmployeeById(CurrentEmployeeId);
 
             return dashboard;
         }
@@ -49,7 +48,7 @@
         {
             var criteria = new GetToDoListCriteria
             {
-                EmployeeId = SessionService.EmployeeId
+                EmployeeId = CurrentEmployeeId
             };
             var result = new ToDoListViewModel { ToDoList = baseService.GetData<ToDoListModel>(criteria) };
 

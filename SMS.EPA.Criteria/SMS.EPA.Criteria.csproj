@@ -177,7 +177,6 @@
     <Compile Include="FlowSetting\GetDepartmentFlowByFlowTemplateIdCriteria.cs" />
     <Compile Include="FlowSetting\GetDepartmentSectionHasSettingCriteria.cs" />
     <Compile Include="FlowSetting\GetPersonalFlowByFlowTemplateIdCriteria.cs" />
-    <Compile Include="Menu\GetMenusByEmployeeIdCriteria.cs" />
     <Compile Include="Period\AutoCreateMonthlyPeriodCriteria.cs" />
     <Compile Include="Period\GetEvaluationGlobalSettingByTargetTypeIdCriteria.cs" />
     <Compile Include="Period\GetAllMonthlyPeriodCriteria.cs" />

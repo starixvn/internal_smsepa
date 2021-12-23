@@ -12,7 +12,8 @@
         vm.filter = {
             roleId: ''
         };
-        vm.roleFunctions = [];
+        vm.functions = [];
+        vm.functionPermissions = [];
         vm.systemRoleOptions = [];
 
         vm.query = query;
@@ -24,7 +25,9 @@
             lockScreenService.start();
 
             RoleModel.getRoleFunctionByRoleId(roleId).then(function () {
-                vm.roleFunctions = RoleModel.roleFunctions;
+                vm.functions = RoleModel.functions;
+                vm.functionPermissions = RoleModel.functionPermissions;
+
                 if (roleId === 1) {
                     vm.isSystemAdmin = true;
                 }
@@ -37,7 +40,7 @@
         }
 
         function initialize() {
-            CommonModel.getSystemRoles(true, false).then(function () {
+            CommonModel.getSystemRoles(true).then(function () {
                 vm.systemRoleOptions = CommonModel.systemRoles;
 
                 if (vm.systemRoleOptions && vm.systemRoleOptions.length > 0) {

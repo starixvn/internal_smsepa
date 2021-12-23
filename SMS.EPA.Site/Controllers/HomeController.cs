@@ -1,32 +1,35 @@
 ﻿namespace SMS.EPA.Site.Controllers
 {
-    using Core.Model;
-    using Core.Services;
     using System.Web.Mvc;
+    using HRM.UserControl.Client.AspNetMvc.Session;
+    using HRM.UserControl.Client.Core.Session;
+    using SMS.EPA.Core.Constants;
+    using SMS.EPA.Core.Model;
+    using SMS.EPA.Core.Services;
 
     public class HomeController : Controller
     {
-        private readonly ISessionService _sessionService;
+        private readonly IUserControlSession userControlSession;
 
         public HomeController()
             : this(null)
         {
         }
 
-        public HomeController(ISessionService sessionService)
+        public HomeController(IUserControlSession userControlSession)
         {
-            _sessionService = sessionService ?? new SessionService();
+            this.userControlSession = userControlSession ?? new UserControlSession();
         }
 
         public ActionResult Index()
         {
             byte.TryParse(ConfigurationManagerService.GetAppSetting("SiteId"), out byte siteId);
             ViewBag.SiteId = siteId;
+            var employee = userControlSession.Get<UserSession>(Constants.CurrentSessionKey);
 
-            if (_sessionService.CurrentUser != null)
+            if (employee != null)
             {
-                UserSession user = _sessionService.CurrentUser;
-                return View(user);
+                return View(employee);
             }
 
             return RedirectToAction("Login", "Auth");

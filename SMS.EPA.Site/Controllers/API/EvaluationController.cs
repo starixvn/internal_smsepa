@@ -6,26 +6,32 @@
     using System.Net;
     using System.Net.Http;
     using System.Web.Http;
-    using Core.Enumerations;
-    using Core.Model;
-    using Core.Services;
-    using Criteria;
-    using Model;
-    using Services.Implement;
-    using Services.Interfaces;
+    using HRM.UserControl.Client.Core.Enumerables;
+    using HRM.UserControl.Client.Core.Services;
+    using SMS.EPA.Core.Enumerations;
+    using SMS.EPA.Core.Model;
+    using SMS.EPA.Core.Services;
+    using SMS.EPA.Criteria;
+    using SMS.EPA.Model;
+    using SMS.EPA.Services;
 
     public class EvaluationController : BaseController
     {
+        private readonly IRoleService roleService;
         private readonly IEmployeeEPAService evaluationService;
         private readonly IBaseService baseService;
 
         public EvaluationController()
-            : this(null, null)
+            : this(null, null, null)
         {
         }
 
-        public EvaluationController(IEmployeeEPAService evaluationService, IBaseService baseService)
+        public EvaluationController(
+            IRoleService roleService,
+            IEmployeeEPAService evaluationService,
+            IBaseService baseService)
         {
+            this.roleService = roleService ?? new RoleService();
             this.evaluationService = evaluationService ?? new EmployeeEPAService();
             this.baseService = baseService ?? new BaseService();
         }
@@ -33,7 +39,7 @@
         [HttpGet]
         public HttpResponseMessage GetEPAInfoById(int epaId)
         {
-            EPAModel epaInfo = new EPAModel();
+            var epaInfo = new EPAModel();
             int permission = CheckEmployeePermission(epaId);
 
             if (permission == (byte)Policy.None)
@@ -42,7 +48,7 @@
             }
 
             epaInfo = evaluationService.GetEPAInfoById(epaId);
-            evaluationService.RemoveSensitiveDataOnEmployeeRole(epaInfo, SessionService);
+            evaluationService.RemoveSensitiveDataOnEmployeeRole(epaInfo, UserControlSession);
 
             return Request.CreateResponse(HttpStatusCode.OK, epaInfo);
         }
@@ -65,11 +71,11 @@
         {
             HttpResponseMessage response = null;
 
-            if (SessionService.CurrentUser.Roles.Select(x => x.RoleId).Contains((int)SystemRole.SystemAdmin))
+            if (roleService.GetByUserId(UserControlSession.UserId).Select(x => x.RoleId).Contains((byte)SystemRole.SystemAdmin))
             {
                 EPAModel epaInfo = evaluationService.GetEPAInfoById(criteria.EPAId);
 
-                criteria.ModifiedBy = SessionService.EmployeeId;
+                criteria.ModifiedBy = CurrentEmployeeId;
 
                 CommandResult commandResult;
                 if (epaInfo.IsSemiHasMonthly)
@@ -99,15 +105,15 @@
             return response;
         }
 
-        private int CheckEmployeePermission(int epaId)
+        private byte CheckEmployeePermission(int epaId)
         {
             var criteria = new GetEmployeePermissionCriteria
             {
                 EPAId = epaId,
-                ActorUserId = SessionService.EmployeeId
+                ActorUserId = CurrentEmployeeId
             };
 
-            return baseService.GetDataEntity<int>(criteria);
+            return baseService.GetDataEntity<byte>(criteria);
         }
     }
 }

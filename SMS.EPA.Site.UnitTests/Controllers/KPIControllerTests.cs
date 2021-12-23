@@ -4,19 +4,20 @@
     using Core.Model;
     using Core.Services;
     using Criteria;
+    using HRM.UserControl.Client.Core.Session;
     using Model;
     using NSubstitute;
     using NUnit.Framework;
-    using Services.Interfaces;
     using Site.Controllers.API;
+    using SMS.EPA.Core.Constants;
+    using SMS.EPA.Services;
 
     [TestFixture]
     public class KPIControllerTests
     {
-        private IKPIService _kpiService;
+        private IKPIService kpiService;
         private IBaseService baseService;
-        private ISessionService _sessionService;
-        private KPIController _kpiController;
+        private IUserControlSession userControlSession;
 
         #region GetKPI
 
@@ -25,12 +26,11 @@
         {
             // Arrange
             var kpis = new List<KPIModel>();
-            _kpiService = FakeKPIService();
-            _kpiService.GetKPI(Arg.Any<GetKPICriteria>()).Returns(kpis);
-            _kpiController = GetKPIController(_kpiService);
+            var controller = GetKPIController();
+            kpiService.GetKPI(Arg.Any<GetKPICriteria>()).Returns(kpis);
 
             // Act
-            var actual = _kpiController.GetKPI(Arg.Any<int?>(), Arg.Any<bool?>(), Arg.Any<bool?>());
+            var actual = controller.GetKPI(Arg.Any<int?>(), Arg.Any<bool?>(), Arg.Any<bool?>());
 
             // Assert
             Assert.IsInstanceOf(typeof(IEnumerable<KPIModel>), actual);
@@ -46,14 +46,11 @@
         {
             // Arrange
             var expected = new CommandResult();
-            _kpiService = FakeKPIService();
-            _sessionService = FakeSessionService();
-            baseService = FakeBaseService();
+            var controller = GetKPIController();
             baseService.ExecuteNonQuery(Arg.Any<CreateKPICriteria>()).Returns(expected);
-            _kpiController = GetKPIController(_kpiService, _sessionService, baseService);
 
             // Act
-            var actual = _kpiController.CreateKPI(Arg.Any<CreateKPICriteria>());
+            var actual = controller.CreateKPI(Arg.Any<CreateKPICriteria>());
 
             // Assert
             Assert.IsInstanceOf(typeof(CommandResult), actual);
@@ -69,14 +66,11 @@
         {
             // Arrange
             var expected = new CommandResult();
-            _kpiService = FakeKPIService();
-            _sessionService = FakeSessionService();
-            baseService = FakeBaseService();
+            var controller = GetKPIController();
             baseService.ExecuteNonQuery(Arg.Any<UpdateKPICriteria>()).Returns(expected);
-            _kpiController = GetKPIController(_kpiService, _sessionService, baseService);
 
             // Act
-            var actual = _kpiController.UpdateKPI(Arg.Any<UpdateKPICriteria>());
+            var actual = controller.UpdateKPI(Arg.Any<UpdateKPICriteria>());
 
             // Assert
             Assert.IsInstanceOf(typeof(CommandResult), actual);
@@ -92,14 +86,11 @@
         {
             // Arrange
             var expected = new CommandResult();
-            _kpiService = FakeKPIService();
-            _sessionService = FakeSessionService();
-            baseService = FakeBaseService();
+            var controller = GetKPIController();
             baseService.ExecuteNonQuery(Arg.Any<UpdateStatusKPICriteria>()).Returns(expected);
-            _kpiController = GetKPIController(_kpiService, _sessionService, baseService);
 
             // Act
-            var actual = _kpiController.UpdateStatusKPI(Arg.Any<UpdateStatusKPICriteria>());
+            var actual = controller.UpdateStatusKPI(Arg.Any<UpdateStatusKPICriteria>());
 
             // Assert
             Assert.IsInstanceOf(typeof(CommandResult), actual);
@@ -115,14 +106,11 @@
         {
             // Arrange
             var expected = new CommandResult();
-            _kpiService = FakeKPIService();
-            _sessionService = FakeSessionService();
-            baseService = FakeBaseService();
+            var controller = GetKPIController();
             baseService.ExecuteNonQuery(Arg.Any<UpdateRequiredEvaluateKPICriteria>()).Returns(expected);
-            _kpiController = GetKPIController(_kpiService, _sessionService, baseService);
 
             // Act
-            var actual = _kpiController.UpdateRequiredEvaluateKPI(Arg.Any<UpdateRequiredEvaluateKPICriteria>());
+            var actual = controller.UpdateRequiredEvaluateKPI(Arg.Any<UpdateRequiredEvaluateKPICriteria>());
 
             // Assert
             Assert.IsInstanceOf(typeof(CommandResult), actual);
@@ -138,14 +126,11 @@
         {
             // Arrange
             var expected = new CommandResult();
-            _kpiService = FakeKPIService();
-            _sessionService = FakeSessionService();
-            baseService = FakeBaseService();
+            var controller = GetKPIController();
             baseService.ExecuteNonQuery(Arg.Any<DeleteKPICriteria>()).Returns(expected);
-            _kpiController = GetKPIController(_kpiService, _sessionService, baseService);
 
             // Act
-            var actual = _kpiController.DeleteKPI(Arg.Any<int>());
+            var actual = controller.DeleteKPI(Arg.Any<int>());
 
             // Assert
             Assert.IsInstanceOf(typeof(CommandResult), actual);
@@ -156,34 +141,23 @@
 
         #region Helpers
 
-        private static ISessionService FakeSessionService()
+        private static IUserControlSession FakeUserControlSession()
         {
-            var service = Substitute.For<ISessionService>();
-            service.EmployeeId = 1;
+            var session = Substitute.For<IUserControlSession>();
+            session.Set<int>(Constants.CurrentEmployeeIdKey, 1);
 
-            return service;
+            return session;
         }
 
-        private static IBaseService FakeBaseService()
+        private KPIController GetKPIController()
         {
-            var service = Substitute.For<IBaseService>();
-
-            return service;
-        }
-
-        private static IKPIService FakeKPIService()
-        {
-            var service = Substitute.For<IKPIService>();
-
-            return service;
-        }
-
-        private KPIController GetKPIController(
-            IKPIService kpiService = null,
-            ISessionService sessionService = null,
-            IBaseService baseService = null)
-        {
-            var controller = new KPIController(kpiService, baseService) { SessionService = sessionService };
+            userControlSession = FakeUserControlSession();
+            kpiService = Substitute.For<IKPIService>();
+            baseService = Substitute.For<IBaseService>();
+            var controller = new KPIController(kpiService, baseService)
+            {
+                UserControlSession = userControlSession
+            };
 
             return controller;
         }

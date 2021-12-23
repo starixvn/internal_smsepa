@@ -6,9 +6,9 @@
     using System.Net.Http;
     using System.Threading.Tasks;
     using System.Web.Http;
+    using HRM.UserControl.Client.Core.Enumerables;
     using SMS.EPA.Core.Attribute;
     using SMS.EPA.Core.Constants;
-    using SMS.EPA.Core.Enumerations;
     using SMS.EPA.Core.Model;
     using SMS.EPA.Core.Services;
     using SMS.EPA.Criteria.JobDescription;
@@ -65,7 +65,7 @@
         {
             if (criteria != null)
             {
-                criteria.ModifiedBy = SessionService.EmployeeId;
+                criteria.ModifiedBy = CurrentEmployeeId;
             }
 
             return await baseService.ExecuteNonQueryAsync(criteria);
@@ -77,7 +77,7 @@
         {
             if (criteria != null)
             {
-                criteria.ActorId = SessionService.EmployeeId;
+                criteria.ActorId = CurrentEmployeeId;
             }
 
             return await baseService.ExecuteNonQueryAsync(criteria);
@@ -124,7 +124,7 @@
         {
             if (criteria != null)
             {
-                criteria.ActorId = SessionService.EmployeeId;
+                criteria.ActorId = CurrentEmployeeId;
             }
 
             return await baseService.ExecuteNonQueryAsync(criteria);
@@ -182,7 +182,7 @@
 
         public byte GetUserPermission()
         {
-            return SessionService.GetPermission(EPAFunctionKey.JobDescription);
+            return GetPermissionOnFunction(EPAFunctionKey.JobDescription);
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿namespace SMS.EPA.Services.Implement
+﻿namespace SMS.EPA.Services
 {
     using System;
     using System.Collections.Generic;
@@ -6,17 +6,18 @@
     using System.IO;
     using System.Linq;
     using System.Runtime.Serialization.Formatters.Binary;
-    using Core.Constants;
-    using Core.Enumerations;
-    using Core.Services;
-    using Core.Utilities;
-    using Criteria;
-    using Interfaces;
-    using Model;
-    using Repositories;
-    using Resources;
+    using HRM.UserControl.Client.Core.Services;
+    using HRM.UserControl.Client.Core.Session;
+    using SMS.EPA.Core.Constants;
+    using SMS.EPA.Core.Enumerations;
     using SMS.EPA.Core.Model;
+    using SMS.EPA.Core.Services;
+    using SMS.EPA.Core.Utilities;
+    using SMS.EPA.Criteria;
     using SMS.EPA.Criteria.EmployeeEPA;
+    using SMS.EPA.Model;
+    using SMS.EPA.Repositories;
+    using SMS.EPA.Resources;
 
     public class EmployeeEPAService : IEmployeeEPAService
     {
@@ -25,8 +26,9 @@
         private readonly IBaseService baseService;
         private readonly ICommonService commonService;
         private readonly ICryptographyService cryptographyService;
+        private readonly IRoleService roleService;
 
-        public EmployeeEPAService() : this(null, null, null, null, null)
+        public EmployeeEPAService() : this(null, null, null, null, null, null)
         {
         }
 
@@ -35,13 +37,15 @@
             IProbationExtendedQuestionRepository extendedQuestionRepository,
             IBaseService baseService,
             ICommonService commonService,
-            ICryptographyService cryptographyService)
+            ICryptographyService cryptographyService,
+            IRoleService roleService)
         {
             this.employeeEPARepository = employeeEPARepository ?? new EmployeeEPARepository();
             this.extendedQuestionRepository = extendedQuestionRepository ?? new ProbationExtendedQuestionRepository();
             this.cryptographyService = cryptographyService ?? new CryptographyService();
             this.baseService = baseService ?? new BaseService();
             this.commonService = commonService ?? new CommonService();
+            this.roleService = roleService ?? new RoleService();
         }
 
         public EPAModel GetEPAInfoById(int epaId)
@@ -87,17 +91,17 @@
         public void RemoveSensitiveDataOnEmployeeRole(EPAModel epaInfo, ISessionService sessionService)
 #pragma warning restore S1541 // Methods and properties should not be too complex
         {
-            var currentEmployeeId = sessionService.CurrentUser.EmployeeId;
-            var roles = sessionService.CurrentUser.Roles.Select(x => x.RoleId).ToList();
+            var currentEmployeeId = userControlSession.Get<int>(Constants.CurrentEmployeeIdKey);
+            var roles = roleService.GetByUserId(userControlSession.UserId).Select(x => x.RoleId).ToList();
 
             // Remove all data for open Process (process that not evaluated / already evaluated but are extended
-            var processOfOtherActors = epaInfo.Process.Managements.Where(x => x.StatusId == (int)ProcessStatusType.Open);
-            processOfOtherActors = processOfOtherActors.Concat(epaInfo.Process.Reviewers.Where(x => x.StatusId == (int)ProcessStatusType.Open));
-            processOfOtherActors = processOfOtherActors.Concat(epaInfo.Process.Evaluators.Where(x => x.StatusId == (int)ProcessStatusType.Open));
+            var processOfOtherActors = epaInfo.Process.Managements.Where(x => x.StatusId == (byte)ProcessStatusType.Open);
+            processOfOtherActors = processOfOtherActors.Concat(epaInfo.Process.Reviewers.Where(x => x.StatusId == (byte)ProcessStatusType.Open));
+            processOfOtherActors = processOfOtherActors.Concat(epaInfo.Process.Evaluators.Where(x => x.StatusId == (byte)ProcessStatusType.Open));
 
             RemoveSensitiveTotalScoreAndComment(processOfOtherActors);
 
-            if (roles.Contains((int)SystemRole.HumanResource) || roles.Contains((int)SystemRole.SystemAdmin))
+            if (roles.Contains((byte)SystemRole.HumanResource) || roles.Contains((byte)SystemRole.SystemAdmin))
             {
                 if (epaInfo.IsSemiHasMonthly)
                 {
@@ -112,18 +116,18 @@
             }
 
             // Remove if user is not the one who evalutate that EPA
-            processOfOtherActors =
-                epaInfo.Process.Managements.Where(x => x.EvaluatorInfo.EmployeeId != currentEmployeeId && x.StatusId != (int)ProcessStatusType.Closed);
+            processOfOtherActors = epaInfo.Process.Managements
+                .Where(x => x.EvaluatorInfo.EmployeeId != currentEmployeeId && x.StatusId != (byte)ProcessStatusType.Closed);
 
             RemoveSensitiveTotalScoreAndComment(processOfOtherActors);
 
-            processOfOtherActors =
-                epaInfo.Process.Reviewers.Where(x => x.EvaluatorInfo.EmployeeId != currentEmployeeId && x.StatusId != (int)ProcessStatusType.Closed);
+            processOfOtherActors = epaInfo.Process.Reviewers
+                .Where(x => x.EvaluatorInfo.EmployeeId != currentEmployeeId && x.StatusId != (byte)ProcessStatusType.Closed);
 
             RemoveSensitiveTotalScoreAndComment(processOfOtherActors);
 
-            processOfOtherActors =
-                epaInfo.Process.Evaluators.Where(x => x.EvaluatorInfo.EmployeeId != currentEmployeeId && x.StatusId != (int)ProcessStatusType.Closed);
+            processOfOtherActors = epaInfo.Process.Evaluators
+                .Where(x => x.EvaluatorInfo.EmployeeId != currentEmployeeId && x.StatusId != (byte)ProcessStatusType.Closed);
 
             if (processOfOtherActors.Any())
             {
@@ -227,7 +231,7 @@
                     return Lang.NotAvailable;
                 }
 
-                if (performanceGrade.GradeId > (int)StandardGrade.Average || disciplineGrade.GradeId > (int)StandardGrade.Average)
+                if (performanceGrade.GradeId > (byte)StandardGrade.Average || disciplineGrade.GradeId > (byte)StandardGrade.Average)
                 {
                     grade = string.Compare(performanceGrade.Code, disciplineGrade.Code, StringComparison.OrdinalIgnoreCase) > 0
                         ? performanceGrade.Code
@@ -350,8 +354,8 @@
 
         public void ExportEPAAfterUpdateFinalScore(string periodName, IList<EPAModel> epaInfos, string templatePath)
         {
-            const int headerRowIndex = 2;
-            const int numOfColumns = 9;
+            const byte headerRowIndex = 2;
+            const byte numOfColumns = 9;
 
             if (epaInfos != null && epaInfos.Any())
             {
@@ -463,7 +467,7 @@
             }
 
             var processes = epaInfo.AllProcesses
-                .Where(x => x.StatusId > (int)ProcessStatusType.Open && x.ProcessId > (byte)ProcessType.Self && !string.IsNullOrWhiteSpace(x.TotalScore));
+                .Where(x => x.StatusId > (byte)ProcessStatusType.Open && x.ProcessId > (byte)ProcessType.Self && !string.IsNullOrWhiteSpace(x.TotalScore));
             var maxProcessId = (byte)ProcessType.None;
 
             if (processes.Any())
@@ -504,7 +508,8 @@
                 disciplineScore = epaInfo.DisciplineScore;
             }
 
-            var processes = epaInfo.AllProcesses.Where(x => x.StatusId > (int)ProcessStatusType.Open && x.ProcessId > (byte)ProcessType.Evaluator);
+            var processes = epaInfo.AllProcesses
+                .Where(x => x.StatusId > (byte)ProcessStatusType.Open && x.ProcessId > (byte)ProcessType.Evaluator);
             var maxProcessId = (byte)ProcessType.None;
 
             if (processes.Any())

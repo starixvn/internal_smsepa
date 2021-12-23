@@ -3,12 +3,14 @@
     using System.Collections.Generic;
     using Core.Services;
     using Criteria;
+    using HRM.UserControl.Client.Core.Session;
     using Model;
     using Model.Enitites;
     using NSubstitute;
     using NUnit.Framework;
-    using Services.Interfaces;
+    using Services;
     using Site.Controllers.API;
+    using SMS.EPA.Core.Constants;
 
     [TestFixture]
     public class DashboardControllerTests
@@ -16,22 +18,18 @@
         private IEmployeeService employeeService;
         private IReportService reportService;
         private IBaseService baseService;
-        private ISessionService sessionService;
-        private DashboardController dashboardController;
+        private IUserControlSession userControlSession;
 
         [Test]
         public void GetDashboard_WhenCalled_ReturnAsExpected()
         {
             // Arrange
-            sessionService = FakeSessionService();
-            reportService = FakeReportService();
-            employeeService = FakeEmployeeService();
+            var controller = GetDashboardController();
             reportService.GetDashboard(Arg.Any<int>()).Returns(new DashboardModel());
             employeeService.GetEmployeeById(Arg.Any<int>()).Returns(new Employee());
-            dashboardController = GetDashboardController(employeeService, reportService, sessionService);
 
             // Act
-            var actual = dashboardController.GetDashboard();
+            var actual = controller.GetDashboard();
 
             // Assert
             Assert.IsInstanceOf(typeof(DashboardModel), actual);
@@ -41,13 +39,11 @@
         public void GetToDoList_WhenCalled_ReturnAsExpected()
         {
             // Arrange
-            sessionService = FakeSessionService();
-            baseService = FakeBaseService();
+            var controller = GetDashboardController();
             baseService.GetData<ToDoListModel>(Arg.Any<GetToDoListCriteria>()).Returns(new List<ToDoListModel>());
-            dashboardController = GetDashboardController(null, null, sessionService, baseService);
 
             // Act
-            var actual = dashboardController.GetToDoList();
+            var actual = controller.GetToDoList();
 
             // Assert
             Assert.IsInstanceOf(typeof(ToDoListViewModel), actual);
@@ -55,42 +51,24 @@
 
         #region Helpers
 
-        private static ISessionService FakeSessionService()
+        private static IUserControlSession FakeUserControlSession()
         {
-            var service = Substitute.For<ISessionService>();
-            service.EmployeeId = 1;
+            var session = Substitute.For<IUserControlSession>();
+            session.Set<int>(Constants.CurrentEmployeeIdKey, 1);
 
-            return service;
+            return session;
         }
 
-        private static IEmployeeService FakeEmployeeService()
+        private DashboardController GetDashboardController()
         {
-            var service = Substitute.For<IEmployeeService>();
-
-            return service;
-        }
-
-        private static IReportService FakeReportService()
-        {
-            var service = Substitute.For<IReportService>();
-
-            return service;
-        }
-
-        private static IBaseService FakeBaseService()
-        {
-            var service = Substitute.For<IBaseService>();
-
-            return service;
-        }
-
-        private DashboardController GetDashboardController(
-            IEmployeeService employeeService = null,
-            IReportService reportService = null,
-            ISessionService sessionService = null,
-            IBaseService baseService = null)
-        {
-            var controller = new DashboardController(employeeService, reportService, baseService) { SessionService = sessionService };
+            userControlSession = FakeUserControlSession();
+            reportService = Substitute.For<IReportService>();
+            employeeService = Substitute.For<IEmployeeService>();
+            baseService = Substitute.For<IBaseService>();
+            var controller = new DashboardController(employeeService, reportService, baseService)
+            {
+                UserControlSession = userControlSession
+            };
 
             return controller;
         }

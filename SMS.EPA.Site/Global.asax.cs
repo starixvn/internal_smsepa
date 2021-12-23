@@ -9,6 +9,9 @@
     using System.Web.SessionState;
     using Fanex.Data;
     using Fanex.Data.OldConnectionStringProvider;
+    using HRM.UserControl.Client.AspNetMvc.Configurations;
+    using HRM.UserControl.Client.AspNetMvc.Session;
+    using HRM.UserControl.Client.Core;
     using Resources;
 
     public class WebApiApplication : HttpApplication
@@ -33,6 +36,10 @@
                 .Run();
 
             log4net.Config.XmlConfigurator.Configure();
+
+            UserControlClientManager
+               .UseSettings(new UserControlSettings())
+               .UseSession(new UserControlSession());
         }
 
         protected void Application_PostAuthorizeRequest()

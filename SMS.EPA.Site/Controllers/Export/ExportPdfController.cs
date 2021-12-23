@@ -1,17 +1,18 @@
 ﻿namespace SMS.EPA.Site.Controllers
 {
-    using System.Collections.Generic;
     using System.Web.Hosting;
     using System.Web.Mvc;
-    using Core.Enumerations;
-    using Core.Services;
-    using Core.Services.Interfaces;
-    using Core.Utilities;
-    using Criteria;
-    using Model;
-    using Resources;
-    using Services.Implement;
-    using Services.Interfaces;
+    using HRM.UserControl.Client.AspNetMvc.Session;
+    using HRM.UserControl.Client.Core.Enumerables;
+    using HRM.UserControl.Client.Core.Session;
+    using SMS.EPA.Core.Constants;
+    using SMS.EPA.Core.Enumerations;
+    using SMS.EPA.Core.Services;
+    using SMS.EPA.Core.Utilities;
+    using SMS.EPA.Criteria;
+    using SMS.EPA.Model;
+    using SMS.EPA.Resources;
+    using SMS.EPA.Services;
 
     public class ExportPdfController : Controller
     {
@@ -21,7 +22,7 @@
 
         private readonly IEmployeeEPAService _employeeEPAService;
         private readonly IRazorRenderService _razorRenderService;
-        private readonly ISessionService _sessionService;
+        private readonly IUserControlSession userControlSession;
         private readonly IBaseService baseService;
 
         public ExportPdfController() : this(null, null, null, null)
@@ -31,12 +32,12 @@
         public ExportPdfController(
             IEmployeeEPAService employeeEPAService,
             IRazorRenderService razorRenderService,
-            ISessionService sessionService,
+            IUserControlSession userControlSession,
             IBaseService baseService)
         {
             _employeeEPAService = employeeEPAService ?? new EmployeeEPAService();
             _razorRenderService = razorRenderService ?? new RazorRenderService();
-            _sessionService = sessionService ?? new SessionService();
+            this.userControlSession = userControlSession ?? new UserControlSession();
             this.baseService = baseService ?? new BaseService();
         }
 
@@ -45,18 +46,18 @@
             var criteria = new GetEmployeePermissionCriteria
             {
                 EPAId = id,
-                ActorUserId = _sessionService.EmployeeId
+                ActorUserId = userControlSession.Get<int>(Constants.CurrentEmployeeIdKey)
             };
 
             int permission = baseService.GetDataEntity<int>(criteria);
 
-            if (permission == (int)Policy.None)
+            if (permission == (byte)Policy.None)
             {
                 return new EmptyResult();
             }
 
             EPAModel epaInfo = _employeeEPAService.GetEPAInfoById(id);
-            _employeeEPAService.RemoveSensitiveDataOnEmployeeRole(epaInfo, _sessionService);
+            _employeeEPAService.RemoveSensitiveDataOnEmployeeRole(epaInfo, userControlSession);
             epaInfo.Grade = GetGradeToExport(epaInfo);
 
             byte[] streamContent = RenderPdfContent(epaInfo);
@@ -89,7 +90,7 @@
 
             if (epaInfo.StatusId == (byte)EpaStatus.Open)
             {
-                IEnumerable<StandardGradeModel> standardGrades = baseService.GetData<StandardGradeModel>(new GetStandardGradeCriteria());
+                var standardGrades = baseService.GetData<StandardGradeModel>(new GetStandardGradeCriteria());
                 float? performanceScore = null;
                 if (float.TryParse(epaInfo.FinalScoreToExport, out float finalScore) && finalScore > 0)
                 {

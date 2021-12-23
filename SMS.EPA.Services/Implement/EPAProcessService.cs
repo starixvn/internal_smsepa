@@ -1,4 +1,4 @@
-﻿namespace SMS.EPA.Services.Implement
+﻿namespace SMS.EPA.Services
 {
     using System.Collections.Generic;
     using System.Globalization;
@@ -7,7 +7,6 @@
     using SMS.EPA.Core.Services;
     using SMS.EPA.Criteria.EmployeeEPA;
     using SMS.EPA.Model;
-    using SMS.EPA.Services.Interfaces;
 
     public interface IEPAProcessService
     {

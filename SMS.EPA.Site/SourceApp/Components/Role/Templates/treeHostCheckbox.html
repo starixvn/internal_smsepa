@@ -1,12 +1,15 @@
 ﻿<input type="checkbox" class="host-only-read" ng-if="data.IsReadOnly" />
 
-<div class="text-center" ng-if="data.IsReadOnly == false && !data.ParentFunctionId">
-    <input id="funcHost{{data.FunctionId}}" name="funcHost" pid="{{data.ParentFunctionId}}"
-           value="{{data.FunctionId}}" ng-model="data.IsHost" ng-disabled="roleCtrl.isSystemAdmin" assign-permission type="checkbox" />
+<div class="text-center" ng-if="data.IsReadOnly == false && !data.ParentId">
+    <input id="funcHost{{data.FunctionId}}" name="funcHost" pid="{{data.ParentId}}"
+           value="{{data.FunctionId}}" ng-model="data.IsHost" ng-disabled="roleCtrl.isSystemAdmin"
+           assign-permission type="checkbox" />
 </div>
 
-<input id="funcHost{{data.FunctionId}}" name="funcHost" pid="{{data.ParentFunctionId}}" ng-if="data.IsReadOnly == false && data.ParentFunctionId"
-       value="{{data.FunctionId}}" ng-model="data.IsHost" ng-disabled="roleCtrl.isSystemAdmin" assign-permission type="checkbox" />
+<input id="funcHost{{data.FunctionId}}" name="funcHost" pid="{{data.ParentId}}"
+       ng-if="data.IsReadOnly == false && data.ParentId"
+       value="{{data.FunctionId}}" ng-model="data.IsHost" ng-disabled="roleCtrl.isSystemAdmin"
+       assign-permission type="checkbox" />
 
 <div class="child-check-box" ng-repeat="data in data.ChildFunctions"
      ng-include src="'/SourceApp/Components/Role/Templates/treeHostCheckbox.html'">

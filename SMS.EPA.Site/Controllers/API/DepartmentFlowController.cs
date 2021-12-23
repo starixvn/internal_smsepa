@@ -3,9 +3,9 @@
     using System;
     using System.Collections.Generic;
     using System.Web.Http;
+    using HRM.UserControl.Client.Core.Enumerables;
     using SMS.EPA.Core.Attribute;
     using SMS.EPA.Core.Constants;
-    using SMS.EPA.Core.Enumerations;
     using SMS.EPA.Core.Model;
     using SMS.EPA.Core.Services;
     using SMS.EPA.Criteria;
@@ -57,7 +57,7 @@
             if (criteria != null)
             {
                 criteria.DepartmentId = Math.Abs(criteria.DepartmentId);
-                criteria.ModifiedBy = SessionService.EmployeeId;
+                criteria.ModifiedBy = CurrentEmployeeId;
                 commandResult = baseService.ExecuteNonQuery(criteria);
             }
 
@@ -73,7 +73,7 @@
                 FlowTemplateId = flowTemplateId,
                 DepartmentId = Math.Abs(departmentId),
                 IsGroup = departmentId <= 0,
-                ModifiedBy = SessionService.EmployeeId
+                ModifiedBy = CurrentEmployeeId
             };
 
             return baseService.ExecuteNonQuery(criteria);

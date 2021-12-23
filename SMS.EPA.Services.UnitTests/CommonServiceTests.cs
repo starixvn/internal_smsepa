@@ -420,44 +420,6 @@
 
         #endregion GetAllTargetTemplate
 
-        #region GetMenusByEmployeeId
-
-        [Test]
-        public void GetMenusByEmployeeId_InvalidArg_ReturnInstanceOfListOfEmployeeModel()
-        {
-            // Arrange
-            commonService = Substitute.For<ICommonService>();
-
-            // Act
-            var actual = commonService.GetMenusByEmployeeId(Arg.Any<int>());
-
-            // Assert
-            Assert.IsInstanceOf(typeof(IEnumerable<MenuGroupModel>), actual);
-        }
-
-        [Test]
-        public void GetMenusByEmployeeId_VaidArg_ReturnExpectedMenuGroups()
-        {
-            // Arrange
-            var menuItems = new List<MenuItemModel>
-            {
-                new MenuItemModel { MenuId = 1 }
-            };
-            IEnumerable<MenuGroupModel> expected = new List<MenuGroupModel>
-            {
-                new MenuGroupModel { MenuId = 1 }
-            };
-            ArrangeGetMenusByEmployeeId(menuItems);
-
-            // Act
-            var actual = commonService.GetMenusByEmployeeId(1);
-
-            // Assert
-            Assert.AreEqual(expected.First().MenuId, actual.First().MenuId);
-        }
-
-        #endregion GetMenusByEmployeeId
-
         #region GetAllJobTitle
 
         [Test]
@@ -591,12 +553,6 @@
         {
             ArrangeCommon();
             baseService.GetData<TargetTemplate>(Arg.Any<GetAllTargetTemplateCriteria>()).Returns(targetTemplates ?? new List<TargetTemplate>());
-        }
-
-        private void ArrangeGetMenusByEmployeeId(IEnumerable<MenuItemModel> menuItems = null)
-        {
-            ArrangeCommon();
-            baseService.GetData<MenuItemModel>(Arg.Any<GetMenusByEmployeeIdCriteria>()).Returns(menuItems ?? new List<MenuItemModel>());
         }
 
         private void ArrangeGetAllJobTitle(IEnumerable<JobTitle> jobTitles = null)

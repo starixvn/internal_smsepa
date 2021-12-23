@@ -8,7 +8,7 @@
         <div class="form-group">
             <label data-translate="Role" class="control-label"></label>
             <select class="form-control" ng-model="roleCtrl.filter.roleId"
-                    ng-options="opt.RoleId as opt.RoleCode for opt in roleCtrl.systemRoleOptions"
+                    ng-options="opt.RoleId as opt.Name for opt in roleCtrl.systemRoleOptions"
                     ng-change="roleCtrl.query(roleCtrl.filter)"></select>
         </div>
         <button class="btn btn-primary" get-role-permission ng-if="!roleCtrl.isSystemAdmin" data-translate="Save"></button>
@@ -24,7 +24,7 @@
                 <th class="text-center" data-translate="Host"></th>
             </tr>
         </thead>
-        <tr ng-repeat="data in roleCtrl.roleFunctions">
+        <tr ng-repeat="data in roleCtrl.functions">
             <td ng-include src="'/SourceApp/Components/Role/Templates/treeItem.html'"></td>
             <td class="text-center" ng-include src="'/SourceApp/Components/Role/Templates/treeReadCheckbox.html'"></td>
             <td class="text-center" ng-include src="'/SourceApp/Components/Role/Templates/treeHostCheckbox.html'"></td>

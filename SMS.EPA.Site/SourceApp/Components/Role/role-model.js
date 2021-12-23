@@ -6,12 +6,11 @@
     roleModel.$inject = ['roleFactory', 'errorFactory', 'notificationFactory'];
 
     function roleModel(roleFactory, errorFactory, notificationFactory) {
-        var roleFunctions = [];
-
         var model = {
             assignFunctionToRole: assignFunctionToRole,
             getRoleFunctionByRoleId: getRoleFunctionByRoleId,
-            roleFunctions: roleFunctions
+            functions: [],
+            functionPermissions: []
         };
 
         return model;
@@ -30,8 +29,9 @@
         }
 
         function getRoleFunctionByRoleId(roleId) {
-            return roleFactory.getRoleFunctionByRoleId(roleId).success(function (functions) {
-                model.roleFunctions = functions;
+            return roleFactory.getRoleFunctionByRoleId(roleId).success(function (response) {
+                model.functions = response.Functions;
+                model.functionPermissions = response.FunctionPermissions;
             }).error(function (response, status) {
                 errorFactory.errorHandle(status);
             });

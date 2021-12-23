@@ -1,13 +1,12 @@
-﻿namespace SMS.EPA.Services.Implement
+﻿namespace SMS.EPA.Services
 {
-    using Fanex.MailDeliver.MailClient.API;
-    using Fanex.MailDeliver.Model;
-    using Interfaces;
-    using Model.Email;
     using System;
     using System.Configuration;
     using System.IO;
     using System.Text.RegularExpressions;
+    using Fanex.MailDeliver.MailClient.API;
+    using Fanex.MailDeliver.Model;
+    using Model.Email;
 
     public class BaseMailService : IBaseMailService
     {

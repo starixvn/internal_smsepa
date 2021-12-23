@@ -104,7 +104,6 @@
     <Compile Include="KPI\UpdateKPICriteriaTests.cs" />
     <Compile Include="KPI\UpdateRequiredEvaluateKPICriteriaTests.cs" />
     <Compile Include="KPI\UpdateStatusKPICriteriaTests.cs" />
-    <Compile Include="Menu\GetMenusByEmployeeIdCriteriaTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RoleManagement\AssignFunctionToRoleCriteriaTests.cs" />
     <Compile Include="RoleManagement\GetFunctionByRoleIdCriteriaTests.cs" />

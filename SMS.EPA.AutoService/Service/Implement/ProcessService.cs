@@ -6,7 +6,7 @@
     using SMS.EPA.Core.Enumerations;
     using SMS.EPA.Core.Services;
     using SMS.EPA.Model;
-    using SMS.EPA.Services.Implement;
+    using SMS.EPA.Services;
 
     public class ProcessService : IProcessService
     {

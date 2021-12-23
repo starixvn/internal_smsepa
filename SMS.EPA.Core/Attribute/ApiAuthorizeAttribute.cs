@@ -1,8 +1,5 @@
 ﻿namespace SMS.EPA.Core.Attribute
 {
-    using Enumerations;
-    using Model;
-    using Services;
     using System;
     using System.Collections.ObjectModel;
     using System.Net;
@@ -10,35 +7,34 @@
     using System.Web;
     using System.Web.Http;
     using System.Web.Http.Controllers;
+    using HRM.UserControl.Client.AspNetMvc.Session;
+    using HRM.UserControl.Client.Core.Enumerables;
+    using HRM.UserControl.Client.Core.Session;
 
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method, AllowMultiple = true)]
     public sealed class ApiAuthorizeAttribute : AuthorizeAttribute
     {
-        private readonly ISessionService _sessionService;
+        private readonly IUserControlSession userControlSession;
 
         public ApiAuthorizeAttribute()
             : this(null)
         {
         }
 
-        public ApiAuthorizeAttribute(ISessionService sessionService)
+        public ApiAuthorizeAttribute(IUserControlSession userControlSession)
         {
-            _sessionService = sessionService ?? new SessionService();
+            this.userControlSession = userControlSession ?? new UserControlSession();
         }
 
         public string FunctionKey { get; set; }
 
         public Policy Policy { get; set; }
 
-        public ISessionService SessionService => _sessionService;
-
         public override void OnAuthorization(HttpActionContext actionContext)
         {
             if (HttpContext.Current.User.Identity.IsAuthenticated)
             {
-                UserSession currentUser = _sessionService.CurrentUser;
-
-                if (currentUser != null)
+                if (userControlSession.UserId > 0)
                 {
                     CheckUserPermission(actionContext);
                     return;
@@ -74,7 +70,7 @@
 
             foreach (ApiAuthorizeAttribute item in attributes)
             {
-                if (_sessionService.HasPermissionOnFunction(item.FunctionKey, item.Policy))
+                if (userControlSession.HasPermissionOnFunction(item.FunctionKey, item.Policy))
                 {
                     hasPermission = true;
                 }

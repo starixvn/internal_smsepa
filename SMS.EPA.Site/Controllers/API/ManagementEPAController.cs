@@ -4,16 +4,17 @@
     using System.Net;
     using System.Net.Http;
     using System.Web.Http;
-    using Core.Attribute;
-    using Core.Constants;
-    using Core.Enumerations;
-    using Core.Model;
-    using Core.Services;
-    using Criteria;
-    using Model;
-    using Model.Enitites;
-    using Services.Implement;
-    using Services.Interfaces;
+    using HRM.UserControl.Client.Core.Enumerables;
+    using SMS.EPA.Core.Attribute;
+    using SMS.EPA.Core.Constants;
+    using SMS.EPA.Core.Enumerations;
+    using SMS.EPA.Core.Model;
+    using SMS.EPA.Core.Services;
+    using SMS.EPA.Criteria;
+    using SMS.EPA.Model;
+    using SMS.EPA.Model.Enitites;
+    using SMS.EPA.Services.Implement;
+    using SMS.EPA.Services.Interfaces;
 
     public class ManagementEPAController : BaseController
     {
@@ -38,7 +39,7 @@
         {
             var criteria = new GetPeriodByActorIdCriteria
             {
-                ActorId = SessionService.EmployeeId,
+                ActorId = CurrentEmployeeId,
                 ProcessId = (byte)ProcessType.Management
             };
 
@@ -51,7 +52,7 @@
         {
             var criteria = new GetGroupByActorIdCriteria
             {
-                ActorUserId = SessionService.EmployeeId,
+                ActorUserId = CurrentEmployeeId,
                 ProcessId = (byte)ProcessType.Management,
                 PeriodId = periodId
             };
@@ -68,7 +69,7 @@
         {
             var criteria = new GetMemberByActorIdCriteria
             {
-                ActorUserId = SessionService.EmployeeId,
+                ActorUserId = CurrentEmployeeId,
                 ProcessId = (byte)ProcessType.Management,
                 PeriodId = periodId,
                 GroupId = groupId,
@@ -90,7 +91,7 @@
         {
             var criteria = new GetEPAByManagementCriteria
             {
-                ManagementId = SessionService.EmployeeId,
+                ManagementId = CurrentEmployeeId,
                 PeriodId = periodId,
                 GroupId = groupId,
                 IsLocal = isLocal,
@@ -107,8 +108,8 @@
         {
             EPAModel epaInfo = new EPAModel();
 
-            var processId = managementId == null ? (int?)ProcessType.Management : null;
-            var sessionServiceEmployeeId = managementId ?? SessionService.EmployeeId;
+            var processId = managementId == null ? (byte?)ProcessType.Management : null;
+            var sessionServiceEmployeeId = managementId ?? CurrentEmployeeId;
 
             int permission = CheckEmployeePermission(epaId, sessionServiceEmployeeId, processId);
 
@@ -120,7 +121,7 @@
             var criteria = new GetEPAInfoByManagementCriteria
             {
                 EPAId = epaId,
-                ManagementId = SessionService.EmployeeId
+                ManagementId = CurrentEmployeeId
             };
 
             epaInfo = managementEPAService.GetEPAInfoByManagement(criteria);
@@ -137,7 +138,7 @@
             if (criteria != null)
             {
                 criteria.ProcessId = (byte)ProcessType.Management;
-                criteria.ModifiedBy = SessionService.EmployeeId;
+                criteria.ModifiedBy = CurrentEmployeeId;
 
                 commandResult = baseService.ExecuteNonQuery(criteria);
             }
@@ -147,7 +148,7 @@
 
         public byte GetUserPermissionOnManagement()
         {
-            return SessionService.GetPermission(EPAFunctionKey.Management);
+            return GetPermissionOnFunction(EPAFunctionKey.Management);
         }
 
         private int CheckEmployeePermission(
