@@ -53,21 +53,6 @@
         }
 
         [Test]
-        public void GetPeriod_ValidArg_PeriodIncludeTargetType()
-        {
-            // Arrange
-            var criteria = new GetPeriodCriteria();
-            IEnumerable<PeriodModel> result = GetListOfPeriodForTest();
-            ArrangeGetPeriod(result);
-
-            // Act
-            var actual = _periodService.GetPeriod(criteria);
-
-            // Assert
-            Assert.AreEqual(0, actual.Count(x => x.TargetType == null || x.TargetType.TargetTypeId <= 0));
-        }
-
-        [Test]
         public void GetPeriod_ValidArg_ResultListingNotContainMonthlyTargetType()
         {
             // Arrange

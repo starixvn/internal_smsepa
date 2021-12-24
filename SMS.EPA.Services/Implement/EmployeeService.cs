@@ -28,14 +28,7 @@
 
         public UserSession GetEmployeeLogin(GetEmployeeLoginCriteria criteria)
         {
-            var employee = new UserSession();
-
-            if (criteria != null && criteria.IsValid())
-            {
-                employee = employeeRepository.GetEmployeeLogin(criteria);
-            }
-
-            return employee;
+            return baseService.GetDataEntity<UserSession>(criteria);
         }
 
         public bool ValidatePassword(string enterPassword, string employeePassword)

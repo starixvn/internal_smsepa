@@ -43,10 +43,6 @@
     <Function Name="TargetType">
         <Setting Key="TargetType_Get" SpName="TargetType_Get" DbName="SMSEPA" Plain="0"></Setting>
     </Function>
-    <Function Name="Role">
-        <Setting Key="EpaRole_AssignFunctionToRole" SpName="EpaRole_AssignFunctionToRole" DbName="SMSEPA" Plain="0"></Setting>
-        <Setting Key="EpaRole_GetFunctionByRoleId" SpName="EpaRole_GetFunctionByRoleId" DbName="SMSEPA" Plain="0"></Setting>
-    </Function>
     <Function Name="TargetTemplate">
         <Setting Key="TargetTemplate_GetAll" SpName="TargetTemplate_GetAll" DbName="SMSEPA" Plain="0"></Setting>
         <Setting Key="TargetTemplate_Insert" SpName="TargetTemplate_Insert" DbName="SMSEPA" Plain="0"></Setting>

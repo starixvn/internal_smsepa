@@ -65,40 +65,30 @@
     }
 
     function getRolePermission() {
-        var createTemplate = function (functionId, isRead, isHost) {
-            var template = '<Function FunctionId="' + functionId + '"' +
-                            ' IsRead="' + isRead + '"' +
-                            ' IsHost="' + isHost + '"></Function>';
-            return template;
-        };
-
         return {
             restrict: "A",
             link: function (scope, iElement) {
                 iElement.on("click", function () {
-                    var result = '<ROOT>',
+                    var permissions = [],
                         table = $("[name='tableFunction']"),
                         roleFunction = $(table).find('[type=checkbox][name=funcRead]');
 
                     if (roleFunction) {
                         for (var i = 0; i < roleFunction.length; i++) {
                             var element = roleFunction[i];
-                            var functionId = $(element).val(),
-                                isRead = $(element).is(':checked') ? 1 : 0,
-                                isHost = $('#funcHost' + functionId).is(':checked') ? 1 : 0,
-                                template = createTemplate(functionId, isRead, isHost);
-                            result += template;
+                            var functionId = $(element).val();
+                            permissions.push({
+                                functionId: parseInt(functionId, 10),
+                                isRead: $(element).is(':checked'),
+                                isHost: $('#funcHost' + functionId).is(':checked')
+                            });
                         }
 
-                        result += '</ROOT>';
-
-                        scope.roleFunction = {
-                            functions: result,
-                            roleId: scope.roleCtrl.filter.roleId
-                        };
-
                         // call save function
-                        scope.roleCtrl.save.call(this, scope.roleFunction);
+                        scope.roleCtrl.save.call(this, {
+                            permissions,
+                            roleId: scope.roleCtrl.filter.roleId
+                        });
                     }
                 });
             }

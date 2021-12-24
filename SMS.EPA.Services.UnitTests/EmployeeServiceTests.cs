@@ -5,7 +5,6 @@
     using Core.Security;
     using Core.Services;
     using Criteria;
-    using Implement;
     using Model.Enitites;
     using NSubstitute;
     using NUnit.Framework;
@@ -57,40 +56,6 @@
         }
 
         #endregion GetEmployeeById
-
-        #region GetEmployeeLogin
-
-        [Test]
-        public void GetEmployeeLogin_AnyArg_ReturnInstanceOfUserSession()
-        {
-            // Arrange
-            ArrangeGetEmployeeLogin();
-
-            // Act
-            var actual = _employeeService.GetEmployeeLogin(Arg.Any<GetEmployeeLoginCriteria>());
-
-            // Assert
-            Assert.IsInstanceOf(typeof(UserSession), actual);
-        }
-
-        [Test]
-        public void GetEmployeeLogin_ValidArg_ExpectedToExecuteGetEmployeeLogin()
-        {
-            // Arrange
-            var criteria = new GetEmployeeLoginCriteria
-            {
-                Code = "00329"
-            };
-            ArrangeGetEmployeeLogin();
-
-            // Act
-            _employeeService.GetEmployeeLogin(criteria);
-
-            // Assert
-            _employeeRepository.Received().GetEmployeeLogin(Arg.Is<GetEmployeeLoginCriteria>(x => x.IsValid()));
-        }
-
-        #endregion GetEmployeeLogin
 
         #region CreateSpecialEmployee
 
@@ -306,10 +271,6 @@
             return service;
         }
 
-        private void ArrangeGetEmployeeLogin(UserSession result = null)
-        {
-            _employeeRepository = FakeEmployeeRepository();
-            _employeeRepository.GetEmployeeLogin(Arg.Any<GetEmployeeLoginCriteria>()).Returns(result ?? new UserSession());
             _employeeService = GetEmployeeService(_employeeRepository);
         }
 

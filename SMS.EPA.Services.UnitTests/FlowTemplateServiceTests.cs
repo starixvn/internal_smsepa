@@ -95,22 +95,6 @@
             Assert.AreEqual(flowTemplateId, actual.FlowTemplateId);
         }
 
-        [Test]
-        public void GetFlowTemplateById_ValidArg_FlowTemplateIncludeTargetType()
-        {
-            // Arrange
-            int flowTemplateId = 1;
-            FlowTemplateModel result = GetListOfFlowTemplateForTest().First();
-            ArrangeGetFlowTemplateById(result);
-
-            // Act
-            var actual = _flowTemplateService.GetFlowTemplateById(flowTemplateId);
-
-            // Assert
-            Assert.IsNotNull(actual);
-            Assert.False(actual.TargetType == null || actual.TargetType.TargetTypeId <= 0);
-        }
-
         #endregion GetFlowTemplateById
 
         #region Helpers

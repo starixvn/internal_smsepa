@@ -9,8 +9,7 @@
         var model = {
             assignFunctionToRole: assignFunctionToRole,
             getRoleFunctionByRoleId: getRoleFunctionByRoleId,
-            functions: [],
-            functionPermissions: []
+            roleFunctions: []
         };
 
         return model;
@@ -30,8 +29,7 @@
 
         function getRoleFunctionByRoleId(roleId) {
             return roleFactory.getRoleFunctionByRoleId(roleId).success(function (response) {
-                model.functions = response.Functions;
-                model.functionPermissions = response.FunctionPermissions;
+                model.roleFunctions = response;
             }).error(function (response, status) {
                 errorFactory.errorHandle(status);
             });

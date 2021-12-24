@@ -12,7 +12,7 @@
         };
 
         function assignFunctionToRole(roleFunction) {
-            return $http.put(baseUrl + 'api/Role/AssignFunctionToRole', roleFunction);
+            return $http.post(baseUrl + 'api/Role/AssignFunctionToRole', roleFunction);
         }
 
         function getRoleFunctionByRoleId(roleId) {

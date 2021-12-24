@@ -2,9 +2,9 @@
 {
     using System.Collections.Generic;
     using System.Linq;
-    using Core.Model;
     using Fanex.Data;
     using Fanex.Data.Repository;
+    using HRM.UserControl.Client.Core.Models.Role;
     using Model;
     using Model.Enitites;
 
@@ -32,37 +32,17 @@
 
                     foreach (Employee employee in employees)
                     {
-                        IList<SystemRoleModel> employeeRoles = roles.Where(role => role.EmployeeId == employee.EmployeeId)
-                            .Select(role => new SystemRoleModel
+                        IList<Role> employeeRoles = roles.Where(role => role.EmployeeId == employee.EmployeeId)
+                            .Select(role => new Role
                             {
                                 RoleId = role.RoleId,
-                                RoleName = role.RoleName,
-                                RoleCode = role.RoleCode
+                                Name = role.RoleName
                             }).ToList();
 
                         employee.Roles = employeeRoles;
                     }
 
                     return employees;
-                }
-            }
-        }
-
-        public UserSession GetEmployeeLogin(ICriteria criteria)
-        {
-            using (var db = new ObjectDb(criteria.GetSettingKey()))
-            {
-                using (IMultiResultReader multi = db.QueryMultiple(criteria.GetSpParams()))
-                {
-                    var user = multi.Read<UserSession>().FirstOrDefault();
-
-                    if (user != null && user.EmployeeId > 0)
-                    {
-                        user.Roles = multi.Read<SystemRoleModel>();
-                        user.Functions = multi.Read<FunctionModel>();
-                    }
-
-                    return user;
                 }
             }
         }
@@ -85,7 +65,7 @@
 
                     if (employee != null)
                     {
-                        employee.Roles = multi.Read<SystemRoleModel>().ToList();
+                        employee.Roles = multi.Read<Role>().ToList();
                     }
 
                     return employee;

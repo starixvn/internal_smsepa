@@ -3,19 +3,14 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using Core.Constants;
-    using Core.Model;
-    using Core.Services;
-    using Report;
+    using HRM.UserControl.Client.Core.Models.Role;
+    using SMS.EPA.Core.Constants;
+    using SMS.EPA.Core.Services;
+    using SMS.EPA.Model.Report;
 
     [Serializable]
     public class Employee : IExcelRecord
     {
-        public Employee()
-        {
-            Roles = new List<SystemRoleModel>();
-        }
-
         public int EmployeeId { get; set; }
 
         public string Code { get; set; }
@@ -67,7 +62,7 @@
 
         public Group Group { get; set; }
 
-        public IList<SystemRoleModel> Roles { get; set; }
+        public IList<Role> Roles { get; set; } = new List<Role>();
 
         public object ConvertToExcelRecord()
         {
@@ -85,7 +80,7 @@
                 Category,
                 JoinedDate = JoinedDate.ToString(Constants.DateFormat),
                 Email,
-                Roles = string.Join(", ", Roles.Select(x => x.RoleCode))
+                Roles = string.Join(", ", Roles.Select(x => x.Name))
             };
 
             return record;

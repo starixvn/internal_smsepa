@@ -1,15 +1,12 @@
 ﻿namespace SMS.EPA.Model
 {
-    using Core.Model;
     using System.Collections.Generic;
+    using HRM.UserControl.Client.Core.Models;
 
-    public class RoleFunctionModel : FunctionModel
+    public class RoleFunctionModel : Function
     {
-        public RoleFunctionModel()
-        {
-            ChildFunctions = new List<RoleFunctionModel>();
-        }
-
-        public IEnumerable<RoleFunctionModel> ChildFunctions { get; set; }
+        public bool IsRead { get; set; }
+        public bool IsHost { get; set; }
+        public new IList<RoleFunctionModel> Childs { get; set; }
     }
 }

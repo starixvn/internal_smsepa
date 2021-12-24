@@ -4,7 +4,7 @@
     {
         public int EmployeeId { get; set; }
 
-        public int RoleId { get; set; }
+        public short RoleId { get; set; }
 
         public string RoleName { get; set; }
 

@@ -19,7 +19,6 @@
     using SMS.EPA.Model;
     using SMS.EPA.Model.Enitites;
     using SMS.EPA.Services;
-    using SMS.EPA.Services.Implement;
 
     public class CommonController : BaseController
     {
@@ -235,9 +234,8 @@
             return GetOrgChart(departments, sections, teams);
         }
 
-        private IList<MenuItem> GroupMenuItem(IEnumerable<MenuItem> menuItems)
+        private static IList<MenuItem> GroupMenuItem(IEnumerable<MenuItem> menuItems)
         {
-            var menuGroups = new List<MenuItem>();
             IList<MenuItem> parents = menuItems.Where(item => !item.ParentId.HasValue)
                 .OrderBy(item => item.DisplayOrder).ToList();
 

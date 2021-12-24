@@ -12,8 +12,7 @@
         vm.filter = {
             roleId: ''
         };
-        vm.functions = [];
-        vm.functionPermissions = [];
+        vm.roleFunctions = [];
         vm.systemRoleOptions = [];
 
         vm.query = query;
@@ -25,8 +24,7 @@
             lockScreenService.start();
 
             RoleModel.getRoleFunctionByRoleId(roleId).then(function () {
-                vm.functions = RoleModel.functions;
-                vm.functionPermissions = RoleModel.functionPermissions;
+                vm.roleFunctions = RoleModel.roleFunctions;
 
                 if (roleId === 1) {
                     vm.isSystemAdmin = true;

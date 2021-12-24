@@ -234,8 +234,6 @@
     <Compile Include="Enumerations\TargetType.cs" />
     <Compile Include="Helpers\CompressionHelper.cs" />
     <Compile Include="Model\CommandResult.cs" />
-    <Compile Include="Model\FunctionModel.cs" />
-    <Compile Include="Model\SystemRoleModel.cs" />
     <Compile Include="Model\UserSession.cs" />
     <Compile Include="Repositories\BaseRepository.cs" />
     <Compile Include="Repositories\IBaseRepository.cs" />
