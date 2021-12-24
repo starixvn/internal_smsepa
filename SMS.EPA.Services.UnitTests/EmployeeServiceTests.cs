@@ -5,6 +5,8 @@
     using Core.Security;
     using Core.Services;
     using Criteria;
+    using HRM.UserControl.Client.Core.Services;
+    using HRM.UserControl.Client.Core.Session;
     using Model.Enitites;
     using NSubstitute;
     using NUnit.Framework;
@@ -16,6 +18,8 @@
         private IEmployeeRepository _employeeRepository;
         private IBaseService baseService;
         private EmployeeService _employeeService;
+        private IUserControlSession userControlSession;
+        private IRoleService roleService;
 
         #region GetEmployeeById
 
@@ -263,11 +267,13 @@
             return repository;
         }
 
-        private static EmployeeService GetEmployeeService(
+        private EmployeeService GetEmployeeService(
             IEmployeeRepository employeeRepository = null,
             IBaseService baseService = null)
         {
-            var service = new EmployeeService(employeeRepository, baseService);
+            userControlSession = Substitute.For<IUserControlSession>();
+            roleService = Substitute.For<IRoleService>();
+            var service = new EmployeeService(employeeRepository, baseService, userControlSession, roleService);
             return service;
         }
 

@@ -6,8 +6,6 @@
     using Core.Model;
     using Core.Services;
     using Criteria;
-    using Implement;
-    using Interfaces;
     using Model;
     using NSubstitute;
     using NUnit.Framework;
@@ -99,21 +97,6 @@
             // Assert
             Assert.AreEqual(result, actual);
             Assert.AreEqual(periodId, actual.PeriodId);
-        }
-
-        [Test]
-        public void GetPeriodById_ValidArg_PeriodIncludeTargetType()
-        {
-            // Arrange
-            int periodId = 1;
-            PeriodModel result = GetListOfPeriodForTest().First();
-            ArrangeGetPeriodById(result);
-
-            // Act
-            var actual = _periodService.GetPeriodById(periodId);
-
-            // Assert
-            Assert.False(actual.TargetType == null || actual.TargetType.TargetTypeId <= 0);
         }
 
         [Test]

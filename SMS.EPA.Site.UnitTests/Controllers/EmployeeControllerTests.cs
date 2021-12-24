@@ -5,6 +5,7 @@
     using Core.Services;
     using Criteria;
     using Fanex.Data.Repository;
+    using HRM.UserControl.Client.Core.Services;
     using HRM.UserControl.Client.Core.Session;
     using Model.Enitites;
     using NSubstitute;
@@ -19,6 +20,8 @@
         private IEmployeeService employeeService;
         private IBaseService baseService;
         private IUserControlSession userControlSession;
+        private ICryptoService cryptoService;
+        private IUserService userService;
 
         #region GetAllEmployee
 
@@ -155,7 +158,9 @@
             userControlSession = FakeUserControlSession();
             employeeService = Substitute.For<IEmployeeService>();
             baseService = Substitute.For<IBaseService>();
-            var controller = new EmployeeController(employeeService, baseService)
+            cryptoService = Substitute.For<ICryptoService>();
+            userService = Substitute.For<IUserService>();
+            var controller = new EmployeeController(employeeService, baseService, cryptoService, userService)
             {
                 UserControlSession = userControlSession
             };

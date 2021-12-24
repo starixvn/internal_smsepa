@@ -51,8 +51,8 @@
                     Level = function.Level,
                     DisplayOrder= function.DisplayOrder,
                     Childs = new List<RoleFunctionModel>(),
-                    IsRead = permission != null ? permission.IsRead : false,
-                    IsHost = permission != null ? permission.IsHost : false
+                    IsRead = permission != null && permission.IsRead,
+                    IsHost = permission != null && permission.IsHost
                 });
             }
 

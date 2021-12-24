@@ -1,8 +1,12 @@
 ﻿namespace SMS.EPA.Site.Controllers.API
 {
     using System.Collections.Generic;
+    using System.Net;
+    using System.Net.Http;
     using System.Web.Http;
     using HRM.UserControl.Client.Core.Enumerables;
+    using HRM.UserControl.Client.Core.Models.User;
+    using HRM.UserControl.Client.Core.Services;
     using SMS.EPA.Core.Attribute;
     using SMS.EPA.Core.Constants;
     using SMS.EPA.Core.Model;
@@ -15,17 +19,23 @@
     {
         private readonly IEmployeeService employeeService;
         private readonly IBaseService baseService;
+        private readonly ICryptoService cryptoService;
+        private readonly IUserService userService;
 
-        public EmployeeController() : this(null, null)
+        public EmployeeController() : this(null, null, null, null)
         {
         }
 
         public EmployeeController(
             IEmployeeService employeeService,
-            IBaseService baseService)
+            IBaseService baseService,
+            ICryptoService cryptoService,
+            IUserService userService)
         {
             this.employeeService = employeeService ?? new EmployeeService();
             this.baseService = baseService ?? new BaseService();
+            this.cryptoService = cryptoService ?? new CryptoService();
+            this.userService = userService ?? new UserService();
         }
 
         [ApiAuthorize(FunctionKey = EPAFunctionKey.UserManagement, Policy = Policy.Read)]
@@ -52,15 +62,29 @@
 
         [HttpPost]
         [ApiAuthorize(FunctionKey = EPAFunctionKey.UserManagement, Policy = Policy.Host)]
-        public CommandResult CreateSpecialEmployee(CreateSpecialEmployeeCriteria criteria)
+        public HttpResponseMessage CreateSpecialEmployee(CreateSpecialEmployeeCriteria criteria)
         {
-            if (criteria != null)
+            var password = criteria.Password;
+            criteria.CreatedBy = CurrentEmployeeId;
+            CommandResult commandResult = employeeService.CreateSpecialEmployee(criteria);
+            if (commandResult.IsSuccessful)
             {
-                criteria.CreatedBy = CurrentEmployeeId;
+                var token = cryptoService.GenerateRijndaelKeyIV();
+                string[] keyiv = token.Split(':');
+                var rijndaelKey = keyiv[0];
+                var rijndaelIV = keyiv[1];
+                var result = userService.Create(new CreateUserParam
+                {
+                    Username = criteria.Username,
+                    Nickname = criteria.NickName,
+                    FullName = criteria.FullName,
+                    Password = cryptoService.Encrypt(password, rijndaelKey, rijndaelIV),
+                    Token = token
+                });
+                return Request.CreateResponse(HttpStatusCode.OK, result);
             }
 
-            CommandResult commandResult = employeeService.CreateSpecialEmployee(criteria);
-            return commandResult;
+            return Request.CreateResponse(HttpStatusCode.OK, commandResult);
         }
 
         [HttpPut]
@@ -73,6 +97,7 @@
             }
 
             CommandResult commandResult = baseService.ExecuteNonQuery(criteria);
+
             return commandResult;
         }
 

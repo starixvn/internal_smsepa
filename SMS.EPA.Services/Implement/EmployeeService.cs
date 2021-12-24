@@ -7,6 +7,9 @@
     using Core.Security;
     using Core.Services;
     using Criteria;
+    using HRM.UserControl.Client.AspNetMvc.Session;
+    using HRM.UserControl.Client.Core.Services;
+    using HRM.UserControl.Client.Core.Session;
     using Model.Enitites;
     using Repositories;
     using Resources;
@@ -15,15 +18,23 @@
     {
         private readonly IEmployeeRepository employeeRepository;
         private readonly IBaseService baseService;
+        private readonly IUserControlSession userControlSession;
+        private readonly IRoleService roleService;
 
-        public EmployeeService() : this(null, null)
+        public EmployeeService() : this(null, null, null, null)
         {
         }
 
-        public EmployeeService(IEmployeeRepository employeeRepository, IBaseService baseService)
+        public EmployeeService(
+            IEmployeeRepository employeeRepository,
+            IBaseService baseService,
+            IUserControlSession userControlSession,
+            IRoleService roleService)
         {
             this.employeeRepository = employeeRepository ?? new EmployeeRepository();
             this.baseService = baseService ?? new BaseService();
+            this.userControlSession = userControlSession ?? new UserControlSession();
+            this.roleService = roleService ?? new RoleService();
         }
 
         public UserSession GetEmployeeLogin(GetEmployeeLoginCriteria criteria)
@@ -40,6 +51,11 @@
         public IList<Employee> GetEmployee(GetEmployeeCriteria criteria)
         {
             return employeeRepository.GetAllEmployee(criteria).ToList();
+                var roles = roleService.GetBySiteId(userControlSession.SiteId);
+                foreach(var employee in employees)
+                {
+                    employee.Roles = roles.Where(x => employee.Roles.Any(r => r.RoleId == x.RoleId)).ToList();
+                }
         }
 
         public Employee GetEmployeeById(int employeeId)
@@ -52,7 +68,9 @@
 
             if (criteria.IsValid())
             {
+                var roles = roleService.GetBySiteId(userControlSession.SiteId);
                 employee = employeeRepository.GetEmployeeById(criteria);
+                employee.Roles = roles.Where(x => employee.Roles.Any(r => r.RoleId == x.RoleId)).ToList();
             }
 
             return employee;
