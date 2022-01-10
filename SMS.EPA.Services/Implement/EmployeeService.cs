@@ -44,8 +44,7 @@
 
         public bool ValidatePassword(string enterPassword, string employeePassword)
         {
-            bool isValid = Encryption.CompareStringToHash(HashProvider.Sha1, enterPassword, employeePassword);
-            return isValid;
+            return Encryption.CompareStringToHash(HashProvider.Sha1, enterPassword, employeePassword);
         }
 
         public IList<Employee> GetEmployee(GetEmployeeCriteria criteria)
@@ -92,20 +91,16 @@
         public CommandResult ChangePassword(ChangePasswordCriteria criteria)
         {
             var commandResult = new CommandResult();
-
-            if (criteria != null && criteria.IsValid())
+            string oldPassword = GetPasswordByEmployeeId(criteria.EmployeeId);
+            if (ValidatePassword(criteria.OldPassword, oldPassword))
             {
-                string oldPassword = GetPasswordByEmployeeId(criteria.EmployeeId);
-                if (ValidatePassword(criteria.OldPassword, oldPassword))
-                {
-                    criteria.NewPassword = Encryption.ComputeHash(HashProvider.Sha1, criteria.NewPassword);
-                    criteria.ConfirmPassword = criteria.NewPassword;
-                    commandResult = baseService.ExecuteNonQuery(criteria);
-                }
-                else
-                {
-                    commandResult.Message = Lang.ValidateWrongPassword;
-                }
+                criteria.NewPassword = Encryption.ComputeHash(HashProvider.Sha1, criteria.NewPassword);
+                criteria.ConfirmPassword = criteria.NewPassword;
+                commandResult = baseService.ExecuteNonQuery(criteria);
+            }
+            else
+            {
+                commandResult.Message = Lang.ValidateWrongPassword;
             }
 
             return commandResult;
@@ -113,15 +108,8 @@
 
         public CommandResult ResetPassword(ResetPasswordCriteria criteria)
         {
-            var commandResult = new CommandResult();
-
-            if (criteria != null && criteria.IsValid())
-            {
-                criteria.NewPassword = Encryption.ComputeHash(HashProvider.Sha1, criteria.NewPassword);
-                commandResult = baseService.ExecuteNonQuery(criteria);
-            }
-
-            return commandResult;
+            criteria.NewPassword = Encryption.ComputeHash(HashProvider.Sha1, criteria.NewPassword);
+            return baseService.ExecuteNonQuery(criteria);
         }
 
         public string GetPasswordByEmployeeId(int employeeId)

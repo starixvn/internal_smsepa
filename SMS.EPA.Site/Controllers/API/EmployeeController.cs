@@ -1,6 +1,8 @@
 ﻿namespace SMS.EPA.Site.Controllers.API
 {
+    using System;
     using System.Collections.Generic;
+    using System.Linq;
     using System.Net;
     using System.Net.Http;
     using System.Web.Http;
@@ -56,7 +58,6 @@
                 IsDisabledUser = isDisabledUser,
                 HasMonthlyEPA = hasMonthlyEPA
             };
-
             return employeeService.GetEmployee(criteria);
         }
 
@@ -89,57 +90,99 @@
 
         [HttpPut]
         [ApiAuthorize(FunctionKey = EPAFunctionKey.UserManagement, Policy = Policy.Host)]
-        public CommandResult UpdateSpecialEmployee(UpdateSpecialEmployeeCriteria criteria)
+        public HttpResponseMessage UpdateSpecialEmployee(UpdateSpecialEmployeeCriteria criteria)
         {
-            if (criteria != null)
-            {
-                criteria.ModifiedBy = CurrentEmployeeId;
-            }
-
+            criteria.ModifiedBy = CurrentEmployeeId;
             CommandResult commandResult = baseService.ExecuteNonQuery(criteria);
 
-            return commandResult;
+            var employee = employeeService.GetEmployeeById(criteria.EmployeeId);
+            IList<User> users = userService.GetAll(employee.Username);
+            User user = users.FirstOrDefault(x => !string.IsNullOrWhiteSpace(x.Username)
+                && x.Username.Equals(employee.Username, StringComparison.OrdinalIgnoreCase)
+                && x.Nickname.Equals(employee.NickName, StringComparison.OrdinalIgnoreCase)
+                && x.FullName.Equals(employee.FullName, StringComparison.OrdinalIgnoreCase));
+            if(user != null)
+            {
+                var result = userService.UpdateInfo(new UpdateUserInfoParam
+                {
+                    UserId = user.UserId,
+                    Code = employee.Code,
+                    Nickname = criteria.NickName,
+                    FullName = criteria.FullName,
+                    Email = criteria.Email,
+                    IsActive = criteria.Enabled
+                });
+                return Request.CreateResponse(HttpStatusCode.OK, result);
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, commandResult);
         }
 
         [HttpPut]
         [ApiAuthorize(FunctionKey = EPAFunctionKey.UserManagement, Policy = Policy.Host)]
         public CommandResult UpdateJobLevel(UpdateJobLevelCriteria criteria)
         {
-
-            CommandResult commandResult = baseService.ExecuteNonQuery(criteria);
-            return commandResult;
+            return baseService.ExecuteNonQuery(criteria);
         }
 
         [HttpPut]
-        public CommandResult ChangePassword(ChangePasswordCriteria criteria)
+        public HttpResponseMessage ChangePassword(ChangePasswordCriteria criteria)
         {
-            if (criteria != null)
+            var password = criteria.NewPassword;
+            criteria.EmployeeId = CurrentEmployeeId;
+            criteria.ModifiedBy = CurrentEmployeeId;
+            CommandResult commandResult = employeeService.ChangePassword(criteria);
+            if (commandResult.IsSuccessful)
             {
-                criteria.EmployeeId = CurrentEmployeeId;
-                criteria.ModifiedBy = CurrentEmployeeId;
+                var token = cryptoService.GenerateRijndaelKeyIV();
+                string[] keyiv = token.Split(':');
+                var rijndaelKey = keyiv[0];
+                var rijndaelIV = keyiv[1];
+                var result = userService.UpdatePassword(new UpdatePasswordParam
+                {
+                    OldPassword = cryptoService.Encrypt(criteria.OldPassword, rijndaelKey, rijndaelIV),
+                    Password = cryptoService.Encrypt(password, rijndaelKey, rijndaelIV),
+                    Token = token
+                });
+                return Request.CreateResponse(HttpStatusCode.OK, result);
             }
 
-            CommandResult commandResult = employeeService.ChangePassword(criteria);
-
-            return commandResult;
+            return Request.CreateResponse(HttpStatusCode.OK, commandResult);
         }
 
         [HttpPut]
         [ApiAuthorize(FunctionKey = EPAFunctionKey.UserManagement, Policy = Policy.Host)]
-        public CommandResult AssignRoleToEmployee(AssignRoleToEmployeeCriteria criteria)
+        public HttpResponseMessage AssignRoleToEmployee(AssignRoleToEmployeeCriteria criteria)
         {
-            if (criteria != null)
+            criteria.ModifiedBy = CurrentEmployeeId;
+            CommandResult commandResult = baseService.ExecuteNonQuery(criteria);
+            if (commandResult.IsSuccessful)
             {
-                criteria.ModifiedBy = CurrentEmployeeId;
+                var employee = employeeService.GetEmployeeById(criteria.EmployeeId);
+                IList<User> users = userService.GetAll(employee.NickName);
+                User user = employee.IsSpecialUser
+                    ? users.FirstOrDefault(x => !string.IsNullOrWhiteSpace(x.Username)
+                        && x.Username.Equals(employee.Username, StringComparison.OrdinalIgnoreCase)
+                        && x.Nickname.Equals(employee.NickName, StringComparison.OrdinalIgnoreCase)
+                        && x.FullName.Equals(employee.FullName, StringComparison.OrdinalIgnoreCase))
+                    : users.FirstOrDefault(x => !string.IsNullOrWhiteSpace(x.Code)
+                        && x.Username.Equals(employee.Code, StringComparison.OrdinalIgnoreCase)
+                        && x.Nickname.Equals(employee.NickName, StringComparison.OrdinalIgnoreCase)
+                        && x.FullName.Equals(employee.FullName, StringComparison.OrdinalIgnoreCase));
+                var result = userService.AssignRole(new AssignRoleParam
+                {
+                    UserId = user != null ? user.UserId : 0,
+                    RoleIds = criteria.RoleIds
+                });
+                return Request.CreateResponse(HttpStatusCode.OK, result);
             }
 
-            CommandResult commandResult = baseService.ExecuteNonQuery(criteria);
-            return commandResult;
+            return Request.CreateResponse(HttpStatusCode.OK, commandResult);
         }
 
         [HttpGet]
         [ApiAuthorize(FunctionKey = EPAFunctionKey.UserManagement, Policy = Policy.Host)]
-        public CommandResult ResetPassword(int employeeId)
+        public HttpResponseMessage ResetPassword(int employeeId)
         {
             string newPassword = ConfigurationManagerService.GetAppSetting("PasswordToReset");
             var criteria = new ResetPasswordCriteria
@@ -148,29 +191,47 @@
                 NewPassword = newPassword,
                 ModifiedBy = CurrentEmployeeId
             };
-
             CommandResult commandResult = employeeService.ResetPassword(criteria);
-            return commandResult;
+            if (commandResult.IsSuccessful)
+            {
+                Employee employee = employeeService.GetEmployeeById(employeeId);
+                IList<User> users = userService.GetAll(employee.Username);
+                User user = users.FirstOrDefault(x => !string.IsNullOrWhiteSpace(x.Username)
+                    && x.Username.Equals(employee.Username, StringComparison.OrdinalIgnoreCase)
+                    && x.Nickname.Equals(employee.NickName, StringComparison.OrdinalIgnoreCase)
+                    && x.FullName.Equals(employee.FullName, StringComparison.OrdinalIgnoreCase));
+
+                if(user != null)
+                {
+                    var token = cryptoService.GenerateRijndaelKeyIV();
+                    string[] keyiv = token.Split(':');
+                    var rijndaelKey = keyiv[0];
+                    var rijndaelIV = keyiv[1];
+                    var result = userService.ResetPassword(new UpdatePasswordParam
+                    {
+                        UserId = user.UserId,
+                        Password = cryptoService.Encrypt(newPassword, rijndaelKey, rijndaelIV),
+                        Token = token
+                    });
+                    return Request.CreateResponse(HttpStatusCode.OK, result);
+                }
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, commandResult);
         }
 
         [HttpPut]
         [ApiAuthorize(FunctionKey = EPAFunctionKey.UserManagement, Policy = Policy.Host)]
         public CommandResult UpdateHasMonthlyEPA(UpdateHasMonthlyEPACriteria criteria)
         {
-            if (criteria != null)
-            {
-                criteria.ModifiedBy = CurrentEmployeeId;
-            }
-
-            CommandResult commandResult = baseService.ExecuteNonQuery(criteria);
-            return commandResult;
+            criteria.ModifiedBy = CurrentEmployeeId;
+            return baseService.ExecuteNonQuery(criteria);
         }
 
         [HttpGet]
         public string GetDefaultPassword()
         {
-            string defaultPassword = ConfigurationManagerService.GetAppSetting("PasswordToReset");
-            return defaultPassword;
+            return ConfigurationManagerService.GetAppSetting("PasswordToReset");
         }
 
         public byte GetUserPermissionOnEmployee()
