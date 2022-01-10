@@ -166,7 +166,7 @@
                         && x.Nickname.Equals(employee.NickName, StringComparison.OrdinalIgnoreCase)
                         && x.FullName.Equals(employee.FullName, StringComparison.OrdinalIgnoreCase))
                     : users.FirstOrDefault(x => !string.IsNullOrWhiteSpace(x.Code)
-                        && x.Username.Equals(employee.Code, StringComparison.OrdinalIgnoreCase)
+                        && x.Code.Equals(employee.Code, StringComparison.OrdinalIgnoreCase)
                         && x.Nickname.Equals(employee.NickName, StringComparison.OrdinalIgnoreCase)
                         && x.FullName.Equals(employee.FullName, StringComparison.OrdinalIgnoreCase));
                 var result = userService.AssignRole(new AssignRoleParam
