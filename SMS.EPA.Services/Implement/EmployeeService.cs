@@ -37,11 +37,6 @@
             this.roleService = roleService ?? new RoleService();
         }
 
-        public UserSession GetEmployeeLogin(GetEmployeeLoginCriteria criteria)
-        {
-            return baseService.GetDataEntity<UserSession>(criteria);
-        }
-
         public bool ValidatePassword(string enterPassword, string employeePassword)
         {
             return Encryption.CompareStringToHash(HashProvider.Sha1, enterPassword, employeePassword);

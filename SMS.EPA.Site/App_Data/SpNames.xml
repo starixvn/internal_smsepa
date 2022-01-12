@@ -19,10 +19,12 @@
         <Setting Key="EpaEmployee_ChangePassword" SpName="EpaEmployee_ChangePassword" DbName="SMSEPA" Plain="0"></Setting>
         <Setting Key="EpaEmployee_AssignRoleToEmployee" SpName="EpaEmployee_AssignRoleToEmployee" DbName="SMSEPA" Plain="0"></Setting>
         <Setting Key="EpaEmployee_GetByDepartmentId" SpName="EpaEmployee_GetByDepartmentId" DbName="SMSEPA" Plain="0"></Setting>
-        <Setting Key="EpaEmployee_GetByGroupId" SpName="EpaEmployee_GetByGroupId" DbName="SMSEPA" Plain="0"></Setting>
-        <Setting Key="EpaEmployee_UpdateHasMonthlyEPA" SpName="EpaEmployee_UpdateHasMonthlyEPA" DbName="SMSEPA" Plain="0" ></Setting>
-        <Setting Key="EpaEmployee_GetPasswordByEmpId" SpName="EpaEmployee_GetPasswordByEmpId" DbName="SMSEPA" Plain="0"></Setting>
-        <Setting Key="EpaEmployee_UpdateJobLevel" SpName="EpaEmployee_UpdateJobLevel" DbName="SMSEPA" Plain="0"></Setting>
+    <Setting Key="EpaEmployee_GetByGroupId" SpName="EpaEmployee_GetByGroupId" DbName="SMSEPA" Plain="0" />
+    <Setting Key="EpaEmployee_UpdateHasMonthlyEPA" SpName="EpaEmployee_UpdateHasMonthlyEPA" DbName="SMSEPA" Plain="0" />
+    <Setting Key="EpaEmployee_GetPasswordByEmpId" SpName="EpaEmployee_GetPasswordByEmpId" DbName="SMSEPA" Plain="0" />
+    <Setting Key="EpaEmployee_UpdateJobLevel" SpName="EpaEmployee_UpdateJobLevel" DbName="SMSEPA" Plain="0" />
+    <Setting Key="Employee_GetByUserId" SpName="Employee_GetByUserId" DbName="SMSEPA" Plain="0" />
+    <Setting Key="Employee_UpdateUserId" SpName="Employee_UpdateUserId" DbName="SMSEPA" Plain="0" />
     </Function>
     <Function Name="KPI">
         <Setting Key="KPI_Get" SpName="KPI_Get" DbName="SMSEPA" Plain="0"></Setting>

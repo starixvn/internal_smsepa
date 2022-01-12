@@ -7,6 +7,12 @@
 <div class="modal-body">
     <form class="form-horizontal" role="form">
         <div class="form-group required">
+            <label class="col-sm-3 control-label" data-translate="UserName"></label>
+            <div class="col-sm-8 field">
+                <input type="text" class="form-control" ng-model="editEmployeeCtrl.employee.Username" required disabled />
+            </div>
+        </div>
+        <div class="form-group required">
             <label class="col-sm-3 control-label" data-translate="NickName"></label>
             <div class="col-sm-8 field">
                 <input type="text" class="form-control" ng-model="editEmployeeCtrl.employee.NickName" required />
@@ -16,12 +22,6 @@
             <label class="col-sm-3 control-label" data-translate="FullName"></label>
             <div class="col-sm-8 field">
                 <input type="text" class="form-control" ng-model="editEmployeeCtrl.employee.FullName" required />
-            </div>
-        </div>
-        <div class="form-group required">
-            <label class="col-sm-3 control-label" data-translate="UserName"></label>
-            <div class="col-sm-8 field">
-                <input type="text" class="form-control" ng-model="editEmployeeCtrl.employee.Username" required />
             </div>
         </div>
         <div class="form-group">

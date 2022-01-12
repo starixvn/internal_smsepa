@@ -14,6 +14,7 @@
     using SMS.EPA.Core.Model;
     using SMS.EPA.Core.Services;
     using SMS.EPA.Criteria;
+    using SMS.EPA.Criteria.Employee;
     using SMS.EPA.Model.Enitites;
     using SMS.EPA.Services;
 
@@ -82,6 +83,15 @@
                     Password = cryptoService.Encrypt(password, rijndaelKey, rijndaelIV),
                     Token = token
                 });
+                if (result.IsSuccessful)
+                {
+                    baseService.ExecuteNonQuery(new UpdateUserIdCommand
+                    {
+                        EmployeeId = criteria.EmployeeId,
+                        UserId = result.ObjectId
+                    });
+                }
+
                 return Request.CreateResponse(HttpStatusCode.OK, result);
             }
 
@@ -94,18 +104,12 @@
         {
             criteria.ModifiedBy = CurrentEmployeeId;
             CommandResult commandResult = baseService.ExecuteNonQuery(criteria);
-
-            var employee = employeeService.GetEmployeeById(criteria.EmployeeId);
-            IList<User> users = userService.GetAll(employee.Username);
-            User user = users.FirstOrDefault(x => !string.IsNullOrWhiteSpace(x.Username)
-                && x.Username.Equals(employee.Username, StringComparison.OrdinalIgnoreCase)
-                && x.Nickname.Equals(employee.NickName, StringComparison.OrdinalIgnoreCase)
-                && x.FullName.Equals(employee.FullName, StringComparison.OrdinalIgnoreCase));
-            if(user != null)
+            if (commandResult.IsSuccessful)
             {
+                var employee = employeeService.GetEmployeeById(criteria.EmployeeId);
                 var result = userService.UpdateInfo(new UpdateUserInfoParam
                 {
-                    UserId = user.UserId,
+                    UserId = employee.UserId,
                     Code = employee.Code,
                     Nickname = criteria.NickName,
                     FullName = criteria.FullName,
@@ -159,19 +163,9 @@
             if (commandResult.IsSuccessful)
             {
                 var employee = employeeService.GetEmployeeById(criteria.EmployeeId);
-                IList<User> users = userService.GetAll(employee.NickName);
-                User user = employee.IsSpecialUser
-                    ? users.FirstOrDefault(x => !string.IsNullOrWhiteSpace(x.Username)
-                        && x.Username.Equals(employee.Username, StringComparison.OrdinalIgnoreCase)
-                        && x.Nickname.Equals(employee.NickName, StringComparison.OrdinalIgnoreCase)
-                        && x.FullName.Equals(employee.FullName, StringComparison.OrdinalIgnoreCase))
-                    : users.FirstOrDefault(x => !string.IsNullOrWhiteSpace(x.Code)
-                        && x.Code.Equals(employee.Code, StringComparison.OrdinalIgnoreCase)
-                        && x.Nickname.Equals(employee.NickName, StringComparison.OrdinalIgnoreCase)
-                        && x.FullName.Equals(employee.FullName, StringComparison.OrdinalIgnoreCase));
                 var result = userService.AssignRole(new AssignRoleParam
                 {
-                    UserId = user != null ? user.UserId : 0,
+                    UserId = employee.UserId,
                     RoleIds = criteria.RoleIds
                 });
                 return Request.CreateResponse(HttpStatusCode.OK, result);
@@ -195,26 +189,17 @@
             if (commandResult.IsSuccessful)
             {
                 Employee employee = employeeService.GetEmployeeById(employeeId);
-                IList<User> users = userService.GetAll(employee.Username);
-                User user = users.FirstOrDefault(x => !string.IsNullOrWhiteSpace(x.Username)
-                    && x.Username.Equals(employee.Username, StringComparison.OrdinalIgnoreCase)
-                    && x.Nickname.Equals(employee.NickName, StringComparison.OrdinalIgnoreCase)
-                    && x.FullName.Equals(employee.FullName, StringComparison.OrdinalIgnoreCase));
-
-                if(user != null)
+                var token = cryptoService.GenerateRijndaelKeyIV();
+                string[] keyiv = token.Split(':');
+                var rijndaelKey = keyiv[0];
+                var rijndaelIV = keyiv[1];
+                var result = userService.ResetPassword(new UpdatePasswordParam
                 {
-                    var token = cryptoService.GenerateRijndaelKeyIV();
-                    string[] keyiv = token.Split(':');
-                    var rijndaelKey = keyiv[0];
-                    var rijndaelIV = keyiv[1];
-                    var result = userService.ResetPassword(new UpdatePasswordParam
-                    {
-                        UserId = user.UserId,
-                        Password = cryptoService.Encrypt(newPassword, rijndaelKey, rijndaelIV),
-                        Token = token
-                    });
-                    return Request.CreateResponse(HttpStatusCode.OK, result);
-                }
+                    UserId = employee.UserId,
+                    Password = cryptoService.Encrypt(newPassword, rijndaelKey, rijndaelIV),
+                    Token = token
+                });
+                return Request.CreateResponse(HttpStatusCode.OK, result);
             }
 
             return Request.CreateResponse(HttpStatusCode.OK, commandResult);

@@ -118,7 +118,7 @@
 
             if (criteria != null && criteria.IsValid())
             {
-                commandResult = await baseRepository.ExecuteNonQueryAsync(criteria).ConfigureAwait(false);
+                commandResult = await baseRepository.ExecuteNonQueryAsync(criteria);
             }
 
             return commandResult;

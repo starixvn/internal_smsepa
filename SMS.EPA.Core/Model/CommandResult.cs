@@ -10,7 +10,7 @@
             Message = Lang.InvalidInputData;
         }
 
-        public int Id { get; set; }
+        public int ObjectId { get; set; }
 
         public int Code { get; set; }
 

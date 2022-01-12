@@ -87,6 +87,7 @@
     <Compile Include="Employee\SearchEmployeeCriteria.cs" />
     <Compile Include="Employee\GetEmployeeCriteria.cs" />
     <Compile Include="Employee\UpdateJobLevelCriteria.cs" />
+    <Compile Include="Employee\UpdateUserIdCommand.cs" />
     <Compile Include="JobDescription\CopyEmployeeSettingJobDescriptionCriteria.cs" />
     <Compile Include="JobDescription\CopyGroupSettingJobDescriptionCriteria.cs" />
     <Compile Include="JobDescription\CreateJobDescriptionItemCriteria.cs" />
@@ -138,8 +139,7 @@
     </Compile>
     <Compile Include="Dashboard\GetToDoListCriteria.cs" />
     <Compile Include="Discipline\GetDisciplineSummaryCriteria.cs" />
-    <Compile Include="Authentication\GetEmployeeLoginCriteria.cs" />
-    <Compile Include="Authentication\InsertEmployeeIPAddressCriteria.cs" />
+    <Compile Include="Authentication\GetEmployeeLoginByUserIdCriteria.cs" />
     <Compile Include="Discipline\GetDisciplineSummaryForOtherSystemCriteria.cs" />
     <Compile Include="EmployeeEPA\AdjustScoreByReviewerOrManagementCriteria.cs" />
     <Compile Include="EmployeeEPA\GetEmployeePermissionCriteria.cs" />

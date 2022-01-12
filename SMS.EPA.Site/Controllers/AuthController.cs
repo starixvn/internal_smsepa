@@ -19,7 +19,7 @@
         private readonly ICryptoService cryptoService;
         private readonly ISecurityService securityService;
         private readonly IUserService userService;
-        private readonly IEmployeeService _employeeService;
+        private readonly IBaseService baseService;
 
         public AuthController()
             : this(null, null, null, null, null)
@@ -31,13 +31,13 @@
             ICryptoService cryptoService,
             ISecurityService securityService,
             IUserService userService,
-            IEmployeeService employeeService)
+            IBaseService baseService)
         {
             this.userControlSession = userControlSession ?? new UserControlSession();
             this.cryptoService = cryptoService ?? new CryptoService();
             this.securityService = securityService ?? new SecurityService();
             this.userService = userService ?? new UserService();
-            _employeeService = employeeService ?? new EmployeeService();
+            this.baseService = baseService ?? new BaseService();
         }
 
         [HttpGet]
@@ -84,7 +84,7 @@
             var loginResult = securityService.Login(loginParam);
             if (loginResult.IsSuccessfull)
             {
-                UserSession employee = GetEmployeeLogin(model);
+                UserSession employee = GetEmployeeLogin();
                 userControlSession.UserId = loginResult.UserId;
                 userControlSession.SiteId = loginResult.SiteId;
                 userControlSession.JwtToken = loginResult.JwtToken;
@@ -104,17 +104,13 @@
             return View(model);
         }
 
-        private UserSession GetEmployeeLogin(LoginModel model)
+        private UserSession GetEmployeeLogin()
         {
-            var criteria = new GetEmployeeLoginCriteria
+            var criteria = new GetEmployeeLoginByUserIdCriteria
             {
-                Code = model.Username,
-                Username = model.Username
+                UserId = userControlSession.UserId
             };
-
-            UserSession employee = _employeeService.GetEmployeeLogin(criteria);
-
-            return employee;
+            return baseService.GetDataEntity<UserSession>(criteria);
         }
     }
 }

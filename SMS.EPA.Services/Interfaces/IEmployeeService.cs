@@ -7,8 +7,6 @@
 
     public interface IEmployeeService
     {
-        UserSession GetEmployeeLogin(GetEmployeeLoginCriteria criteria);
-
         bool ValidatePassword(string enterPassword, string employeePassword);
 
         IList<Employee> GetEmployee(GetEmployeeCriteria criteria);

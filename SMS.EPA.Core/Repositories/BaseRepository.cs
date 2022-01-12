@@ -32,7 +32,7 @@
                 hash.Add("ErrCode", 0);
                 hash.Add("ErrMsg", string.Empty);
 
-                await db.ExecuteNonQueryAsync(hash).ConfigureAwait(false);
+                await db.ExecuteNonQueryAsync(hash);
                 CommandResult commandResult = GetCommandResult(hash);
 
                 return commandResult;
