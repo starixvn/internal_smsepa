@@ -48,14 +48,15 @@
             }
         }
 
-        public static string PhotoPath
-        {
-            get
-            {
-                string photoPath = ConfigurationManager.AppSettings["PhotoPath"];
+        public static string PhotoPath => ConfigurationManager.AppSettings["PhotoPath"];
 
-                return photoPath;
-            }
-        }
+        public static short UserControlSettings_SiteId
+            => short.Parse(ConfigurationManager.AppSettings["UserControl.Configurations:SiteId"]);
+
+        public static string UserControlSettings_AccessToken
+            => ConfigurationManager.AppSettings["UserControl.Configurations:AccessToken"];
+
+        public static string UserControlSettings_ServiceUrl
+            => ConfigurationManager.AppSettings["UserControl.Configurations:ServiceUrl"];
     }
 }

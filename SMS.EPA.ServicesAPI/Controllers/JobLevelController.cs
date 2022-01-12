@@ -32,7 +32,7 @@
                 JobLevels = jobLevel
             };
 
-            CommandResult result = await _service.Update(criteria).ConfigureAwait(false);
+            CommandResult result = await _service.Update(criteria);
             return result.IsSuccessful ? StatusCode(HttpStatusCode.OK) : StatusCode(HttpStatusCode.NotModified);
         }
 
@@ -40,7 +40,7 @@
         {
             var criteria = new GetLastModifiedDateForJobLevelCriteria();
 
-            DateTime modifiedDate = await _service.GetLastModifiedDate(criteria).ConfigureAwait(false);
+            DateTime modifiedDate = await _service.GetLastModifiedDate(criteria);
 
             return Ok(modifiedDate);
         }

@@ -20,7 +20,7 @@
             var commandResult = new CommandResult();
             if (criteria.IsValid())
             {
-                commandResult = await baseService.ExecuteNonQueryAsync(criteria).ConfigureAwait(false);
+                commandResult = await baseService.ExecuteNonQueryAsync(criteria);
             }
 
             return commandResult;
@@ -28,7 +28,7 @@
 
         public async Task<DateTime> GetLastModifiedDate(ICriteria criteria)
         {
-            var modifiedDate = await baseService.GetDataEntityAsync<DateTime>(criteria).ConfigureAwait(false);
+            var modifiedDate = await baseService.GetDataEntityAsync<DateTime>(criteria);
 
             return modifiedDate;
         }

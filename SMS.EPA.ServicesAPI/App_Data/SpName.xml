@@ -16,5 +16,6 @@
     <Setting Key="Sync_EmployeeDisciplinePermission" SpName="Sync_EmployeeDisciplinePermission" DbName="SMSEPA" Plain="0"></Setting>
     <Setting Key="Sync_TeamDisciplinePermission" SpName="Sync_TeamDisciplinePermission" DbName="SMSEPA" Plain="0"></Setting>
       <Setting Key="Sync_JobLevel" SpName="Sync_JobLevel" DbName="SMSEPA" Plain="0"></Setting>
+      <Setting Key="Employee_UpdateUserId" SpName="Employee_UpdateUserId" DbName="SMSEPA" Plain="0" />
   </Function>
 </Functions>

@@ -26,7 +26,7 @@
         public async Task<IHttpActionResult> GetLastModifiedDate()
         {
             var criteria = new GetLastModifiedDateForTeamCriteria();
-            DateTime fromDate = await _service.GetLastModifiedDate(criteria).ConfigureAwait(false);
+            DateTime fromDate = await _service.GetLastModifiedDate(criteria);
 
             return Ok(fromDate);
         }
@@ -38,7 +38,7 @@
             {
                 Teams = teams
             };
-            CommandResult result = await _service.Update(criteria).ConfigureAwait(false);
+            CommandResult result = await _service.Update(criteria);
 
             return result.IsSuccessful ? StatusCode(HttpStatusCode.OK) : StatusCode(HttpStatusCode.NotModified);
         }
