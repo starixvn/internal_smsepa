@@ -84,15 +84,15 @@
             var loginResult = securityService.Login(loginParam);
             if (loginResult.IsSuccessfull)
             {
-                UserSession employee = GetEmployeeLogin();
                 userControlSession.UserId = loginResult.UserId;
                 userControlSession.SiteId = loginResult.SiteId;
                 userControlSession.JwtToken = loginResult.JwtToken;
                 userControlSession.MenuItems = userService.GetMenuItem();
                 userControlSession.Functions = userService.GetFunctionPermission(userControlSession.SiteId, userControlSession.UserId);
+
+                UserSession employee = GetEmployeeLogin();
                 userControlSession.Set<UserSession>(Constants.CurrentSessionKey, employee);
                 userControlSession.Set<int>(Constants.CurrentEmployeeIdKey, employee.EmployeeId);
-                //HRM session
                 FormsAuthentication.SetAuthCookie(model.Username, false);
                 Response.Redirect(Url.IsLocalUrl(model.ReturnPath) ? model.ReturnPath : FormsAuthentication.DefaultUrl);
             }
