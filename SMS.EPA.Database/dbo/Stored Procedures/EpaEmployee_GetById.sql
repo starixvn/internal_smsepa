@@ -1,4 +1,5 @@
 ﻿
+
 CREATE PROCEDURE [dbo].[EpaEmployee_GetById] @EmployeeId INT
 AS
 /*
@@ -15,6 +16,7 @@ BEGIN
 	SET NOCOUNT ON;
 
 	SELECT DISTINCT emp.[EmployeeId]
+		,emp.UserId
 		,emp.[Code]
 		,emp.[DomainUsername]
 		,emp.[NickName]

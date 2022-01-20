@@ -385,6 +385,8 @@
     <Build Include="dbo\Stored Procedures\EPA_UpdateJobLevelAndJobDescription.sql" />
     <Build Include="dbo\Stored Procedures\EPA_GetDataToUpdateTotalScoreOfProcess.sql" />
     <Build Include="dbo\Stored Procedures\EPA_GetDataToUpdateFinalScore.sql" />
+    <Build Include="dbo\Stored Procedures\Employee_UpdateUserId.sql" />
+    <Build Include="dbo\Stored Procedures\Employee_GetByUserId.sql" />
     <Build Include="dbo\Tables\JobLevelStandard_TemplateKPI.sql" />
     <Build Include="dbo\Tables\JobLevelStandard_Template.sql" />
     <Build Include="dbo\Tables\JobLevelStandard_PeriodSetting.sql" />

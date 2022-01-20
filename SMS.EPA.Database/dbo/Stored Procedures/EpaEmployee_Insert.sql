@@ -1,6 +1,6 @@
 ﻿
-
-CREATE PROCEDURE [dbo].[EpaEmployee_Insert] @NickName NVARCHAR(20)
+CREATE PROCEDURE [dbo].[EpaEmployee_Insert] @EmployeeId INT
+	,@NickName NVARCHAR(20)
 	,@FullName NVARCHAR(50) = ''
 	,@GroupId INT = ''
 	,@JobTitleId INT = ''
@@ -18,9 +18,9 @@ AS
 Created: 2015-06-12@Josh.Phan
 Task: Insert new user.
 DB: SMSEPA
-Original: 
+Original:
 
-Revisions:  
+Revisions:
 Param's Explanation:
 */
 BEGIN
@@ -52,7 +52,6 @@ BEGIN
 
 	DECLARE @MinSpecialEmployee INT
 		,@NumberSpecialEmployee INT
-		,@EmpId INT
 
 	SET @MinSpecialEmployee = 100000
 
@@ -60,84 +59,71 @@ BEGIN
 	FROM [dbo].[Employee] WITH (NOLOCK)
 	WHERE [IsSpecialUser] = 1
 
-	SELECT @EmpId = @MinSpecialEmployee + @NumberSpecialEmployee + 1
+	SELECT @EmployeeId = @MinSpecialEmployee + @NumberSpecialEmployee + 1
 
-	BEGIN TRY
-		BEGIN TRANSACTION
+	INSERT INTO [dbo].[Employee] (
+		[EmployeeId]
+		,[DomainUsername]
+		,[Code]
+		,[NickName]
+		,[FullName]
+		,[GroupId]
+		,[Phone]
+		,[CardNumber]
+		,[Enabled]
+		,[IsDeleted]
+		,[IsSpecialUser]
+		,[Password]
+		,[JoinedDate]
+		,[ModifiedBy]
+		,[ModifiedDate]
+		,[CreatedBy]
+		,[CreatedDate]
+		,[JobTitle]
+		,[IsLocal]
+		,[Email]
+		,[JobLevelId]
+		)
+	VALUES (
+		@EmployeeId
+		,@DomainUsername
+		,''
+		,@NickName
+		,@FullName
+		,@GroupId
+		,''
+		,''
+		,@Enabled
+		,0
+		,1
+		,@Password
+		,GETDATE()
+		,''
+		,''
+		,@CreatedBy
+		,GETDATE()
+		,@JobTitleId
+		,@IsLocal
+		,@Email
+		,@JobLevelId
+		)
 
-		INSERT INTO [dbo].[Employee] (
-			[EmployeeId]
-			,[DomainUsername]
-			,[Code]
-			,[NickName]
-			,[FullName]
-			,[GroupId]
-			,[Phone]
-			,[CardNumber]
-			,[Enabled]
-			,[IsDeleted]
-			,[IsSpecialUser]
-			,[Password]
-			,[JoinedDate]
-			,[ModifiedBy]
-			,[ModifiedDate]
-			,[CreatedBy]
-			,[CreatedDate]
-			,[JobTitle]
-			,[IsLocal]
-			,[Email]
-			,[JobLevelId]
-			)
-		VALUES (
-			@EmpId
-			,@DomainUsername
-			,''
-			,@NickName
-			,@FullName
-			,@GroupId
-			,''
-			,''
-			,@Enabled
-			,0
-			,1
-			,@Password
-			,GETDATE()
-			,''
-			,''
-			,@CreatedBy
-			,GETDATE()
-			,@JobTitleId
-			,@IsLocal
-			,@Email
-			,@JobLevelId
-			)
+	EXEC [dbo].[EpaEmployee_AssignRoleToEmployee] @EmployeeId = @EmployeeId
+		,@RoleIds = '6' -- employee
+		,@ModifiedBy = @CreatedBy
+		,@ErrCode = @ErrCode OUTPUT
+		,@ErrMsg = @ErrMsg OUTPUT
 
-		EXEC [dbo].[EpaEmployee_AssignRoleToEmployee] @EmployeeId = @EmpId
-			,@RoleIds = '6' -- employee
-			,@ModifiedBy = @CreatedBy
-			,@ErrCode = @ErrCode OUTPUT
-			,@ErrMsg = @ErrMsg OUTPUT
+	DECLARE @Data NVARCHAR(MAX)
 
-		DECLARE @Data NVARCHAR(MAX)
+	EXEC @Data = [dbo].[fncGetDataForWriteLog] @ObjectId = @EmployeeId
+		,@ObjectType = 4
 
-		EXEC @Data = [dbo].[fncGetDataForWriteLog] @ObjectId = @EmpId
-			,@ObjectType = 4
-
-		EXEC [dbo].[LogDetail_Insert] @ActorId = @CreatedBy
-			,@SpName = 'EpaEmployee_Insert'
-			,@ObjectId = @EmpId
-			,@ObjectTypeId = 4
-			,@Data = @Data
-			,@OldData = NULL
-			,@ObjectIds = NULL
-
-		COMMIT TRANSACTION
-	END TRY
-
-	BEGIN CATCH
-		ROLLBACK TRANSACTION
-
-		SELECT @ErrCode = 1
-			,@ErrMsg = N'Insert special employee unsuccessfully.'
-	END CATCH
+	EXEC [dbo].[LogDetail_Insert] @ActorId = @CreatedBy
+		,@SpName = 'EpaEmployee_Insert'
+		,@ObjectId = @EmployeeId
+		,@ObjectTypeId = 4
+		,@Data = @Data
+		,@OldData = NULL
+		,@ObjectIds = NULL
 END

@@ -24,8 +24,11 @@
     [ResignedDate]   DATETIME       NULL,
     [ConfirmedDate]  DATETIME       NULL,
     [JobLevelId]     INT            NULL,
+    [UserId]         INT            NULL,
     CONSTRAINT [PK_Employee] PRIMARY KEY CLUSTERED ([EmployeeId] ASC)
 );
+
+
 
 
 
