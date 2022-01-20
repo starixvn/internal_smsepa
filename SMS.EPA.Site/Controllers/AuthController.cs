@@ -91,7 +91,7 @@
                 userControlSession.Functions = userService.GetFunctionPermission(userControlSession.SiteId, userControlSession.UserId);
 
                 UserSession employee = GetEmployeeLogin();
-                userControlSession.Set<UserSession>(Constants.CurrentSessionKey, employee);
+                userControlSession.Set<UserSession>(Constants.CurrentEmployeeKey, employee);
                 userControlSession.Set<int>(Constants.CurrentEmployeeIdKey, employee.EmployeeId);
                 FormsAuthentication.SetAuthCookie(model.Username, false);
                 Response.Redirect(Url.IsLocalUrl(model.ReturnPath) ? model.ReturnPath : FormsAuthentication.DefaultUrl);

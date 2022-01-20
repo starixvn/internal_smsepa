@@ -2,7 +2,7 @@
 {
     public static class Constants
     {
-        public const string CurrentSessionKey = "SMS.EPA.CurrentSession";
+        public const string CurrentEmployeeKey = "SMS.EPA.CurrentEmployee";
         public const string CurrentEmployeeIdKey = "SMS.EPA.CurrentEmployeeId";
 
         public const string KeyCryptography = "SMSEPA02072015";

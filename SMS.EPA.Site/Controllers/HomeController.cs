@@ -25,7 +25,7 @@
         {
             byte.TryParse(ConfigurationManagerService.GetAppSetting("SiteId"), out byte siteId);
             ViewBag.SiteId = siteId;
-            var employee = userControlSession.Get<UserSession>(Constants.CurrentSessionKey);
+            var employee = userControlSession.Get<UserSession>(Constants.CurrentEmployeeKey);
 
             if (employee != null)
             {
