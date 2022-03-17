@@ -469,26 +469,24 @@
                 foreach (TemporaryKPIModel kpi in epaInfo.KPIGroup.KPIs)
                 {
                     float rate = 0;
-
                     if (!string.IsNullOrEmpty(kpi.RateEncrypt))
                     {
                         rate = float.Parse(cryptographyService.Decrypt(kpi.RateEncrypt));
                     }
 
-                    kpi.Score = cryptographyService.Decrypt(kpi.Score).Replace("_" + kpi.KPIId, string.Empty);
+                    kpi.Score = GetKPIScore(cryptographyService.Decrypt(kpi.Score));
                     kpi.Rate = rate;
                 }
 
                 foreach (TemporaryKPIModel kpi in epaInfo.KPIGroup.KPIsBySelf)
                 {
                     float rate = 0;
-
                     if (!string.IsNullOrEmpty(kpi.RateEncrypt))
                     {
                         rate = float.Parse(cryptographyService.Decrypt(kpi.RateEncrypt));
                     }
 
-                    kpi.Score = cryptographyService.Decrypt(kpi.Score).Replace("_" + kpi.KPIId, string.Empty);
+                    kpi.Score = GetKPIScore(cryptographyService.Decrypt(kpi.Score));
                     kpi.Rate = rate;
                 }
             }
@@ -516,13 +514,12 @@
             if (evaluation != null)
             {
                 float rate = 0;
-
                 if (!string.IsNullOrEmpty(evaluation.RateEncrypt))
                 {
                     rate = float.Parse(cryptographyService.Decrypt(evaluation.RateEncrypt));
                 }
 
-                evaluation.Score = cryptographyService.Decrypt(evaluation.Score).Replace("_" + evaluation.KPIId, string.Empty);
+                evaluation.Score = GetKPIScore(cryptographyService.Decrypt(evaluation.Score));
                 evaluation.Rate = rate;
             }
         }
@@ -533,6 +530,11 @@
             {
                 DecryptScore(evaluation);
             }
+        }
+
+        private static string GetKPIScore(string score)
+        {
+            return !string.IsNullOrWhiteSpace(score) ? score.Split('_').First() : score;
         }
     }
 }
