@@ -1,14 +1,17 @@
 ﻿namespace SMS.EPA.Model
 {
+    using System;
+    using System.Globalization;
     using Core.Constants;
     using Core.Services;
-    using System.Globalization;
 
     public class EvaluationModel
     {
         public int EPAId { get; set; }
 
         public int ProcessId { get; set; }
+
+        public int KPIGroupId { get; set; }
 
         public int KPIId { get; set; }
 

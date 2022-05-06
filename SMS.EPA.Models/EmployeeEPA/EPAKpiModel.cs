@@ -1,17 +1,12 @@
 ﻿namespace SMS.EPA.Model
 {
-    using Core.Constants;
-    using Core.Services;
     using System.Collections.Generic;
     using System.Globalization;
+    using Core.Constants;
+    using Core.Services;
 
     public class EPAKpiModel
     {
-        public EPAKpiModel()
-        {
-            EvaluationByEvaluators = new List<EvaluationModel>();
-        }
-
         public int EPAId { get; set; }
 
         public int KPIGroupId { get; set; }
@@ -50,6 +45,6 @@
 
         public EvaluationModel EvaluationBySelf { get; set; }
 
-        public IList<EvaluationModel> EvaluationByEvaluators { get; set; }
+        public IList<EvaluationModel> EvaluationByEvaluators { get; set; } = new List<EvaluationModel>();
     }
 }

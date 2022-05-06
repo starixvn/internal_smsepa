@@ -2,7 +2,9 @@
 {
     using System.Collections.Generic;
     using System.Diagnostics.CodeAnalysis;
+    using System.IO;
     using System.Linq;
+    using System.Runtime.Serialization.Formatters.Binary;
     using Core.Enumerations;
     using Core.Services;
     using Fanex.Data;
@@ -67,7 +69,6 @@
             }
         }
 
-        [SuppressMessage("StyleCop.CSharp.StylecopPlus.Rules", "SP2101:MethodMustNotContainMoreLinesThan", Justification = "Need to review here.")]
         public EPAModel GetEPAInfo(ICriteria criteria)
         {
             using (var db = new ObjectDb(criteria.GetSettingKey()))
@@ -380,10 +381,10 @@
 
         private static void GroupKPIByKPIGroup(IList<EPAKpiGroupModel> kpiGroups, IEnumerable<EPAKpiModel> kpis)
         {
-            foreach (EPAKpiGroupModel kpiGroup in kpiGroups)
+            foreach (var kpiGroup in kpiGroups)
             {
-                IEnumerable<EPAKpiModel> tempkpis = kpis.Where(x => x.EPAId.Equals(kpiGroup.EPAId) && x.KPIGroupId.Equals(kpiGroup.KPIGroupId));
-                foreach (EPAKpiModel kpi in tempkpis)
+                var tempkpis = kpis.Where(x => x.EPAId == kpiGroup.EPAId && x.KPIGroupId == kpiGroup.KPIGroupId).ToList();
+                foreach (var kpi in tempkpis)
                 {
                     kpiGroup.KPIs.Add(kpi);
                 }
@@ -392,10 +393,10 @@
 
         private static void GroupEvaluationOnEachKPI(IEnumerable<EPAKpiModel> kpis, IEnumerable<EvaluationModel> evaluations)
         {
-            foreach (EPAKpiModel kpi in kpis)
+            foreach (var kpi in kpis)
             {
-                IEnumerable<EvaluationModel> tempEvaluations = evaluations.Where(x => x.EPAId.Equals(kpi.EPAId) && x.KPIId.Equals(kpi.KPIId));
-                foreach (EvaluationModel evaluation in tempEvaluations)
+                var tempEvaluations = evaluations.Where(x => x.EPAId == kpi.EPAId && x.KPIGroupId == kpi.KPIGroupId && x.KPIId == kpi.KPIId).ToList();
+                foreach (var evaluation in tempEvaluations)
                 {
                     switch (evaluation.ProcessId)
                     {
