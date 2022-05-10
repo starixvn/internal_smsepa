@@ -128,7 +128,7 @@
             var actual = _periodService.GetPeriodById(periodId);
 
             // Assert
-            Assert.AreEqual(false, actual.TargetType == null || actual.TargetType.TargetTypeId <= 0);
+            Assert.False(actual.TargetType == null || actual.TargetType.TargetTypeId <= 0);
         }
 
         [Test]

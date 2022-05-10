@@ -108,7 +108,7 @@
 
             // Assert
             Assert.IsNotNull(actual);
-            Assert.AreEqual(false, actual.TargetType == null || actual.TargetType.TargetTypeId <= 0);
+            Assert.False(actual.TargetType == null || actual.TargetType.TargetTypeId <= 0);
         }
 
         #endregion GetFlowTemplateById
