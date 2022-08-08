@@ -11,31 +11,29 @@
     {
         public virtual CommandResult ExecuteNonQuery(ICriteria criteria)
         {
-            using (var db = new ObjectDb(criteria.GetSettingKey()))
+            using (var db = ObjectDbFactory.CreateInstance(criteria.GetSettingKey()))
             {
-                Hashtable hash = criteria.GetSpParams();
-                hash.Add("ErrCode", 0);
-                hash.Add("ErrMsg", string.Empty);
+                db.SetParameterValue("ErrCode", 0);
+                db.SetParameterValue("ErrMsg", string.Empty);
 
-                db.ExecuteNonQuery(hash);
-                CommandResult commandResult = GetCommandResult(hash);
+                db.ExecuteNonQuery(criteria);
+                Hashtable hash = db.GetOutputParams();
 
-                return commandResult;
+                return GetCommandResult(hash);
             }
         }
 
         public virtual async Task<CommandResult> ExecuteNonQueryAsync(ICriteria criteria)
         {
-            using (var db = new ObjectDb(criteria.GetSettingKey()))
+            using (var db = ObjectDbFactory.CreateInstance(criteria.GetSettingKey()))
             {
-                Hashtable hash = criteria.GetSpParams();
-                hash.Add("ErrCode", 0);
-                hash.Add("ErrMsg", string.Empty);
+                db.SetParameterValue("ErrCode", 0);
+                db.SetParameterValue("ErrMsg", string.Empty);
 
-                await db.ExecuteNonQueryAsync(hash);
-                CommandResult commandResult = GetCommandResult(hash);
+                await db.ExecuteNonQueryAsync(criteria);
+                Hashtable hash = db.GetOutputParams();
 
-                return commandResult;
+                return GetCommandResult(hash);
             }
         }
 

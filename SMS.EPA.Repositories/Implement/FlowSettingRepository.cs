@@ -9,9 +9,9 @@
     {
         public IEnumerable<FlowModel> GetFlowSettingByFlowTemplateId(ICriteria criteria)
         {
-            using (var db = new ObjectDb(criteria.GetSettingKey()))
+            using (var db = ObjectDbFactory.CreateInstance(criteria.GetSettingKey()))
             {
-                var epaFlow = db.Query<FlowModel, FlowTemplateModel, EvaluatorInfoViewModel, FlowModel>(
+                return db.Query<FlowModel, FlowTemplateModel, EvaluatorInfoViewModel, FlowModel>(
                    (f, ft, e) =>
                    {
                        f.FlowTemplate = ft;
@@ -19,9 +19,7 @@
                        return f;
                    },
                    "FlowTemplateId, EmployeeId",
-                   criteria.GetSpParams());
-
-                return epaFlow;
+                   criteria);
             }
         }
     }

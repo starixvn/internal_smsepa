@@ -12,9 +12,9 @@
     {
         public IEnumerable<Employee> GetAllEmployee(ICriteria criteria)
         {
-            using (var db = new ObjectDb(criteria.GetSettingKey()))
+            using (var db = ObjectDbFactory.CreateInstance(criteria.GetSettingKey()))
             {
-                using (IMultiResultReader multi = db.QueryMultiple(criteria.GetSpParams()))
+                using (IMultiResultReader multi = db.QueryMultiple(criteria))
                 {
                     var employees = multi.Read<Employee, JobTitle, JobLevel, Group, Department, Employee>(
                            (emp, jb, jl, gr, dept) =>
@@ -49,9 +49,9 @@
 
         public Employee GetEmployeeById(ICriteria criteria)
         {
-            using (var db = new ObjectDb(criteria.GetSettingKey()))
+            using (var db = ObjectDbFactory.CreateInstance(criteria.GetSettingKey()))
             {
-                using (IMultiResultReader multi = db.QueryMultiple(criteria.GetSpParams()))
+                using (IMultiResultReader multi = db.QueryMultiple(criteria))
                 {
                     var employee = multi.Read<Employee, JobTitle, Department, Group, Employee>(
                            (emp, jb, dept, gr) =>

@@ -9,7 +9,7 @@
     {
         public IEnumerable<FlowTemplateModel> GetFlowTemplate(ICriteria criteria)
         {
-            using (var db = new ObjectDb(criteria.GetSettingKey()))
+            using (var db = ObjectDbFactory.CreateInstance(criteria.GetSettingKey()))
             {
                 return db.Query<FlowTemplateModel, TargetTypeModel, FlowTemplateModel>(
                    (ft, tt) =>
@@ -18,13 +18,13 @@
                        return ft;
                    },
                    "TargetTypeId",
-                   criteria.GetSpParams());
+                   criteria);
             }
         }
 
         public FlowTemplateModel GetFlowTemplateById(ICriteria criteria)
         {
-            using (var db = new ObjectDb(criteria.GetSettingKey()))
+            using (var db = ObjectDbFactory.CreateInstance(criteria.GetSettingKey()))
             {
                 return db.QueryEntity<FlowTemplateModel, TargetTypeModel, FlowTemplateModel>(
                    (ft, tt) =>
@@ -33,7 +33,7 @@
                        return ft;
                    },
                    "TargetTypeId",
-                   criteria.GetSpParams());
+                   criteria);
             }
         }
     }

@@ -16,8 +16,7 @@
     {
         private readonly ICryptographyService cryptographyService;
 
-        public EmployeeEPARepository()
-            : this(null)
+        public EmployeeEPARepository() : this(null)
         {
         }
 
@@ -28,9 +27,9 @@
 
         public IEnumerable<EPAModel> GetEPA(ICriteria criteria)
         {
-            using (var db = new ObjectDb(criteria.GetSettingKey()))
+            using (var db = ObjectDbFactory.CreateInstance(criteria.GetSettingKey()))
             {
-                using (IMultiResultReader multi = db.QueryMultiple(criteria.GetSpParams()))
+                using (IMultiResultReader multi = db.QueryMultiple(criteria))
                 {
                     var epaInfos = multi.Read<EPAModel, EPAEmployeeInfo, RatingTypeModel, EPAPeriodModel, ScoreRatingTypeModel, EPAModel>(
                         (epaInfo, employee, ratingType, period, scoreRatingType) =>
@@ -71,9 +70,9 @@
 
         public EPAModel GetEPAInfo(ICriteria criteria)
         {
-            using (var db = new ObjectDb(criteria.GetSettingKey()))
+            using (var db = ObjectDbFactory.CreateInstance(criteria.GetSettingKey()))
             {
-                using (IMultiResultReader multi = db.QueryMultiple(criteria.GetSpParams()))
+                using (IMultiResultReader multi = db.QueryMultiple(criteria))
                 {
                     var epaInfo = multi.Read<EPAModel, EPAEmployeeInfo, RatingTypeModel, EPAPeriodModel, ScoreRatingTypeModel, EPAModel>(
                             (info, employee, ratingType, period, scoreRatingType) =>
@@ -124,9 +123,9 @@
 
         public IEnumerable<EPAModel> GetEPAEndEvaluationPeriod(ICriteria criteria)
         {
-            using (var db = new ObjectDb(criteria.GetSettingKey()))
+            using (var db = ObjectDbFactory.CreateInstance(criteria.GetSettingKey()))
             {
-                using (IMultiResultReader multi = db.QueryMultiple(criteria.GetSpParams()))
+                using (IMultiResultReader multi = db.QueryMultiple(criteria))
                 {
                     var epaInfos = multi.Read<EPAModel, EPAEmployeeInfo, EPAPeriodModel, EPAModel>(
                         (epaInfo, emp, period) =>
@@ -162,9 +161,9 @@
 
         public IList<EPAModel> GetEPAToUpdateFinalScore(ICriteria criteria)
         {
-            using (var db = new ObjectDb(criteria.GetSettingKey()))
+            using (var db = ObjectDbFactory.CreateInstance(criteria.GetSettingKey()))
             {
-                using (IMultiResultReader multi = db.QueryMultiple(criteria.GetSpParams()))
+                using (IMultiResultReader multi = db.QueryMultiple(criteria))
                 {
                     IList<EPAModel> epaInfos = multi.Read<EPAModel, EPAEmployeeInfo, EPAPeriodModel, EPAModel>(
                             (epaInfo, emp, period) =>
@@ -200,9 +199,9 @@
 
         public DashboardModel GetDashboard(ICriteria criteria)
         {
-            using (var db = new ObjectDb(criteria.GetSettingKey()))
+            using (var db = ObjectDbFactory.CreateInstance(criteria.GetSettingKey()))
             {
-                using (IMultiResultReader multi = db.QueryMultiple(criteria.GetSpParams()))
+                using (IMultiResultReader multi = db.QueryMultiple(criteria))
                 {
                     var result = new DashboardModel
                     {
@@ -242,7 +241,7 @@
 
         public IEnumerable<TemporaryKPIModel> GetKPIByTargetTemplate(ICriteria criteria)
         {
-            using (var db = new ObjectDb(criteria.GetSettingKey()))
+            using (var db = ObjectDbFactory.CreateInstance(criteria.GetSettingKey()))
             {
                 return db.Query<TemporaryKPIModel, TemporaryKPIGroupModel, TemporaryKPIModel>(
                     (kpi, gr) =>
@@ -252,13 +251,13 @@
                         return kpi;
                     },
                     "KPIGroupId",
-                    criteria.GetSpParams());
+                    criteria);
             }
         }
 
         public IEnumerable<TemporaryKPIModel> GetKPIToView(ICriteria criteria)
         {
-            using (var db = new ObjectDb(criteria.GetSettingKey()))
+            using (var db = ObjectDbFactory.CreateInstance(criteria.GetSettingKey()))
             {
                 return db.Query<TemporaryKPIModel, TemporaryKPIGroupModel, TemporaryKPIModel>(
                     (kpi, gr) =>
@@ -268,15 +267,15 @@
                         return kpi;
                     },
                     "KPIGroupId",
-                    criteria.GetSpParams());
+                    criteria);
             }
         }
 
         public IEnumerable<RatingByKPIModel> GetEmployeeEPAByKPI(ICriteria criteria)
         {
-            using (var db = new ObjectDb(criteria.GetSettingKey()))
+            using (var db = ObjectDbFactory.CreateInstance(criteria.GetSettingKey()))
             {
-                using (IMultiResultReader multi = db.QueryMultiple(criteria.GetSpParams()))
+                using (IMultiResultReader multi = db.QueryMultiple(criteria))
                 {
                     var epaInfos = multi.Read<RatingByKPIModel, EPAEmployeeInfo, RatingTypeModel, TemporaryKPIGroupModel, RatingByKPIModel>(
                             (epaInfo, employee, type, kgr) =>

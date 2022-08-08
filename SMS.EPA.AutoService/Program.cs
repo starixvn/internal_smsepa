@@ -2,7 +2,7 @@
 {
     using System;
     using Fanex.Data;
-    using Fanex.Data.OldConnectionStringProvider;
+    using Fanex.Data.SqlServer;
     using SMS.EPA.AutoService.Service.Implement;
     using SMS.EPA.AutoService.Service.Interfaces;
 
@@ -14,13 +14,9 @@
             try
             {
                 DbSettingProviderManager
-                .StartNewSession()
-                .UseDefaultConnectionStringProvider()
-                .Use(new OldConnectionStringProvider())
-                .UseDefaultDbSettingProvider(
-                    resourcePath: "~/",
-                    enableWatching: true)
-                .Run();
+                    .StartNewSession()
+                    .WithSqlServer("~/SpNames.xml")
+                    .Run();
 
                 IEPAAutoService service = new EPAAutoService();
                 service.Run();

@@ -8,7 +8,7 @@
     using System.Web.Routing;
     using System.Web.SessionState;
     using Fanex.Data;
-    using Fanex.Data.OldConnectionStringProvider;
+    using Fanex.Data.SqlServer;
     using HRM.UserControl.Client.AspNetMvc.Configurations;
     using HRM.UserControl.Client.AspNetMvc.Session;
     using HRM.UserControl.Client.Core;
@@ -29,10 +29,7 @@
             BundleConfig.RegisterBundles(BundleTable.Bundles);
             DbSettingProviderManager
                 .StartNewSession()
-                .Use(new OldConnectionStringProvider())
-                .UseDefaultDbSettingProvider(
-                    resourcePath: "~/App_Data",
-                    enableWatching: true)
+                .WithSqlServer("~/App_Data/SpNames.xml")
                 .Run();
 
             log4net.Config.XmlConfigurator.Configure();

@@ -9,7 +9,7 @@
     {
         public IEnumerable<KPIModel> GetKPIOfTargetTemplate(ICriteria criteria)
         {
-            using (var db = new ObjectDb(criteria.GetSettingKey()))
+            using (var db = ObjectDbFactory.CreateInstance(criteria.GetSettingKey()))
             {
                 return db.Query<KPIModel, KPIGroupModel, KPIModel>(
                     (kpi, gr) =>
@@ -18,7 +18,7 @@
                         return kpi;
                     },
                     "KPIGroupId",
-                    criteria.GetSpParams());
+                    criteria);
             }
         }
     }

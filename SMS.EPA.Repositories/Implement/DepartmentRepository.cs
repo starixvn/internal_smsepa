@@ -9,7 +9,7 @@
     {
         public IEnumerable<Department> GetDepartment(ICriteria criteria)
         {
-            using (var db = new ObjectDb(criteria.GetSettingKey()))
+            using (var db = ObjectDbFactory.CreateInstance(criteria.GetSettingKey()))
             {
                 IEnumerable<Department> departments = db.Query<Department, Employee, Department>(
                    (dept, manager) =>
@@ -19,7 +19,7 @@
                        return dept;
                    },
                    "ManagerId",
-                   criteria.GetSpParams());
+                   criteria);
 
                 return departments;
             }

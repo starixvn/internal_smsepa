@@ -3,7 +3,7 @@
     using System;
     using System.Web.Http;
     using Fanex.Data;
-    using Fanex.Data.OldConnectionStringProvider;
+    using Fanex.Data.SqlServer;
     using Microsoft.Owin;
     using Microsoft.Owin.Cors;
     using Microsoft.Owin.Security.OAuth;
@@ -28,12 +28,9 @@
                 app.UseWebApi(config);
 
                 DbSettingProviderManager
-                .StartNewSession()
-                .Use(new OldConnectionStringProvider())
-                .UseDefaultDbSettingProvider(
-                    resourcePath: "~/App_Data",
-                    enableWatching: true)
-                .Run();
+                    .StartNewSession()
+                    .WithSqlServer("~/App_Data/SpNames.xml")
+                    .Run();
 
                 log4net.Config.XmlConfigurator.Configure();
             }

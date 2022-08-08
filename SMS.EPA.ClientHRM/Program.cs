@@ -5,7 +5,7 @@
     using System.Reflection;
     using System.ServiceProcess;
     using Fanex.Data;
-    using Fanex.Data.OldConnectionStringProvider;
+    using Fanex.Data.SqlServer;
     using Services;
 
     public static class Program
@@ -16,14 +16,10 @@
 
             try
             {
-                Console.WriteLine("Start");
                 DbSettingProviderManager
-                .StartNewSession()
-                .Use(new OldConnectionStringProvider())
-                .UseDefaultDbSettingProvider(
-                    resourcePath: "~/",
-                    enableWatching: true)
-                .Run();
+                    .StartNewSession()
+                    .WithSqlServer("~/App_Data/SpNames.xml")
+                    .Run();
 
                 ServicePointManager.ServerCertificateValidationCallback = (obj, certificate, chain, errors) => true;
 

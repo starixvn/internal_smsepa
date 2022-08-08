@@ -26,9 +26,9 @@
 
         public EPASummaryModel GetEPASummary(ICriteria criteria)
         {
-            using (var db = new ObjectDb(criteria.GetSettingKey()))
+            using (var db = ObjectDbFactory.CreateInstance(criteria.GetSettingKey()))
             {
-                using (IMultiResultReader multi = db.QueryMultiple(criteria.GetSpParams()))
+                using (IMultiResultReader multi = db.QueryMultiple(criteria))
                 {
                     var epaSummary = new EPASummaryModel
                     {
@@ -71,9 +71,9 @@
 
         public EPASummaryModel GetMonthlyEPASummary(ICriteria criteria)
         {
-            using (var db = new ObjectDb(criteria.GetSettingKey()))
+            using (var db = ObjectDbFactory.CreateInstance(criteria.GetSettingKey()))
             {
-                using (IMultiResultReader multi = db.QueryMultiple(criteria.GetSpParams()))
+                using (IMultiResultReader multi = db.QueryMultiple(criteria))
                 {
                     var epaSummary = new EPASummaryModel
                     {
@@ -109,9 +109,9 @@
 
         public EPADetailModel GetEPADetail(ICriteria criteria)
         {
-            using (var db = new ObjectDb(criteria.GetSettingKey()))
+            using (var db = ObjectDbFactory.CreateInstance(criteria.GetSettingKey()))
             {
-                using (IMultiResultReader multi = db.QueryMultiple(criteria.GetSpParams()))
+                using (IMultiResultReader multi = db.QueryMultiple(criteria))
                 {
                     var epaDetail = new EPADetailModel
                     {
@@ -148,9 +148,9 @@
 
         public EPADetailModel GetMonthlyEPADetail(ICriteria criteria)
         {
-            using (var db = new ObjectDb(criteria.GetSettingKey()))
+            using (var db = ObjectDbFactory.CreateInstance(criteria.GetSettingKey()))
             {
-                using (IMultiResultReader multi = db.QueryMultiple(criteria.GetSpParams()))
+                using (IMultiResultReader multi = db.QueryMultiple(criteria))
                 {
                     var epaDetail = new EPADetailModel
                     {

@@ -12,7 +12,7 @@
     {
         public IEnumerable<PeriodModel> GetPeriod(ICriteria criteria)
         {
-            using (var db = new ObjectDb(criteria.GetSettingKey()))
+            using (var db = ObjectDbFactory.CreateInstance(criteria.GetSettingKey()))
             {
                 return db.Query<PeriodModel, TargetTypeModel, PeriodModel>(
                     (pe, tar) =>
@@ -21,13 +21,13 @@
                         return pe;
                     },
                     "TargetTypeId",
-                    criteria.GetSpParams());
+                    criteria);
             }
         }
 
         public PeriodModel GetPeriodById(ICriteria criteria)
         {
-            using (var db = new ObjectDb(criteria.GetSettingKey()))
+            using (var db = ObjectDbFactory.CreateInstance(criteria.GetSettingKey()))
             {
                 return db.QueryEntity<PeriodModel, TargetTypeModel, PeriodModel>(
                     (pe, tar) =>
@@ -36,15 +36,15 @@
                         return pe;
                     },
                     "TargetTypeId",
-                    criteria.GetSpParams());
+                    criteria);
             }
         }
 
         public IEnumerable<PeriodEmployeeSettingModel> GetPeriodEmployeeSettingById(ICriteria criteria)
         {
-            using (var db = new ObjectDb(criteria.GetSettingKey()))
+            using (var db = ObjectDbFactory.CreateInstance(criteria.GetSettingKey()))
             {
-                using (IMultiResultReader multi = db.QueryMultiple(criteria.GetSpParams()))
+                using (IMultiResultReader multi = db.QueryMultiple(criteria))
                 {
                     var employeeSettings =
                         multi.Read<PeriodEmployeeSettingModel, EmployeeViewModel, DepartmentViewModel, Group, JobTitle, TargetTemplate, PeriodEmployeeSettingModel>(

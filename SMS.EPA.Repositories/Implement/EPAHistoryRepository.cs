@@ -11,9 +11,9 @@
     {
         public IList<EPAHistoryModel> GetEPAHistory(ICriteria criteria)
         {
-            using (var db = new ObjectDb(criteria.GetSettingKey()))
+            using (var db = ObjectDbFactory.CreateInstance(criteria.GetSettingKey()))
             {
-                IList<EPAHistoryModel> epas = db.Query<EPAHistoryModel, EPAPeriodModel, EPAEmployeeInfo, EPAHistoryModel>(
+                return db.Query<EPAHistoryModel, EPAPeriodModel, EPAEmployeeInfo, EPAHistoryModel>(
                     (epa, pe, emp) =>
                     {
                         epa.Employee = emp;
@@ -21,17 +21,15 @@
                         return epa;
                     },
                     "PeriodId,EmployeeId",
-                    criteria.GetSpParams()).ToList();
-
-                return epas;
+                    criteria).ToList();
             }
         }
 
         public IList<EPAHistoryModel> GetMonthlyEPAHistory(ICriteria criteria)
         {
-            using (var db = new ObjectDb(criteria.GetSettingKey()))
+            using (var db = ObjectDbFactory.CreateInstance(criteria.GetSettingKey()))
             {
-                IList<EPAHistoryModel> epas = db.Query<EPAHistoryModel, EPAPeriodModel, EPAEmployeeInfo, EPAHistoryModel>(
+                return db.Query<EPAHistoryModel, EPAPeriodModel, EPAEmployeeInfo, EPAHistoryModel>(
                     (epa, pe, emp) =>
                     {
                         epa.Employee = emp;
@@ -39,9 +37,7 @@
                         return epa;
                     },
                     "PeriodId,EmployeeId",
-                    criteria.GetSpParams()).ToList();
-
-                return epas;
+                    criteria).ToList();
             }
         }
     }

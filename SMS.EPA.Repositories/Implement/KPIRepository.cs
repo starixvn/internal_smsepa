@@ -10,9 +10,9 @@
     {
         public IEnumerable<KPIModel> GetKPI(ICriteria criteria)
         {
-            using (var db = new ObjectDb(criteria.GetSettingKey()))
+            using (var db = ObjectDbFactory.CreateInstance(criteria.GetSettingKey()))
             {
-                using (IMultiResultReader multi = db.QueryMultiple(criteria.GetSpParams()))
+                using (IMultiResultReader multi = db.QueryMultiple(criteria))
                 {
                     IEnumerable<KPIModel> kpis = multi.Read<KPIModel>();
                     IEnumerable<dynamic> kpiGroups = multi.Read<dynamic>();
@@ -29,14 +29,12 @@
 
         private IList<KPIGroupModel> GroupKPIGroupByKPI(int kpiId, IEnumerable<dynamic> kpiGroups)
         {
-            IList<KPIGroupModel> result = kpiGroups.Where(x => x.KPIId == kpiId)
+            return kpiGroups.Where(x => x.KPIId == kpiId)
                 .Select(x => new KPIGroupModel
                 {
                     KPIGroupId = x.KPIGroupId,
                     Name = x.Name
                 }).ToList();
-
-            return result;
         }
     }
 }
