@@ -1488,4 +1488,13 @@
   <data name="LateLeaveRequest" xml:space="preserve">
     <value>Late Leave Request</value>
   </data>
+  <data name="JobLevelStandard" xml:space="preserve">
+    <value>Job Level Standard</value>
+  </data>
+  <data name="MaxWeight" xml:space="preserve">
+    <value>Max Weight</value>
+  </data>
+  <data name="MinWeight" xml:space="preserve">
+    <value>Min Weight</value>
+  </data>
 </root>

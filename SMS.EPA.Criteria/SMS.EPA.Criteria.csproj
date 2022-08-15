@@ -97,6 +97,15 @@
     <Compile Include="JobDescription\EditJobDescriptionItemCriteria.cs" />
     <Compile Include="JobDescription\EditJobDescriptionGroupItemCriteria.cs" />
     <Compile Include="JobDescription\EditEmployeeSettingJobDescriptionCriteria.cs" />
+    <Compile Include="JobLevelStandard\JobLevelSetting\EditJobLevelSettingCommand.cs" />
+    <Compile Include="JobLevelStandard\JobLevelSetting\GetJobLevelSettingBySectionIdCriteria.cs" />
+    <Compile Include="JobLevelStandard\Period\CreateJobLevelStandardPeriodCommand.cs" />
+    <Compile Include="JobLevelStandard\Period\DeleteJobLevelStandardPeriodCommand.cs" />
+    <Compile Include="JobLevelStandard\Period\EditJobLevelStandardPeriodCommand.cs" />
+    <Compile Include="JobLevelStandard\Period\EditStatusJobLevelStandardPeriodCommand.cs" />
+    <Compile Include="JobLevelStandard\Period\GetJobLevelStandardPeriodByIdCriteria.cs" />
+    <Compile Include="JobLevelStandard\Period\GetJobLevelStandardPeriodCriteria.cs" />
+    <Compile Include="JobLevelStandard\JobLevelSetting\GetJobLevelSettingSummaryCriteria.cs" />
     <Compile Include="JobLevel\CreateJobLevelCriteria.cs" />
     <Compile Include="JobLevel\DeleteJobLevelCriteria.cs" />
     <Compile Include="JobLevel\EditJobLevelCriteria.cs" />

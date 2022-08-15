@@ -75,6 +75,10 @@
     <Compile Include="JobDescription\JobDescriptionGroupItem.cs" />
     <Compile Include="JobDescription\JobDescriptionGroupSetting.cs" />
     <Compile Include="JobDescription\JobDescriptionItem.cs" />
+    <Compile Include="JobLevelStandard\JobLevelSetting\JobLevelSetting.cs" />
+    <Compile Include="JobLevelStandard\JobLevelSetting\JobLevelSettingSummary.cs" />
+    <Compile Include="JobLevelStandard\Period\JobLevelStandardPeriod.cs" />
+    <Compile Include="JobLevelStandard\Period\JobLevelStandardPeriodSetting.cs" />
     <Compile Include="JobLevel\JobLevel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <!-- Exclude the file from analysis -->

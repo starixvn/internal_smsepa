@@ -1,0 +1,36 @@
+﻿<div class="modal-header">
+    <div class="popup-header">
+        Copy Job Level Setting
+        <span class="close-popup" ng-click="copyCtrl.cancel()"></span>
+    </div>
+</div>
+<div class="modal-body copy-setting-modal-body">
+    <form class="form-horizontal col-sm-11" role="form">
+        <div class="form-group">
+            <label class="col-sm-3 control-label" data-translate="Department"></label>
+            <div class="col-sm-8 field">
+                <input type="text" class="form-control" ng-model="copyCtrl.selectedSection.Department" disabled />
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label" data-translate="Section"></label>
+            <div class="col-sm-8 field">
+                <input type="text" class="form-control" ng-model="copyCtrl.selectedSection.Name" disabled />
+            </div>
+        </div>
+        <div class="form-group required">
+            <label class="col-sm-3 control-label">Copy From</label>
+            <div class="col-sm-8 field">
+                <select ng-model="copyCtrl.fromSection"
+                        ng-options="item.Name group by item.Department for item in copyCtrl.sectionHasSettings track by item.SectionId"
+                        required class="form-control">
+                    <option value="" hidden disabled>-- {{"Select" | translate}} --</option>
+                </select>
+            </div>
+        </div>
+    </form>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-primary" ng-click="copyCtrl.save()" data-translate="Submit"></button>
+    <button class="btn btn-cancel" ng-click="copyCtrl.cancel()" data-translate="Cancel"></button>
+</div>

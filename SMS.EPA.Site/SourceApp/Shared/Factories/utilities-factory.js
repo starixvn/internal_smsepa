@@ -89,6 +89,11 @@
                 Failed: 0,
                 Passed: 1,
                 Extended: 2
+            },
+            jobLevelStandardProcess: {
+                Evaluator: 1,
+                Employee: 2,
+                Management: 3
             }
         };
 

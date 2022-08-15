@@ -1906,6 +1906,15 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Job Level Standard.
+        /// </summary>
+        public static string JobLevelStandard {
+            get {
+                return ResourceManager.GetString("JobLevelStandard", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Job Title.
         /// </summary>
         public static string JobTitle {
@@ -2176,6 +2185,15 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Max Weight.
+        /// </summary>
+        public static string MaxWeight {
+            get {
+                return ResourceManager.GetString("MaxWeight", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Member EPA.
         /// </summary>
         public static string MemberEPA {
@@ -2217,6 +2235,15 @@ namespace SMS.EPA.Resources {
         public static string MinusScoringSystem {
             get {
                 return ResourceManager.GetString("MinusScoringSystem", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Min Weight.
+        /// </summary>
+        public static string MinWeight {
+            get {
+                return ResourceManager.GetString("MinWeight", resourceCulture);
             }
         }
         

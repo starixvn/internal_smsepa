@@ -1,0 +1,91 @@
+﻿<div class="col-sm-12" ng-controller="JobLevelStandardPeriodController as periodCtrl">
+    <div class="sub-header">
+        <ul class="row breadcrumb">
+            <li data-translate="JobLevelStandard"></li>
+            <li class="current" data-translate="Period"></li>
+        </ul>
+    </div>
+    <form novalidate class="form-filter">
+        <div class="form-group">
+            <label class="label-form" data-translate="Status"></label>
+            <select class="form-control select-form" ng-model="periodCtrl.filter.isActive">
+                <option value="">-- {{"All" | translate}} --</option>
+                <option selected value="true" data-translate="Active"></option>
+                <option value="false" data-translate="InActive"></option>
+            </select>
+        </div>
+        <div class="form-group">
+            <button class="btn btn-primary" ng-click="periodCtrl.query(periodCtrl.filter)" data-translate="Search"></button>
+        </div>
+    </form>
+
+    <table class="row table table-bordered table-striped table-job-level-standard-period">
+        <thead>
+            <tr class="header-table">
+                <th colspan="10">
+                    <a class="pull-left button-icon create-button" href="" ng-click="periodCtrl.create()">
+                        <span class="glyphicon glyphicon-plus icon-add"></span>
+                        <span class="button-text" data-translate="Create"></span>
+                    </a>
+                    <input type="text" ng-model="periodCtrl.searchKey" ng-change="periodCtrl.search()" class="search-inline-textbox search pull-right">
+                </th>
+            </tr>
+            <tr class="headerName">
+                <th rowspan="2" data-translate="SymbolCount"></th>
+                <th rowspan="2" data-translate="Name"></th>
+                <th colspan="2" data-translate="Evaluator"></th>
+                <th colspan="2" data-translate="Enployee"></th>
+                <th colspan="2" data-translate="Management"></th>
+                <th rowspan="2" data-translate="Active"></th>
+                <th rowspan="2" data-translate="Action"></th>
+            </tr>
+            <tr>
+                <th data-translate="FromDate"></th>
+                <th data-translate="ToDate"></th>
+                <th data-translate="FromDate"></th>
+                <th data-translate="ToDate"></th>
+                <th data-translate="FromDate"></th>
+                <th data-translate="ToDate"></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr dir-paginate="period in periodCtrl.filteredItems | itemsPerPage: periodCtrl.pageSize" current-page="periodCtrl.currentPage">
+                <td class="text-center" ng-bind="periodCtrl.getIndex($index, periodCtrl.currentPage, periodCtrl.pageSize)"></td>
+                <td ng-bind="period.Name"></td>
+                <td class="text-center" ng-bind="period.Settings[0].FromDate | date: periodCtrl.dateFormat"></td>
+                <td class="text-center" ng-bind="period.Settings[0].ToDate | date: periodCtrl.dateFormat"></td>
+                <td class="text-center" ng-bind="period.Settings[1].FromDate | date: periodCtrl.dateFormat"></td>
+                <td class="text-center" ng-bind="period.Settings[1].ToDate | date: periodCtrl.dateFormat"></td>
+                <td class="text-center" ng-bind="period.Settings[2].FromDate | date: periodCtrl.dateFormat"></td>
+                <td class="text-center" ng-bind="period.Settings[2].ToDate | date: periodCtrl.dateFormat"></td>
+                <td class="text-center">
+                    <input type="checkbox" ng-checked="period.IsActive" ng-click="periodCtrl.editActive(period)" />
+                </td>
+                <td class="text-center">
+                    <div class="btn-group">
+                        <a  href="javascript:;" class="glyphicon glyphicon-edit icon-edit" title="Edit" ng-click="periodCtrl.edit(period.PeriodId)"></a>
+                        <a href="javascript:;" class="glyphicon glyphicon-remove icon-remove" title="Delete" ng-click="periodCtrl.delete(period)"></a>
+                    </div>
+                </td>
+            </tr>
+            <tr ng-show="periodCtrl.filteredItems.length === 0">
+                <td class="empty-result" colspan="10" data-translate="EmptyResult"></td>
+            </tr>
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="10" class="paging">
+                    <span data-translate="Show"></span>
+                    <select class="dropdown-entry form-control" ng-model="periodCtrl.pageSize"
+                            ng-options="entry for entry in periodCtrl.entries" ng-change="periodCtrl.currentPage = 1"></select>
+                    <span data-translate="entries"></span>
+                    <div class="pull-right custom-paging">
+                        <ul uib-pagination total-items="periodCtrl.filteredItems.length" items-per-page="periodCtrl.pageSize"
+                            boundary-links="true" max-size="5" boundary-link-numbers="true" ng-model="periodCtrl.currentPage"
+                            class="pagination-sm" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></ul>
+                    </div>
+                </td>
+            </tr>
+        </tfoot>
+    </table>
+</div>

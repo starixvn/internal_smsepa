@@ -249,7 +249,18 @@
                             "~/SourceApp/Components/JobLevel/job-level-model.js",
                             "~/SourceApp/Components/JobLevel/job-level-factory.js",
                             "~/SourceApp/Components/JobLevel/create-job-level-controller.js",
-                            "~/SourceApp/Components/JobLevel/edit-job-level-controller.js"));
+                            "~/SourceApp/Components/JobLevel/edit-job-level-controller.js",
+                            "~/SourceApp/Components/JobLevelStandard/Period/period-factory.js",
+                            "~/SourceApp/Components/JobLevelStandard/Period/period-model.js",
+                            "~/SourceApp/Components/JobLevelStandard/Period/period-controller.js",
+                            "~/SourceApp/Components/JobLevelStandard/Period/create-period-controller.js",
+                            "~/SourceApp/Components/JobLevelStandard/Period/edit-period-controller.js",
+                            "~/SourceApp/Components/JobLevelStandard/Period/edit-basic-info-controller.js",
+                            "~/SourceApp/Components/JobLevelStandard/JobLevelSetting/job-level-setting-factory.js",
+                            "~/SourceApp/Components/JobLevelStandard/JobLevelSetting/job-level-setting-model.js",
+                            "~/SourceApp/Components/JobLevelStandard/JobLevelSetting/job-level-setting-controller.js",
+                            "~/SourceApp/Components/JobLevelStandard/JobLevelSetting/edit-job-level-setting-controller.js",
+                            "~/SourceApp/Components/JobLevelStandard/JobLevelSetting/copy-job-level-setting-controller.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/common/js").Include(
                             "~/SourceApp/Shared/Directives/epa-addClassToRoleFilter-directive.js",

@@ -25,12 +25,12 @@
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
             DbSettingProviderManager
-            .StartNewSession()
-            .Use(new OldConnectionStringProvider())
-            .UseDefaultDbSettingProvider(
-                resourcePath: "~/App_Data",
-                enableWatching: true)
-            .Run();
+                .StartNewSession()
+                .Use(new OldConnectionStringProvider())
+                .UseDefaultDbSettingProvider(
+                    resourcePath: "~/App_Data",
+                    enableWatching: true)
+                .Run();
 
             log4net.Config.XmlConfigurator.Configure();
         }

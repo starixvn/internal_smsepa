@@ -21,6 +21,7 @@
                 'disciplineModule',
                 'jobDescriptionModule',
                 'jobLevelModule',
+                'jobLevelStandardModule',
                 'ui.bootstrap.contextMenu',
                 'ui.bootstrap',
                 'angular.chosen',

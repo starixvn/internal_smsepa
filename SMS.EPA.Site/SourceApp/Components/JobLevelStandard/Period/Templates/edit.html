@@ -1,0 +1,22 @@
+﻿<div class="col-sm-12" ng-controller="EditJobLevelStandardPeriodController as editCtrl">
+    <div class="sub-header">
+        <ul class="row breadcrumb">
+            <li data-translate="JobLevelStandard"></li>
+            <li data-translate="Period"></li>
+            <li class="current" data-translate="Update"></li>
+        </ul>
+    </div>
+    <div class="target-tabset">
+        <uib-tabset id="JobLevelStandardPeriod" active="editCtrl.dataTab">
+            <uib-tab heading="Basic Info" class="tab-cursor" index="1" select="editCtrl.dataTab = 1">
+                <div ng-include src="'/SourceApp/Components/JobLevelStandard/Period/Templates/basicInfo.html'"></div>
+            </uib-tab>
+            <!--<uib-tab heading="PROCESS SETTING" class="tab-cursor" index="2" select="editCtrl.dataTab = 2">
+                <div ng-include src="'/SourceApp/Components/Period/Templates/processSetting.html'"></div>
+            </uib-tab>
+            <uib-tab heading="EMPLOYEE SETTING" class="tab-cursor" index="3" select="editCtrl.dataTab = 3">
+                <div ng-include src="'/SourceApp/Components/Period/Templates/employeeSetting.html'"></div>
+            </uib-tab>-->
+        </uib-tabset>
+    </div>
+</div>
