@@ -57,7 +57,9 @@
             return result.ToString(Constants.FormatDateTimeEmail);
         }
 
+#pragma warning disable S1541 // Methods and properties should not be too complex
         private string GetSubject(string period, MailMode mailMode)
+#pragma warning restore S1541 // Methods and properties should not be too complex
         {
             string subject;
             switch (_processId)

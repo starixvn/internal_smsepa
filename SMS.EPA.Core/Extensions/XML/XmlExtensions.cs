@@ -65,7 +65,8 @@
                     && p.PropertyType.GetGenericArguments()[0].IsPrimitive;
             var isNotPrimitive = p.PropertyType == typeof(string)
                 || p.PropertyType == typeof(DateTime)
-                || p.PropertyType == typeof(DateTime?)
+                || p.PropertyType == typeof(DateTime?);
+            isNotPrimitive = isNotPrimitive
                 || p.PropertyType == typeof(decimal)
                 || p.PropertyType == typeof(decimal?);
 

@@ -116,7 +116,9 @@
             return result;
         }
 
+#pragma warning disable S1541 // Methods and properties should not be too complex
         public EPASummaryModel GetEPASummaryReport(GetEPASummaryCriteria criteria)
+#pragma warning restore S1541 // Methods and properties should not be too complex
         {
             IEnumerable<StandardGradeModel> standardGrades = baseService.GetData<StandardGradeModel>(new GetStandardGradeCriteria());
             EPASummaryModel result = reportRepository.GetEPASummary(criteria);
