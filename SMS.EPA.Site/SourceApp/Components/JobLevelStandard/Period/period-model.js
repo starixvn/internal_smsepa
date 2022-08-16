@@ -10,6 +10,8 @@
 
         model.periods = [];
         model.period = {};
+        model.jobLevelSettings = [];
+        model.sectionJobLevelSettings = [];
 
         model.calendar = {
             minDate: new Date(2010, 0, 1),
@@ -93,7 +95,7 @@
                 templateUrl: 'SourceApp/Components/JobLevelStandard/Period/Templates/create.html',
                 controller: 'CreateJobLevelStandardPeriodController as createPeriodCtrl',
                 backdrop: 'static',
-                windowClass: "modal-confirm-center job-level-standard-period-modal"
+                windowClass: 'modal-confirm-center job-level-standard-period-modal'
             });
 
             return vm.modalInstance.result;
@@ -245,6 +247,109 @@
                         vm.periods.splice(index, 1);
                         utilitiesFactory.searchOnPage(vm, vm.periods);
                         notificationFactory.success('DeletedSuccessfully');
+                    } else {
+                        notificationFactory.error('', response.Message);
+                    }
+                }).error(function (response, status) {
+                    errorFactory.errorHandle(status);
+                });
+            })['finally'](function () {
+                modalInstance = '';
+            });
+        };
+
+        model.getJobLevelSettings = function (params) {
+            return periodFactory.getJobLevelSettings(params).success(function (settings) {
+                model.jobLevelSettings = settings;
+            }).error(function (response, status) {
+                errorFactory.errorHandle(status);
+            });
+        };
+
+        model.getJobLevelSettingBySectionId = function (params) {
+            return periodFactory.getJobLevelSettingBySectionId(params).success(function (settings) {
+                model.sectionJobLevelSettings = settings;
+            }).error(function (response, status) {
+                errorFactory.errorHandle(status);
+            });
+        };
+
+        model.openPopupEditJobLevelSetting = function (vm, section) {
+            vm.modalInstance = $uibModal.open({
+                templateUrl: 'SourceApp/Components/JobLevelStandard/Period/Templates/editJobLevelSetting.html',
+                controller: 'EditPeriodJobLevelSettingController as editJobLevelCtrl',
+                backdrop: 'static',
+                resolve: {
+                    periodId: function () {
+                        return vm.period.PeriodId;
+                    },
+                    section: function () {
+                        return section;
+                    }
+                },
+                windowClass: 'modal-confirm-center modal-edit-job-level-setting'
+            });
+
+            return vm.modalInstance.result;
+        };
+
+        model.editJobLevelSetting = function (command, modalInstance) {
+            return periodFactory.editJobLevelSetting(command).success(function (response) {
+                if (response.IsSuccessful) {
+                    notificationFactory.success('UpdatedSuccessfully');
+                    modalInstance.close(true);
+                } else {
+                    notificationFactory.error('', response.Message);
+                }
+            }).error(function (response, status) {
+                errorFactory.errorHandle(status);
+            });
+        };
+
+        model.openPopupCopyJobLevelSetting = function (vm, selectedSection, sectionHasSettings) {
+            vm.modalInstance = $uibModal.open({
+                templateUrl: 'SourceApp/Components/JobLevelStandard/Period/Templates/copyJobLevelSetting.html',
+                controller: 'CopyPeriodJobLevelSettingController as copyJobLevelCtrl',
+                backdrop: 'static',
+                resolve: {
+                    periodId: function () {
+                        return vm.period.PeriodId;
+                    },
+                    selectedSection: function () {
+                        return selectedSection;
+                    },
+                    sectionHasSettings: function () {
+                        return sectionHasSettings;
+                    }
+                },
+                windowClass: 'modal-confirm-center modal-copy-job-level-setting'
+            });
+
+            return vm.modalInstance.result;
+        };
+
+        model.openPopupCopyDefaultJobLevelSetting = function (vm, periodId) {
+            var modalInstance = $uibModal.open({
+                templateUrl: '/SourceApp/Shared/Templates/ModalConfirmContent.html',
+                controller: 'ModalConfirmController as modalConfirmCtrl',
+                backdrop: 'static',
+                resolve: {
+                    name: function () {
+                        return 'Default Setting';
+                    },
+                    action: function () {
+                        return 'copy';
+                    }
+                },
+                windowClass: 'modal-confirm-center'
+            });
+
+            modalInstance.result.then(function () {
+                periodFactory.copyDefaultJobLevelSetting(periodId).success(function (response) {
+                    if (response.IsSuccessful) {
+                        notificationFactory.success('UpdatedSuccessfully');
+
+                        vm.query(vm.filter);
                     } else {
                         notificationFactory.error('', response.Message);
                     }

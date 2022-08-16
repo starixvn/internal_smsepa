@@ -30,14 +30,14 @@
         model.openPopupEditJobLevelSetting = function (vm, section) {
             vm.modalInstance = $uibModal.open({
                 templateUrl: 'SourceApp/Components/JobLevelStandard/JobLevelSetting/Templates/edit.html',
-                controller: "EditJobLevelSettingController as editCtrl",
+                controller: 'EditJobLevelSettingController as editCtrl',
                 backdrop: 'static',
                 resolve: {
                     section: function () {
                         return section;
                     }
                 },
-                windowClass: "modal-confirm-center modal-edit-job-level-setting"
+                windowClass: 'modal-confirm-center modal-edit-job-level-setting'
             });
 
             return vm.modalInstance.result;

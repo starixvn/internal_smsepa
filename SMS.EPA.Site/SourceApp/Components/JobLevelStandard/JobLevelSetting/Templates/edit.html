@@ -32,11 +32,11 @@
                 <td class="text-center" ng-bind="setting.Name"></td>
                 <td class="width-140 text-center">
                     <input type="text" class="weight-form-control form-control text-center" ng-model="setting.MinWeight" name="minweight"
-                           numeric decimals="2" min="0" max="100" />
+                           numeric decimals="2" min="0" max="100" autocomplete="off" />
                 </td>
                 <td class="width-140 text-center">
                     <input type="text" class="weight-form-control form-control text-center" ng-model="setting.MaxWeight" name="maxweight"
-                           numeric decimals="2" min="0" max="100" />
+                           numeric decimals="2" min="0" max="100" autocomplete="off" />
                 </td>
             </tr>
             <tr ng-show="editCtrl.settings.length === 0">

@@ -180,6 +180,6 @@ angular.module('jobLevelStandardModule', ['ngRoute'])
 
         $routeProvider.when('/JobLevelStandard/Period/Index',
             { templateUrl: baseUrl + 'SourceApp/Components/JobLevelStandard/Period/Templates/index.html', caseInsensitiveMatch: true });
-        $routeProvider.when('/JobLevelStandard/Period/Update/:id',
+        $routeProvider.when('/JobLevelStandard/Period/Edit/:id',
             { templateUrl: baseUrl + 'SourceApp/Components/JobLevelStandard/Period/Templates/edit.html', caseInsensitiveMatch: true });
     }]);

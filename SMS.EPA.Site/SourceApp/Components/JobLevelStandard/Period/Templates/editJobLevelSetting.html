@@ -1,0 +1,52 @@
+﻿<div class="modal-header">
+    <div class="popup-header">
+        Edit Job Level Setting
+        <span class="close-popup" ng-click="editJobLevelCtrl.cancel()"></span>
+    </div>
+</div>
+<div class="modal-body">
+    <form class="row form-horizontal" role="form">
+        <div class="form-group">
+            <label class="col-sm-3 control-label" data-translate="Department"></label>
+            <div class="col-sm-8 field">
+                <input type="text" class="form-control" ng-model="editJobLevelCtrl.section.Department" disabled />
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label" data-translate="Section"></label>
+            <div class="col-sm-8 field">
+                <input type="text" class="form-control" ng-model="editJobLevelCtrl.section.Name" disabled />
+            </div>
+        </div>
+    </form>
+    <table class="row table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th data-translate="JobLevel"></th>
+                <th data-translate="MinWeight"></th>
+                <th data-translate="MaxWeight"></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="setting in editJobLevelCtrl.settings">
+                <td class="text-center" ng-bind="setting.Name"></td>
+                <td class="width-140 text-center">
+                    <input type="text" class="weight-form-control form-control text-center" ng-model="setting.MinWeight" name="minweight"
+                           numeric decimals="2" min="0" max="100" autocomplete="off" />
+                </td>
+                <td class="width-140 text-center">
+                    <input type="text" class="weight-form-control form-control text-center" ng-model="setting.MaxWeight" name="maxweight"
+                           numeric decimals="2" min="0" max="100" autocomplete="off" />
+                </td>
+            </tr>
+            <tr ng-show="editJobLevelCtrl.settings.length === 0">
+                <td class="empty-result" colspan="3" data-translate="EmptyResult"></td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<div class="modal-footer">
+    <button class="btn btn-primary" data-translate="Submit" ng-click="editJobLevelCtrl.save()" ng-if="editJobLevelCtrl.settings.length > 0"></button>
+    <button class="btn btn-cancel" ng-click="editJobLevelCtrl.cancel()" data-translate="Cancel"></button>
+</div>

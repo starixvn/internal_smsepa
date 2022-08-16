@@ -1,0 +1,67 @@
+﻿<div ng-controller="PeriodJobLevelSettingController as settingCtrl">
+    <form novalidate class="form-filter">
+        <div class="form-group">
+            <label class="label-form">Has Setting</label>
+            <select class="form-control select-form" ng-model="settingCtrl.filter.hasSetting">
+                <option value="">-- {{"All" | translate}} --</option>
+                <option selected value="true" data-translate="Yes"></option>
+                <option value="false" data-translate="No"></option>
+            </select>
+        </div>
+        <div class="form-group">
+            <button class="btn btn-primary" ng-click="settingCtrl.query(settingCtrl.filter)" data-translate="Search"></button>
+        </div>
+    </form>
+
+    <table class="row table table-bordered table-striped table-job-level-setting">
+        <thead>
+            <tr class="header-table">
+                <th colspan="5">
+                    <a class="pull-left button-icon create-button" href="" ng-click="settingCtrl.copyFromDefault()">
+                        <span class="glyphicon glyphicon-duplicate icon-add"></span>
+                        <span class="button-text">Copy from Default</span>
+                    </a>
+                    <input type="text" ng-model="settingCtrl.searchKey" ng-change="settingCtrl.search()" class="search-inline-textbox search pull-right">
+                </th>
+            </tr>
+            <tr class="headerName">
+                <th data-translate="SymbolCount"></th>
+                <th data-translate="Department"></th>
+                <th data-translate="Section"></th>
+                <th data-translate="Has Setting"></th>
+                <th data-translate="Action"></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr dir-paginate="section in settingCtrl.filteredItems | itemsPerPage: settingCtrl.pageSize" current-page="settingCtrl.currentPage">
+                <td class="text-center" ng-bind="settingCtrl.getIndex($index, settingCtrl.currentPage, settingCtrl.pageSize)"></td>
+                <td ng-bind="section.Department"></td>
+                <td ng-bind="section.Name"></td>
+                <td class="text-center"><span class="glyphicon glyphicon-ok" ng-if="section.HasSetting"></span></td>
+                <td class="text-center">
+                    <a href="javascript:;" class="glyphicon glyphicon-edit icon-edit" title="Edit" ng-click="settingCtrl.edit(section)"></a>
+                    <a class="glyphicon glyphicon-duplicate cursor-pointer" title="Copy Setting"
+                       ng-click="settingCtrl.copy(section)"></a>
+                </td>
+            </tr>
+            <tr ng-show="settingCtrl.filteredItems.length === 0">
+                <td class="empty-result" colspan="5" data-translate="EmptyResult"></td>
+            </tr>
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="5" class="paging">
+                    <span data-translate="Show"></span>
+                    <select class="dropdown-entry form-control" ng-model="settingCtrl.pageSize"
+                            ng-options="entry for entry in settingCtrl.entries" ng-change="settingCtrl.currentPage = 1"></select>
+                    <span data-translate="entries"></span>
+                    <div class="pull-right custom-paging">
+                        <ul uib-pagination total-items="settingCtrl.filteredItems.length" items-per-page="settingCtrl.pageSize"
+                            boundary-links="true" max-size="5" boundary-link-numbers="true" ng-model="settingCtrl.currentPage"
+                            class="pagination-sm" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></ul>
+                    </div>
+                </td>
+            </tr>
+        </tfoot>
+    </table>
+</div>

@@ -101,8 +101,12 @@
     <Compile Include="JobLevelStandard\JobLevelSetting\GetJobLevelSettingBySectionIdCriteria.cs" />
     <Compile Include="JobLevelStandard\Period\CreateJobLevelStandardPeriodCommand.cs" />
     <Compile Include="JobLevelStandard\Period\DeleteJobLevelStandardPeriodCommand.cs" />
+    <Compile Include="JobLevelStandard\Period\CopyDefaultJobLevelSettingCommand.cs" />
+    <Compile Include="JobLevelStandard\Period\EditPeriodJobLevelSettingCommand.cs" />
     <Compile Include="JobLevelStandard\Period\EditJobLevelStandardPeriodCommand.cs" />
     <Compile Include="JobLevelStandard\Period\EditStatusJobLevelStandardPeriodCommand.cs" />
+    <Compile Include="JobLevelStandard\Period\GetPeriodJobLevelSettingBySectionIdCriteria.cs" />
+    <Compile Include="JobLevelStandard\Period\GetJobLevelSettingSummaryCriteria.cs" />
     <Compile Include="JobLevelStandard\Period\GetJobLevelStandardPeriodByIdCriteria.cs" />
     <Compile Include="JobLevelStandard\Period\GetJobLevelStandardPeriodCriteria.cs" />
     <Compile Include="JobLevelStandard\JobLevelSetting\GetJobLevelSettingSummaryCriteria.cs" />

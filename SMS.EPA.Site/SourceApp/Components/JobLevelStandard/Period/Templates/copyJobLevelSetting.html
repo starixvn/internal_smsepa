@@ -1,0 +1,36 @@
+﻿<div class="modal-header">
+    <div class="popup-header">
+        Copy Job Level Setting
+        <span class="close-popup" ng-click="copyJobLevelCtrl.cancel()"></span>
+    </div>
+</div>
+<div class="modal-body copy-setting-modal-body">
+    <form class="form-horizontal col-sm-11" role="form">
+        <div class="form-group">
+            <label class="col-sm-3 control-label" data-translate="Department"></label>
+            <div class="col-sm-8 field">
+                <input type="text" class="form-control" ng-model="copyJobLevelCtrl.selectedSection.Department" disabled />
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label" data-translate="Section"></label>
+            <div class="col-sm-8 field">
+                <input type="text" class="form-control" ng-model="copyJobLevelCtrl.selectedSection.Name" disabled />
+            </div>
+        </div>
+        <div class="form-group required">
+            <label class="col-sm-3 control-label">Copy From</label>
+            <div class="col-sm-8 field">
+                <select ng-model="copyJobLevelCtrl.fromSection"
+                        ng-options="item.Name group by item.Department for item in copyJobLevelCtrl.sectionHasSettings track by item.SectionId"
+                        required class="form-control">
+                    <option value="" hidden disabled>-- {{"Select" | translate}} --</option>
+                </select>
+            </div>
+        </div>
+    </form>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-primary" ng-click="copyJobLevelCtrl.save()" data-translate="Submit"></button>
+    <button class="btn btn-cancel" ng-click="copyJobLevelCtrl.cancel()" data-translate="Cancel"></button>
+</div>

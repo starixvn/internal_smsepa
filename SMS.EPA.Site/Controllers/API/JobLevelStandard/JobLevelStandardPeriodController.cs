@@ -7,6 +7,7 @@
     using SMS.EPA.Core.Model;
     using SMS.EPA.Core.Services;
     using SMS.EPA.Criteria.JobLevelStandard;
+    using SMS.EPA.Model.JobLevelStandard;
     using SMS.EPA.Model.JobLevelStandard.Period;
 
     public class JobLevelStandardPeriodController : BaseController
@@ -96,6 +97,45 @@
                 ModifiedBy = SessionService.EmployeeId
             };
             return baseService.ExecuteNonQuery(criteria);
+        }
+
+        [HttpPost]
+        public IList<JobLevelSettingSummary> GetJobLevelSettings(GetPeriodJobLevelSettingSummaryCriteria criteria)
+        {
+            return baseService.GetData<JobLevelSettingSummary>(criteria).ToList();
+        }
+
+        [HttpPost]
+        public IList<JobLevelSetting> GetJobLevelSettingBySectionId(GetPeriodJobLevelSettingBySectionIdCriteria criteria)
+        {
+            return baseService.GetData<JobLevelSetting>(criteria).ToList();
+        }
+
+        [HttpPut]
+        public CommandResult EditJobLevelSetting(EditPeriodJobLevelSettingCommand command)
+        {
+            var commandResult = new CommandResult();
+            if (command != null)
+            {
+                command.SettingXml = command.Settings.ToXML().ToString();
+                command.ModifiedBy = SessionService.EmployeeId;
+                commandResult = baseService.ExecuteNonQuery(command);
+            }
+
+            return commandResult;
+        }
+
+        [HttpPost]
+        public CommandResult CopyDefaultJobLevelSetting(CopyDefaultJobLevelSettingCommand command)
+        {
+            var commandResult = new CommandResult();
+            if (command != null)
+            {
+                command.ModifiedBy = SessionService.EmployeeId;
+                commandResult = baseService.ExecuteNonQuery(command);
+            }
+
+            return commandResult;
         }
     }
 }

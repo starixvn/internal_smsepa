@@ -12,7 +12,11 @@
             createPeriod,
             editPeriod,
             editStatusPeriod,
-            deletePeriod
+            deletePeriod,
+            getJobLevelSettings,
+            getJobLevelSettingBySectionId,
+            editJobLevelSetting,
+            copyDefaultJobLevelSetting
         };
 
         function getPeriods(isActive) {
@@ -37,6 +41,22 @@
 
         function deletePeriod(periodId) {
             return $http['delete'](baseUrl + 'api/JobLevelStandardPeriod/Delete', { params: { periodId } });
+        }
+
+        function getJobLevelSettings(params) {
+            return $http.post(baseUrl + 'api/JobLevelStandardPeriod/GetJobLevelSettings', params);
+        }
+
+        function getJobLevelSettingBySectionId(params) {
+            return $http.post(baseUrl + 'api/JobLevelStandardPeriod/GetJobLevelSettingBySectionId', params);
+        }
+
+        function editJobLevelSetting(command) {
+            return $http.put(baseUrl + 'api/JobLevelStandardPeriod/EditJobLevelSetting', command);
+        }
+
+        function copyDefaultJobLevelSetting(periodId) {
+            return $http.post(baseUrl + 'api/JobLevelStandardPeriod/CopyDefaultJobLevelSetting', { periodId });
         }
     }
 })(angular);
