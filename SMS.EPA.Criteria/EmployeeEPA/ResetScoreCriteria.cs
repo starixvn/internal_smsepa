@@ -30,34 +30,34 @@
                 {
                     epaXml.AppendFormat(
                         EPAXmlTemplate,
-                        (int)ProcessType.Self,
+                        (byte)ProcessType.Self,
                         cryptographyService.Encrypt(EPAInfo.MonthlyEPA.AverageSelfScoreConverted.ToString()));
 
                     epaXml.AppendFormat(
                         EPAXmlTemplate,
-                        (int)ProcessType.Evaluator,
+                        (byte)ProcessType.Evaluator,
                         cryptographyService.Encrypt(EPAInfo.MonthlyEPA.AverageEvaluatorScoreConverted.ToString()));
 
                     epaXml.AppendFormat(
                         EPAXmlTemplate,
-                        (int)ProcessType.Reviewer,
+                        (byte)ProcessType.Reviewer,
                         cryptographyService.Encrypt(EPAInfo.MonthlyEPA.AverageReviewerScoreConverted.ToString()));
 
                     epaXml.AppendFormat(
                         EPAXmlTemplate,
-                        (int)ProcessType.Management,
+                        (byte)ProcessType.Management,
                         string.Empty);
                 }
                 else
                 {
                     epaXml.AppendFormat(
                         EPAXmlTemplate,
-                        (int)ProcessType.Reviewer,
+                        (byte)ProcessType.Reviewer,
                         string.Empty);
 
                     epaXml.AppendFormat(
                         EPAXmlTemplate,
-                        (int)ProcessType.Management,
+                        (byte)ProcessType.Management,
                         string.Empty);
                 }
 

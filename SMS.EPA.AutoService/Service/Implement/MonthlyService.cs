@@ -58,7 +58,7 @@
         {
             var criteria = new GetEvaluationGlobalSettingByTargetTypeIdCriteria
             {
-                TargetTypeId = (int)TargetType.Monthly
+                TargetTypeId = (byte)TargetType.Monthly
             };
             IEnumerable<FlowModel> processSettings = BaseService.GetData<FlowModel>(criteria);
 

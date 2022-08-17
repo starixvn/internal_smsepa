@@ -9,7 +9,7 @@
 
         public string Name { get; set; }
 
-        public int TargetTypeId { get; set; }
+        public byte TargetTypeId { get; set; }
 
         public DateTime? StartDate { get; set; }
 

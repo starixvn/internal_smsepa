@@ -2,7 +2,7 @@
 {
     using System.ComponentModel;
 
-    public enum EPAStatus
+    public enum EpaStatus
     {
         [Description("Open")]
         Open = 0,

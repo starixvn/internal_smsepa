@@ -7,9 +7,9 @@
     {
         public int ActorId { get; set; }
 
-        public int ProcessId { get; set; }
+        public byte ProcessId { get; set; }
 
-        public override bool IsValid() => ActorId > 0 && ProcessId >= (int)ProcessType.Evaluator;
+        public override bool IsValid() => ActorId > 0 && ProcessId >= (byte)ProcessType.Evaluator;
 
         public override string GetSettingKey() => "EPA_GetPeriodByActorId";
     }

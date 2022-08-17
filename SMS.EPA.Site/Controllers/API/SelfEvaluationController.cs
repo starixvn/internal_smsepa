@@ -82,7 +82,7 @@
 
             if (criteria != null)
             {
-                criteria.ProcessId = (int)ProcessType.Self;
+                criteria.ProcessId = (byte)ProcessType.Self;
                 criteria.EvaluatorId = SessionService.EmployeeId;
                 criteria.ModifiedBy = SessionService.EmployeeId;
 
@@ -103,7 +103,7 @@
             {
                 EPAId = epaId,
                 ActorUserId = SessionService.EmployeeId,
-                ProcessId = (int)ProcessType.Self
+                ProcessId = (byte)ProcessType.Self
             };
 
             return baseService.GetDataEntity<int>(criteria);

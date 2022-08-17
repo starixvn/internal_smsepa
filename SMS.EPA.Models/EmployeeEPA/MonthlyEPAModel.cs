@@ -15,11 +15,11 @@
 
         public IList<EPAModel> MonthlyEPAs { get; set; }
 
-        public float? AverageSelfScore => CalculateAverageScore((int)ProcessType.Self);
+        public float? AverageSelfScore => CalculateAverageScore((byte)ProcessType.Self);
 
-        public float? AverageEvaluatorScores => CalculateAverageScore((int)ProcessType.Evaluator);
+        public float? AverageEvaluatorScores => CalculateAverageScore((byte)ProcessType.Evaluator);
 
-        public float? AverageReviewerScores => CalculateAverageScore((int)ProcessType.Reviewer);
+        public float? AverageReviewerScores => CalculateAverageScore((byte)ProcessType.Reviewer);
 
         public float? AverageSelfScoreConverted { get; set; }
 
@@ -33,12 +33,12 @@
             int count = 0;
             float? result = null;
 
-            var finishedMonthlyEPAs = MonthlyEPAs.Where(x => x.IsClosed);
+            var finishedMonthlyEPAs = MonthlyEPAs.Where(x => x.IsClosed).ToList();
             foreach (EPAModel monthlyEPA in finishedMonthlyEPAs)
             {
                 switch (processType)
                 {
-                    case (int)ProcessType.Self:
+                    case (byte)ProcessType.Self:
                         if (!string.IsNullOrEmpty(monthlyEPA.Process.Self.TotalScore))
                         {
                             count++;
@@ -47,7 +47,7 @@
 
                         break;
 
-                    case (int)ProcessType.Evaluator:
+                    case (byte)ProcessType.Evaluator:
                         if (monthlyEPA.Process.AverageScoreByEvaluators.HasValue)
                         {
                             count++;
@@ -56,7 +56,7 @@
 
                         break;
 
-                    case (int)ProcessType.Reviewer:
+                    case (byte)ProcessType.Reviewer:
                         if (monthlyEPA.Process.AverageScoreByReviewers.HasValue)
                         {
                             count++;

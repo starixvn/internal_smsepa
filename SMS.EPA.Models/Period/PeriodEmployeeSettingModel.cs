@@ -50,7 +50,7 @@
             Employee != null
             && Employee.HasMonthlyEPA
             && TargetTemplate != null
-            && TargetTemplate.TargetTypeId == (int)TargetType.SemiAnnual;
+            && TargetTemplate.TargetTypeId == (byte)TargetType.SemiAnnual;
 
         private static string GetEvaluator(IList<PeriodFlowModel> evaluators)
         {

@@ -16,7 +16,7 @@
                     Columns: [
                         { HeaderText: "#", Name: "No", MergeRowNumber: 2 },
                         { HeaderText: "Code", Name: "Code", MergeRowNumber: 2 },
-                        { HeaderText: "Nick Name", Name: "NickName", MergeRowNumber: 2 },
+                        { HeaderText: "Nickname", Name: "NickName", MergeRowNumber: 2 },
                         { HeaderText: "Full Name", Name: "FullName", MergeRowNumber: 2 },
                         { HeaderText: "Section", Name: "Section", MergeRowNumber: 2 },
                         { HeaderText: "Job Title", Name: "JobTitle", MergeRowNumber: 2 }
@@ -57,7 +57,7 @@
                     SortType: 'string'
                 },
                 {
-                    HeaderText: "Nick Name",
+                    HeaderText: "Nickname",
                     Width: 120,
                     Name: "NickName",
                     HeaderAlign: "center",

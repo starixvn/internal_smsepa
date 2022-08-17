@@ -79,7 +79,7 @@
             var actual = _periodService.GetPeriod(criteria);
 
             // Assert
-            Assert.IsFalse(actual.Any(x => x.TargetType.TargetTypeId == (int)TargetType.Monthly));
+            Assert.IsFalse(actual.Any(x => x.TargetType.TargetTypeId == (byte)TargetType.Monthly));
         }
 
         #endregion GetPeriod
@@ -143,7 +143,7 @@
             var actual = _periodService.GetPeriodById(periodId);
 
             // Assert
-            Assert.IsTrue(actual.TargetType.TargetTypeId != (int)TargetType.Monthly);
+            Assert.IsTrue(actual.TargetType.TargetTypeId != (byte)TargetType.Monthly);
         }
 
         #endregion GetPeriodById

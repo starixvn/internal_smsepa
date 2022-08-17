@@ -67,8 +67,8 @@
             };
 
             DashboardModel result = employeeEPARepository.GetDashboard(criteria);
-            result.MonthlyEpaInfos = result.MyEpaInfos.Where(x => x.Period.TargetTypeId == (int)TargetType.Monthly);
-            result.MyEpaInfos = result.MyEpaInfos.Where(x => x.Period.TargetTypeId != (int)TargetType.Monthly);
+            result.MonthlyEpaInfos = result.MyEpaInfos.Where(x => x.Period.TargetTypeId == (byte)TargetType.Monthly);
+            result.MyEpaInfos = result.MyEpaInfos.Where(x => x.Period.TargetTypeId != (byte)TargetType.Monthly);
 
             return result;
         }
@@ -443,7 +443,7 @@
                             i,
                             finalScore,
                             grade,
-                            period != null && period.StatusId == (int)EPAStatus.Open ? redFont : null);
+                            period != null && period.StatusId == (byte)EpaStatus.Open ? redFont : null);
                     }
                     else
                     {
@@ -531,8 +531,8 @@
         {
             float? performanceScore = null;
             var detailScores = epaInfo.DetailScores.Where(x => !string.IsNullOrEmpty(x.TotalScore)
-                                                    && x.ProcessId > (int)ProcessType.Self
-                                                    && x.StatusId > (int)ProcessStatusType.Open);
+                                                    && x.ProcessId > (byte)ProcessType.Self
+                                                    && x.StatusId > (byte)ProcessStatusType.Open);
 
             if (detailScores.Any())
             {
@@ -548,8 +548,8 @@
         {
             float? performanceScore = null;
             var detailScores = epaInfo.DetailScores.Where(x => !string.IsNullOrEmpty(x.TotalScore)
-                                                    && x.ProcessId > (int)ProcessType.Evaluator
-                                                    && x.StatusId > (int)ProcessStatusType.Open);
+                                                    && x.ProcessId > (byte)ProcessType.Evaluator
+                                                    && x.StatusId > (byte)ProcessStatusType.Open);
 
             if (detailScores.Any())
             {
@@ -557,14 +557,14 @@
                 IEnumerable<float> lastPhaseScores;
                 switch (maxProcessId)
                 {
-                    case (int)ProcessType.Reviewer:
+                    case (byte)ProcessType.Reviewer:
                         lastPhaseScores = epaInfo.DetailScores.Where(x => !string.IsNullOrEmpty(x.TotalScore) && x.ProcessId == maxProcessId).Select(x => x.TotalScoreConverted);
                         performanceScore = lastPhaseScores.Any()
                             ? (float)Math.Round(lastPhaseScores.Average(), Constants.NumberOfDecimalDefault)
                             : epaInfo.MonthlyEPA.AverageReviewerScoreConverted;
                         break;
 
-                    case (int)ProcessType.Management:
+                    case (byte)ProcessType.Management:
                         lastPhaseScores = epaInfo.DetailScores.Where(x => !string.IsNullOrEmpty(x.TotalScore) && x.ProcessId == maxProcessId).Select(x => x.TotalScoreConverted);
                         performanceScore = lastPhaseScores.Any() ? (float)Math.Round(lastPhaseScores.Average(), Constants.NumberOfDecimalDefault) : performanceScore;
                         break;

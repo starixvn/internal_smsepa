@@ -49,25 +49,25 @@
                 bool isAllowedToEdit = !(Process.CurrentProcess == null
                                          || Process.CurrentProcess.IsEndProcess
                                          || IsProcessValid()
-                                         || StatusId == (int)EPAStatus.Closed);
+                                         || StatusId == (byte)EpaStatus.Closed);
 
                 return isAllowedToEdit;
             }
         }
 
-        public bool IsClosed => StatusId == (int)EPAStatus.Closed;
+        public bool IsClosed => StatusId == (byte)EpaStatus.Closed;
 
         public bool IsEndProcessBySelf { get; set; }
 
-        public bool IsMonthly => Period.TargetTypeId == (int)TargetType.Monthly;
+        public bool IsMonthly => Period.TargetTypeId == (byte)TargetType.Monthly;
 
-        public bool IsProbation => Period.TargetTypeId == (int)TargetType.Probation;
+        public bool IsProbation => Period.TargetTypeId == (byte)TargetType.Probation;
 
-        public bool IsPromotion => Period.TargetTypeId == (int)TargetType.Promotion;
+        public bool IsPromotion => Period.TargetTypeId == (byte)TargetType.Promotion;
 
-        public bool IsSemiAnnual => Period.TargetTypeId == (int)TargetType.SemiAnnual;
+        public bool IsSemiAnnual => Period.TargetTypeId == (byte)TargetType.SemiAnnual;
 
-        public bool IsSemiHasMonthly => HasMonthlyEPA && Period.TargetTypeId == (int)TargetType.SemiAnnual;
+        public bool IsSemiHasMonthly => HasMonthlyEPA && Period.TargetTypeId == (byte)TargetType.SemiAnnual;
 
         public IList<EPAKpiGroupModel> KPIGroups { get; set; }
 
@@ -140,7 +140,7 @@
 
         public ScoreRatingTypeModel ScoreRatingType { get; set; }
 
-        public int StatusId { get; set; }
+        public byte StatusId { get; set; }
 
         public float SystemDisciplineScore { get; set; }
 
@@ -164,8 +164,8 @@
         private bool IsProcessValid()
         {
             return IsSemiHasMonthly
-                   && (Process.CurrentProcess.ProcessId == (int)ProcessType.Self ||
-                       Process.CurrentProcess.ProcessId == (int)ProcessType.Evaluator);
+                   && (Process.CurrentProcess.ProcessId == (byte)ProcessType.Self ||
+                       Process.CurrentProcess.ProcessId == (byte)ProcessType.Evaluator);
         }
     }
 }

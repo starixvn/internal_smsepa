@@ -64,11 +64,11 @@
         {
             switch (Period.TargetType.TargetTypeId)
             {
-                case (int)TargetType.Probation:
+                case (byte)TargetType.Probation:
                     FillContentProbationType();
                     break;
 
-                case (int)TargetType.SemiAnnual:
+                case (byte)TargetType.SemiAnnual:
                     FillContentSemiTpye();
                     break;
 

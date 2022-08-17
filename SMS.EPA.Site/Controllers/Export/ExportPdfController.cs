@@ -87,7 +87,7 @@
         {
             string grade = epaInfo.Grade;
 
-            if (epaInfo.StatusId == (int)EPAStatus.Open)
+            if (epaInfo.StatusId == (byte)EpaStatus.Open)
             {
                 IEnumerable<StandardGradeModel> standardGrades = baseService.GetData<StandardGradeModel>(new GetStandardGradeCriteria());
                 float? performanceScore = null;

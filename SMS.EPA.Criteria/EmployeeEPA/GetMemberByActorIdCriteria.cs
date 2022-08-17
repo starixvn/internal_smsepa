@@ -5,7 +5,7 @@
 
     public class GetMemberByActorIdCriteria : CriteriaBase
     {
-        public int ProcessId { get; set; }
+        public byte ProcessId { get; set; }
 
         public int ActorUserId { get; set; }
 
@@ -17,7 +17,7 @@
 
         public bool? IsMonthly { get; set; }
 
-        public override bool IsValid() => ActorUserId > 0 && ProcessId >= (int)ProcessType.Evaluator;
+        public override bool IsValid() => ActorUserId > 0 && ProcessId >= (byte)ProcessType.Evaluator;
 
         public override string GetSettingKey() => "EPA_GetMember";
     }

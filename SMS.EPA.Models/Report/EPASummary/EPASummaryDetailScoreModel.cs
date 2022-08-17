@@ -10,9 +10,9 @@
 
         public int EvaluatorId { get; set; }
 
-        public int ProcessId { get; set; }
+        public byte ProcessId { get; set; }
 
-        public int StatusId { get; set; }
+        public byte StatusId { get; set; }
 
         public string TotalScore { get; set; }
 

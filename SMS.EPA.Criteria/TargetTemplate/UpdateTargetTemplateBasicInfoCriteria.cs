@@ -14,11 +14,11 @@
 
         public int ModifiedBy { get; set; }
 
-        public int TargetTypeId { get; set; }
+        public byte TargetTypeId { get; set; }
 
-        public int ScoreRatingTypeId { get; set; }
+        public byte ScoreRatingTypeId { get; set; }
 
-        public int RatingTypeId { get; set; }
+        public byte RatingTypeId { get; set; }
 
         private bool IsRatingValid()
         {

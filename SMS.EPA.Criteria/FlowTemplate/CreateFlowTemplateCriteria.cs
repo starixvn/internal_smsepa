@@ -8,7 +8,7 @@
 
         public string Name { get; set; }
 
-        public int TargetTypeId { get; set; }
+        public byte TargetTypeId { get; set; }
 
         public string Description { get; set; }
 

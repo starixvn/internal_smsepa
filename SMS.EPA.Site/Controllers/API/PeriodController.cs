@@ -48,10 +48,10 @@
             };
 
             IEnumerable<PeriodModel> periods = periodService.GetPeriod(criteria);
-            IEnumerable<PeriodModel> probationPeriods = periods.Where(x => x.TargetType.TargetTypeId == (int)TargetType.Probation);
-            IEnumerable<PeriodModel> promotionPeriods = periods.Where(x => x.TargetType.TargetTypeId == (int)TargetType.Promotion)
+            IEnumerable<PeriodModel> probationPeriods = periods.Where(x => x.TargetType.TargetTypeId == (byte)TargetType.Probation);
+            IEnumerable<PeriodModel> promotionPeriods = periods.Where(x => x.TargetType.TargetTypeId == (byte)TargetType.Promotion)
                 .OrderByDescending(x => x.StartDate);
-            IEnumerable<PeriodModel> semiPeriods = periods.Where(x => x.TargetType.TargetTypeId == (int)TargetType.SemiAnnual)
+            IEnumerable<PeriodModel> semiPeriods = periods.Where(x => x.TargetType.TargetTypeId == (byte)TargetType.SemiAnnual)
                 .OrderByDescending(x => x.StartDate);
 
             IEnumerable<PeriodModel> periodList = new List<PeriodModel>();
@@ -162,7 +162,7 @@
             if (employeeSettings.Any())
             {
                 PeriodEmployeeSettingModel employeeSetting = employeeSettings.FirstOrDefault(x => x.TargetTemplate != null);
-                int targetTypeId = employeeSetting?.TargetTemplate.TargetTypeId ?? 0;
+                byte targetTypeId = employeeSetting?.TargetTemplate.TargetTypeId ?? 0;
                 switch (targetTypeId)
                 {
                     case (byte)TargetType.Probation:

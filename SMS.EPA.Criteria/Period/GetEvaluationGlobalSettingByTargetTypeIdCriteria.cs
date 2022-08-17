@@ -4,16 +4,10 @@
 
     public class GetEvaluationGlobalSettingByTargetTypeIdCriteria : CriteriaBase
     {
-        public int TargetTypeId { get; set; }
+        public byte TargetTypeId { get; set; }
 
-        public override bool IsValid()
-        {
-            return TargetTypeId > 0;
-        }
+        public override bool IsValid() => TargetTypeId > 0;
 
-        public override string GetSettingKey()
-        {
-            return "EpaPeriod_GetEvaluationGlobalSettingByTargetTypeId";
-        }
+        public override string GetSettingKey() => "EpaPeriod_GetEvaluationGlobalSettingByTargetTypeId";
     }
 }

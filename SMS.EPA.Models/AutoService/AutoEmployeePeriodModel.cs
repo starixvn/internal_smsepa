@@ -10,9 +10,9 @@
 
         public int PeriodId { get; set; }
 
-        public int TargetTypeId { get; set; }
+        public byte TargetTypeId { get; set; }
 
-        public int ProcessId { get; set; }
+        public byte ProcessId { get; set; }
 
         public string TotalScore { get; set; }
 
@@ -20,6 +20,6 @@
 
         public bool HasMonthlyEPA { get; set; }
 
-        public bool IsSemiHasMonthly => TargetTypeId == (int)TargetType.SemiAnnual && HasMonthlyEPA;
+        public bool IsSemiHasMonthly => TargetTypeId == (byte)TargetType.SemiAnnual && HasMonthlyEPA;
     }
 }

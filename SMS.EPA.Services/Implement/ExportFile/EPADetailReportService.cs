@@ -103,7 +103,7 @@
 
                 cell = row.CreateCell(currentColumn++);
                 cell.CellStyle = BodyStyle;
-                cell.SetCellValue(GetScoreByPhaseSelected(EpaDetail.PhaseSelecteds, score.ManagementScore.ToString(), (int)ProcessType.Management));
+                cell.SetCellValue(GetScoreByPhaseSelected(EpaDetail.PhaseSelecteds, score.ManagementScore.ToString(), (byte)ProcessType.Management));
 
                 BodyStyle = ApplyEvenOddBodyStyle(EvenStyleCenter, OddStyleCenter);
 
@@ -111,7 +111,7 @@
                 cell.CellStyle = BodyStyle;
                 cell.SetCellValue(score.DisciplineScore);
 
-                if (epaInfo.StatusId == (int)EPAStatus.Open)
+                if (epaInfo.StatusId == (byte)EpaStatus.Open)
                 {
                     BodyStyle = ApplyEvenOddBodyStyle(EvenRedStyle, OddRedStyle);
                 }

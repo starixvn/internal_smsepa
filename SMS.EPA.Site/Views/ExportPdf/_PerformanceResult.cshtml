@@ -14,19 +14,19 @@
     float maxScore = scoreRatingType.SelfEvaluated;
     switch (process.ProcessId)
     {
-        case (int)ProcessType.Self:
+        case (byte)ProcessType.Self:
             maxScore = scoreRatingType.SelfEvaluated;
             break;
 
-        case (int)ProcessType.Evaluator:
+        case (byte)ProcessType.Evaluator:
             maxScore = scoreRatingType.Evaluator;
             break;
 
-        case (int)ProcessType.Reviewer:
+        case (byte)ProcessType.Reviewer:
             maxScore = scoreRatingType.Reviewer;
             break;
 
-        case (int)ProcessType.Management:
+        case (byte)ProcessType.Management:
             maxScore = scoreRatingType.Management;
             break;
     }

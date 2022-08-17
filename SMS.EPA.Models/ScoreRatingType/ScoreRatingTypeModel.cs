@@ -2,7 +2,7 @@
 {
     public class ScoreRatingTypeModel
     {
-        public int ScoreRatingTypeId { get; set; }
+        public byte ScoreRatingTypeId { get; set; }
 
         public string Name { get; set; }
 

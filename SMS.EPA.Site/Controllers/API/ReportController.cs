@@ -83,10 +83,9 @@
 
             if (string.IsNullOrEmpty(sortColumnName) && epaInfos.EpaInfos.Any())
             {
-                epaInfos.EpaInfos = epaInfos.EpaInfos.First().Period.TargetTypeId == (int)TargetType.Probation
+                epaInfos.EpaInfos = epaInfos.EpaInfos.First().Period.TargetTypeId == (byte)TargetType.Probation
                     ? epaInfos.EpaInfos.OrderByDescending(x => x.Employee.Code)
-                    : epaInfos.EpaInfos.OrderBy(x => x.Employee.GroupCode)
-                        .ThenBy(x => x.Employee.Code);
+                    : epaInfos.EpaInfos.OrderBy(x => x.Employee.GroupCode).ThenBy(x => x.Employee.Code);
             }
 
             return Request.CreateResponse(HttpStatusCode.OK, epaInfos);

@@ -5,13 +5,7 @@
     [Serializable]
     public class FlowModel
     {
-        public FlowModel()
-        {
-            EvaluatorInfo = new EvaluatorInfoViewModel();
-            FlowTemplate = new FlowTemplateModel();
-        }
-
-        public int ProcessId { get; set; }
+        public byte ProcessId { get; set; }
 
         public int Duration { get; set; }
 
@@ -21,8 +15,8 @@
 
         public bool HasSendMail { get; set; }
 
-        public FlowTemplateModel FlowTemplate { get; set; }
+        public FlowTemplateModel FlowTemplate { get; set; } = new FlowTemplateModel();
 
-        public EvaluatorInfoViewModel EvaluatorInfo { get; set; }
+        public EvaluatorInfoViewModel EvaluatorInfo { get; set; } = new EvaluatorInfoViewModel();
     }
 }

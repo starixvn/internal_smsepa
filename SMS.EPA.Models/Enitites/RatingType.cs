@@ -2,7 +2,7 @@
 {
     public class RatingType
     {
-        public int RatingTypeId { get; set; }
+        public byte RatingTypeId { get; set; }
 
         public string Name { get; set; }
     }

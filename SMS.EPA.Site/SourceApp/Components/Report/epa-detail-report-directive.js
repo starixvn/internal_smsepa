@@ -22,7 +22,7 @@
                     SortDirection: sortCode,
                     SortType: "string"
                 },
-                { HeaderText: "Nick Name", Width: 100, Name: "NickName", HeaderAlign: "center", CellAlign: "left", AllowTruncate: true },
+                { HeaderText: "Nickname", Width: 100, Name: "NickName", HeaderAlign: "center", CellAlign: "left", AllowTruncate: true },
                 { HeaderText: "Full Name", Width: 140, Name: "FullName", HeaderAlign: "center", CellAlign: "left", CanResize: true },
                 {
                     HeaderText: "Section",

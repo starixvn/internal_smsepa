@@ -39,7 +39,7 @@
             var criteria = new GetPeriodByActorIdCriteria
             {
                 ActorId = SessionService.EmployeeId,
-                ProcessId = (int)ProcessType.Evaluator
+                ProcessId = (byte)ProcessType.Evaluator
             };
 
             return baseService.GetData<EPAPeriodModel>(criteria);
@@ -52,7 +52,7 @@
             var criteria = new GetGroupByActorIdCriteria
             {
                 ActorUserId = SessionService.EmployeeId,
-                ProcessId = (int)ProcessType.Evaluator,
+                ProcessId = (byte)ProcessType.Evaluator,
                 PeriodId = periodId
             };
 
@@ -70,7 +70,7 @@
             var criteria = new GetMemberByActorIdCriteria
             {
                 ActorUserId = SessionService.EmployeeId,
-                ProcessId = (int)ProcessType.Evaluator,
+                ProcessId = (byte)ProcessType.Evaluator,
                 PeriodId = periodId,
                 GroupId = groupId,
                 IsLocal = isLocal,

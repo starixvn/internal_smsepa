@@ -209,19 +209,19 @@
 
                     switch (process.ProcessId)
                     {
-                        case (int)ProcessType.Self:
+                        case (byte)ProcessType.Self:
                             epaInfo.Process.Self = process;
                             break;
 
-                        case (int)ProcessType.Evaluator:
+                        case (byte)ProcessType.Evaluator:
                             epaInfo.Process.Evaluators.Add(process);
                             break;
 
-                        case (int)ProcessType.Reviewer:
+                        case (byte)ProcessType.Reviewer:
                             epaInfo.Process.Reviewers.Add(process);
                             break;
 
-                        case (int)ProcessType.Management:
+                        case (byte)ProcessType.Management:
                             epaInfo.Process.Managements.Add(process);
                             break;
 

@@ -5,24 +5,19 @@
     [Serializable]
     public class EPAProcessModel
     {
-        public EPAProcessModel()
-        {
-            EvaluatorInfo = new EPAEmployeeInfo();
-        }
-
         public int EPAId { get; set; }
 
-        public int ProcessId { get; set; }
+        public byte ProcessId { get; set; }
 
         public DateTime StartDate { get; set; }
 
         public DateTime EndDate { get; set; }
 
-        public int StatusId { get; set; }
+        public byte StatusId { get; set; }
 
         public bool IsEndProcess => DateTime.Compare(EndDate.Date, DateTime.Now.Date) < 0;
 
-        public EPAEmployeeInfo EvaluatorInfo { get; set; }
+        public EPAEmployeeInfo EvaluatorInfo { get; set; } = new EPAEmployeeInfo();
 
         public string Comment { get; set; }
 

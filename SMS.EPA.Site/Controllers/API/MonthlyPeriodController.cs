@@ -68,7 +68,7 @@
 
             if (criteria != null)
             {
-                criteria.TargetTypeId = (int)TargetType.Monthly;
+                criteria.TargetTypeId = (byte)TargetType.Monthly;
                 criteria.IsActive = true;
                 criteria.CreatedBy = SessionService.EmployeeId;
 
@@ -86,7 +86,7 @@
 
             if (criteria != null)
             {
-                criteria.TargetTypeId = (int)TargetType.Monthly;
+                criteria.TargetTypeId = (byte)TargetType.Monthly;
                 criteria.IsActive = true;
                 criteria.ModifiedBy = SessionService.EmployeeId;
 

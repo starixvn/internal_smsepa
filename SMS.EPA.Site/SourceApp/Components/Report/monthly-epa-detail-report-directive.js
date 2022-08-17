@@ -21,7 +21,7 @@
                     HeaderText: "Code", Width: 60, Name: "Code", HeaderAlign: "center", CellAlign: "center",
                     Sort: true, SortDirection: sortCode, SortType: 'string'
                 },
-                { HeaderText: "Nick Name", Width: 120, Name: "NickName", HeaderAlign: "center", CellAlign: "center", AllowTruncate: true },
+                { HeaderText: "Nickname", Width: 120, Name: "NickName", HeaderAlign: "center", CellAlign: "center", AllowTruncate: true },
                 { HeaderText: "Full Name", Width: 160, Name: "FullName", HeaderAlign: "center", CellAlign: "left", CanResize: true },
                 {
                     HeaderText: "Section", Width: 150, Name: "Section", HeaderAlign: "center", CellAlign: "left",

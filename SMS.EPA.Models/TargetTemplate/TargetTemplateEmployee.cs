@@ -8,7 +8,7 @@
 
         public int EmployeeId { get; set; }
 
-        public int TargetTypeId { get; set; }
+        public byte TargetTypeId { get; set; }
 
         public string TargetTypeName { get; set; }
     }

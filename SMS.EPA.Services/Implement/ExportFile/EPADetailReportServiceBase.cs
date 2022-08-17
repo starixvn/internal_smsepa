@@ -319,7 +319,7 @@
             cell.SetCellValue(GetScoreByPhaseSelected(
                 EpaDetail.PhaseSelecteds,
                 score.SelfScore,
-                (int)ProcessType.Self));
+                (byte)ProcessType.Self));
 
             BodyStyle = epaInfo.Process.Evaluators.First().StatusId == (int)ProcessStatusType.InProgress
                 ? ApplyEvenOddBodyStyle(EvenRedStyle, OddRedStyle)
@@ -330,7 +330,7 @@
             cell.SetCellValue(GetScoreByPhaseSelected(
                 EpaDetail.PhaseSelecteds,
                 score.EvaluatorScore,
-                (int)ProcessType.Evaluator));
+                (byte)ProcessType.Evaluator));
 
             BodyStyle = epaInfo.Process.Reviewers.First().StatusId == (int)ProcessStatusType.InProgress
                 ? ApplyEvenOddBodyStyle(EvenRedStyle, OddRedStyle)
@@ -341,7 +341,7 @@
             cell.SetCellValue(GetScoreByPhaseSelected(
                 EpaDetail.PhaseSelecteds,
                 score.ReviewerScore,
-                (int)ProcessType.Reviewer));
+                (byte)ProcessType.Reviewer));
 
             return localCurrentColumn;
         }

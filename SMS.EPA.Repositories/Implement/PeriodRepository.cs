@@ -101,23 +101,23 @@
             PeriodFlowModel periodFlowModel = CreateEvaluator(flowSetting);
             switch (flowSetting.ProcessId)
             {
-                case (int)ProcessType.HumanResource:
+                case (byte)ProcessType.HumanResource:
                     employeeSetting.HumanResources.Add(periodFlowModel);
                     break;
 
-                case (int)ProcessType.Self:
+                case (byte)ProcessType.Self:
                     employeeSetting.SelfEvaluators.Add(periodFlowModel);
                     break;
 
-                case (int)ProcessType.Evaluator:
+                case (byte)ProcessType.Evaluator:
                     employeeSetting.Evaluators.Add(periodFlowModel);
                     break;
 
-                case (int)ProcessType.Reviewer:
+                case (byte)ProcessType.Reviewer:
                     employeeSetting.Reviewers.Add(periodFlowModel);
                     break;
 
-                case (int)ProcessType.Management:
+                case (byte)ProcessType.Management:
                     employeeSetting.Managements.Add(periodFlowModel);
                     break;
 

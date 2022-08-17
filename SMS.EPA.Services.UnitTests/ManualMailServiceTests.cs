@@ -22,7 +22,7 @@
             var employeeSettings = new List<PeriodFlowModel>();
             employeeSettings.Add(new PeriodFlowModel()
             {
-                ProcessId = (int)ProcessType.HumanResource
+                ProcessId = (byte)ProcessType.HumanResource
             });
             ArrangeEmail();
 
@@ -40,7 +40,7 @@
             var employeeSettings = new List<PeriodFlowModel>();
             employeeSettings.Add(new PeriodFlowModel()
             {
-                ProcessId = (int)ProcessType.Self
+                ProcessId = (byte)ProcessType.Self
             });
             ArrangeEmail();
 
@@ -58,7 +58,7 @@
             var employeeSettings = new List<PeriodFlowModel>();
             employeeSettings.Add(new PeriodFlowModel()
             {
-                ProcessId = (int)ProcessType.Evaluator
+                ProcessId = (byte)ProcessType.Evaluator
             });
             ArrangeEmail();
 
@@ -76,7 +76,7 @@
             var employeeSettings = new List<PeriodFlowModel>();
             employeeSettings.Add(new PeriodFlowModel()
             {
-                ProcessId = (int)ProcessType.Reviewer
+                ProcessId = (byte)ProcessType.Reviewer
             });
             ArrangeEmail();
 
@@ -94,7 +94,7 @@
             var employeeSettings = new List<PeriodFlowModel>();
             employeeSettings.Add(new PeriodFlowModel()
             {
-                ProcessId = (int)ProcessType.Management
+                ProcessId = (byte)ProcessType.Management
             });
             ArrangeEmail();
 

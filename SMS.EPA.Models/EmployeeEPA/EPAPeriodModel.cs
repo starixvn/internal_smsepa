@@ -12,7 +12,7 @@
 
         public DateTime? EndDate { get; set; }
 
-        public int TargetTypeId { get; set; }
+        public byte TargetTypeId { get; set; }
 
         public string TargetTypeName { get; set; }
         public string TargetTemplate { get; set; }

@@ -9,7 +9,7 @@
     {
         public int EPAId { get; set; }
 
-        public int ProcessId { get; set; }
+        public byte ProcessId { get; set; }
 
         public int KPIGroupId { get; set; }
 

@@ -8,7 +8,7 @@
 
         public string Name { get; set; }
 
-        public int TargetTypeId { get; set; }
+        public byte TargetTypeId { get; set; }
 
         public int FinishedByEvaluator { get; set; }
 
@@ -22,6 +22,6 @@
 
         public int UnfinishedByManagement { get; set; }
 
-        public bool IsMonthly => TargetTypeId == (int)TargetType.Monthly;
+        public bool IsMonthly => TargetTypeId == (byte)TargetType.Monthly;
     }
 }

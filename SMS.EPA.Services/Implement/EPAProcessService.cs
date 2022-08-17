@@ -130,7 +130,7 @@
             }
         }
 
-        private static float? GetAverageScorePreProcess(EPAModel epaInfo, int processId)
+        private static float? GetAverageScorePreProcess(EPAModel epaInfo, byte processId)
         {
             float? averageScore;
             switch (processId)

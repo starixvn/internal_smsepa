@@ -2,7 +2,7 @@
 {
     public class TargetTypeModel
     {
-        public int TargetTypeId { get; set; }
+        public byte TargetTypeId { get; set; }
 
         public string Name { get; set; }
     }

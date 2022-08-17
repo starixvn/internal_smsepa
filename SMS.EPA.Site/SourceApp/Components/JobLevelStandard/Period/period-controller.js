@@ -44,7 +44,7 @@
         };
 
         vm.edit = function (periodId) {
-            $location.path(baseUrl + 'JobLevelStandard/Period/Update/' + periodId);
+            $location.path(baseUrl + 'JobLevelStandard/Period/Edit/' + periodId);
         };
 
         vm.editActive = function (period) {

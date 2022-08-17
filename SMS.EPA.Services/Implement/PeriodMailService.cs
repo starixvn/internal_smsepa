@@ -104,7 +104,7 @@
             return Path.Combine(assemblyPath, ConfigurationManagerService.GetAppSetting("RelativeEmailPath") + fileName);
         }
 
-        private string GetEmailtemplatePath(int processId)
+        private string GetEmailtemplatePath(byte processId)
         {
             string emailtemplatePath;
             switch (processId)

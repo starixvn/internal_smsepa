@@ -376,19 +376,19 @@
         {
             switch (epaInfo.Process.CurrentProcess.ProcessId)
             {
-                case (int)ProcessType.Self:
+                case (byte)ProcessType.Self:
                     epaInfo.Process.CurrentProcess.MaxPerformanceScore = epaInfo.ScoreRatingType.SelfEvaluated;
                     break;
 
-                case (int)ProcessType.Evaluator:
+                case (byte)ProcessType.Evaluator:
                     epaInfo.Process.CurrentProcess.MaxPerformanceScore = epaInfo.ScoreRatingType.Evaluator;
                     break;
 
-                case (int)ProcessType.Reviewer:
+                case (byte)ProcessType.Reviewer:
                     epaInfo.Process.CurrentProcess.MaxPerformanceScore = epaInfo.ScoreRatingType.Reviewer;
                     break;
 
-                case (int)ProcessType.Management:
+                case (byte)ProcessType.Management:
                     epaInfo.Process.CurrentProcess.MaxPerformanceScore = epaInfo.ScoreRatingType.Management;
                     break;
 
@@ -440,11 +440,11 @@
         {
             switch (epaInfo.Process.CurrentProcess.ProcessId)
             {
-                case (int)ProcessType.Reviewer:
+                case (byte)ProcessType.Reviewer:
                     CalculateEpaInfoForReviewer(epaInfo);
                     break;
 
-                case (int)ProcessType.Management:
+                case (byte)ProcessType.Management:
                     CalculateEpaInfoForManagement(epaInfo);
                     break;
 
@@ -463,8 +463,8 @@
             }
 
             var processes = epaInfo.AllProcesses
-                .Where(x => x.StatusId > (int)ProcessStatusType.Open && x.ProcessId > (int)ProcessType.Self && !string.IsNullOrWhiteSpace(x.TotalScore));
-            var maxProcessId = (int)ProcessType.None;
+                .Where(x => x.StatusId > (int)ProcessStatusType.Open && x.ProcessId > (byte)ProcessType.Self && !string.IsNullOrWhiteSpace(x.TotalScore));
+            var maxProcessId = (byte)ProcessType.None;
 
             if (processes.Any())
             {
@@ -473,19 +473,19 @@
 
             switch (maxProcessId)
             {
-                case (int)ProcessType.Management:
+                case (byte)ProcessType.Management:
                     epaInfo.FinalScoreToExport = epaInfo.Process.AverageScoreByManagements.HasValue
                         ? GetAverageTotalScore(epaInfo.Process.AverageScoreByManagements, disciplineScore)
                         : GetAverageTotalScore(epaInfo.Process.AverageScoreByReviewers, disciplineScore);
                     break;
 
-                case (int)ProcessType.Reviewer:
+                case (byte)ProcessType.Reviewer:
                     epaInfo.FinalScoreToExport = epaInfo.Process.AverageScoreByReviewers.HasValue
                         ? GetAverageTotalScore(epaInfo.Process.AverageScoreByReviewers, disciplineScore)
                         : GetAverageTotalScore(epaInfo.Process.AverageScoreByEvaluators, disciplineScore);
                     break;
 
-                case (int)ProcessType.Evaluator:
+                case (byte)ProcessType.Evaluator:
                     epaInfo.FinalScoreToExport = GetAverageTotalScore(epaInfo.Process.AverageScoreByEvaluators, disciplineScore);
                     break;
 
@@ -504,8 +504,8 @@
                 disciplineScore = epaInfo.DisciplineScore;
             }
 
-            var processes = epaInfo.AllProcesses.Where(x => x.StatusId > (int)ProcessStatusType.Open && x.ProcessId > (int)ProcessType.Evaluator);
-            var maxProcessId = (int)ProcessType.None;
+            var processes = epaInfo.AllProcesses.Where(x => x.StatusId > (int)ProcessStatusType.Open && x.ProcessId > (byte)ProcessType.Evaluator);
+            var maxProcessId = (byte)ProcessType.None;
 
             if (processes.Any())
             {
@@ -514,13 +514,13 @@
 
             switch (maxProcessId)
             {
-                case (int)ProcessType.Management:
+                case (byte)ProcessType.Management:
                     epaInfo.FinalScoreToExport = epaInfo.Process.AverageScoreByManagements.HasValue
                         ? GetAverageTotalScore(epaInfo.Process.AverageScoreByManagements, disciplineScore)
                         : GetAverageTotalScore(epaInfo.Process.AverageScoreByReviewers, disciplineScore);
                     break;
 
-                case (int)ProcessType.Reviewer:
+                case (byte)ProcessType.Reviewer:
                     epaInfo.FinalScoreToExport = epaInfo.Process.AverageScoreByReviewers.HasValue
                         ? GetAverageTotalScore(epaInfo.Process.AverageScoreByReviewers, disciplineScore)
                         : GetAverageTotalScore(epaInfo.MonthlyEPA.AverageReviewerScoreConverted, disciplineScore);

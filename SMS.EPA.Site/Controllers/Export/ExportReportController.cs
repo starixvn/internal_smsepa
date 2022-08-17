@@ -210,10 +210,9 @@
 
             if (string.IsNullOrEmpty(criteria.SortColumnName) && epaDetail.EpaInfos.Any())
             {
-                epaDetail.EpaInfos = epaDetail.EpaInfos.First().Period.TargetTypeId == (int)TargetType.Probation
+                epaDetail.EpaInfos = epaDetail.EpaInfos.First().Period.TargetTypeId == (byte)TargetType.Probation
                     ? epaDetail.EpaInfos.OrderByDescending(x => x.Employee.Code)
-                    : epaDetail.EpaInfos.OrderBy(x => x.Employee.GroupCode)
-                        .ThenBy(x => x.Employee.Code);
+                    : epaDetail.EpaInfos.OrderBy(x => x.Employee.GroupCode).ThenBy(x => x.Employee.Code);
             }
 
             _epaDetailReportService.Render(epaDetail);

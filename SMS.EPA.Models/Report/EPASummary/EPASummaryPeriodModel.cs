@@ -13,7 +13,7 @@
 
         public int EPAId { get; set; }
 
-        public int TargetTypeId { get; set; }
+        public byte TargetTypeId { get; set; }
 
         public bool HasMonthlyEPA { get; set; }
 
@@ -27,11 +27,11 @@
 
         public string Grade { get; set; }
 
-        public int StatusId { get; set; }
+        public byte StatusId { get; set; }
 
-        public bool IsClosed => StatusId == (int)EPAStatus.Closed;
+        public bool IsClosed => StatusId == (byte)EpaStatus.Closed;
 
-        public bool IsSemiHasMonthly => HasMonthlyEPA && TargetTypeId == (int)TargetType.SemiAnnual;
+        public bool IsSemiHasMonthly => HasMonthlyEPA && TargetTypeId == (byte)TargetType.SemiAnnual;
 
         [JsonIgnore]
         public IList<EPASummaryDetailScoreModel> DetailScores { get; set; } = new List<EPASummaryDetailScoreModel>();

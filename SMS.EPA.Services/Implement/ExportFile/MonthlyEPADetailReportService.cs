@@ -71,7 +71,7 @@
 
                 currentColumn = WriteScoreCells(epaInfo, currentColumn, row, score);
                 BodyStyle = ApplyEvenOddBodyStyle(EvenStyleLeft, OddStyleLeft);
-                BodyStyle = epaInfo.StatusId == (int)EPAStatus.Open
+                BodyStyle = epaInfo.StatusId == (byte)EpaStatus.Open
                     ? ApplyEvenOddBodyStyle(EvenRedStyle, OddRedStyle)
                     : ApplyEvenOddBodyStyle(EvenStyleCenter, OddStyleCenter);
 

@@ -160,14 +160,14 @@
 
         public List<object> GetAllStatus()
         {
-            List<object> statusList = ((EPAStatus[])System.Enum.GetValues(typeof(EPAStatus)))
+            List<object> statuses = ((EpaStatus[])System.Enum.GetValues(typeof(EpaStatus)))
                 .Select(x => new
                 {
                     StatusId = (int)x,
                     Name = Enumerations.GetDescription(x)
                 }).Cast<object>().ToList();
 
-            return statusList;
+            return statuses;
         }
 
         [HttpGet]

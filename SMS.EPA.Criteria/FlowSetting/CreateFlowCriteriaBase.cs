@@ -63,7 +63,7 @@
 
                 process.AppendFormat(
                     ProcessXmlTemplate,
-                    (int)ProcessType.Management,
+                    (byte)ProcessType.Management,
                     Managements.Duration,
                     Managements.HasSendMail,
                     Managements.RemindDay,
@@ -83,7 +83,7 @@
 
                 process.AppendFormat(
                     ProcessXmlTemplate,
-                    (int)ProcessType.Reviewer,
+                    (byte)ProcessType.Reviewer,
                     Reviewers.Duration,
                     Reviewers.HasSendMail,
                     Reviewers.RemindDay,
@@ -103,7 +103,7 @@
 
                 process.AppendFormat(
                     ProcessXmlTemplate,
-                    (int)ProcessType.Evaluator,
+                    (byte)ProcessType.Evaluator,
                     Evaluators.Duration,
                     Evaluators.HasSendMail,
                     Evaluators.RemindDay,
@@ -117,7 +117,7 @@
             {
                 var evaluator = new StringBuilder();
                 evaluator.AppendFormat(EvaluatorXmlTemplate, -1, 1);
-                process.AppendFormat(ProcessXmlTemplate, (int)ProcessType.Self, Selfs.Duration, Selfs.HasSendMail, Selfs.RemindDay, evaluator);
+                process.AppendFormat(ProcessXmlTemplate, (byte)ProcessType.Self, Selfs.Duration, Selfs.HasSendMail, Selfs.RemindDay, evaluator);
             }
         }
 
@@ -133,7 +133,7 @@
 
                 process.AppendFormat(
                     ProcessXmlTemplate,
-                    (int)ProcessType.HumanResource,
+                    (byte)ProcessType.HumanResource,
                     HumanResources.Duration,
                     HumanResources.HasSendMail,
                     HumanResources.RemindDay,
