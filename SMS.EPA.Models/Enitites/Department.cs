@@ -6,11 +6,6 @@
     [Serializable]
     public class Department
     {
-        public Department()
-        {
-            Childrens = new List<Department>();
-        }
-
         public int DepartmentId { get; set; }
 
         public string Code { get; set; }
@@ -25,6 +20,6 @@
 
         public Employee Manager { get; set; }
 
-        public List<Department> Childrens { get; set; }
+        public List<Department> Childrens { get; set; } = new List<Department>();
     }
 }

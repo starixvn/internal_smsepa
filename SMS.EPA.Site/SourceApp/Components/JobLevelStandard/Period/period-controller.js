@@ -13,6 +13,8 @@
         vm.filter = { isActive: 'true' };
         vm.currentPage = 1;
         vm.pageSize = 20;
+        vm.permission = PeriodModel.permission;
+        vm.policy = utilitiesFactory.policy;
         utilitiesFactory.numberEntryList(vm);
         utilitiesFactory.getDateFormat(vm);
 
@@ -48,7 +50,9 @@
         };
 
         vm.editActive = function (period) {
-            PeriodModel.openPopupEditStatusPeriod(period);
+            if (vm.permission === vm.policy.Host) {
+                PeriodModel.openPopupEditStatusPeriod(period);
+            }
         };
 
         vm.delete = function (period) {
@@ -56,7 +60,11 @@
         };
 
         function initialize() {
-            getPeriods(vm.filter.isActive);
+            PeriodModel.getPermission().then(function () {
+                vm.permission = PeriodModel.permission;
+
+                getPeriods(vm.filter.isActive);
+            });
         }
 
         initialize();

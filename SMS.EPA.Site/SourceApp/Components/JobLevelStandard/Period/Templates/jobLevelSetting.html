@@ -17,7 +17,8 @@
         <thead>
             <tr class="header-table">
                 <th colspan="5">
-                    <a class="pull-left button-icon create-button" href="" ng-click="settingCtrl.copyFromDefault()">
+                    <a class="pull-left button-icon create-button" href=""
+                       ng-click="settingCtrl.copyFromDefault()" ng-if="settingCtrl.permission === settingCtrl.policy.Host">
                         <span class="glyphicon glyphicon-duplicate icon-add"></span>
                         <span class="button-text">Copy from Default</span>
                     </a>
@@ -28,7 +29,7 @@
                 <th data-translate="SymbolCount"></th>
                 <th data-translate="Department"></th>
                 <th data-translate="Section"></th>
-                <th data-translate="Has Setting"></th>
+                <th>HasSetting</th>
                 <th data-translate="Action"></th>
             </tr>
         </thead>
@@ -39,9 +40,12 @@
                 <td ng-bind="section.Name"></td>
                 <td class="text-center"><span class="glyphicon glyphicon-ok" ng-if="section.HasSetting"></span></td>
                 <td class="text-center">
-                    <a href="javascript:;" class="glyphicon glyphicon-edit icon-edit" title="Edit" ng-click="settingCtrl.edit(section)"></a>
+                    <a href="javascript:;" class="glyphicon glyphicon-edit icon-edit" title="Edit"
+                       ng-click="settingCtrl.edit(section)" ng-if="settingCtrl.permission === settingCtrl.policy.Host"></a>
+                    <a href="javascript:;" class="glyphicon icon-view" title="View"
+                       ng-click="settingCtrl.edit(section)" ng-if="settingCtrl.permission !== settingCtrl.policy.Host"></a>
                     <a class="glyphicon glyphicon-duplicate cursor-pointer" title="Copy Setting"
-                       ng-click="settingCtrl.copy(section)"></a>
+                       ng-click="settingCtrl.copy(section)" ng-if="settingCtrl.permission === settingCtrl.policy.Host"></a>
                 </td>
             </tr>
             <tr ng-show="settingCtrl.filteredItems.length === 0">

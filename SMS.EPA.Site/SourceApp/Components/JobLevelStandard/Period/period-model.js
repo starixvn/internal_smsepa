@@ -6,12 +6,14 @@
     periodModel.$inject = ['$uibModal', 'jobLevelStandardPeriodFactory', 'errorFactory', 'notificationFactory', 'utilitiesFactory'];
 
     function periodModel($uibModal, periodFactory, errorFactory, notificationFactory, utilitiesFactory) {
-        var model = {};
+        let model = {};
 
+        model.permission = 0;
         model.periods = [];
         model.period = {};
         model.jobLevelSettings = [];
         model.sectionJobLevelSettings = [];
+        model.employeeSettings = [];
 
         model.calendar = {
             minDate: new Date(2010, 0, 1),
@@ -72,6 +74,14 @@
                     model.calendar.toDateManagementOpened = true;
                     break;
             }
+        };
+
+        model.getPermission = function () {
+            return periodFactory.getPermission().success(function (permisson) {
+                model.permission = permisson;
+            }).error(function (response, status) {
+                errorFactory.errorHandle(status);
+            });
         };
 
         model.getPeriods = function (isActive) {
@@ -176,13 +186,13 @@
         model.openPopupEditStatusPeriod = function (period) {
             period.IsActive = !period.IsActive;
 
-            var action = period.IsActive ? 'activate' : 'deactivate',
-                newPeriod = {
+            let action = period.IsActive ? 'activate' : 'deactivate',
+                params = {
                 PeriodId: period.PeriodId,
                 IsActive: period.IsActive
             };
 
-            var modalInstance = $uibModal.open({
+            let modalInstance = $uibModal.open({
                 templateUrl: '/SourceApp/Shared/Templates/ModalConfirmContent.html',
                 controller: 'ModalConfirmController as modalConfirmCtrl',
                 backdrop: 'static',
@@ -197,28 +207,24 @@
                 windowClass: 'modal-confirm-center'
             });
 
-            var keyMessage = '';
             modalInstance.result.then(function () {
-                periodFactory.editStatusPeriod(newPeriod).success(function (response) {
+                periodFactory.editStatusPeriod(params).success(function (response) {
                     if (response.IsSuccessful) {
-                        keyMessage = action === 'activate' ? 'ActivationSuccess' : 'DeactivationSuccess';
-                        notificationFactory.success(keyMessage);
+                        notificationFactory.success('UpdatedSuccessfully');
                     } else {
-                        keyMessage = action === 'activate' ? 'ActivationFail' : 'DeactivationFail';
-                        period.IsActive = !newPeriod.IsActive;
-                        notificationFactory.error(keyMessage);
+                        period.IsActive = !params.IsActive;
+                        notificationFactory.error('', response.Message);
                     }
                 }).error(function (response, status) {
                     if (status === 405) {
                         errorFactory.errorHandle(status);
                     } else {
-                        keyMessage = action === 'activate' ? 'ActivationFail' : 'DeactivationFail';
-                        period.IsActive = !newPeriod.IsActive;
-                        notificationFactory.error(keyMessage);
+                        period.IsActive = !params.IsActive;
+                        notificationFactory.success('UpdatedSuccessfully');
                     }
                 });
             }, function () {
-                period.IsActive = !newPeriod.IsActive;
+                period.IsActive = !params.IsActive;
             })['finally'](function () {
                 modalInstance = '';
             });
@@ -258,6 +264,107 @@
             });
         };
 
+        model.getEmployeeSettings = function (params) {
+            return periodFactory.getEmployeeSettings(params).success(function (employeeSettings) {
+                model.employeeSettings = employeeSettings;
+            }).error(function (response, status) {
+                errorFactory.errorHandle(status);
+            });
+        };
+
+        model.openPopupAddEmployeeSetting = function (vm) {
+            vm.modalInstance = $uibModal.open({
+                templateUrl: 'SourceApp/Components/JobLevelStandard/Period/Templates/addEmployeeSetting.html',
+                controller: 'AddEmployeeSettingController as addEmployeeSettingCtrl',
+                backdrop: 'static',
+                resolve: {
+                    periodId: function () {
+                        return vm.filter.periodId;
+                    },
+                    orgChart: function () {
+                        return vm.orgChart;
+                    }
+                },
+                windowClass: 'modal-confirm-center add-employee-setting-modal'
+            });
+
+            return vm.modalInstance.result;
+        };
+
+        model.validateAddEmployeeSetting = function (params) {
+            let isValid = true;
+            if (params.employeeId === null && params.teamIds === '') {
+                isValid = false;
+
+                notificationFactory.error('', 'Please input employee or select at least a team!');
+            }
+
+            return isValid;
+        };
+
+        model.addEmployeeSetting = function (params, modalInstance) {
+            return periodFactory.addEmployeeSetting(params).success(function (response) {
+                if (response.IsSuccessful) {
+                    notificationFactory.success('', 'Add employee successfully!');
+                    modalInstance.close();
+                } else {
+                    notificationFactory.error('', response.Message);
+                }
+            }).error(function (response, status) {
+                errorFactory.errorHandle(status);
+            });
+        };
+
+        model.openPopupEditStatusEmployeeSetting = function (vm, periodId, employee) {
+            employee.IsExcluded = !employee.IsExcluded;
+
+            let action = employee.IsExcluded ? 'exclude' : 'include',
+                params = {
+                    PeriodId: periodId,
+                    EmployeeId: employee.Employee.EmployeeId,
+                    IsExcluded: employee.IsExcluded
+                };
+
+            let modalInstance = $uibModal.open({
+                templateUrl: '/SourceApp/Shared/Templates/ModalConfirmContent.html',
+                controller: 'ModalConfirmController as modalConfirmCtrl',
+                backdrop: 'static',
+                resolve: {
+                    name: function () {
+                        return employee.FullName + ' (' + employee.Nickname + ')';
+                    },
+                    action: function () {
+                        return action;
+                    }
+                },
+                windowClass: 'modal-confirm-center'
+            });
+
+            modalInstance.result.then(function () {
+                periodFactory.editStatusEmployeeSetting(params).success(function (response) {
+                    if (response.IsSuccessful) {
+                        notificationFactory.success('UpdatedSuccessfully');
+
+                        vm.query(vm.filter);
+                    } else {
+                        employee.IsExcluded = !params.IsExcluded;
+                        notificationFactory.error('', response.Message);
+                    }
+                }).error(function (response, status) {
+                    if (status === 405) {
+                        errorFactory.errorHandle(status);
+                    } else {
+                        employee.IsExcluded = !params.IsExcluded;
+                        notificationFactory.error('UpdatedUnsuccessfully');
+                    }
+                });
+            }, function () {
+                employee.IsExcluded = !params.IsExcluded;
+            })['finally'](function () {
+                modalInstance = '';
+            });
+        };
+
         model.getJobLevelSettings = function (params) {
             return periodFactory.getJobLevelSettings(params).success(function (settings) {
                 model.jobLevelSettings = settings;
@@ -280,6 +387,9 @@
                 controller: 'EditPeriodJobLevelSettingController as editJobLevelCtrl',
                 backdrop: 'static',
                 resolve: {
+                    permission: function () {
+                        return vm.permission;
+                    },
                     periodId: function () {
                         return vm.period.PeriodId;
                     },

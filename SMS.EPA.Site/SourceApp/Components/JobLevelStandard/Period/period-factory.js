@@ -7,17 +7,25 @@
 
     function periodFactory($http, baseUrl) {
         return {
+            getPermission,
             getPeriods,
             getPeriodById,
             createPeriod,
             editPeriod,
             editStatusPeriod,
             deletePeriod,
+            getEmployeeSettings,
+            addEmployeeSetting,
+            editStatusEmployeeSetting,
             getJobLevelSettings,
             getJobLevelSettingBySectionId,
             editJobLevelSetting,
             copyDefaultJobLevelSetting
         };
+
+        function getPermission() {
+            return $http.get(baseUrl + 'api/JobLevelStandardPeriod/GetPermission');
+        }
 
         function getPeriods(isActive) {
             return $http.post(baseUrl + 'api/JobLevelStandardPeriod/GetPeriods', { isActive });
@@ -43,6 +51,18 @@
             return $http['delete'](baseUrl + 'api/JobLevelStandardPeriod/Delete', { params: { periodId } });
         }
 
+        function getEmployeeSettings(params) {
+            return $http.post(baseUrl + 'api/JobLevelStandardPeriod/GetEmployeeSettings', params);
+        }
+
+        function addEmployeeSetting(params) {
+            return $http.put(baseUrl + 'api/JobLevelStandardPeriod/AddEmployeeSetting', params);
+        }
+
+        function editStatusEmployeeSetting(params) {
+            return $http.put(baseUrl + 'api/JobLevelStandardPeriod/EditStatusEmployeeSetting', params);
+        }
+
         function getJobLevelSettings(params) {
             return $http.post(baseUrl + 'api/JobLevelStandardPeriod/GetJobLevelSettings', params);
         }
@@ -51,8 +71,8 @@
             return $http.post(baseUrl + 'api/JobLevelStandardPeriod/GetJobLevelSettingBySectionId', params);
         }
 
-        function editJobLevelSetting(command) {
-            return $http.put(baseUrl + 'api/JobLevelStandardPeriod/EditJobLevelSetting', command);
+        function editJobLevelSetting(params) {
+            return $http.put(baseUrl + 'api/JobLevelStandardPeriod/EditJobLevelSetting', params);
         }
 
         function copyDefaultJobLevelSetting(periodId) {

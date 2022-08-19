@@ -175,7 +175,7 @@ angular.module('jobLevelModule', ['ngRoute'])
 angular.module('jobLevelStandardModule', ['ngRoute'])
     .config(['$routeProvider', function ($routeProvider) {
         var baseUrl = $('base').first().attr('href');
-        $routeProvider.when('/JobLevelSetting/Index',
+        $routeProvider.when('/JobLevelStandard/JobLevelSetting/Index',
             { templateUrl: baseUrl + 'SourceApp/Components/JobLevelStandard/JobLevelSetting/Templates/index.html', caseInsensitiveMatch: true });
 
         $routeProvider.when('/JobLevelStandard/Period/Index',

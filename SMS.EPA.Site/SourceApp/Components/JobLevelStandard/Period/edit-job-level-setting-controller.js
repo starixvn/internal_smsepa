@@ -4,19 +4,22 @@
     /* jshint validthis:true */
 
     angular.module('jobLevelStandardModule').controller('EditPeriodJobLevelSettingController', editJobLevelSettingController);
-    editJobLevelSettingController.$inject = ['$uibModalInstance', 'JobLevelStandardPeriodModel', 'lockScreenService', 'periodId', 'section'];
+    editJobLevelSettingController.$inject = ['$uibModalInstance', 'JobLevelStandardPeriodModel',
+        'utilitiesFactory', 'lockScreenService', 'permission', 'periodId', 'section'];
 
-    function editJobLevelSettingController($uibModalInstance, JobLevelStandardPeriodModel, lockScreenService, periodId, section) {
+    function editJobLevelSettingController($uibModalInstance, PeriodModel, utilitiesFactory, lockScreenService, permission, periodId, section) {
         let vm = this;
 
+        vm.permission = permission;
+        vm.policy = utilitiesFactory.policy;
         vm.section = section;
         vm.settings = [];
 
         function getSettings() {
             lockScreenService.start();
 
-            JobLevelStandardPeriodModel.getJobLevelSettingBySectionId({ periodId, sectionId: section.SectionId }).then(function () {
-                vm.settings = JobLevelStandardPeriodModel.sectionJobLevelSettings;
+            PeriodModel.getJobLevelSettingBySectionId({ periodId, sectionId: section.SectionId }).then(function () {
+                vm.settings = PeriodModel.sectionJobLevelSettings;
                 lockScreenService.stop();
             });
         }
@@ -31,7 +34,7 @@
                 sectionId: vm.section.SectionId,
                 settings: vm.settings
             };
-            JobLevelStandardPeriodModel.editJobLevelSetting(command, $uibModalInstance);
+            PeriodModel.editJobLevelSetting(command, $uibModalInstance);
         };
 
         getSettings();

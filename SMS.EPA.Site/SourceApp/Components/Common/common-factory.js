@@ -96,6 +96,9 @@
             },
             getJobLevel: function (isDeleted) {
                 return $http.get(baseUrl + 'api/Common/GetJobLevel', { params: { isDeleted: isDeleted } });
+            },
+            getOrgChart: function () {
+                return $http.get(baseUrl + 'api/Common/GetOrgChart');
             }
         };
     }

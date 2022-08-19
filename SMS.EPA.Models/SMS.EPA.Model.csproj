@@ -69,6 +69,9 @@
     <Compile Include="Email\MailReminder.cs" />
     <Compile Include="EmployeeEPA\ProbationExtendedQuestion\EPAProbationExtendedQuestionModel.cs" />
     <Compile Include="EmployeeEPA\ProbationExtendedQuestion\ProbationSubQuestionModel.cs" />
+    <Compile Include="Enitites\MultiSelectItem.cs" />
+    <Compile Include="Enitites\Section.cs" />
+    <Compile Include="Enitites\Team.cs" />
     <Compile Include="JobDescription\JobDescriptionEmployeeInfo.cs" />
     <Compile Include="JobDescription\JobDescriptionEmployeeSetting.cs" />
     <Compile Include="JobDescription\JobDescriptionGroupInfo.cs" />
@@ -79,6 +82,8 @@
     <Compile Include="JobLevelStandard\JobLevelSetting\JobLevelSettingSummary.cs" />
     <Compile Include="JobLevelStandard\Period\JobLevelStandardPeriod.cs" />
     <Compile Include="JobLevelStandard\Period\JobLevelStandardPeriodSetting.cs" />
+    <Compile Include="JobLevelStandard\Period\PeriodEmployeeSetting.cs" />
+    <Compile Include="JobLevelStandard\Period\PeriodProcessSetting.cs" />
     <Compile Include="JobLevel\JobLevel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <!-- Exclude the file from analysis -->

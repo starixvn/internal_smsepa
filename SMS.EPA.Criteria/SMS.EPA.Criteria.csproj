@@ -75,6 +75,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Department\GetOrgChartCriteria.cs" />
     <Compile Include="EmployeeEPA\GetDataToUpdateFinalScoreCriteria.cs" />
     <Compile Include="EmployeeEPA\GetDataToUpdateTotalScoreOfProcessCriteria.cs" />
     <Compile Include="EmployeeEPA\GetPeriodByActorIdCriteria.cs" />
@@ -99,12 +100,15 @@
     <Compile Include="JobDescription\EditEmployeeSettingJobDescriptionCriteria.cs" />
     <Compile Include="JobLevelStandard\JobLevelSetting\EditJobLevelSettingCommand.cs" />
     <Compile Include="JobLevelStandard\JobLevelSetting\GetJobLevelSettingBySectionIdCriteria.cs" />
+    <Compile Include="JobLevelStandard\Period\AddPeriodEmployeeSettingCommand.cs" />
     <Compile Include="JobLevelStandard\Period\CreateJobLevelStandardPeriodCommand.cs" />
     <Compile Include="JobLevelStandard\Period\DeleteJobLevelStandardPeriodCommand.cs" />
     <Compile Include="JobLevelStandard\Period\CopyDefaultJobLevelSettingCommand.cs" />
+    <Compile Include="JobLevelStandard\Period\EditStatusPeriodEmployeeSettingCommand.cs" />
     <Compile Include="JobLevelStandard\Period\EditPeriodJobLevelSettingCommand.cs" />
     <Compile Include="JobLevelStandard\Period\EditJobLevelStandardPeriodCommand.cs" />
     <Compile Include="JobLevelStandard\Period\EditStatusJobLevelStandardPeriodCommand.cs" />
+    <Compile Include="JobLevelStandard\Period\GetPeriodEmployeeSettingCriteria.cs" />
     <Compile Include="JobLevelStandard\Period\GetPeriodJobLevelSettingBySectionIdCriteria.cs" />
     <Compile Include="JobLevelStandard\Period\GetJobLevelSettingSummaryCriteria.cs" />
     <Compile Include="JobLevelStandard\Period\GetJobLevelStandardPeriodByIdCriteria.cs" />

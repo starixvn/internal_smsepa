@@ -90,6 +90,7 @@
     <Setting Key="Department_Get" SpName="Department_Get" DbName="SMSEPA" Plain="0">
       <Mapping DataField="ManagerId" ObjectProperty="EmployeeId" />
     </Setting>
+      <Setting Key="Department_GetOrgChart" SpName="Department_GetOrgChart" DbName="SMSEPA" Plain="0" />
   </Function>
   <Function Name="Score Rating Type">
     <Setting Key="EpaScoreRatingType_Get" SpName="EpaScoreRatingType_Get" DbName="SMSEPA" Plain="0"></Setting>
@@ -275,6 +276,11 @@
         <Setting Key="JobLevelStandard_Period_Update" SpName="JobLevelStandard_Period_Update" DbName="SMSEPA" Plain="0" />
         <Setting Key="JobLevelStandard_Period_UpdateStatus" SpName="JobLevelStandard_Period_UpdateStatus" DbName="SMSEPA" Plain="0" />
         <Setting Key="JobLevelStandard_Period_Delete" SpName="JobLevelStandard_Period_Delete" DbName="SMSEPA" Plain="0" />
+        
+        <Setting Key="JobLevelStandard_PeriodEmployeeSetting_Get" SpName="JobLevelStandard_PeriodEmployeeSetting_Get" DbName="SMSEPA" Plain="0" />
+        <Setting Key="JobLevelStandard_PeriodEmployeeSetting_Insert" SpName="JobLevelStandard_PeriodEmployeeSetting_Insert" DbName="SMSEPA" Plain="0" />
+        <Setting Key="JobLevelStandard_PeriodEmployeeSetting_UpdateStatus" SpName="JobLevelStandard_PeriodEmployeeSetting_UpdateStatus" DbName="SMSEPA" Plain="0" />
+
         <Setting Key="JobLevelStandard_PeriodJobLevelSetting_Get" SpName="JobLevelStandard_PeriodJobLevelSetting_Get" DbName="SMSEPA" Plain="0" />
         <Setting Key="JobLevelStandard_PeriodJobLevelSetting_GetBySectionId" SpName="JobLevelStandard_PeriodJobLevelSetting_GetBySectionId" DbName="SMSEPA" Plain="0" />
         <Setting Key="JobLevelStandard_PeriodJobLevelSetting_Update" SpName="JobLevelStandard_PeriodJobLevelSetting_Update" DbName="SMSEPA" Plain="0" />

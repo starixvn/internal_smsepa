@@ -1,0 +1,114 @@
+﻿<div ng-controller="JobLevelStandardPeriodEmployeeSettingController as employeeSettingCtrl" class="period-employee-setting">
+    <form class="form-filter">
+        <div class="form-group">
+            <label class="label-form" data-translate="Team"></label>
+            <div class="select-form">
+                <multi-select-tree-view selected-items="employeeSettingCtrl.filter.teamIds"
+                                        is-selected-all="true"
+                                        options="employeeSettingCtrl.orgChart"></multi-select-tree-view>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="label-form" data-translate="Category"></label>
+            <select class="form-control select-form" ng-model="employeeSettingCtrl.filter.isLocal">
+                <option value="">-- {{"All" | translate}} --</option>
+                <option value="false">{{"Expat" | translate}}</option>
+                <option value="true">{{"Local" | translate}}</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label class="label-form"></label>
+            <div class="checkbox checkbox-form">
+                <label>
+                    <input type="checkbox" ng-model="employeeSettingCtrl.filter.isExcluded" /> Show Excluded
+                </label>
+            </div>
+        </div>
+        <div class="form-group btn-group">
+            <button class="btn btn-primary" ng-click="employeeSettingCtrl.query(employeeSettingCtrl.filter)" data-translate="Search"></button>
+            <button class="btn btn-primary" ng-click="employeeSettingCtrl.addEmployee()"
+                    ng-if="employeeSettingCtrl.permission === employeeSettingCtrl.policy.Host">Add Employee</button>
+        </div>
+    </form>
+    <table class="row table table-bordered table-striped" id="data">
+        <thead>
+            <tr class="header-table">
+                <th colspan="16">
+                    <input type="text" ng-model="employeeSettingCtrl.searchKey" ng-change="employeeSettingCtrl.search()"
+                           class="search-inline-textbox search pull-right" />
+                </th>
+            </tr>
+            <tr class="headerName">
+                <th data-translate="SymbolCount"></th>
+                <th data-translate="Department"></th>
+                <th data-translate="Section"></th>
+                <th data-translate="Team"></th>
+                <th class="width-140" data-translate="Employee"></th>
+                <th class="width-60" data-translate="Step"></th>
+                <th class="width-140" data-translate="Name"></th>
+                <th class="width-60" data-translate="FromDate"></th>
+                <th class="width-60" data-translate="ToDate"></th>
+                <th class="width-40" data-translate="Include"></th>
+            </tr>
+        </thead>
+        <tbody class="table-body" dir-paginate="employee in employeeSettingCtrl.filteredItems | itemsPerPage: employeeSettingCtrl.pageSize"
+               current-page="employeeSettingCtrl.currentPage">
+            <tr ng-class="{oddRow: $index % 2 === 0, evenRow: $index % 2 !== 0}">
+                <td class="text-center" rowspan="3"
+                    ng-bind="employeeSettingCtrl.getIndex($index, employeeSettingCtrl.currentPage, employeeSettingCtrl.pageSize)"></td>
+                <td rowspan="3" ng-bind="employee.Department"></td>
+                <td rowspan="3" ng-bind="employee.Section"></td>
+                <td rowspan="3" ng-bind="employee.Team"></td>
+                <td rowspan="3">{{employee.FullName}} ({{employee.Nickname}})</td>
+                <td>Evaluator/Reviewer</td>
+                <td>
+                    <div ng-repeat="evaluator in employee.Evaluators">
+                        - {{evaluator.FullName}} ({{evaluator.Nickname}})
+                    </div>
+                </td>
+                <td class="text-center" ng-bind="employee.Evaluators[0].FromDate | date: employeeSettingCtrl.dateFormat"></td>
+                <td class="text-center" ng-bind="employee.Evaluators[0].ToDate | date: employeeSettingCtrl.dateFormat"></td>
+                <td class="text-center" rowspan="3">
+                    <input type="checkbox" ng-checked="!employee.IsExcluded" ng-click="employeeSettingCtrl.editStatus(employee)"
+                           ng-disabled="employeeSettingCtrl.permission !== employeeSettingCtrl.policy.Host" />
+                </td>
+            </tr>
+            <tr ng-class="{oddRow: $index % 2 === 0, evenRow: $index % 2 !== 0}">
+                <td data-translate="Employee"></td>
+                <td></td>
+                <td class="text-center" ng-bind="employee.Employee.FromDate | date: employeeSettingCtrl.dateFormat"></td>
+                <td class="text-center" ng-bind="employee.Employee.ToDate | date: employeeSettingCtrl.dateFormat"></td>
+            </tr>
+            <tr ng-class="{oddRow: $index % 2 === 0, evenRow: $index % 2 !== 0}">
+                <td data-translate="Management"></td>
+                <td>
+                    <div ng-repeat="management in employee.Managements">
+                        - {{management.FullName}} ({{management.Nickname}})
+                    </div>
+                </td>
+                <td class="text-center" ng-bind="employee.Managements[0].FromDate | date: employeeSettingCtrl.dateFormat"></td>
+                <td class="text-center" ng-bind="employee.Managements[0].ToDate | date: employeeSettingCtrl.dateFormat"></td>
+            </tr>
+        </tbody>
+        <tbody ng-show="employeeSettingCtrl.filteredItems.length === 0">
+            <tr>
+                <td class="empty-result" colspan="16" data-translate="EmptyResult"></td>
+            </tr>
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="16" class="paging">
+                    <span data-translate="Show"></span>
+                    <select class="dropdown-entry form-control" ng-model="employeeSettingCtrl.pageSize"
+                            ng-options="entry for entry in employeeSettingCtrl.entries" ng-change="employeeSettingCtrl.currentPage = 1"></select>
+                    <span data-translate="entries"></span>
+                    <div class="pull-right custom-paging">
+                        <ul uib-pagination total-items="employeeSettingCtrl.filteredItems.length" items-per-page="employeeSettingCtrl.pageSize"
+                            boundary-links="true" max-size="5" boundary-link-numbers="true" ng-model="employeeSettingCtrl.currentPage"
+                            class="pagination-sm" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></ul>
+                    </div>
+                </td>
+            </tr>
+        </tfoot>
+    </table>
+</div>

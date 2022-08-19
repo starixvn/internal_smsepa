@@ -7,7 +7,7 @@
     createPeriodController.$inject = ['$uibModalInstance', 'JobLevelStandardPeriodModel', 'utilitiesFactory'];
 
     function createPeriodController($uibModalInstance, PeriodModel, utilitiesFactory) {
-        var vm = this;
+        let vm = this;
 
         vm.calendar = PeriodModel.calendar;
         vm.period = {
@@ -29,8 +29,8 @@
 
         vm.save = function (period) {
             if (PeriodModel.validatePeriod(period)) {
-                var model = angular.copy(period);
-                for (var setting of model.Settings) {
+                let model = angular.copy(period);
+                for (let setting of model.Settings) {
                     setting.FromDate = setting.FromDate.toDateString();
                     setting.ToDate = setting.ToDate.toDateString();
                 }
@@ -40,7 +40,7 @@
         };
 
         vm.cancel = function () {
-            $uibModalInstance.dismiss("cancel");
+            $uibModalInstance.dismiss('cancel');
         };
     }
 })(angular);

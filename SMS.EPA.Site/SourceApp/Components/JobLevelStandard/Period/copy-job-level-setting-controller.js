@@ -2,9 +2,10 @@
     'use strict';
 
     angular.module('jobLevelStandardModule').controller('CopyPeriodJobLevelSettingController', copyJobLevelSettingController);
-    copyJobLevelSettingController.$inject = ['$uibModalInstance', 'notificationFactory', 'JobLevelStandardPeriodModel', 'periodId', 'selectedSection', 'sectionHasSettings'];
+    copyJobLevelSettingController.$inject = ['$uibModalInstance', 'notificationFactory', 'JobLevelStandardPeriodModel',
+        'periodId', 'selectedSection', 'sectionHasSettings'];
 
-    function copyJobLevelSettingController($uibModalInstance, notificationFactory, JobLevelStandardPeriodModel, periodId, selectedSection, sectionHasSettings) {
+    function copyJobLevelSettingController($uibModalInstance, notificationFactory, PeriodModel, periodId, selectedSection, sectionHasSettings) {
         let vm = this;
 
         vm.selectedSection = selectedSection;
@@ -28,13 +29,13 @@
         vm.save = function () {
             const isValid = validate();
             if (isValid) {
-                JobLevelStandardPeriodModel.getJobLevelSettingBySectionId({ periodId, sectionId: vm.fromSection.SectionId }).then(function () {
+                PeriodModel.getJobLevelSettingBySectionId({ periodId, sectionId: vm.fromSection.SectionId }).then(function () {
                     const command = {
                         periodId,
                         sectionId: vm.selectedSection.SectionId,
-                        settings: JobLevelStandardPeriodModel.sectionJobLevelSettings
+                        settings: PeriodModel.sectionJobLevelSettings
                     };
-                    JobLevelStandardPeriodModel.editJobLevelSetting(command, $uibModalInstance);
+                    PeriodModel.editJobLevelSetting(command, $uibModalInstance);
                 });
             }
         };

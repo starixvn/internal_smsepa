@@ -426,6 +426,7 @@
     <Content Include="Libs\jquery-3.2.1.min.js" />
     <Content Include="Libs\jquery-ui.js" />
     <Content Include="Libs\jquery-ui.min.js" />
+    <Content Include="Libs\multiselect-tree-view.js" />
     <Content Include="Libs\numeric-directive.js" />
     <Content Include="Libs\tai-placeholder.js" />
     <Content Include="Libs\toastr.js" />
@@ -573,8 +574,10 @@
     <Content Include="SourceApp\Components\JobLevelStandard\JobLevelSetting\Templates\edit.html" />
     <Content Include="SourceApp\Components\JobLevelStandard\JobLevelSetting\Templates\index.html" />
     <Content Include="SourceApp\Components\JobLevelStandard\Period\copy-job-level-setting-controller.js" />
+    <Content Include="SourceApp\Components\JobLevelStandard\Period\add-employee-setting-controller.js" />
     <Content Include="SourceApp\Components\JobLevelStandard\Period\create-period-controller.js" />
     <Content Include="SourceApp\Components\JobLevelStandard\Period\edit-job-level-setting-controller.js" />
+    <Content Include="SourceApp\Components\JobLevelStandard\Period\employee-setting-controller.js" />
     <Content Include="SourceApp\Components\JobLevelStandard\Period\job-level-setting-controller.js" />
     <Content Include="SourceApp\Components\JobLevelStandard\Period\period-controller.js" />
     <Content Include="SourceApp\Components\JobLevelStandard\Period\period-factory.js" />
@@ -584,6 +587,7 @@
     <Content Include="SourceApp\Components\JobLevelStandard\Period\Templates\create.html" />
     <Content Include="SourceApp\Components\JobLevelStandard\Period\Templates\edit.html" />
     <Content Include="SourceApp\Components\JobLevelStandard\Period\Templates\editJobLevelSetting.html" />
+    <Content Include="SourceApp\Components\JobLevelStandard\Period\Templates\employeeSetting.html" />
     <Content Include="SourceApp\Components\JobLevelStandard\Period\Templates\jobLevelSetting.html" />
     <Content Include="SourceApp\Components\JobLevelStandard\Period\Templates\index.html" />
     <Content Include="SourceApp\Components\JobLevelStandard\Period\edit-period-controller.js" />
@@ -596,6 +600,8 @@
     <Content Include="SourceApp\Components\JobLevel\Templates\edit.html" />
     <Content Include="SourceApp\Components\JobLevel\Templates\index.html" />
     <Content Include="SourceApp\Components\JobLevel\edit-job-level-controller.js" />
+    <Content Include="SourceApp\Components\JobLevelStandard\Period\Templates\addEmployeeSetting.html" />
+    <Content Include="SourceApp\Shared\Directives\epa-searchAutoComplete-directive.js" />
     <Content Include="SourceApp\Shared\Templates\modal-confirm-refresh-data.html" />
     <Content Include="SourceApp\Components\JobDescription\Templates\personnel.html" />
     <Content Include="SourceApp\Components\JobDescription\Templates\group.html" />
@@ -670,7 +676,7 @@
     <Content Include="SourceApp\Shared\Directives\popover-avatar-directive.js" />
     <Content Include="SourceApp\Shared\Directives\epa-numberDot-directive.js" />
     <Content Include="SourceApp\Shared\Directives\epa-addClassToRoleFilter-directive.js" />
-    <Content Include="SourceApp\Shared\Directives\epa-searchAutoComplete-directive.js" />
+    <Content Include="SourceApp\Shared\Directives\multiselect-treeview-directive.js" />
     <Content Include="SourceApp\Shared\Factories\error-factory.js" />
     <Content Include="SourceApp\Components\EPA\Management\Templates\semiPerformanceResult.html" />
     <Content Include="SourceApp\Components\EPA\EPAByKPI\EPAByKPI-controller.js" />
@@ -857,6 +863,7 @@
     <Content Include="Content\Site\views\_job-description.less" />
     <Content Include="ExcelTemplates\DepartmentFlowSettingTemplate.xls" />
     <Content Include="Content\Site\views\_joblevelstandard.less" />
+    <None Include="Content\Site\components\_multiselect-treeview.less" />
     <None Include="Libs\angularjs\angular-resource.min.js.map" />
     <None Include="Libs\angularjs\angular-route.min.js.map" />
     <Content Include="Libs\angularjs\angular-touch.min.js.map" />

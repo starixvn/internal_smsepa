@@ -29,7 +29,8 @@
             remindDay: [0, 1, 2, 3, 4, 5, 6, 7],
             jobTitles: [],
             jobLevels: [],
-            permission: 0
+            permission: 0,
+            orgChart: []
         };
 
         model.getTargetType = function (isActive, excludeTargetTypeIds) {
@@ -229,6 +230,14 @@
         model.getJobLevel = function (isDeleted) {
             return commonFactory.getJobLevel(isDeleted).success(function (jobLevels) {
                 model.jobLevels = jobLevels;
+            }).error(function (response, status) {
+                errorFactory.errorHandle(status);
+            });
+        };
+
+        model.getOrgChart = function () {
+            return commonFactory.getOrgChart().success(function (orgChart) {
+                model.orgChart = orgChart;
             }).error(function (response, status) {
                 errorFactory.errorHandle(status);
             });

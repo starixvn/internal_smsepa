@@ -49,7 +49,8 @@
                             "~/Libs/FanexGrid/moment.min.js",
                             "~/Libs/FanexGrid/numeral.min.js",
                             "~/Libs/FanexGrid/Fanex.Pagination.js",
-                            "~/Libs/BootstrapStarRating/js/star-rating.js"));
+                            "~/Libs/BootstrapStarRating/js/star-rating.js",
+                            "~/Libs/multiselect-tree-view.js"));
 
             bundles.AddAndInclude(
                             "~/bundles/less",
@@ -259,6 +260,8 @@
                             "~/SourceApp/Components/JobLevelStandard/Period/job-level-setting-controller.js",
                             "~/SourceApp/Components/JobLevelStandard/Period/edit-job-level-setting-controller.js",
                             "~/SourceApp/Components/JobLevelStandard/Period/copy-job-level-setting-controller.js",
+                            "~/SourceApp/Components/JobLevelStandard/Period/employee-setting-controller.js",
+                            "~/SourceApp/Components/JobLevelStandard/Period/add-employee-setting-controller.js",
                             "~/SourceApp/Components/JobLevelStandard/JobLevelSetting/job-level-setting-factory.js",
                             "~/SourceApp/Components/JobLevelStandard/JobLevelSetting/job-level-setting-model.js",
                             "~/SourceApp/Components/JobLevelStandard/JobLevelSetting/job-level-setting-controller.js",
@@ -270,6 +273,7 @@
                             "~/SourceApp/Shared/Directives/epa-numberDot-directive.js",
                             "~/SourceApp/Shared/Directives/epa-searchAutoComplete-directive.js",
                             "~/SourceApp/Shared/Directives/popover-avatar-directive.js",
+                            "~/SourceApp/Shared/Directives/multiselect-treeview-directive.js",
                             "~/SourceApp/Shared/Factories/error-factory.js",
                             "~/SourceApp/Shared/Factories/history-factory.js",
                             "~/SourceApp/Shared/Factories/lockScreen-factory.js",

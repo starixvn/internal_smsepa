@@ -4,10 +4,10 @@
     /* jshint validthis:true */
 
     angular.module('jobLevelStandardModule').controller('EditBasicInfoJobLevelStandardPeriodController', editBasicInfoPeriodController);
-    editBasicInfoPeriodController.$inject = ['$scope', 'JobLevelStandardPeriodModel', 'CommonModel', 'lockScreenService'];
+    editBasicInfoPeriodController.$inject = ['$scope', 'JobLevelStandardPeriodModel'];
 
-    function editBasicInfoPeriodController($scope, PeriodModel, CommonModel, lockScreenService) {
-        var vm = this;
+    function editBasicInfoPeriodController($scope, PeriodModel) {
+        let vm = this;
 
         vm.calendar = PeriodModel.calendar;
         vm.period = {};
@@ -33,8 +33,8 @@
 
         vm.save = function (period) {
             if (PeriodModel.validatePeriod(period)) {
-                var model = angular.copy(period);
-                for (var setting of model.Settings) {
+                let model = angular.copy(period);
+                for (let setting of model.Settings) {
                     setting.FromDate = setting.FromDate.toDateString();
                     setting.ToDate = setting.ToDate.toDateString();
                 }
