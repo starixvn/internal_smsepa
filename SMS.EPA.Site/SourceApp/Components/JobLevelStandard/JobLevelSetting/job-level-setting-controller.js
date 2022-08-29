@@ -14,6 +14,8 @@
         vm.filter = { hasSetting: '' };
         vm.currentPage = 1;
         vm.pageSize = 20;
+        vm.permission = JobLevelSettingModel.permission;
+        vm.policy = utilitiesFactory.policy;
         utilitiesFactory.numberEntryList(vm);
 
         function getSettings(filter) {
@@ -58,7 +60,11 @@
         };
 
         function initialize() {
-            getSettings(vm.filter);
+            JobLevelSettingModel.getPermission().then(function () {
+                vm.permission = JobLevelSettingModel.permission;
+
+                getSettings(vm.filter);
+            });
         }
 
         initialize();

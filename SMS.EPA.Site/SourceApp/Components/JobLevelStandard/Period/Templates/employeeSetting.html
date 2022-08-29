@@ -8,12 +8,19 @@
                                         options="employeeSettingCtrl.orgChart"></multi-select-tree-view>
             </div>
         </div>
-        <div class="form-group">
+        <!--<div class="form-group">
             <label class="label-form" data-translate="Category"></label>
             <select class="form-control select-form" ng-model="employeeSettingCtrl.filter.isLocal">
                 <option value="">-- {{"All" | translate}} --</option>
                 <option value="false">{{"Expat" | translate}}</option>
                 <option value="true">{{"Local" | translate}}</option>
+            </select>
+        </div>-->
+        <div class="form-group">
+            <label class="label-form">Status</label>
+            <select class="form-control select-form" ng-model="employeeSettingCtrl.filter.statusId"
+                    ng-options="opt.StatusId as opt.Name for opt in employeeSettingCtrl.assessmentStatusOptions">
+                <option value="">-- {{"All" | translate}} --</option>
             </select>
         </div>
         <div class="form-group">
@@ -27,13 +34,15 @@
         <div class="form-group btn-group">
             <button class="btn btn-primary" ng-click="employeeSettingCtrl.query(employeeSettingCtrl.filter)" data-translate="Search"></button>
             <button class="btn btn-primary" ng-click="employeeSettingCtrl.addEmployee()"
-                    ng-if="employeeSettingCtrl.permission === employeeSettingCtrl.policy.Host">Add Employee</button>
+                    ng-if="employeeSettingCtrl.permission === employeeSettingCtrl.policy.Host">
+                Add Employee
+            </button>
         </div>
     </form>
     <table class="row table table-bordered table-striped" id="data">
         <thead>
             <tr class="header-table">
-                <th colspan="16">
+                <th colspan="12">
                     <input type="text" ng-model="employeeSettingCtrl.searchKey" ng-change="employeeSettingCtrl.search()"
                            class="search-inline-textbox search pull-right" />
                 </th>
@@ -48,6 +57,7 @@
                 <th class="width-140" data-translate="Name"></th>
                 <th class="width-60" data-translate="FromDate"></th>
                 <th class="width-60" data-translate="ToDate"></th>
+                <th class="width-40">Status</th>
                 <th class="width-40" data-translate="Include"></th>
             </tr>
         </thead>
@@ -68,6 +78,20 @@
                 </td>
                 <td class="text-center" ng-bind="employee.Evaluators[0].FromDate | date: employeeSettingCtrl.dateFormat"></td>
                 <td class="text-center" ng-bind="employee.Evaluators[0].ToDate | date: employeeSettingCtrl.dateFormat"></td>
+                <td class="text-center" rowspan="3">
+                    <div ng-if="employeeSettingCtrl.permission !== employeeSettingCtrl.policy.Host">
+                        <span ng-show="employee.StatusId === employeeSettingCtrl.assessmentStatus.Pending">Pending</span>
+                        <span ng-show="employee.StatusId === employeeSettingCtrl.assessmentStatus.Verified">Verified</span>
+                        <span ng-show="employee.StatusId === employeeSettingCtrl.assessmentStatus.Approved">Approved</span>
+                    </div>
+                    <div ng-if="employeeSettingCtrl.permission === employeeSettingCtrl.policy.Host">
+                        <a href="javascript:;" ng-click="employeeSettingCtrl.editAssessmentStatus(employee)">
+                            <span ng-show="employee.StatusId === employeeSettingCtrl.assessmentStatus.Pending">Pending</span>
+                            <span ng-show="employee.StatusId === employeeSettingCtrl.assessmentStatus.Verified">Verified</span>
+                            <span ng-show="employee.StatusId === employeeSettingCtrl.assessmentStatus.Approved">Approved</span>
+                        </a>
+                    </div>
+                </td>
                 <td class="text-center" rowspan="3">
                     <input type="checkbox" ng-checked="!employee.IsExcluded" ng-click="employeeSettingCtrl.editStatus(employee)"
                            ng-disabled="employeeSettingCtrl.permission !== employeeSettingCtrl.policy.Host" />
@@ -92,12 +116,12 @@
         </tbody>
         <tbody ng-show="employeeSettingCtrl.filteredItems.length === 0">
             <tr>
-                <td class="empty-result" colspan="16" data-translate="EmptyResult"></td>
+                <td class="empty-result" colspan="12" data-translate="EmptyResult"></td>
             </tr>
         </tbody>
         <tfoot>
             <tr>
-                <td colspan="16" class="paging">
+                <td colspan="12" class="paging">
                     <span data-translate="Show"></span>
                     <select class="dropdown-entry form-control" ng-model="employeeSettingCtrl.pageSize"
                             ng-options="entry for entry in employeeSettingCtrl.entries" ng-change="employeeSettingCtrl.currentPage = 1"></select>

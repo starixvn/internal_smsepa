@@ -13,9 +13,9 @@
         vm.period = {
             Name: '',
             Settings: [
-                { ProcessId: utilitiesFactory.jobLevelStandardProcess.Evaluator, FromDate: null, ToDate: null },
-                { ProcessId: utilitiesFactory.jobLevelStandardProcess.Employee, FromDate: null, ToDate: null },
-                { ProcessId: utilitiesFactory.jobLevelStandardProcess.Management, FromDate: null, ToDate: null }
+                { ProcessId: utilitiesFactory.jobLevelAssessmentProcess.Evaluator, FromDate: null, ToDate: null },
+                { ProcessId: utilitiesFactory.jobLevelAssessmentProcess.Employee, FromDate: null, ToDate: null },
+                { ProcessId: utilitiesFactory.jobLevelAssessmentProcess.Management, FromDate: null, ToDate: null }
             ]
         };
 

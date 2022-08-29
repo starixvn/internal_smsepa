@@ -8,6 +8,7 @@
     [XmlName("Row")]
     public class JobLevelSetting
     {
+        public int SectionId { get; set; }
         public int JobLevelId { get; set; }
 
         [XmlIgnore]

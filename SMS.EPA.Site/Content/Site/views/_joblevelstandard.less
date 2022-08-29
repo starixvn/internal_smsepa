@@ -1,5 +1,5 @@
 ﻿.table {
-    &.table-job-level-standard-period {
+    &.table-job-level-standard-period, &.table-job-level-assessment {
         thead tr {
             th {
                 border-width: 0 1px 1px 0;
@@ -10,6 +10,58 @@
 
     &.table-job-level-setting {
         max-width: 1300px;
+    }
+
+    &.table-job-level-assessment {
+        margin-bottom: 20px;
+
+        thead {
+            .col-level, .col-weight {
+                width: 45px;
+            }
+        }
+
+        .col-action {
+            width: 80px;
+        }
+
+        tbody {
+            .col-input {
+                padding-left: 4px;
+                padding-right: 4px;
+            }
+
+            .col-action {
+                .btn-group {
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+
+                    .btn {
+                        padding: 2px 3px;
+                        font-size: 11px;
+
+                        &.btn-cancel {
+                            margin-left: 4px;
+                        }
+                    }
+                }
+            }
+        }
+
+        input.form-control {
+            height: 21px;
+            font-size: 13px;
+            border-width: 0 0 1px 0;
+            padding: 4px 2px;
+
+            &:focus {
+                box-shadow: none;
+            }
+            /*&:disabled {
+                background-color: #fff;
+            }*/
+        }
     }
 }
 

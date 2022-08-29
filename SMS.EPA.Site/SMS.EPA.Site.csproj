@@ -202,6 +202,7 @@
   <ItemGroup>
     <Compile Include="Controllers\API\JobDescriptionController.cs" />
     <Compile Include="Controllers\API\JobLevelController.cs" />
+    <Compile Include="Controllers\API\JobLevelStandard\JobLevelAssessmentController.cs" />
     <Compile Include="Controllers\API\JobLevelStandard\JobLevelSettingController.cs" />
     <Compile Include="Controllers\API\JobLevelStandard\JobLevelStandardPeriodController.cs" />
     <Compile Include="Controllers\Export\ExportCommentReportController.cs" />
@@ -565,6 +566,10 @@
     <Content Include="SourceApp\Components\JobDescription\Templates\edit-group.html" />
     <Content Include="SourceApp\Components\JobDescription\Templates\index.html" />
     <Content Include="SourceApp\Components\JobDescription\Templates\edit-personnel.html" />
+    <Content Include="SourceApp\Components\JobLevelStandard\Assessment\assessment-factory.js" />
+    <Content Include="SourceApp\Components\JobLevelStandard\Assessment\assessment-model.js" />
+    <Content Include="SourceApp\Components\JobLevelStandard\Assessment\assessment-controller.js" />
+    <Content Include="SourceApp\Components\JobLevelStandard\Assessment\Templates\index.html" />
     <Content Include="SourceApp\Components\JobLevelStandard\JobLevelSetting\copy-job-level-setting-controller.js" />
     <Content Include="SourceApp\Components\JobLevelStandard\JobLevelSetting\edit-job-level-setting-controller.js" />
     <Content Include="SourceApp\Components\JobLevelStandard\JobLevelSetting\job-level-setting-factory.js" />

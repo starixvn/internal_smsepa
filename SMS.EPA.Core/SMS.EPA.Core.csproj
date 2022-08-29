@@ -160,7 +160,8 @@
   <ItemGroup>
     <Compile Include="Attribute\WebApiValidateAntiForgeryTokenAttribute.cs" />
     <Compile Include="Enumerations\GradeType.cs" />
-    <Compile Include="Enumerations\JobLevelStandardProcess.cs" />
+    <Compile Include="Enumerations\JobLevelAssessmentStatus.cs" />
+    <Compile Include="Enumerations\JobLevelAssessmentProcess.cs" />
     <Compile Include="Enumerations\SiteId.cs" />
     <Compile Include="Extensions\XML\XmlExtensions.cs" />
     <Compile Include="Extensions\XML\XmlNameAttribute.cs" />

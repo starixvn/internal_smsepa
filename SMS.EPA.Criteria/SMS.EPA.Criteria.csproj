@@ -98,6 +98,12 @@
     <Compile Include="JobDescription\EditJobDescriptionItemCriteria.cs" />
     <Compile Include="JobDescription\EditJobDescriptionGroupItemCriteria.cs" />
     <Compile Include="JobDescription\EditEmployeeSettingJobDescriptionCriteria.cs" />
+    <Compile Include="JobLevelStandard\Assessment\EditJobLevelAssessmentCommand.cs" />
+    <Compile Include="JobLevelStandard\Assessment\EditStatusJobLevelAssessmentCommand.cs" />
+    <Compile Include="JobLevelStandard\Assessment\GetJobLevelAssessmentByActorIdCriteria.cs" />
+    <Compile Include="JobLevelStandard\Assessment\GetKPIByPeriodIdCriteria.cs" />
+    <Compile Include="JobLevelStandard\Assessment\GetPeriodByActorCriteria.cs" />
+    <Compile Include="JobLevelStandard\GetOrgChartByActorIdCriteria.cs" />
     <Compile Include="JobLevelStandard\JobLevelSetting\EditJobLevelSettingCommand.cs" />
     <Compile Include="JobLevelStandard\JobLevelSetting\GetJobLevelSettingBySectionIdCriteria.cs" />
     <Compile Include="JobLevelStandard\Period\AddPeriodEmployeeSettingCommand.cs" />
@@ -109,6 +115,7 @@
     <Compile Include="JobLevelStandard\Period\EditJobLevelStandardPeriodCommand.cs" />
     <Compile Include="JobLevelStandard\Period\EditStatusJobLevelStandardPeriodCommand.cs" />
     <Compile Include="JobLevelStandard\Period\GetPeriodEmployeeSettingCriteria.cs" />
+    <Compile Include="JobLevelStandard\Period\GetPeriodJobLevelSettingByPeriodIdCriteria.cs" />
     <Compile Include="JobLevelStandard\Period\GetPeriodJobLevelSettingBySectionIdCriteria.cs" />
     <Compile Include="JobLevelStandard\Period\GetJobLevelSettingSummaryCriteria.cs" />
     <Compile Include="JobLevelStandard\Period\GetJobLevelStandardPeriodByIdCriteria.cs" />
@@ -290,6 +297,7 @@
     <Analyzer Include="..\packages\SonarAnalyzer.CSharp.8.22.0.31243\analyzers\SonarAnalyzer.CSharp.dll" />
     <Analyzer Include="..\packages\SonarAnalyzer.CSharp.8.22.0.31243\analyzers\SonarAnalyzer.dll" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets" Condition="Exists('..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

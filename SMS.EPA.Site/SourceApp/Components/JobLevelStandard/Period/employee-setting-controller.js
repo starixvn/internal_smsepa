@@ -18,6 +18,12 @@
         vm.pageSize = 20;
         vm.permission = PeriodModel.permission;
         vm.policy = utilitiesFactory.policy;
+        vm.assessmentStatus = utilitiesFactory.jobLevelAssessmentStatus;
+        vm.assessmentStatusOptions = [
+            { StatusId: vm.assessmentStatus.Pending, Name: 'Pending' },
+            { StatusId: vm.assessmentStatus.Verified, Name: 'Verified' },
+            { StatusId: vm.assessmentStatus.Approved, Name: 'Approved' }
+        ];
         utilitiesFactory.numberEntryList(vm);
         utilitiesFactory.getDateFormat(vm);
 
@@ -71,8 +77,14 @@
             });
         };
 
+        vm.editAssessmentStatus = function (employee) {
+            if (vm.permission === vm.policy.Host) {
+                PeriodModel.openPopupEditAssessmentStatus(vm, employee);
+            }
+        };
+
         vm.editStatus = function (employee) {
-            if (vm.permission !== vm.policy.Host) {
+            if (vm.permission === vm.policy.Host) {
                 PeriodModel.openPopupEditStatusEmployeeSetting(vm, vm.filter.periodId, employee);
             }
         };

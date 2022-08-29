@@ -3,13 +3,22 @@
     /* jshint latedef:nofunc */
 
     angular.module('jobLevelStandardModule').factory('JobLevelSettingModel', jobLevelSettingModel);
-    jobLevelSettingModel.$inject = ['$uibModal', 'jobLevelSettingFactory', 'errorFactory', 'notificationFactory', 'utilitiesFactory'];
+    jobLevelSettingModel.$inject = ['$uibModal', 'jobLevelSettingFactory', 'errorFactory', 'notificationFactory'];
 
-    function jobLevelSettingModel($uibModal, jobLevelSettingFactory, errorFactory, notificationFactory, utilitiesFactory) {
+    function jobLevelSettingModel($uibModal, jobLevelSettingFactory, errorFactory, notificationFactory) {
         let model = {};
 
+        model.permission = 0;
         model.sections = [];
         model.settings = [];
+
+        model.getPermission = function () {
+            return jobLevelSettingFactory.getPermission().success(function (permisson) {
+                model.permission = permisson;
+            }).error(function (response, status) {
+                errorFactory.errorHandle(status);
+            });
+        };
 
         model.getSettings = function (params) {
             return jobLevelSettingFactory.getSettings(params).success(function (sections) {
@@ -33,6 +42,9 @@
                 controller: 'EditJobLevelSettingController as editCtrl',
                 backdrop: 'static',
                 resolve: {
+                    permission: function () {
+                        return vm.permission;
+                    },
                     section: function () {
                         return section;
                     }

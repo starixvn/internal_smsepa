@@ -276,14 +276,22 @@
         <Setting Key="JobLevelStandard_Period_Update" SpName="JobLevelStandard_Period_Update" DbName="SMSEPA" Plain="0" />
         <Setting Key="JobLevelStandard_Period_UpdateStatus" SpName="JobLevelStandard_Period_UpdateStatus" DbName="SMSEPA" Plain="0" />
         <Setting Key="JobLevelStandard_Period_Delete" SpName="JobLevelStandard_Period_Delete" DbName="SMSEPA" Plain="0" />
-        
+
         <Setting Key="JobLevelStandard_PeriodEmployeeSetting_Get" SpName="JobLevelStandard_PeriodEmployeeSetting_Get" DbName="SMSEPA" Plain="0" />
         <Setting Key="JobLevelStandard_PeriodEmployeeSetting_Insert" SpName="JobLevelStandard_PeriodEmployeeSetting_Insert" DbName="SMSEPA" Plain="0" />
         <Setting Key="JobLevelStandard_PeriodEmployeeSetting_UpdateStatus" SpName="JobLevelStandard_PeriodEmployeeSetting_UpdateStatus" DbName="SMSEPA" Plain="0" />
 
         <Setting Key="JobLevelStandard_PeriodJobLevelSetting_Get" SpName="JobLevelStandard_PeriodJobLevelSetting_Get" DbName="SMSEPA" Plain="0" />
+        <Setting Key="JobLevelStandard_PeriodJobLevelSetting_GetByPeriodId" SpName="JobLevelStandard_PeriodJobLevelSetting_GetByPeriodId" DbName="SMSEPA" Plain="0" />
         <Setting Key="JobLevelStandard_PeriodJobLevelSetting_GetBySectionId" SpName="JobLevelStandard_PeriodJobLevelSetting_GetBySectionId" DbName="SMSEPA" Plain="0" />
         <Setting Key="JobLevelStandard_PeriodJobLevelSetting_Update" SpName="JobLevelStandard_PeriodJobLevelSetting_Update" DbName="SMSEPA" Plain="0" />
         <Setting Key="JobLevelStandard_PeriodJobLevelSetting_CopyFromDefault" SpName="JobLevelStandard_PeriodJobLevelSetting_CopyFromDefault" DbName="SMSEPA" Plain="0" />
+
+        <Setting Key="JobLevelStandard_Assessment_GetPeriodByActorId" SpName="JobLevelStandard_Assessment_GetPeriodByActorId" DbName="SMSEPA" Plain="0" />
+        <Setting Key="JobLevelStandard_Assessment_GetOrgChartByActorId" SpName="JobLevelStandard_Assessment_GetOrgChartByActorId" DbName="SMSEPA" Plain="0" />
+        <Setting Key="JobLevelStandard_Assessment_GetKPIByPeriodId" SpName="JobLevelStandard_Assessment_GetKPIByPeriodId" DbName="SMSEPA" Plain="0" />
+        <Setting Key="JobLevelStandard_Assessment_GetByActorId" SpName="JobLevelStandard_Assessment_GetByActorId" DbName="SMSEPA" Plain="0" />
+        <Setting Key="JobLevelStandard_Assessment_Update" SpName="JobLevelStandard_Assessment_Update" DbName="SMSEPA" Plain="0" />
+        <Setting Key="JobLevelStandard_Assessment_UpdateStatus" SpName="JobLevelStandard_Assessment_UpdateStatus" DbName="SMSEPA" Plain="0" />
     </Function>
 </Functions>

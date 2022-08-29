@@ -1,6 +1,7 @@
 ﻿<div class="modal-header">
     <div class="popup-header">
-        Edit Job Level Setting
+        <span ng-if="editCtrl.permission === editCtrl.policy.Host">Edit Job Level Setting</span>
+        <span ng-if="editCtrl.permission !== editCtrl.policy.Host">Job Level Setting</span>
         <span class="close-popup" ng-click="editCtrl.cancel()"></span>
     </div>
 </div>
@@ -31,12 +32,14 @@
             <tr ng-repeat="setting in editCtrl.settings">
                 <td class="text-center" ng-bind="setting.Name"></td>
                 <td class="width-140 text-center">
-                    <input type="text" class="weight-form-control form-control text-center" ng-model="setting.MinWeight" name="minweight"
-                           numeric decimals="2" min="0" max="100" autocomplete="off" />
+                    <input type="text" class="weight-form-control form-control text-center" name="minweight"
+                           numeric decimals="2" min="0" max="100" autocomplete="off"
+                            ng-model="setting.MinWeight" ng-disabled="editCtrl.permission !== editCtrl.policy.Host" />
                 </td>
                 <td class="width-140 text-center">
-                    <input type="text" class="weight-form-control form-control text-center" ng-model="setting.MaxWeight" name="maxweight"
-                           numeric decimals="2" min="0" max="100" autocomplete="off" />
+                    <input type="text" class="weight-form-control form-control text-center" name="maxweight"
+                           numeric decimals="2" min="0" max="100" autocomplete="off"
+                           ng-model="setting.MaxWeight" ng-disabled="editCtrl.permission !== editCtrl.policy.Host" />
                 </td>
             </tr>
             <tr ng-show="editCtrl.settings.length === 0">
@@ -47,6 +50,7 @@
 </div>
 
 <div class="modal-footer">
-    <button class="btn btn-primary" data-translate="Submit" ng-click="editCtrl.save()" ng-if="editCtrl.settings.length > 0"></button>
+    <button class="btn btn-primary" data-translate="Submit" ng-click="editCtrl.save()"
+            ng-if="editCtrl.settings.length > 0 && editCtrl.permission === editCtrl.policy.Host"></button>
     <button class="btn btn-cancel" ng-click="editCtrl.cancel()" data-translate="Cancel"></button>
 </div>

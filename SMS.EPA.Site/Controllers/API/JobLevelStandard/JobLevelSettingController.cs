@@ -2,7 +2,11 @@
 {
     using System.Collections.Generic;
     using System.Linq;
+    using System.Threading.Tasks;
     using System.Web.Http;
+    using SMS.EPA.Core.Attribute;
+    using SMS.EPA.Core.Constants;
+    using SMS.EPA.Core.Enumerations;
     using SMS.EPA.Core.Extensions;
     using SMS.EPA.Core.Model;
     using SMS.EPA.Core.Services;
@@ -23,30 +27,40 @@
         }
 
         [HttpPost]
-        public IList<JobLevelSettingSummary> GetSettings(GetJobLevelSettingSummaryCriteria criteria)
+        [ApiAuthorize(FunctionKey = EPAFunctionKey.JobLevelSetting, Policy = Policy.Read)]
+        public async Task<IList<JobLevelSettingSummary>> GetSettings(GetJobLevelSettingSummaryCriteria criteria)
         {
-            return baseService.GetData<JobLevelSettingSummary>(criteria).ToList();
+            var settings = await baseService.GetDataAsync<JobLevelSettingSummary>(criteria);
+            return settings.ToList();
         }
 
         [HttpGet]
-        public IList<JobLevelSetting> GetBySectionId(int sectionId)
+        [ApiAuthorize(FunctionKey = EPAFunctionKey.JobLevelSetting, Policy = Policy.Read)]
+        public async Task<IList<JobLevelSetting>> GetBySectionId(int sectionId)
         {
             var criteria = new GetJobLevelSettingBySectionIdCriteria { SectionId = sectionId };
-            return baseService.GetData<JobLevelSetting>(criteria).ToList();
+            var settings = await baseService.GetDataAsync<JobLevelSetting>(criteria);
+            return settings.ToList();
         }
 
         [HttpPut]
-        public CommandResult Edit(EditJobLevelSettingCommand command)
+        [ApiAuthorize(FunctionKey = EPAFunctionKey.JobLevelSetting, Policy = Policy.Host)]
+        public async Task<CommandResult> Edit(EditJobLevelSettingCommand command)
         {
             var commandResult = new CommandResult();
             if (command != null)
             {
                 command.SettingXml = command.Settings.ToXML().ToString();
                 command.ModifiedBy = SessionService.EmployeeId;
-                commandResult = baseService.ExecuteNonQuery(command);
+                commandResult = await baseService.ExecuteNonQueryAsync(command);
             }
 
             return commandResult;
+        }
+
+        public byte GetPermission()
+        {
+            return SessionService.GetPermission(EPAFunctionKey.JobLevelSetting);
         }
     }
 }

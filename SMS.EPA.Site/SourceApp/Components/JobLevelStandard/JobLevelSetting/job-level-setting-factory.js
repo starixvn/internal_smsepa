@@ -7,10 +7,15 @@
 
     function jobLevelSettingFactory($http, baseUrl) {
         return {
+            getPermission,
             getSettings,
             getBySectionId,
             edit
         };
+
+        function getPermission() {
+            return $http.get(baseUrl + 'api/JobLevelSetting/GetPermission');
+        }
 
         function getSettings(params) {
             return $http.post(baseUrl + 'api/JobLevelSetting/GetSettings', params);

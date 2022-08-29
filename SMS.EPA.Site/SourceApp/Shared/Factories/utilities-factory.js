@@ -90,10 +90,15 @@
                 Passed: 1,
                 Extended: 2
             },
-            jobLevelStandardProcess: {
+            jobLevelAssessmentProcess: {
                 Evaluator: 1,
                 Employee: 2,
                 Management: 3
+            },
+            jobLevelAssessmentStatus: {
+                Pending: 1,
+                Verified: 2,
+                Approved: 3
             }
         };
 

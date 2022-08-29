@@ -266,7 +266,10 @@
                             "~/SourceApp/Components/JobLevelStandard/JobLevelSetting/job-level-setting-model.js",
                             "~/SourceApp/Components/JobLevelStandard/JobLevelSetting/job-level-setting-controller.js",
                             "~/SourceApp/Components/JobLevelStandard/JobLevelSetting/edit-job-level-setting-controller.js",
-                            "~/SourceApp/Components/JobLevelStandard/JobLevelSetting/copy-job-level-setting-controller.js"));
+                            "~/SourceApp/Components/JobLevelStandard/JobLevelSetting/copy-job-level-setting-controller.js",
+                            "~/SourceApp/Components/JobLevelStandard/Assessment/assessment-factory.js",
+                            "~/SourceApp/Components/JobLevelStandard/Assessment/assessment-model.js",
+                            "~/SourceApp/Components/JobLevelStandard/Assessment/assessment-controller.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/common/js").Include(
                             "~/SourceApp/Shared/Directives/epa-addClassToRoleFilter-directive.js",

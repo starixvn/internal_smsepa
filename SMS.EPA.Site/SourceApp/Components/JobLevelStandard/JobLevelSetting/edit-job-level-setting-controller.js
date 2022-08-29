@@ -4,13 +4,15 @@
     /* jshint validthis:true */
 
     angular.module('jobLevelStandardModule').controller('EditJobLevelSettingController', editJobLevelSettingController);
-    editJobLevelSettingController.$inject = ['$uibModalInstance', 'JobLevelSettingModel', 'lockScreenService', 'section'];
+    editJobLevelSettingController.$inject = ['$uibModalInstance', 'JobLevelSettingModel', 'utilitiesFactory', 'lockScreenService', 'permission', 'section'];
 
-    function editJobLevelSettingController($uibModalInstance, JobLevelSettingModel, lockScreenService, section) {
+    function editJobLevelSettingController($uibModalInstance, JobLevelSettingModel, utilitiesFactory, lockScreenService, permission, section) {
         let vm = this;
 
         vm.section = section;
         vm.settings = [];
+        vm.permission = permission;
+        vm.policy = utilitiesFactory.policy;
 
         function getSettings() {
             lockScreenService.start();

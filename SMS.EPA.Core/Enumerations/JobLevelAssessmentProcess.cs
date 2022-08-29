@@ -1,6 +1,6 @@
 ﻿namespace SMS.EPA.Core.Enumerations
 {
-    public enum JobLevelStandardProcess
+    public enum JobLevelAssessmentProcess
     {
         Evaluator = 1,
         Employee,

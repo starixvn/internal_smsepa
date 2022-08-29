@@ -239,54 +239,7 @@
             var sections = tuple.Item2.ToList();
             var teams = tuple.Item3.ToList();
 
-            IList<MultiSelectItem> items;
-            if (departments.Any())
-            {
-                items = departments.Select(dept => new MultiSelectItem
-                {
-                    Id = dept.DepartmentId,
-                    Text = dept.Name,
-                    Items = sections.Where(s => s.DepartmentId.HasValue && s.DepartmentId.Value == dept.DepartmentId).Select(s => new MultiSelectItem
-                    {
-                        Id = s.SectionId,
-                        Text = s.Name,
-                        ParentId = dept.DepartmentId,
-                        Items = teams.Where(t => t.SectionId.HasValue && t.SectionId.Value == s.SectionId).Select(t => new MultiSelectItem
-                        {
-                            Id = t.TeamId,
-                            Text = t.Name,
-                            IsLeaf = true,
-                            ParentId = s.SectionId
-                        }).ToList()
-                    }).ToList()
-                }).ToList();
-            }
-            else if (sections.Any())
-            {
-                items = sections.Select(s => new MultiSelectItem
-                {
-                    Id = s.SectionId,
-                    Text = s.Name,
-                    Items = teams.Where(t => t.SectionId.HasValue && t.SectionId.Value == s.SectionId).Select(t => new MultiSelectItem
-                    {
-                        Id = t.TeamId,
-                        Text = t.Name,
-                        IsLeaf = true,
-                        ParentId = s.SectionId
-                    }).ToList()
-                }).ToList();
-            }
-            else
-            {
-                items = teams.Select(t => new MultiSelectItem
-                {
-                    Id = t.TeamId,
-                    Text = t.Name,
-                    IsLeaf = true
-                }).ToList();
-            }
-
-            return items;
+            return GetOrgChart(departments, sections, teams);
         }
     }
 }

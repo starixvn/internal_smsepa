@@ -41,15 +41,15 @@
             resetCalendar();
 
             switch (processId) {
-                case utilitiesFactory.jobLevelStandardProcess.Evaluator:
+                case utilitiesFactory.jobLevelAssessmentProcess.Evaluator:
                     model.calendar.fromDateEvaluatorOpened = true;
                     break;
 
-                case utilitiesFactory.jobLevelStandardProcess.Employee:
+                case utilitiesFactory.jobLevelAssessmentProcess.Employee:
                     model.calendar.fromDateEmployeeOpened = true;
                     break;
 
-                case utilitiesFactory.jobLevelStandardProcess.Management:
+                case utilitiesFactory.jobLevelAssessmentProcess.Management:
                     model.calendar.fromDateManagementOpened = true;
                     break;
             }
@@ -62,15 +62,15 @@
             resetCalendar();
 
             switch (processId) {
-                case utilitiesFactory.jobLevelStandardProcess.Evaluator:
+                case utilitiesFactory.jobLevelAssessmentProcess.Evaluator:
                     model.calendar.toDateEvaluatorOpened = true;
                     break;
 
-                case utilitiesFactory.jobLevelStandardProcess.Employee:
+                case utilitiesFactory.jobLevelAssessmentProcess.Employee:
                     model.calendar.toDateEmployeeOpened = true;
                     break;
 
-                case utilitiesFactory.jobLevelStandardProcess.Management:
+                case utilitiesFactory.jobLevelAssessmentProcess.Management:
                     model.calendar.toDateManagementOpened = true;
                     break;
             }

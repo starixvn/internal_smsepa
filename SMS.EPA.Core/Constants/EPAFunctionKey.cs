@@ -71,5 +71,6 @@
         //
         public const string JobLevelSetting = "JobLevelSetting";
         public const string JobLevelStandardPeriod = "JobLevelStandardPeriod";
+        public const string JobLevelAssessment = "JobLevelAssessment";
     }
 }

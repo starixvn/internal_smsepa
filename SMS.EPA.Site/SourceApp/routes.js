@@ -182,4 +182,7 @@ angular.module('jobLevelStandardModule', ['ngRoute'])
             { templateUrl: baseUrl + 'SourceApp/Components/JobLevelStandard/Period/Templates/index.html', caseInsensitiveMatch: true });
         $routeProvider.when('/JobLevelStandard/Period/Edit/:id',
             { templateUrl: baseUrl + 'SourceApp/Components/JobLevelStandard/Period/Templates/edit.html', caseInsensitiveMatch: true });
+
+        $routeProvider.when('/JobLevelStandard/Assessment/Index',
+            { templateUrl: baseUrl + 'SourceApp/Components/JobLevelStandard/Assessment/Templates/index.html', caseInsensitiveMatch: true });
     }]);
