@@ -102,6 +102,7 @@
         }
 
         [HttpPut]
+        [ApiAuthorize(FunctionKey = EPAFunctionKey.JobLevelStandardPeriod, Policy = Policy.Host)]
         [ApiAuthorize(FunctionKey = EPAFunctionKey.JobLevelAssessment, Policy = Policy.Host)]
         public async Task<CommandResult> EditStatus(EditStatusJobLevelAssessmentCommand command)
         {

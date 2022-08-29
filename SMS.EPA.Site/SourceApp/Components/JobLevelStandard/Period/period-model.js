@@ -345,7 +345,7 @@
                     if (response.IsSuccessful) {
                         notificationFactory.success('UpdatedSuccessfully');
 
-                        vm.query(vm.filter);
+                        vm.query();
                     } else {
                         employee.IsExcluded = !params.IsExcluded;
                         notificationFactory.error('', response.Message);
@@ -362,6 +362,35 @@
                 employee.IsExcluded = !params.IsExcluded;
             })['finally'](function () {
                 modalInstance = '';
+            });
+        };
+
+        model.openPopupEditAssessmentStatus = function (vm, employee) {
+            vm.modalInstance = $uibModal.open({
+                templateUrl: 'SourceApp/Components/JobLevelStandard/Period/Templates/editAssessmentStatus.html',
+                controller: 'EditAssessmentStatusController as editAssessmentStatusCtrl',
+                backdrop: 'static',
+                resolve: {
+                    employee: function () {
+                        return employee;
+                    }
+                },
+                windowClass: 'modal-confirm-center edit-assessment-status-modal'
+            });
+
+            return vm.modalInstance.result;
+        };
+
+        model.editAssessmentStatus = function (params, modalInstance) {
+            return periodFactory.editAssessmentStatus(params).success(function (response) {
+                if (response.IsSuccessful) {
+                    notificationFactory.success('UpdatedSuccessfully');
+                    modalInstance.close();
+                } else {
+                    notificationFactory.error('', response.Message);
+                }
+            }).error(function (response, status) {
+                errorFactory.errorHandle(status);
             });
         };
 

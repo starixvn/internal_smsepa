@@ -62,8 +62,8 @@
                 }
             });
 
-        vm.query = function (filter) {
-            getEmployeeSettings(filter);
+        vm.query = function () {
+            getEmployeeSettings(vm.filter);
         };
 
         vm.getIndex = function (index, currentPage, pageSize) {
@@ -79,7 +79,10 @@
 
         vm.editAssessmentStatus = function (employee) {
             if (vm.permission === vm.policy.Host) {
-                PeriodModel.openPopupEditAssessmentStatus(vm, employee);
+                PeriodModel.openPopupEditAssessmentStatus(vm, employee).then(function () {
+                    vm.modalInstance = null;
+                    getEmployeeSettings(vm.filter);
+                });
             }
         };
 
@@ -87,6 +90,10 @@
             if (vm.permission === vm.policy.Host) {
                 PeriodModel.openPopupEditStatusEmployeeSetting(vm, vm.filter.periodId, employee);
             }
+        };
+
+        vm.onSelectTeam = function (teamIds) {
+            vm.filter.teamIds = teamIds;
         };
     }
 })(angular);

@@ -5,7 +5,7 @@
             <div class="select-form">
                 <multi-select-tree-view selected-items="employeeSettingCtrl.filter.teamIds"
                                         is-selected-all="true"
-                                        options="employeeSettingCtrl.orgChart"></multi-select-tree-view>
+                                        options="employeeSettingCtrl.orgChart" on-select="employeeSettingCtrl.onSelectTeam"></multi-select-tree-view>
             </div>
         </div>
         <!--<div class="form-group">
@@ -17,7 +17,7 @@
             </select>
         </div>-->
         <div class="form-group">
-            <label class="label-form">Status</label>
+            <label class="label-form" data-translate="Status"></label>
             <select class="form-control select-form" ng-model="employeeSettingCtrl.filter.statusId"
                     ng-options="opt.StatusId as opt.Name for opt in employeeSettingCtrl.assessmentStatusOptions">
                 <option value="">-- {{"All" | translate}} --</option>
@@ -32,7 +32,7 @@
             </div>
         </div>
         <div class="form-group btn-group">
-            <button class="btn btn-primary" ng-click="employeeSettingCtrl.query(employeeSettingCtrl.filter)" data-translate="Search"></button>
+            <button class="btn btn-primary" ng-click="employeeSettingCtrl.query()" data-translate="Search"></button>
             <button class="btn btn-primary" ng-click="employeeSettingCtrl.addEmployee()"
                     ng-if="employeeSettingCtrl.permission === employeeSettingCtrl.policy.Host">
                 Add Employee

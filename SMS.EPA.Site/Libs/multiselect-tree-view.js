@@ -45,7 +45,7 @@
         data: [],
         selectedItems: '',
         onSelect: function () { },
-        onClose: function () { }
+        onSelectAll: function () { }
     };
 
     var multiSelectTreeView = function (multiSelect, options) {
@@ -245,6 +245,10 @@
                     me.$checkboxes.prop('checked', false);
                 }
 
+                if (typeof options.onSelectAll === 'function') {
+                    options.onSelectAll.call(this);
+                }
+
                 me.updateSelectedText();
             });
             me.$checkboxes.on('change', function () {
@@ -260,7 +264,7 @@
 
                 me.updateSelectedText();
 
-                if ($this.attr('data-is-leaf') === 'true') {
+                if ($this.attr('data-is-leaf') === 'true' && typeof options.onSelect === 'function') {
                     options.onSelect.call(this);
                 }
             });
@@ -271,8 +275,6 @@
                 if (!$wrapper.is(e.target) && $wrapper.has(e.target).length === 0 && $wrapper.is(':visible') && me.$updownicon.find('span').hasClass('up')) {
                     me.$updownicon.find('span').removeClass('up').addClass('down');
                     me.$dropdownlist.addClass('hidden');
-
-                    me.options.onClose.call();
                 }
             });
         }

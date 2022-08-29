@@ -26,6 +26,10 @@
             }
         };
 
+        vm.onSelectTeam = function (teamIds) {
+            vm.teamIds = teamIds;
+        };
+
         vm.save = function () {
             const params = {
                 periodId,

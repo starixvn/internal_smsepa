@@ -10,7 +10,8 @@
             restrict: 'E',
             scope: {
                 options: '=',
-                selectedItems: '='
+                selectedItems: '=',
+                onSelect: '='
             },
             link: function (scope, iElement, iAttr) {
                 scope.$watch('options', function (options) {
@@ -19,10 +20,15 @@
                             data: options,
                             selectedItems: scope.selectedItems,
                             isSelectedAll: JSON.parse(iAttr.isSelectedAll),
-                            onClose: function () {
-                                $timeout(function () {
-                                    scope.selectedItems = $(iElement).multiSelectTreeView('getSelectedItems');
-                                });
+                            onSelect: function () {
+                                if (typeof scope.onSelect === 'function') {
+                                    scope.onSelect($(iElement).multiSelectTreeView('getSelectedItems'));
+                                }
+                            },
+                            onSelectAll: function () {
+                                if (typeof scope.onSelect === 'function') {
+                                    scope.onSelect($(iElement).multiSelectTreeView('getSelectedItems'));
+                                }
                             }
                         });
                     });

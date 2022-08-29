@@ -17,6 +17,7 @@
             getEmployeeSettings,
             addEmployeeSetting,
             editStatusEmployeeSetting,
+            editAssessmentStatus,
             getJobLevelSettings,
             getJobLevelSettingBySectionId,
             editJobLevelSetting,
@@ -61,6 +62,10 @@
 
         function editStatusEmployeeSetting(params) {
             return $http.put(baseUrl + 'api/JobLevelStandardPeriod/EditStatusEmployeeSetting', params);
+        }
+
+        function editAssessmentStatus(params) {
+            return $http.put(baseUrl + 'api/JobLevelAssessment/EditStatus', params);
         }
 
         function getJobLevelSettings(params) {
