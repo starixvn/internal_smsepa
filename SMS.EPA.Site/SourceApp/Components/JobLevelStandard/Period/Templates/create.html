@@ -30,10 +30,12 @@
                     <p class="input-group calendar-input-group">
                         <input readonly class="calendar-form-control" type="text"
                                ng-model="createPeriodCtrl.period.Settings[0].FromDate" uib-datepicker-popup
-                               ng-click="createPeriodCtrl.openFromDate($event, 1)" min-date="{{createPeriodCtrl.calendar.minDate}}"
+                               ng-click="createPeriodCtrl.openFromDate($event, createPeriodCtrl.process.Evaluator)"
+                               min-date="{{createPeriodCtrl.calendar.minDate}}"
                                is-open="createPeriodCtrl.calendar.fromDateEvaluatorOpened" />
                         <span class="input-group-btn">
-                            <button type="button" class="btn btn-default" ng-click="createPeriodCtrl.openFromDate($event, 1)">
+                            <button type="button" class="btn btn-default"
+                                    ng-click="createPeriodCtrl.openFromDate($event, createPeriodCtrl.process.Evaluator)">
                                 <i class="glyphicon glyphicon-calendar"></i>
                             </button>
                         </span>
@@ -43,10 +45,12 @@
                     <p class="input-group calendar-input-group">
                         <input readonly class="calendar-form-control" type="text"
                                ng-model="createPeriodCtrl.period.Settings[1].FromDate" uib-datepicker-popup
-                               ng-click="createPeriodCtrl.openFromDate($event, 2)" min-date="{{createPeriodCtrl.calendar.minDate}}"
+                               ng-click="createPeriodCtrl.openFromDate($event, createPeriodCtrl.process.Employee)"
+                               min-date="{{createPeriodCtrl.calendar.minDate}}"
                                is-open="createPeriodCtrl.calendar.fromDateEmployeeOpened" />
                         <span class="input-group-btn">
-                            <button type="button" class="btn btn-default" ng-click="createPeriodCtrl.openFromDate($event, 2)">
+                            <button type="button" class="btn btn-default"
+                                    ng-click="createPeriodCtrl.openFromDate($event, createPeriodCtrl.process.Employee)">
                                 <i class="glyphicon glyphicon-calendar"></i>
                             </button>
                         </span>
@@ -56,10 +60,12 @@
                     <p class="input-group calendar-input-group">
                         <input readonly class="calendar-form-control" type="text"
                                ng-model="createPeriodCtrl.period.Settings[2].FromDate" uib-datepicker-popup
-                               ng-click="createPeriodCtrl.openFromDate($event, 3)" min-date="{{createPeriodCtrl.calendar.minDate}}"
+                               ng-click="createPeriodCtrl.openFromDate($event, createPeriodCtrl.process.Management)"
+                               min-date="{{createPeriodCtrl.calendar.minDate}}"
                                is-open="createPeriodCtrl.calendar.fromDateManagementOpened" />
                         <span class="input-group-btn">
-                            <button type="button" class="btn btn-default" ng-click="createPeriodCtrl.openFromDate($event, 3)">
+                            <button type="button" class="btn btn-default"
+                                    ng-click="createPeriodCtrl.openFromDate($event, createPeriodCtrl.process.Management)">
                                 <i class="glyphicon glyphicon-calendar"></i>
                             </button>
                         </span>
@@ -72,10 +78,12 @@
                     <p class="input-group calendar-input-group">
                         <input readonly class="calendar-form-control" type="text"
                                ng-model="createPeriodCtrl.period.Settings[0].ToDate" uib-datepicker-popup
-                               ng-click="createPeriodCtrl.openToDate($event, 1)" min-date="{{createPeriodCtrl.calendar.minDate}}"
+                               ng-click="createPeriodCtrl.openToDate($event, createPeriodCtrl.process.Evaluator)"
+                               min-date="{{createPeriodCtrl.calendar.minDate}}"
                                is-open="createPeriodCtrl.calendar.toDateEvaluatorOpened" />
                         <span class="input-group-btn">
-                            <button type="button" class="btn btn-default" ng-click="createPeriodCtrl.openToDate($event, 1)">
+                            <button type="button" class="btn btn-default"
+                                    ng-click="createPeriodCtrl.openToDate($event, createPeriodCtrl.process.Evaluator)">
                                 <i class="glyphicon glyphicon-calendar"></i>
                             </button>
                         </span>
@@ -85,10 +93,12 @@
                     <p class="input-group calendar-input-group">
                         <input readonly class="calendar-form-control" type="text"
                                ng-model="createPeriodCtrl.period.Settings[1].ToDate" uib-datepicker-popup
-                               ng-click="createPeriodCtrl.openToDate($event, 2)" min-date="{{createPeriodCtrl.calendar.minDate}}"
+                               ng-click="createPeriodCtrl.openToDate($event, createPeriodCtrl.process.Employee)"
+                               min-date="{{createPeriodCtrl.calendar.minDate}}"
                                is-open="createPeriodCtrl.calendar.toDateEmployeeOpened" />
                         <span class="input-group-btn">
-                            <button type="button" class="btn btn-default" ng-click="createPeriodCtrl.openToDate($event, 2)">
+                            <button type="button" class="btn btn-default"
+                                    ng-click="createPeriodCtrl.openToDate($event, createPeriodCtrl.process.Employee)">
                                 <i class="glyphicon glyphicon-calendar"></i>
                             </button>
                         </span>
@@ -98,10 +108,12 @@
                     <p class="input-group calendar-input-group">
                         <input readonly class="calendar-form-control" type="text"
                                ng-model="createPeriodCtrl.period.Settings[2].ToDate" uib-datepicker-popup
-                               ng-click="createPeriodCtrl.openToDate($event, 3)" min-date="{{createPeriodCtrl.calendar.minDate}}"
+                               ng-click="createPeriodCtrl.openToDate($event, createPeriodCtrl.process.Management)"
+                               min-date="{{createPeriodCtrl.calendar.minDate}}"
                                is-open="createPeriodCtrl.calendar.toDateManagementOpened" />
                         <span class="input-group-btn">
-                            <button type="button" class="btn btn-default" ng-click="createPeriodCtrl.openToDate($event, 3)">
+                            <button type="button" class="btn btn-default"
+                                    ng-click="createPeriodCtrl.openToDate($event, createPeriodCtrl.process.Management)">
                                 <i class="glyphicon glyphicon-calendar"></i>
                             </button>
                         </span>

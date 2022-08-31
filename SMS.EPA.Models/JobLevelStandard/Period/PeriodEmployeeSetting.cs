@@ -7,6 +7,7 @@
     [Serializable]
     public class PeriodEmployeeSetting
     {
+        public int PeriodId { get; set; }
         public int? AssessmentId { get; set; }
         public int EmployeeId { get; set; }
         public string Code { get; set; }

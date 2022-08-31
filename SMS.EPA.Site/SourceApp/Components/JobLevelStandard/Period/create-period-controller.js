@@ -9,7 +9,8 @@
     function createPeriodController($uibModalInstance, PeriodModel, utilitiesFactory) {
         let vm = this;
 
-        vm.calendar = PeriodModel.calendar;
+        vm.calendar = angular.copy(PeriodModel.calendar);
+        vm.process = utilitiesFactory.jobLevelAssessmentProcess;
         vm.period = {
             Name: '',
             Settings: [
@@ -20,11 +21,11 @@
         };
 
         vm.openFromDate = function (event, processId) {
-            PeriodModel.openFromDate(event, processId);
+            PeriodModel.openFromDate(event, vm.calendar, processId);
         };
 
         vm.openToDate = function (event, processId) {
-            PeriodModel.openToDate(event, processId);
+            PeriodModel.openToDate(event, vm.calendar, processId);
         };
 
         vm.save = function (period) {

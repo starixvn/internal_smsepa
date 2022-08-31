@@ -593,12 +593,14 @@
     <Content Include="SourceApp\Components\JobLevelStandard\Period\Templates\copyJobLevelSetting.html" />
     <Content Include="SourceApp\Components\JobLevelStandard\Period\Templates\create.html" />
     <Content Include="SourceApp\Components\JobLevelStandard\Period\Templates\edit.html" />
+    <Content Include="SourceApp\Components\JobLevelStandard\Period\Templates\editEmployeeSetting.html" />
     <Content Include="SourceApp\Components\JobLevelStandard\Period\Templates\editJobLevelSetting.html" />
     <Content Include="SourceApp\Components\JobLevelStandard\Period\Templates\employeeSetting.html" />
     <Content Include="SourceApp\Components\JobLevelStandard\Period\Templates\jobLevelSetting.html" />
     <Content Include="SourceApp\Components\JobLevelStandard\Period\Templates\index.html" />
     <Content Include="SourceApp\Components\JobLevelStandard\Period\edit-period-controller.js" />
     <Content Include="SourceApp\Components\JobLevelStandard\Period\edit-basic-info-controller.js" />
+    <Content Include="SourceApp\Components\JobLevelStandard\Period\edit-employee-setting-controller.js" />
     <Content Include="SourceApp\Components\JobLevel\create-job-level-controller.js" />
     <Content Include="SourceApp\Components\JobLevel\job-level-controller.js" />
     <Content Include="SourceApp\Components\JobLevel\job-level-factory.js" />
@@ -869,7 +871,7 @@
     <Content Include="Content\Site\components\_form-filter.less" />
     <Content Include="Content\Site\views\_job-description.less" />
     <Content Include="ExcelTemplates\DepartmentFlowSettingTemplate.xls" />
-    <Content Include="Content\Site\views\_joblevelstandard.less" />
+    <Content Include="Content\Site\views\_joblevel-standard.less" />
     <None Include="Content\Site\components\_multiselect-treeview.less" />
     <None Include="Libs\angularjs\angular-resource.min.js.map" />
     <None Include="Libs\angularjs\angular-route.min.js.map" />

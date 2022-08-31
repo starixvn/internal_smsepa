@@ -117,9 +117,9 @@
             IList<PeriodEmployeeSetting> employees = tuple.Item1.ToList();
             foreach(var employee in employees)
             {
-                employee.Employee = tuple.Item2.FirstOrDefault(x => x.EmployeeId == employee.EmployeeId && x.ProcessId == JobLevelAssessmentProcess.Employee);
-                employee.Evaluators = tuple.Item2.Where(x => x.EmployeeId == employee.EmployeeId && x.ProcessId == JobLevelAssessmentProcess.Evaluator).ToList();
-                employee.Managements = tuple.Item2.Where(x => x.EmployeeId == employee.EmployeeId && x.ProcessId == JobLevelAssessmentProcess.Management).ToList();
+                employee.Employee = tuple.Item2.FirstOrDefault(x => x.EmployeeId == employee.EmployeeId && x.ProcessId == (byte)JobLevelAssessmentProcess.Employee);
+                employee.Evaluators = tuple.Item2.Where(x => x.EmployeeId == employee.EmployeeId && x.ProcessId == (byte)JobLevelAssessmentProcess.Evaluator).ToList();
+                employee.Managements = tuple.Item2.Where(x => x.EmployeeId == employee.EmployeeId && x.ProcessId == (byte)JobLevelAssessmentProcess.Management).ToList();
             }
 
             return employees;
@@ -135,6 +135,28 @@
                 command.ModifiedBy = SessionService.EmployeeId;
                 commandResult = await baseService.ExecuteNonQueryAsync(command);
             }
+
+            return commandResult;
+        }
+
+        [HttpPut]
+        [ApiAuthorize(FunctionKey = EPAFunctionKey.JobLevelStandardPeriod, Policy = Policy.Host)]
+        public async Task<CommandResult> EditEmployeeSetting(PeriodEmployeeSetting employeeSetting)
+        {
+            var settings = new List<PeriodProcessSetting>
+            {
+                employeeSetting.Employee
+            };
+            settings.AddRange(employeeSetting.Evaluators);
+            settings.AddRange(employeeSetting.Managements);
+
+            var command = new EditPeriodEmployeeSettingCommand
+            {
+                PeriodId = employeeSetting.PeriodId,
+                SettingXml = settings.ToXML().ToString(),
+                ModifiedBy = SessionService.EmployeeId
+            };
+            CommandResult commandResult = await baseService.ExecuteNonQueryAsync(command);
 
             return commandResult;
         }

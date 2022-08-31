@@ -106,6 +106,7 @@
     <Compile Include="JobLevelStandard\GetOrgChartByActorIdCriteria.cs" />
     <Compile Include="JobLevelStandard\JobLevelSetting\EditJobLevelSettingCommand.cs" />
     <Compile Include="JobLevelStandard\JobLevelSetting\GetJobLevelSettingBySectionIdCriteria.cs" />
+    <Compile Include="JobLevelStandard\Period\EditPeriodEmployeeSettingCommand.cs" />
     <Compile Include="JobLevelStandard\Period\AddPeriodEmployeeSettingCommand.cs" />
     <Compile Include="JobLevelStandard\Period\CreateJobLevelStandardPeriodCommand.cs" />
     <Compile Include="JobLevelStandard\Period\DeleteJobLevelStandardPeriodCommand.cs" />

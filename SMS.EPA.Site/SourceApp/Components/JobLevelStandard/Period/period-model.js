@@ -25,53 +25,53 @@
             toDateManagementOpened: false
         };
 
-        function resetCalendar() {
-            model.calendar.fromDateEvaluatorOpened = false;
-            model.calendar.toDateEvaluatorOpened = false;
-            model.calendar.fromDateEmployeeOpened = false;
-            model.calendar.toDateEmployeeOpened = false;
-            model.calendar.fromDateManagementOpened = false;
-            model.calendar.toDateManagementOpened = false;
+        function resetCalendar(calendar) {
+            calendar.fromDateEvaluatorOpened = false;
+            calendar.toDateEvaluatorOpened = false;
+            calendar.fromDateEmployeeOpened = false;
+            calendar.toDateEmployeeOpened = false;
+            calendar.fromDateManagementOpened = false;
+            calendar.toDateManagementOpened = false;
         }
 
-        model.openFromDate = function (event, processId) {
+        model.openFromDate = function (event, calendar, processId) {
             event.preventDefault();
             event.stopPropagation();
 
-            resetCalendar();
+            resetCalendar(calendar);
 
             switch (processId) {
                 case utilitiesFactory.jobLevelAssessmentProcess.Evaluator:
-                    model.calendar.fromDateEvaluatorOpened = true;
+                    calendar.fromDateEvaluatorOpened = true;
                     break;
 
                 case utilitiesFactory.jobLevelAssessmentProcess.Employee:
-                    model.calendar.fromDateEmployeeOpened = true;
+                    calendar.fromDateEmployeeOpened = true;
                     break;
 
                 case utilitiesFactory.jobLevelAssessmentProcess.Management:
-                    model.calendar.fromDateManagementOpened = true;
+                    calendar.fromDateManagementOpened = true;
                     break;
             }
         };
 
-        model.openToDate = function (event, processId) {
+        model.openToDate = function (event, calendar, processId) {
             event.preventDefault();
             event.stopPropagation();
 
-            resetCalendar();
+            resetCalendar(calendar);
 
             switch (processId) {
                 case utilitiesFactory.jobLevelAssessmentProcess.Evaluator:
-                    model.calendar.toDateEvaluatorOpened = true;
+                    calendar.toDateEvaluatorOpened = true;
                     break;
 
                 case utilitiesFactory.jobLevelAssessmentProcess.Employee:
-                    model.calendar.toDateEmployeeOpened = true;
+                    calendar.toDateEmployeeOpened = true;
                     break;
 
                 case utilitiesFactory.jobLevelAssessmentProcess.Management:
-                    model.calendar.toDateManagementOpened = true;
+                    calendar.toDateManagementOpened = true;
                     break;
             }
         };
@@ -307,6 +307,86 @@
                 if (response.IsSuccessful) {
                     notificationFactory.success('', 'Add employee successfully!');
                     modalInstance.close();
+                } else {
+                    notificationFactory.error('', response.Message);
+                }
+            }).error(function (response, status) {
+                errorFactory.errorHandle(status);
+            });
+        };
+
+        model.openPopupEditEmployeeSetting = function (vm, employee) {
+            vm.modalInstance = $uibModal.open({
+                templateUrl: 'SourceApp/Components/JobLevelStandard/Period/Templates/editEmployeeSetting.html',
+                controller: 'EditEmployeeSettingController as editEmployeeSettingCtrl',
+                backdrop: 'static',
+                resolve: {
+                    employee: function () {
+                        return angular.copy(employee);
+                    }
+                },
+                windowClass: 'modal-confirm-center edit-employee-setting-modal'
+            });
+
+            return vm.modalInstance.result;
+        };
+
+        model.validateEditEmployeeSetting = function (employeeSettings) {
+            let fromDate, toDate;
+
+            if (employeeSettings.evaluator.ids && employeeSettings.evaluator.ids.length > 0) {
+                fromDate = new Date(employeeSettings.evaluator.fromDate).setHours(0, 0, 0, 0);
+                toDate = new Date(employeeSettings.evaluator.toDate).setHours(0, 0, 0, 0);
+
+                if (fromDate > toDate) {
+                    notificationFactory.error('', 'Evaluator From Date must be less than or equal to Evaluator To Date!');
+                    return false;
+                }
+
+                fromDate = new Date(employeeSettings.evaluator.toDate).setHours(0, 0, 0, 0);
+                toDate = new Date(employeeSettings.employee.fromDate).setHours(0, 0, 0, 0);
+
+                if (fromDate >= toDate) {
+                    notificationFactory.error('', 'Evaluator To Date must be less than Employee From Date!');
+                    return false;
+                }
+            }
+
+            if (employeeSettings.employee.ids && employeeSettings.employee.ids.length > 0) {
+                fromDate = new Date(employeeSettings.employee.fromDate).setHours(0, 0, 0, 0);
+                toDate = new Date(employeeSettings.employee.toDate).setHours(0, 0, 0, 0);
+
+                if (fromDate > toDate) {
+                    notificationFactory.error('', 'Employee From Date must be less than or equal to Employee To Date!');
+                    return false;
+                }
+
+                fromDate = new Date(employeeSettings.employee.toDate).setHours(0, 0, 0, 0);
+                toDate = new Date(employeeSettings.management.fromDate).setHours(0, 0, 0, 0);
+
+                if (fromDate >= toDate) {
+                    notificationFactory.error('', 'Employee To Date must be less than Management From Date!');
+                    return false;
+                }
+            }
+
+            if (employeeSettings.management.ids && employeeSettings.management.ids.length > 0) {
+                fromDate = new Date(employeeSettings.management.fromDate).setHours(0, 0, 0, 0);
+                toDate = new Date(employeeSettings.management.toDate).setHours(0, 0, 0, 0);
+
+                if (fromDate > toDate) {
+                    notificationFactory.error('', 'Management From Date must be less than or equal to Management To Date!');
+                    return false;
+                }
+            }
+
+            return true;
+        };
+
+        model.editEmployeeSetting = function (employeeSettings) {
+            return periodFactory.editEmployeeSetting(employeeSettings).success(function (response) {
+                if (response.IsSuccessful) {
+                    notificationFactory.success('UpdatedSuccessfully');
                 } else {
                     notificationFactory.error('', response.Message);
                 }

@@ -67,17 +67,44 @@
                 margin: 0;
 
                 li.multiselect-treeview-item {
+                    position: relative;
                     padding: 0 0 0 10px;
 
                     &.is-child {
                         padding-left: 14px;
+
+                        &:before, &:after {
+                            content: '';
+                            left: 5px;
+                            position: absolute;
+                            right: auto;
+                        }
+
+                        &:before {
+                            border-left: 1px solid #999;
+                            bottom: 50px;
+                            height: 100%;
+                            top: -6px;
+                            width: 1px;
+                        }
+
+                        &:after {
+                            border-top: 1px solid #999;
+                            height: 15px;
+                            top: 11px;
+                            width: 8px;
+                        }
+
+                        &:last-child:before {
+                            height: 18px;
+                        }
                     }
                 }
             }
         }
 
         .checkbox-wrapper {
-            padding: 4px 0;
+            padding: 2px 0;
 
             input[type=checkbox] {
                 border: 0;

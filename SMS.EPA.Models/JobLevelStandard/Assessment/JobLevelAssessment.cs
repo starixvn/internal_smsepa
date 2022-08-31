@@ -42,6 +42,6 @@
         public IList<PeriodProcessSetting> Processes { get; set; } = new List<PeriodProcessSetting>();
 
         public bool IsHost { get; set; }
-        public JobLevelAssessmentProcess? CurrentProcessId { get; set; }
+        public byte? CurrentProcessId { get; set; }
     }
 }

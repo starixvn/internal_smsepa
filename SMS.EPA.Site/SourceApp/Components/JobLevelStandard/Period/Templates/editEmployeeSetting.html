@@ -1,0 +1,142 @@
+﻿<div class="modal-header">
+    <div class="popup-header">
+        <span data-translate="EditEmployeeSetting"></span>
+        <span class="close-popup" ng-click="editEmployeeSettingCtrl.cancel()"></span>
+    </div>
+</div>
+<div class="modal-body">
+    <form novalidate class="row form-horizontal form-multiLine" updated-chosen-period>
+        <div class="form-group">
+            <label class="col-sm-3 control-label" data-translate="Employee"></label>
+            <div class="col-sm-8 field">
+                <input type="text" class="form-control" ng-model="editEmployeeSettingCtrl.employee" disabled />
+            </div>
+        </div>
+    </form>
+    <table class="row table table-bordered table-striped table-edit-employee-setting">
+        <thead>
+            <tr class="headerName">
+                <th data-translate="SymbolCount"></th>
+                <th>Evaluator/Reviewer</th>
+                <th data-translate="Employee"></th>
+                <th data-translate="Management"></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td data-translate="Evaluator"></td>
+                <td>
+                    <select class="form-control" multiple chosen
+                            options="editEmployeeSettingCtrl.employeeSettings.evaluatorOptions"
+                            ng-model="editEmployeeSettingCtrl.employeeSettings.evaluator.ids"
+                            data-placeholder="-- Select --" name="evaluatorSelect"
+                            ng-options="opt.EmployeeId as opt.NickName for opt in editEmployeeSettingCtrl.employeeSettings.evaluatorOptions"
+                            on-show-dropdown="editEmployeeSettingCtrl.updateTrigger()"></select>
+                </td>
+                <td></td>
+                <td>
+                    <select class="form-control" multiple chosen
+                            options="editEmployeeSettingCtrl.employeeSettings.managementOptionss"
+                            ng-model="editEmployeeSettingCtrl.employeeSettings.management.ids"
+                            data-placeholder="-- Select --" name="managementSelect"
+                            ng-options="opt.EmployeeId as opt.NickName for opt in editEmployeeSettingCtrl.employeeSettings.managementOptions"
+                            on-show-dropdown="editEmployeeSettingCtrl.updateTrigger()"></select>
+                </td>
+            </tr>
+            <tr>
+                <td data-translate="FromDate"></td>
+                <td class="text-center">
+                    <p class="input-group calendar-input-group">
+                        <input readonly class="calendar-form-control" type="text" uib-datepicker-popup
+                               ng-model="editEmployeeSettingCtrl.employeeSettings.evaluator.fromDate"
+                               ng-click="editEmployeeSettingCtrl.openFromDate($event, editEmployeeSettingCtrl.process.Evaluator)"
+                               is-open="editEmployeeSettingCtrl.calendar.fromDateEvaluatorOpened" />
+                        <span class="input-group-btn">
+                            <button type="button" class="btn btn-default"
+                                    ng-click="editEmployeeSettingCtrl.openFromDate($event, editEmployeeSettingCtrl.process.Evaluator)">
+                                <i class="glyphicon glyphicon-calendar"></i>
+                            </button>
+                        </span>
+                    </p>
+                </td>
+                <td class="text-center">
+                    <p class="input-group calendar-input-group">
+                        <input readonly class="calendar-form-control" type="text" uib-datepicker-popup
+                               ng-model="editEmployeeSettingCtrl.employeeSettings.employee.fromDate"
+                               ng-click="editEmployeeSettingCtrl.openFromDate($event, editEmployeeSettingCtrl.process.Employee)"
+                               is-open="editEmployeeSettingCtrl.calendar.fromDateEmployeeOpened" />
+                        <span class="input-group-btn">
+                            <button type="button" class="btn btn-default"
+                                    ng-click="editEmployeeSettingCtrl.openFromDate($event, editEmployeeSettingCtrl.process.Employee)">
+                                <i class="glyphicon glyphicon-calendar"></i>
+                            </button>
+                        </span>
+                    </p>
+                </td>
+                <td class="text-center">
+                    <p class="input-group calendar-input-group">
+                        <input readonly class="calendar-form-control" type="text" uib-datepicker-popup
+                               ng-model="editEmployeeSettingCtrl.employeeSettings.management.fromDate"
+                               ng-click="editEmployeeSettingCtrl.openFromDate($event, editEmployeeSettingCtrl.process.Management)"
+                               is-open="editEmployeeSettingCtrl.calendar.fromDateManagementOpened" />
+                        <span class="input-group-btn">
+                            <button type="button" class="btn btn-default"
+                                    ng-click="editEmployeeSettingCtrl.openFromDate($event, editEmployeeSettingCtrl.process.Management)">
+                                <i class="glyphicon glyphicon-calendar"></i>
+                            </button>
+                        </span>
+                    </p>
+                </td>
+            </tr>
+            <tr>
+                <td data-translate="ToDate"></td>
+                <td class="text-center">
+                    <p class="input-group calendar-input-group">
+                        <input readonly class="calendar-form-control" type="text" uib-datepicker-popup
+                               ng-model="editEmployeeSettingCtrl.employeeSettings.evaluator.toDate"
+                               ng-click="editEmployeeSettingCtrl.openToDate($event, editEmployeeSettingCtrl.process.Evaluator)"
+                               is-open="editEmployeeSettingCtrl.calendar.toDateEvaluatorOpened" />
+                        <span class="input-group-btn">
+                            <button type="button" class="btn btn-default"
+                                    ng-click="editEmployeeSettingCtrl.openToDate($event, editEmployeeSettingCtrl.process.Evaluator)">
+                                <i class="glyphicon glyphicon-calendar"></i>
+                            </button>
+                        </span>
+                    </p>
+                </td>
+                <td class="text-center">
+                    <p class="input-group calendar-input-group">
+                        <input readonly class="calendar-form-control" type="text" uib-datepicker-popup
+                               ng-model="editEmployeeSettingCtrl.employeeSettings.employee.toDate"
+                               ng-click="editEmployeeSettingCtrl.openToDate($event, editEmployeeSettingCtrl.process.Employee)"
+                               is-open="editEmployeeSettingCtrl.calendar.toDateEmployeeOpened" />
+                        <span class="input-group-btn">
+                            <button type="button" class="btn btn-default"
+                                    ng-click="editEmployeeSettingCtrl.openToDate($event, editEmployeeSettingCtrl.process.Employee)">
+                                <i class="glyphicon glyphicon-calendar"></i>
+                            </button>
+                        </span>
+                    </p>
+                </td>
+                <td class="text-center">
+                    <p class="input-group calendar-input-group">
+                        <input readonly class="calendar-form-control" type="text" uib-datepicker-popup
+                               ng-model="editEmployeeSettingCtrl.employeeSettings.management.toDate"
+                               ng-click="editEmployeeSettingCtrl.openToDate($event, editEmployeeSettingCtrl.process.Management)"
+                               is-open="editEmployeeSettingCtrl.calendar.toDateManagementOpened" />
+                        <span class="input-group-btn">
+                            <button type="button" class="btn btn-default"
+                                    ng-click="editEmployeeSettingCtrl.openToDate($event, editEmployeeSettingCtrl.process.Management)">
+                                <i class="glyphicon glyphicon-calendar"></i>
+                            </button>
+                        </span>
+                    </p>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-primary" ng-click="editEmployeeSettingCtrl.save()" data-translate="OK"></button>
+    <button class="btn btn-cancel" ng-click="editEmployeeSettingCtrl.cancel()" data-translate="Cancel"></button>
+</div>

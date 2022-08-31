@@ -1,17 +1,25 @@
 ﻿namespace SMS.EPA.Model.JobLevelStandard
 {
     using System;
-    using SMS.EPA.Core.Enumerations;
+    using System.Xml.Serialization;
+    using SMS.EPA.Core.Extensions;
 
     [Serializable]
+    [XmlName("Row")]
     public class PeriodProcessSetting
     {
-        public JobLevelAssessmentProcess ProcessId { get; set; }
+        public byte ProcessId { get; set; }
         public int EmployeeId { get; set; }
 
         public int EvaluatorId { get; set; }
+
+        [XmlIgnore]
         public string Code { get; set; }
+
+        [XmlIgnore]
         public string Nickname { get; set; }
+
+        [XmlIgnore]
         public string FullName { get; set; }
 
         public DateTime FromDate { get; set; }

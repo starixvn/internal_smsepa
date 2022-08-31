@@ -4,20 +4,21 @@
     /* jshint validthis:true */
 
     angular.module('jobLevelStandardModule').controller('EditBasicInfoJobLevelStandardPeriodController', editBasicInfoPeriodController);
-    editBasicInfoPeriodController.$inject = ['$scope', 'JobLevelStandardPeriodModel'];
+    editBasicInfoPeriodController.$inject = ['$scope', 'JobLevelStandardPeriodModel', 'utilitiesFactory'];
 
-    function editBasicInfoPeriodController($scope, PeriodModel) {
+    function editBasicInfoPeriodController($scope, PeriodModel, utilitiesFactory) {
         let vm = this;
 
-        vm.calendar = PeriodModel.calendar;
+        vm.calendar = angular.copy(PeriodModel.calendar);
+        vm.process = utilitiesFactory.jobLevelAssessmentProcess;
         vm.period = {};
 
         vm.openFromDate = function (event, processId) {
-            PeriodModel.openFromDate(event, processId);
+            PeriodModel.openFromDate(event, vm.calendar, processId);
         };
 
         vm.openToDate = function (event, processId) {
-            PeriodModel.openToDate(event, processId);
+            PeriodModel.openToDate(event, vm.calendar, processId);
         };
 
         $scope.$watch(function () { return $scope.editCtrl.period && $scope.editCtrl.dataTab === 1; },
