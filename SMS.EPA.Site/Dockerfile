@@ -14,8 +14,8 @@ COPY SMS.EPA.Resources\*.csproj SMS.EPA.Resources\
 COPY SMS.EPA.Core\*.csproj SMS.EPA.Core\
 COPY SMS.EPA.Core\packages.config SMS.EPA.Core\
 
-COPY SMS.EPA.Model\*.csproj SMS.EPA.Model\
-COPY SMS.EPA.Model\packages.config SMS.EPA.Model\
+COPY SMS.EPA.Models\*.csproj SMS.EPA.Models\
+COPY SMS.EPA.Models\packages.config SMS.EPA.Models\
 
 COPY SMS.EPA.Criteria\*.csproj SMS.EPA.Criteria\
 COPY SMS.EPA.Criteria\packages.config SMS.EPA.Criteria\
@@ -34,7 +34,7 @@ RUN nuget.exe restore SMS.EPA.sln
 # Copy source codes
 COPY SMS.EPA.Resources\ SMS.EPA.Resources\
 COPY SMS.EPA.Core\ SMS.EPA.Core\
-COPY SMS.EPA.Model\ SMS.EPA.Model\
+COPY SMS.EPA.Models\ SMS.EPA.Models\
 COPY SMS.EPA.Criteria\ SMS.EPA.Criteria\
 COPY SMS.EPA.Repositories\ SMS.EPA.Repositories\
 COPY SMS.EPA.Services\ SMS.EPA.Services\
