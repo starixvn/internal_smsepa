@@ -49,7 +49,7 @@
             </tr>
             <tr>
                 <th data-translate="Code"></th>
-                <th data-translate="FullName"></th>
+                <th class="width-60" data-translate="FullName"></th>
                 <th data-translate="Nickname"></th>
                 <th>DOC</th>
                 <th data-translate="Department"></th>
@@ -111,7 +111,7 @@
                         <button class="btn btn-primary" data-translate="Verify"
                                 ng-click="assessmentCtrl.verify(assessment)"
                                 ng-if="assessment.IsHost && assessment.CurrentProcessId === assessmentCtrl.process.Employee && assessment.StatusId === assessmentCtrl.status.Pending"></button>
-                        <button class="btn btn-primary" data-translate="Verify"
+                        <button class="btn btn-primary" data-translate="Approve"
                                 ng-click="assessmentCtrl.approve(assessment)"
                                 ng-if="assessment.IsHost && assessment.CurrentProcessId === assessmentCtrl.process.Management && assessment.StatusId === assessmentCtrl.status.Verified"></button>
                     </div>
