@@ -209,10 +209,6 @@
       <!-- Exclude the file from analysis -->
       <SonarQubeExclude>true</SonarQubeExclude>
     </Compile>
-    <Compile Include="..\GlobalSuppressions.cs">
-      <Link>GlobalSuppressions.cs</Link>
-      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
-    </Compile>
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\BundleEntensions.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
@@ -789,6 +785,7 @@
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
+    <Content Include="WhoAmI.aspx" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\Fonts\big_noodle_titling.ttf" />
@@ -857,7 +854,7 @@
     <Content Include="Content\Site\views\_role.less" />
     <Content Include="Content\Site\views\_flowManagement.less" />
     <Content Include="Content\Site\views\_targetTemplate.less" />
-    <Content Include="Web.local.config">
+    <Content Include="WebConfigs\Web.Local.config">
       <SubType>Designer</SubType>
     </Content>
     <Content Include="Content\Site\views\_targetEmployeeSetting.less" />
@@ -987,13 +984,6 @@
     </VisualStudio>
   </ProjectExtensions>
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
-  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
-    <PropertyGroup>
-      <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
-    </PropertyGroup>
-    <Error Condition="!Exists('$(SolutionDir)\.nuget\NuGet.targets')" Text="$([System.String]::Format('$(ErrorText)', '$(SolutionDir)\.nuget\NuGet.targets'))" />
-    <Error Condition="!Exists('..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets'))" />
-  </Target>
   <Import Project="..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets" Condition="Exists('..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.28307.902
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.32106.194
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Business", "Business", "{829FE15F-60A7-40AF-B3C8-03D0760BC522}"
 EndProject
@@ -27,14 +27,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SMS.EPA.Services", "SMS.EPA
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Background", "Background", "{C21A15A7-9F35-4ED3-AD64-8C2EE5A5DD16}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{258FA7A3-340F-4DC3-8D49-EBAF62B42F02}"
-	ProjectSection(SolutionItems) = preProject
-		.nuget\NuGet.Config = .nuget\NuGet.Config
-		.nuget\NuGet.exe = .nuget\NuGet.exe
-	EndProjectSection
-EndProject
-Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "SMS.EPA.Database", "SMS.EPA.Database\SMS.EPA.Database.sqlproj", "{C955A995-C0A5-4C6F-A5B7-46F75852CD43}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SMS.EPA.ServicesAPI", "SMS.EPA.ServicesAPI\SMS.EPA.ServicesAPI.csproj", "{9DF671A1-B847-4B30-B13F-054A30F5A14D}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SMS.EPA.ClientHRM", "SMS.EPA.ClientHRM\SMS.EPA.ClientHRM.csproj", "{5091DCEC-26D9-4EA1-86CD-C776D53861FF}"
@@ -49,7 +41,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UnitTests", "UnitTests", "{
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SonarQube", "SonarQube", "{CD341181-C40C-4E09-89B3-099226E7BB9C}"
 	ProjectSection(SolutionItems) = preProject
-		GlobalSuppressions.cs = GlobalSuppressions.cs
 		SonarQube\SMS-EPACSharp.ruleset = SonarQube\SMS-EPACSharp.ruleset
 		SonarQube\SolutionBinding.sqconfig = SonarQube\SolutionBinding.sqconfig
 		SonarQube\sms-epa\CSharp\SonarLint.xml = SonarQube\sms-epa\CSharp\SonarLint.xml
@@ -93,12 +84,6 @@ Global
 		{8EB3D578-B2A0-4B11-9386-50F394DE396C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8EB3D578-B2A0-4B11-9386-50F394DE396C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8EB3D578-B2A0-4B11-9386-50F394DE396C}.Release|Any CPU.Build.0 = Release|Any CPU
-		{C955A995-C0A5-4C6F-A5B7-46F75852CD43}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{C955A995-C0A5-4C6F-A5B7-46F75852CD43}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{C955A995-C0A5-4C6F-A5B7-46F75852CD43}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
-		{C955A995-C0A5-4C6F-A5B7-46F75852CD43}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{C955A995-C0A5-4C6F-A5B7-46F75852CD43}.Release|Any CPU.Build.0 = Release|Any CPU
-		{C955A995-C0A5-4C6F-A5B7-46F75852CD43}.Release|Any CPU.Deploy.0 = Release|Any CPU
 		{9DF671A1-B847-4B30-B13F-054A30F5A14D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{9DF671A1-B847-4B30-B13F-054A30F5A14D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9DF671A1-B847-4B30-B13F-054A30F5A14D}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -135,7 +120,6 @@ Global
 		{23BD1141-64A1-4684-8A1E-83E8CC0D46AA} = {829FE15F-60A7-40AF-B3C8-03D0760BC522}
 		{235C8D9E-97EC-4183-BAF2-3783F2F816CC} = {829FE15F-60A7-40AF-B3C8-03D0760BC522}
 		{8EB3D578-B2A0-4B11-9386-50F394DE396C} = {829FE15F-60A7-40AF-B3C8-03D0760BC522}
-		{C955A995-C0A5-4C6F-A5B7-46F75852CD43} = {72A0208A-0F61-4791-A99B-7D5961BA39C6}
 		{9DF671A1-B847-4B30-B13F-054A30F5A14D} = {32FD6659-4EE4-4B2B-856F-06DE6B88E466}
 		{5091DCEC-26D9-4EA1-86CD-C776D53861FF} = {32FD6659-4EE4-4B2B-856F-06DE6B88E466}
 		{1330E9CD-9665-47F0-87DC-12B0D50D715D} = {14B58E2B-4A04-421B-ADE5-3E222C3B8706}
@@ -144,7 +128,7 @@ Global
 		{3072A671-2F7E-43F5-8FF3-FB1C14FE76C5} = {C21A15A7-9F35-4ED3-AD64-8C2EE5A5DD16}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		EnterpriseLibraryConfigurationToolBinariesPathV6 = packages\EnterpriseLibrary.Common.6.0.1304.0\lib\NET45;packages\EnterpriseLibrary.Logging.6.0.1304.0\lib\NET45
 		SolutionGuid = {97007D09-2FF5-4296-91B4-D3F93E463D5C}
+		EnterpriseLibraryConfigurationToolBinariesPathV6 = packages\EnterpriseLibrary.Common.6.0.1304.0\lib\NET45;packages\EnterpriseLibrary.Logging.6.0.1304.0\lib\NET45
 	EndGlobalSection
 EndGlobal

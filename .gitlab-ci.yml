@@ -1,0 +1,4 @@
+include:
+    - project: "ci/repos-ci/nexus_epa_sms_website"
+      ref: master
+      file: "gitlab-ci.yml"

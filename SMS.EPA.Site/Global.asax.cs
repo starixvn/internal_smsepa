@@ -46,11 +46,18 @@
         protected void Application_Error(object sender, EventArgs e)
         {
             Exception ex = Server.GetLastError().GetBaseException();
-            string message = ex.Message +
-                         Environment.NewLine + Lang.Source + ex.Source +
-                        Environment.NewLine + Lang.Domain + HttpContext.Current.Request.Headers["Host"] +
-                        Environment.NewLine + Lang.TargetSite + ex.TargetSite +
-                        Environment.NewLine + Lang.StackTrace + ex.StackTrace;
+            var message = string.Format(
+                "{0}{1}{2}{3}{1}{4}{5}{1}{6}{7}{1}{8}{9}",
+                ex.Message,
+                Environment.NewLine,
+                Lang.Source,
+                ex.Source,
+                Lang.Domain,
+                HttpContext.Current.Request.Headers["Host"],
+                Lang.TargetSite,
+                ex.TargetSite,
+                Lang.StackTrace,
+                ex.StackTrace);
 
             logger.Error(message);
         }
