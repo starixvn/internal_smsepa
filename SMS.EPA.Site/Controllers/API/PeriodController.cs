@@ -135,6 +135,7 @@
         }
 
         [ApiAuthorize(FunctionKey = EPAFunctionKey.Period, Policy = Policy.Read)]
+#pragma warning disable S107 // Methods should not have too many parameters
         public IEnumerable<PeriodEmployeeSettingModel> GetPeriodEmployeeSettingById(
             int periodId,
             int? departmentId = null,
@@ -144,6 +145,7 @@
             int? isEvaluated = null,
             bool? hasMonthlyEPA = null,
             int? epaStatus = null)
+#pragma warning restore S107 // Methods should not have too many parameters
         {
             var criteria = new GetPeriodEmployeeSettingCriteria
             {

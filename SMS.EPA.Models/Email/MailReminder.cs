@@ -63,33 +63,23 @@
             switch (_processId)
             {
                 case (byte)ProcessType.HumanResource:
-                    subject = mailMode == MailMode.Start
-                        ? Lang.StartDateEmailToHRSubject
-                        : Lang.RemindDateEmailToHRSubject;
+                    subject = GetSubject(mailMode, Lang.StartDateEmailToHRSubject, Lang.RemindDateEmailToHRSubject);
                     break;
 
                 case (byte)ProcessType.Self:
-                    subject = mailMode == MailMode.Start
-                        ? Lang.StartDateEmailToSelfSubject
-                        : Lang.RemindDateEmailToSelfSubject;
+                    subject = GetSubject(mailMode, Lang.StartDateEmailToSelfSubject, Lang.RemindDateEmailToSelfSubject);
                     break;
 
                 case (byte)ProcessType.Evaluator:
-                    subject = mailMode == MailMode.Start
-                        ? Lang.StartDateEmailToEvaluatorSubject
-                        : Lang.RemindDateEmailToEvaluatorSubject;
+                    subject = GetSubject(mailMode, Lang.StartDateEmailToEvaluatorSubject, Lang.RemindDateEmailToEvaluatorSubject);
                     break;
 
                 case (byte)ProcessType.Reviewer:
-                    subject = mailMode == MailMode.Start
-                        ? Lang.StartDateEmailToReviewerSubject
-                        : Lang.RemindDateEmailToReviewerSubject;
+                    subject = GetSubject(mailMode, Lang.StartDateEmailToReviewerSubject, Lang.RemindDateEmailToReviewerSubject);
                     break;
 
                 case (byte)ProcessType.Management:
-                    subject = mailMode == MailMode.Start
-                        ? Lang.StartDateEmailToManagementSubject
-                        : Lang.RemindDateEmailToManagementSubject;
+                    subject = GetSubject(mailMode, Lang.StartDateEmailToManagementSubject, Lang.RemindDateEmailToManagementSubject);
                     break;
 
                 default:
@@ -99,5 +89,7 @@
 
             return string.Format(subject, period, _fromDate, _toDate);
         }
+
+        private static string GetSubject(MailMode mailMode, string start, string remind) => mailMode == MailMode.Start ? start : remind;
     }
 }

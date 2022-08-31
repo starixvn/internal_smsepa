@@ -52,7 +52,10 @@
         {
         }
 
+#pragma warning disable S1541 // Methods and properties should not be too complex
+#pragma warning disable S107 // Methods should not have too many parameters
         public ExportReportController(
+#pragma warning restore S1541 // Methods and properties should not be too complex
             IReportService reportService,
             IEPADetailReportService epaDetailReportService,
             IEPADetailReportService monthlyEPADetailReportService,
@@ -65,6 +68,7 @@
             IPersonalFlowService personalFlowService,
             ISessionService sessionService,
             IDepartmentFlowService departmentFlowService)
+#pragma warning restore S107 // Methods should not have too many parameters
         {
             _reportService = reportService ?? new ReportService();
             _epaDetailReportService = epaDetailReportService ?? new EPADetailReportService();

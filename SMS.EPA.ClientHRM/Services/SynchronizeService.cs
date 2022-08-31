@@ -21,6 +21,7 @@
 
         private TokenAccess _token = new TokenAccess();
 
+#pragma warning disable S107 // Methods should not have too many parameters
         public SynchronizeService(
             ITokenService tokenService,
             IDepartmentService departmentService,
@@ -31,6 +32,7 @@
             IDisciplineSummaryService disciplineSummaryService,
             IPhotoService photoService,
             IJobLevelService jobLevelService)
+#pragma warning restore S107 // Methods should not have too many parameters
         {
             _tokenService = tokenService;
             _departmentService = departmentService;

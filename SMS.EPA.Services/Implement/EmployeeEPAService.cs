@@ -83,7 +83,9 @@
             return epaInfo;
         }
 
+#pragma warning disable S1541 // Methods and properties should not be too complex
         public void RemoveSensitiveDataOnEmployeeRole(EPAModel epaInfo, ISessionService sessionService)
+#pragma warning restore S1541 // Methods and properties should not be too complex
         {
             var currentEmployeeId = sessionService.CurrentUser.EmployeeId;
             var roles = sessionService.CurrentUser.Roles.Select(x => x.RoleId).ToList();
@@ -187,7 +189,9 @@
             return extendedQuestion;
         }
 
+#pragma warning disable S1541 // Methods and properties should not be too complex
         public string ConvertScoreToGrade(
+#pragma warning restore S1541 // Methods and properties should not be too complex
             float? performanceScore,
             float disciplineScore,
             bool hasDisciplineScore,

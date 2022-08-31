@@ -301,7 +301,9 @@
             return cell;
         }
 
+#pragma warning disable S1541 // Methods and properties should not be too complex
         private static void CloneCell(ICell newCell, ICell sourceCell)
+#pragma warning restore S1541 // Methods and properties should not be too complex
         {
             if (sourceCell != null)
             {

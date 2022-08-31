@@ -65,34 +65,22 @@
             {
                 EmployeeId = employeeId
             };
-            var result = new DashboardModel();
 
-            if (criteria.IsValid())
-            {
-                result = employeeEPARepository.GetDashboard(criteria);
-                result.MonthlyEpaInfos = result.MyEpaInfos.Where(x => x.Period.TargetTypeId == (int)TargetType.Monthly);
-                result.MyEpaInfos = result.MyEpaInfos.Where(x => x.Period.TargetTypeId != (int)TargetType.Monthly);
-            }
+            DashboardModel result = employeeEPARepository.GetDashboard(criteria);
+            result.MonthlyEpaInfos = result.MyEpaInfos.Where(x => x.Period.TargetTypeId == (int)TargetType.Monthly);
+            result.MyEpaInfos = result.MyEpaInfos.Where(x => x.Period.TargetTypeId != (int)TargetType.Monthly);
 
             return result;
         }
 
         public IEnumerable<EmployeeViewModel> GetEmployeeByActorId(GetEmployeeByActorIdCriteria criteria)
         {
-            IEnumerable<EmployeeViewModel> employees = new List<EmployeeViewModel>();
-
-            if (criteria != null && criteria.IsValid())
-            {
-                employees = baseService.GetData<EmployeeViewModel>(criteria);
-            }
-
-            return employees;
+            return baseService.GetData<EmployeeViewModel>(criteria);
         }
 
         public PeriodModel GetEPADetailPeriodForExportedFileName(string periodId)
         {
             int id;
-
             if (!string.IsNullOrEmpty(periodId) && int.TryParse(periodId, out id))
             {
                 var criteria = new GetPeriodByIdCriteria
@@ -108,28 +96,20 @@
 
         public EPADetailModel GetEPADetailReport(GetEPADetailCriteria criteria)
         {
-            var result = new EPADetailModel();
-
-            if (criteria != null && criteria.IsValid())
+            EPADetailModel result = reportRepository.GetEPADetail(criteria);
+            foreach (EPAModel epaInfo in result.EpaInfos)
             {
-                result = reportRepository.GetEPADetail(criteria);
+                employeeEPAService.RemoveSensitiveDataOnEmployeeRole(epaInfo, sessionService);
+            }
 
+            string epaIds = string.Join(",", result.EpaInfos.Where(x => x.IsSemiHasMonthly && x.EPAId > 0).Select(x => x.EPAId));
+            if (!string.IsNullOrEmpty(epaIds))
+            {
+                IList<EPAModel> monthlyEPAs = employeeEPAService.GetMonthlyEPAOfSemi(epaIds);
                 foreach (EPAModel epaInfo in result.EpaInfos)
                 {
-                    employeeEPAService.RemoveSensitiveDataOnEmployeeRole(epaInfo, sessionService);
-                }
-
-                string epaIds = string.Join(",", result.EpaInfos.Where(x => x.IsSemiHasMonthly && x.EPAId > 0).Select(x => x.EPAId));
-
-                if (!string.IsNullOrEmpty(epaIds))
-                {
-                    IList<EPAModel> monthlyEPAs = employeeEPAService.GetMonthlyEPAOfSemi(epaIds);
-
-                    foreach (EPAModel epaInfo in result.EpaInfos)
-                    {
-                        employeeEPAService.GroupMonthlyEPABySemi(epaInfo, monthlyEPAs);
-                        employeeEPAService.ConvertAverageMonthlyScore(epaInfo.MonthlyEPA, epaInfo.ScoreRatingType);
-                    }
+                    employeeEPAService.GroupMonthlyEPABySemi(epaInfo, monthlyEPAs);
+                    employeeEPAService.ConvertAverageMonthlyScore(epaInfo.MonthlyEPA, epaInfo.ScoreRatingType);
                 }
             }
 
@@ -138,15 +118,8 @@
 
         public EPASummaryModel GetEPASummaryReport(GetEPASummaryCriteria criteria)
         {
-            var result = new EPASummaryModel();
             IEnumerable<StandardGradeModel> standardGrades = baseService.GetData<StandardGradeModel>(new GetStandardGradeCriteria());
-
-            if (criteria == null || !criteria.IsValid())
-            {
-                return result;
-            }
-
-            result = reportRepository.GetEPASummary(criteria);
+            EPASummaryModel result = reportRepository.GetEPASummary(criteria);
 
             var epaIds = new StringBuilder();
             foreach (EPASummaryEmployeeModel epaInfo in result.EPAInfos)
@@ -155,7 +128,6 @@
             }
 
             IList<EPAModel> monthlyEPAs = epaIds.Length > 0 ? employeeEPAService.GetMonthlyEPAOfSemi(epaIds.ToString()) : new List<EPAModel>();
-
             foreach (EPASummaryEmployeeModel epaInfo in result.EPAInfos)
             {
                 foreach (EPASummaryPeriodModel epaInfoPeriod in epaInfo.Periods)
@@ -187,16 +159,10 @@
 
         public EPADetailModel GetMonthlyEPADetailReport(GetMonthlyEPADetailCriteria criteria)
         {
-            var result = new EPADetailModel();
-
-            if (criteria != null && criteria.IsValid())
+            EPADetailModel result = reportRepository.GetMonthlyEPADetail(criteria);
+            foreach (EPAModel epaInfo in result.EpaInfos)
             {
-                result = reportRepository.GetMonthlyEPADetail(criteria);
-
-                foreach (EPAModel epaInfo in result.EpaInfos)
-                {
-                    employeeEPAService.RemoveSensitiveDataOnEmployeeRole(epaInfo, sessionService);
-                }
+                employeeEPAService.RemoveSensitiveDataOnEmployeeRole(epaInfo, sessionService);
             }
 
             return result;
@@ -204,14 +170,7 @@
 
         public EPASummaryModel GetMonthlyEPASummaryReport(GetMonthlyEPASummaryCriteria criteria)
         {
-            var result = new EPASummaryModel();
-
-            if (criteria != null && criteria.IsValid())
-            {
-                result = reportRepository.GetMonthlyEPASummary(criteria);
-            }
-
-            return result;
+            return reportRepository.GetMonthlyEPASummary(criteria);
         }
 
         private static void CreateBodyStyles(
@@ -242,6 +201,7 @@
             bodyStyle4.FillBackgroundColor = HSSFColor.LightCornflowerBlue.Index;
         }
 
+#pragma warning disable S107 // Methods should not have too many parameters
         private static ISheet CreateCommonCells(
             ISheet sheet,
             int rowIndex,
@@ -253,6 +213,7 @@
             out ICellStyle bodyStyle,
             out IRow row,
             out ICell cellBody)
+#pragma warning restore S107 // Methods should not have too many parameters
         {
             bodyStyle = rowIndex % 2 == 0 ? bodyStyle2 : bodyStyle1;
             row = sheet.CreateRow(rowIndex);

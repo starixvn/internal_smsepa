@@ -33,5 +33,7 @@
         public decimal ApproverSubtractScore { get; set; }
 
         public DateTime? ModifiedDate { get; set; }
+
+        protected static decimal GetScore(decimal score) => score > 0 ? -score : 0;
     }
 }
