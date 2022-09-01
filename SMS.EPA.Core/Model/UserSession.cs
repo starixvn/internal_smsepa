@@ -1,15 +1,11 @@
 ﻿namespace SMS.EPA.Core.Model
 {
+    using System;
     using System.Collections.Generic;
 
+    [Serializable]
     public class UserSession
     {
-        public UserSession()
-        {
-            Roles = new List<SystemRoleModel>();
-            Functions = new List<FunctionModel>();
-        }
-
         public int EmployeeId { get; set; }
 
         public string NickName { get; set; }
@@ -20,8 +16,8 @@
 
         public bool IsSpecialUser { get; set; }
 
-        public IEnumerable<SystemRoleModel> Roles { get; set; }
+        public IEnumerable<SystemRoleModel> Roles { get; set; } = new List<SystemRoleModel>();
 
-        public IEnumerable<FunctionModel> Functions { get; set; }
+        public IEnumerable<FunctionModel> Functions { get; set; } = new List<FunctionModel>();
     }
 }

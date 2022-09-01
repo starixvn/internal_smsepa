@@ -1,5 +1,8 @@
 ﻿namespace SMS.EPA.Core.Model
 {
+    using System;
+
+    [Serializable]
     public class FunctionModel
     {
         public int FunctionId { get; set; }
