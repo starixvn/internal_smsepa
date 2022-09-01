@@ -203,6 +203,7 @@
     <Compile Include="Controllers\API\JobDescriptionController.cs" />
     <Compile Include="Controllers\API\JobLevelController.cs" />
     <Compile Include="Controllers\API\JobLevelStandard\JobLevelAssessmentController.cs" />
+    <Compile Include="Controllers\API\JobLevelStandard\JobLevelAssessmentReportController.cs" />
     <Compile Include="Controllers\API\JobLevelStandard\JobLevelSettingController.cs" />
     <Compile Include="Controllers\API\JobLevelStandard\JobLevelStandardPeriodController.cs" />
     <Compile Include="Controllers\Export\ExportCommentReportController.cs" />
@@ -601,6 +602,10 @@
     <Content Include="SourceApp\Components\JobLevelStandard\Period\edit-period-controller.js" />
     <Content Include="SourceApp\Components\JobLevelStandard\Period\edit-basic-info-controller.js" />
     <Content Include="SourceApp\Components\JobLevelStandard\Period\edit-employee-setting-controller.js" />
+    <Content Include="SourceApp\Components\JobLevelStandard\Report\assessment-report-controller.js" />
+    <Content Include="SourceApp\Components\JobLevelStandard\Report\assessment-report-factory.js" />
+    <Content Include="SourceApp\Components\JobLevelStandard\Report\assessment-report-model.js" />
+    <Content Include="SourceApp\Components\JobLevelStandard\Report\Templates\index.html" />
     <Content Include="SourceApp\Components\JobLevel\create-job-level-controller.js" />
     <Content Include="SourceApp\Components\JobLevel\job-level-controller.js" />
     <Content Include="SourceApp\Components\JobLevel\job-level-factory.js" />

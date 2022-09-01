@@ -40,6 +40,7 @@
         }
 
         [HttpPost]
+        [ApiAuthorize(FunctionKey = EPAFunctionKey.JobLevelAssessment, Policy = Policy.Read)]
         public object GetAssessments(GetJobLevelAssessmentByActorIdCriteria criteria)
         {
             var today = DateTime.Today;

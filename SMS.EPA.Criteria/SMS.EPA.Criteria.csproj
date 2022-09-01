@@ -103,7 +103,7 @@
     <Compile Include="JobLevelStandard\Assessment\GetJobLevelAssessmentByActorIdCriteria.cs" />
     <Compile Include="JobLevelStandard\Assessment\GetKPIByPeriodIdCriteria.cs" />
     <Compile Include="JobLevelStandard\Assessment\GetPeriodByActorCriteria.cs" />
-    <Compile Include="JobLevelStandard\GetOrgChartByActorIdCriteria.cs" />
+    <Compile Include="JobLevelStandard\Assessment\GetOrgChartByActorIdCriteria.cs" />
     <Compile Include="JobLevelStandard\JobLevelSetting\EditJobLevelSettingCommand.cs" />
     <Compile Include="JobLevelStandard\JobLevelSetting\GetJobLevelSettingBySectionIdCriteria.cs" />
     <Compile Include="JobLevelStandard\Period\EditPeriodEmployeeSettingCommand.cs" />
@@ -122,6 +122,9 @@
     <Compile Include="JobLevelStandard\Period\GetJobLevelStandardPeriodByIdCriteria.cs" />
     <Compile Include="JobLevelStandard\Period\GetJobLevelStandardPeriodCriteria.cs" />
     <Compile Include="JobLevelStandard\JobLevelSetting\GetJobLevelSettingSummaryCriteria.cs" />
+    <Compile Include="JobLevelStandard\Report\GetJobLevelAssessmentReportCriteria.cs" />
+    <Compile Include="JobLevelStandard\Report\GetOrgChartByActorIdCriteria.cs" />
+    <Compile Include="JobLevelStandard\Report\GetPeriodCriteria.cs" />
     <Compile Include="JobLevel\CreateJobLevelCriteria.cs" />
     <Compile Include="JobLevel\DeleteJobLevelCriteria.cs" />
     <Compile Include="JobLevel\EditJobLevelCriteria.cs" />

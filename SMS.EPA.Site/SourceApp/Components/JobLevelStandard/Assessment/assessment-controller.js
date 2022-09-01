@@ -102,6 +102,10 @@
             }
         };
 
+        vm.onSelectTeam = function (teamIds) {
+            vm.filter.teamIds = teamIds;
+        };
+
         function initialize() {
             AssessmentModel.getPeriods().then(function () {
                 vm.periods = AssessmentModel.periods;

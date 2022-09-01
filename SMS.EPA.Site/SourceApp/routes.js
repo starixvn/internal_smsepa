@@ -185,4 +185,7 @@ angular.module('jobLevelStandardModule', ['ngRoute'])
 
         $routeProvider.when('/JobLevelStandard/Assessment/Index',
             { templateUrl: baseUrl + 'SourceApp/Components/JobLevelStandard/Assessment/Templates/index.html', caseInsensitiveMatch: true });
+
+        $routeProvider.when('/JobLevelStandard/AssessmentReport/Index',
+            { templateUrl: baseUrl + 'SourceApp/Components/JobLevelStandard/Report/Templates/index.html', caseInsensitiveMatch: true });
     }]);

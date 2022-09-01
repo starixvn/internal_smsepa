@@ -8,7 +8,6 @@
     function assessmentModel(assessmentFactory, errorFactory, notificationFactory) {
         let model = {};
 
-        model.permission = 0;
         model.periods = [];
         model.orgChart = [];
         model.kpis = [];
