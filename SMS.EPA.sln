@@ -41,6 +41,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UnitTests", "UnitTests", "{
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SonarQube", "SonarQube", "{CD341181-C40C-4E09-89B3-099226E7BB9C}"
 	ProjectSection(SolutionItems) = preProject
+		SonarQube\sms-epa_js_settings.json = SonarQube\sms-epa_js_settings.json
+		SonarQube\sms-epa_ts_settings.json = SonarQube\sms-epa_ts_settings.json
 		SonarQube\SMS-EPACSharp.ruleset = SonarQube\SMS-EPACSharp.ruleset
 		SonarQube\SolutionBinding.sqconfig = SonarQube\SolutionBinding.sqconfig
 		SonarQube\sms-epa\CSharp\SonarLint.xml = SonarQube\sms-epa\CSharp\SonarLint.xml
@@ -128,7 +130,7 @@ Global
 		{3072A671-2F7E-43F5-8FF3-FB1C14FE76C5} = {C21A15A7-9F35-4ED3-AD64-8C2EE5A5DD16}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {97007D09-2FF5-4296-91B4-D3F93E463D5C}
 		EnterpriseLibraryConfigurationToolBinariesPathV6 = packages\EnterpriseLibrary.Common.6.0.1304.0\lib\NET45;packages\EnterpriseLibrary.Logging.6.0.1304.0\lib\NET45
+		SolutionGuid = {97007D09-2FF5-4296-91B4-D3F93E463D5C}
 	EndGlobalSection
 EndGlobal
