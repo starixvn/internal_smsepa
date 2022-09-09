@@ -262,7 +262,7 @@
                 notificationFactory.error('TitleRequire');
                 isValid = false;
             } else if (currentChoseKPIGroups.length === 0) {
-                notificationFactory.error('GroupRequire');
+                notificationFactory.error('GroupRequired');
                 isValid = false;
             }
 

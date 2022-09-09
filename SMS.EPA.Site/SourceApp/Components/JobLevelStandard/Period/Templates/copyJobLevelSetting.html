@@ -4,8 +4,8 @@
         <span class="close-popup" ng-click="copyJobLevelCtrl.cancel()"></span>
     </div>
 </div>
-<div class="modal-body copy-setting-modal-body">
-    <form class="form-horizontal col-sm-11" role="form">
+<div class="modal-body">
+    <form class="form-horizontal" role="form">
         <div class="form-group">
             <label class="col-sm-3 control-label" data-translate="Department"></label>
             <div class="col-sm-8 field">
@@ -19,13 +19,12 @@
             </div>
         </div>
         <div class="form-group required">
-            <label class="col-sm-3 control-label">Copy From</label>
+            <label class="col-sm-3 control-label">To</label>
             <div class="col-sm-8 field">
-                <select ng-model="copyJobLevelCtrl.fromSection"
-                        ng-options="item.Name group by item.Department for item in copyJobLevelCtrl.sectionHasSettings track by item.SectionId"
-                        required class="form-control">
-                    <option value="" hidden disabled>-- {{"Select" | translate}} --</option>
-                </select>
+                <multi-select-tree-view selected-items="copyJobLevelCtrl.selectSectionIds"
+                                        is-selected-all="false"
+                                        options="copyJobLevelCtrl.sections"
+                                        on-select="copyJobLevelCtrl.onSelectSection"></multi-select-tree-view>
             </div>
         </div>
     </form>

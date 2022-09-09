@@ -120,13 +120,13 @@
                     notificationFactory.error('NameRequired');
                     isValid = false;
                 } else if (!period.Settings[0].FromDate) {
-                    notificationFactory.error('', 'Evaluator From Date is required!');
+                    notificationFactory.error('', 'Evaluator / Reviewer From Date is required!');
                     isValid = false;
                 } else if (!period.Settings[0].ToDate) {
-                    notificationFactory.error('', 'Evaluator To Date is required!');
+                    notificationFactory.error('', 'Evaluator / Reviewer To Date is required!');
                     isValid = false;
                 } else if (new Date(period.Settings[0].FromDate).setHours(0, 0, 0, 0) > new Date(period.Settings[0].ToDate).setHours(0, 0, 0, 0)) {
-                    notificationFactory.error('', 'Evaluator From Date must be less than or equal to Evaluator To Date!');
+                    notificationFactory.error('', 'Evaluator / Reviewer From Date must be less than or equal to Evaluator / Reviewer To Date!');
                     isValid = false;
                 } else if (!period.Settings[1].FromDate) {
                     notificationFactory.error('', 'Employee From Date is required!');
@@ -138,7 +138,7 @@
                     notificationFactory.error('', 'Employee From Date must be less than or equal to Employee To Date!');
                     isValid = false;
                 } else if (new Date(period.Settings[0].ToDate).setHours(0, 0, 0, 0) >= new Date(period.Settings[1].FromDate).setHours(0, 0, 0, 0)) {
-                    notificationFactory.error('', 'Evaluator To Date must be less than Employee From Date!');
+                    notificationFactory.error('', 'Evaluator / Reviewer To Date must be less than Employee From Date!');
                     isValid = false;
                 } else if (!period.Settings[2].FromDate) {
                     notificationFactory.error('', 'Management From Date is required!');
@@ -445,35 +445,6 @@
             });
         };
 
-        model.openPopupEditAssessmentStatus = function (vm, employee) {
-            vm.modalInstance = $uibModal.open({
-                templateUrl: 'SourceApp/Components/JobLevelStandard/Period/Templates/editAssessmentStatus.html',
-                controller: 'EditAssessmentStatusController as editAssessmentStatusCtrl',
-                backdrop: 'static',
-                resolve: {
-                    employee: function () {
-                        return employee;
-                    }
-                },
-                windowClass: 'modal-confirm-center edit-assessment-status-modal'
-            });
-
-            return vm.modalInstance.result;
-        };
-
-        model.editAssessmentStatus = function (params, modalInstance) {
-            return periodFactory.editAssessmentStatus(params).success(function (response) {
-                if (response.IsSuccessful) {
-                    notificationFactory.success('UpdatedSuccessfully');
-                    modalInstance.close();
-                } else {
-                    notificationFactory.error('', response.Message);
-                }
-            }).error(function (response, status) {
-                errorFactory.errorHandle(status);
-            });
-        };
-
         model.getJobLevelSettings = function (params) {
             return periodFactory.getJobLevelSettings(params).success(function (settings) {
                 model.jobLevelSettings = settings;
@@ -525,7 +496,7 @@
             });
         };
 
-        model.openPopupCopyJobLevelSetting = function (vm, selectedSection, sectionHasSettings) {
+        model.openPopupCopyJobLevelSetting = function (vm, selectedSection, sections) {
             vm.modalInstance = $uibModal.open({
                 templateUrl: 'SourceApp/Components/JobLevelStandard/Period/Templates/copyJobLevelSetting.html',
                 controller: 'CopyPeriodJobLevelSettingController as copyJobLevelCtrl',
@@ -537,8 +508,8 @@
                     selectedSection: function () {
                         return selectedSection;
                     },
-                    sectionHasSettings: function () {
-                        return sectionHasSettings;
+                    sections: function () {
+                        return sections;
                     }
                 },
                 windowClass: 'modal-confirm-center modal-copy-job-level-setting'

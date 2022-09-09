@@ -49,8 +49,8 @@
         };
 
         vm.copy = function (section) {
-            let sectionHasSettings = vm.sections.filter(x => x.SectionId !== section.SectionId && x.HasSetting);
-            JobLevelSettingModel.openPopupCopyJobLevelSetting(vm, section, sectionHasSettings).then(function (isSuccessful) {
+            const sections = vm.sections.filter(x => x.SectionId !== section.SectionId);
+            JobLevelSettingModel.openPopupCopyJobLevelSetting(vm, section, sections).then(function (isSuccessful) {
                 if (isSuccessful) {
                     getSettings(vm.filter);
                 }

@@ -68,7 +68,7 @@
             });
         };
 
-        model.openPopupCopyJobLevelSetting = function (vm, selectedSection, sectionHasSettings) {
+        model.openPopupCopyJobLevelSetting = function (vm, selectedSection, sections) {
             vm.modalInstance = $uibModal.open({
                 templateUrl: 'SourceApp/Components/JobLevelStandard/JobLevelSetting/Templates/copy.html',
                 controller: 'CopyJobLevelSettingController as copyCtrl',
@@ -77,8 +77,8 @@
                     selectedSection: function () {
                         return selectedSection;
                     },
-                    sectionHasSettings: function () {
-                        return sectionHasSettings;
+                    sections: function () {
+                        return sections;
                     }
                 },
                 windowClass: 'modal-confirm-center modal-copy-job-level-setting'

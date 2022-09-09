@@ -466,7 +466,7 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The Code field is required!.
+        ///   Looks up a localized string similar to Code is required..
         /// </summary>
         public static string CodeRequried {
             get {
@@ -502,7 +502,7 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The Comment field is required!.
+        ///   Looks up a localized string similar to Comment is required..
         /// </summary>
         public static string CommentRequire {
             get {
@@ -1042,7 +1042,7 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The Employee field is required!.
+        ///   Looks up a localized string similar to Employee is required..
         /// </summary>
         public static string EmployeeRequired {
             get {
@@ -1087,7 +1087,7 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The End Date field is required for Semi-annual!.
+        ///   Looks up a localized string similar to End Date is required for Semi-annual..
         /// </summary>
         public static string EndDatePeriodRequired {
             get {
@@ -1393,7 +1393,7 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The End Date of Evaluator must be less than the Start Date of Management!.
+        ///   Looks up a localized string similar to End Date of Evaluator must be less than Start Date of Management..
         /// </summary>
         public static string EvaluatorRangeDateGreaterThanManagementRangeDateWarning {
             get {
@@ -1402,7 +1402,7 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The End Date of Evaluator must be less than the Start Date of Reviewer!.
+        ///   Looks up a localized string similar to End Date of Evaluator must be less than Start Date of Reviewer..
         /// </summary>
         public static string EvaluatorRangeDateGreaterThanReviewerRangeDateWarning {
             get {
@@ -1555,7 +1555,7 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to From Date must be less than or equal To Date!.
+        ///   Looks up a localized string similar to From Date must be less than or equal To Date..
         /// </summary>
         public static string FromDateGreaterThanToDateWarning {
             get {
@@ -1564,7 +1564,7 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The From Date is required!.
+        ///   Looks up a localized string similar to From Date is required..
         /// </summary>
         public static string FromDateRequire {
             get {
@@ -1582,7 +1582,7 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The Full Name field is required!.
+        ///   Looks up a localized string similar to Full Name is required..
         /// </summary>
         public static string FullNameRequried {
             get {
@@ -1672,11 +1672,11 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The Group field is required!.
+        ///   Looks up a localized string similar to Group is required..
         /// </summary>
-        public static string GroupRequire {
+        public static string GroupRequired {
             get {
-                return ResourceManager.GetString("GroupRequire", resourceCulture);
+                return ResourceManager.GetString("GroupRequired", resourceCulture);
             }
         }
         
@@ -1708,7 +1708,7 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The End Date of Human Resources must be less than the Start Date of Self Evaluator!.
+        ///   Looks up a localized string similar to End Date of Human Resources must be less than Start Date of Self Evaluator..
         /// </summary>
         public static string HRRangeDateGreaterThanSelfRangeDateWarning {
             get {
@@ -1897,7 +1897,7 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Job Level is required!.
+        ///   Looks up a localized string similar to Job Level is required..
         /// </summary>
         public static string JobLevelRequired {
             get {
@@ -1978,7 +1978,7 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The KPI field is required!.
+        ///   Looks up a localized string similar to KPI is required..
         /// </summary>
         public static string KPIRequired {
             get {
@@ -2163,15 +2163,6 @@ namespace SMS.EPA.Resources {
         public static string ManageMyEPA {
             get {
                 return ResourceManager.GetString("ManageMyEPA", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to The Manager field is required!.
-        /// </summary>
-        public static string ManagerRequired {
-            get {
-                return ResourceManager.GetString("ManagerRequired", resourceCulture);
             }
         }
         
@@ -2383,7 +2374,7 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The Name field is required!.
+        ///   Looks up a localized string similar to Name is required..
         /// </summary>
         public static string NameRequired {
             get {
@@ -2410,7 +2401,7 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The New Password field is required!.
+        ///   Looks up a localized string similar to New Password is required..
         /// </summary>
         public static string NewPasswordRequired {
             get {
@@ -2428,7 +2419,7 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The Nickname filed is required!.
+        ///   Looks up a localized string similar to Nickname is required..
         /// </summary>
         public static string NickNameRequried {
             get {
@@ -2563,7 +2554,7 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The Old Password field is required!.
+        ///   Looks up a localized string similar to Old Password is required..
         /// </summary>
         public static string OldPasswordRequired {
             get {
@@ -2608,15 +2599,6 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The Parent Node field is required!.
-        /// </summary>
-        public static string ParentNodeRequired {
-            get {
-                return ResourceManager.GetString("ParentNodeRequired", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Pass Probation.
         /// </summary>
         public static string PassProbation {
@@ -2644,7 +2626,7 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The Password field is required!.
+        ///   Looks up a localized string similar to Password field is required!.
         /// </summary>
         public static string PasswordRequried {
             get {
@@ -2815,7 +2797,7 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The Rating Type field is required!.
+        ///   Looks up a localized string similar to Rating Type is required..
         /// </summary>
         public static string RatingTypeRequired {
             get {
@@ -2932,7 +2914,7 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Answer is required.
+        ///   Looks up a localized string similar to Answer is required..
         /// </summary>
         public static string RequiredAnswer {
             get {
@@ -2941,7 +2923,7 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Comment is required.
+        ///   Looks up a localized string similar to Comment is required..
         /// </summary>
         public static string RequiredComment {
             get {
@@ -2959,7 +2941,7 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Evaluation is required.
+        ///   Looks up a localized string similar to Evaluation is required..
         /// </summary>
         public static string RequiredEvaluation {
             get {
@@ -3031,7 +3013,7 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The End Date of Reviewer must be less than the Start Date of Management!.
+        ///   Looks up a localized string similar to End Date of Reviewer must be less than Start Date of Management..
         /// </summary>
         public static string ReviewerRangeDateGreaterThanManagementRangeDateWarning {
             get {
@@ -3139,7 +3121,7 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The Score Rating Type filed is required!.
+        ///   Looks up a localized string similar to Score Rating Type is required..
         /// </summary>
         public static string ScoreRatingTypeRequired {
             get {
@@ -3148,7 +3130,7 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The Score field is required!.
+        ///   Looks up a localized string similar to Score is required..
         /// </summary>
         public static string ScoreRequire {
             get {
@@ -3175,7 +3157,7 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The Section field is required!.
+        ///   Looks up a localized string similar to Section is required..
         /// </summary>
         public static string SectionRequired {
             get {
@@ -3319,7 +3301,7 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The End Date of Self Evaluator must be less than the Start Date of Evaluator!.
+        ///   Looks up a localized string similar to End Date of Self Evaluator must be less than Start Date of Evaluator!.
         /// </summary>
         public static string SelfRangeDateGreaterThanEvaluatorRangeDateWarning {
             get {
@@ -3526,7 +3508,7 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The Start Date must be less than or equal the End Date!.
+        ///   Looks up a localized string similar to Start Date must be less than or equal End Date..
         /// </summary>
         public static string StartDateGreaterThanEndDateWarning {
             get {
@@ -3535,7 +3517,7 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The Start Date field is required for Semi-annual or Promotion!.
+        ///   Looks up a localized string similar to Start Date is required for Semi-annual or Promotion..
         /// </summary>
         public static string StartDatePeriodRequired {
             get {
@@ -3706,7 +3688,7 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The Target Template field is required!.
+        ///   Looks up a localized string similar to Target Template is required..
         /// </summary>
         public static string TargetTemplateRequired {
             get {
@@ -3724,7 +3706,7 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The Target Type field is required!.
+        ///   Looks up a localized string similar to Target Type is required..
         /// </summary>
         public static string TargetTypeRequired {
             get {
@@ -3742,7 +3724,7 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The Title field is required!.
+        ///   Looks up a localized string similar to Title is required..
         /// </summary>
         public static string TitleRequire {
             get {
@@ -3769,7 +3751,7 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The To Date is required!.
+        ///   Looks up a localized string similar to To Date is required..
         /// </summary>
         public static string ToDateRequire {
             get {
@@ -3805,7 +3787,7 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The total score of all KPI of the group must be equal to the score of the group!.
+        ///   Looks up a localized string similar to Total Score of all KPI of the group must be equal to Score of the group!.
         /// </summary>
         public static string TotalKPIWeightWarning {
             get {
@@ -3832,7 +3814,7 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Updated Successfully! &lt;br/&gt;Total score of all KPIs is less than {0}!.
+        ///   Looks up a localized string similar to Updated successfully! &lt;br/&gt;Total score of all KPIs is less than {0}!.
         /// </summary>
         public static string TotalWeightLessThanMaxWeightWarning {
             get {
@@ -3931,7 +3913,7 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Updated Successfully!.
+        ///   Looks up a localized string similar to Updated successfully!.
         /// </summary>
         public static string UpdatedSuccessfully {
             get {
@@ -3940,7 +3922,7 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Updated Unsuccessfully!.
+        ///   Looks up a localized string similar to Updated unsuccessfully!.
         /// </summary>
         public static string UpdatedUnsuccessfully {
             get {
@@ -4003,7 +3985,7 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The Username must not contain white space!.
+        ///   Looks up a localized string similar to Username must not contain white space..
         /// </summary>
         public static string UsernameNotSpaceWarning {
             get {
@@ -4012,7 +3994,7 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The Username field is required!.
+        ///   Looks up a localized string similar to Username is required..
         /// </summary>
         public static string UsernameRequried {
             get {
@@ -4021,7 +4003,7 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to To date must not be before than From date.
+        ///   Looks up a localized string similar to To Date must not be before than From Date..
         /// </summary>
         public static string ValidateFromToDate {
             get {
@@ -4030,7 +4012,7 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Report period must not exceed 365 days.
+        ///   Looks up a localized string similar to Report period must not exceed 365 days..
         /// </summary>
         public static string ValidateMaximumOneYear {
             get {
@@ -4039,7 +4021,7 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The old password is incorrect..
+        ///   Looks up a localized string similar to Old Password is incorrect..
         /// </summary>
         public static string ValidateWrongPassword {
             get {
@@ -4093,7 +4075,7 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The Violation Date field is required!.
+        ///   Looks up a localized string similar to Violation Date is required..
         /// </summary>
         public static string ViolationDateRequired {
             get {
@@ -4111,7 +4093,7 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The Violation Type field is required!.
+        ///   Looks up a localized string similar to Violation Type is required..
         /// </summary>
         public static string ViolationTypeRequired {
             get {
@@ -4138,7 +4120,7 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to All weights of selected KPI Groups is required!.
+        ///   Looks up a localized string similar to All weights of selected KPI Groups required..
         /// </summary>
         public static string WeightKPIGroupRequired {
             get {
@@ -4147,7 +4129,7 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to All weights of selected KPIs is required!.
+        ///   Looks up a localized string similar to All weights of selected KPIs is required..
         /// </summary>
         public static string WeightKPIRequired {
             get {
@@ -4165,7 +4147,7 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The Work Date filed is required!.
+        ///   Looks up a localized string similar to Work Date is required..
         /// </summary>
         public static string WorkDateRequried {
             get {
@@ -4183,7 +4165,7 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to New password does not match the confirm password..
+        ///   Looks up a localized string similar to New Password does not match Confirm Password..
         /// </summary>
         public static string WrongConfirmPassword {
             get {

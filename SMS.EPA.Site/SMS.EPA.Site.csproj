@@ -579,7 +579,6 @@
     <Content Include="SourceApp\Components\JobLevelStandard\JobLevelSetting\Templates\copy.html" />
     <Content Include="SourceApp\Components\JobLevelStandard\JobLevelSetting\Templates\edit.html" />
     <Content Include="SourceApp\Components\JobLevelStandard\JobLevelSetting\Templates\index.html" />
-    <Content Include="SourceApp\Components\JobLevelStandard\Period\edit-assessment-status-controller.js" />
     <Content Include="SourceApp\Components\JobLevelStandard\Period\copy-job-level-setting-controller.js" />
     <Content Include="SourceApp\Components\JobLevelStandard\Period\add-employee-setting-controller.js" />
     <Content Include="SourceApp\Components\JobLevelStandard\Period\create-period-controller.js" />
@@ -589,7 +588,6 @@
     <Content Include="SourceApp\Components\JobLevelStandard\Period\period-controller.js" />
     <Content Include="SourceApp\Components\JobLevelStandard\Period\period-factory.js" />
     <Content Include="SourceApp\Components\JobLevelStandard\Period\period-model.js" />
-    <Content Include="SourceApp\Components\JobLevelStandard\Period\Templates\editAssessmentStatus.html" />
     <Content Include="SourceApp\Components\JobLevelStandard\Period\Templates\basicInfo.html" />
     <Content Include="SourceApp\Components\JobLevelStandard\Period\Templates\copyJobLevelSetting.html" />
     <Content Include="SourceApp\Components\JobLevelStandard\Period\Templates\create.html" />

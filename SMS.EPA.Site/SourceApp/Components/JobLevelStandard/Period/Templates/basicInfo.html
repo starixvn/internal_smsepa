@@ -1,128 +1,124 @@
 ﻿<div ng-controller="EditBasicInfoJobLevelStandardPeriodController as basicInfoPeriodCtrl">
-    <form class="col-sm-8 form-horizontal common-form info-form" novalidate>
+    <form class="form-horizontal common-form info-form edit-job-level-standard-period-form" novalidate>
         <div class="form-group required">
-            <label class="col-sm-2 control-label" data-translate="Name"></label>
+            <label class="col-sm-3 control-label" data-translate="Name"></label>
             <div class="col-sm-8 field">
                 <input type="text" class="form-control" maxlength="200"
                        ng-model="basicInfoPeriodCtrl.period.Name" ng-disabled="editCtrl.permission !== editCtrl.policy.Host" required />
             </div>
         </div>
-        <div class="form-group top-buffer">
-            <div class="col-sm-offset-2 col-sm-8 field">
-                <table class="row table table-bordered table-striped">
-                    <thead>
-                        <tr>
-                            <th data-translate="SymbolCount"></th>
-                            <th>Evaluator / Reviewer</th>
-                            <th data-translate="Employee"></th>
-                            <th data-translate="Management"></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td data-translate="FromDate"></td>
-                            <td>
-                                <p class="input-group calendar-input-group">
-                                    <input readonly class="calendar-form-control" type="text"
-                                           ng-model="basicInfoPeriodCtrl.period.Settings[0].FromDate" uib-datepicker-popup
-                                           ng-click="basicInfoPeriodCtrl.openFromDate($event, basicInfoPeriodCtrl.process.Evaluator)"
-                                           min-date="{{basicInfoPeriodCtrl.calendar.minDate}}"
-                                           is-open="basicInfoPeriodCtrl.calendar.fromDateEvaluatorOpened"
-                                           ng-disabled="editCtrl.permission !== editCtrl.policy.Host" />
-                                    <span class="input-group-btn">
-                                        <button type="button" class="btn btn-default"
-                                                ng-click="basicInfoPeriodCtrl.openFromDate($event, basicInfoPeriodCtrl.process.Evaluator)">
-                                            <i class="glyphicon glyphicon-calendar"></i>
-                                        </button>
-                                    </span>
-                                </p>
-                            </td>
-                            <td>
-                                <p class="input-group calendar-input-group">
-                                    <input readonly class="calendar-form-control" type="text"
-                                           ng-model="basicInfoPeriodCtrl.period.Settings[1].FromDate" uib-datepicker-popup
-                                           ng-click="basicInfoPeriodCtrl.openFromDate($event, basicInfoPeriodCtrl.process.Employee)"
-                                           min-date="{{basicInfoPeriodCtrl.calendar.minDate}}"
-                                           is-open="basicInfoPeriodCtrl.calendar.fromDateEmployeeOpened"
-                                           ng-disabled="editCtrl.permission !== editCtrl.policy.Host" />
-                                    <span class="input-group-btn">
-                                        <button type="button" class="btn btn-default"
-                                                ng-click="basicInfoPeriodCtrl.openFromDate($event, basicInfoPeriodCtrl.process.Employee)">
-                                            <i class="glyphicon glyphicon-calendar"></i>
-                                        </button>
-                                    </span>
-                                </p>
-                            </td>
-                            <td>
-                                <p class="input-group calendar-input-group">
-                                    <input readonly class="calendar-form-control" type="text"
-                                           ng-model="basicInfoPeriodCtrl.period.Settings[2].FromDate" uib-datepicker-popup
-                                           ng-click="basicInfoPeriodCtrl.openFromDate($event, basicInfoPeriodCtrl.process.Management)"
-                                           min-date="{{basicInfoPeriodCtrl.calendar.minDate}}"
-                                           is-open="basicInfoPeriodCtrl.calendar.fromDateManagementOpened"
-                                           ng-disabled="editCtrl.permission !== editCtrl.policy.Host" />
-                                    <span class="input-group-btn">
-                                        <button type="button" class="btn btn-default"
-                                                ng-click="basicInfoPeriodCtrl.openFromDate($event, basicInfoPeriodCtrl.process.Management)">
-                                            <i class="glyphicon glyphicon-calendar"></i>
-                                        </button>
-                                    </span>
-                                </p>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td data-translate="ToDate"></td>
-                            <td>
-                                <p class="input-group calendar-input-group">
-                                    <input readonly class="calendar-form-control" type="text"
-                                           ng-model="basicInfoPeriodCtrl.period.Settings[0].ToDate" uib-datepicker-popup
-                                           ng-click="basicInfoPeriodCtrl.openToDate($event, basicInfoPeriodCtrl.process.Evaluator)"
-                                           min-date="{{basicInfoPeriodCtrl.calendar.minDate}}"
-                                           is-open="basicInfoPeriodCtrl.calendar.toDateEvaluatorOpened"
-                                           ng-disabled="editCtrl.permission !== editCtrl.policy.Host" />
-                                    <span class="input-group-btn">
-                                        <button type="button" class="btn btn-default"
-                                                ng-click="basicInfoPeriodCtrl.openToDate($event, basicInfoPeriodCtrl.process.Evaluator)">
-                                            <i class="glyphicon glyphicon-calendar"></i>
-                                        </button>
-                                    </span>
-                                </p>
-                            </td>
-                            <td>
-                                <p class="input-group calendar-input-group">
-                                    <input readonly class="calendar-form-control" type="text"
-                                           ng-model="basicInfoPeriodCtrl.period.Settings[1].ToDate" uib-datepicker-popup
-                                           ng-click="basicInfoPeriodCtrl.openToDate($event, basicInfoPeriodCtrl.process.Employee)"
-                                           min-date="{{basicInfoPeriodCtrl.calendar.minDate}}"
-                                           is-open="basicInfoPeriodCtrl.calendar.toDateEmployeeOpened"
-                                           ng-disabled="editCtrl.permission !== editCtrl.policy.Host" />
-                                    <span class="input-group-btn">
-                                        <button type="button" class="btn btn-default"
-                                                ng-click="basicInfoPeriodCtrl.openToDate($event, basicInfoPeriodCtrl.process.Employee)">
-                                            <i class="glyphicon glyphicon-calendar"></i>
-                                        </button>
-                                    </span>
-                                </p>
-                            </td>
-                            <td>
-                                <p class="input-group calendar-input-group">
-                                    <input readonly class="calendar-form-control" type="text"
-                                           ng-model="basicInfoPeriodCtrl.period.Settings[2].ToDate" uib-datepicker-popup
-                                           ng-click="basicInfoPeriodCtrl.openToDate($event, basicInfoPeriodCtrl.process.Management)"
-                                           min-date="{{basicInfoPeriodCtrl.calendar.minDate}}"
-                                           is-open="basicInfoPeriodCtrl.calendar.toDateManagementOpened"
-                                           ng-disabled="editCtrl.permission !== editCtrl.policy.Host" />
-                                    <span class="input-group-btn">
-                                        <button type="button" class="btn btn-default"
-                                                ng-click="basicInfoPeriodCtrl.openToDate($event, basicInfoPeriodCtrl.process.Management)">
-                                            <i class="glyphicon glyphicon-calendar"></i>
-                                        </button>
-                                    </span>
-                                </p>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+        <div class="form-group" style="margin-bottom: 4px">
+            <label class="col-sm-3 control-label"></label>
+            <div class="col-sm-2 bold" data-translate="FromDate"></div>
+            <label class="col-sm-1 control-label"></label>
+            <div class="col-sm-2 bold" data-translate="ToDate"></div>
+        </div>
+        <div class="form-group required">
+            <label class="col-sm-3 control-label">Evaluator / Reviewer</label>
+            <div class="col-sm-2 field">
+                <p class="input-group calendar-input-group">
+                    <input readonly class="calendar-form-control" type="text"
+                           ng-model="basicInfoPeriodCtrl.period.Settings[0].FromDate" uib-datepicker-popup
+                           ng-click="basicInfoPeriodCtrl.openFromDate($event, basicInfoPeriodCtrl.process.Evaluator)"
+                           min-date="{{basicInfoPeriodCtrl.calendar.minDate}}"
+                           is-open="basicInfoPeriodCtrl.calendar.fromDateEvaluatorOpened"
+                           ng-disabled="editCtrl.permission !== editCtrl.policy.Host" />
+                    <span class="input-group-btn">
+                        <button type="button" class="btn btn-default"
+                                ng-click="basicInfoPeriodCtrl.openFromDate($event, basicInfoPeriodCtrl.process.Evaluator)">
+                            <i class="glyphicon glyphicon-calendar"></i>
+                        </button>
+                    </span>
+                </p>
+            </div>
+            <div class="col-sm-1"></div>
+            <div class="col-sm-2 field">
+                <p class="input-group calendar-input-group">
+                    <input readonly class="calendar-form-control" type="text"
+                           ng-model="basicInfoPeriodCtrl.period.Settings[0].ToDate" uib-datepicker-popup
+                           ng-click="basicInfoPeriodCtrl.openToDate($event, basicInfoPeriodCtrl.process.Evaluator)"
+                           min-date="{{basicInfoPeriodCtrl.calendar.minDate}}"
+                           is-open="basicInfoPeriodCtrl.calendar.toDateEvaluatorOpened"
+                           ng-disabled="editCtrl.permission !== editCtrl.policy.Host" />
+                    <span class="input-group-btn">
+                        <button type="button" class="btn btn-default"
+                                ng-click="basicInfoPeriodCtrl.openToDate($event, basicInfoPeriodCtrl.process.Evaluator)">
+                            <i class="glyphicon glyphicon-calendar"></i>
+                        </button>
+                    </span>
+                </p>
+            </div>
+        </div>
+        <div class="form-group required">
+            <label class="col-sm-3 control-label" data-translate="Employee"></label>
+            <div class="col-sm-2 field">
+                <p class="input-group calendar-input-group">
+                    <input readonly class="calendar-form-control" type="text"
+                           ng-model="basicInfoPeriodCtrl.period.Settings[1].FromDate" uib-datepicker-popup
+                           ng-click="basicInfoPeriodCtrl.openFromDate($event, basicInfoPeriodCtrl.process.Employee)"
+                           min-date="{{basicInfoPeriodCtrl.calendar.minDate}}"
+                           is-open="basicInfoPeriodCtrl.calendar.fromDateEmployeeOpened"
+                           ng-disabled="editCtrl.permission !== editCtrl.policy.Host" />
+                    <span class="input-group-btn">
+                        <button type="button" class="btn btn-default"
+                                ng-click="basicInfoPeriodCtrl.openFromDate($event, basicInfoPeriodCtrl.process.Employee)">
+                            <i class="glyphicon glyphicon-calendar"></i>
+                        </button>
+                    </span>
+                </p>
+            </div>
+            <div class="col-sm-1"></div>
+            <div class="col-sm-2 field">
+                <p class="input-group calendar-input-group">
+                    <input readonly class="calendar-form-control" type="text"
+                           ng-model="basicInfoPeriodCtrl.period.Settings[1].ToDate" uib-datepicker-popup
+                           ng-click="basicInfoPeriodCtrl.openToDate($event, basicInfoPeriodCtrl.process.Employee)"
+                           min-date="{{basicInfoPeriodCtrl.calendar.minDate}}"
+                           is-open="basicInfoPeriodCtrl.calendar.toDateEmployeeOpened"
+                           ng-disabled="editCtrl.permission !== editCtrl.policy.Host" />
+                    <span class="input-group-btn">
+                        <button type="button" class="btn btn-default"
+                                ng-click="basicInfoPeriodCtrl.openToDate($event, basicInfoPeriodCtrl.process.Employee)">
+                            <i class="glyphicon glyphicon-calendar"></i>
+                        </button>
+                    </span>
+                </p>
+            </div>
+        </div>
+        <div class="form-group required">
+            <label class="col-sm-3 control-label" data-translate="Management"></label>
+            <div class="col-sm-2 field">
+                <p class="input-group calendar-input-group">
+                    <input readonly class="calendar-form-control" type="text"
+                           ng-model="basicInfoPeriodCtrl.period.Settings[2].FromDate" uib-datepicker-popup
+                           ng-click="basicInfoPeriodCtrl.openFromDate($event, basicInfoPeriodCtrl.process.Management)"
+                           min-date="{{basicInfoPeriodCtrl.calendar.minDate}}"
+                           is-open="basicInfoPeriodCtrl.calendar.fromDateManagementOpened"
+                           ng-disabled="editCtrl.permission !== editCtrl.policy.Host" />
+                    <span class="input-group-btn">
+                        <button type="button" class="btn btn-default"
+                                ng-click="basicInfoPeriodCtrl.openFromDate($event, basicInfoPeriodCtrl.process.Management)">
+                            <i class="glyphicon glyphicon-calendar"></i>
+                        </button>
+                    </span>
+                </p>
+            </div>
+            <div class="col-sm-1"></div>
+            <div class="col-sm-2 field">
+                <p class="input-group calendar-input-group">
+                    <input readonly class="calendar-form-control" type="text"
+                           ng-model="basicInfoPeriodCtrl.period.Settings[2].ToDate" uib-datepicker-popup
+                           ng-click="basicInfoPeriodCtrl.openToDate($event, basicInfoPeriodCtrl.process.Management)"
+                           min-date="{{basicInfoPeriodCtrl.calendar.minDate}}"
+                           is-open="basicInfoPeriodCtrl.calendar.toDateManagementOpened"
+                           ng-disabled="editCtrl.permission !== editCtrl.policy.Host" />
+                    <span class="input-group-btn">
+                        <button type="button" class="btn btn-default"
+                                ng-click="basicInfoPeriodCtrl.openToDate($event, basicInfoPeriodCtrl.process.Management)">
+                            <i class="glyphicon glyphicon-calendar"></i>
+                        </button>
+                    </span>
+                </p>
             </div>
         </div>
         <div class="col-sm-offset-2 top-buffer">

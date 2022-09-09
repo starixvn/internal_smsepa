@@ -46,7 +46,7 @@
                     <a href="javascript:;" class="glyphicon icon-view" title="View"
                        ng-click="settingCtrl.edit(section)" ng-if="settingCtrl.permission !== settingCtrl.policy.Host"></a>
                     <a class="glyphicon glyphicon-duplicate cursor-pointer" title="Copy Setting"
-                       ng-click="settingCtrl.copy(section)" ng-if="settingCtrl.permission === settingCtrl.policy.Host"></a>
+                       ng-click="settingCtrl.copy(section)" ng-if="section.HasSetting && settingCtrl.permission === settingCtrl.policy.Host"></a>
                 </td>
             </tr>
             <tr ng-show="settingCtrl.filteredItems.length === 0">

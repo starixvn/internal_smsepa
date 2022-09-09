@@ -83,18 +83,9 @@
                 <td class="text-center" ng-bind="employee.Evaluators[0].FromDate | date: employeeSettingCtrl.dateFormat"></td>
                 <td class="text-center" ng-bind="employee.Evaluators[0].ToDate | date: employeeSettingCtrl.dateFormat"></td>
                 <td class="text-center" rowspan="3">
-                    <div ng-if="employeeSettingCtrl.permission !== employeeSettingCtrl.policy.Host">
-                        <span ng-show="employee.StatusId === employeeSettingCtrl.assessmentStatus.Pending">Pending</span>
-                        <span ng-show="employee.StatusId === employeeSettingCtrl.assessmentStatus.Verified">Verified</span>
-                        <span ng-show="employee.StatusId === employeeSettingCtrl.assessmentStatus.Approved">Approved</span>
-                    </div>
-                    <div ng-if="employeeSettingCtrl.permission === employeeSettingCtrl.policy.Host">
-                        <a href="javascript:;" ng-click="employeeSettingCtrl.editAssessmentStatus(employee)">
-                            <span ng-show="employee.StatusId === employeeSettingCtrl.assessmentStatus.Pending">Pending</span>
-                            <span ng-show="employee.StatusId === employeeSettingCtrl.assessmentStatus.Verified">Verified</span>
-                            <span ng-show="employee.StatusId === employeeSettingCtrl.assessmentStatus.Approved">Approved</span>
-                        </a>
-                    </div>
+                    <span ng-show="employee.StatusId === employeeSettingCtrl.assessmentStatus.Pending">Pending</span>
+                    <span ng-show="employee.StatusId === employeeSettingCtrl.assessmentStatus.Verified">Verified</span>
+                    <span ng-show="employee.StatusId === employeeSettingCtrl.assessmentStatus.Approved">Approved</span>
                 </td>
                 <td class="text-center" rowspan="3">
                     <input type="checkbox" ng-checked="!employee.IsExcluded" ng-click="employeeSettingCtrl.editStatus(employee)"
@@ -106,7 +97,7 @@
             </tr>
             <tr ng-class="{oddRow: $index % 2 === 0, evenRow: $index % 2 !== 0}">
                 <td data-translate="Employee"></td>
-                <td></td>
+                <td>{{employee.FullName}} ({{employee.Nickname}})</td>
                 <td class="text-center" ng-bind="employee.Employee.FromDate | date: employeeSettingCtrl.dateFormat"></td>
                 <td class="text-center" ng-bind="employee.Employee.ToDate | date: employeeSettingCtrl.dateFormat"></td>
             </tr>

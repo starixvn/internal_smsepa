@@ -7,7 +7,7 @@
     editPeriodController.$inject = ['$routeParams', 'JobLevelStandardPeriodModel', 'utilitiesFactory'];
 
     function editPeriodController($routeParams, PeriodModel, utilitiesFactory) {
-        var vm = this;
+        let vm = this;
 
         vm.permission = PeriodModel.permission;
         vm.policy = utilitiesFactory.policy;

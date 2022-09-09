@@ -31,6 +31,19 @@
             });
         }
 
+        $scope.$watch(function () { return $scope.editCtrl.period && $scope.editCtrl.dataTab === 2; },
+            function (newVal) {
+                if (newVal) {
+                    vm.permission = $scope.editCtrl.permission;
+                    vm.period = $scope.editCtrl.period;
+                    vm.filter.periodId = vm.period.PeriodId;
+
+                    if (vm.isFirstLoad && vm.period) {
+                        getJobLevelSettings(vm.filter);
+                    }
+                }
+            });
+
         vm.query = function (filter) {
             vm.searchKey = '';
             vm.currentPage = 1;
@@ -52,8 +65,8 @@
         };
 
         vm.copy = function (section) {
-            let sectionHasSettings = vm.jobLevelSettings.filter(x => x.SectionId !== section.SectionId && x.HasSetting);
-            PeriodModel.openPopupCopyJobLevelSetting(vm, section, sectionHasSettings).then(function (isSuccessful) {
+            const sections = vm.jobLevelSettings.filter(x => x.SectionId !== section.SectionId);
+            PeriodModel.openPopupCopyJobLevelSetting(vm, section, sections).then(function (isSuccessful) {
                 if (isSuccessful) {
                     getJobLevelSettings(vm.filter);
                 }
@@ -65,18 +78,5 @@
         vm.copyFromDefault = function () {
             PeriodModel.openPopupCopyDefaultJobLevelSetting(vm, vm.filter.periodId);
         };
-
-        $scope.$watch(function () { return $scope.editCtrl.period && $scope.editCtrl.dataTab === 2; },
-            function (newVal) {
-                if (newVal) {
-                    vm.permission = $scope.editCtrl.permission;
-                    vm.period = $scope.editCtrl.period;
-                    vm.filter.periodId = vm.period.PeriodId;
-
-                    if (vm.isFirstLoad && vm.period) {
-                        getJobLevelSettings(vm.filter);
-                    }
-                }
-            });
     }
 })(angular);

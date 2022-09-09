@@ -7,7 +7,7 @@
 
     public class EditJobLevelSettingCommand : CriteriaBase
     {
-        public int SectionId { get; set; }
+        public string SectionIds { get; set; }
 
         [SpParam(Ignored = true)]
         public IList<JobLevelSetting> Settings { get; set; }
@@ -15,7 +15,7 @@
         public string SettingXml { get; set; }
         public int ModifiedBy { get; set; }
 
-        public override bool IsValid() => SectionId > 0 && ModifiedBy > 0;
+        public override bool IsValid() => !string.IsNullOrWhiteSpace(SectionIds) && ModifiedBy > 0;
 
         public override string GetSettingKey() => "JobLevelStandard_JobLevelSetting_Update";
     }
