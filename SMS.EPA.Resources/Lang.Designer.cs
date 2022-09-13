@@ -3769,6 +3769,15 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to To Section.
+        /// </summary>
+        public static string ToSection {
+            get {
+                return ResourceManager.GetString("ToSection", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Total Employees.
         /// </summary>
         public static string TotalEmployees {

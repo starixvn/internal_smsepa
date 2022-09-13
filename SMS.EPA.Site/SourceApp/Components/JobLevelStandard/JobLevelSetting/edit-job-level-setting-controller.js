@@ -29,8 +29,8 @@
 
         vm.save = function () {
             const command = {
-                SectionId: vm.section.SectionId,
-                Settings: vm.settings
+                sectionIds: vm.section.SectionId,
+                settings: vm.settings
             };
             JobLevelSettingModel.editJobLevelSetting(command, $uibModalInstance);
         };

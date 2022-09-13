@@ -1491,4 +1491,7 @@
   <data name="MinWeight" xml:space="preserve">
     <value>Min Weight</value>
   </data>
+  <data name="ToSection" xml:space="preserve">
+    <value>To Section</value>
+  </data>
 </root>

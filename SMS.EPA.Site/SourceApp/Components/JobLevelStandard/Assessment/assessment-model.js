@@ -76,6 +76,14 @@
             });
         };
 
+        model.approveAll = function (vm, params) {
+            if (params.assessmentIds.length === 0) {
+                notificationFactory.error('', 'Please select at least an employee.');
+            } else {
+                model.editStatus(vm, params);
+            }
+        };
+
         return model;
     }
 })(angular);

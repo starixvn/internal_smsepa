@@ -42,6 +42,7 @@
         selectedAllText: 'All selected',
         disabled: false,
         isSelectedAll: false,
+        hasSearchBox: false,
         data: [],
         selectedItems: '',
         onSelect: function () { },
@@ -71,7 +72,13 @@
             me.$selectedtext = me.$multiSelect.find('.selected-text').first();
             me.$dropdownlist = me.$multiSelect.find('.multiselect-treeview-dropdown-list').first();
             me.$selectAll = me.$multiSelect.find('#' + me.id + '-selectAll');
+            me.$groupitems = me.$multiSelect.find('.multiselect-treeview-group-items');
             me.$checkboxes = me.$multiSelect.find('.multiselect-treeview-items input[type=checkbox]:not(:disabled)');
+
+            if (me.options.hasSearchBox) {
+                me.$searchInput = me.$multiSelect.find('.multiselect-treeview-search-box input');
+                me.$clearButton = me.$multiSelect.find('.multiselect-treeview-clear-search-box');
+            }
 
             me.registerEvents();
             me.updateSelectedItems();
@@ -85,10 +92,29 @@
                 + '<span class="up-down-icon"><span class="down"></span></span>'
                 + '</div>'
                 + '<div class="multiselect-treeview-dropdown-list hidden">'
+                + me.renderSearchBox()
                 + me.renderCheckAll()
                 + me.renderItems()
                 + '</div>' +
                 '</div>';
+        },
+        renderSearchBox: function () {
+            var me = this,
+                options = me.options,
+                html = '';
+            if (options.hasSearchBox) {
+                html = '<div class="multiselect-treeview-search-box">'
+                    + '<input type="text" placeholder="Search..." />'
+                    + '<span class="multiselect-treeview-clear-indicator">'
+                        + `<svg height="20" width="20" viewBox="0 0 20 20" focusable="false">
+                            <path d="M14.348 14.849c-0.469 0.469-1.229 0.469-1.697 0l-2.651-3.030-2.651 3.029c-0.469 0.469-1.229 0.469-1.697 0-0.469-0.469-0.469-1.229
+                                0-1.697l2.758-3.15-2.759-3.152c-0.469-0.469-0.469-1.228 0-1.697s1.228-0.469 1.697 0l2.652 3.031
+                                2.651-3.031c0.469-0.469 1.228-0.469 1.697 0s0.469 1.229 0 1.697l-2.758 3.152 2.758 3.15c0.469 0.469 0.469 1.229 0 1.698z" /></svg>`
+                    + '</span>'
+                    + '</div>';
+            }
+
+            return html;
         },
         renderCheckAll: function () {
             var me = this,
@@ -116,7 +142,7 @@
                     itemId = 'item-' + i,
                     disabled = options.disabled || (options.singleSelection && !data.IsLeaf);
 
-                html.push('<ul>'
+                html.push('<ul class="multiselect-treeview-group-items">'
                     + '<li class="multiselect-treeview-item">'
                     + '<div class="checkbox-wrapper">'
                     + '<input type="checkbox" id="' + me.id + '-' + itemId + '" value="' + data.Id + '" data-is-leaf="' + data.IsLeaf + '" '
@@ -142,7 +168,7 @@
                 options = me.options,
                 html = [],
                 totalItems = item.data.length;
-            html.push('<ul>');
+            html.push('<ul class="multiselect-treeview-group-items">');
             for (var i = 0; i < totalItems; i++) {
                 var data = item.data[i],
                     itemId = item.parentId + '-' + i,
@@ -231,7 +257,7 @@
                 }
             };
 
-            me.$dropdownbtn.on('click', function () {
+            me.$dropdownbtn.off('click').on('click', function () {
                 if (me.$dropdownlist.hasClass('hidden')) {
                     me.$updownicon.find('span').removeClass('down').addClass('up');
                     me.$dropdownlist.removeClass('hidden');
@@ -268,6 +294,27 @@
                     options.onSelect.call(this);
                 }
             });
+
+            /*if (me.options.hasSearchBox) {
+                me.$searchInput.off('keyup').on('keyup', function () {
+                    var $this = $(this);
+                    var filterVal = $this.val().toLowerCase();
+                    if (filterVal !== '') {
+                        me.$groupitems.each(function () {
+                            var $group = $(this);
+                        });
+                    } else {
+
+                    }
+                });
+
+                me.$clearButton.off('click').on('click', function () {
+                    if (me.$searchInput.val() !== '') {
+                        me.$searchInput.val('');
+                        me.$searchInput.trigger('keyup');
+                    }
+                });
+            }*/
 
             // hide dropdown
             $(document).delegate('html', 'click', function (e) {

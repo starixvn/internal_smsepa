@@ -4,21 +4,31 @@
     /* jshint validthis:true */
 
     angular.module('jobLevelStandardModule').controller('AssessmentController', assessmentController);
-    assessmentController.$inject = ['AssessmentModel', 'utilitiesFactory', 'lockScreenService'];
+    assessmentController.$inject = ['CommonModel', 'AssessmentModel', 'utilitiesFactory', 'lockScreenService'];
 
-    function assessmentController(AssessmentModel, utilitiesFactory, lockScreenService) {
+    function assessmentController(CommonModel, AssessmentModel, utilitiesFactory, lockScreenService) {
         let vm = this;
 
         vm.periods = [];
         vm.orgChart = [];
         vm.searchKey = '';
-        vm.filter = { periodId: null, teamIds: '' };
+        vm.currentPage = 1;
+        vm.pageSize = 10;
+        vm.filter = { periodId: null, teamIds: '', statusId: '' };
         vm.kpis = [];
         vm.assessments = [];
         vm.process = utilitiesFactory.jobLevelAssessmentProcess;
         vm.status = utilitiesFactory.jobLevelAssessmentStatus;
+        vm.statusOptions = [
+            { statusId: vm.status.Pending, name: 'Pending' },
+            { statusId: vm.status.Verified, name: 'Verified' },
+            { statusId: vm.status.Approved, name: 'Approved' }
+        ];
         utilitiesFactory.getDateFormat(vm);
+        vm.entries = [10, 20, 50, 100, 200, 500];
         vm.isEditing = false;
+        vm.showApproveAll = false;
+        vm.selectedAll = false;
 
         function getAssessments(filter) {
             lockScreenService.start();
@@ -27,6 +37,14 @@
                 vm.kpis = AssessmentModel.kpis;
                 vm.jobLevelSettings = AssessmentModel.jobLevelSettings;
                 vm.assessments = AssessmentModel.assessments;
+
+                for (let assessment of vm.assessments) {
+                    if (assessment.IsHost && assessment.CurrentProcessId === vm.process.Management && assessment.StatusId === vm.status.Verified) {
+                        vm.showApproveAll = true;
+                        assessment.ShowCheckbox = true;
+                    }
+                }
+
                 utilitiesFactory.searchOnPage(vm, vm.assessments);
 
                 lockScreenService.stop();
@@ -37,7 +55,13 @@
             vm.searchKey = '';
             vm.isEditing = false;
             vm.selectedAssessment = null;
+            vm.showApproveAll = false;
+            vm.selectedAll = false;
             getAssessments(vm.filter);
+        };
+
+        vm.getIndex = function (index, currentPage, pageSize) {
+            return CommonModel.getIndex(index, currentPage, pageSize);
         };
 
         vm.edit = function (assessment) {
@@ -104,6 +128,20 @@
 
         vm.onSelectTeam = function (teamIds) {
             vm.filter.teamIds = teamIds;
+        };
+
+        vm.onSellectAll = function () {
+            for (let assessment of vm.assessments) {
+                if (assessment.ShowCheckbox) {
+                    assessment.Selected = vm.selectedAll;
+                }
+            }
+        };
+
+        vm.approveAll = function () {
+            const assessmentIds = vm.assessments.filter(x => x.Selected).map(x => x.AssessmentId).join(',');
+            const params = { assessmentIds, statusId: vm.status.Approved };
+            AssessmentModel.approveAll(vm, params);
         };
 
         function initialize() {

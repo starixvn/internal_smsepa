@@ -31,7 +31,7 @@
         vm.save = function () {
             const command = {
                 periodId,
-                sectionId: vm.section.SectionId,
+                sectionIds: vm.section.SectionId,
                 settings: vm.settings
             };
             PeriodModel.editJobLevelSetting(command, $uibModalInstance);
