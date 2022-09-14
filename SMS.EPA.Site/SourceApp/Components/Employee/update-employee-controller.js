@@ -7,18 +7,17 @@
     updateEmployeeController.$inject = ['$uibModalInstance', 'EmployeeModel', 'CommonModel', 'employee'];
 
     function updateEmployeeController($uibModalInstance, EmployeeModel, CommonModel, employee) {
-        var vm = this;
+        let vm = this;
 
         vm.jobTitleOptions = [];
         vm.jobLevelOptions = [];
-        vm.groupOptions = [];
-        vm.originalEmployee = employee;
+        vm.orgChart = [];
 
         vm.employee = {
             EmployeeId: employee.EmployeeId,
             NickName: employee.NickName,
             FullName: employee.FullName,
-            GroupId: employee.Group ? employee.Group.GroupId : '',
+            GroupId: employee.Group ? employee.Group.GroupId.toString() : '',
             JobTitleId: employee.JobTitle ? employee.JobTitle.JobTitleId : '',
             JobLevelId: employee.JobLevel ? employee.JobLevel.JobLevelId : '',
             Username: employee.Username,
@@ -27,18 +26,9 @@
             Email: employee.Email
         };
 
-        vm.cancel = cancel;
-        vm.save = save;
-
-        initialize();
-
-        function cancel() {
-            $uibModalInstance.dismiss('cancel');
-        }
-
         function initialize() {
-            CommonModel.getAllGroup().then(function () {
-                vm.groupOptions = CommonModel.groups;
+            CommonModel.getOrgChart().then(function () {
+                vm.orgChart = CommonModel.orgChart;
             });
 
             CommonModel.getAllJobTitle().then(function () {
@@ -50,10 +40,20 @@
             });
         }
 
-        function save(updatedEmployee) {
-            if (EmployeeModel.validateEmployee(updatedEmployee, 'update')) {
-                EmployeeModel.updateEmployee(updatedEmployee, $uibModalInstance);
+        vm.onSelectTeam = function (teamId) {
+            vm.employee.GroupId = teamId;
+        };
+
+        vm.cancel = function () {
+            $uibModalInstance.dismiss('cancel');
+        };
+
+        vm.save = function () {
+            if (EmployeeModel.validateEmployee(vm.employee, 'update')) {
+                EmployeeModel.updateEmployee(vm.employee, $uibModalInstance);
             }
-        }
+        };
+
+        initialize();
     }
 })(angular);

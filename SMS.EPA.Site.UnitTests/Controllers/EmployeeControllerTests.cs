@@ -27,11 +27,11 @@
             // Arrange
             var expected = new List<Employee>();
             _employeeService = FakeEmployeeService();
-            _employeeService.GetAllEmployee(Arg.Any<GetAllEmployeeCriteria>()).Returns(expected);
+            _employeeService.GetEmployee(Arg.Any<GetEmployeeCriteria>()).Returns(expected);
             _employeeController = GetEmployeeController(_employeeService);
 
             // Act
-            var actual = _employeeController.GetAllEmployee(Arg.Any<string>(), Arg.Any<int?>(), Arg.Any<bool?>(), Arg.Any<bool?>(), Arg.Any<bool?>(), Arg.Any<bool?>());
+            var actual = _employeeController.GetAllEmployee(Arg.Any<string>(), Arg.Any<string>(), Arg.Any<bool?>(), Arg.Any<bool?>(), Arg.Any<bool?>(), Arg.Any<bool?>());
 
             // Assert
             Assert.IsInstanceOf(typeof(IEnumerable<Employee>), actual);

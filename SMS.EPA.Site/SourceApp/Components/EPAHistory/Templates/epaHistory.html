@@ -42,7 +42,7 @@
     <table class="row table table-bordered table-striped">
         <thead>
             <tr class="header-table">
-                <th colspan="9">
+                <th colspan="11">
                     <a class="pull-left button-icon back-button" ng-click="epaHistoryCtrl.backToList()" ng-show="epaHistoryCtrl.fromEPAListing">
                         <span class="glyphicon glyphicon-menu-left"></span>
                         <span data-translate="BackToList"></span>
@@ -52,9 +52,11 @@
             </tr>
             <tr class="headerName">
                 <th data-translate="SymbolCount"></th>
-                <th data-translate="NickName"></th>
                 <th data-translate="Code"></th>
+                <th data-translate="NickName"></th>
+                <th data-translate="FullName"></th>
                 <th data-translate="Section"></th>
+                <th data-translate="Team"></th>
                 <th data-translate="PeriodName"></th>
                 <th data-translate="StartDate"></th>
                 <th data-translate="EndDate"></th>
@@ -65,10 +67,12 @@
         <tbody>
             <tr dir-paginate="epa in epaHistoryCtrl.filteredItems | itemsPerPage: epaHistoryCtrl.pageSize" current-page="epaHistoryCtrl.currentPage">
                 <td class="text-center" ng-bind="epaHistoryCtrl.getIndex($index, epaHistoryCtrl.currentPage, epaHistoryCtrl.pageSize)"></td>
+                <td class="text-center" ng-bind="epa.Employee.Code"></td>
                 <td class="text-center">
                     <span ng-bind="epa.Employee.NickName" popover-avatar avatar-src="{{epa.Employee.Avatar}}"></span>
                 </td>
-                <td class="text-center" ng-bind="epa.Employee.Code"></td>
+                <td ng-bind="epa.Employee.FullName"></td>
+                <td ng-bind="epa.Employee.DepartmentName"></td>
                 <td ng-bind="epa.Employee.GroupName"></td>
                 <td ng-bind="epa.Period.Name"></td>
                 <td class="text-center" ng-bind="epa.Period.StartDate | date: epaHistoryCtrl.dateFormat"></td>
@@ -85,12 +89,12 @@
                 </td>
             </tr>
             <tr ng-show="epaHistoryCtrl.filteredItems.length === 0">
-                <td class="empty-result" colspan="9" data-translate="EmptyResult"></td>
+                <td class="empty-result" colspan="11" data-translate="EmptyResult"></td>
             </tr>
         </tbody>
         <tfoot>
             <tr>
-                <td colspan="9" class="paging">
+                <td colspan="11" class="paging">
                     <span data-translate="Show"></span>
                     <select class="dropdown-entry form-control" ng-model="epaHistoryCtrl.pageSize"
                             ng-options="entry for entry in epaHistoryCtrl.entries" ng-change="epaHistoryCtrl.currentPage = 1"></select>

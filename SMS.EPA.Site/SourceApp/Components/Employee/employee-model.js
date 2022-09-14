@@ -13,8 +13,8 @@
         model.defaultPassword = null;
         model.permission = 0;
 
-        model.getAllEmployee = function (query, departmentId, isLocal, isSpecialUser, isDisabledUser, hasMonthlyEPA) {
-            return employeeFactory.getAllEmployee(query, departmentId, isLocal, isSpecialUser, isDisabledUser, hasMonthlyEPA)
+        model.getEmployee = function (query, teamIds, isLocal, isSpecialUser, isDisabledUser, hasMonthlyEPA) {
+            return employeeFactory.getEmployee(query, teamIds, isLocal, isSpecialUser, isDisabledUser, hasMonthlyEPA)
             .success(function (employees) {
                 model.employees = employees;
             }).error(function (response, status) {
@@ -25,7 +25,7 @@
         model.openPopupCreateNewEmployee = function (vm) {
             vm.modalInstance = $uibModal.open({
                 templateUrl: 'SourceApp/Components/Employee/Templates/create.html',
-                controller: "CreateEmployeeController as employeeCtrl",
+                controller: "CreateEmployeeController as createEmployeeCtrl",
                 backdrop: 'static',
                 windowClass: "modal-confirm-center"
             });
@@ -70,7 +70,7 @@
                     notificationFactory.error("PasswordLengthWarning");
                     return false;
                 } else if (!employee.GroupId) {
-                    notificationFactory.error("SectionRequired");
+                    notificationFactory.error("TeamRequired");
                     return false;
                 } else if (employee.Email && !emailPattern.test(employee.Email)) {
                     notificationFactory.error("EmailWrongPatternWarning");
@@ -84,7 +84,7 @@
         model.openPopupUpdateEmployee = function (vm, employee) {
             vm.modalInstance = $uibModal.open({
                 templateUrl: 'SourceApp/Components/Employee/Templates/edit.html',
-                controller: "UpdateEmployeeController as employeeCtrl",
+                controller: "UpdateEmployeeController as editEmployeeCtrl",
                 resolve: {
                     employee: function () {
                         return employee;
@@ -97,11 +97,11 @@
             return vm.modalInstance.result;
         };
 
-        model.updateEmployee = function (updatedEmployee, modalInstance) {
-            return employeeFactory.updateSpecialEmployee(updatedEmployee).success(function (response) {
+        model.updateEmployee = function (employee, modalInstance) {
+            return employeeFactory.updateSpecialEmployee(employee).success(function (response) {
                 if (response.IsSuccessful) {
                     notificationFactory.success("UpdatedSuccessfully");
-                    modalInstance.close(updatedEmployee);
+                    modalInstance.close();
                 } else {
                     notificationFactory.error('', response.Message);
                 }

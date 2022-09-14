@@ -14,7 +14,7 @@
                 </select>
             </div>
             <div class="form-group">
-                <label class="label-form" data-translate="Section"></label>
+                <label class="label-form" data-translate="Team"></label>
                 <select class="form-control select-form" ng-model="evaluatorCtrl.filter.groupId"
                         ng-options="opt.GroupId as opt.GroupName for opt in evaluatorCtrl.groupOptions" ng-change="evaluatorCtrl.getMember()">
                     <option value="">-- {{"All" | translate}} --</option>
@@ -62,6 +62,7 @@
                     <th data-translate="SymbolCount"></th>
                     <th data-translate="PeriodName"></th>
                     <th data-translate="Section"></th>
+                    <th data-translate="Team"></th>
                     <th data-translate="NickName"></th>
                     <th data-translate="JobTitle"></th>
                     <th class="sorting">
@@ -88,9 +89,8 @@
                 <tr ng-repeat="epaInfo in evaluatorCtrl.epaInfos">
                     <td class="text-center" ng-bind="$index + 1"></td>
                     <td ng-bind="epaInfo.Period.Name"></td>
-                    <td class="text-center">
-                        <span uib-tooltip="{{epaInfo.Employee.GroupName}}" ng-bind="epaInfo.Employee.GroupCode"></span>
-                    </td>
+                    <td class="text-center" ng-bind="epaInfo.Employee.DepartmentName"></td>
+                    <td class="text-center" ng-bind="epaInfo.Employee.GroupName"></td>
                     <td class="text-center">
                         <span ng-bind="epaInfo.Employee.NickName" popover-avatar avatar-src="{{epaInfo.Employee.Avatar}}"></span>
                     </td>
@@ -163,7 +163,7 @@
                     </td>
                 </tr>
                 <tr ng-show="evaluatorCtrl.epaInfos.length == 0">
-                    <td class="empty-result" colspan="14" data-translate="EmptyResult"></td>
+                    <td class="empty-result" colspan="15" data-translate="EmptyResult"></td>
                 </tr>
             </tbody>
         </table>

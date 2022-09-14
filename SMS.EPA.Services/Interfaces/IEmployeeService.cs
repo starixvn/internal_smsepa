@@ -11,6 +11,8 @@
 
         bool ValidatePassword(string enterPassword, string employeePassword);
 
+        IList<Employee> GetEmployee(GetEmployeeCriteria criteria);
+
         IEnumerable<Employee> GetAllEmployee(GetAllEmployeeCriteria criteria);
 
         Employee GetEmployeeById(int employeeId);

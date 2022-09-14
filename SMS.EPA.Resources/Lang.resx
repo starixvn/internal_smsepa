@@ -1497,4 +1497,7 @@
   <data name="Team" xml:space="preserve">
     <value>Team</value>
   </data>
+  <data name="TeamRequired" xml:space="preserve">
+    <value>Team is required.</value>
+  </data>
 </root>

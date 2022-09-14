@@ -7,11 +7,11 @@
     createEmployeeController.$inject = ['$uibModalInstance', 'EmployeeModel', 'CommonModel'];
 
     function createEmployeeController($uibModalInstance, EmployeeModel, CommonModel) {
-        var vm = this;
+        let vm = this;
 
         vm.jobTitleOptions = [];
-        vm.groupOptions = [];
         vm.jobLevelOptions = [];
+        vm.orgChart = [];
 
         vm.employee = {
             NickName: '',
@@ -26,18 +26,9 @@
             JobLevelId: ''
         };
 
-        vm.cancel = cancel;
-        vm.save = save;
-
-        initialize();
-
-        function cancel() {
-            $uibModalInstance.dismiss('cancel');
-        }
-
         function initialize() {
-            CommonModel.getAllGroup().then(function () {
-                vm.groupOptions = CommonModel.groups;
+            CommonModel.getOrgChart().then(function () {
+                vm.orgChart = CommonModel.orgChart;
             });
 
             CommonModel.getAllJobTitle().then(function () {
@@ -49,10 +40,20 @@
             });
         }
 
-        function save(employee) {
-            if (EmployeeModel.validateEmployee(employee, 'create')) {
-                EmployeeModel.createEmployee(employee, $uibModalInstance);
+        vm.onSelectTeam = function (teamId) {
+            vm.employee.GroupId = teamId;
+        };
+
+        vm.cancel = function () {
+            $uibModalInstance.dismiss('cancel');
+        };
+
+        vm.save = function () {
+            if (EmployeeModel.validateEmployee(vm.employee, 'create')) {
+                EmployeeModel.createEmployee(vm.employee, $uibModalInstance);
             }
-        }
+        };
+
+        initialize();
     }
 })(angular);

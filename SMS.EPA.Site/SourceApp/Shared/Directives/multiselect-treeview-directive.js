@@ -18,8 +18,9 @@
                     $timeout(function () {
                         $(iElement).multiSelectTreeView({
                             data: options,
+                            singleSelection: iAttr.singleSelection !== undefined ? JSON.parse(iAttr.singleSelection) : false,
                             selectedItems: scope.selectedItems,
-                            isSelectedAll: JSON.parse(iAttr.isSelectedAll),
+                            isSelectedAll: iAttr.isSelectedAll !== undefined ? JSON.parse(iAttr.isSelectedAll) : false,
                             onSelect: function () {
                                 if (typeof scope.onSelect === 'function') {
                                     scope.onSelect($(iElement).multiSelectTreeView('getSelectedItems'));

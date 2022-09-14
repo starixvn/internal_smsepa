@@ -7,17 +7,24 @@
 
     function employeeFactory($http, baseUrl) {
         return {
-            assignRoleToEmployee: assignRoleToEmployee,
-            changePassword: changePassword,
-            createSpecialEmployee: createSpecialEmployee,
-            getAllEmployee: getAllEmployee,
-            getDefaultPassword: getDefaultPassword,
-            getUserPermissionOnEmployee: getUserPermissionOnEmployee,
-            resetPassword: resetPassword,
-            updateHasMonthlyEPA: updateHasMonthlyEPA,
-            updateSpecialEmployee: updateSpecialEmployee,
-            updateJobLevel: updateJobLevel
+            assignRoleToEmployee,
+            changePassword,
+            createSpecialEmployee,
+            getEmployee,
+            getDefaultPassword,
+            getUserPermissionOnEmployee,
+            resetPassword,
+            updateHasMonthlyEPA,
+            updateSpecialEmployee,
+            updateJobLevel
         };
+
+        function getEmployee(query, teamIds, isLocal, isSpecialUser, isDisabledUser, hasMonthlyEPA) {
+            return $http.get(baseUrl + 'api/Employee/GetAllEmployee',
+                {
+                    params: { query, teamIds, isLocal, isSpecialUser, isDisabledUser, hasMonthlyEPA }
+                });
+        }
 
         function assignRoleToEmployee(employeeRoles) {
             return $http.put(baseUrl + 'api/Employee/AssignRoleToEmployee', employeeRoles);
@@ -33,20 +40,6 @@
 
         function getDefaultPassword() {
             return $http.get(baseUrl + 'api/Employee/GetDefaultPassword');
-        }
-
-        function getAllEmployee(query, departmentId, isLocal, isSpecialUser, isDisabledUser, hasMonthlyEPA) {
-            return $http.get(baseUrl + 'api/Employee/GetAllEmployee',
-                {
-                    params: {
-                        query: query,
-                        departmentId: departmentId,
-                        isLocal: isLocal,
-                        isSpecialUser: isSpecialUser,
-                        isDisabledUser: isDisabledUser,
-                        hasMonthlyEPA: hasMonthlyEPA
-                    }
-                });
         }
 
         function getUserPermissionOnEmployee() {

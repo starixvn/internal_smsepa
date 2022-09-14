@@ -32,24 +32,23 @@
         [ApiAuthorize(FunctionKey = EPAFunctionKey.UserManagement, Policy = Policy.Read)]
         public IEnumerable<Employee> GetAllEmployee(
             string query = "",
-            int? departmentId = null,
+            string teamIds = null,
             bool? isLocal = null,
             bool? isSpecialUser = null,
             bool? isDisabledUser = null,
             bool? hasMonthlyEPA = null)
         {
-            var criteria = new GetAllEmployeeCriteria
+            var criteria = new GetEmployeeCriteria
             {
                 Query = query,
-                DepartmentId = departmentId,
+                TeamIds = teamIds,
                 IsLocal = isLocal,
                 IsSpecialUser = isSpecialUser,
                 IsDisabledUser = isDisabledUser,
                 HasMonthlyEPA = hasMonthlyEPA
             };
 
-            IEnumerable<Employee> employees = employeeService.GetAllEmployee(criteria);
-            return employees;
+            return employeeService.GetEmployee(criteria);
         }
 
         [HttpPost]

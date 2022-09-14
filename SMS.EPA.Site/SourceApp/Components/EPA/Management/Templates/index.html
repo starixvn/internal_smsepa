@@ -14,7 +14,7 @@
                 </select>
             </div>
             <div class="form-group">
-                <label class="label-form" data-translate="Section"></label>
+                <label class="label-form" data-translate="Team"></label>
                 <select class="form-control select-form" ng-model="managementCtrl.filter.groupId"
                         ng-options="opt.GroupId as opt.GroupName for opt in managementCtrl.groupOptions" ng-change="managementCtrl.getMember()">
                     <option value="">-- {{"All" | translate}} --</option>
@@ -53,7 +53,7 @@
             <thead>
                 <tr class="header-table"
                     ng-if="managementCtrl.epaInfos.length > 0 && !managementCtrl.isEndProcessAll && managementCtrl.permission === managementCtrl.policyEnum.Host">
-                    <th colspan="19">
+                    <th colspan="20">
                         <a class="pull-left button-icon" ng-click="managementCtrl.adjustScore()">
                             <span class="icon-edit glyphicon glyphicon-edit"></span>
                             <span class="button-text" data-translate="AdjustScore"></span>
@@ -71,6 +71,7 @@
                     <th data-translate="SymbolCount"></th>
                     <th data-translate="PeriodName"></th>
                     <th data-translate="Section"></th>
+                    <th data-translate="Team"></th>
                     <th data-translate="NickName"></th>
                     <th>
                         <div class="col-sm-9 lab" data-translate="JobTitle"></div>
@@ -131,9 +132,8 @@
                     </td>
                     <td class="text-center" ng-bind="$index + 1"></td>
                     <td ng-bind="epaInfo.Period.Name"></td>
-                    <td class="text-center">
-                        <span uib-tooltip="{{epaInfo.Employee.GroupName}}" ng-bind="epaInfo.Employee.GroupCode"></span>
-                    </td>
+                    <td class="text-center" ng-bind="epaInfo.Employee.DepartmentName"></td>
+                    <td class="text-center" ng-bind="epaInfo.Employee.GroupName"></td>
                     <td class="text-center">
                         <span ng-bind="epaInfo.Employee.NickName" popover-avatar avatar-src="{{epaInfo.Employee.Avatar}}"></span>
                     </td>
@@ -227,14 +227,14 @@
             </tbody>
             <tfoot ng-show="managementCtrl.epaInfos.length > 0">
                 <tr>
-                    <td colspan="19">
+                    <td colspan="20">
                         {{"AverageScoreByReviewers" | translate}}: {{managementCtrl.averageScore | customScore}}
                     </td>
                 </tr>
             </tfoot>
             <tbody ng-show="managementCtrl.epaInfos.length === 0">
                 <tr>
-                    <td class="empty-result" colspan="19" data-translate="EmptyResult"></td>
+                    <td class="empty-result" colspan="20" data-translate="EmptyResult"></td>
                 </tr>
             </tbody>
         </table>

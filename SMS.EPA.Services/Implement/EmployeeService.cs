@@ -1,6 +1,7 @@
 ﻿namespace SMS.EPA.Services.Implement
 {
     using System.Collections.Generic;
+    using System.Linq;
     using Core.Enumerations;
     using Core.Model;
     using Core.Security;
@@ -42,6 +43,11 @@
         {
             bool isValid = Encryption.CompareStringToHash(HashProvider.Sha1, enterPassword, employeePassword);
             return isValid;
+        }
+
+        public IList<Employee> GetEmployee(GetEmployeeCriteria criteria)
+        {
+            return employeeRepository.GetAllEmployee(criteria).ToList();
         }
 
         public IEnumerable<Employee> GetAllEmployee(GetAllEmployeeCriteria criteria)

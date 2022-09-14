@@ -52,7 +52,7 @@
                     <table class="table table-bordered table-striped">
                         <thead>
                             <tr class="showRatingScoreByStar" ng-show="ratingByKPICtrl.hasRatingByStar">
-                                <th colspan="8">
+                                <th colspan="9">
                                     <div class="checkbox">
                                         <label>
                                             <input type="checkbox" ng-model="ratingByKPICtrl.showRatingScoreByStar" /> {{"ShowRatingScoreByStar" | translate}}
@@ -61,7 +61,7 @@
                                 </th>
                             </tr>
                             <tr class="header-table">
-                                <th colspan="8">
+                                <th colspan="9">
                                     <div class="col-sm-12">
                                         <label class="kpi-selected">
                                             {{ratingByKPICtrl.kpiSelected.Name}}
@@ -76,6 +76,7 @@
                             <tr>
                                 <th></th>
                                 <th data-translate="Section"></th>
+                                <th data-translate="Team"></th>
                                 <th data-translate="NickName"></th>
                                 <th data-translate="EmployeeScore"></th>
                                 <th class="col-score">
@@ -104,9 +105,8 @@
                                         <span class="glyphicon glyphicon-ok" ng-if="kpi.Score != ''"></span>
                                     </div>
                                 </td>
-                                <td class="text-center">
-                                    <span uib-tooltip="{{epaInfo.Employee.GroupName}}" ng-bind="epaInfo.Employee.GroupCode"></span>
-                                </td>
+                                <td class="text-center" ng-bind="epaInfo.Employee.DepartmentName"></td>
+                                <td class="text-center" ng-bind="epaInfo.Employee.GroupName"></td>
                                 <td class="text-center">
                                     <span ng-bind="epaInfo.Employee.NickName" popover-avatar avatar-src="{{epaInfo.Employee.Avatar}}"></span>
                                 </td>
@@ -205,12 +205,12 @@
                         </tbody>
                         <tbody ng-show="!ratingByKPICtrl.filteredItems || ratingByKPICtrl.filteredItems.length === 0">
                             <tr>
-                                <td class="empty-result" colspan="8" data-translate="EmptyResult"></td>
+                                <td class="empty-result" colspan="9" data-translate="EmptyResult"></td>
                             </tr>
                         </tbody>
                         <tfoot ng-show="ratingByKPICtrl.filteredItems && ratingByKPICtrl.filteredItems.length > 0">
                             <tr>
-                                <td colspan="8" class="paging">
+                                <td colspan="9" class="paging">
                                     <span data-translate="Show"></span>
                                     <select class="dropdown-entry form-control" ng-model="ratingByKPICtrl.pageSize"
                                             ng-options="entry for entry in ratingByKPICtrl.entries" ng-change="ratingByKPICtrl.currentPage = 1"></select>

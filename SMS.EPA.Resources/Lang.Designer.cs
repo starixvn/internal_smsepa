@@ -3724,6 +3724,15 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Team is required..
+        /// </summary>
+        public static string TeamRequired {
+            get {
+                return ResourceManager.GetString("TeamRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Title.
         /// </summary>
         public static string Title {

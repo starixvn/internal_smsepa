@@ -10,11 +10,12 @@
             <input class="form-control input-form" type="text" ng-model="employeeCtrl.filter.query" placeholder="full name or nick name" />
         </div>
         <div class="form-group">
-            <label class="label-form" data-translate="DepartmentSection"></label>
-            <select class="form-control select-form" ng-model="employeeCtrl.filter.departmentId"
-                    ng-options="opt.DepartmentId as opt.Name for opt in employeeCtrl.treeDepartment">
-                <option value="">-- Select a Dept./Section --</option>
-            </select>
+            <label class="label-form" data-translate="Team"></label>
+            <div class="select-form">
+                <multi-select-tree-view selected-items="employeeCtrl.filter.teamIds"
+                                        is-selected-all="true"
+                                        options="employeeCtrl.orgChart" on-select="employeeCtrl.onSelectTeam"></multi-select-tree-view>
+            </div>
         </div>
         <div class="form-group">
             <label class="label-form" data-translate="Category"></label>
@@ -51,14 +52,14 @@
         </div>
         <div class="form-group">
             <label class="label-form"></label>
-            <button class="btn btn-primary" ng-click="employeeCtrl.queryEmployee(employeeCtrl.filter)" data-translate="Submit"></button>
+            <button class="btn btn-primary" ng-click="employeeCtrl.query()" data-translate="Submit"></button>
         </div>
     </form>
     <table class="row table table-bordered table-striped" id="data">
         <thead>
             <tr class="header-table">
                 <th colspan="14">
-                    <a class="pull-left button-icon create-button" ng-click="employeeCtrl.createEmployee()"
+                    <a class="pull-left button-icon create-button" ng-click="employeeCtrl.create()"
                        ng-if="employeeCtrl.permission == employeeCtrl.policyEnum.Host">
                         <span class="glyphicon glyphicon-plus icon-add"></span>
                         <span class="button-text" data-translate="CreateUser"></span>
@@ -110,7 +111,7 @@
                 <td ng-bind="employee.Group.GroupName"></td>
                 <td class="text-center">
                     <div ng-if="employee.IsSpecialUser">
-                        <a href="" ng-click="employeeCtrl.updateEmployee(employee)" data-translate="Yes"
+                        <a href="" ng-click="employeeCtrl.edit(employee)" data-translate="Yes"
                            ng-if="employeeCtrl.permission === employeeCtrl.policyEnum.Host"></a>
                         <span data-translate="Yes" ng-if="employeeCtrl.permission !== employeeCtrl.policyEnum.Host"></span>
                     </div>
@@ -123,7 +124,7 @@
                 </td>
                 <td class="text-center">
                     <input type="checkbox" ng-checked="employee.HasMonthlyEPA" ng-disabled="employeeCtrl.permission !== employeeCtrl.policyEnum.Host"
-                           ng-click="employeeCtrl.updateHasMonthlyEPA(employee)" />
+                           ng-click="employeeCtrl.editHasMonthlyEPA(employee)" />
                 </td>
                 <td class="text-center authority-employee-action" ng-if="employeeCtrl.permission === employeeCtrl.policyEnum.Host">
                     <a class="glyphicon glyphicon-edit icon-edit" href="" title="Assign role to user" ng-click="employeeCtrl.assignRole(employee)" />
