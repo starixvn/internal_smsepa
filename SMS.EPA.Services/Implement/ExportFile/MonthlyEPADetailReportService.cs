@@ -23,6 +23,7 @@
             Lang.FullName,
             Lang.Category,
             Lang.Section,
+            Lang.Team,
             Lang.JobTitle,
             Lang.GroupDate,
             Lang.TargetTemplate,

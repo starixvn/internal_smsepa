@@ -29,7 +29,7 @@
         {
             try
             {
-                using (FileStream fireStream = new FileStream(templatePath, FileMode.Open, FileAccess.Read))
+                using (var fireStream = new FileStream(templatePath, FileMode.Open, FileAccess.Read))
                 {
                     Workbook = new HSSFWorkbook(fireStream, true);
                     Sheet = Workbook.GetSheetAt(0);
@@ -95,9 +95,10 @@
                 var curRow = Sheet.CreateRow(rowIndex);
 
                 curRow.CreateCell(colIndex++).SetCellValue(recommendation.Code);
-                curRow.CreateCell(colIndex++).SetCellValue(recommendation.NickName);
+                curRow.CreateCell(colIndex++).SetCellValue(recommendation.Nickname);
                 curRow.CreateCell(colIndex++).SetCellValue(recommendation.FullName);
                 curRow.CreateCell(colIndex++).SetCellValue(recommendation.Section);
+                curRow.CreateCell(colIndex++).SetCellValue(recommendation.Team);
 
                 switch (recommendation.ProbationStatus)
                 {
@@ -133,13 +134,13 @@
 
         private void FormatProbationTemplate()
         {
-            const int jobLevelFieldColIndex = 6;
-            const int anualIncrementFieldColIndex = 5;
+            const byte JobLevelFieldColIndex = 7;
+            const byte AnualIncrementFieldColIndex = 6;
 
-            Sheet.RemoveColumn(jobLevelFieldColIndex);
-            Sheet.RemoveColumn(anualIncrementFieldColIndex);
+            Sheet.RemoveColumn(JobLevelFieldColIndex);
+            Sheet.RemoveColumn(AnualIncrementFieldColIndex);
 
-            var recommendationCell = new CellRangeAddress(2, 3, 4, 4);
+            var recommendationCell = new CellRangeAddress(2, 3, 5, 5);
             Sheet.AddMergedRegion(recommendationCell);
         }
 
@@ -155,9 +156,10 @@
                 var curRow = Sheet.CreateRow(rowIndex);
 
                 curRow.CreateCell(colIndex++).SetCellValue(recommendation.Code);
-                curRow.CreateCell(colIndex++).SetCellValue(recommendation.NickName);
+                curRow.CreateCell(colIndex++).SetCellValue(recommendation.Nickname);
                 curRow.CreateCell(colIndex++).SetCellValue(recommendation.FullName);
                 curRow.CreateCell(colIndex++).SetCellValue(recommendation.Section);
+                curRow.CreateCell(colIndex++).SetCellValue(recommendation.Team);
                 curRow.CreateCell(colIndex++).SetCellValue(string.Format(StatusFormat,
                     recommendation.Promotion,
                     !string.IsNullOrWhiteSpace(recommendation.Promotion) && !string.IsNullOrWhiteSpace(recommendation.PromotedBy)

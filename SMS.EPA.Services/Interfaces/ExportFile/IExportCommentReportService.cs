@@ -4,6 +4,6 @@
 
     public interface IExportCommentReportService
     {
-        void Export(EPASummaryCommentReportModel datas, string templatePath);
+        void Export(EPASummaryCommentReportModel data, string templatePath);
     }
 }

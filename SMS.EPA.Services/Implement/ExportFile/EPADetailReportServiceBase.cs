@@ -247,10 +247,6 @@
             Sheet.SetColumnWidth(columnIndex, width * ExcelColumnWidth);
         }
 
-        [SuppressMessage(
-            "StyleCop.CSharp.StylecopPlus.Rules",
-            "SP2101:MethodMustNotContainMoreLinesThan",
-            Justification = "Reviewed. Suppression is OK here.")]
         protected int WriteCommonCells(EPAModel epaInfo, IRow row, int currentRow)
         {
             var currentColumn = 0;
@@ -285,6 +281,11 @@
             cell.CellStyle = BodyStyle;
             cell.SetCellValue(epaInfo.Employee.Category);
             SetColumnWidth(currentColumn++, 12);
+
+            cell = row.CreateCell(currentColumn);
+            cell.CellStyle = BodyStyle;
+            cell.SetCellValue(epaInfo.Employee.DepartmentName);
+            SetColumnWidth(currentColumn++, 16);
 
             cell = row.CreateCell(currentColumn);
             cell.CellStyle = BodyStyle;

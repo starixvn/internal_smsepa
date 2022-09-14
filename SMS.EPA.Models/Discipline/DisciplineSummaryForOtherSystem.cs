@@ -13,6 +13,7 @@
         public string Category { get; set; }
         public DateTime JoinedDate { get; set; }
         public string Section { get; set; }
+        public string Team { get; set; }
         public string JobTitle { get; set; }
 
         public object ConvertToExcelRecord()
@@ -24,6 +25,7 @@
                 Nickname,
                 FullName,
                 Section,
+                Team,
                 JobTitle,
                 JoinedDate = JoinedDate.ToString(Constants.DateFormat),
                 Category,

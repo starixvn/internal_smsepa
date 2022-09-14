@@ -27,7 +27,7 @@
 
         public ActionResult ExportExcel(int periodId, string periodName)
         {
-            EPASummaryCommentReportModel data = new EPASummaryCommentReportModel
+            var data = new EPASummaryCommentReportModel
             {
                 CommentSummary = _commentReportService.GetSummaryComment(periodId),
                 PeriodId = periodId,

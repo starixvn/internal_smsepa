@@ -77,8 +77,8 @@
                 <th data-translate="FullName"></th>
                 <th data-translate="JobTitle"></th>
                 <th data-translate="JobLevel"></th>
-                <th data-translate="Department"></th>
                 <th data-translate="Section"></th>
+                <th data-translate="Team"></th>
                 <th data-translate="ShortSpecialUser"></th>
                 <th data-translate="Roles"></th>
                 <th data-translate="MonthlyEPA"></th>
@@ -107,9 +107,7 @@
                     </div>
                 </td>
                 <td ng-bind="employee.Department.Name"></td>
-                <td class="text-center">
-                    <span uib-tooltip="{{employee.Group.GroupName}}" ng-bind="employee.Group.GroupCode"></span>
-                </td>
+                <td ng-bind="employee.Group.GroupName"></td>
                 <td class="text-center">
                     <div ng-if="employee.IsSpecialUser">
                         <a href="" ng-click="employeeCtrl.updateEmployee(employee)" data-translate="Yes"

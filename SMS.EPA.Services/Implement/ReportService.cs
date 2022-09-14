@@ -250,19 +250,24 @@
 
             cellBody = row.CreateCell(5);
             cellBody.CellStyle = bodyStyle;
-            cellBody.SetCellValue(epaInfo.Group.GroupName);
+            cellBody.SetCellValue(epaInfo.Section);
             SetColumnWidth(ref sheet, 5, 16);
 
             cellBody = row.CreateCell(6);
             cellBody.CellStyle = bodyStyle;
-            cellBody.SetCellValue(epaInfo.JobTitle.JobTitleName);
-            SetColumnWidth(ref sheet, 6, 25);
+            cellBody.SetCellValue(epaInfo.Group.GroupName);
+            SetColumnWidth(ref sheet, 6, 16);
 
-            bodyStyle = rowIndex % 2 == 0 ? bodyStyle2 : bodyStyle1;
             cellBody = row.CreateCell(7);
             cellBody.CellStyle = bodyStyle;
+            cellBody.SetCellValue(epaInfo.JobTitle.JobTitleName);
+            SetColumnWidth(ref sheet, 7, 25);
+
+            bodyStyle = rowIndex % 2 == 0 ? bodyStyle2 : bodyStyle1;
+            cellBody = row.CreateCell(8);
+            cellBody.CellStyle = bodyStyle;
             cellBody.SetCellValue(epaInfo.JoinedDate.ToString(Constants.DateFormat));
-            SetColumnWidth(ref sheet, 7, 15);
+            SetColumnWidth(ref sheet, 8, 15);
 
             return sheet;
         }
@@ -272,7 +277,7 @@
             const short fontHeight = 18;
             const int tableHeaderRowIndex = 3;
 
-            IList<string> titleHeaders = new List<string>
+            var titleHeaders = new List<string>
             {
                 Lang.SymbolCount,
                 Lang.Code,
@@ -280,11 +285,12 @@
                 Lang.FullName,
                 Lang.Category,
                 Lang.Section,
+                Lang.Team,
                 Lang.JobTitle,
                 Lang.GroupDate
             };
 
-            HSSFWorkbook workbook = new HSSFWorkbook();
+            var workbook = new HSSFWorkbook();
             ISheet sheet = workbook.CreateSheet(Lang.EPASummaryReportSheet);
             IRow rowTitle = sheet.CreateRow(0);
 
@@ -330,7 +336,7 @@
             string grade,
             IFont redFont = null)
         {
-            int summaryColIndex = 8 + (2 * i);
+            int summaryColIndex = 9 + (2 * i);
 
             ICell cellBody = row.CreateCell(summaryColIndex);
             cellBody.CellStyle = bodyStyle;
@@ -378,10 +384,6 @@
             return grade;
         }
 
-        [SuppressMessage(
-            "StyleCop.CSharp.StylecopPlus.Rules",
-            "SP2101:MethodMustNotContainMoreLinesThan",
-            Justification = "Reviewed. Suppression is OK here.")]
         private static void RenderContentRowEPASummaryReport(
             EPASummaryModel epaSummary,
             ref HSSFWorkbook workbook,
@@ -447,7 +449,7 @@
                     }
                     else
                     {
-                        int summaryColumnIndex = 8 + (2 * i);
+                        int summaryColumnIndex = 9 + (2 * i);
 
                         cellBody = row.CreateCell(summaryColumnIndex);
                         cellBody.CellStyle = bodyStyle;

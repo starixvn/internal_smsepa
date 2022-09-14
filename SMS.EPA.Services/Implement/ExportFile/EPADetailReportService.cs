@@ -28,6 +28,7 @@
             Lang.FullName,
             Lang.Category,
             Lang.Section,
+            Lang.Team,
             Lang.JobTitle,
             Lang.GroupDate,
             Lang.TargetType,
@@ -63,10 +64,6 @@
             Workbook.Write(response.OutputStream);
         }
 
-        [SuppressMessage(
-            "StyleCop.CSharp.StylecopPlus.Rules",
-            "SP2101:MethodMustNotContainMoreLinesThan",
-            Justification = "Reviewed. Suppression is OK here.")]
         public override void WriteContentTable()
         {
             CreateDefaultStyles();

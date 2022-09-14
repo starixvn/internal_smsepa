@@ -1494,4 +1494,7 @@
   <data name="ToSection" xml:space="preserve">
     <value>To Section</value>
   </data>
+  <data name="Team" xml:space="preserve">
+    <value>Team</value>
+  </data>
 </root>

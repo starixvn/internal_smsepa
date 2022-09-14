@@ -152,7 +152,8 @@
                 Employee.Code,
                 Nick = Employee.NickName,
                 Employee.FullName,
-                Section = Employee.GroupName,
+                Section = Employee.DepartmentName,
+                Team = Employee.GroupName,
                 JobTitle = Employee.JobTitleName,
                 OldFinalScore,
                 NewFinalScore = FinalScore

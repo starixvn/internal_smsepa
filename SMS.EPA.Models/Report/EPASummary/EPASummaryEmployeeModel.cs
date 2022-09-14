@@ -19,6 +19,8 @@
 
         public string FullName { get; set; }
 
+        public string Section { get; set; }
+
         public Group Group { get; set; }
 
         public DateTime JoinedDate { get; set; }

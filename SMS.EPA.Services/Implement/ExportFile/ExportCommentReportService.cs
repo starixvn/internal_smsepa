@@ -17,10 +17,10 @@
         private const string FileNamePrefix = "Comment Report - ";
         private const string TitleProfix = "Comment - ";
         private const int TableContentFirstRowIndex = 4;
-        private const int TotalStaffInfoField = 4;
-        private const int EvaluatorColumnIndex = 4;
-        private const int ReviewerColumnIndex = 6;
-        private const int ManagementColumnIndex = 8;
+        private const int TotalStaffInfoField = 5;
+        private const int EvaluatorColumnIndex = 5;
+        private const int ReviewerColumnIndex = 7;
+        private const int ManagementColumnIndex = 9;
 
         private IWorkbook Workbook { get; set; }
         private ISheet Sheet { get; set; }
@@ -28,10 +28,10 @@
         private string Title { get; set; }
         private IEnumerable<EPASummaryCommentModel> SummaryComments { get; set; }
 
-        public void Export(EPASummaryCommentReportModel datas, string templatePath)
+        public void Export(EPASummaryCommentReportModel data, string templatePath)
         {
             InitializeWithTemplate(templatePath);
-            GetData(datas);
+            GetData(data);
 
             FillContent();
 
@@ -42,7 +42,7 @@
         {
             try
             {
-                using (FileStream fireStream = new FileStream(templatePath, FileMode.Open, FileAccess.Read))
+                using (var fireStream = new FileStream(templatePath, FileMode.Open, FileAccess.Read))
                 {
                     Workbook = new HSSFWorkbook(fireStream, true);
                     Sheet = Workbook.GetSheetAt(0);
@@ -54,11 +54,11 @@
             }
         }
 
-        private void GetData(EPASummaryCommentReportModel datas)
+        private void GetData(EPASummaryCommentReportModel data)
         {
-            SummaryComments = datas.CommentSummary;
-            Title = TitleProfix + datas.PeriodName;
-            FileName = FileNamePrefix + datas.PeriodName;
+            SummaryComments = data.CommentSummary;
+            Title = TitleProfix + data.PeriodName;
+            FileName = FileNamePrefix + data.PeriodName;
         }
 
         private void FillContent()
@@ -66,23 +66,26 @@
             var titleCell = Sheet.GetRow(0).GetCell(0);
             titleCell.SetCellValue(Title);
 
-            var staffFields = SummaryComments.GroupBy(comment => new { comment.Code, comment.NickName, comment.Section, comment.StaffComment });
+            var staffFields = SummaryComments.GroupBy(comment => new { comment.Code, comment.Nickname, comment.Section, comment.Team, comment.StaffComment });
             int rowIndex = TableContentFirstRowIndex;
 
             foreach (var staffField in staffFields)
             {
                 int colIndex = 0;
-                Dictionary<string, int> evaluatorRow = new Dictionary<string, int>();
-                evaluatorRow.Add("Evaluator", rowIndex);
-                evaluatorRow.Add("Reviewer", rowIndex);
-                evaluatorRow.Add("Management", rowIndex);
+                var evaluatorRow = new Dictionary<string, int>
+                {
+                    { "Evaluator", rowIndex },
+                    { "Reviewer", rowIndex },
+                    { "Management", rowIndex }
+                };
 
                 var curRow = Sheet.CreateRow(rowIndex);
                 var fieldData = staffField.Key;
 
                 curRow.CreateCell(colIndex++).SetCellValue(fieldData.Code);
-                curRow.CreateCell(colIndex++).SetCellValue(fieldData.NickName);
+                curRow.CreateCell(colIndex++).SetCellValue(fieldData.Nickname);
                 curRow.CreateCell(colIndex++).SetCellValue(fieldData.Section);
+                curRow.CreateCell(colIndex++).SetCellValue(fieldData.Team);
                 curRow.CreateCell(colIndex).SetCellValue(fieldData.StaffComment);
 
                 FillEvaluatorFields(evaluatorRow, fieldData.Code);

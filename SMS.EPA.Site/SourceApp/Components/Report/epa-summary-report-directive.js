@@ -14,12 +14,13 @@
             var groupHeaders = [
                 {
                     Columns: [
-                        { HeaderText: "#", Name: "No", MergeRowNumber: 2 },
-                        { HeaderText: "Code", Name: "Code", MergeRowNumber: 2 },
-                        { HeaderText: "Nickname", Name: "NickName", MergeRowNumber: 2 },
-                        { HeaderText: "Full Name", Name: "FullName", MergeRowNumber: 2 },
-                        { HeaderText: "Section", Name: "Section", MergeRowNumber: 2 },
-                        { HeaderText: "Job Title", Name: "JobTitle", MergeRowNumber: 2 }
+                        { HeaderText: '#', Name: 'No', MergeRowNumber: 2 },
+                        { HeaderText: 'Code', Name: 'Code', MergeRowNumber: 2 },
+                        { HeaderText: 'Nickname', Name: 'NickName', MergeRowNumber: 2 },
+                        { HeaderText: 'Full Name', Name: 'FullName', MergeRowNumber: 2 },
+                        { HeaderText: 'Section', Name: 'Section', MergeRowNumber: 2 },
+                        { HeaderText: 'Team', Name: 'Team', MergeRowNumber: 2 },
+                        { HeaderText: 'Job Title', Name: 'JobTitle', MergeRowNumber: 2 }
                     ]
                 }
             ];
@@ -29,7 +30,7 @@
                     function(period) {
                         var column = {
                             HeaderText: period.Name,
-                            Name: "FinalScore" + period.PeriodId,
+                            Name: 'FinalScore' + period.PeriodId,
                             MergeColNumber: 2,
                             CssClass: 'column-truncate'
                         };
@@ -42,72 +43,45 @@
 
         function generateColumnHeaders(scope, periodSelecteds) {
             var sortCode = scope.sortColumnName === 'Code' ? scope.sortDirection : '',
-                sortSection = scope.sortColumnName === 'Section' ? scope.sortDirection : '';
+                sortTeam = scope.sortColumnName === 'Team' ? scope.sortDirection : '';
 
             var columnHeaders = [
-                { HeaderText: "#", Width: 40, Name: "No", HeaderAlign: "center", CellAlign: "center" },
+                { HeaderText: '#', Width: 40, Name: 'No', HeaderAlign: 'center', CellAlign: 'center' },
                 {
-                    HeaderText: "Code",
-                    Width: 70,
-                    Name: "Code",
-                    HeaderAlign: "center",
-                    CellAlign: "center",
-                    Sort: true,
-                    SortDirection: sortCode,
-                    SortType: 'string'
+                    HeaderText: 'Code', Width: 80, Name: 'Code',
+                    HeaderAlign: 'center', CellAlign: 'center', AllowTruncate: true,
+                    Sort: true, SortDirection: sortCode, SortType: 'string'
                 },
+                { HeaderText: 'Nickname', Width: 120, Name: 'NickName', HeaderAlign: 'center', CellAlign: 'left' },
                 {
-                    HeaderText: "Nickname",
-                    Width: 120,
-                    Name: "NickName",
-                    HeaderAlign: "center",
-                    CellAlign: "left",
-                    AllowTruncate: true
+                    HeaderText: 'Full Name', Width: 180, Name: 'FullName',
+                    HeaderAlign: 'center', CellAlign: 'left', AllowTruncate: true
                 },
+                { HeaderText: 'Section', Width: 180, Name: 'Section', HeaderAlign: 'center', CellAlign: 'left' },
                 {
-                    HeaderText: "Full Name",
-                    Width: 180,
-                    Name: "FullName",
-                    HeaderAlign: "center",
-                    CellAlign: "left",
-                    CanResize: true
+                    HeaderText: 'Team', Width: 180, Name: 'Team',
+                    HeaderAlign: 'center', CellAlign: 'left',
+                    Sort: true, SortDirection: sortTeam, SortType: 'string'
                 },
-                {
-                    HeaderText: "Section",
-                    Width: 150,
-                    Name: "Section",
-                    HeaderAlign: "center",
-                    CellAlign: "left",
-                    Sort: true,
-                    SortDirection: sortSection,
-                    SortType: 'string'
-                },
-                {
-                    HeaderText: "Job Title",
-                    Width: 225,
-                    Name: "JobTitle",
-                    HeaderAlign: "center",
-                    CellAlign: "left",
-                    CanResize: true
-                }
+                { HeaderText: 'Job Title', Width: 150, Name: 'JobTitle', HeaderAlign: 'center', CellAlign: 'left' }
             ];
 
             if (periodSelecteds && periodSelecteds.length > 0) {
                 angular.forEach(periodSelecteds,
                     function(period) {
                         var colFinalScore = {
-                                HeaderText: "Final Score",
+                                HeaderText: 'Final Score',
                                 Width: 100,
-                                Name: "FinalScore" + period.PeriodId,
-                                HeaderAlign: "center",
-                                CellAlign: "center"
+                                Name: 'FinalScore' + period.PeriodId,
+                                HeaderAlign: 'center',
+                                CellAlign: 'center'
                             },
                             colGrade = {
-                                HeaderText: "Grade",
+                                HeaderText: 'Grade',
                                 Width: 80,
-                                Name: "Grade" + period.PeriodId,
-                                HeaderAlign: "center",
-                                CellAlign: "center"
+                                Name: 'Grade' + period.PeriodId,
+                                HeaderAlign: 'center',
+                                CellAlign: 'center'
                             };
                         columnHeaders.push(colFinalScore);
                         columnHeaders.push(colGrade);
@@ -126,12 +100,13 @@
                     function(epaInfo, i) {
                         var currentRow = {
                             Columns: [
-                                { Name: "No", Value: rowIndex + i + 1 },
-                                { Name: "Code", Value: epaInfo.Code },
-                                { Name: "NickName", Value: epaInfo.NickName },
-                                { Name: "FullName", Value: epaInfo.FullName },
-                                { Name: "Section", Value: epaInfo.Group !== null ? epaInfo.Group.GroupName : '' },
-                                { Name: "JobTitle", Value: epaInfo.JobTitle.JobTitleName }
+                                { Name: 'No', Value: rowIndex + i + 1 },
+                                { Name: 'Code', Value: epaInfo.Code },
+                                { Name: 'NickName', Value: epaInfo.NickName },
+                                { Name: 'FullName', Value: epaInfo.FullName },
+                                { Name: 'Section', Value: epaInfo.Section },
+                                { Name: 'Team', Value: epaInfo.Group !== null ? epaInfo.Group.GroupName : '' },
+                                { Name: 'JobTitle', Value: epaInfo.JobTitle.JobTitleName }
                             ]
                         };
 
@@ -142,7 +117,7 @@
 
                                 var finalScore,
                                     grade,
-                                    cssClass = "";
+                                    cssClass = '';
 
                                 if (index !== -1) {
                                     // Calculate Final Score and Grade
@@ -155,16 +130,16 @@
                                     }
 
                                     if (!epaInfo.Periods[index].IsClosed) {
-                                        cssClass = "red";
+                                        cssClass = 'red';
                                     }
                                 } else {
-                                    finalScore = "-";
-                                    grade = "-";
+                                    finalScore = '-';
+                                    grade = '-';
                                 }
 
                                 // Set data for colFinalScore and colGrade
-                                var colFinalScore = { Name: "FinalScore" + periodSelected.PeriodId, Value: finalScore, CssClass: cssClass };
-                                var colGrade = { Name: "Grade" + periodSelected.PeriodId, Value: grade, CssClass: cssClass };
+                                var colFinalScore = { Name: 'FinalScore' + periodSelected.PeriodId, Value: finalScore, CssClass: cssClass };
+                                var colGrade = { Name: 'Grade' + periodSelected.PeriodId, Value: grade, CssClass: cssClass };
 
                                 // Display to user
                                 currentRow.Columns.push(colFinalScore);
@@ -179,9 +154,9 @@
         }
 
         return {
-            restrict: "A",
+            restrict: 'A',
             scope: {
-                gridData: "=",
+                gridData: '=',
                 pageOption: '=',
                 onSortChanging: '=',
                 exportReport: '=',
@@ -198,7 +173,7 @@
                     autoResizeColumn: true,
                     showTitle: true,
                     titleInfo: {
-                        text: "EPA Summary Report",
+                        text: 'EPA Summary Report',
                         showExcelButton: true,
                         exportExcelFunction: function() {
                             $scope.exportReport();
