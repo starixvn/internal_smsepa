@@ -118,8 +118,8 @@
             });
         }
 
-        function getEmployeeSettingInfo(groupId, employeeId, showAll) {
-            return jobDescriptionFactory.getEmployeeSettingInfo(groupId, employeeId, showAll)
+        function getEmployeeSettingInfo(teamIds, employeeId, showAll) {
+            return jobDescriptionFactory.getEmployeeSettingInfo(teamIds, employeeId, showAll)
                 .success(function (settings) {
                     model.employeeSettingInfos = settings;
                 }).error(function (response, status) {
@@ -127,8 +127,8 @@
                 });
         }
 
-        function getEmployeeHasSetting(groupId, employeeId, showAll) {
-            return jobDescriptionFactory.getEmployeeSettingInfo(groupId, employeeId, showAll)
+        function getEmployeeHasSetting(teamIds, employeeId, showAll) {
+            return jobDescriptionFactory.getEmployeeSettingInfo(teamIds, employeeId, showAll)
                 .success(function (settings) {
                     model.employeeHasSettings = settings;
                 }).error(function (response, status) {

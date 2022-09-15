@@ -12,10 +12,11 @@
         vm.currentPage = 1;
         vm.pageSize = 20;
         vm.filter = {
-            groupId: null,
+            teamIds: null,
             employee: null,
             showAll: false
         };
+        vm.orgChart = [];
         vm.employeeSettingInfos = [];
 
         utilitiesFactory.numberEntryList(vm);
@@ -33,18 +34,16 @@
         }
 
         vm.getEmployee = function () {
-            var groupId = vm.filter.groupId === null ? null : Math.abs(vm.filter.groupId);
-            return CommonModel.getAllEmployee(vm.searchEmployee, groupId);
+            return CommonModel.searchEmployee(vm.searchKeyword, vm.filter.teamIds);
         }
 
         vm.unSelectEmployee = function () {
-            if (vm.searchEmployee.trim() === '') {
+            if (vm.searchKeyword.trim() === '') {
                 vm.filter.employee = null;
             }
         }
 
         vm.query = function () {
-            var groupId = vm.filter.groupId === null ? null : Math.abs(vm.filter.groupId);
             var employeeId = null;
             vm.searchKey = '';
             vm.currentPage = 1;
@@ -53,7 +52,7 @@
                 employeeId = vm.filter.employee.EmployeeId;
             }
 
-            getEmployeeSettingInfo(groupId, employeeId, vm.filter.showAll);
+            getEmployeeSettingInfo(vm.filter.teamIds, employeeId, vm.filter.showAll);
         }
 
         vm.copyEmployeeSetting = function (employee) {
@@ -66,10 +65,9 @@
             });
         };
 
-        function getEmployeeSettingInfo(groupId, employeeId, showAll) {
+        function getEmployeeSettingInfo(teamIds, employeeId, showAll) {
             lockScreenService.start();
-            JobDescriptionModel.getEmployeeSettingInfo(groupId, employeeId, showAll).then(
-                function () {
+            JobDescriptionModel.getEmployeeSettingInfo(teamIds, employeeId, showAll).then(function () {
                     vm.employeeSettingInfos = JobDescriptionModel.employeeSettingInfos;
                     utilitiesFactory.searchOnPage(vm, vm.employeeSettingInfos);
                     lockScreenService.stop();
@@ -77,12 +75,16 @@
         }
 
         function initialize() {
-            CommonModel.getDepartment(null, true).then(function () {
-                vm.treeDepartment = CommonModel.generateTreeDepartment(CommonModel.treeDepartment.Childrens);
+            CommonModel.getOrgChart().then(function () {
+                vm.orgChart = CommonModel.orgChart;
             });
 
-            getEmployeeSettingInfo(vm.filter.groupId, null, vm.filter.showAll);
+            getEmployeeSettingInfo(vm.filter.teamIds, null, vm.filter.showAll);
             vm.isFirstLoad = false;
         }
+
+        vm.onSelectTeam = function (teamIds) {
+            vm.filter.teamIds = teamIds;
+        };
     }
 })();

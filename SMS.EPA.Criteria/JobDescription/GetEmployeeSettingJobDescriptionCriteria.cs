@@ -4,7 +4,7 @@
 
     public class GetEmployeeSettingJobDescriptionCriteria : CriteriaBase
     {
-        public int? GroupId { get; set; }
+        public string TeamIds { get; set; }
         public int? EmployeeId { get; set; }
         public bool ShowAll { get; set; }
 

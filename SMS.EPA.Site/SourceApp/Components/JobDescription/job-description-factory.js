@@ -6,23 +6,23 @@
 
     function jobDescriptionFactory($http, baseUrl) {
         return {
-            getUserPermission: getUserPermission,
-            getGroupSettingInfo: getGroupSettingInfo,
-            getGroupHasSetting: getGroupHasSetting,
-            getGroupSettingById: getGroupSettingById,
-            editGroupSetting: editGroupSetting,
-            copyGroupSetting: copyGroupSetting,
-            getEmployeeSettingInfo: getEmployeeSettingInfo,
-            getEmployeeHasSetting: getEmployeeHasSetting,
-            getEmployeeSettingById: getEmployeeSettingById,
-            editEmployeeSetting: editEmployeeSetting,
-            copyEmployeeSetting: copyEmployeeSetting,
-            createJobDescriptionGroupItem: createJobDescriptionGroupItem,
-            editJobDescriptionGroupItem: editJobDescriptionGroupItem,
-            deleteJobDescriptionGroupItem: deleteJobDescriptionGroupItem,
-            createJobDescriptionItem: createJobDescriptionItem,
-            editJobDescriptionItem: editJobDescriptionItem,
-            deleteJobDescriptionItem: deleteJobDescriptionItem
+            getUserPermission,
+            getGroupSettingInfo,
+            getGroupHasSetting,
+            getGroupSettingById,
+            editGroupSetting,
+            copyGroupSetting,
+            getEmployeeSettingInfo,
+            getEmployeeHasSetting,
+            getEmployeeSettingById,
+            editEmployeeSetting,
+            copyEmployeeSetting,
+            createJobDescriptionGroupItem,
+            editJobDescriptionGroupItem,
+            deleteJobDescriptionGroupItem,
+            createJobDescriptionItem,
+            editJobDescriptionItem,
+            deleteJobDescriptionItem
         };
 
         function getUserPermission() {
@@ -49,12 +49,8 @@
             return $http.post(baseUrl + 'api/JobDescription/CopyGroupSetting', setting);
         }
 
-        function getEmployeeSettingInfo(groupId, employeeId, showAll) {
-            return $http.post(baseUrl + 'api/JobDescription/GetEmployeeSettingInfo', {
-                groupId: groupId,
-                employeeId: employeeId,
-                showAll: showAll
-            });
+        function getEmployeeSettingInfo(teamIds, employeeId, showAll) {
+            return $http.post(baseUrl + 'api/JobDescription/GetEmployeeSettingInfo', { teamIds, employeeId, showAll });
         }
 
         function getEmployeeHasSetting() {

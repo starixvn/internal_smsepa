@@ -14,11 +14,12 @@
                 </select>
             </div>
             <div class="form-group">
-                <label class="label-form" data-translate="DepartmentSection"></label>
-                <select class="form-control select-form" ng-model="updateFinalScoreCtrl.filter.departmentId"
-                        ng-options="opt.DepartmentId as opt.Name for opt in updateFinalScoreCtrl.treeDepartment">
-                    <option value="">-- {{"All" | translate}} --</option>
-                </select>
+                <label class="label-form" data-translate="Team"></label>
+                <div class="select-form">
+                    <multi-select-tree-view selected-items="updateFinalScoreCtrl.filter.teamIds"
+                                            is-selected-all="true"
+                                            options="updateFinalScoreCtrl.orgChart" on-select="updateFinalScoreCtrl.onSelectTeam"></multi-select-tree-view>
+                </div>
             </div>
             <div class="form-group">
                 <label class="label-form" data-translate="Category"></label>
@@ -32,7 +33,7 @@
             <div class="form-group">
                 <label class="label-form" data-translate="Employee"></label>
                 <input class="form-control input-form" type="text" placeholder="full name or nick name"
-                       ng-model="updateFinalScoreCtrl.searchEmployee" search-auto-complete search-employees="updateFinalScoreCtrl.getEmployee()"
+                       ng-model="updateFinalScoreCtrl.searchKeyword" search-auto-complete search-employees="updateFinalScoreCtrl.getEmployee()"
                        ng-change="updateFinalScoreCtrl.unSelectEmployee()" employee="updateFinalScoreCtrl.filter.employee" />
             </div>
             <div class="form-group">

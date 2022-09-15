@@ -14,7 +14,7 @@
         vm.searchKey = '';
         vm.currentPage = 1;
         vm.pageSize = 10;
-        vm.filter = { periodId: null, teamIds: '', statusId: '' };
+        vm.filter = { periodId: null, teamIds: null, statusId: '' };
         vm.kpis = [];
         vm.assessments = [];
         vm.process = utilitiesFactory.jobLevelAssessmentProcess;

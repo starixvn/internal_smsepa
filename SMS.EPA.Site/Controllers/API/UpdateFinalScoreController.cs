@@ -40,7 +40,7 @@
         public HttpResponseMessage GetPeriodToUpdateFinalScore()
         {
             var criteria = new GetPeriodToUpdateFinalScoreCriteria();
-            IEnumerable<EPAPeriodModel> periods = baseService.GetData<EPAPeriodModel>(criteria);
+            var periods = baseService.GetData<EPAPeriodModel>(criteria);
 
             return Request.CreateResponse(HttpStatusCode.OK, periods);
         }
@@ -48,19 +48,18 @@
         [ApiAuthorize(FunctionKey = EPAFunctionKey.UpdateFinalScore, Policy = Policy.Read)]
         public HttpResponseMessage GetEmployeeToUpdateFinalScore(
             int periodId,
-            int? groupId = null,
+            string teamIds = null,
             bool? isLocal = null,
             string query = "")
         {
             var criteria = new GetEmployeeToUpdateFinalScoreCriteria
             {
                 PeriodId = periodId,
-                GroupId = groupId,
+                TeamIds = teamIds,
                 IsLocal = isLocal,
                 Query = query
             };
-
-            IEnumerable<EPAEmployeeInfo> employees = baseService.GetData<EPAEmployeeInfo>(criteria);
+            var employees = baseService.GetData<EPAEmployeeInfo>(criteria);
 
             return Request.CreateResponse(HttpStatusCode.OK, employees);
         }
@@ -68,7 +67,7 @@
         [ApiAuthorize(FunctionKey = EPAFunctionKey.UpdateFinalScore, Policy = Policy.Read)]
         public HttpResponseMessage GetEPAToUpdateFinalScore(
             int periodId,
-            int? departmentId = null,
+            string teamIds = null,
             bool? isLocal = null,
             int? employeeId = null)
         {
@@ -76,7 +75,7 @@
             {
                 PeriodId = periodId,
                 IsLocal = isLocal,
-                DepartmentId = departmentId,
+                TeamIds = teamIds,
                 EmployeeId = employeeId
             };
 
@@ -89,7 +88,7 @@
         [ApiAuthorize(FunctionKey = EPAFunctionKey.UpdateFinalScore, Policy = Policy.Host)]
         public HttpResponseMessage UpdateFinalScore(List<EPAModel> epaInfos)
         {
-            IEnumerable<StandardGradeModel> standardGrades = baseService.GetData<StandardGradeModel>(new GetStandardGradeCriteria());
+            var standardGrades = baseService.GetData<StandardGradeModel>(new GetStandardGradeCriteria());
 
             foreach (EPAModel epaInfo in epaInfos)
             {

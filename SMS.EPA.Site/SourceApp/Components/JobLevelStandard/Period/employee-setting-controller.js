@@ -29,7 +29,7 @@
 
         vm.filter = {
             periodId: 0,
-            teamIds: '',
+            teamIds: null,
             isLocal: '',
             isExcluded: false,
             statusId: ''

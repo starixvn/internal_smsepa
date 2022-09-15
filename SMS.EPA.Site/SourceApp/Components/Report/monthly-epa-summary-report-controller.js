@@ -12,7 +12,7 @@
         vm.epaSummary = [];
         vm.filter = {
             periodIds: '',
-            teamIds: '',
+            teamIds: null,
             isLocal: '',
             pageIndex: utilitiesFactory.pageOption.pageIndex,
             itemsPerPage: utilitiesFactory.pageOption.itemsPerPage,

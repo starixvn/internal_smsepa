@@ -27,7 +27,7 @@
         function initFilter() {
             return {
                 periodId: '',
-                teamIds: '',
+                teamIds: null,
                 isLocal: '',
                 phaseIds: '',
                 pageIndex: utilitiesFactory.pageOption.pageIndex,

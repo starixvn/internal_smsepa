@@ -7,31 +7,21 @@
 
     function updateFinalScoreFactory($http, baseUrl) {
         return {
-            getEmployeeToUpdateFinalScore: getEmployeeToUpdateFinalScore,
-            getEPAToUpdateFinalScore: getEPAToUpdateFinalScore,
-            getPeriodToUpdateFinalScore: getPeriodToUpdateFinalScore,
-            updateFinalScore: updateFinalScore
+            getEmployeeToUpdateFinalScore,
+            getEPAToUpdateFinalScore,
+            getPeriodToUpdateFinalScore,
+            updateFinalScore
         };
 
-        function getEmployeeToUpdateFinalScore(periodId, departmentId, isLocal, query) {
+        function getEmployeeToUpdateFinalScore(periodId, teamIds, isLocal, query) {
             return $http.get(baseUrl + 'api/UpdateFinalScore/GetEmployeeToUpdateFinalScore', {
-                params: {
-                    periodId: periodId,
-                    departmentId: departmentId,
-                    isLocal: isLocal,
-                    query: query
-                }
+                params: { periodId, teamIds, isLocal, query }
             });
         }
 
-        function getEPAToUpdateFinalScore(periodId, departmentId, isLocal, employeeId) {
+        function getEPAToUpdateFinalScore(periodId, teamIds, isLocal, employeeId) {
             return $http.get(baseUrl + 'api/UpdateFinalScore/GetEPAToUpdateFinalScore', {
-                params: {
-                    periodId: periodId,
-                    departmentId: departmentId,
-                    isLocal: isLocal,
-                    employeeId: employeeId
-                }
+                params: { periodId, teamIds, isLocal, employeeId }
             });
         }
 

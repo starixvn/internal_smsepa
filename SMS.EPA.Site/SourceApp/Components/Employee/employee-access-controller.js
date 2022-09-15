@@ -34,7 +34,7 @@
         function initFilter() {
             vm.filter = {
                 query: '',
-                teamIds: '',
+                teamIds: null,
                 isLocal: '',
                 isSpecialUser: '',
                 isDisabledUser: '',

@@ -14,7 +14,7 @@
         vm.searchKey = '';
         vm.currentPage = 1;
         vm.pageSize = 10;
-        vm.filter = { periodId: null, teamIds: '', isLocal: '', statusId: '' };
+        vm.filter = { periodId: null, teamIds: null, isLocal: '', statusId: '' };
         vm.kpis = [];
         vm.assessments = [];
         utilitiesFactory.getDateFormat(vm);

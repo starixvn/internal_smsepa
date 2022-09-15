@@ -6,7 +6,7 @@
     updateFinalScoreModel.$inject = ['$uibModal', 'updateFinalScoreFactory', 'notificationFactory', 'errorFactory'];
 
     function updateFinalScoreModel($uibModal, updateFinalScoreFactory, notificationFactory, errorFactory) {
-        var model = {};
+        let model = {};
 
         model.periods = [];
         model.employees = [];
@@ -20,16 +20,16 @@
             });
         };
 
-        model.getEmployeeToUpdateFinalScore = function (periodId, departmentId, isLocal, query) {
-            return updateFinalScoreFactory.getEmployeeToUpdateFinalScore(periodId, departmentId, isLocal, query).success(function (employees) {
+        model.getEmployeeToUpdateFinalScore = function (periodId, teamIds, isLocal, query) {
+            return updateFinalScoreFactory.getEmployeeToUpdateFinalScore(periodId, teamIds, isLocal, query).success(function (employees) {
                 model.employees = employees;
             }).error(function (response, status) {
                 errorFactory.errorHandle(status);
             });
         };
 
-        model.getEPAToUpdateFinalScore = function (periodId, departmentId, isLocal, employeeId) {
-            return updateFinalScoreFactory.getEPAToUpdateFinalScore(periodId, departmentId, isLocal, employeeId).success(function (epaInfos) {
+        model.getEPAToUpdateFinalScore = function (periodId, teamIds, isLocal, employeeId) {
+            return updateFinalScoreFactory.getEPAToUpdateFinalScore(periodId, teamIds, isLocal, employeeId).success(function (epaInfos) {
                 model.epaInfos = epaInfos;
             }).error(function (response, status) {
                 errorFactory.errorHandle(status);
@@ -37,7 +37,7 @@
         };
 
         model.updateFinalScore = function (vm, selectedEPAs) {
-            var modalInstance = $uibModal.open({
+            let modalInstance = $uibModal.open({
                 templateUrl: '/SourceApp/Shared/Templates/ModalConfirmContent.html',
                 controller: 'ModalConfirmController as modalConfirmCtrl',
                 backdrop: 'static',
@@ -58,21 +58,21 @@
                         vm.dataSaved = true;
                         notificationFactory.success('UpdatedSuccessfully');
 
-                        var employeeId = vm.filter.employee ? vm.filter.employee.EmployeeId : null;
-                        updateFinalScoreFactory.getEPAToUpdateFinalScore(vm.filter.periodId, vm.filter.departmentId, vm.filter.isLocal, employeeId)
-                        .success(function (epaInfos) {
-                            angular.forEach(vm.epaInfos, function (epaInfo) {
-                                if (epaInfo.Selected) {
-                                    angular.forEach(epaInfos, function (newEpaInfo) {
-                                        if (newEpaInfo.EPAId === epaInfo.EPAId) {
-                                            epaInfo.NewFinalScore = newEpaInfo.FinalScore;
-                                        }
-                                    });
-                                }
+                        const employeeId = vm.filter.employee ? vm.filter.employee.EmployeeId : null;
+                        updateFinalScoreFactory.getEPAToUpdateFinalScore(vm.filter.periodId, vm.filter.teamIds, vm.filter.isLocal, employeeId)
+                            .success(function (epaInfos) {
+                                angular.forEach(vm.epaInfos, function (epaInfo) {
+                                    if (epaInfo.Selected) {
+                                        angular.forEach(epaInfos, function (newEpaInfo) {
+                                            if (newEpaInfo.EPAId === epaInfo.EPAId) {
+                                                epaInfo.NewFinalScore = newEpaInfo.FinalScore;
+                                            }
+                                        });
+                                    }
+                                });
+                            }).error(function (response, status) {
+                                errorFactory.errorHandle(status);
                             });
-                        }).error(function (response, status) {
-                            errorFactory.errorHandle(status);
-                        });
                     } else {
                         notificationFactory.error('', response.Message);
                     }

@@ -7,7 +7,7 @@
     updateFinalScoreController.$inject = ['$scope', 'UpdateFinalScoreModel', 'CommonModel', 'notificationFactory', 'utilitiesFactory', 'lockScreenService'];
 
     function updateFinalScoreController($scope, UpdateFinalScoreModel, CommonModel, notificationFactory, utilitiesFactory, lockScreenService) {
-        var vm = this;
+        let vm = this;
 
         vm.currentPage = 1;
         vm.dataSaved = false;
@@ -16,11 +16,11 @@
         vm.epaInfos = [];
         vm.filter = {
             periodId: '',
-            departmentId: '',
+            teamIds: null,
             isLocal: '',
             employee: null
         };
-        vm.treeDepartment = null;
+        vm.orgChart = [];
 
         vm.pageSize = 20;
         vm.periods = [];
@@ -45,17 +45,17 @@
         }
 
         function exportExcel() {
-            var index = vm.periods.map(function (e) { return e.PeriodId; }).indexOf(vm.filter.periodId);
-            var selectedEPAs = getSelectedEPA(vm.filteredItems);
-            var employeeIds = selectedEPAs.map(function (e) { return e.Employee.EmployeeId; }).join(',');
+            const index = vm.periods.map(function (e) { return e.PeriodId; }).indexOf(vm.filter.periodId);
+            const selectedEPAs = getSelectedEPA(vm.filteredItems);
+            const employeeIds = selectedEPAs.map(function (e) { return e.Employee.EmployeeId; }).join(',');
 
             vm.exportCriteria = {
                 periodId: vm.filter.periodId,
                 periodName: index !== -1 ? vm.periods[index].Name : '',
-                departmentId: vm.filter.departmentId,
+                teamIds: vm.filter.teamIds,
                 isLocal: vm.filter.isLocal,
                 employeeId: vm.filter.employee ? vm.filter.employee.EmployeeId : null,
-                employeeIds: employeeIds
+                employeeIds
             };
 
             $scope.$broadcast('exportEpaAfterUpdateFinalScore');
@@ -63,7 +63,7 @@
 
         function getEmployee() {
             if (vm.filter.periodId > 0) {
-                return UpdateFinalScoreModel.getEmployeeToUpdateFinalScore(vm.filter.periodId, vm.filter.departmentId, vm.filter.isLocal, vm.searchEmployee);
+                return UpdateFinalScoreModel.getEmployeeToUpdateFinalScore(vm.filter.periodId, vm.filter.teamIds, vm.filter.isLocal, vm.searchKeyword);
             }
         }
 
@@ -74,9 +74,9 @@
                 vm.currentPage = 1;
                 vm.selectedAll = false;
                 lockScreenService.start();
-                var employeeId = filter.employee ? filter.employee.EmployeeId : null;
+                const employeeId = filter.employee ? filter.employee.EmployeeId : null;
 
-                UpdateFinalScoreModel.getEPAToUpdateFinalScore(filter.periodId, filter.departmentId, filter.isLocal, employeeId).then(function () {
+                UpdateFinalScoreModel.getEPAToUpdateFinalScore(filter.periodId, filter.teamIds, filter.isLocal, employeeId).then(function () {
                     vm.epaInfos = UpdateFinalScoreModel.epaInfos;
                     utilitiesFactory.searchOnPage(vm, vm.epaInfos);
                     lockScreenService.stop();
@@ -105,12 +105,8 @@
                 vm.periods = UpdateFinalScoreModel.periods;
             });
 
-            CommonModel.getDepartment().then(function () {
-                vm.treeDepartment = CommonModel.generateTreeDepartment(CommonModel.treeDepartment.Childrens);
-            });
-
-            CommonModel.getAllGroup().then(function () {
-                vm.groups = CommonModel.groups;
+            CommonModel.getOrgChart().then(function () {
+                vm.orgChart = CommonModel.orgChart;
             });
         }
 
@@ -154,9 +150,13 @@
         }
 
         function unSelectEmployee() {
-            if (vm.searchEmployee.trim() === '') {
+            if (vm.searchKeyword.trim() === '') {
                 vm.filter.employee = null;
             }
         }
+
+        vm.onSelectTeam = function (teamIds) {
+            vm.filter.teamIds = teamIds;
+        };
     }
 })(angular);

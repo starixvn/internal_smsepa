@@ -5,21 +5,12 @@
     public class GetEmployeeToUpdateFinalScoreCriteria : CriteriaBase
     {
         public int PeriodId { get; set; }
-
-        public int? GroupId { get; set; }
-
+        public string TeamIds { get; set; }
         public bool? IsLocal { get; set; }
-
         public string Query { get; set; }
 
-        public override string GetSettingKey()
-        {
-            return "EPA_GetEmployeeToUpdateFinalScore";
-        }
+        public override string GetSettingKey() => "EPA_GetEmployeeToUpdateFinalScore";
 
-        public override bool IsValid()
-        {
-            return PeriodId > 0;
-        }
+        public override bool IsValid() => PeriodId > 0;
     }
 }
