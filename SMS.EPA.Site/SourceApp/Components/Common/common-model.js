@@ -77,6 +77,14 @@
             });
         };
 
+        model.searchEmployee = function (query, teamIds, isSpecialUser, isDisabledUser, getByApprover, includeVerifier) {
+            return commonFactory.searchEmployee(query, teamIds, isSpecialUser, isDisabledUser, getByApprover, includeVerifier).success(function (employees) {
+                model.employees = employees;
+            }).error(function (response, status) {
+                errorFactory.errorHandle(status);
+            });
+        };
+
         model.getAllEmployee = function (query, groupId, isSpecialUser, isDisabledUser, getByApprover, includeVerifier) {
             return commonFactory.getAllEmployee(query, groupId, isSpecialUser, isDisabledUser, getByApprover, includeVerifier).success(function (employees) {
                 model.employees = employees;

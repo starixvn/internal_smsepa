@@ -95,7 +95,7 @@
                 {
                     _exportExcelService.FileName = "Discipline_Summary_Report";
                     _exportExcelService.SheetName = "Discipline Summary";
-                    _exportExcelService.Title = GetDisciplineSummaryForOtherSystemReportTitle(criteria);
+                    _exportExcelService.Title = "Discipline Summary Report";
 
                     _exportExcelService.InitializeWithTemplate(Server.MapPath(DisciplineSummaryByPeriodTemplatePath));
 
@@ -115,8 +115,7 @@
             if (criteria != null)
             {
                 criteria.ApproverId = _sessionService.CurrentUser.EmployeeId;
-                IEnumerable<DisciplineSummaryModel> employeeDisciplines =
-                    _disciplineService.GetDisciplineSummary(criteria);
+                IEnumerable<DisciplineSummaryModel> employeeDisciplines = _disciplineService.GetDisciplineSummary(criteria);
 
                 if (employeeDisciplines != null && employeeDisciplines.Any())
                 {
@@ -336,54 +335,12 @@
             };
         }
 
-        private static string GetDisciplineSummaryForOtherSystemReportTitle(GetDisciplineSummaryForOtherSystemCriteria criteria)
-        {
-            string reportTitle;
-
-            if (criteria.EmployeeId != null)
-            {
-                reportTitle = $"{criteria.EmployeeName} - Discipline Summary Report";
-            }
-            else if (criteria.DepartmentId != null)
-            {
-                reportTitle = $"{criteria.DepartmentName} - Discipline Summary Report";
-            }
-            else
-            {
-                reportTitle = "Discipline Summary Report";
-            }
-
-            return reportTitle;
-        }
-
         private static string GetDisciplineSummaryReportTitle(GetDisciplineSummaryCriteria criteria)
         {
-            string reportTitle;
-            string startDate = criteria.StartDate.ToString(Constants.DateFormat);
-            string endDate = criteria.EndDate.ToString(Constants.DateFormat);
+            var startDate = criteria.StartDate.ToString(Constants.DateFormat);
+            var endDate = criteria.EndDate.ToString(Constants.DateFormat);
 
-            if (criteria.EmployeeId != null)
-            {
-                reportTitle = string.Format(
-                    Lang.AttendanceSummaryReportTitle,
-                    criteria.EmployeeName,
-                    startDate,
-                    endDate);
-            }
-            else if (criteria.DepartmentId != null)
-            {
-                reportTitle = string.Format(
-                    Lang.AttendanceSummaryReportTitle,
-                    criteria.DepartmentName,
-                    startDate,
-                    endDate);
-            }
-            else
-            {
-                reportTitle = string.Format(Lang.AttendanceSummaryReportTitleNoPrefix, startDate, endDate);
-            }
-
-            return reportTitle;
+            return string.Format(Lang.AttendanceSummaryReportTitleNoPrefix, startDate, endDate);
         }
 
         private static string GetEPASummaryReportFilename(EPASummaryModel epaSummary)

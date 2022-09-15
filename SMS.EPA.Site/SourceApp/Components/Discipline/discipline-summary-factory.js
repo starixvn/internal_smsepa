@@ -11,30 +11,15 @@
             getDisciplineSummaryForOtherSystem: getDisciplineSummaryForOtherSystem
         };
 
-        function getDisciplineSummary(startDate, endDate, departmentId, isLocal, employeeId, reasonId, isShowAll) {
+        function getDisciplineSummary(startDate, endDate, teamIds, isLocal, employeeId, reasonId, isShowAll) {
             return $http.get(baseUrl + 'api/Discipline/GetDisciplineSummary', {
-                params: {
-                    startDate: startDate,
-                    endDate: endDate,
-                    departmentId: departmentId,
-                    isLocal: isLocal,
-                    employeeId: employeeId,
-                    reasonId: reasonId,
-                    isShowAll: isShowAll
-                }
+                params: { startDate, endDate, teamIds, isLocal, employeeId, reasonId, isShowAll }
             });
         }
 
-        function getDisciplineSummaryForOtherSystem(startDate, endDate, departmentId, isLocal, employeeId, reasonId) {
+        function getDisciplineSummaryForOtherSystem(startDate, endDate, teamIds, isLocal, employeeId, reasonId) {
             return $http.get(baseUrl + 'api/Discipline/GetDisciplineSummaryForOtherSystem', {
-                params: {
-                    startDate: startDate,
-                    endDate: endDate,
-                    departmentId: departmentId,
-                    isLocal: isLocal,
-                    employeeId: employeeId,
-                    reasonId: reasonId
-                }
+                params: { startDate, endDate, teamIds, isLocal, employeeId, reasonId }
             });
         }
     }

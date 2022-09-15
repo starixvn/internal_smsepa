@@ -7,10 +7,11 @@
     disciplineSummaryForOtherSystemController.$inject = ['$scope', 'DisciplineSummaryModel', 'CommonModel', 'lockScreenService',
         'utilitiesFactory', 'historyFactory'];
 
-    function disciplineSummaryForOtherSystemController($scope, DisciplineSummaryModel, CommonModel, lockScreenService,
-        utilitiesFactory, historyFactory) {
-        var vm = this;
+    function disciplineSummaryForOtherSystemController($scope, DisciplineSummaryModel, CommonModel, lockScreenService, utilitiesFactory, historyFactory) {
+        let vm = this;
 
+        vm.orgChart = [];
+        vm.employeeDisciplines = [];
         vm.calendar = {
             startDateOpened: false,
             endDateOpened: false
@@ -30,7 +31,6 @@
             { Id: 11, Name: 'Seven days leave' },
             { Id: -1, Name: 'Other Discipline' }
         ];
-        vm.employeeDisciplines = [];
         vm.pageSize = 20;
 
         vm.exportReport = exportReport;
@@ -42,21 +42,17 @@
         initialize();
 
         function exportReport(filter) {
-            var index = vm.departments.map(function (e) { return e.DepartmentId; }).indexOf(filter.departmentId);
-
             vm.exportCriteria = angular.copy(filter);
-            vm.exportCriteria.employeeName = filter.employee ? filter.employee.Name : '';
-            vm.exportCriteria.departmentName = index !== -1 ? vm.departments[index].Name : '';
             vm.exportCriteria.isLocal = filter.isLocal;
             vm.exportCriteria.startDate = filter.startDate.toDateString();
             vm.exportCriteria.endDate = filter.endDate.toDateString();
             $scope.$broadcast('exportDisciplineSummaryForOtherSystemReport');
         }
 
-        function getDisciplineSummary(startDate, endDate, departmentId, isLocal, employeeId, reasonId) {
+        function getDisciplineSummary(startDate, endDate, teamIds, isLocal, employeeId, reasonId) {
             lockScreenService.start();
 
-            DisciplineSummaryModel.getDisciplineSummaryForOtherSystem(startDate, endDate, departmentId, isLocal, employeeId, reasonId).then(function () {
+            DisciplineSummaryModel.getDisciplineSummaryForOtherSystem(startDate, endDate, teamIds, isLocal, employeeId, reasonId).then(function () {
                 vm.employeeDisciplines = DisciplineSummaryModel.employeeDisciplines;
                 utilitiesFactory.searchOnPage(vm, vm.employeeDisciplines);
                 lockScreenService.stop();
@@ -66,7 +62,7 @@
         }
 
         function getEmployee() {
-            return CommonModel.getAllEmployee(vm.searchEmployee, null, null, null, true, true);
+            return CommonModel.searchEmployee(vm.searchKeyword, vm.filter.teamIds, null, null, true, true);
         }
 
         function getIndex(index, currentPage, pageSize) {
@@ -81,7 +77,7 @@
                 startDate: dateRangeFilter.startDate,
                 endDate: dateRangeFilter.endDate,
                 employee: null,
-                departmentId: null,
+                teamIds: null,
                 isLocal: '',
                 employeeId: null,
                 reasonId: null
@@ -90,7 +86,7 @@
             if (vm.filter.employeeId) {
                 CommonModel.getEmployeeById(vm.filter.employeeId).then(function () {
                     vm.filter.employee = CommonModel.employee;
-                    vm.searchEmployee = vm.filter.employee.NickName + ' (' + vm.filter.employee.FullName + ')';
+                    vm.searchKeyword = vm.filter.employee.NickName + ' (' + vm.filter.employee.FullName + ')';
                 });
             }
         }
@@ -100,9 +96,8 @@
             utilitiesFactory.getDateFormat(vm);
             initFilter();
 
-            CommonModel.getDepartment().then(function () {
-                vm.departments = CommonModel.departments;
-                vm.treeDepartment = CommonModel.generateTreeDepartment(CommonModel.treeDepartment.Childrens);
+            CommonModel.getOrgChart().then(function () {
+                vm.orgChart = CommonModel.orgChart;
             });
 
             getDisciplineSummary(
@@ -115,7 +110,7 @@
         }
 
         function query(filter) {
-            var employeeId = null;
+            let employeeId = null;
             vm.searchKey = '';
             vm.currentPage = 1;
             vm.pageSize = 20;
@@ -125,11 +120,11 @@
                 vm.filter.employeeId = employeeId;
             }
 
-            getDisciplineSummary(filter.startDate, filter.endDate, filter.departmentId, filter.isLocal, employeeId, filter.reasonId);
+            getDisciplineSummary(filter.startDate, filter.endDate, filter.teamIds, filter.isLocal, employeeId, filter.reasonId);
         }
 
         function unSelectEmployee() {
-            if (vm.searchEmployee.trim() === '' && vm.filter.employee) {
+            if (vm.searchKeyword.trim() === '' && vm.filter.employee) {
                 vm.filter.employee = null;
                 vm.filter.employeeId = null;
             }
@@ -141,6 +136,10 @@
 
         vm.openPopupStartDate = function (event) {
             utilitiesFactory.openPopupStartDate(event, vm);
+        };
+
+        vm.onSelectTeam = function (teamIds) {
+            vm.filter.teamIds = teamIds;
         };
     }
 })(angular);

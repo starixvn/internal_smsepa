@@ -7,6 +7,11 @@
 
     function commonFactory($http, baseUrl) {
         return {
+            searchEmployee: function (query, teamIds, isSpecialUser, isDisabledUser, getByApprover, includeVerifier) {
+                return $http.get(baseUrl + 'api/Common/SearchEmployee', {
+                    params: { query, teamIds, isSpecialUser, isDisabledUser, getByApprover, includeVerifier }
+                });
+            },
             getTargetType: function (isActive, excludeTargetTypeIds) {
                 return $http.get(baseUrl + 'api/Common/GetTargetType', {
                     params: {

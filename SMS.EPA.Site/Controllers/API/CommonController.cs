@@ -121,6 +121,28 @@
             return commonService.GetAllEmployee(criteria);
         }
 
+        [HttpGet]
+        public IList<Employee> SearchEmployee(
+            string query = "",
+            string teamIds = null,
+            bool? isSpecialUser = null,
+            bool? isDisabledUser = null,
+            bool? getByApprover = null,
+            bool? includeVerifier = null)
+        {
+            var criteria = new SearchEmployeeCriteria
+            {
+                Query = query,
+                TeamIds = teamIds,
+                IsSpecialUser = isSpecialUser,
+                IsDisabledUser = isDisabledUser,
+                ApproverId = getByApprover == true && SessionService != null ? (int?)SessionService.EmployeeId : null,
+                IncludeVerifier = includeVerifier
+            };
+
+            return baseService.GetData<Employee>(criteria).ToList();
+        }
+
         public IEnumerable<Employee> GetEmployeeByDepartmentId(int? departmentId = null)
         {
             return commonService.GetEmployeeByDepartmentId(departmentId);

@@ -27,7 +27,7 @@
         public IEnumerable<DisciplineSummaryModel> GetDisciplineSummary(
             DateTime startDate,
             DateTime endDate,
-            int? departmentId = null,
+            string teamIds = null,
             bool? isLocal = null,
             int? employeeId = null,
             int? reasonId = null,
@@ -37,7 +37,7 @@
             {
                 StartDate = startDate,
                 EndDate = endDate,
-                DepartmentId = departmentId,
+                TeamIds = teamIds,
                 IsLocal = isLocal,
                 EmployeeId = employeeId,
                 ReasonId = reasonId,
@@ -53,7 +53,7 @@
         public IEnumerable<DisciplineSummaryForOtherSystem> GetDisciplineSummaryForOtherSystem(
             DateTime startDate,
             DateTime endDate,
-            int? departmentId = null,
+            string teamIds = null,
             bool? isLocal = null,
             int? employeeId = null,
             int? reasonId = null)
@@ -62,7 +62,7 @@
             {
                 StartDate = startDate,
                 EndDate = endDate,
-                DepartmentId = departmentId,
+                TeamIds = teamIds,
                 IsLocal = isLocal,
                 EmployeeId = employeeId,
                 ReasonId = reasonId

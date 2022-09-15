@@ -36,8 +36,8 @@
 
         return model;
 
-        function getDisciplineSummary(startDate, endDate, departmentId, isLocal, employeeId, reasonId, isShowAll) {
-            return disciplineSummaryFactory.getDisciplineSummary(startDate, endDate, departmentId, isLocal, employeeId, reasonId, isShowAll)
+        function getDisciplineSummary(startDate, endDate, teamIds, isLocal, employeeId, reasonId, isShowAll) {
+            return disciplineSummaryFactory.getDisciplineSummary(startDate, endDate, teamIds, isLocal, employeeId, reasonId, isShowAll)
             .success(function (employeeDisciplines) {
                 model.employeeDisciplines = employeeDisciplines;
             }).error(function (response, status) {
@@ -45,8 +45,8 @@
             });
         }
 
-        function getDisciplineSummaryForOtherSystem(startDate, endDate, departmentId, isLocal, employeeId, reasonId) {
-            return disciplineSummaryFactory.getDisciplineSummaryForOtherSystem(startDate, endDate, departmentId, isLocal, employeeId, reasonId)
+        function getDisciplineSummaryForOtherSystem(startDate, endDate, teamIds, isLocal, employeeId, reasonId) {
+            return disciplineSummaryFactory.getDisciplineSummaryForOtherSystem(startDate, endDate, teamIds, isLocal, employeeId, reasonId)
             .success(function (employeeDisciplines) {
                 model.employeeDisciplines = employeeDisciplines;
             }).error(function (response, status) {

@@ -83,6 +83,7 @@
     <Compile Include="EmployeeEPA\GetJobDescriptionByEPAIdCriteria.cs" />
     <Compile Include="EmployeeEPA\UpdateTotalScoreOfProcessCriteria.cs" />
     <Compile Include="EmployeeEPA\UpdateTotalScoreOfSemiHasMonthlyCriteria.cs" />
+    <Compile Include="Employee\SearchEmployeeCriteria.cs" />
     <Compile Include="Employee\GetEmployeeCriteria.cs" />
     <Compile Include="Employee\UpdateJobLevelCriteria.cs" />
     <Compile Include="JobDescription\CopyEmployeeSettingJobDescriptionCriteria.cs" />

@@ -8,8 +8,9 @@
         'utilitiesFactory', 'lockScreenService', 'historyFactory', 'baseUrl'];
 
     function disciplineSummaryController($scope, DisciplineSummaryModel, CommonModel, utilitiesFactory, lockScreenService, historyFactory, baseUrl) {
-        var vm = this;
+        let vm = this;
 
+        vm.orgChart = [];
         vm.employeeDisciplines = [];
         vm.calendar = {
             startDateOpened: false,
@@ -36,10 +37,10 @@
         utilitiesFactory.numberEntryList(vm);
         utilitiesFactory.getDateFormat(vm);
 
-        function getDisciplineSummary(startDate, endDate, departmentId, isLocal, employeeId, reasonId, isShowAll) {
+        function getDisciplineSummary(startDate, endDate, teamIds, isLocal, employeeId, reasonId, isShowAll) {
             lockScreenService.start();
 
-            DisciplineSummaryModel.getDisciplineSummary(startDate, endDate, departmentId, isLocal, employeeId, reasonId, isShowAll).then(function () {
+            DisciplineSummaryModel.getDisciplineSummary(startDate, endDate, teamIds, isLocal, employeeId, reasonId, isShowAll).then(function () {
                 vm.employeeDisciplines = DisciplineSummaryModel.employeeDisciplines;
                 utilitiesFactory.searchOnPage(vm, vm.employeeDisciplines);
                 lockScreenService.stop();
@@ -49,14 +50,14 @@
         }
 
         function initFilter() {
-            var filter = historyFactory.getState(),
+            let filter = historyFactory.getState(),
                 dateRangeFilter = DisciplineSummaryModel.getRangeDateFilter();
 
             vm.filter = filter ? filter : {
                 startDate: dateRangeFilter.startDate,
                 endDate: dateRangeFilter.endDate,
                 employee: null,
-                departmentId: null,
+                teamIds: null,
                 isLocal: '',
                 employeeId: null,
                 reasonId: null,
@@ -66,7 +67,7 @@
             if (vm.filter.employeeId) {
                 CommonModel.getEmployeeById(vm.filter.employeeId).then(function () {
                     vm.filter.employee = CommonModel.employee;
-                    vm.searchEmployee = vm.filter.employee.NickName + ' (' + vm.filter.employee.FullName + ')';
+                    vm.searchKeyword = vm.filter.employee.NickName + ' (' + vm.filter.employee.FullName + ')';
                 });
             }
         }
@@ -74,15 +75,14 @@
         function initialize() {
             initFilter();
 
-            CommonModel.getDepartment().then(function () {
-                vm.departments = CommonModel.departments;
-                vm.treeDepartment = CommonModel.generateTreeDepartment(CommonModel.treeDepartment.Childrens);
+            CommonModel.getOrgChart().then(function () {
+                vm.orgChart = CommonModel.orgChart;
             });
 
             getDisciplineSummary(
                 vm.filter.startDate,
                 vm.filter.endDate,
-                vm.filter.departmentId,
+                vm.filter.teamIds,
                 vm.filter.isLocal,
                 vm.filter.employeeId,
                 vm.filter.reasonId,
@@ -92,11 +92,7 @@
         initialize();
 
         vm.exportReport = function (filter) {
-            var index = vm.departments.map(function (e) { return e.DepartmentId; }).indexOf(filter.departmentId);
-
             vm.exportCriteria = angular.copy(filter);
-            vm.exportCriteria.employeeName = filter.employee ? filter.employee.Name : '';
-            vm.exportCriteria.departmentName = index !== -1 ? vm.departments[index].Name : '';
             vm.exportCriteria.isLocal = filter.isLocal;
             vm.exportCriteria.startDate = filter.startDate.toDateString();
             vm.exportCriteria.endDate = filter.endDate.toDateString();
@@ -104,7 +100,7 @@
         };
 
         vm.getEmployee = function () {
-            return CommonModel.getAllEmployee(vm.searchEmployee, null, null, null, true, true);
+            return CommonModel.searchEmployee(vm.searchKeyword, vm.filter.teamIds, null, null, true, true);
         };
 
         vm.getIndex = function (index, currentPage, pageSize) {
@@ -119,8 +115,12 @@
             utilitiesFactory.openPopupStartDate(event, vm);
         };
 
+        vm.onSelectTeam = function (teamIds) {
+            vm.filter.teamIds = teamIds;
+        };
+
         vm.query = function (filter) {
-            var employeeId = null;
+            let employeeId = null;
             vm.searchKey = '';
 
             DisciplineSummaryModel.resetSummaryPaging();
@@ -132,11 +132,11 @@
                 vm.filter.employeeId = employeeId;
             }
 
-            getDisciplineSummary(filter.startDate, filter.endDate, filter.departmentId, filter.isLocal, employeeId, filter.reasonId, filter.isShowAll);
+            getDisciplineSummary(filter.startDate, filter.endDate, filter.teamIds, filter.isLocal, employeeId, filter.reasonId, filter.isShowAll);
         };
 
         vm.unSelectEmployee = function () {
-            if (vm.searchEmployee.trim() === '') {
+            if (vm.searchKeyword.trim() === '') {
                 if (vm.filter.employee) {
                     vm.filter.employee = null;
                     vm.filter.employeeId = null;
