@@ -7,7 +7,7 @@
     epaDetailReportController.$inject = ['$scope', '$routeParams', 'ReportModel', 'CommonModel', 'utilitiesFactory', 'lockScreenService'];
 
     function epaDetailReportController($scope, $routeParams, ReportModel, CommonModel, utilitiesFactory, lockScreenService) {
-        var vm = this;
+        let vm = this;
 
         vm.epaDetail = [];
         vm.hideColumns = [];
@@ -21,7 +21,7 @@
         ];
         vm.showColumns = [8, 9, 10, 11];
         vm.showColumnsOriginal = [8, 9, 10, 11];
-        vm.treeDepartment = {};
+        vm.orgChart = [];
 
         initialize();
 
@@ -30,7 +30,7 @@
 
             ReportModel.getEPADetailReport(
                 filter.periodId,
-                filter.departmentId,
+                filter.teamIds,
                 filter.isLocal,
                 filter.employeeId,
                 filter.phaseIds,
@@ -63,7 +63,7 @@
         function initFilter() {
             var filter = {
                 periodId: $routeParams.periodId ? parseInt($routeParams.periodId) : '',
-                departmentId: $routeParams.departmentId ? parseInt($routeParams.departmentId) : '',
+                teamIds: $routeParams.teamIds,
                 isLocal: $routeParams.isLocal ? $routeParams.isLocal : '',
                 phaseIds: $routeParams.phaseIds ? $routeParams.phaseIds : '',
                 sortColumnName: '',
@@ -77,7 +77,7 @@
             if (filter.employeeId) {
                 CommonModel.getEmployeeById(filter.employeeId).then(function () {
                     filter.employee = CommonModel.employee;
-                    vm.searchEmployee = filter.employee.NickName + ' (' + filter.employee.FullName + ')';
+                    vm.searchKeyword = filter.employee.NickName + ' (' + filter.employee.FullName + ')';
                 });
             }
 
@@ -89,8 +89,8 @@
             utilitiesFactory.setSelectedItem(vm.scoredBy, 'PhaseId', vm.filter.phaseIds);
             getShowHideColumns();
 
-            CommonModel.getDepartment().then(function () {
-                vm.treeDepartment = CommonModel.generateTreeDepartment(CommonModel.treeDepartment.Childrens);
+            CommonModel.getOrgChart().then(function () {
+                vm.orgChart = CommonModel.orgChart;
             });
 
             ReportModel.getAllPeriodIncludeImport().then(function () {
@@ -105,13 +105,13 @@
         }
 
         vm.getEmployee = function () {
-            return ReportModel.getEmployeeByActorId(vm.searchEmployee, vm.filter.periodId, vm.filter.departmentId, vm.filter.isLocal);
+            return ReportModel.getEmployeeByActorId(vm.searchKeyword, vm.filter.periodId, vm.filter.teamIds, vm.filter.isLocal);
         };
 
         vm.exportReport = function () {
             vm.exportCriteria = {
                 periodId: vm.filter.periodId,
-                departmentId: vm.filter.departmentId,
+                teamIds: vm.filter.teamIds,
                 isLocal: vm.filter.isLocal,
                 employeeId: vm.filter.employee ? vm.filter.employee.EmployeeId : null,
                 phaseIds: vm.filter.phaseIds,
@@ -162,10 +162,14 @@
         };
 
         vm.unSelectEmployee = function () {
-            if (vm.searchEmployee.trim() === '') {
+            if (vm.searchKeyword.trim() === '') {
                 vm.filter.employee = null;
                 vm.filter.employeeId = null;
             }
+        };
+
+        vm.onSelectTeam = function (teamIds) {
+            vm.filter.teamIds = teamIds;
         };
     }
 })(angular);

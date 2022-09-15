@@ -15,11 +15,12 @@
                 </div>
             </div>
             <div class="form-group">
-                <label class="label-form" data-translate="DepartmentSection"></label>
-                <select class="form-control select-form" ng-model="monthlySummaryReportCtrl.filter.departmentId"
-                        ng-options="opt.DepartmentId as opt.Name for opt in monthlySummaryReportCtrl.treeDepartment">
-                    <option value="">-- {{"All" | translate}} --</option>
-                </select>
+                <label class="label-form" data-translate="Team"></label>
+                <div class="select-form">
+                    <multi-select-tree-view selected-items="monthlySummaryReportCtrl.filter.teamIds"
+                                            is-selected-all="true"
+                                            options="monthlySummaryReportCtrl.orgChart" on-select="monthlySummaryReportCtrl.onSelectTeam"></multi-select-tree-view>
+                </div>
             </div>
             <div class="form-group">
                 <label class="label-form" data-translate="Category"></label>

@@ -19,7 +19,7 @@
             if ($routeParams.detailRpt) {
                 $location.path(baseUrl + 'Report/EPADetailReport').search({
                     periodId: $routeParams.periodId,
-                    departmentId: $routeParams.departmentId,
+                    teamIds: $routeParams.teamIds,
                     phaseIds: $routeParams.phaseIds,
                     isLocal: $routeParams.isLocal,
                     employeeId: $routeParams.employeeId

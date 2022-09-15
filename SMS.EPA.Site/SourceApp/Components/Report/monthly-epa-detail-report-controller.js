@@ -4,10 +4,10 @@
     /* jshint validthis:true */
 
     angular.module('reportModule').controller('MonthlyEPADetailReportController', monthlyEPADetailReportController);
-    monthlyEPADetailReportController.$inject = ['$scope', 'ReportModel', 'CommonModel', 'utilitiesFactory', 'historyFactory', 'lockScreenService'];
+    monthlyEPADetailReportController.$inject = ['$scope', 'ReportModel', 'CommonModel', 'utilitiesFactory', 'lockScreenService'];
 
-    function monthlyEPADetailReportController($scope, ReportModel, CommonModel, utilitiesFactory, historyFactory, lockScreenService) {
-        var vm = this;
+    function monthlyEPADetailReportController($scope, ReportModel, CommonModel, utilitiesFactory, lockScreenService) {
+        let vm = this;
 
         vm.epaDetail = [];
         vm.hideColumns = [];
@@ -20,14 +20,14 @@
         ];
         vm.showColumns = [7, 8, 9];
         vm.showColumnsOriginal = [7, 8, 9];
-        vm.treeDepartment = {};
+        vm.orgChart = [];
 
         initialize();
 
         function initFilter() {
-            var filter = {
+            return {
                 periodId: '',
-                departmentId: '',
+                teamIds: '',
                 isLocal: '',
                 phaseIds: '',
                 pageIndex: utilitiesFactory.pageOption.pageIndex,
@@ -35,15 +35,13 @@
                 sortColumnName: '',
                 sortDirection: ''
             };
-
-            return filter;
         }
 
         function initialize() {
             vm.filter = initFilter();
 
-            CommonModel.getDepartment().then(function () {
-                vm.treeDepartment = CommonModel.generateTreeDepartment(CommonModel.treeDepartment.Childrens);
+            CommonModel.getOrgChart().then(function () {
+                vm.orgChart = CommonModel.orgChart;
             });
 
             CommonModel.getAllMonthlyPeriod().then(function () {
@@ -62,7 +60,7 @@
 
             ReportModel.getMonthlyEPADetailReport(
                 filter.periodId,
-                filter.departmentId,
+                filter.teamIds,
                 filter.isLocal,
                 filter.phaseIds,
                 filter.sortColumnName,
@@ -93,7 +91,7 @@
         vm.exportReport = function () {
             vm.exportCriteria = {
                 periodId: vm.filter.periodId,
-                departmentId: vm.filter.departmentId,
+                teamIds: vm.filter.teamIds,
                 isLocal: vm.filter.isLocal,
                 phaseIds: vm.filter.phaseIds,
                 sortColumnName: vm.filter.sortColumnName,
@@ -118,6 +116,10 @@
             vm.filter.sortDirection = sortDirection;
 
             getMonthlyEPADetailReport(vm.filter);
+        };
+
+        vm.onSelectTeam = function (teamIds) {
+            vm.filter.teamIds = teamIds;
         };
     }
 })(angular);

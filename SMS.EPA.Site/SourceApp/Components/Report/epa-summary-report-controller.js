@@ -7,12 +7,12 @@
     epaSummaryReportController.$inject = ['$scope', 'ReportModel', 'CommonModel', 'utilitiesFactory', 'lockScreenService'];
 
     function epaSummaryReportController($scope, ReportModel, CommonModel, utilitiesFactory, lockScreenService) {
-        var vm = this;
+        let vm = this;
 
         vm.epaSummary = [];
         vm.filter = {
             periodIds: '',
-            departmentId: '',
+            teamIds: '',
             isLocal: '',
             sortColumnName: '',
             sortDirection: '',
@@ -23,7 +23,7 @@
         };
         vm.pageOption = utilitiesFactory.pageOption;
         vm.periods = [];
-        vm.treeDepartment = {};
+        vm.orgChart = [];
 
         initialize();
 
@@ -32,7 +32,7 @@
 
             ReportModel.getEPASummaryReport(
                 filter.periodIds,
-                filter.departmentId,
+                filter.teamIds,
                 filter.isLocal,
                 filter.employeeId,
                 filter.sortColumnName,
@@ -44,8 +44,8 @@
         }
 
         function groupingPeriods(periods) {
-            var result = [], years = [];
-            var startGrouping, endGrouping;
+            const result = [], years = [];
+            let startGrouping, endGrouping;
 
             angular.forEach(periods, function (period) {
                 if (period.Year) {
@@ -100,8 +100,8 @@
         }
 
         function initialize() {
-            CommonModel.getDepartment().then(function () {
-                vm.treeDepartment = CommonModel.generateTreeDepartment(CommonModel.treeDepartment.Childrens);
+            CommonModel.getOrgChart().then(function () {
+                vm.orgChart = CommonModel.orgChart;
             });
 
             ReportModel.getAllPeriodIncludeImport().then(function () {
@@ -114,13 +114,13 @@
         vm.getEmployee = function () {
             vm.filter.periodIds = utilitiesFactory.getSelectedData(vm.periods, 'PeriodId');
 
-            return ReportModel.getEmployeeByActorId(vm.searchEmployee, vm.filter.periodIds, vm.filter.departmentId, vm.filter.isLocal);
+            return ReportModel.getEmployeeByActorId(vm.searchKeyword, vm.filter.periodIds, vm.filter.teamIds, vm.filter.isLocal);
         };
 
         vm.exportReport = function () {
             vm.exportCriteria = {
                 periodIds: utilitiesFactory.getSelectedData(vm.periods, 'PeriodId'),
-                departmentId: vm.filter.departmentId,
+                teamIds: vm.filter.teamIds,
                 isLocal: vm.filter.isLocal,
                 employeeId: vm.filter.employee ? vm.filter.employee.EmployeeId : null,
                 sortColumnName: vm.filter.sortColumnName,
@@ -151,10 +151,14 @@
         };
 
         vm.unSelectEmployee = function () {
-            if (vm.searchEmployee.trim() === '') {
+            if (vm.searchKeyword.trim() === '') {
                 vm.filter.employee = null;
                 vm.filter.employeeId = null;
             }
+        };
+
+        vm.onSelectTeam = function (teamIds) {
+            vm.filter.teamIds = teamIds;
         };
     }
 })(angular);

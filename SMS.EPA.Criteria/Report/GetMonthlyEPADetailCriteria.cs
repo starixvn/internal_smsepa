@@ -5,27 +5,15 @@
     public class GetMonthlyEPADetailCriteria : CriteriaBase
     {
         public int EmployeeId { get; set; }
-
         public string PhaseIds { get; set; }
-
         public int? PeriodId { get; set; }
-
-        public int? DepartmentId { get; set; }
-
+        public string TeamIds { get; set; }
         public bool? IsLocal { get; set; }
-
         public string SortColumnName { get; set; }
-
         public string SortDirection { get; set; }
 
-        public override string GetSettingKey()
-        {
-            return "Report_MonthlyEPADetail";
-        }
+        public override string GetSettingKey() => "Report_MonthlyEPADetail";
 
-        public override bool IsValid()
-        {
-            return EmployeeId > 0;
-        }
+        public override bool IsValid() => EmployeeId > 0;
     }
 }

@@ -22,11 +22,12 @@
                 </div>
             </div>
             <div class="form-group">
-                <label class="label-form" data-translate="DepartmentSection"></label>
-                <select class="form-control select-form" ng-model="monthlyDetailReportCtrl.filter.departmentId"
-                        ng-options="opt.DepartmentId as opt.Name for opt in monthlyDetailReportCtrl.treeDepartment">
-                    <option value="">-- {{"All" | translate}} --</option>
-                </select>
+                <label class="label-form" data-translate="Team"></label>
+                <div class="select-form">
+                    <multi-select-tree-view selected-items="monthlyDetailReportCtrl.filter.teamIds"
+                                            is-selected-all="true"
+                                            options="monthlyDetailReportCtrl.orgChart" on-select="monthlyDetailReportCtrl.onSelectTeam"></multi-select-tree-view>
+                </div>
             </div>
             <div class="form-group"></div>
             <div class="form-group">

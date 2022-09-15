@@ -7,12 +7,12 @@
     monthlyEPASummaryReportController.$inject = ['$scope', 'ReportModel', 'CommonModel', 'utilitiesFactory', 'lockScreenService'];
 
     function monthlyEPASummaryReportController($scope, ReportModel, CommonModel, utilitiesFactory, lockScreenService) {
-        var vm = this;
+        let vm = this;
 
         vm.epaSummary = [];
         vm.filter = {
             periodIds: '',
-            departmentId: '',
+            teamIds: '',
             isLocal: '',
             pageIndex: utilitiesFactory.pageOption.pageIndex,
             itemsPerPage: utilitiesFactory.pageOption.itemsPerPage,
@@ -21,7 +21,7 @@
         };
         vm.pageOption = utilitiesFactory.pageOption;
         vm.periods = CommonModel.monthlyPeriods;
-        vm.treeDepartment = CommonModel.treeDepartment;
+        vm.orgChart = [];
 
         initialize();
 
@@ -57,7 +57,7 @@
 
             ReportModel.getMonthlyEPASummaryReport(
                 vm.filter.periodIds,
-                vm.filter.departmentId,
+                vm.filter.teamIds,
                 vm.filter.isLocal,
                 vm.filter.sortColumnName,
                 vm.filter.sortDirection)
@@ -117,8 +117,8 @@
         }
 
         function initialize() {
-            CommonModel.getDepartment().then(function () {
-                vm.treeDepartment = CommonModel.generateTreeDepartment(CommonModel.treeDepartment.Childrens);
+            CommonModel.getOrgChart().then(function () {
+                vm.orgChart = CommonModel.orgChart;
             });
 
             CommonModel.getAllMonthlyPeriod().then(function () {
@@ -131,7 +131,7 @@
         vm.exportReport = function () {
             vm.exportCriteria = {
                 periodIds: utilitiesFactory.getSelectedData(vm.periods, 'PeriodId'),
-                departmentId: vm.filter.departmentId,
+                teamIds: vm.filter.teamIds,
                 isLocal: vm.filter.isLocal,
                 sortColumnName: vm.filter.sortColumnName,
                 sortDirection: vm.filter.sortDirection
@@ -154,6 +154,10 @@
             vm.filter.sortDirection = sortDirection;
 
             getMonthlyEPASummaryReport();
+        };
+
+        vm.onSelectTeam = function (teamIds) {
+            vm.filter.teamIds = teamIds;
         };
     }
 })(angular);

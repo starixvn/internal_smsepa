@@ -19,66 +19,33 @@
             return $http.get(baseUrl + 'api/Report/GetAllPeriodIncludeImport');
         }
 
-        function getEmployeeByActorId(query, periodIds, departmentId, isLocal) {
+        function getEmployeeByActorId(query, periodIds, teamIds, isLocal) {
             return $http.get(baseUrl + 'api/Report/GetEmployeeByActorId', {
-                params: {
-                    query: query,
-                    periodIds: periodIds,
-                    departmentId: departmentId,
-                    isLocal: isLocal
-                }
+                params: { query, periodIds, teamIds, isLocal }
             });
         }
 
-        function getEPADetailReport(periodId, departmentId, isLocal, employeeId, phaseIds, sortColumnName, sortDirection) {
+        function getEPADetailReport(periodId, teamIds, isLocal, employeeId, phaseIds, sortColumnName, sortDirection) {
             return $http.get(baseUrl + 'api/Report/GetEPADetailReport', {
-                params: {
-                    periodId: periodId,
-                    departmentId: departmentId,
-                    isLocal: isLocal,
-                    employeeId: employeeId,
-                    phaseIds: phaseIds,
-                    sortColumnName: sortColumnName,
-                    sortDirection: sortDirection
-                }
+                params: { periodId, teamIds, isLocal, employeeId, phaseIds, sortColumnName, sortDirection }
             });
         }
 
-        function getEPASummaryReport(periodIds, departmentId, isLocal, employeeId, sortColumnName, sortDirection) {
+        function getEPASummaryReport(periodIds, teamIds, isLocal, employeeId, sortColumnName, sortDirection) {
             return $http.get(baseUrl + 'api/Report/GetEPASummaryReport', {
-                params: {
-                    periodIds: periodIds,
-                    departmentId: departmentId,
-                    isLocal: isLocal,
-                    employeeId: employeeId,
-                    sortColumnName: sortColumnName,
-                    sortDirection: sortDirection
-                }
+                params: { periodIds, teamIds, isLocal, employeeId, sortColumnName, sortDirection }
             });
         }
 
-        function getMonthlyEPADetailReport(periodId, departmentId, isLocal, phaseIds, sortColumnName, sortDirection) {
+        function getMonthlyEPADetailReport(periodId, teamIds, isLocal, phaseIds, sortColumnName, sortDirection) {
             return $http.get(baseUrl + 'api/Report/GetMonthlyEPADetailReport', {
-                params: {
-                    periodId: periodId,
-                    departmentId: departmentId,
-                    isLocal: isLocal,
-                    phaseIds: phaseIds,
-                    sortColumnName: sortColumnName,
-                    sortDirection: sortDirection
-                }
+                params: { periodId, teamIds, isLocal, phaseIds, sortColumnName, sortDirection }
             });
         }
 
-        function getMonthlyEPASummaryReport(periodIds, departmentId, isLocal, sortColumnName, sortDirection) {
+        function getMonthlyEPASummaryReport(periodIds, teamIds, isLocal, sortColumnName, sortDirection) {
             return $http.get(baseUrl + 'api/Report/GetMonthlyEPASummaryReport', {
-                params: {
-                    periodIds: periodIds,
-                    departmentId: departmentId,
-                    isLocal: isLocal,
-                    sortColumnName: sortColumnName,
-                    sortDirection: sortDirection
-                }
+                params: { periodIds, teamIds, isLocal, sortColumnName, sortDirection }
             });
         }
     }

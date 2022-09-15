@@ -22,11 +22,12 @@
                 </div>
             </div>
             <div class="form-group">
-                <label class="label-form" data-translate="DepartmentSection"></label>
-                <select class="form-control select-form" ng-model="epaDetailReportCtrl.filter.departmentId"
-                        ng-options="opt.DepartmentId as opt.Name for opt in epaDetailReportCtrl.treeDepartment">
-                    <option value="">-- {{"All" | translate}} --</option>
-                </select>
+                <label class="label-form" data-translate="Team"></label>
+                <div class="select-form">
+                    <multi-select-tree-view selected-items="epaDetailReportCtrl.filter.teamIds"
+                                            is-selected-all="true"
+                                            options="epaDetailReportCtrl.orgChart" on-select="epaDetailReportCtrl.onSelectTeam"></multi-select-tree-view>
+                </div>
             </div>
             <div class="form-group">
                 <label class="label-form" data-translate="Category"></label>
@@ -38,7 +39,7 @@
             </div>
             <div class="form-group">
                 <label class="label-form" data-translate="Employee"></label>
-                <input class="form-control input-form" ng-model="epaDetailReportCtrl.searchEmployee"
+                <input class="form-control input-form" ng-model="epaDetailReportCtrl.searchKeyword"
                        placeholder="Enter full name or nick name" search-auto-complete search-employees="epaDetailReportCtrl.getEmployee()"
                        ng-change="epaDetailReportCtrl.unSelectEmployee()" employee="epaDetailReportCtrl.filter.employee" />
             </div>

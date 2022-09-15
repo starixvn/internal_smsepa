@@ -34,7 +34,7 @@
         [ApiAuthorize(FunctionKey = EPAFunctionKey.EPASummaryReport, Policy = Policy.Read)]
         public HttpResponseMessage GetEPASummaryReport(
             string periodIds = null,
-            int? departmentId = null,
+            string teamIds = null,
             bool? isLocal = null,
             int? employeeId = null,
             string sortColumnName = null,
@@ -45,7 +45,7 @@
                 ActorId = SessionService.EmployeeId,
                 EmployeeId = employeeId,
                 PeriodIds = periodIds,
-                DepartmentId = departmentId,
+                TeamIds = teamIds,
                 IsLocal = isLocal,
                 SortColumnName = sortColumnName,
                 SortDirection = sortDirection
@@ -60,7 +60,7 @@
         [ApiAuthorize(FunctionKey = EPAFunctionKey.EPADetailReport, Policy = Policy.Read)]
         public HttpResponseMessage GetEPADetailReport(
             int? periodId = null,
-            int? departmentId = null,
+            string teamIds = null,
             bool? isLocal = null,
             string phaseIds = null,
             int? employeeId = null,
@@ -72,7 +72,7 @@
                 ActorId = SessionService.EmployeeId,
                 EmployeeId = employeeId,
                 PeriodId = periodId,
-                DepartmentId = departmentId,
+                TeamIds = teamIds,
                 IsLocal = isLocal,
                 PhaseIds = phaseIds,
                 SortColumnName = sortColumnName,
@@ -94,7 +94,7 @@
         [ApiAuthorize(FunctionKey = EPAFunctionKey.MonthlyEPADetailReport, Policy = Policy.Read)]
         public HttpResponseMessage GetMonthlyEPADetailReport(
             int? periodId = null,
-            int? departmentId = null,
+            string teamIds = null,
             bool? isLocal = null,
             string phaseIds = null,
             string sortColumnName = null,
@@ -104,7 +104,7 @@
             {
                 EmployeeId = SessionService.EmployeeId,
                 PeriodId = periodId,
-                DepartmentId = departmentId,
+                TeamIds = teamIds,
                 IsLocal = isLocal,
                 PhaseIds = phaseIds,
                 SortColumnName = sortColumnName,
@@ -119,7 +119,7 @@
         [ApiAuthorize(FunctionKey = EPAFunctionKey.MonthlyEPASummaryReport, Policy = Policy.Read)]
         public HttpResponseMessage GetMonthlyEPASummaryReport(
             string periodIds = null,
-            int? departmentId = null,
+            string teamIds = null,
             bool? isLocal = null,
             string sortColumnName = null,
             string sortDirection = null)
@@ -128,7 +128,7 @@
             {
                 EmployeeId = SessionService.EmployeeId,
                 PeriodIds = periodIds,
-                DepartmentId = departmentId,
+                TeamIds = teamIds,
                 IsLocal = isLocal,
                 SortColumnName = sortColumnName,
                 SortDirection = sortDirection
@@ -155,21 +155,18 @@
         public IEnumerable<EmployeeViewModel> GetEmployeeByActorId(
             string query = "",
             string periodIds = null,
-            int? departmentId = null,
+            string teamIds = null,
             bool? isLocal = null)
         {
             var criteria = new GetEmployeeByActorIdCriteria
             {
                 Query = query,
                 PeriodIds = periodIds,
-                DepartmentId = departmentId,
+                TeamIds = teamIds,
                 IsLocal = isLocal,
                 ActorId = SessionService.EmployeeId
             };
-
-            IEnumerable<EmployeeViewModel> employees = reportService.GetEmployeeByActorId(criteria);
-
-            return employees;
+            return reportService.GetEmployeeByActorId(criteria);
         }
     }
 }
