@@ -93,11 +93,11 @@
         };
 
         vm.verify = function (assessment) {
-            AssessmentModel.editStatus(vm, { assessmentId: assessment.AssessmentId, statusId: vm.status.Verified });
+            AssessmentModel.editStatus(vm, { assessmentIds: assessment.AssessmentId, statusId: vm.status.Verified });
         };
 
         vm.approve = function (assessment) {
-            AssessmentModel.editStatus(vm, { assessmentId: assessment.AssessmentId, statusId: vm.status.Approved });
+            AssessmentModel.editStatus(vm, { assessmentIds: assessment.AssessmentId, statusId: vm.status.Approved });
         };
 
         vm.inputWeight = function (assessment) {
