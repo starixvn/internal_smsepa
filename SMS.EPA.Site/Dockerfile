@@ -59,7 +59,7 @@ WORKDIR C:\Compiled
 RUN echo "%TRANSFORM_CONFIG%" `
     && xcopy "WebConfigs\Web.%TRANSFORM_CONFIG%.config" "Web.config" /Y
 
-FROM hub.nexdev.net/base/dotnet/framework/aspnet:4.7.2-windowsservercore-ltsc2019 AS base
+FROM hub.nexdev.net/base/dotnet/framework/aspnet:4.7.2-windowsservercore-ltsc2019-utc7 AS base
 
 WORKDIR C:\inetpub\wwwroot
 
