@@ -45,6 +45,12 @@
         <thead>
             <tr class="header-table">
                 <th colspan="{{15 + assessmentReportCtrl.kpis.length * 2}}">
+                    <div class="grid-title-label pull-left">Assessment Report</div>
+                    <div class="grid-toolbox"><input type="button" class="btnExcel pull-right" title="Export to Excel" ng-click="assessmentReportCtrl.exportReport()"></div>
+                </th>
+            </tr>
+            <tr class="header-table">
+                <th colspan="{{10 + (assessmentReportCtrl.kpis.length > 0 ? assessmentReportCtrl.kpis.length * 2 + 6 : 0)}}">
                     <input type="text" class="search-inline-textbox search pull-right"
                            ng-model="assessmentReportCtrl.searchKey" ng-change="assessmentReportCtrl.search()" />
                 </th>

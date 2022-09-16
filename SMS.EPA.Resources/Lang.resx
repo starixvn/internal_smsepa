@@ -1491,13 +1491,52 @@
   <data name="MinWeight" xml:space="preserve">
     <value>Min Weight</value>
   </data>
+  <data name="JoblevelAssessmentReportName" xml:space="preserve">
+    <value>Job_Level_Assessment_Report</value>
+  </data>
   <data name="ToSection" xml:space="preserve">
     <value>To Section</value>
+  </data>
+ <data name="TeamRequired" xml:space="preserve">
+    <value>Team is required.</value>
+  </data>
+  <data name="JoblevelAssessmentReportTitle" xml:space="preserve">
+    <value>Job Level Assessment Report</value>
+  </data>
+  <data name="EmployeeInfo" xml:space="preserve">
+    <value>Employee Info</value>
+  </data>
+  <data name="CurrentJobLevel" xml:space="preserve">
+    <value>Current Job Level</value>
+  </data>
+  <data name="DOC" xml:space="preserve">
+    <value>DOC</value>
+  </data>
+  <data name="RequirementMinScore" xml:space="preserve">
+    <value>Requirement min score</value>
   </data>
   <data name="Team" xml:space="preserve">
     <value>Team</value>
   </data>
-  <data name="TeamRequired" xml:space="preserve">
-    <value>Team is required.</value>
+  <data name="JobLevelStandards" xml:space="preserve">
+    <value>Job Level Standards (Assessment by Section Head/Direct Superior)</value>
+  </data>
+  <data name="Level" xml:space="preserve">
+    <value>Level</value>
+  </data>
+  <data name="NewJobLevel" xml:space="preserve">
+    <value>New Job Level</value>
+  </data>
+  <data name="SystemPropose" xml:space="preserve">
+    <value>System Propose</value>
+  </data>
+  <data name="TotalWeight" xml:space="preserve">
+    <value>Total Weight</value>
+  </data>
+  <data name="ReviewbyUnitHead" xml:space="preserve">
+    <value>Review by Unit Head</value>
+  </data>
+  <data name="Remark" xml:space="preserve">
+    <value>Remark</value>
   </data>
 </root>

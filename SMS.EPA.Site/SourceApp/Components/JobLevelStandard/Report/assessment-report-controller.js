@@ -4,9 +4,9 @@
     /* jshint validthis:true */
 
     angular.module('jobLevelStandardModule').controller('AssessmentReportController', assessmentReportController);
-    assessmentReportController.$inject = ['AssessmentReportModel', 'CommonModel', 'utilitiesFactory', 'lockScreenService'];
+    assessmentReportController.$inject = ['baseUrl', 'AssessmentReportModel', 'CommonModel', 'utilitiesFactory', 'lockScreenService'];
 
-    function assessmentReportController(AssessmentReportModel, CommonModel, utilitiesFactory, lockScreenService) {
+    function assessmentReportController(baseUrl, AssessmentReportModel, CommonModel, utilitiesFactory, lockScreenService) {
         let vm = this;
 
         vm.periods = [];
@@ -26,6 +26,8 @@
             { StatusId: vm.assessmentStatus.Approved, Name: 'Approved' }
         ];
 
+        vm.exportReport = exportReport;
+
         function getAssessments(filter) {
             lockScreenService.start();
 
@@ -43,6 +45,23 @@
             vm.currentPage = 1;
             getAssessments(vm.filter);
         };
+
+        function exportReport() {
+            vm.exportCriteria = angular.copy(vm.filter);
+
+            var url = baseUrl + "ExportAssessment/ExportJoblevelAssessment";
+            var data = $.param(vm.exportCriteria);
+
+            var downloadUrl = url + "?" + data;
+            var iframe = $('body iframe');
+
+            if (iframe.length === 0) {
+                iframe = $('<iframe width="0" height="0" class="display-none"></iframe>');
+                iframe.appendTo('body');
+            }
+
+            iframe.attr("src", downloadUrl);
+        }
 
         vm.getIndex = function (index, currentPage, pageSize) {
             return CommonModel.getIndex(index, currentPage, pageSize);

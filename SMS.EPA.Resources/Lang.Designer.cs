@@ -19,7 +19,7 @@ namespace SMS.EPA.Resources {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "16.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     public class Lang {
@@ -664,6 +664,15 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Current Job Level.
+        /// </summary>
+        public static string CurrentJobLevel {
+            get {
+                return ResourceManager.GetString("CurrentJobLevel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Current Score.
         /// </summary>
         public static string CurrentScore {
@@ -853,6 +862,15 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to DOC.
+        /// </summary>
+        public static string DOC {
+            get {
+                return ResourceManager.GetString("DOC", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Domain.
         /// </summary>
         public static string Domain {
@@ -1002,6 +1020,15 @@ namespace SMS.EPA.Resources {
         public static string EmployeeFlowSettingReportTitle {
             get {
                 return ResourceManager.GetString("EmployeeFlowSettingReportTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Employee Info.
+        /// </summary>
+        public static string EmployeeInfo {
+            get {
+                return ResourceManager.GetString("EmployeeInfo", resourceCulture);
             }
         }
         
@@ -1897,6 +1924,24 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Job_Level_Assessment_Report.
+        /// </summary>
+        public static string JoblevelAssessmentReportName {
+            get {
+                return ResourceManager.GetString("JoblevelAssessmentReportName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Job Level Assessment Report.
+        /// </summary>
+        public static string JoblevelAssessmentReportTitle {
+            get {
+                return ResourceManager.GetString("JoblevelAssessmentReportTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Job Level is required..
         /// </summary>
         public static string JobLevelRequired {
@@ -1911,6 +1956,15 @@ namespace SMS.EPA.Resources {
         public static string JobLevelStandard {
             get {
                 return ResourceManager.GetString("JobLevelStandard", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Job Level Standards (Assessment by Section Head/Direct Superior).
+        /// </summary>
+        public static string JobLevelStandards {
+            get {
+                return ResourceManager.GetString("JobLevelStandards", resourceCulture);
             }
         }
         
@@ -2073,6 +2127,15 @@ namespace SMS.EPA.Resources {
         public static string LateLeaveRequest {
             get {
                 return ResourceManager.GetString("LateLeaveRequest", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Level.
+        /// </summary>
+        public static string Level {
+            get {
+                return ResourceManager.GetString("Level", resourceCulture);
             }
         }
         
@@ -2388,6 +2451,15 @@ namespace SMS.EPA.Resources {
         public static string NewFinalScore {
             get {
                 return ResourceManager.GetString("NewFinalScore", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to New Job Level.
+        /// </summary>
+        public static string NewJobLevel {
+            get {
+                return ResourceManager.GetString("NewJobLevel", resourceCulture);
             }
         }
         
@@ -2833,6 +2905,15 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Remark.
+        /// </summary>
+        public static string Remark {
+            get {
+                return ResourceManager.GetString("Remark", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Reminder - {0} for evaluation from {1} to {2}.
         /// </summary>
         public static string RemindDateEmailToEvaluatorSubject {
@@ -2968,6 +3049,15 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Requirement min score.
+        /// </summary>
+        public static string RequirementMinScore {
+            get {
+                return ResourceManager.GetString("RequirementMinScore", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Reset Password.
         /// </summary>
         public static string ResetPassword {
@@ -2982,6 +3072,15 @@ namespace SMS.EPA.Resources {
         public static string ReviewAndUpdateScore {
             get {
                 return ResourceManager.GetString("ReviewAndUpdateScore", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Review by Unit Head.
+        /// </summary>
+        public static string ReviewbyUnitHead {
+            get {
+                return ResourceManager.GetString("ReviewbyUnitHead", resourceCulture);
             }
         }
         
@@ -3616,6 +3715,15 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to System Propose.
+        /// </summary>
+        public static string SystemPropose {
+            get {
+                return ResourceManager.GetString("SystemPropose", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to System Subtract Score.
         /// </summary>
         public static string SystemSubtractScore {
@@ -3837,6 +3945,15 @@ namespace SMS.EPA.Resources {
         public static string TotalScore {
             get {
                 return ResourceManager.GetString("TotalScore", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Total Weight.
+        /// </summary>
+        public static string TotalWeight {
+            get {
+                return ResourceManager.GetString("TotalWeight", resourceCulture);
             }
         }
         
