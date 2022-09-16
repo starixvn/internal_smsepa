@@ -3985,15 +3985,6 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Total Weight.
-        /// </summary>
-        public static string TotalWeight {
-            get {
-                return ResourceManager.GetString("TotalWeight", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Updated successfully! &lt;br/&gt;Total score of all KPIs is less than {0}!.
         /// </summary>
         public static string TotalWeightLessThanMaxWeightWarning {
