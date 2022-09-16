@@ -1,5 +1,6 @@
 ﻿namespace SMS.EPA.Services.Interfaces
 {
+    using System;
     using System.Collections.Generic;
     using Criteria;
     using Criteria.EPAHistory;
@@ -43,5 +44,7 @@
         IEnumerable<ScoreRatingTypeModel> GetScoreRatingType(GetScoreRatingTypeCriteria criteria);
 
         IEnumerable<JobDescriptionGroupItem> GetJobDescriptionByEPAId(int epaId);
+
+        string CalculateLengthOfService(DateTime fromDate, DateTime toDate);
     }
 }

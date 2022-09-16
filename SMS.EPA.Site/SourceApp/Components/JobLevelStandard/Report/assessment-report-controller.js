@@ -14,7 +14,7 @@
         vm.searchKey = '';
         vm.currentPage = 1;
         vm.pageSize = 10;
-        vm.filter = { periodId: null, teamIds: null, isLocal: '', statusId: '' };
+        vm.filter = { periodId: null, sectionIds: null, isLocal: '', statusId: '' };
         vm.kpis = [];
         vm.assessments = [];
         utilitiesFactory.getDateFormat(vm);
@@ -67,8 +67,8 @@
             return CommonModel.getIndex(index, currentPage, pageSize);
         };
 
-        vm.onSelectTeam = function (teamIds) {
-            vm.filter.teamIds = teamIds;
+        vm.onSelectSection = function (sectionIds) {
+            vm.filter.sectionIds = sectionIds;
         };
 
         function initialize() {

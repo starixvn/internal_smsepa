@@ -196,6 +196,15 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Approved.
+        /// </summary>
+        public static string Approved {
+            get {
+                return ResourceManager.GetString("Approved", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Approver&apos;s Comment.
         /// </summary>
         public static string ApproverComment {
@@ -2131,6 +2140,15 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Length of Service.
+        /// </summary>
+        public static string LengthOfService {
+            get {
+                return ResourceManager.GetString("LengthOfService", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Level.
         /// </summary>
         public static string Level {
@@ -3841,6 +3859,15 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to There is no data!.
+        /// </summary>
+        public static string ThereIsNoData {
+            get {
+                return ResourceManager.GetString("ThereIsNoData", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Title.
         /// </summary>
         public static string Title {
@@ -3945,6 +3972,15 @@ namespace SMS.EPA.Resources {
         public static string TotalScore {
             get {
                 return ResourceManager.GetString("TotalScore", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Total Weight.
+        /// </summary>
+        public static string TotalWeight {
+            get {
+                return ResourceManager.GetString("TotalWeight", resourceCulture);
             }
         }
         
@@ -4170,6 +4206,15 @@ namespace SMS.EPA.Resources {
         public static string ValidateWrongPassword {
             get {
                 return ResourceManager.GetString("ValidateWrongPassword", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Verified.
+        /// </summary>
+        public static string Verified {
+            get {
+                return ResourceManager.GetString("Verified", resourceCulture);
             }
         }
         

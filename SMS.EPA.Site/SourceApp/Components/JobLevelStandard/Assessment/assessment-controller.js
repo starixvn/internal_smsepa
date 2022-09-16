@@ -9,12 +9,12 @@
     function assessmentController(CommonModel, AssessmentModel, utilitiesFactory, lockScreenService) {
         let vm = this;
 
-        vm.periods = [];
+        vm.periods = null;
         vm.orgChart = [];
         vm.searchKey = '';
         vm.currentPage = 1;
         vm.pageSize = 10;
-        vm.filter = { periodId: null, teamIds: null, statusId: '' };
+        vm.filter = { periodId: null, sectionIds: null, statusId: '' };
         vm.kpis = [];
         vm.assessments = [];
         vm.process = utilitiesFactory.jobLevelAssessmentProcess;
@@ -126,8 +126,8 @@
             }
         };
 
-        vm.onSelectTeam = function (teamIds) {
-            vm.filter.teamIds = teamIds;
+        vm.onSelectSection = function (sectionIds) {
+            vm.filter.sectionIds = sectionIds;
         };
 
         vm.onSellectAll = function () {

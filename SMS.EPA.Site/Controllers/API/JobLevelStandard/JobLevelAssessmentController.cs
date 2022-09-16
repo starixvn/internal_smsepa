@@ -15,18 +15,22 @@
     using SMS.EPA.Model.Enitites;
     using SMS.EPA.Model.JobLevelStandard;
     using SMS.EPA.Model.JobLevelStandard.Period;
+    using SMS.EPA.Services.Implement;
+    using SMS.EPA.Services.Interfaces;
 
     public class JobLevelAssessmentController : BaseController
     {
         private readonly IBaseService baseService;
+        private readonly ICommonService commonService;
 
-        public JobLevelAssessmentController() : this(null)
+        public JobLevelAssessmentController() : this(null, null)
         {
         }
 
-        public JobLevelAssessmentController(IBaseService baseService)
+        public JobLevelAssessmentController(IBaseService baseService, ICommonService commonService)
         {
             this.baseService = baseService ?? new BaseService();
+            this.commonService = commonService ?? new CommonService();
         }
 
         public async Task<IList<JobLevelStandardPeriod>> GetPeriods()
@@ -55,8 +59,8 @@
             IList<JobLevelAssessment> assessments = tuple.Item1.ToList();
             foreach(var assessment in assessments)
             {
-                assessment.RequirementMinScore = jobLevelSettings
-                    .FirstOrDefault(x => x.SectionId == assessment.SectionId && x.JobLevelId == assessment.CurrentJobLevelId)?.MinWeight;
+                assessment.LengthOfService = commonService.CalculateLengthOfService(assessment.JoinedDate, assessment.PeriodStartDate);
+                assessment.RequirementMinScore = GetRequirementMinScore(jobLevelSettings, assessment);
                 assessment.Processes = tuple.Item2.Where(x => x.EmployeeId == assessment.EmployeeId).ToList();
                 assessment.KPIs = tuple.Item3.Where(x => x.EmployeeId == assessment.EmployeeId).ToList();
 
@@ -73,6 +77,9 @@
                     assessment.SystemPropose = assessment.TotalWeight.Value - (assessment.RequirementMinScore ?? 0);
                 }
             }
+
+            assessments = assessments.OrderBy(x => x.Processes.Any(y => y.EvaluatorId == SessionService.EmployeeId) ? 0 : 1)
+                .ThenBy(x => x.StatusId.HasValue ? 0 : 1).ToList();
 
             return new { kpis, jobLevelSettings, assessments };
         }
@@ -103,7 +110,6 @@
         }
 
         [HttpPut]
-        [ApiAuthorize(FunctionKey = EPAFunctionKey.JobLevelStandardPeriod, Policy = Policy.Host)]
         [ApiAuthorize(FunctionKey = EPAFunctionKey.JobLevelAssessment, Policy = Policy.Host)]
         public async Task<CommandResult> EditStatus(EditStatusJobLevelAssessmentCommand command)
         {
@@ -124,9 +130,33 @@
 
             var departments = tuple.Item1.ToList();
             var sections = tuple.Item2.ToList();
-            var teams = tuple.Item3.ToList();
 
-            return GetOrgChart(departments, sections, teams);
+            var items = departments.Any()
+                ? departments.Select(dept => new MultiSelectItem
+                {
+                    Id = dept.DepartmentId,
+                    Text = dept.Name,
+                    Items = sections.Where(s => s.DepartmentId.HasValue && s.DepartmentId.Value == dept.DepartmentId).Select(s => new MultiSelectItem
+                    {
+                        Id = s.SectionId,
+                        Text = s.Name,
+                        ParentId = dept.DepartmentId,
+                        IsLeaf = true
+                    }).ToList()
+                }).ToList()
+                : sections.Select(s => new MultiSelectItem
+                {
+                    Id = s.SectionId,
+                    Text = s.Name,
+                    IsLeaf = true
+                }).ToList();
+
+            return items;
+        }
+
+        private static decimal? GetRequirementMinScore(IList<JobLevelSetting> jobLevelSettings, JobLevelAssessment assessment)
+        {
+            return jobLevelSettings.FirstOrDefault(x => x.SectionId == assessment.SectionId && x.JobLevelId == assessment.CurrentJobLevelId)?.MinWeight;
         }
     }
 }

@@ -22,7 +22,8 @@
 
         public string Team { get; set; }
         public DateTime JoinedDate { get; set; }
-
+        public DateTime PeriodStartDate { get; set; }
+        public string LengthOfService { get; set; }
         public decimal? TotalWeight { get; set; }
 
         public int? CurrentJobLevelId { get; set; }

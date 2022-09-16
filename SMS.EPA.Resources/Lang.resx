@@ -1539,4 +1539,34 @@
   <data name="Remark" xml:space="preserve">
     <value>Remark</value>
   </data>
+  <data name="LengthOfService" xml:space="preserve">
+    <value>Length of Service</value>
+  </data>
+  <data name="Approved" xml:space="preserve">
+    <value>Approved</value>
+  </data>
+  <data name="CurrentJobLevel" xml:space="preserve">
+    <value>Current Job Level</value>
+  </data>
+  <data name="Level" xml:space="preserve">
+    <value>Level</value>
+  </data>
+  <data name="NewJobLevel" xml:space="preserve">
+    <value>New Job Level</value>
+  </data>
+  <data name="RequirementMinScore" xml:space="preserve">
+    <value>Requirement min score</value>
+  </data>
+  <data name="SystemPropose" xml:space="preserve">
+    <value>System Propose</value>
+  </data>
+  <data name="ThereIsNoData" xml:space="preserve">
+    <value>There is no data!</value>
+  </data>
+  <data name="TotalWeight" xml:space="preserve">
+    <value>Total Weight</value>
+  </data>
+  <data name="Verified" xml:space="preserve">
+    <value>Verified</value>
+  </data>
 </root>
