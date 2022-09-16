@@ -1,23 +1,13 @@
 ﻿namespace SMS.EPA.Services.Implement.ExportFile
 {
-    using System;
     using System.Collections.Generic;
-    using System.Diagnostics;
     using System.IO;
-    using System.Linq;
-    using System.Text;
-    using System.Threading.Tasks;
     using NPOI.HSSF.UserModel;
     using NPOI.HSSF.Util;
-    using NPOI.SS.Formula.Functions;
     using NPOI.SS.UserModel;
     using NPOI.SS.Util;
-    using OfficeOpenXml.FormulaParsing.Excel.Functions.Math;
     using SMS.EPA.Core.Constants;
-    using SMS.EPA.Core.Enumerations;
-    using SMS.EPA.Core.Services;
     using SMS.EPA.Core.Utilities.NPOIExtensions;
-    using SMS.EPA.Model;
     using SMS.EPA.Model.JobLevelStandard;
     using SMS.EPA.Resources;
     using SMS.EPA.Services.Interfaces.ExportFile;
@@ -189,20 +179,6 @@
             ref ISheet sheet)
         {
             var rowIndex = 4;
-            IFont redFont = workbook.CreateFont();
-            redFont.Color = HSSFColor.Red.Index;
-            ICellStyle bodyStyle1;
-            ICellStyle bodyStyle2;
-            ICellStyle bodyStyle3;
-            ICellStyle bodyStyle4;
-
-            CreateBodyStyles(
-                workbook,
-                out bodyStyle1,
-                out bodyStyle2,
-                out bodyStyle3,
-                out bodyStyle4);
-
             foreach (var assessment in assessments)
             {
                 ICellStyle bodyStyle;
@@ -212,17 +188,15 @@
                 sheet = CreateEmployeeInfoCells(
                     sheet,
                     rowIndex,
-                    bodyStyle1,
-                    bodyStyle2,
-                    bodyStyle3,
-                    bodyStyle4,
+                    workbook,
                     assessment,
                     out bodyStyle,
                     out row,
                     out cellBody);
 
-                bodyStyle = rowIndex % 2 == 0 ? bodyStyle2 : bodyStyle1;
-
+                bodyStyle = StyleBackgroundColor(assessment, workbook);
+                bodyStyle.Alignment = HorizontalAlignment.Center;
+                bodyStyle.VerticalAlignment = VerticalAlignment.Center;
                 for (int i = 0; i < assessment.KPIs.Count; i++)
                 {
                     var cellIndex = i == 0 ? 10 : 10 + i * 2;
@@ -245,23 +219,15 @@
 
                 cellBody = row.CreateCell(startCellReview + 1);
                 cellBody.CellStyle = bodyStyle;
-                //if (assessment.SystemPropose < 0)
-                //{
-                //    cellBody.CellStyle.SetFont(redFont);
-                //}
                 cellBody.SetCellValue(assessment.SystemPropose);
                 SetColumnWidth(ref sheet, startCellReview + 1, cellNormalWidth);
 
                 cellBody = row.CreateCell(startCellReview + 2);
                 cellBody.CellStyle = bodyStyle;
-                //if (assessment.SystemPropose > 0 && assessment.CurrentJobLevelId != assessment.NewJobLevelId)
-                //{
-                //    cellBody.CellStyle.SetFont(redFont);
-                //}
                 cellBody.SetCellValue(assessment.NewJobLevel);
                 SetColumnWidth(ref sheet, startCellReview + 2, cellNormalWidth);
 
-                bodyStyle = rowIndex % 2 == 0 ? bodyStyle4 : bodyStyle3;
+                bodyStyle = StyleBackgroundColor(assessment, workbook);
                 cellBody = row.CreateCell(startCellReview + 3);
                 cellBody.CellStyle = bodyStyle;
                 cellBody.SetCellValue(assessment.Remark);
@@ -272,57 +238,51 @@
                 cellBody.SetCellValue(assessment.StatusId.ToString());
                 SetColumnWidth(ref sheet, startCellReview + 4, cellNormalWidth + 3);
 
-
                 rowIndex++;
             }
         }
-
-        private static void CreateBodyStyles(
-            HSSFWorkbook workbook,
-            out ICellStyle bodyStyle1,
-            out ICellStyle bodyStyle2,
-            out ICellStyle bodyStyle3,
-            out ICellStyle bodyStyle4)
+        private static ICellStyle StyleBackgroundColor(JobLevelAssessment assessment, HSSFWorkbook workbook)
         {
-            bodyStyle1 = workbook.CreateCellStyle();
-            bodyStyle1.Alignment = HorizontalAlignment.Center;
-            bodyStyle1.VerticalAlignment = VerticalAlignment.Center;
+            var bodyStyle = workbook.CreateCellStyle();
+            if (assessment.SystemPropose > 0 && assessment.CurrentJobLevelId != assessment.NewJobLevelId)
+            {
+                bodyStyle.FillForegroundColor = HSSFColor.Green.Index;
+                bodyStyle.FillPattern = FillPattern.SolidForeground;
+                bodyStyle.FillBackgroundColor = HSSFColor.Green.Index;
+            }
+            else if (assessment.SystemPropose < 0)
+            {
+                bodyStyle.FillForegroundColor = HSSFColor.Orange.Index;
+                bodyStyle.FillPattern = FillPattern.SolidForeground;
+                bodyStyle.FillBackgroundColor = HSSFColor.Orange.Index;
+            }
+            else
+            {
+                bodyStyle.FillForegroundColor = HSSFColor.White.Index;
+                bodyStyle.FillPattern = FillPattern.SolidForeground;
+                bodyStyle.FillBackgroundColor = HSSFColor.White.Index;
+            }
 
-            bodyStyle2 = workbook.CreateCellStyle();
-            bodyStyle2.Alignment = HorizontalAlignment.Center;
-            bodyStyle2.VerticalAlignment = VerticalAlignment.Center;
-            bodyStyle2.FillForegroundColor = HSSFColor.LightCornflowerBlue.Index;
-            bodyStyle2.FillPattern = FillPattern.SolidForeground;
-            bodyStyle2.FillBackgroundColor = HSSFColor.LightCornflowerBlue.Index;
-
-            bodyStyle3 = workbook.CreateCellStyle();
-            bodyStyle3.Alignment = HorizontalAlignment.Left;
-
-            bodyStyle4 = workbook.CreateCellStyle();
-            bodyStyle4.Alignment = HorizontalAlignment.Left;
-            bodyStyle4.FillForegroundColor = HSSFColor.LightCornflowerBlue.Index;
-            bodyStyle4.FillPattern = FillPattern.SolidForeground;
-            bodyStyle4.FillBackgroundColor = HSSFColor.LightCornflowerBlue.Index;
+            return bodyStyle;
         }
 
 #pragma warning disable S107 // Methods should not have too many parameters
         private static ISheet CreateEmployeeInfoCells(
             ISheet sheet,
             int rowIndex,
-            ICellStyle bodyStyle1,
-            ICellStyle bodyStyle2,
-            ICellStyle bodyStyle3,
-            ICellStyle bodyStyle4,
+            HSSFWorkbook workbook,
             JobLevelAssessment assessment,
             out ICellStyle bodyStyle,
             out IRow row,
             out ICell cellBody)
 #pragma warning restore S107 // Methods should not have too many parameters
         {
-            bodyStyle = rowIndex % 2 == 0 ? bodyStyle2 : bodyStyle1;
             row = sheet.CreateRow(rowIndex);
 
             cellBody = row.CreateCell(0);
+            bodyStyle = StyleBackgroundColor(assessment, workbook);
+            bodyStyle.Alignment = HorizontalAlignment.Center;
+            bodyStyle.VerticalAlignment = VerticalAlignment.Center;
             cellBody.CellStyle = bodyStyle;
             cellBody.SetCellValue(rowIndex - 3);
             SetColumnWidth(ref sheet, 0, 5);
@@ -332,25 +292,30 @@
             cellBody.SetCellValue(assessment.Code);
             SetColumnWidth(ref sheet, 1, 10);
 
-            bodyStyle = rowIndex % 2 == 0 ? bodyStyle4 : bodyStyle3;
+            bodyStyle = StyleBackgroundColor(assessment, workbook);
             cellBody = row.CreateCell(2);
+            bodyStyle.Alignment = HorizontalAlignment.Left;
             cellBody.CellStyle = bodyStyle;
             cellBody.SetCellValue(assessment.FullName);
             SetColumnWidth(ref sheet, 2, 20);
 
             cellBody = row.CreateCell(3);
+            bodyStyle.Alignment = HorizontalAlignment.Left;
             cellBody.CellStyle = bodyStyle;
             cellBody.SetCellValue(assessment.Nickname);
             SetColumnWidth(ref sheet, 3, 12);
 
-            bodyStyle = rowIndex % 2 == 0 ? bodyStyle2 : bodyStyle1;
+            StyleBackgroundColor(assessment, workbook);
             cellBody = row.CreateCell(4);
+            bodyStyle.Alignment = HorizontalAlignment.Center;
+            bodyStyle.VerticalAlignment = VerticalAlignment.Center;
             cellBody.CellStyle = bodyStyle;
             cellBody.SetCellValue(assessment.JoinedDate.ToString(Constants.DateFormat));
             SetColumnWidth(ref sheet, 4, 16);
 
-            bodyStyle = rowIndex % 2 == 0 ? bodyStyle4 : bodyStyle3;
+            bodyStyle = StyleBackgroundColor(assessment, workbook);
             cellBody = row.CreateCell(5);
+            bodyStyle.Alignment = HorizontalAlignment.Left;
             cellBody.CellStyle = bodyStyle;
             cellBody.SetCellValue(assessment.Department);
             SetColumnWidth(ref sheet, 5, 16);
@@ -365,7 +330,7 @@
             cellBody.SetCellValue(assessment.Team);
             SetColumnWidth(ref sheet, 7, 18);
 
-            bodyStyle = rowIndex % 2 == 0 ? bodyStyle2 : bodyStyle1;
+            bodyStyle = StyleBackgroundColor(assessment, workbook);
             cellBody = row.CreateCell(8);
             cellBody.CellStyle = bodyStyle;
             cellBody.SetCellValue(assessment.CurrentJobLevel);
