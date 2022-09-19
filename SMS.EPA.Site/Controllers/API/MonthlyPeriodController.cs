@@ -141,7 +141,7 @@
         [ApiAuthorize(FunctionKey = EPAFunctionKey.MonthlyPeriod, Policy = Policy.Read)]
         public IEnumerable<PeriodEmployeeSettingModel> GetEmployeeSettingMonthlyPeriodById(
             int periodId,
-            int? departmentId = null,
+            string teamIds = null,
             bool? isLocal = null,
             bool? isExcludedEmployee = null,
             bool? isGeneratedEPA = null,
@@ -151,7 +151,7 @@
             var criteria = new GetPeriodEmployeeSettingCriteria
             {
                 PeriodId = periodId,
-                DepartmentId = departmentId,
+                TeamIds = teamIds,
                 IsLocal = isLocal,
                 IsExcludedEmployee = isExcludedEmployee,
                 IsGeneratedEPA = isGeneratedEPA,

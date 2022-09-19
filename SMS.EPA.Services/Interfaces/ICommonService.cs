@@ -1,12 +1,12 @@
-﻿namespace SMS.EPA.Services.Interfaces
+﻿namespace SMS.EPA.Services
 {
     using System;
     using System.Collections.Generic;
-    using Criteria;
-    using Criteria.EPAHistory;
-    using Criteria.TargetType;
-    using Model;
-    using Model.Enitites;
+    using SMS.EPA.Criteria;
+    using SMS.EPA.Criteria.EPAHistory;
+    using SMS.EPA.Criteria.TargetType;
+    using SMS.EPA.Model;
+    using SMS.EPA.Model.Enitites;
     using SMS.EPA.Model.JobDescription;
 
     public interface ICommonService

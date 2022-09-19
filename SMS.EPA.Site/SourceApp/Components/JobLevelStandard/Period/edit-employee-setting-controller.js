@@ -64,7 +64,7 @@
         }
 
         function initialize() {
-            CommonModel.getAllEmployee().then(function () {
+            CommonModel.searchEmployee().then(function () {
                 vm.employees = CommonModel.employees;
                 vm.employeeSettings.evaluatorOptions = angular.copy(vm.employees);
                 vm.employeeSettings.managementOptions = angular.copy(vm.employees);

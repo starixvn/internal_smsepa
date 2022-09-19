@@ -10,7 +10,7 @@
         [SpParam(Ignored = true)]
         public string PeriodName { get; set; }
 
-        public int? DepartmentId { get; set; }
+        public string TeamIds { get; set; }
 
         public bool? IsLocal { get; set; }
 
@@ -24,14 +24,8 @@
 
         public int? EPAStatus { get; set; }
 
-        public override bool IsValid()
-        {
-            return PeriodId > 0;
-        }
+        public override bool IsValid() => PeriodId > 0;
 
-        public override string GetSettingKey()
-        {
-            return "EpaPeriod_GetEmployeeSetting";
-        }
+        public override string GetSettingKey() => "EpaPeriod_GetEmployeeSetting";
     }
 }

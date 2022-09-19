@@ -135,7 +135,7 @@
             return new EmptyResult();
         }
 
-        public ActionResult ExportEmployeeFlowSettingReport(GetPeriodEmployeeSettingCriteria criteria)
+        public ActionResult ExportPeriodEmployeeSetting(GetPeriodEmployeeSettingCriteria criteria)
         {
             var employeeFlowSettings = _periodService.GetPeriodEmployeeSettingById(criteria);
 

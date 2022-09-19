@@ -5,8 +5,7 @@
     using Core.Enumerations;
     using Criteria;
     using Model;
-    using Services.Implement;
-    using Services.Interfaces;
+    using SMS.EPA.Services;
     using System.Web.Http;
 
     public class DepartmentController : BaseController

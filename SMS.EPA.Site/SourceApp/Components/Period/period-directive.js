@@ -34,7 +34,7 @@
             link: function (scope) {
                 scope.$on('exportEmployeeFlowSettingReport', function () {
                     var data = $.param(scope.empSettingCtrl.exportCriteria),
-                        url = baseUrl + 'ExportReport/ExportEmployeeFlowSettingReport',
+                        url = baseUrl + 'ExportReport/ExportPeriodEmployeeSetting',
                         downloadUrl = url + "?" + data,
                         iframe = $('body iframe');
 

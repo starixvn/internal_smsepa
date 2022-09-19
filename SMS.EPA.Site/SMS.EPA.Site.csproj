@@ -15,7 +15,7 @@
     <AssemblyName>SMS.EPA.Site</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <MvcBuildViews>false</MvcBuildViews>
-    <UseIISExpress>false</UseIISExpress>
+    <UseIISExpress>true</UseIISExpress>
     <JSLintSkip>\Libs\</JSLintSkip>
     <IISExpressSSLPort>44300</IISExpressSSLPort>
     <IISExpressAnonymousAuthentication>enabled</IISExpressAnonymousAuthentication>
@@ -614,6 +614,10 @@
     <Content Include="SourceApp\Components\JobLevel\Templates\index.html" />
     <Content Include="SourceApp\Components\JobLevel\edit-job-level-controller.js" />
     <Content Include="SourceApp\Components\JobLevelStandard\Period\Templates\addEmployeeSetting.html" />
+    <Content Include="SourceApp\Components\MonthlyPeriod\add-employee-setting-controller.js" />
+    <Content Include="SourceApp\Components\MonthlyPeriod\Templates\addEmployeeSetting.html" />
+    <Content Include="SourceApp\Components\Period\add-employee-setting-controller.js" />
+    <Content Include="SourceApp\Components\Period\Templates\addEmployeeSetting.html" />
     <Content Include="SourceApp\Shared\Directives\epa-searchAutoComplete-directive.js" />
     <Content Include="SourceApp\Shared\Templates\modal-confirm-refresh-data.html" />
     <Content Include="SourceApp\Components\JobDescription\Templates\personnel.html" />

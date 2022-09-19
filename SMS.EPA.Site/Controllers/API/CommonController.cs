@@ -12,9 +12,8 @@
     using Criteria.TargetType;
     using Model;
     using Model.Enitites;
-    using Services.Implement;
-    using Services.Interfaces;
     using SMS.EPA.Core.Services;
+    using SMS.EPA.Services;
 
     public class CommonController : BaseController
     {

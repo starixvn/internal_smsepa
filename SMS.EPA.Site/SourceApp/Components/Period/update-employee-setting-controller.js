@@ -196,7 +196,7 @@
             vm.employeeOptions.disciplineStartDate = vm.selectedEmployees[0].DisciplineStartDate ? new Date(vm.selectedEmployees[0].DisciplineStartDate) : null;
             vm.employeeOptions.disciplineEndDate = vm.selectedEmployees[0].DisciplineEndDate ? new Date(vm.selectedEmployees[0].DisciplineEndDate) : null;
 
-            CommonModel.getAllEmployee().then(function () {
+            CommonModel.searchEmployee().then(function () {
                 vm.employees = CommonModel.employees;
                 vm.employeeOptions.humanResourceEmployees = angular.copy(vm.employees);
                 vm.employeeOptions.evaluatorEmployees = angular.copy(vm.employees);

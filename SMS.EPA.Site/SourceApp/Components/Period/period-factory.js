@@ -7,33 +7,30 @@
 
     function periodFactory($http, baseUrl) {
         return {
-            addEmployeeToPeriod: addEmployeeToPeriod,
-            checkSelfProcessStarted: checkSelfProcessStarted,
-            createPeriod: createPeriod,
-            deletePeriod: deletePeriod,
-            generateEvaluation: generateEvaluation,
-            getPeriod: getPeriod,
-            getPeriodById: getPeriodById,
-            getPeriodEmployeeSettingById: getPeriodEmployeeSettingById,
-            getPermissionOnPeriod: getPermissionOnPeriod,
-            getProcessSettingByPeriodId: getProcessSettingByPeriodId,
-            updateBasicInformationPeriod: updateBasicInformationPeriod,
-            updateEmployeeSettingOfPeriod: updateEmployeeSettingOfPeriod,
-            updateIncludeStatusEmployeePeriod: updateIncludeStatusEmployeePeriod,
-            updatePeriodProcessSetting: updatePeriodProcessSetting,
-            updateStatusPeriod: updateStatusPeriod
+            checkSelfProcessStarted,
+            createPeriod,
+            deletePeriod,
+            generateEvaluation,
+            getPeriod,
+            getPeriodById,
+            getPeriodEmployeeSettingById,
+            getPermissionOnPeriod,
+            getProcessSettingByPeriodId,
+            updateBasicInformationPeriod,
+            addEmployeeSetting,
+            updateEmployeeSettingOfPeriod,
+            updateIncludeStatusEmployeePeriod,
+            updatePeriodProcessSetting,
+            updateStatusPeriod
         };
 
-        function addEmployeeToPeriod(employeeInfo) {
-            return $http.post(baseUrl + 'api/Period/AddEmployeToPeriod', employeeInfo);
+        function addEmployeeSetting(params) {
+            return $http.post(baseUrl + 'api/Period/AddEmployeToPeriod', params);
         }
 
         function checkSelfProcessStarted(periodId, employeeIds) {
             return $http.get(baseUrl + 'api/Period/CheckSelfProcessStarted', {
-                params: {
-                    periodId: periodId,
-                    employeeIds: employeeIds
-                }
+                params: { periodId, employeeIds }
             });
         }
 
@@ -57,18 +54,9 @@
             return $http.get(baseUrl + 'api/Period/GetPeriodById', { params: { periodId: periodId } });
         }
 
-        function getPeriodEmployeeSettingById(periodId, departmentId, isLocal, isExcludedEmployee, isGeneratedEPA, isEvaluated, hasMonthlyEPA, epaStatus) {
+        function getPeriodEmployeeSettingById(periodId, teamIds, isLocal, isExcludedEmployee, isGeneratedEPA, isEvaluated, hasMonthlyEPA, epaStatus) {
             return $http.get(baseUrl + 'api/Period/GetPeriodEmployeeSettingById', {
-                params: {
-                    periodId: periodId,
-                    departmentId: departmentId,
-                    isLocal: isLocal,
-                    isExcludedEmployee: isExcludedEmployee,
-                    isGeneratedEPA: isGeneratedEPA,
-                    isEvaluated: isEvaluated,
-                    hasMonthlyEPA: hasMonthlyEPA,
-                    epaStatus: epaStatus
-                }
+                params: { periodId, teamIds, isLocal, isExcludedEmployee, isGeneratedEPA, isEvaluated, hasMonthlyEPA, epaStatus }
             });
         }
 

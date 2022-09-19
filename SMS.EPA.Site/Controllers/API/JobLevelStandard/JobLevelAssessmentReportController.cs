@@ -13,22 +13,23 @@
     using SMS.EPA.Model.Enitites;
     using SMS.EPA.Model.JobLevelStandard;
     using SMS.EPA.Model.JobLevelStandard.Period;
-    using SMS.EPA.Services.Implement;
-    using SMS.EPA.Services.Interfaces;
+    using SMS.EPA.Services;
 
     public class JobLevelAssessmentReportController : BaseController
     {
         private readonly IBaseService baseService;
-        private readonly ICommonService commonService;
+        private readonly IJoblevelAssessmentReportService reportService;
 
         public JobLevelAssessmentReportController() : this(null, null)
         {
         }
 
-        public JobLevelAssessmentReportController(IBaseService baseService, ICommonService commonService)
+        public JobLevelAssessmentReportController(
+            IBaseService baseService,
+            IJoblevelAssessmentReportService reportService)
         {
             this.baseService = baseService ?? new BaseService();
-            this.commonService = commonService ?? new CommonService();
+            this.reportService = reportService ?? new JoblevelAssessmentReportService();
         }
 
         public async Task<IList<JobLevelStandardPeriod>> GetPeriods()
@@ -80,26 +81,8 @@
             var kpicriteria = new GetKPIByPeriodIdCriteria { PeriodId = criteria.PeriodId };
             var kpis = baseService.GetData<JobLevelStandardKPI>(kpicriteria).ToList();
 
-            var settingCriteria = new GetPeriodJobLevelSettingByPeriodIdCriteria { PeriodId = criteria.PeriodId };
-            var jobLevelSettings = baseService.GetData<JobLevelSetting>(settingCriteria).ToList();
-
             criteria.ActorId = SessionService.EmployeeId;
-            var tuple = baseService.FetchMultiple<JobLevelAssessment, JobLevelAssessmentKPI>(criteria);
-            IList<JobLevelAssessment> assessments = tuple.Item1.ToList();
-            foreach (var assessment in assessments)
-            {
-                assessment.LengthOfService = commonService.CalculateLengthOfService(assessment.JoinedDate, assessment.PeriodStartDate);
-                assessment.RequirementMinScore = jobLevelSettings
-                    .FirstOrDefault(x => x.SectionId == assessment.SectionId && x.JobLevelId == assessment.CurrentJobLevelId)?.MinWeight;
-                assessment.KPIs = tuple.Item2.Where(x => x.EmployeeId == assessment.EmployeeId).ToList();
-
-                if (assessment.TotalWeight.HasValue)
-                {
-                    assessment.SystemPropose = assessment.TotalWeight.Value - (assessment.RequirementMinScore ?? 0);
-                }
-            }
-
-            assessments = assessments.OrderBy(x => x.StatusId.HasValue ? 0 : 1).ToList();
+            IList<JobLevelAssessment> assessments = reportService.GetJoblevelAssessment(criteria);
 
             return new { kpis, assessments };
         }

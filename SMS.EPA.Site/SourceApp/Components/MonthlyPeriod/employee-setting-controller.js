@@ -7,15 +7,13 @@
     employeeSettingMonthlyPeriodController.$inject = ['$scope', '$routeParams', 'MonthlyPeriodModel', 'CommonModel',
         'utilitiesFactory', 'notificationFactory', 'lockScreenService'];
 
-    function employeeSettingMonthlyPeriodController($scope, $routeParams, MonthlyPeriodModel, CommonModel,
-        utilitiesFactory, notificationFactory, lockScreenService) {
-        var vm = this;
+    function employeeSettingMonthlyPeriodController($scope, $routeParams, PeriodModel, CommonModel, utilitiesFactory, notificationFactory, lockScreenService) {
+        let vm = this;
 
         vm.period = null;
         vm.periodId = null;
-        vm.employeeSettings = MonthlyPeriodModel.employeeSettings;
+        vm.employeeSettings = PeriodModel.employeeSettings;
         vm.isFirstLoad = true;
-        vm.departmentOptions = [];
         vm.selectedAll = false;
         vm.currentPage = 1;
         vm.pageSize = 20;
@@ -23,13 +21,13 @@
             { Value: 0, Name: 'In Progress' },
             { Value: 1, Name: 'Closed' }
         ];
-
+        vm.orgChart = [];
         utilitiesFactory.numberEntryList(vm);
         utilitiesFactory.getDateFormat(vm);
 
         vm.filter = {
             periodId: null,
-            departmentId: null,
+            teamIds: null,
             isLocal: '',
             isExcludedEmployee: null,
             isGeneratedEPA: '',
@@ -37,42 +35,36 @@
             epaStatus: $routeParams.inprogress !== undefined ? ($routeParams.inprogress === true || $routeParams.inprogress === 'true' ? 0 : '') : ''
         };
 
-        vm.filterAssign = {
-            employee: ''
-        };
-
         function getEmployeeSetting(filter) {
             lockScreenService.start();
 
-            MonthlyPeriodModel.getEmployeeSettingMonthlyPeriodById(
+            PeriodModel.getEmployeeSettingById(
                 filter.periodId,
-                filter.departmentId,
+                filter.teamIds,
                 filter.isLocal,
                 filter.isExcludedEmployee,
                 filter.isGeneratedEPA,
                 filter.isEvaluated,
                 filter.epaStatus)
-            .then(function () {
-                vm.employeeSettings = MonthlyPeriodModel.employeeSettings;
-                utilitiesFactory.searchOnPage(vm, vm.employeeSettings);
-                vm.isFirstLoad = false;
-                vm.selectedAll = false;
-                lockScreenService.stop();
-            });
+                .then(function () {
+                    vm.employeeSettings = PeriodModel.employeeSettings;
+                    utilitiesFactory.searchOnPage(vm, vm.employeeSettings);
+                    vm.isFirstLoad = false;
+                    vm.selectedAll = false;
+                    lockScreenService.stop();
+                });
         }
 
         $scope.$watch(function () {
             return $scope.updateCtrl.period && $scope.updateCtrl.permission && $scope.updateCtrl.dataTab === 3;
-        },
-        function (newVal) {
+        }, function (newVal) {
             if (newVal && vm.isFirstLoad) {
                 vm.period = $scope.updateCtrl.period;
                 vm.filter.periodId = vm.period.PeriodId;
                 vm.permission = $scope.updateCtrl.permission;
 
-                CommonModel.getDepartment(null, true).then(function () {
-                    var treeDepartment = CommonModel.generateTreeDepartment(CommonModel.treeDepartment.Childrens);
-                    vm.departmentOptions = angular.copy(treeDepartment);
+                CommonModel.getOrgChart().then(function () {
+                    vm.orgChart = CommonModel.orgChart;
                 });
 
                 getEmployeeSetting(vm.filter);
@@ -83,93 +75,34 @@
             getEmployeeSetting(filter);
         };
 
-        vm.getEmployee = function () {
-            return CommonModel.getAllEmployee(vm.searchEmployee);
-        };
-
-        vm.unSelectEmployee = function () {
-            if (vm.searchEmployee.trim() === '') {
-                if (vm.filterAssign.employee) {
-                    vm.filterAssign.employee = null;
-                }
-            }
-        };
-
-        function getSelectedDepartment(departments) {
-            var selectedDepartments = [];
-
-            angular.forEach(departments, function (department) {
-                if (department.ticked) {
-                    var departmentId = department.DepartmentId,
-                        selectedDepartment = {
-                            departmentId: departmentId < 0 ? -departmentId : departmentId,
-                            isGroup: department.IsGroup
-                        };
-
-                    selectedDepartments.push(selectedDepartment);
-                }
+        vm.addEmployee = function () {
+            PeriodModel.openPopupAddEmployeeSetting(vm).then(function () {
+                vm.modalInstance = null;
+                getEmployeeSetting(vm.filter);
             });
-
-            return selectedDepartments;
-        }
-
-        function resetFilterAssign() {
-            vm.filterAssign.employee = '';
-            vm.searchEmployee = '';
-
-            angular.forEach(vm.departments, function (department) {
-                department.ticked = false;
-            });
-        }
-
-        vm.addEmployeeToMonthlyPeriod = function (filterAssign) {
-            var employeeId = null;
-
-            if (filterAssign.employee) {
-                employeeId = filterAssign.employee.EmployeeId;
-            }
-
-            var employeeInfo = {
-                periodId: vm.period.PeriodId,
-                employeeId: employeeId,
-                departments: getSelectedDepartment(vm.departmentOptions)
-            };
-
-            if (employeeInfo.employeeId || (employeeInfo.departments && employeeInfo.departments.length > 0)) {
-                if (filterAssign.employee && !filterAssign.employee.HasMonthlyEPA) {
-                    notificationFactory.error("EmployeeNotSetMonthlyEvaluation");
-                } else {
-                    MonthlyPeriodModel.addEmployeeToMonthlyPeriod(employeeInfo).then(function () {
-                        resetFilterAssign();
-                        getEmployeeSetting(vm.filter);
-                    });
-                }
-            } else {
-                notificationFactory.error("SelectDepartmentSectionEmployeeBeforeAddToPeriodWarning");
-            }
         };
 
         vm.updateEmployeeSetting = function (employeeSetting) {
-            MonthlyPeriodModel.openPopupUpdateEmployeeSetting(vm, new Array(employeeSetting));
+            PeriodModel.openPopupUpdateEmployeeSetting(vm, new Array(employeeSetting));
         };
 
         vm.manageSetting = function () {
-            var selectedEmployees = MonthlyPeriodModel.getSelectedEmployee(vm.employeeSettings);
+            var selectedEmployees = PeriodModel.getSelectedEmployee(vm.employeeSettings);
 
             if (!selectedEmployees || selectedEmployees.length === 0) {
                 notificationFactory.error("SelectEmployeeBeforeEditSettingWarning");
             } else {
-                MonthlyPeriodModel.openPopupUpdateEmployeeSetting(vm, selectedEmployees);
+                PeriodModel.openPopupUpdateEmployeeSetting(vm, selectedEmployees);
             }
         };
 
         vm.includeExcludeEmployee = function (employee) {
-            MonthlyPeriodModel.openPopupIncludeExcludeEmployee(vm, vm.period.PeriodId, employee);
+            PeriodModel.openPopupIncludeExcludeEmployee(vm, vm.period.PeriodId, employee);
         };
 
         vm.generateEvaluation = function () {
-            var selectedEmployees = MonthlyPeriodModel.getSelectedEmployee(vm.employeeSettings),
-                selectedEmployeeInfo = MonthlyPeriodModel.getSelectedEmployeeInfo(selectedEmployees),
+            var selectedEmployees = PeriodModel.getSelectedEmployee(vm.employeeSettings),
+                selectedEmployeeInfo = PeriodModel.getSelectedEmployeeInfo(selectedEmployees),
                 period = {
                     periodId: vm.period.PeriodId,
                     employeeIds: selectedEmployeeInfo.selectedEmployeeIds
@@ -178,8 +111,8 @@
             if (!selectedEmployees || selectedEmployees.length === 0) {
                 notificationFactory.error("SelectEmployeeBeforeGenerateEvaluation");
             } else {
-                if (MonthlyPeriodModel.validateEmployeeSettingGenerateEPA(selectedEmployees)) {
-                    MonthlyPeriodModel.openPopupGenerateEvaluation(vm, period).then(function () {
+                if (PeriodModel.validateEmployeeSettingGenerateEPA(selectedEmployees)) {
+                    PeriodModel.openPopupGenerateEvaluation(vm, period).then(function () {
                         vm.query(vm.filter);
                     });
                 }
@@ -232,6 +165,10 @@
 
         vm.getIndex = function (index, currentPage, pageSize) {
             return CommonModel.getIndex(index, currentPage, pageSize);
+        };
+
+        vm.onSelectTeam = function (teamIds) {
+            vm.filter.teamIds = teamIds;
         };
     }
 })(angular);

@@ -264,7 +264,7 @@
             vm.targetTemplates = CommonModel.targetTemplates;
             vm.employeeOptions.targetTemplateId = vm.targetTemplates.length > 0 ? vm.targetTemplates[0].TargetTemplateId : null;
 
-            CommonModel.getAllEmployee().then(function () {
+            CommonModel.searchEmployee().then(function () {
                 vm.employees = CommonModel.employees;
                 vm.employeeOptions.humanResourceEmployees = angular.copy(vm.employees);
                 vm.employeeOptions.evaluatorEmployees = angular.copy(vm.employees);

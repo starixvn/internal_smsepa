@@ -4,8 +4,8 @@
     using Model;
     using NSubstitute;
     using NUnit.Framework;
-    using Services.Interfaces;
     using Site.Controllers.API;
+    using SMS.EPA.Services;
 
     [TestFixture]
     public class DepartmentControllerTests

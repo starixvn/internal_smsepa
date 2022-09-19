@@ -469,7 +469,7 @@
 
         model.getPeriodEmployeeSettingById = function (
             periodId,
-            departmentId,
+            teamIds,
             isLocal,
             isExcludedEmployee,
             isGeneratedEPA,
@@ -478,7 +478,7 @@
             epaStatus) {
             return periodFactory.getPeriodEmployeeSettingById(
                 periodId,
-                departmentId,
+                teamIds,
                 isLocal,
                 isExcludedEmployee,
                 isGeneratedEPA,
@@ -492,12 +492,43 @@
             });
         };
 
-        model.addEmployeeToPeriod = function (employeeInfo) {
-            return periodFactory.addEmployeeToPeriod(employeeInfo).success(function (response) {
+        model.openPopupAddEmployeeSetting = function (vm) {
+            vm.modalInstance = $uibModal.open({
+                templateUrl: 'SourceApp/Components/Period/Templates/addEmployeeSetting.html',
+                controller: 'AddPeriodEmployeeSettingController as addEmpSettingCtrl',
+                backdrop: 'static',
+                resolve: {
+                    periodId: function () {
+                        return vm.filter.periodId;
+                    },
+                    orgChart: function () {
+                        return vm.orgChart;
+                    }
+                },
+                windowClass: 'modal-confirm-center add-employee-setting-modal'
+            });
+
+            return vm.modalInstance.result;
+        };
+
+        model.validateAddEmployeeSetting = function (params) {
+            let isValid = true;
+            if (params.employeeId === null && params.teamIds === '') {
+                isValid = false;
+
+                notificationFactory.error('', 'Please input employee or select at least a team!');
+            }
+
+            return isValid;
+        };
+
+        model.addEmployeeSetting = function (params, modalInstance) {
+            return periodFactory.addEmployeeSetting(params).success(function (response) {
                 if (response.IsSuccessful) {
-                    notificationFactory.success("CreatedSuccessfully");
+                    notificationFactory.success('', 'Add employee successfully!');
+                    modalInstance.close();
                 } else {
-                    notificationFactory.error("", response.Message);
+                    notificationFactory.error('', response.Message);
                 }
             }).error(function (response, status) {
                 errorFactory.errorHandle(status);

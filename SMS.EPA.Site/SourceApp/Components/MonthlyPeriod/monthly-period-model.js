@@ -5,7 +5,7 @@
     angular.module('monthlyPeriodModule').factory('MonthlyPeriodModel', monthlyPeriodModel);
     monthlyPeriodModel.$inject = ['$uibModal', 'monthlyPeriodFactory', 'errorFactory', 'notificationFactory', 'utilitiesFactory'];
 
-    function monthlyPeriodModel($uibModal, monthlyPeriodFactory, errorFactory, notificationFactory, utilitiesFactory) {
+    function monthlyPeriodModel($uibModal, periodFactory, errorFactory, notificationFactory, utilitiesFactory) {
         var model = {};
 
         model.periods = [];
@@ -16,7 +16,7 @@
         model.hasSelfStarted = false;
 
         model.getPermissionOnMonthlyPeriod = function () {
-            return monthlyPeriodFactory.getPermissionOnMonthlyPeriod().success(function (permisson) {
+            return periodFactory.getPermissionOnMonthlyPeriod().success(function (permisson) {
                 model.permission = parseInt(permisson);
             }).error(function (response, status) {
                 errorFactory.errorHandle(status);
@@ -40,7 +40,7 @@
         };
 
         model.getMonthlyPeriod = function (fromDate, toDate) {
-            return monthlyPeriodFactory.getMonthlyPeriod(fromDate, toDate).success(function (periods) {
+            return periodFactory.getMonthlyPeriod(fromDate, toDate).success(function (periods) {
                 model.periods = periods;
             }).error(function (response, status) {
                 errorFactory.errorHandle(status);
@@ -48,7 +48,7 @@
         };
 
         model.getMonthlyPeriodById = function (periodId) {
-            return monthlyPeriodFactory.getMonthlyPeriodById(periodId).success(function (period) {
+            return periodFactory.getMonthlyPeriodById(periodId).success(function (period) {
                 model.period = period;
             }).error(function (response, status) {
                 errorFactory.errorHandle(status);
@@ -91,7 +91,7 @@
         };
 
         model.createMonthlyPeriod = function (period, modalInstance) {
-            return monthlyPeriodFactory.createMonthlyPeriod(period).success(function (response) {
+            return periodFactory.createMonthlyPeriod(period).success(function (response) {
                 if (response.IsSuccessful) {
                     notificationFactory.success("CreatedSuccessfully");
                     modalInstance.close();
@@ -104,7 +104,7 @@
         };
 
         model.updateBasicInfoMonthlyPeriod = function (period) {
-            return monthlyPeriodFactory.updateBasicInfoMonthlyPeriod(period).success(function (response) {
+            return periodFactory.updateBasicInfoMonthlyPeriod(period).success(function (response) {
                 if (response.IsSuccessful) {
                     notificationFactory.success("UpdatedSuccessfully");
                 } else {
@@ -116,7 +116,7 @@
         };
 
         model.getProcessSettingByPeriodId = function (periodId) {
-            return monthlyPeriodFactory.getProcessSettingByPeriodId(periodId).success(function (processSettings) {
+            return periodFactory.getProcessSettingByPeriodId(periodId).success(function (processSettings) {
                 model.processSettings = processSettings;
             }).error(function (response, status) {
                 errorFactory.errorHandle(status);
@@ -124,7 +124,7 @@
         };
 
         model.updateProcessSettingMonthlyPeriod = function (processSetting) {
-            return monthlyPeriodFactory.updateProcessSettingMonthlyPeriod(processSetting).success(function (response) {
+            return periodFactory.updateProcessSettingMonthlyPeriod(processSetting).success(function (response) {
                 if (response.IsSuccessful) {
                     notificationFactory.success("UpdatedSuccessfully");
                 } else {
@@ -152,7 +152,7 @@
             });
 
             modalInstance.result.then(function () {
-                monthlyPeriodFactory.deleteMonthlyPeriod(period.PeriodId).success(function (response) {
+                periodFactory.deleteMonthlyPeriod(period.PeriodId).success(function (response) {
                     if (response.IsSuccessful) {
                         var index = vm.periods.indexOf(period);
                         vm.periods.splice(index, 1);
@@ -169,10 +169,10 @@
             });
         };
 
-        model.getEmployeeSettingMonthlyPeriodById = function (periodId, departmentId, isLocal, isExcludedEmployee, isGeneratedEPA, isEvaluated, epaStatus) {
-            return monthlyPeriodFactory.getEmployeeSettingMonthlyPeriodById(
+        model.getEmployeeSettingById = function (periodId, teamIds, isLocal, isExcludedEmployee, isGeneratedEPA, isEvaluated, epaStatus) {
+            return periodFactory.getEmployeeSettingById(
                 periodId,
-                departmentId,
+                teamIds,
                 isLocal,
                 isExcludedEmployee,
                 isGeneratedEPA,
@@ -185,12 +185,43 @@
             });
         };
 
-        model.addEmployeeToMonthlyPeriod = function (employeeInfo) {
-            return monthlyPeriodFactory.addEmployeeToMonthlyPeriod(employeeInfo).success(function (response) {
+        model.openPopupAddEmployeeSetting = function (vm) {
+            vm.modalInstance = $uibModal.open({
+                templateUrl: 'SourceApp/Components/MonthlyPeriod/Templates/addEmployeeSetting.html',
+                controller: 'AddMonthlyPeriodEmployeeSettingController as addEmpSettingCtrl',
+                backdrop: 'static',
+                resolve: {
+                    periodId: function () {
+                        return vm.filter.periodId;
+                    },
+                    orgChart: function () {
+                        return vm.orgChart;
+                    }
+                },
+                windowClass: 'modal-confirm-center add-employee-setting-modal'
+            });
+
+            return vm.modalInstance.result;
+        };
+
+        model.validateAddEmployeeSetting = function (params) {
+            let isValid = true;
+            if (params.employeeId === null && params.teamIds === '') {
+                isValid = false;
+
+                notificationFactory.error('', 'Please input employee or select at least a team!');
+            }
+
+            return isValid;
+        };
+
+        model.addEmployeeSetting = function (params, modalInstance) {
+            return periodFactory.addEmployeeToMonthlyPeriod(params).success(function (response) {
                 if (response.IsSuccessful) {
-                    notificationFactory.success("CreatedSuccessfully");
+                    notificationFactory.success('', 'Add employee successfully!');
+                    modalInstance.close();
                 } else {
-                    notificationFactory.error("", response.Message);
+                    notificationFactory.error('', response.Message);
                 }
             }).error(function (response, status) {
                 errorFactory.errorHandle(status);
@@ -271,7 +302,7 @@
             });
 
             return modalInstance.result.then(function () {
-                return monthlyPeriodFactory.generateEvaluation(period).success(function (response) {
+                return periodFactory.generateEvaluation(period).success(function (response) {
                     if (response.IsSuccessful) {
                         notificationFactory.success("CreatedSuccessfully");
                     } else {
@@ -494,7 +525,7 @@
         };
 
         model.updateEmployeeSettingOfPeriod = function (employeeSetting) {
-            return monthlyPeriodFactory.updateEmployeeSettingOfPeriod(employeeSetting).success(function (response) {
+            return periodFactory.updateEmployeeSettingOfPeriod(employeeSetting).success(function (response) {
                 if (response.IsSuccessful) {
                     notificationFactory.success("UpdatedSuccessfully");
                 } else {
@@ -531,7 +562,7 @@
             });
 
             modalInstance.result.then(function () {
-                monthlyPeriodFactory.updateIncludeStatusEmployeePeriod(newEmployeeStatus).success(function (response) {
+                periodFactory.updateIncludeStatusEmployeePeriod(newEmployeeStatus).success(function (response) {
                     if (response.IsSuccessful) {
                         notificationFactory.success("UpdatedSuccessfully");
                     } else {
@@ -556,7 +587,7 @@
         };
 
         model.checkSelfProcessStarted = function (periodId, employeeIds) {
-            return monthlyPeriodFactory.checkSelfProcessStarted(periodId, employeeIds).success(function (hasSelfStarted) {
+            return periodFactory.checkSelfProcessStarted(periodId, employeeIds).success(function (hasSelfStarted) {
                 model.hasSelfStarted = hasSelfStarted;
             }).error(function (response, status) {
                 errorFactory.errorHandle(status);

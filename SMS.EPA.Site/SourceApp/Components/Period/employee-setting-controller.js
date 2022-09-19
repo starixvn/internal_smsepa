@@ -4,18 +4,16 @@
     /* jshint validthis:true */
 
     angular.module('periodModule').controller('EmployeeSettingPeriodController', employeeSettingPeriodController);
-    employeeSettingPeriodController.$inject = ['$scope', '$routeParams', '$window', 'PeriodModel', 'CommonModel',
+    employeeSettingPeriodController.$inject = ['$scope', '$routeParams', 'PeriodModel', 'CommonModel',
         'utilitiesFactory', 'notificationFactory', 'lockScreenService'];
 
-    function employeeSettingPeriodController($scope, $routeParams, $window, PeriodModel, CommonModel,
-        utilitiesFactory, notificationFactory, lockScreenService) {
-        var vm = this;
+    function employeeSettingPeriodController($scope, $routeParams, PeriodModel, CommonModel, utilitiesFactory, notificationFactory, lockScreenService) {
+        let vm = this;
 
         vm.period = null;
         vm.periodId = null;
         vm.employeeSettings = [];
         vm.isFirstLoad = true;
-        vm.departmentOptions = [];
 
         vm.currentPage = 1;
         vm.pageSize = 20;
@@ -27,10 +25,11 @@
             { Value: 0, Name: 'In Progress' },
             { Value: 1, Name: 'Closed' }
         ];
+        vm.orgChart = [];
 
         vm.filter = {
             periodId: null,
-            departmentId: null,
+            teamIds: null,
             isLocal: '',
             isExcludedEmployee: null,
             isGeneratedEPA: '',
@@ -48,34 +47,32 @@
 
             PeriodModel.getPeriodEmployeeSettingById(
                 filter.periodId,
-                filter.departmentId,
+                filter.teamIds,
                 filter.isLocal,
                 filter.isExcludedEmployee,
                 filter.isGeneratedEPA,
                 filter.isEvaluated,
                 filter.hasMonthlyEPA,
                 filter.epaStatus)
-            .then(function () {
-                vm.employeeSettings = PeriodModel.employeeSettings;
-                utilitiesFactory.searchOnPage(vm, vm.employeeSettings);
-                vm.isFirstLoad = false;
-                vm.selectedAll = false;
-                lockScreenService.stop();
-            });
+                .then(function () {
+                    vm.employeeSettings = PeriodModel.employeeSettings;
+                    utilitiesFactory.searchOnPage(vm, vm.employeeSettings);
+                    vm.isFirstLoad = false;
+                    vm.selectedAll = false;
+                    lockScreenService.stop();
+                });
         };
 
         $scope.$watch(function () {
             return $scope.updateCtrl.dataTab === 3 && $scope.updateCtrl.period && $scope.updateCtrl.permission;
-        },
-        function (newVal) {
+        }, function (newVal) {
             if (newVal && vm.isFirstLoad) {
                 vm.period = $scope.updateCtrl.period;
                 vm.filter.periodId = vm.period.PeriodId;
                 vm.permission = $scope.updateCtrl.permission;
 
-                CommonModel.getDepartment(null, true).then(function () {
-                    var treeDepartment = CommonModel.generateTreeDepartment(CommonModel.treeDepartment.Childrens);
-                    vm.departmentOptions = angular.copy(treeDepartment);
+                CommonModel.getOrgChart().then(function () {
+                    vm.orgChart = CommonModel.orgChart;
                 });
 
                 getPeriodEmployeeSetting(vm.filter);
@@ -90,66 +87,11 @@
             return CommonModel.getIndex(index, currentPage, pageSize);
         };
 
-        vm.getEmployee = function () {
-            return CommonModel.getAllEmployee(vm.searchEmployee);
-        };
-
-        vm.unSelectEmployee = function () {
-            if (vm.searchEmployee.trim() === '') {
-                if (vm.filterAssign.employee) {
-                    vm.filterAssign.employee = null;
-                }
-            }
-        };
-
-        function getSelectedDepartment(departments) {
-            var selectedDepartments = [];
-
-            angular.forEach(departments, function (department) {
-                if (department.ticked) {
-                    var departmentId = department.DepartmentId,
-                        selectedDepartment = {
-                            departmentId: departmentId < 0 ? -departmentId : departmentId,
-                            isGroup: department.IsGroup
-                        };
-
-                    selectedDepartments.push(selectedDepartment);
-                }
+        vm.addEmployee = function () {
+            PeriodModel.openPopupAddEmployeeSetting(vm).then(function () {
+                vm.modalInstance = null;
+                getPeriodEmployeeSetting(vm.filter);
             });
-
-            return selectedDepartments;
-        }
-
-        function resetFilterAssign() {
-            vm.filterAssign.employee = '';
-            vm.searchEmployee = '';
-
-            angular.forEach(vm.departments, function (department) {
-                department.ticked = false;
-            });
-        }
-
-        vm.addEmployee = function (filterAssign) {
-            var employeeId = null;
-
-            if (filterAssign.employee) {
-                employeeId = filterAssign.employee.EmployeeId;
-            }
-
-            var employeeInfo = {
-                periodId: vm.period.PeriodId,
-                employeeId: employeeId,
-                departments: getSelectedDepartment(vm.departmentOptions)
-            };
-
-            if (employeeInfo.employeeId || (employeeInfo.departments && employeeInfo.departments.length > 0)) {
-                PeriodModel.addEmployeeToPeriod(employeeInfo).then(function () {
-                    resetFilterAssign();
-                    getPeriodEmployeeSetting(vm.filter);
-                });
-            } else {
-                notificationFactory.error("SelectDepartmentSectionEmployeeBeforeAddToPeriodWarning");
-            }
         };
 
         vm.updateEmployeeSetting = function (employeeSetting) {
@@ -255,11 +197,15 @@
             }
         };
 
+        vm.onSelectTeam = function (teamIds) {
+            vm.filter.teamIds = teamIds;
+        };
+
         vm.exportReport = function (filter) {
             vm.exportCriteria = {
                 periodId: filter.periodId,
                 periodName: vm.period.Name,
-                departmentId: filter.departmentId,
+                teamIds: filter.teamIds,
                 isLocal: filter.isLocal,
                 isExcludedEmployee: filter.isExcludedEmployee
             };

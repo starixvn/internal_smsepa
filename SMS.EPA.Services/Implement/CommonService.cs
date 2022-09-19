@@ -1,16 +1,17 @@
-﻿namespace SMS.EPA.Services.Implement
+﻿namespace SMS.EPA.Services
 {
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using Core.Services;
-    using Criteria;
-    using Criteria.EPAHistory;
-    using Criteria.TargetType;
-    using Interfaces;
-    using Model;
-    using Model.Enitites;
+    using SMS.EPA.Core.Services;
+    using SMS.EPA.Criteria;
+    using SMS.EPA.Criteria.EPAHistory;
+    using SMS.EPA.Criteria.TargetType;
+    using SMS.EPA.Model;
+    using SMS.EPA.Model.Enitites;
     using SMS.EPA.Model.JobDescription;
+    using SMS.EPA.Services.Implement;
+    using SMS.EPA.Services.Interfaces;
 
     public class CommonService : ICommonService
     {
@@ -36,8 +37,7 @@
 
         public IEnumerable<TargetTypeModel> GetTargetType(GetTargetTypeCriteria criteria)
         {
-            var targetTypes = baseService.GetData<TargetTypeModel>(criteria);
-            return targetTypes;
+            return baseService.GetData<TargetTypeModel>(criteria);
         }
 
         public IEnumerable<KPIModel> GetKPI(GetKPICriteria criteria)
@@ -61,9 +61,7 @@
             {
                 DepartmentId = departmentId
             };
-            IEnumerable<Employee> employees = baseService.GetData<Employee>(criteria).OrderBy(i => i.NickName);
-
-            return employees;
+            return baseService.GetData<Employee>(criteria).OrderBy(i => i.NickName);
         }
 
         public IEnumerable<Employee> GetEmployeeByGroupId(int groupId)
@@ -72,9 +70,7 @@
             {
                 GroupId = groupId
             };
-            IEnumerable<Employee> employees = baseService.GetData<Employee>(criteria);
-
-            return employees;
+            return baseService.GetData<Employee>(criteria);
         }
 
         public Employee GetEmployeeById(int employeeId)
@@ -84,8 +80,7 @@
 
         public IEnumerable<Group> GetAllGroup(GetAllGroupCriteria criteria)
         {
-            var groups = baseService.GetData<Group>(criteria);
-            return groups;
+            return baseService.GetData<Group>(criteria);
         }
 
         public DepartmentInfoModel GetDepartment(GetDepartmentCriteria criteria)
@@ -130,8 +125,7 @@
 
         public IEnumerable<TargetTemplate> GetAllTargetTemplate(GetAllTargetTemplateCriteria criteria)
         {
-            IEnumerable<TargetTemplate> targetTemplates = baseService.GetData<TargetTemplate>(criteria);
-            return targetTemplates;
+            return baseService.GetData<TargetTemplate>(criteria);
         }
 
         public IEnumerable<MenuGroupModel> GetMenusByEmployeeId(int employeeId)
@@ -150,15 +144,12 @@
         public IEnumerable<JobTitle> GetAllJobTitle()
         {
             var criteria = new GetAllJobTitleCriteria();
-            IEnumerable<JobTitle> jobTitles = baseService.GetData<JobTitle>(criteria);
-
-            return jobTitles;
+            return baseService.GetData<JobTitle>(criteria);
         }
 
         public IEnumerable<ScoreRatingTypeModel> GetScoreRatingType(GetScoreRatingTypeCriteria criteria)
         {
-            var scoreRatingTypes = baseService.GetData<ScoreRatingTypeModel>(criteria);
-            return scoreRatingTypes;
+            return baseService.GetData<ScoreRatingTypeModel>(criteria);
         }
 
         public IEnumerable<JobDescriptionGroupItem> GetJobDescriptionByEPAId(int epaId)

@@ -15,8 +15,7 @@
     using SMS.EPA.Model.Enitites;
     using SMS.EPA.Model.JobLevelStandard;
     using SMS.EPA.Model.JobLevelStandard.Period;
-    using SMS.EPA.Services.Implement;
-    using SMS.EPA.Services.Interfaces;
+    using SMS.EPA.Services;
 
     public class JobLevelAssessmentController : BaseController
     {

@@ -44,13 +44,10 @@
     <table class="row table table-bordered table-striped table-job-level-assessment" ng-show="assessmentReportCtrl.filteredItems">
         <thead>
             <tr class="header-table">
-                <th colspan="{{11 + (assessmentReportCtrl.kpis.length > 0 ? assessmentReportCtrl.kpis.length * 2 + 5 : 0)}}">
+                <th colspan="{{16 + assessmentReportCtrl.kpis.length * 2}}">
                     <div class="grid-title-label pull-left">Assessment Report</div>
-                    <div class="grid-toolbox"><input type="button" class="btnExcel pull-right" title="Export to Excel" ng-click="assessmentReportCtrl.exportReport()"></div>
-                </th>
-            </tr>
-            <tr class="header-table">
-                <th colspan="{{11 + (assessmentReportCtrl.kpis.length > 0 ? assessmentReportCtrl.kpis.length * 2 + 5 : 0)}}">
+                    <input type="button" class="btnExcel pull-right" title="Export to Excel"
+                           ng-click="assessmentReportCtrl.exportReport()">
                     <input type="text" class="search-inline-textbox search pull-right"
                            ng-model="assessmentReportCtrl.searchKey" ng-change="assessmentReportCtrl.search()" />
                 </th>

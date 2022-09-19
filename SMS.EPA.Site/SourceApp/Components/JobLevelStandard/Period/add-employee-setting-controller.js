@@ -15,7 +15,7 @@
         vm.teamIds = '';
 
         vm.getEmployee = function () {
-            return CommonModel.getAllEmployee(vm.searchEmployee);
+            return CommonModel.searchEmployee(vm.searchEmployee);
         };
 
         vm.unSelectEmployee = function () {

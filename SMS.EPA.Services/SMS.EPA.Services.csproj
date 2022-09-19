@@ -116,6 +116,7 @@
     <Compile Include="Implement\ExportFile\ExportRecommendationReportService.cs" />
     <Compile Include="Implement\ExportFile\ExportTargetTemplateService.cs" />
     <Compile Include="Implement\JobDescriptionService.cs" />
+    <Compile Include="Implement\JobLevelStandard\JoblevelAssessmentReportService.cs" />
     <Compile Include="Implement\ReportService\CommentReportService.cs" />
     <Compile Include="Implement\ReportService\RecomendationReportService.cs" />
     <Compile Include="Interfaces\ExportFile\IExportCommentReportService.cs" />
@@ -124,6 +125,7 @@
     <Compile Include="Interfaces\ExportFile\IExportTargetTemplateService.cs" />
     <Compile Include="Interfaces\IBaseMailService.cs" />
     <Compile Include="Interfaces\IJobDescriptionService.cs" />
+    <Compile Include="Interfaces\JobLevelStandard\IJoblevelAssessmentReportService.cs" />
     <Compile Include="Interfaces\ReportService\ICommentReportService.cs" />
     <Compile Include="Interfaces\ReportService\IRecomendationReportService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -222,6 +224,7 @@
     <Analyzer Include="..\packages\SonarAnalyzer.CSharp.8.34.0.42011\analyzers\SonarAnalyzer.CSharp.dll" />
     <Analyzer Include="..\packages\SonarAnalyzer.CSharp.8.34.0.42011\analyzers\SonarAnalyzer.dll" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets" Condition="Exists('..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
