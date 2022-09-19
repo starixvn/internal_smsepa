@@ -2,6 +2,7 @@
 {
     using System.Collections.Generic;
     using System.IO;
+    using System.Web.UI.WebControls;
     using NPOI.HSSF.UserModel;
     using NPOI.HSSF.Util;
     using NPOI.SS.UserModel;
@@ -98,6 +99,7 @@
             cellStyle.Alignment = HorizontalAlignment.Center;
             cellStyle.VerticalAlignment = VerticalAlignment.Center;
             cellStyle.SetFont(font);
+            cellStyle.RightBorderColor = HSSFColor.Grey80Percent.Index;
 
             IRow row = sheet.CreateRow(1);
             IRow row2 = sheet.CreateRow(2);
@@ -250,17 +252,11 @@
                 bodyStyle.FillPattern = FillPattern.SolidForeground;
                 bodyStyle.FillBackgroundColor = HSSFColor.Green.Index;
             }
-            else if (assessment.SystemPropose < 0)
+            if (assessment.SystemPropose < 0)
             {
                 bodyStyle.FillForegroundColor = HSSFColor.Orange.Index;
                 bodyStyle.FillPattern = FillPattern.SolidForeground;
                 bodyStyle.FillBackgroundColor = HSSFColor.Orange.Index;
-            }
-            else
-            {
-                bodyStyle.FillForegroundColor = HSSFColor.White.Index;
-                bodyStyle.FillPattern = FillPattern.SolidForeground;
-                bodyStyle.FillBackgroundColor = HSSFColor.White.Index;
             }
 
             return bodyStyle;

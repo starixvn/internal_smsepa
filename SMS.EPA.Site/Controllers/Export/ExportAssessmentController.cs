@@ -1,20 +1,24 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
-using SMS.EPA.Core.Services;
-using SMS.EPA.Criteria.JobLevelStandard;
-using SMS.EPA.Criteria.JobLevelStandard.Report;
-using SMS.EPA.Model.JobLevelStandard;
-using SMS.EPA.Resources;
-using SMS.EPA.Services.Implement.ExportFile;
-using SMS.EPA.Services.Interfaces.ExportFile;
-using SMS.EPA.Site.Controllers.API;
-
-namespace SMS.EPA.Site.Controllers.Export
+﻿namespace SMS.EPA.Site.Controllers.Export
 {
+    using System;
+    using System.Collections.Generic;
+    using System.IO;
+    using System.Linq;
+    using System.Web;
+    using System.Web.Mvc;
+    using iTextSharp.tool.xml.html.head;
+    using NPOI.SS.Formula.Functions;
+    using SMS.EPA.Core.Services;
+    using SMS.EPA.Criteria;
+    using SMS.EPA.Criteria.JobLevelStandard;
+    using SMS.EPA.Criteria.JobLevelStandard.Report;
+    using SMS.EPA.Model;
+    using SMS.EPA.Model.JobLevelStandard;
+    using SMS.EPA.Resources;
+    using SMS.EPA.Services.Implement.ExportFile;
+    using SMS.EPA.Services.Interfaces.ExportFile;
+    using SMS.EPA.Site.Controllers.API;
+
     public class ExportAssessmentController : Controller
     {
         private readonly IBaseService baseService;
@@ -57,8 +61,8 @@ namespace SMS.EPA.Site.Controllers.Export
                     assessment.SystemPropose = assessment.TotalWeight.Value - (assessment.RequirementMinScore ?? 0);
                 }
             }
-
-            MemoryStream output = exportJobLevelAssessmentService.ExportJoblevelAssessmentReport(kpis, assessments, Lang.JoblevelAssessmentReportTitle);
+            var title = Lang.JoblevelAssessmentReportTitle + " - " + criteria.PeriodName;
+            MemoryStream output = exportJobLevelAssessmentService.ExportJoblevelAssessmentReport(kpis, assessments, title);
 
 
             return File(output.ToArray(), "application/vnd.ms-excel", $"{Lang.JoblevelAssessmentReportName}.xls");
