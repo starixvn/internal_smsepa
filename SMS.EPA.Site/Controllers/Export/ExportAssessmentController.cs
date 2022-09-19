@@ -4,13 +4,9 @@
     using System.IO;
     using System.Linq;
     using System.Web.Mvc;
-    using iTextSharp.tool.xml.html.head;
-    using NPOI.SS.Formula.Functions;
     using SMS.EPA.Core.Services;
-    using SMS.EPA.Criteria;
     using SMS.EPA.Criteria.JobLevelStandard;
     using SMS.EPA.Criteria.JobLevelStandard.Report;
-    using SMS.EPA.Model;
     using SMS.EPA.Model.JobLevelStandard;
     using SMS.EPA.Resources;
     using SMS.EPA.Services;
