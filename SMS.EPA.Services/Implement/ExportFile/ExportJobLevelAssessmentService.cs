@@ -216,7 +216,8 @@
                 ICellStyle bodyStyle;
                 IRow row;
                 ICell cellBody;
-                const int cellNormalWidth = 12;
+                const byte StartAssessmentColumnIndex = 11;
+                const byte CellNormalWidth = 12;
                 sheet = CreateEmployeeInfoCells(
                     sheet,
                     rowIndex,
@@ -227,49 +228,50 @@
                     out cellBody);
 
                 bodyStyle = CreateBodyStyle(assessment, workbook);
+                int cellIndex;
                 for (int i = 0; i < assessment.KPIs.Count; i++)
                 {
-                    var cellIndex = i == 0 ? 11 : 11 + i * 2;
+                    cellIndex = StartAssessmentColumnIndex + i * 2;
                     cellBody = row.CreateCell(cellIndex);
                     cellBody.CellStyle = bodyStyle;
-                    cellBody.SetCellValue(assessment.KPIs[i].Level);
-                    SetColumnWidth(ref sheet, cellIndex, cellNormalWidth);
+                    cellBody.SetCellValue((int?)assessment.KPIs[i].Level);
+                    SetColumnWidth(ref sheet, cellIndex, CellNormalWidth);
 
                     cellBody = row.CreateCell(cellIndex + 1);
                     cellBody.CellStyle = bodyStyle;
                     cellBody.SetCellValue(assessment.KPIs[i].Weight);
-                    SetColumnWidth(ref sheet, cellIndex + 1, cellNormalWidth);
+                    SetColumnWidth(ref sheet, cellIndex + 1, CellNormalWidth);
                 }
 
-                var startCellReview = 11 + assessment.KPIs.Count * 2;
-                cellBody = row.CreateCell(startCellReview);
+                cellIndex = StartAssessmentColumnIndex + assessment.KPIs.Count * 2;
+                cellBody = row.CreateCell(cellIndex);
                 cellBody.CellStyle = bodyStyle;
                 cellBody.SetCellValue(assessment.TotalWeight);
-                SetColumnWidth(ref sheet, startCellReview, cellNormalWidth);
-                startCellReview++;
+                SetColumnWidth(ref sheet, cellIndex, CellNormalWidth);
+                cellIndex++;
 
-                cellBody = row.CreateCell(startCellReview);
+                cellBody = row.CreateCell(cellIndex);
                 cellBody.CellStyle = bodyStyle;
                 cellBody.SetCellValue(assessment.SystemPropose);
-                SetColumnWidth(ref sheet, startCellReview, cellNormalWidth);
-                startCellReview++;
+                SetColumnWidth(ref sheet, cellIndex, CellNormalWidth);
+                cellIndex++;
 
-                cellBody = row.CreateCell(startCellReview);
+                cellBody = row.CreateCell(cellIndex);
                 cellBody.CellStyle = bodyStyle;
                 cellBody.SetCellValue(assessment.NewJobLevel);
-                SetColumnWidth(ref sheet, startCellReview, cellNormalWidth);
-                startCellReview++;
+                SetColumnWidth(ref sheet, cellIndex, CellNormalWidth);
+                cellIndex++;
 
-                cellBody = row.CreateCell(startCellReview);
+                cellBody = row.CreateCell(cellIndex);
                 cellBody.CellStyle = bodyStyle;
                 cellBody.SetCellValue(assessment.Remark);
-                SetColumnWidth(ref sheet, startCellReview, cellNormalWidth);
-                startCellReview++;
+                SetColumnWidth(ref sheet, cellIndex, CellNormalWidth);
+                cellIndex++;
 
-                cellBody = row.CreateCell(startCellReview);
+                cellBody = row.CreateCell(cellIndex);
                 cellBody.CellStyle = bodyStyle;
                 cellBody.SetCellValue(assessment.StatusId.ToString());
-                SetColumnWidth(ref sheet, startCellReview, cellNormalWidth + 3);
+                SetColumnWidth(ref sheet, cellIndex, CellNormalWidth + 3);
 
                 rowIndex++;
             }

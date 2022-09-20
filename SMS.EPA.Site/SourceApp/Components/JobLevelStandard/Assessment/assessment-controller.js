@@ -87,7 +87,7 @@
         vm.save = function (assessment) {
             const isValid = AssessmentModel.validateAssessment(assessment);
             if (isValid) {
-                assessment.StatusId = vm.status.Pending;
+                assessment.StatusId = assessment.TotalWeight !== null ? vm.status.Pending : null;
                 AssessmentModel.edit(vm, assessment);
             }
         };
@@ -101,28 +101,44 @@
         };
 
         vm.inputWeight = function (assessment) {
-            let totalWeight = 0;
+            let totalWeight = null;
             angular.forEach(assessment.KPIs, function (kpi) {
-                totalWeight += kpi.Weight ? kpi.Weight : 0;
+                if (!isNaN(parseFloat(kpi.Weight))) {
+                    totalWeight = !isNaN(parseFloat(totalWeight)) ? totalWeight : 0;
+                    totalWeight += kpi.Weight ? kpi.Weight : 0;
+                }
             });
 
-            assessment.TotalWeight = totalWeight;
-            assessment.SystemPropose = parseFloat(parseFloat(totalWeight - (assessment.RequirementMinScore ? assessment.RequirementMinScore : 0)).toFixed(2));
+            if (totalWeight !== null) {
+                assessment.TotalWeight = totalWeight;
+                assessment.SystemPropose = parseFloat(parseFloat(totalWeight - (assessment.RequirementMinScore ? assessment.RequirementMinScore : 0)).toFixed(2));
 
-            const setting = vm.jobLevelSettings.find(x => x.SectionId === assessment.SectionId && x.MinWeight <= totalWeight && x.MaxWeight >= totalWeight);
-            if (setting) {
-                assessment.NewJobLevelId = setting.JobLevelId;
-                assessment.NewJobLevel = setting.Name;
-            }
+                const setting = vm.jobLevelSettings.find(x => x.SectionId === assessment.SectionId && x.MinWeight <= totalWeight && x.MaxWeight >= totalWeight);
+                if (setting) {
+                    assessment.NewJobLevelId = setting.JobLevelId;
+                    assessment.NewJobLevel = setting.Name;
 
-            if (assessment.SystemPropose < 0) {
-                assessment.Remark = 'Under standard';
-            } else {
-                if (assessment.CurrentJobLevelId !== assessment.NewJobLevelId) {
-                    assessment.Remark = 'Promotion';
+                    if (assessment.SystemPropose < 0) {
+                        assessment.Remark = 'Under standard';
+                    } else {
+                        if (assessment.CurrentJobLevelId !== assessment.NewJobLevelId) {
+                            assessment.Remark = 'Promotion';
+                        } else {
+                            assessment.Remark = 'Maintain';
+                        }
+                    }
                 } else {
-                    assessment.Remark = 'Maintain';
+                    assessment.NewJobLevelId = null;
+                    assessment.NewJobLevel = null;
+                    assessment.Remark = null;
                 }
+            } else {
+                assessment.TotalWeight = null;
+                assessment.SystemPropose = null;
+                assessment.NewJobLevelId = null;
+                assessment.NewJobLevel = null;
+                assessment.Remark = null;
+                assessment.StatusId = null;
             }
         };
 

@@ -86,7 +86,7 @@
         <tbody>
             <tr dir-paginate="assessment in assessmentReportCtrl.filteredItems | itemsPerPage: assessmentReportCtrl.pageSize"
                 current-page="assessmentReportCtrl.currentPage"
-                ng-class="assessment.SystemPropose < 0 ? 'under-standard' : assessment.SystemPropose > 0 && assessment.CurrentJobLevelId !== assessment.NewJobLevelId ? 'promotion' : ''">
+                ng-class="assessment.SystemPropose < 0 ? 'under-standard' : assessment.SystemPropose > 0 && assessment.NewJobLevelId && assessment.CurrentJobLevelId !== assessment.NewJobLevelId ? 'promotion' : ''">
                 <td class="text-center" ng-bind="assessmentReportCtrl.getIndex($index, assessmentReportCtrl.currentPage, assessmentReportCtrl.pageSize)"></td>
                 <td class="text-center" ng-bind="assessment.Code"></td>
                 <td ng-bind="assessment.FullName"></td>

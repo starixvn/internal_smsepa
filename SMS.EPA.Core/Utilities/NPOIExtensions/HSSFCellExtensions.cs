@@ -56,23 +56,9 @@
             }
         }
 
-        public static void SetCellValue(this ICell cell, double? value)
-        {
-            double result = value ?? 0;
-
-            cell.SetCellValue(result);
-        }
-
         public static void SetCellValue(this ICell cell, decimal value)
         {
             cell.SetCellValue(Convert.ToDouble(value));
-        }
-
-        public static void SetCellValue(this ICell cell, decimal? value)
-        {
-            decimal result = value ?? 0;
-
-            cell.SetCellValue(result);
         }
 
         public static void SetCellValue(this ICell cell, int value)
@@ -80,23 +66,9 @@
             cell.SetCellValue(Convert.ToDouble(value));
         }
 
-        public static void SetCellValue(this ICell cell, int? value)
-        {
-            int result = value ?? 0;
-
-            cell.SetCellValue(result);
-        }
-
         public static void SetCellValue(this ICell cell, long value)
         {
             cell.SetCellValue(Convert.ToDouble(value));
-        }
-
-        public static void SetCellValue(this ICell cell, long? value)
-        {
-            long result = value ?? 0;
-
-            cell.SetCellValue(result);
         }
 
         public static void CopyFrom(this ICell cell, ICell sourceCell)
