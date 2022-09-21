@@ -99,27 +99,6 @@
             return roles;
         }
 
-        public IEnumerable<Employee> GetAllEmployee(
-            string query = "",
-            int? groupId = null,
-            bool? isSpecialUser = null,
-            bool? isDisabledUser = null,
-            bool? getByApprover = null,
-            bool? includeVerifier = null)
-        {
-            var criteria = new GetAllEmployeeCriteria
-            {
-                Query = query,
-                GroupId = groupId,
-                IsSpecialUser = isSpecialUser,
-                IsDisabledUser = isDisabledUser,
-                ApproverId = getByApprover == true && SessionService != null ? (int?)SessionService.EmployeeId : null,
-                IncludeVerifier = includeVerifier
-            };
-
-            return commonService.GetAllEmployee(criteria);
-        }
-
         [HttpGet]
         public IList<Employee> SearchEmployee(
             string query = "",

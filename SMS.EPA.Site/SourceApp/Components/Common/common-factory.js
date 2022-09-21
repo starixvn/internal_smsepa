@@ -47,18 +47,6 @@
             getAllStatus: function () {
                 return $http.get(baseUrl + 'api/Common/GetAllStatus');
             },
-            getAllEmployee: function (query, groupId, isSpecialUser, isDisabledUser, getByApprover, includeVerifier) {
-                return $http.get(baseUrl + 'api/Common/GetAllEmployee', {
-                    params: {
-                        query: query,
-                        groupId: groupId,
-                        isSpecialUser: isSpecialUser,
-                        isDisabledUser: isDisabledUser,
-                        getByApprover: getByApprover,
-                        includeVerifier: includeVerifier
-                    }
-                });
-            },
             getEmployeeByDepartmentId: function (departmentId) {
                 return $http.get(baseUrl + 'api/Common/GetEmployeeByDepartmentId', { params: { departmentId: departmentId } });
             },

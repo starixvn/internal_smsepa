@@ -17,8 +17,6 @@
 
         IEnumerable<KPIGroupModel> GetKPIGroup(GetKPIGroupCriteria criteria);
 
-        IEnumerable<Employee> GetAllEmployee(GetAllEmployeeCriteria criteria);
-
         IEnumerable<Employee> GetEmployeeByDepartmentId(int? departmentId);
 
         IEnumerable<Employee> GetEmployeeByGroupId(int groupId);

@@ -85,14 +85,6 @@
             });
         };
 
-        model.getAllEmployee = function (query, groupId, isSpecialUser, isDisabledUser, getByApprover, includeVerifier) {
-            return commonFactory.getAllEmployee(query, groupId, isSpecialUser, isDisabledUser, getByApprover, includeVerifier).success(function (employees) {
-                model.employees = employees;
-            }).error(function (response, status) {
-                errorFactory.errorHandle(status);
-            });
-        };
-
         model.getEmployeeByDepartmentId = function (departmentId) {
             return commonFactory.getEmployeeByDepartmentId(departmentId).success(function (employees) {
                 model.employeesInDepartment = employees;

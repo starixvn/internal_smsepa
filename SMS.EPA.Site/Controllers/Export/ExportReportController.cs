@@ -151,11 +151,11 @@
             return new EmptyResult();
         }
 
-        public ActionResult ExportEmployeeInfoReport(GetAllEmployeeCriteria criteria)
+        public ActionResult ExportEmployeeInfoReport(GetEmployeeCriteria criteria)
         {
             if (criteria != null)
             {
-                IEnumerable<Employee> employees = _employeeService.GetAllEmployee(criteria);
+                IEnumerable<Employee> employees = _employeeService.GetEmployee(criteria);
 
                 if (employees.Any())
                 {

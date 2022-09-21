@@ -1,6 +1,5 @@
 ﻿namespace SMS.EPA.Services.UnitTests
 {
-    using System.Collections.Generic;
     using Core.Enumerations;
     using Core.Model;
     using Core.Security;
@@ -18,37 +17,6 @@
         private IEmployeeRepository _employeeRepository;
         private IBaseService baseService;
         private EmployeeService _employeeService;
-
-        #region GetAllEmployee
-
-        [Test]
-        public void GetAllEmployee_AnyArg_ReturnInstanceOfListOfEmployeeModel()
-        {
-            // Arrange
-            ArrangeGetAllEmployee();
-
-            // Act
-            var actual = _employeeService.GetAllEmployee(Arg.Any<GetAllEmployeeCriteria>());
-
-            // Assert
-            Assert.IsInstanceOf(typeof(IEnumerable<Employee>), actual);
-        }
-
-        [Test]
-        public void GetAllEmployee_ValidArg_ExpectedToExecuteGetAllEmployee()
-        {
-            // Arrange
-            var criteria = new GetAllEmployeeCriteria();
-            ArrangeGetAllEmployee();
-
-            // Act
-            _employeeService.GetAllEmployee(criteria);
-
-            // Assert
-            _employeeRepository.Received().GetAllEmployee(Arg.Is<GetAllEmployeeCriteria>(x => x.IsValid()));
-        }
-
-        #endregion GetAllEmployee
 
         #region GetEmployeeById
 
@@ -342,13 +310,6 @@
         {
             _employeeRepository = FakeEmployeeRepository();
             _employeeRepository.GetEmployeeLogin(Arg.Any<GetEmployeeLoginCriteria>()).Returns(result ?? new UserSession());
-            _employeeService = GetEmployeeService(_employeeRepository);
-        }
-
-        private void ArrangeGetAllEmployee(IEnumerable<Employee> result = null)
-        {
-            _employeeRepository = FakeEmployeeRepository();
-            _employeeRepository.GetAllEmployee(Arg.Any<GetAllEmployeeCriteria>()).Returns(result ?? new List<Employee>());
             _employeeService = GetEmployeeService(_employeeRepository);
         }
 

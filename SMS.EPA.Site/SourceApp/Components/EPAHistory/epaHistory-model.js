@@ -27,8 +27,8 @@
             });
         }
 
-        function getEPAHistory(periodId, departmentId, isLocal, employeeId) {
-            return epaHistoryFactory.getEPAHistory(periodId, departmentId, isLocal, employeeId).success(function (epas) {
+        function getEPAHistory(periodId, teamIds, isLocal, employeeId) {
+            return epaHistoryFactory.getEPAHistory(periodId, teamIds, isLocal, employeeId).success(function (epas) {
                 model.epas = epas;
             }).error(function (response, status) {
                 errorFactory.errorHandle(status);

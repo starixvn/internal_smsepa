@@ -200,7 +200,6 @@
     <Compile Include="Employee\ChangePasswordCriteria.cs">
       <ExcludeFromStyleCop>False</ExcludeFromStyleCop>
     </Compile>
-    <Compile Include="Employee\GetAllEmployeeCriteria.cs" />
     <Compile Include="Employee\GetAllGroupCriteria.cs" />
     <Compile Include="Employee\GetAllJobTitleCriteria.cs" />
     <Compile Include="Employee\CreateSpecialEmployeeCriteria.cs" />

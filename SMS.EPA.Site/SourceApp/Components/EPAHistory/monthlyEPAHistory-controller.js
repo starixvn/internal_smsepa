@@ -7,8 +7,7 @@
     monthlyEPAHistoryController.$inject = ['$routeParams', '$location', 'EPAHistoryModel', 'CommonModel',
         'utilitiesFactory', 'historyFactory', 'lockScreenService', 'baseUrl'];
 
-    function monthlyEPAHistoryController($routeParams, $location, EPAHistoryModel,
-        CommonModel, utilitiesFactory, historyFactory, lockScreenService, baseUrl) {
+    function monthlyEPAHistoryController($routeParams, $location, EPAHistoryModel, CommonModel, utilitiesFactory, historyFactory, lockScreenService, baseUrl) {
         var vm = this;
 
         vm.currentPage = 1;
@@ -16,7 +15,6 @@
         vm.onlyEmployeeRole = EPAHistoryModel.onlyEmployeeRole;
         vm.pageSize = 20;
         vm.periodOptions = [];
-        vm.treeDepartment = null;
 
         vm.backToList = backToList;
         vm.getEmployee = getEmployee;
@@ -34,7 +32,7 @@
         }
 
         function getEmployee() {
-            return CommonModel.getAllEmployee(vm.searchEmployee);
+            return CommonModel.searchEmployee(vm.searchEmployee);
         }
 
         function getIndex(index, currentPage, pageSize) {
@@ -64,10 +62,6 @@
 
             EPAHistoryModel.checkHasOnlyEmployeeRole().then(function () {
                 vm.onlyEmployeeRole = EPAHistoryModel.onlyEmployeeRole;
-            });
-
-            CommonModel.getDepartment().then(function () {
-                vm.treeDepartment = CommonModel.generateTreeDepartment(CommonModel.treeDepartment.Childrens);
             });
 
             if (vm.filter.employeeId) {

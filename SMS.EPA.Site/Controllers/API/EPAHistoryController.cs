@@ -29,7 +29,7 @@
         [ApiAuthorize(FunctionKey = EPAFunctionKey.EPAHistory, Policy = Policy.Read)]
         public IList<EPAHistoryModel> GetEPAHistory(
             int? periodId = null,
-            int? departmentId = null,
+            string teamIds = null,
             bool? isLocal = null,
             int? employeeId = null)
         {
@@ -37,7 +37,7 @@
             {
                 PeriodId = periodId,
                 EvaluatorId = SessionService.EmployeeId,
-                DepartmentId = departmentId,
+                TeamIds = teamIds,
                 IsLocal = isLocal,
                 EmployeeId = employeeId
             };

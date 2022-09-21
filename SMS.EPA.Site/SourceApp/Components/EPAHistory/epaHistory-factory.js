@@ -16,19 +16,14 @@
             return $http.get(baseUrl + 'api/EPAHistory/HasOnlyEmployeeRole');
         }
 
-        function getEPAHistory(periodId, departmentId, isLocal, employeeId) {
+        function getEPAHistory(periodId, teamIds, isLocal, employeeId) {
             return $http.get(baseUrl + 'api/EPAHistory/GetEPAHistory', {
-                params: {
-                    periodId: periodId,
-                    departmentId: departmentId,
-                    isLocal: isLocal,
-                    employeeId: employeeId
-                }
+                params: { periodId, teamIds, isLocal, employeeId }
             });
         }
 
         function getMonthlyEPAHistory(periodId, employeeId) {
-            return $http.get(baseUrl + 'api/EPAHistory/GetMonthlyEPAHistory', { params: { periodId: periodId, employeeId: employeeId } });
+            return $http.get(baseUrl + 'api/EPAHistory/GetMonthlyEPAHistory', { params: { periodId, employeeId } });
         }
     }
 })(angular);

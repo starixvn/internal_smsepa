@@ -13,8 +13,6 @@
 
         IList<Employee> GetEmployee(GetEmployeeCriteria criteria);
 
-        IEnumerable<Employee> GetAllEmployee(GetAllEmployeeCriteria criteria);
-
         Employee GetEmployeeById(int employeeId);
 
         CommandResult CreateSpecialEmployee(CreateSpecialEmployeeCriteria criteria);

@@ -72,7 +72,7 @@
 
         function getEmployee() {
             const groupId = vm.filter.groupId === null ? null : Math.abs(vm.filter.groupId);
-            return CommonModel.getAllEmployee(vm.searchEmployee, groupId);
+            return CommonModel.searchEmployee(vm.searchEmployee, groupId);
         }
 
         function getIndex(index, currentPage, pageSize) {

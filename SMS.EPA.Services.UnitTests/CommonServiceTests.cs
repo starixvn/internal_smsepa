@@ -119,38 +119,6 @@
 
         #endregion GetKPIGroup
 
-        #region GetAllEmployee
-
-        [Test]
-        public void GetAllEmployee_AnyArg_ReturnInstanceOfListOfEmployeeModel()
-        {
-            // Arrange
-            commonService = Substitute.For<ICommonService>();
-
-            // Act
-            var actual = commonService.GetAllEmployee(Arg.Any<GetAllEmployeeCriteria>());
-
-            // Assert
-            Assert.IsInstanceOf(typeof(IEnumerable<Employee>), actual);
-        }
-
-        [Test]
-        public void GetAllEmployee_VaidArg_ReturnExpectedEmployees()
-        {
-            // Arrange
-            var criteria = new GetAllEmployeeCriteria();
-            var expectedEmployees = new List<Employee> { new Employee() };
-            ArrangeGetAllEmployee(expectedEmployees);
-
-            // Act
-            var actual = commonService.GetAllEmployee(criteria);
-
-            // Assert
-            Assert.AreEqual(expectedEmployees, actual);
-        }
-
-        #endregion GetAllEmployee
-
         #region GetEmployeeByDepartmentId
 
         [Test]
@@ -569,12 +537,6 @@
         {
             ArrangeCommon();
             baseService.GetData<KPIGroupModel>(Arg.Any<GetKPIGroupCriteria>()).Returns(kpiGroups ?? new List<KPIGroupModel>());
-        }
-
-        private void ArrangeGetAllEmployee(IEnumerable<Employee> employees = null)
-        {
-            ArrangeCommon();
-            employeeService.GetAllEmployee(Arg.Any<GetAllEmployeeCriteria>()).Returns(employees ?? new List<Employee>());
         }
 
         private void ArrangeGetEmployeeByDepartmentId(IEnumerable<Employee> employees = null)

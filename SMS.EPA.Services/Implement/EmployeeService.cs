@@ -50,18 +50,6 @@
             return employeeRepository.GetAllEmployee(criteria).ToList();
         }
 
-        public IEnumerable<Employee> GetAllEmployee(GetAllEmployeeCriteria criteria)
-        {
-            IEnumerable<Employee> employees = new List<Employee>();
-
-            if (criteria != null && criteria.IsValid())
-            {
-                employees = employeeRepository.GetAllEmployee(criteria);
-            }
-
-            return employees;
-        }
-
         public Employee GetEmployeeById(int employeeId)
         {
             var criteria = new GetEmployeeByIdCriteria

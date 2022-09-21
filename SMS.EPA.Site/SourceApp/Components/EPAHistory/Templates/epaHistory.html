@@ -14,11 +14,12 @@
             </select>
         </div>
         <div class="form-group">
-            <label class="label-form" data-translate="DepartmentSection"></label>
-            <select class="form-control select-form" ng-model="epaHistoryCtrl.filter.departmentId"
-                    ng-options="opt.DepartmentId as opt.Name for opt in epaHistoryCtrl.treeDepartment">
-                <option value="">-- {{"All" | translate}} --</option>
-            </select>
+            <label class="label-form" data-translate="Team"></label>
+            <div class="select-form">
+                <multi-select-tree-view selected-items="epaHistoryCtrl.filter.teamIds"
+                                        is-selected-all="true"
+                                        options="epaHistoryCtrl.orgChart" on-select="epaHistoryCtrl.onSelectTeam"></multi-select-tree-view>
+            </div>
         </div>
         <div class="form-group">
             <label class="label-form" data-translate="Category"></label>
@@ -30,7 +31,7 @@
         </div>
         <div class="form-group" ng-show="!epaHistoryCtrl.onlyEmployeeRole">
             <label class="label-form" data-translate="Employee"></label>
-            <input class="form-control input-form" ng-model="epaHistoryCtrl.searchEmployee"
+            <input class="form-control input-form" ng-model="epaHistoryCtrl.searchKeyword"
                    placeholder="Enter full name or nick name" search-auto-complete search-employees="epaHistoryCtrl.getEmployee()"
                    ng-change="epaHistoryCtrl.unSelectEmployee()" employee="epaHistoryCtrl.filter.employee" />
         </div>

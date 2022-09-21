@@ -50,11 +50,6 @@
             return baseService.GetData<KPIGroupModel>(criteria);
         }
 
-        public IEnumerable<Employee> GetAllEmployee(GetAllEmployeeCriteria criteria)
-        {
-            return employeeService.GetAllEmployee(criteria);
-        }
-
         public IEnumerable<Employee> GetEmployeeByDepartmentId(int? departmentId)
         {
             var criteria = new GetEmployeeByDepartmentIdCriteria
