@@ -15,6 +15,7 @@
         vm.filter = { periodId: 0, hasSetting: '' };
         vm.currentPage = 1;
         vm.pageSize = 20;
+        vm.selectedAll = false;
         vm.permission = PeriodModel.permission;
         vm.policy = utilitiesFactory.policy;
         utilitiesFactory.numberEntryList(vm);
@@ -75,8 +76,15 @@
             });
         };
 
+        vm.onSellectAll = function () {
+            for (let setting of vm.jobLevelSettings) {
+                setting.Selected = vm.selectedAll;
+            }
+        };
+
         vm.copyFromDefault = function () {
-            PeriodModel.openPopupCopyDefaultJobLevelSetting(vm, vm.filter.periodId);
+            const sectionIds = vm.jobLevelSettings.filter(x => x.Selected).map(x => x.SectionId).join(',');
+            PeriodModel.openPopupCopyDefaultJobLevelSetting(vm, vm.filter.periodId, sectionIds);
         };
     }
 })(angular);

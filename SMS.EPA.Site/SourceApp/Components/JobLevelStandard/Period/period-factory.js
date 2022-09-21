@@ -85,8 +85,8 @@
             return $http.put(baseUrl + 'api/JobLevelStandardPeriod/EditJobLevelSetting', params);
         }
 
-        function copyDefaultJobLevelSetting(periodId) {
-            return $http.post(baseUrl + 'api/JobLevelStandardPeriod/CopyDefaultJobLevelSetting', { periodId });
+        function copyDefaultJobLevelSetting(params) {
+            return $http.post(baseUrl + 'api/JobLevelStandardPeriod/CopyDefaultJobLevelSetting', params);
         }
     }
 })(angular);

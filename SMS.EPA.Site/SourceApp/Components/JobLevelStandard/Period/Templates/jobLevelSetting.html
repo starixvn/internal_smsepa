@@ -16,16 +16,19 @@
     <table class="row table table-bordered table-striped table-job-level-setting">
         <thead>
             <tr class="header-table">
-                <th colspan="5">
+                <th colspan="6">
                     <a class="pull-left button-icon create-button" href=""
                        ng-click="settingCtrl.copyFromDefault()" ng-if="settingCtrl.permission === settingCtrl.policy.Host">
-                        <span class="glyphicon glyphicon-duplicate icon-add"></span>
+                        <span class="glyphicon glyphicon-copy icon-add"></span>
                         <span class="button-text">Copy from Default</span>
                     </a>
                     <input type="text" ng-model="settingCtrl.searchKey" ng-change="settingCtrl.search()" class="search-inline-textbox search pull-right">
                 </th>
             </tr>
             <tr class="headerName">
+                <th ng-if="settingCtrl.permission === settingCtrl.policy.Host">
+                    <input type="checkbox" ng-model="settingCtrl.selectedAll" ng-click="settingCtrl.onSellectAll()" />
+                </th>
                 <th data-translate="SymbolCount"></th>
                 <th data-translate="Department"></th>
                 <th data-translate="Section"></th>
@@ -35,26 +38,29 @@
         </thead>
         <tbody>
             <tr dir-paginate="section in settingCtrl.filteredItems | itemsPerPage: settingCtrl.pageSize" current-page="settingCtrl.currentPage">
+                <td class="text-center" ng-if="settingCtrl.permission === settingCtrl.policy.Host">
+                    <input type="checkbox" ng-model="section.Selected" />
+                </td>
                 <td class="text-center" ng-bind="settingCtrl.getIndex($index, settingCtrl.currentPage, settingCtrl.pageSize)"></td>
                 <td ng-bind="section.Department"></td>
                 <td ng-bind="section.Name"></td>
                 <td class="text-center"><span class="glyphicon glyphicon-ok" ng-if="section.HasSetting"></span></td>
                 <td class="text-center">
-                    <a href="javascript:;" class="glyphicon glyphicon-edit icon-edit" title="Edit"
-                       ng-click="settingCtrl.edit(section)" ng-if="settingCtrl.permission === settingCtrl.policy.Host"></a>
                     <a href="javascript:;" class="glyphicon icon-view" title="View"
                        ng-click="settingCtrl.edit(section)" ng-if="settingCtrl.permission !== settingCtrl.policy.Host"></a>
-                    <a class="glyphicon glyphicon-duplicate cursor-pointer" title="Copy Setting"
+                    <a href="javascript:;" class="glyphicon glyphicon-edit icon-edit" title="Edit"
+                       ng-click="settingCtrl.edit(section)" ng-if="settingCtrl.permission === settingCtrl.policy.Host"></a>
+                    <a href="javascript:;" class="glyphicon glyphicon-duplicate icon-edit" title="Copy Setting"
                        ng-click="settingCtrl.copy(section)" ng-if="section.HasSetting && settingCtrl.permission === settingCtrl.policy.Host"></a>
                 </td>
             </tr>
             <tr ng-show="settingCtrl.filteredItems.length === 0">
-                <td class="empty-result" colspan="5" data-translate="EmptyResult"></td>
+                <td class="empty-result" colspan="6" data-translate="ThereIsNoData"></td>
             </tr>
         </tbody>
         <tfoot>
             <tr>
-                <td colspan="5" class="paging">
+                <td colspan="6" class="paging">
                     <span data-translate="Show"></span>
                     <select class="dropdown-entry form-control" ng-model="settingCtrl.pageSize"
                             ng-options="entry for entry in settingCtrl.entries" ng-change="settingCtrl.currentPage = 1"></select>

@@ -518,8 +518,13 @@
             return vm.modalInstance.result;
         };
 
-        model.openPopupCopyDefaultJobLevelSetting = function (vm, periodId) {
-            var modalInstance = $uibModal.open({
+        model.openPopupCopyDefaultJobLevelSetting = function (vm, periodId, sectionIds) {
+            if (sectionIds.length === 0) {
+                notificationFactory.error('', 'Please select at least a section.');
+                return;
+            }
+
+            let modalInstance = $uibModal.open({
                 templateUrl: '/SourceApp/Shared/Templates/ModalConfirmContent.html',
                 controller: 'ModalConfirmController as modalConfirmCtrl',
                 backdrop: 'static',
@@ -535,7 +540,7 @@
             });
 
             modalInstance.result.then(function () {
-                periodFactory.copyDefaultJobLevelSetting(periodId).success(function (response) {
+                periodFactory.copyDefaultJobLevelSetting({ periodId, sectionIds }).success(function (response) {
                     if (response.IsSuccessful) {
                         notificationFactory.success('UpdatedSuccessfully');
 
