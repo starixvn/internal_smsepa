@@ -39,8 +39,8 @@
             var titleHeadersReview = new List<string>
             {
                 Lang.TotalWeight,
-                Lang.SystemPropose,
-                Lang.NewJobLevel
+                Lang.Difference,
+                Lang.SystemPropose
             };
 
             var workbook = new HSSFWorkbook();
@@ -151,7 +151,7 @@
                 var totolCellJobLevel = kpis.Count * 2 + startAssessmentColumnIndex - 1;
                 var cellJobLevelHeader = row.CreateCell(startAssessmentColumnIndex);
                 cellJobLevelHeader.CellStyle = cellStyle;
-                cellJobLevelHeader.SetCellValue(Lang.JobLevelStandards);
+                cellJobLevelHeader.SetCellValue("Job Level Standards (Assessment by Section Head/Superior)");
                 region = new CellRangeAddress(1, 1, startAssessmentColumnIndex, totolCellJobLevel);
                 sheet.AddMergedRegion(region);
                 StyleMergedRegionHeader(workbook, sheet, region);

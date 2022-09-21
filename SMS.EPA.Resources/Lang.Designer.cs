@@ -19,7 +19,7 @@ namespace SMS.EPA.Resources {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "16.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     public class Lang {
@@ -777,6 +777,15 @@ namespace SMS.EPA.Resources {
         public static string Details {
             get {
                 return ResourceManager.GetString("Details", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Difference.
+        /// </summary>
+        public static string Difference {
+            get {
+                return ResourceManager.GetString("Difference", resourceCulture);
             }
         }
         
@@ -1965,15 +1974,6 @@ namespace SMS.EPA.Resources {
         public static string JobLevelStandard {
             get {
                 return ResourceManager.GetString("JobLevelStandard", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Job Level Standards (Assessment by Section Head/Direct Superior).
-        /// </summary>
-        public static string JobLevelStandards {
-            get {
-                return ResourceManager.GetString("JobLevelStandards", resourceCulture);
             }
         }
         

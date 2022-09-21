@@ -1497,7 +1497,7 @@
   <data name="ToSection" xml:space="preserve">
     <value>To Section</value>
   </data>
- <data name="TeamRequired" xml:space="preserve">
+  <data name="TeamRequired" xml:space="preserve">
     <value>Team is required.</value>
   </data>
   <data name="JoblevelAssessmentReportTitle" xml:space="preserve">
@@ -1517,9 +1517,6 @@
   </data>
   <data name="Team" xml:space="preserve">
     <value>Team</value>
-  </data>
-  <data name="JobLevelStandards" xml:space="preserve">
-    <value>Job Level Standards (Assessment by Section Head/Direct Superior)</value>
   </data>
   <data name="Level" xml:space="preserve">
     <value>Level</value>
@@ -1545,28 +1542,13 @@
   <data name="Approved" xml:space="preserve">
     <value>Approved</value>
   </data>
-  <data name="CurrentJobLevel" xml:space="preserve">
-    <value>Current Job Level</value>
-  </data>
-  <data name="Level" xml:space="preserve">
-    <value>Level</value>
-  </data>
-  <data name="NewJobLevel" xml:space="preserve">
-    <value>New Job Level</value>
-  </data>
-  <data name="RequirementMinScore" xml:space="preserve">
-    <value>Requirement min score</value>
-  </data>
-  <data name="SystemPropose" xml:space="preserve">
-    <value>System Propose</value>
-  </data>
   <data name="ThereIsNoData" xml:space="preserve">
     <value>There is no data!</value>
   </data>
-  <data name="TotalWeight" xml:space="preserve">
-    <value>Total Weight</value>
-  </data>
   <data name="Verified" xml:space="preserve">
     <value>Verified</value>
+  </data>
+  <data name="Difference" xml:space="preserve">
+    <value>Difference</value>
   </data>
 </root>

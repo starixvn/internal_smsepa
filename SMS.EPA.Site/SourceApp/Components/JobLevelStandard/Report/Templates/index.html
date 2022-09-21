@@ -56,7 +56,7 @@
                 <th rowspan="3" data-translate="SymbolCount"></th>
                 <th rowspan="2" colspan="10">Employee Info</th>
                 <th colspan="{{assessmentReportCtrl.kpis.length * 2}}">
-                    Job Level Standards (Assessment by Section Head/Direct Superior)
+                    Job Level Standards (Assessment by Section Head/Superior)
                 </th>
                 <th colspan="3" rowspan="2">Review by Unit Head</th>
                 <th rowspan="3" data-translate="Remark"></th>
@@ -79,8 +79,8 @@
                 <th ng-repeat-start="kpi in assessmentReportCtrl.kpis" class="col-level" data-translate="Level"></th>
                 <th ng-repeat-end class="col-weight" data-translate="Weight"></th>
                 <th data-translate="TotalWeight"></th>
-                <th data-translate="SystemPropose"></th>
-                <th class="col-new-joblevel" data-translate="NewJobLevel"></th>
+                <th data-translate="Difference"></th>
+                <th class="col-system-propose" data-translate="SystemPropose"></th>
             </tr>
         </thead>
         <tbody>
