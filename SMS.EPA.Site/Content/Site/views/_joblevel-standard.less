@@ -30,19 +30,32 @@
             }
 
             .col-fullname {
-                min-width: 120px;
+                min-width: 140px;
+            }
+
+            .col-los {
+                min-width: 90px;
+                max-width: 90px;
+            }
+
+            .col-doc, .col-current-joblevel, .col-new-joblevel {
+                min-width: 80px;
+                max-width: 80px;
             }
 
             .col-department, .col-section, .col-team {
-                min-width: 100px;
+                min-width: 120px;
+                min-width: 140px;
             }
 
             .col-level, .col-weight {
                 min-width: 45px;
+                max-width: 60px;
             }
 
             .col-action {
-                width: 80px;
+                min-width: 60px;
+                max-width: 80px;
             }
         }
 
@@ -162,4 +175,8 @@
         text-shadow: none;
         color: #333;
     }
+}
+
+.job-level-assessment-container, .job-level-assessment-report-container {
+    overflow-x: auto;
 }

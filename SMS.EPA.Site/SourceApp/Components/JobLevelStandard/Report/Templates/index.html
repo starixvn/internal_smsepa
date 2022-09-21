@@ -1,4 +1,4 @@
-﻿<div class="col-sm-12" ng-controller="AssessmentReportController as assessmentReportCtrl">
+﻿<div class="col-sm-12 job-level-assessment-report-container" ng-controller="AssessmentReportController as assessmentReportCtrl">
     <div class="sub-header">
         <ul class="row breadcrumb">
             <li data-translate="JobLevelStandard"></li>
@@ -69,18 +69,18 @@
                 <th data-translate="Code"></th>
                 <th class="col-fullname" data-translate="FullName"></th>
                 <th data-translate="Nickname"></th>
-                <th>DOC</th>
-                <th width="100" data-translate="LengthOfService"></th>
+                <th class="col-doc">DOC</th>
+                <th class="col-los" data-translate="LengthOfService"></th>
                 <th class="col-department" data-translate="Department"></th>
                 <th class="col-section" data-translate="Section"></th>
                 <th class="col-team" data-translate="Team"></th>
-                <th data-translate="CurrentJobLevel"></th>
+                <th class="col-current-joblevel" data-translate="CurrentJobLevel"></th>
                 <th data-translate="RequirementMinScore"></th>
                 <th ng-repeat-start="kpi in assessmentReportCtrl.kpis" class="col-level" data-translate="Level"></th>
                 <th ng-repeat-end class="col-weight" data-translate="Weight"></th>
                 <th data-translate="TotalWeight"></th>
                 <th data-translate="SystemPropose"></th>
-                <th data-translate="NewJobLevel"></th>
+                <th class="col-new-joblevel" data-translate="NewJobLevel"></th>
             </tr>
         </thead>
         <tbody>

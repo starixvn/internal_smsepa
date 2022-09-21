@@ -100,6 +100,10 @@
             AssessmentModel.editStatus(vm, { assessmentIds: assessment.AssessmentId, statusId: vm.status.Approved });
         };
 
+        vm.reset = function (assessment) {
+            AssessmentModel.editStatus(vm, { assessmentIds: assessment.AssessmentId, statusId: vm.status.Verified });
+        };
+
         vm.inputWeight = function (assessment) {
             let totalWeight = null;
             angular.forEach(assessment.KPIs, function (kpi) {
