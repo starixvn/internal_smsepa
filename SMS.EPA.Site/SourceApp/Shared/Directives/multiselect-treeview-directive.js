@@ -18,6 +18,7 @@
                     $timeout(function () {
                         $(iElement).multiSelectTreeView({
                             data: options,
+                            hasSearchBox: iAttr.hasSearchBox !== undefined ? JSON.parse(iAttr.hasSearchBox) : false,
                             singleSelection: iAttr.singleSelection !== undefined ? JSON.parse(iAttr.singleSelection) : false,
                             selectedItems: scope.selectedItems,
                             isSelectedAll: iAttr.isSelectedAll !== undefined ? JSON.parse(iAttr.isSelectedAll) : false,

@@ -1,4 +1,4 @@
-﻿(function(angular) {
+﻿(function (angular) {
     'use strict';
     /* jshint latedef:nofunc */
     /* jshint validthis:true */
@@ -7,9 +7,7 @@
     targetPersonnelSettingController.$inject = ['$scope', 'baseUrl', 'TargetEmployeeSettingModel',
         'CommonModel', 'TargetTemplateModel', 'utilitiesFactory', 'lockScreenService'];
 
-    function targetPersonnelSettingController( $scope, baseUrl, TargetEmployeeSettingModel,
-        CommonModel, TargetTemplateModel, utilitiesFactory, lockScreenService) {
-
+    function targetPersonnelSettingController($scope, baseUrl, TargetEmployeeSettingModel, CommonModel, TargetTemplateModel, utilitiesFactory, lockScreenService) {
         var vm = this;
 
         vm.currentPage = 1;
@@ -24,6 +22,7 @@
         vm.targetEmployeeSettings = [];
         vm.targetTemplates = [];
         vm.targetTypes = [];
+        vm.orgChart = [];
 
         vm.assignTargetTemplate = assignTargetTemplate;
         vm.checkAll = checkAll;
@@ -37,33 +36,29 @@
 
         utilitiesFactory.numberEntryList(vm);
 
-        $scope.$watch(function() { return $scope.targetCtrl.dataTab === 2; },
-            function(newVal) {
-                if (newVal && vm.isFirstLoad) {
-                    initialize();
-                }
+        $scope.$watch(function () { return $scope.targetCtrl.dataTab === 2; }, function (newVal) {
+            if (newVal && vm.isFirstLoad) {
+                initialize();
             }
-        );
+        });
 
         function assignTargetTemplate() {
             vm.targetEmployeeSetting.employeeIds = getSelectedEmployees(vm.targetEmployeeSettings);
 
-            TargetEmployeeSettingModel.assignTargetTemplateToEmployee(vm.targetEmployeeSetting).then(function() {
+            TargetEmployeeSettingModel.assignTargetTemplateToEmployee(vm.targetEmployeeSetting).then(function () {
                 vm.query(vm.filter);
                 vm.selectedAll = false;
             });
         }
 
         function checkAll(selectedAll) {
-            angular.forEach(vm.filteredItems,
-                function(targetEmployee) {
-                    targetEmployee.Selected = selectedAll;
-                });
+            angular.forEach(vm.filteredItems, function (targetEmployee) {
+                targetEmployee.Selected = selectedAll;
+            });
 
-            angular.forEach(vm.targetEmployeeSettings,
-                function(targetEmployee) {
-                    targetEmployee.Selected = selectedAll;
-                });
+            angular.forEach(vm.targetEmployeeSettings, function (targetEmployee) {
+                targetEmployee.Selected = selectedAll;
+            });
         }
 
         function deleteTargetTemplate(employee, targetTemplate) {
@@ -71,8 +66,7 @@
         }
 
         function getEmployee() {
-            const groupId = vm.filter.groupId === null ? null : Math.abs(vm.filter.groupId);
-            return CommonModel.searchEmployee(vm.searchEmployee, groupId);
+            return CommonModel.searchEmployee(vm.searchEmployee, vm.filter.teamIds);
         }
 
         function getIndex(index, currentPage, pageSize) {
@@ -80,22 +74,20 @@
         }
 
         function getSelectedEmployees(targetEmployeeSettings) {
-            var employeeIds = '';
-
-            angular.forEach(targetEmployeeSettings,
-                function(targetEmployee) {
-                    if (targetEmployee.Selected) {
-                        employeeIds += employeeIds ? ',' + targetEmployee.EmployeeId : targetEmployee.EmployeeId;
-                    }
-                });
+            let employeeIds = '';
+            angular.forEach(targetEmployeeSettings, function (targetEmployee) {
+                if (targetEmployee.Selected) {
+                    employeeIds += employeeIds ? ',' + targetEmployee.EmployeeId : targetEmployee.EmployeeId;
+                }
+            });
 
             return employeeIds;
         }
 
-        function getTargetEmployeeSetting(groupId, employeeId, targetTypeId, showAll) {
+        function getTargetEmployeeSetting(teamIds, employeeId, targetTypeId, showAll) {
             lockScreenService.start();
-            TargetEmployeeSettingModel.getTargetEmployeeSetting(groupId, employeeId, targetTypeId, showAll).then(
-                function() {
+            TargetEmployeeSettingModel.getTargetEmployeeSetting(teamIds, employeeId, targetTypeId, showAll)
+                .then(function () {
                     vm.targetEmployeeSettings = TargetEmployeeSettingModel.targetEmployeeSettings;
                     utilitiesFactory.searchOnPage(vm, vm.targetEmployeeSettings);
                     vm.isFirstLoad = false;
@@ -105,7 +97,7 @@
 
         function initFilter() {
             vm.filter = {
-                groupId: null,
+                teamIds: null,
                 targetTypeId: null,
                 employee: null,
                 showAll: false
@@ -115,15 +107,15 @@
         function initialize() {
             initFilter();
 
-            CommonModel.getDepartment(null, true).then(function () {
-                vm.treeDepartment = CommonModel.generateTreeDepartment(CommonModel.treeDepartment.Childrens);
+            CommonModel.getOrgChart().then(function () {
+                vm.orgChart = CommonModel.orgChart;
             });
 
-            CommonModel.getTargetType().then(function() {
+            CommonModel.getTargetType().then(function () {
                 vm.targetTypes = CommonModel.targetTypes;
             });
 
-            TargetTemplateModel.getTargetTemplate(null, true).then(function() {
+            TargetTemplateModel.getTargetTemplate(null, true).then(function () {
                 vm.targetTemplates = TargetTemplateModel.targetTemplates;
 
                 if (vm.targetTemplates && vm.targetTemplates.length > 0) {
@@ -131,11 +123,10 @@
                 }
             });
 
-            getTargetEmployeeSetting(vm.filter.groupId, null, vm.filter.targetTypeId, vm.filter.showAll);
+            getTargetEmployeeSetting(vm.filter.teamIds, null, vm.filter.targetTypeId, vm.filter.showAll);
         }
 
         function query(filter) {
-            const groupId = vm.filter.groupId === null ? null : Math.abs(vm.filter.groupId);
             var employeeId = null;
             vm.searchKey = '';
             vm.currentPage = 1;
@@ -144,22 +135,20 @@
                 employeeId = filter.employee.EmployeeId;
             }
 
-            getTargetEmployeeSetting(groupId, employeeId, filter.targetTypeId, filter.showAll);
+            getTargetEmployeeSetting(filter.teamIds, employeeId, filter.targetTypeId, filter.showAll);
         }
 
         function syncSelectedEmployee(employeeId, selected) {
-            angular.forEach(vm.targetEmployeeSettings,
-                function(targetEmployee) {
-                    if (targetEmployee.EmployeeId === employeeId) {
-                        angular.forEach(vm.filteredItems,
-                            function(filterItem) {
-                                if (targetEmployee.EmployeeId === filterItem.EmployeeId) {
-                                    filterItem.Selected = selected;
-                                    targetEmployee.Selected = selected;
-                                }
-                            });
-                    }
-                });
+            angular.forEach(vm.targetEmployeeSettings, function (targetEmployee) {
+                if (targetEmployee.EmployeeId === employeeId) {
+                    angular.forEach(vm.filteredItems, function (filterItem) {
+                        if (targetEmployee.EmployeeId === filterItem.EmployeeId) {
+                            filterItem.Selected = selected;
+                            targetEmployee.Selected = selected;
+                        }
+                    });
+                }
+            });
         }
 
         function unSelectEmployee() {
@@ -168,9 +157,12 @@
             }
         }
 
+        vm.onSelectTeam = function (teamIds) {
+            vm.filter.teamIds = teamIds;
+        };
+
         function exportReport() {
             vm.exportCriteria = angular.copy(vm.filter);
-            vm.exportCriteria.groupId = vm.filter.groupId === null ? null : Math.abs(vm.filter.groupId);
 
             var url = baseUrl + "ExportReport/ExportTargetPersonnelSettingReport";
             var data = $.param(vm.exportCriteria);

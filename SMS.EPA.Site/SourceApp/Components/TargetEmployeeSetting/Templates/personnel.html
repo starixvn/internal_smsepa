@@ -1,15 +1,16 @@
 ﻿<div ng-controller="TargetPersonnelSettingController as personnelCtrl">
     <form novalidate class="form-filter">
         <div class="form-group">
-            <label class="label-form" data-translate="Section"></label>
-            <select class="form-control select-form" ng-model="personnelCtrl.filter.groupId"
-                    ng-options="item.DepartmentId as item.Name disable when item.DepartmentId > 0 for item in personnelCtrl.treeDepartment">
-                <option value="">-- {{"All" | translate}} --</option>
-            </select>
+            <label class="label-form" data-translate="Team"></label>
+            <div class="select-form">
+                <multi-select-tree-view selected-items="personnelCtrl.filter.teamIds"
+                                        is-selected-all="true" has-search-box="true"
+                                        options="personnelCtrl.orgChart" on-select="personnelCtrl.onSelectTeam"></multi-select-tree-view>
+            </div>
         </div>
         <div class="form-group">
             <label class="label-form" data-translate="Employee"></label>
-            <input class="form-control input-form" type="text" placeholder="full name or nick name"
+            <input class="form-control input-form" type="text" placeholder="full name or nickname"
                    ng-model="personnelCtrl.searchEmployee" search-auto-complete search-employees="personnelCtrl.getEmployee()"
                    ng-change="personnelCtrl.unSelectEmployee()" employee="personnelCtrl.filter.employee" />
         </div>

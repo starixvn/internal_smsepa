@@ -31,21 +31,20 @@
 
         [ApiAuthorize(FunctionKey = EPAFunctionKey.TargetEmployeeSetting, Policy = Policy.Read)]
         public IList<TargetEmployeeSetting> GetTargetEmployeeSetting(
-            int? groupId = null,
+            string teamIds = null,
             int? employeeId = null,
             int? targetTypeId = null,
             bool showAll = false)
         {
             var criteria = new GetAllTargetEmployeeSettingCriteria
             {
-                GroupId = groupId,
+                TeamIds = teamIds,
                 EmployeeId = employeeId,
                 TargetTypeId = targetTypeId,
                 ShowAll = showAll
             };
 
-            IList<TargetEmployeeSetting> targetEmployeeSettings = targetEmployeeSettingService.GetTargetEmployeeSetting(criteria);
-            return targetEmployeeSettings;
+            return targetEmployeeSettingService.GetTargetEmployeeSetting(criteria);
         }
 
         [HttpPut]

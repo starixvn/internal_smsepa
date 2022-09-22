@@ -7,61 +7,44 @@
 
     function targetEmployeeSettingFactory($http, baseUrl) {
         return {
-            assignTargetTemplateToDepartment: assignTargetTemplateToDepartment,
-            assignTargetTemplateToEmployee: assignTargetTemplateToEmployee,
-            deleteTargetDepartmentSetting: deleteTargetDepartmentSetting,
-            deleteTargetEmployeeSetting: deleteTargetEmployeeSetting,
-            getTargetDepartmentSetting: getTargetDepartmentSetting,
-            getTargetEmployeeSetting: getTargetEmployeeSetting,
-            getUserPermissionOnTargetEmployeeSetting: getUserPermissionOnTargetEmployeeSetting
+            assignTargetTemplateToDepartment,
+            assignTargetTemplateToEmployee,
+            deleteTargetDepartmentSetting,
+            deleteTargetEmployeeSetting,
+            getTargetDepartmentSetting,
+            getTargetEmployeeSetting,
+            getUserPermissionOnTargetEmployeeSetting
         };
 
-        function assignTargetTemplateToDepartment(targetSetting) {
-            return $http.put(baseUrl + 'api/TargetEmployeeSetting/AssignTargetTemplateToDepartment', targetSetting);
+        function assignTargetTemplateToDepartment(params) {
+            return $http.put(baseUrl + 'api/TargetEmployeeSetting/AssignTargetTemplateToDepartment', params);
         }
 
-        function assignTargetTemplateToEmployee(targetEmployeeSetting) {
-            return $http.put(baseUrl + 'api/TargetEmployeeSetting/AssignTargetTemplateToEmployee', targetEmployeeSetting);
+        function assignTargetTemplateToEmployee(params) {
+            return $http.put(baseUrl + 'api/TargetEmployeeSetting/AssignTargetTemplateToEmployee', params);
         }
 
         function getTargetDepartmentSetting(departmentId, isGroup, targetTypeId, showAll) {
             return $http.get(baseUrl + 'api/TargetEmployeeSetting/GetTargetDepartmentSetting', {
-                params: {
-                    departmentId: departmentId,
-                    isGroup: isGroup,
-                    targetTypeId: targetTypeId,
-                    showAll: showAll
-                }
+                params: { departmentId, isGroup, targetTypeId, showAll }
             });
         }
 
-        function getTargetEmployeeSetting(groupId, employeeId, targetTypeId, showAll) {
+        function getTargetEmployeeSetting(teamIds, employeeId, targetTypeId, showAll) {
             return $http.get(baseUrl + 'api/TargetEmployeeSetting/GetTargetEmployeeSetting', {
-                params: {
-                    groupId: groupId,
-                    employeeId: employeeId,
-                    targetTypeId: targetTypeId,
-                    showAll: showAll
-                }
+                params: { teamIds, employeeId, targetTypeId, showAll }
             });
         }
 
         function deleteTargetDepartmentSetting(targetTemplateId, departmentId, isGroup) {
             return $http['delete'](baseUrl + 'api/TargetEmployeeSetting/DeleteTargetDepartmentSetting', {
-                params: {
-                    targetTemplateId: targetTemplateId,
-                    departmentId: departmentId,
-                    isGroup: isGroup
-                }
+                params: { targetTemplateId, departmentId, isGroup }
             });
         }
 
         function deleteTargetEmployeeSetting(targetTemplateId, employeeId) {
             return $http['delete'](baseUrl + 'api/TargetEmployeeSetting/DeleteTargetEmployeeSetting', {
-                params: {
-                    employeeId: employeeId,
-                    targetTemplateId: targetTemplateId
-                }
+                params: { employeeId, targetTemplateId }
             });
         }
 

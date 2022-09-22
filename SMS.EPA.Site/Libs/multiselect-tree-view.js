@@ -71,13 +71,14 @@
             me.$updownicon = me.$multiSelect.find('.up-down-icon').first();
             me.$selectedtext = me.$multiSelect.find('.selected-text').first();
             me.$dropdownlist = me.$multiSelect.find('.multiselect-treeview-dropdown-list').first();
+            me.$header = me.$multiSelect.find('.multiselect-treeview-select-all');
             me.$selectAll = me.$multiSelect.find('#' + me.id + '-selectAll');
             me.$groupitems = me.$multiSelect.find('.multiselect-treeview-group-items');
             me.$checkboxes = me.$multiSelect.find('.multiselect-treeview-items input[type=checkbox]:not(:disabled)');
 
             if (me.options.hasSearchBox) {
                 me.$searchInput = me.$multiSelect.find('.multiselect-treeview-search-box input');
-                me.$clearButton = me.$multiSelect.find('.multiselect-treeview-clear-search-box');
+                me.$clearButton = me.$multiSelect.find('.multiselect-treeview-clear-indicator');
             }
 
             me.registerEvents();
@@ -175,7 +176,7 @@
                     disabled = options.disabled || (options.singleSelection && !data.IsLeaf);
                 html.push('<li class="multiselect-treeview-item is-child">'
                     + '<div class="checkbox-wrapper">'
-                    + '<input type="checkbox" id="' + me.id + '-' + itemId + '" value="' + data.Id + '"' + '" data-is-leaf="' + data.IsLeaf + '" '
+                    + '<input type="checkbox" id="' + me.id + '-' + itemId + '" value="' + data.Id + '" data-is-leaf="' + data.IsLeaf + '" '
                     + ' data-parentid="' + me.id + '-' + item.parentId + '"'
                     + ' ' + (data.Checked || options.isSelectedAll ? 'checked' : '') + ' ' + (disabled ? 'disabled' : '') + ' />'
                     + '<label for="' + me.id + '-' + itemId + '">' + data.Text + '</label>'
@@ -266,9 +267,9 @@
             me.$selectAll.on('change', function () {
                 var $this = $(this);
                 if ($this.prop('checked')) {
-                    me.$checkboxes.prop('checked', true);
+                    me.$checkboxes.not('.hide').prop('checked', true);
                 } else {
-                    me.$checkboxes.prop('checked', false);
+                    me.$checkboxes.not('.hide').prop('checked', false);
                 }
 
                 if (typeof options.onSelectAll === 'function') {
@@ -295,17 +296,57 @@
                 }
             });
 
-            /*if (me.options.hasSearchBox) {
+            if (me.options.hasSearchBox) {
                 me.$searchInput.off('keyup').on('keyup', function () {
                     var $this = $(this);
                     var filterVal = $this.val().toLowerCase();
                     if (filterVal !== '') {
-                        me.$groupitems.each(function () {
-                            var $group = $(this);
-                        });
-                    } else {
+                        var matcher = new RegExp(filterVal, 'gi');
 
+                        me.$groupitems.find('li.multiselect-treeview-item').removeClass('show')
+                            .find('input').removeClass('show');
+                        var showElements = me.$groupitems.find('li.multiselect-treeview-item').filter(function () {
+                            if (matcher.test($(this).find('> .checkbox-wrapper label').text())) {
+                                return $(this);
+                            };
+                        }).removeClass('hide').addClass('show');
+
+                        if (showElements.length > 0) {
+                            me.$header.show();
+
+                            showElements.each(function () {
+                                var showElement = $(this);
+                                var prevParent = showElement.parent().prev();
+                                var grandParent = showElement.parent().parent();
+
+                                while (grandParent.hasClass('multiselect-treeview-item')) {
+                                    prevParent.find('input').addClass('show');
+                                    prevParent = grandParent.parent().prev();
+
+                                    grandParent.removeClass('hide').addClass('show');
+                                    grandParent = grandParent.parent().parent();
+                                }
+
+                                showElement.find('li.multiselect-treeview-item')
+                                    .removeClass('hide').addClass('show')
+                                    .find('input').addClass('show');
+                            });
+                        } else {
+                            me.$header.hide();
+                        }
+
+                        me.$groupitems.find('li.multiselect-treeview-item').not('.show').addClass('hide')
+                            .find('input').addClass('hide');
+                    } else {
+                        me.$header.show();
+                        me.$groupitems.find('li.multiselect-treeview-item')
+                            .removeClass('hide').addClass('show')
+                            .find('input').removeClass('hide').addClass('show');
                     }
+
+                    me.$checkboxes.not('.hide').filter('[data-is-leaf=true]').each(function () {
+                        $(this).change();
+                    });
                 });
 
                 me.$clearButton.off('click').on('click', function () {
@@ -314,7 +355,7 @@
                         me.$searchInput.trigger('keyup');
                     }
                 });
-            }*/
+            }
 
             // hide dropdown
             $(document).delegate('html', 'click', function (e) {

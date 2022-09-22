@@ -70,8 +70,8 @@
             });
         }
 
-        function getTargetEmployeeSetting(groupId, employeeId, targetTypeId, showAll) {
-            return targetEmployeeSettingFactory.getTargetEmployeeSetting(groupId, employeeId, targetTypeId, showAll)
+        function getTargetEmployeeSetting(teamIds, employeeId, targetTypeId, showAll) {
+            return targetEmployeeSettingFactory.getTargetEmployeeSetting(teamIds, employeeId, targetTypeId, showAll)
             .success(function (targetEmployeeSettings) {
                 model.targetEmployeeSettings = targetEmployeeSettings;
             }).error(function (response, status) {

@@ -20,8 +20,9 @@
             <label class="col-sm-3 control-label" data-translate="Team"></label>
             <div class="col-sm-8 field">
                 <multi-select-tree-view selected-items="addEmployeeSettingCtrl.teamIds"
-                                        is-selected-all="false"
-                                        options="addEmployeeSettingCtrl.orgChart" on-select="addEmployeeSettingCtrl.onSelectTeam"></multi-select-tree-view>
+                                        is-selected-all="false" has-search-box="true"
+                                        options="addEmployeeSettingCtrl.orgChart"
+                                        on-select="addEmployeeSettingCtrl.onSelectTeam"></multi-select-tree-view>
             </div>
         </div>
     </form>

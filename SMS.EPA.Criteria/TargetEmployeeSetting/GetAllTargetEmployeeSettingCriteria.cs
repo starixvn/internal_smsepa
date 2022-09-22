@@ -4,7 +4,7 @@
 
     public class GetAllTargetEmployeeSettingCriteria : CriteriaBase
     {
-        public int? GroupId { get; set; }
+        public string TeamIds { get; set; }
 
         public int? EmployeeId { get; set; }
 
