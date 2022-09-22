@@ -89,23 +89,23 @@
             from.length = 0;
         };
 
-        vm.getEmployeeInfo = function (sender, selectedEmployee) {
+        vm.adSelectedEmployee = function (sender, selectedEmployee) {
             FlowSettingModel.addEmployee(sender, vm, selectedEmployee);
         };
 
         vm.getEmployee = function (identity) {
             switch (identity) {
                 case "evaluatorList":
-                    return CommonModel.getAllEmployee(vm.searchEmployeeEvaluator);
+                    return CommonModel.searchEmployee(vm.searchEmployeeEvaluator);
                     break;
                 case "reviewerList":
-                    return CommonModel.getAllEmployee(vm.searchEmployeeReviewer);
+                    return CommonModel.searchEmployee(vm.searchEmployeeReviewer);
                     break;
                 case "managementList":
-                    return CommonModel.getAllEmployee(vm.searchEmployeeManagement);
+                    return CommonModel.searchEmployee(vm.searchEmployeeManagement);
                     break;
                 case "humanResourceList":
-                    return CommonModel.getAllEmployee(vm.searchEmployeeHumanResource);
+                    return CommonModel.searchEmployee(vm.searchEmployeeHumanResource);
                     break;
             }
         };

@@ -83,7 +83,7 @@
                                                            search-auto-complete search-employees="personalFlowCtrl.getEmployee('humanResourceList')"
                                                            ng-change="personalFlowCtrl.unSelectEmployee('humanResourceList')" employee="personalFlowCtrl.selectedEmployeeHumanResource"
                                                            sender="humanResourceList"
-                                                           on-select="personalFlowCtrl.getEmployeeInfo"
+                                                           on-select="personalFlowCtrl.adSelectedEmployee"
                                                            placeholder="Nickname or full name" />
                                                     <ul list-sortable class="sortable custom-ul list-unstyled" id="humanResourceList">
                                                         <li class="alert alert-info nomargin" ng-repeat="humanResource in personalFlowCtrl.humanResources.employees">
@@ -108,7 +108,7 @@
                                                            search-auto-complete search-employees="personalFlowCtrl.getEmployee('evaluatorList')"
                                                            ng-change="personalFlowCtrl.unSelectEmployee('evaluatorList')" employee="personalFlowCtrl.selectedEmployeeEvaluator"
                                                            sender="evaluatorList"
-                                                           on-select="personalFlowCtrl.getEmployeeInfo"
+                                                           on-select="personalFlowCtrl.adSelectedEmployee"
                                                            placeholder="Nickname or full name" />
                                                     <ul list-sortable class="sortable custom-ul list-unstyled" id="evaluatorList">
                                                         <li class="alert alert-info nomargin" ng-repeat="evaluator in personalFlowCtrl.evaluators.employees">
@@ -125,7 +125,7 @@
                                                            search-auto-complete search-employees="personalFlowCtrl.getEmployee('reviewerList')"
                                                            ng-change="personalFlowCtrl.unSelectEmployee('reviewerList')" employee="personalFlowCtrl.selectedEmployeeReviewer"
                                                            sender="reviewerList"
-                                                           on-select="personalFlowCtrl.getEmployeeInfo"
+                                                           on-select="personalFlowCtrl.adSelectedEmployee"
                                                            placeholder="Nickname or full name" />
                                                     <ul list-sortable class="sortable custom-ul list-unstyled" id="reviewerList">
                                                         <li class="alert alert-info nomargin" ng-repeat="reviewer in personalFlowCtrl.reviewers.employees">
@@ -142,7 +142,7 @@
                                                            search-auto-complete search-employees="personalFlowCtrl.getEmployee('managementList')"
                                                            ng-change="personalFlowCtrl.unSelectEmployee('managementList')" employee="personalFlowCtrl.selectedEmployeeManagement"
                                                            sender="managementList"
-                                                           on-select="personalFlowCtrl.getEmployeeInfo"
+                                                           on-select="personalFlowCtrl.adSelectedEmployee"
                                                            placeholder="Nickname or full name" />
                                                     <ul list-sortable class="sortable custom-ul list-unstyled" id="managementList">
                                                         <li class="alert alert-info nomargin" ng-repeat="management in personalFlowCtrl.managements.employees">

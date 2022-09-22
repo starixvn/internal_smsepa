@@ -41,7 +41,7 @@
                                    search-auto-complete search-employees="deptFlowCtrl.getEmployee('humanResourceList')"
                                    ng-change="deptFlowCtrl.unSelectEmployee('humanResourceList')" employee="deptFlowCtrl.selectedEmployeeHumanResource"
                                    sender="humanResourceList"
-                                   on-select="deptFlowCtrl.getEmployeeInfo"
+                                   on-select="deptFlowCtrl.adSelectedEmployee"
                                    placeholder="Nickname or full name" />
                             <ul list-sortable class="sortable custom-ul list-unstyled" id="humanResourceList">
                                 <li class="alert alert-info nomargin" ng-repeat="humanResource in deptFlowCtrl.humanResources.employees">
@@ -66,7 +66,7 @@
                                    search-auto-complete search-employees="deptFlowCtrl.getEmployee('evaluatorList')"
                                    ng-change="deptFlowCtrl.unSelectEmployee('evaluatorList')" employee="deptFlowCtrl.selectedEmployeeEvaluator"
                                    sender="evaluatorList"
-                                   on-select="deptFlowCtrl.getEmployeeInfo"
+                                   on-select="deptFlowCtrl.adSelectedEmployee"
                                    placeholder="Nickname or full name" />
                             <ul list-sortable class="sortable custom-ul list-unstyled" id="evaluatorList">
                                 <li class="alert alert-info nomargin" ng-repeat="evaluator in deptFlowCtrl.evaluators.employees">
@@ -83,7 +83,7 @@
                                    search-auto-complete search-employees="deptFlowCtrl.getEmployee('reviewerList')"
                                    ng-change="deptFlowCtrl.unSelectEmployee('reviewerList')" employee="deptFlowCtrl.selectedEmployeeReviewer"
                                    sender="reviewerList"
-                                   on-select="deptFlowCtrl.getEmployeeInfo"
+                                   on-select="deptFlowCtrl.adSelectedEmployee"
                                    placeholder="Nickname or full name" />
                             <ul list-sortable class="sortable custom-ul list-unstyled" id="reviewerList">
                                 <li class="alert alert-info nomargin" ng-repeat="reviewer in deptFlowCtrl.reviewers.employees">
@@ -100,7 +100,7 @@
                                    search-auto-complete search-employees="deptFlowCtrl.getEmployee('managementList')"
                                    ng-change="deptFlowCtrl.unSelectEmployee('managementList')" employee="deptFlowCtrl.selectedEmployeeManagement"
                                    sender="managementList"
-                                   on-select="deptFlowCtrl.getEmployeeInfo"
+                                   on-select="deptFlowCtrl.adSelectedEmployee"
                                    placeholder="Nickname or full name" />
                             <ul list-sortable class="sortable custom-ul list-unstyled" id="managementList">
                                 <li class="alert alert-info nomargin" ng-repeat="management in deptFlowCtrl.managements.employees">
