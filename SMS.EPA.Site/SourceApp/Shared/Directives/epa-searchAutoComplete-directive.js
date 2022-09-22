@@ -51,6 +51,7 @@
                         scope.$apply();
                         scope.employee = ui.item.employee;
                         if (scope.sender !== undefined && scope.onSelect !== undefined) {
+                            ui.item.value = ''
                             scope.onSelect(scope.sender, ui.item.employee);
                         }
                         $timeout(function () {
