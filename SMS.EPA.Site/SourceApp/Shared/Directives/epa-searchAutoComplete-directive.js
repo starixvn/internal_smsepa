@@ -10,7 +10,9 @@
             scope: {
                 employee: '=',
                 searchEmployees: '&',
-                employeeStyle: '@'
+                employeeStyle: '@',
+                onSelect: '=',
+                sender: '@'
             },
             link: function (scope, iElement) {
                 iElement.autocomplete({
@@ -25,7 +27,9 @@
                                     employee: {
                                         EmployeeId: employee.EmployeeId,
                                         Name: employee.NickName,
-                                        HasMonthlyEPA: employee.HasMonthlyEPA
+                                        HasMonthlyEPA: employee.HasMonthlyEPA,
+                                        Avatar: employee.Avatar,
+                                        NickName: employee.NickName
                                     }
                                 });
                             });
@@ -44,8 +48,9 @@
                         });
                     },
                     select: function (event, ui) {
+                        scope.$apply();
                         scope.employee = ui.item.employee;
-
+                        scope.onSelect(scope.sender, ui.item.employee);
                         $timeout(function () {
                             //iElement.trigger('input');
                         }, 0);

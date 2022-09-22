@@ -4,32 +4,7 @@
         <span class="glyphicon glyphicon-user icon-user"></span>
     </div>
     <div class="row">
-        <div class="col-sm-3 employee-list" id="employeeList" ng-show="deptFlowCtrl.showListEmployee">
-            <div class="row flow-header">
-                <span data-translate="Employee"></span>
-                <a ng-click="deptFlowCtrl.toggleDepartmentDraggableList()" href="javascript:;"
-                   class="pull-right glyphicon glyphicon-arrow-left"></a>
-            </div>
-            <div class="row">
-                <select class="department-select form-control" ng-model="deptFlowCtrl.departmentId"
-                        ng-options="opt.DepartmentId as opt.Name for opt in updateCtrl.treeDepartment"
-                        ng-change="deptFlowCtrl.getEmployee()">
-                    <option style="display: none" value="">-- Select a Department / Section --</option>
-                </select>
-            </div>
-            <div class="row">
-                <input type="text" ng-model="deptFlowCtrl.employeeName"
-                       class="txt-search search-inline-textbox" placeholder="Enter full name or nick name" />
-            </div>
-            <ul class="row custom-ul employee-ul list-unstyled">
-                <li class="ui-state-highlight" list-draggable=".sortable"
-                    ng-repeat="employee in deptFlowCtrl.employees | filter: deptFlowCtrl.employeeName"
-                    id="{{employee.EmployeeId}}">
-                    {{employee.NickName}} ({{employee.FullName}})
-                </li>
-            </ul>
-        </div>
-        <div class="col-sm-9 set-flow">
+        <div class="col-sm-12 set-flow">
             <form class="row form-horizontal form-multiLine">
                 <div class="form-group">
                     <label class="col-sm-2 control-label" data-translate="DepartmentHasSetting"></label>
@@ -61,6 +36,13 @@
                 <tbody class="table-body">
                     <tr>
                         <td class="col-sm-2 col-human-resource">
+                            <input type="text" class="form-control autocomplete-employee" maxlength="100"
+                                   ng-model="deptFlowCtrl.searchEmployeeHumanResource"
+                                   search-auto-complete search-employees="deptFlowCtrl.getEmployee('humanResourceList')"
+                                   ng-change="deptFlowCtrl.unSelectEmployee('humanResourceList')" employee="deptFlowCtrl.selectedEmployeeHumanResource"
+                                   sender="humanResourceList"
+                                   on-select="deptFlowCtrl.getEmployeeInfo"
+                                   placeholder="Nickname or full name" />
                             <ul list-sortable class="sortable custom-ul list-unstyled" id="humanResourceList">
                                 <li class="alert alert-info nomargin" ng-repeat="humanResource in deptFlowCtrl.humanResources.employees">
                                     <a href="javascript:;" class="glyphicon glyphicon-remove icon-close"
@@ -79,6 +61,13 @@
                             </ul>
                         </td>
                         <td class="col-sm-2 col-evaluator">
+                            <input type="text" class="form-control autocomplete-employee" maxlength="100"
+                                   ng-model="deptFlowCtrl.searchEmployeeEvaluator"
+                                   search-auto-complete search-employees="deptFlowCtrl.getEmployee('evaluatorList')"
+                                   ng-change="deptFlowCtrl.unSelectEmployee('evaluatorList')" employee="deptFlowCtrl.selectedEmployeeEvaluator"
+                                   sender="evaluatorList"
+                                   on-select="deptFlowCtrl.getEmployeeInfo"
+                                   placeholder="Nickname or full name" />
                             <ul list-sortable class="sortable custom-ul list-unstyled" id="evaluatorList">
                                 <li class="alert alert-info nomargin" ng-repeat="evaluator in deptFlowCtrl.evaluators.employees">
                                     <a href="javascript:;" class="glyphicon glyphicon-remove icon-close"
@@ -89,6 +78,13 @@
                             </ul>
                         </td>
                         <td class="col-sm-2 col-reviewer">
+                            <input type="text" class="form-control autocomplete-employee" maxlength="100"
+                                   ng-model="deptFlowCtrl.searchEmployeeReviewer"
+                                   search-auto-complete search-employees="deptFlowCtrl.getEmployee('reviewerList')"
+                                   ng-change="deptFlowCtrl.unSelectEmployee('reviewerList')" employee="deptFlowCtrl.selectedEmployeeReviewer"
+                                   sender="reviewerList"
+                                   on-select="deptFlowCtrl.getEmployeeInfo"
+                                   placeholder="Nickname or full name" />
                             <ul list-sortable class="sortable custom-ul list-unstyled" id="reviewerList">
                                 <li class="alert alert-info nomargin" ng-repeat="reviewer in deptFlowCtrl.reviewers.employees">
                                     <a href="javascript:;" class="glyphicon glyphicon-remove icon-close"
@@ -99,6 +95,13 @@
                             </ul>
                         </td>
                         <td class="col-sm-2 col-management" ng-show="!deptFlowCtrl.flowTemplate.IsMonthly">
+                            <input type="text" class="form-control autocomplete-employee" maxlength="100"
+                                   ng-model="deptFlowCtrl.searchEmployeeManagement"
+                                   search-auto-complete search-employees="deptFlowCtrl.getEmployee('managementList')"
+                                   ng-change="deptFlowCtrl.unSelectEmployee('managementList')" employee="deptFlowCtrl.selectedEmployeeManagement"
+                                   sender="managementList"
+                                   on-select="deptFlowCtrl.getEmployeeInfo"
+                                   placeholder="Nickname or full name" />
                             <ul list-sortable class="sortable custom-ul list-unstyled" id="managementList">
                                 <li class="alert alert-info nomargin" ng-repeat="management in deptFlowCtrl.managements.employees">
                                     <a href="javascript:;" class="glyphicon glyphicon-remove icon-close"

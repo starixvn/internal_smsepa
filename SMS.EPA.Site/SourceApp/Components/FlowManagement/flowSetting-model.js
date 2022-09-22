@@ -73,7 +73,7 @@
             }
         };
 
-        flowModel.addEmployee = function (listIdentity, vm, employee, position) {
+        flowModel.addEmployee = function (listIdentity, vm, employee) {
             var list, allowAdd = true;
             employee.Avatar = baseUrl + employee.Avatar;
 
@@ -99,11 +99,7 @@
             });
 
             if (allowAdd) {
-                if (position != null) {
-                    list.splice(position, 0, employee);
-                } else {
-                    list.push(employee);
-                }
+                list.push(employee);
             } else {
                 notificationFactory.error('', 'This employee has already existed!');
             }

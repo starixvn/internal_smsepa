@@ -28,6 +28,15 @@
         vm.defaultFlowSettings = [];
         vm.personalFlowSettings = [];
 
+        vm.searchEmployeeEvaluator = '';
+        vm.searchEmployeeReviewer = '';
+        vm.searchEmployeeManagement = '';
+        vm.searchEmployeeHumanResource = '';
+        vm.selectedEmployeeEvaluator = null;
+        vm.selectedEmployeeReviewer = null;
+        vm.selectedEmployeeManagement = null;
+        vm.selectedEmployeeHumanResource = null;
+
         vm.targetTypeEnum = utilitiesFactory.targetType;
 
         /// Show or hide list Employee.
@@ -38,18 +47,6 @@
         /// Remove item from list.
         vm.removeItemFromList = function (item, list) {
             FlowSettingModel.removeItemFromList(item, list);
-        };
-
-        vm.getEmployee = function () {
-            if (vm.departmentId > 0) {
-                CommonModel.getEmployeeByDepartmentId(vm.departmentId).then(function () {
-                    vm.employees = CommonModel.employeesInDepartment;
-                });
-            } else if (vm.departmentId < 0) {
-                CommonModel.getEmployeeByGroupId(Math.abs(vm.departmentId)).then(function () {
-                    vm.employees = CommonModel.employeesInGroup;
-                });
-            }
         };
 
         vm.onSelectedDepartment = function () {
@@ -92,11 +89,59 @@
             from.length = 0;
         };
 
-        function getEmployeeById(sender, employeeId, position) {
-            CommonModel.getEmployeeById(parseInt(employeeId)).then(function () {
-                FlowSettingModel.addEmployee(sender, vm, CommonModel.employee, position);
-            });
-        }
+        vm.getEmployeeInfo = function (sender, selectedEmployee) {
+            FlowSettingModel.addEmployee(sender, vm, selectedEmployee);
+        };
+
+        vm.getEmployee = function (identity) {
+            switch (identity) {
+                case "evaluatorList":
+                    return CommonModel.getAllEmployee(vm.searchEmployeeEvaluator);
+                    break;
+                case "reviewerList":
+                    return CommonModel.getAllEmployee(vm.searchEmployeeReviewer);
+                    break;
+                case "managementList":
+                    return CommonModel.getAllEmployee(vm.searchEmployeeManagement);
+                    break;
+                case "humanResourceList":
+                    return CommonModel.getAllEmployee(vm.searchEmployeeHumanResource);
+                    break;
+            }
+        };
+
+        vm.unSelectEmployee = function (identity) {
+            switch (identity) {
+                case "evaluatorList":
+                    if (vm.searchEmployeeEvaluator.trim() === '') {
+                        if (vm.selectedEmployeeEvaluator) {
+                            vm.selectedEmployeeEvaluator = null;
+                        }
+                    }
+                    break;
+                case "reviewerList":
+                    if (vm.searchEmployeeReviewer.trim() === '') {
+                        if (vm.selectedEmployeeReviewer) {
+                            vm.selectedEmployeeReviewer = null;
+                        }
+                    }
+                    break;
+                case "managementList":
+                    if (vm.searchEmployeeManagement.trim() === '') {
+                        if (vm.selectedEmployeeManagement) {
+                            vm.selectedEmployeeManagement = null;
+                        }
+                    }
+                    break;
+                case "humanResourceList":
+                    if (vm.searchEmployeeHumanResource.trim() === '') {
+                        if (vm.selectedEmployeeHumanResource) {
+                            vm.selectedEmployeeHumanResource = null;
+                        }
+                    }
+                    break;
+            }
+        };
 
         vm.getPersonalFlowById = function (item) {
             if (item && item.length > 0) {
@@ -156,11 +201,6 @@
                     vm.humanResources.employees.splice(val.to, 0, vm.humanResources.employees.splice(val.from, 1)[0]);
                     break;
             }
-        });
-
-        // On Created list after Drag & Drop.
-        $scope.$on('list-created', function (ev, val) {
-            getEmployeeById(val.sender, val.id, val.to);
         });
 
         $scope.$watch(function () { return $scope.updateCtrl.flowTemplate && $scope.updateCtrl.dataTab === 3; },

@@ -25,6 +25,14 @@
         vm.showDeleteButton = false;
         vm.department = null;
         vm.departmentId = null;
+        vm.searchEmployeeEvaluator = '';
+        vm.searchEmployeeReviewer = '';
+        vm.searchEmployeeManagement = '';
+        vm.searchEmployeeHumanResource = '';
+        vm.selectedEmployeeEvaluator = null;
+        vm.selectedEmployeeReviewer = null;
+        vm.selectedEmployeeManagement = null;
+        vm.selectedEmployeeHumanResource = null;
         vm.isFirstLoad = true;
 
         function getNameDepartment(departmentSettings) {
@@ -40,19 +48,6 @@
         /// Show or hide list Employee.
         vm.toggleDepartmentDraggableList = function () {
             vm.showListEmployee = !vm.showListEmployee;
-        };
-
-        vm.getEmployee = function () {
-            if (vm.departmentId > 0) {
-                CommonModel.getEmployeeByDepartmentId(vm.departmentId).then(function () {
-                    vm.employees = CommonModel.employeesInDepartment;
-                });
-            }
-            else if (vm.departmentId < 0) {
-                CommonModel.getEmployeeByGroupId(Math.abs(vm.departmentId)).then(function () {
-                    vm.employees = CommonModel.employeesInGroup;
-                });
-            }
         };
 
         vm.getDepartmentFlowById = function () {
@@ -73,6 +68,10 @@
                     vm.showDeleteButton = false;
                 }
             });
+        };
+
+        vm.getEmployeeInfo = function (sender, selectedEmployee) {
+            FlowSettingModel.addEmployeeTest(sender, vm, selectedEmployee);
         };
 
         /// Remove item from list.
@@ -102,16 +101,55 @@
             }
         });
 
-        function getEmployeeById(sender, employeeId, position) {
-            CommonModel.getEmployeeById(parseInt(employeeId)).then(function () {
-                FlowSettingModel.addEmployee(sender, vm, CommonModel.employee, position);
-            });
-        }
+        vm.getEmployee = function (identity) {
+            switch (identity) {
+                case "evaluatorList":
+                    return CommonModel.getAllEmployee(vm.searchEmployeeEvaluator);
+                    break;
+                case "reviewerList":
+                    return CommonModel.getAllEmployee(vm.searchEmployeeReviewer);
+                    break;
+                case "managementList":
+                    return CommonModel.getAllEmployee(vm.searchEmployeeManagement);
+                    break;
+                case "humanResourceList":
+                    return CommonModel.getAllEmployee(vm.searchEmployeeHumanResource);
+                    break;
+            }
+        };
 
-        // On Created list after Drag & Drop.
-        $scope.$on('list-created', function (ev, val) {
-            getEmployeeById(val.sender, val.id, val.to);
-        });
+        vm.unSelectEmployee = function (identity) {
+            switch (identity) {
+                case "evaluatorList":
+                    if (vm.searchEmployeeEvaluator.trim() === '') {
+                        if (vm.selectedEmployeeEvaluator) {
+                            vm.selectedEmployeeEvaluator = null;
+                        }
+                    }
+                    break;
+                case "reviewerList":
+                    if (vm.searchEmployeeReviewer.trim() === '') {
+                        if (vm.selectedEmployeeReviewer) {
+                            vm.selectedEmployeeReviewer = null;
+                        }
+                    }
+                    break;
+                case "managementList":
+                    if (vm.searchEmployeeManagement.trim() === '') {
+                        if (vm.selectedEmployeeManagement) {
+                            vm.selectedEmployeeManagement = null;
+                        }
+                    }
+                    break;
+                case "humanResourceList":
+                    if (vm.searchEmployeeHumanResource.trim() === '') {
+                        if (vm.selectedEmployeeHumanResource) {
+                            vm.selectedEmployeeHumanResource = null;
+                        }
+                    }
+                    break;
+            }
+        };
 
         function initialize() {
             lockScreenService.start();
@@ -122,10 +160,6 @@
             vm.department = null;
             vm.departmentId = null;
             vm.isFirstLoad = false;
-
-            CommonModel.getEmployeeByDepartmentId().then(function () {
-                vm.employees = CommonModel.employeesInDepartment;
-            });
 
             DeptFlowModel.getDepartmentHasSetting(vm.FlowTemplateId).then(function () {
                 vm.departmentSettings = DeptFlowModel.departmentSettings;
