@@ -8,40 +8,19 @@
     function personalFlowFactory($http, baseUrl) {
         return {
             getPersonalFlow: function (flowTemplateId) {
-                return $http.get(baseUrl + 'api/PersonalFlow/GetByFlowTemplateId', {
-                    params: {
-                        flowTemplateId: flowTemplateId
-                    }
-                });
+                return $http.get(baseUrl + 'api/PersonalFlow/GetByFlowTemplateId', { params: { flowTemplateId } });
             },
             getPersonalFlowById: function (employeeId, flowTemplateId) {
-                return $http.get(baseUrl + 'api/PersonalFlow/GetById', {
-                    params: {
-                        employeeId: employeeId,
-                        flowTemplateId: flowTemplateId
-                    }
-                });
+                return $http.get(baseUrl + 'api/PersonalFlow/GetById', { params: { employeeId, flowTemplateId } });
             },
             createPersonalFlow: function (model) {
                 return $http.post(baseUrl + 'api/PersonalFlow/CreatePersonalFlow', model);
             },
             deletePersonalFlow: function (employeeId, flowTemplateId) {
-                return $http['delete'](baseUrl + 'api/PersonalFlow/DeletePersonalFlow', {
-                    params: {
-                        employeeId: employeeId,
-                        flowTemplateId: flowTemplateId
-                    }
-                });
+                return $http['delete'](baseUrl + 'api/PersonalFlow/DeletePersonalFlow', { params: { employeeId, flowTemplateId } });
             },
-            getEmployeeFlowSetting: function (flowTemplateId, departmentId, groupId, isMonthlyPeriod) {
-                return $http.get(baseUrl + 'api/PersonalFlow/GetEmployeeFlowSetting', {
-                    params: {
-                        flowTemplateId: flowTemplateId,
-                        departmentId: departmentId,
-                        groupId: groupId,
-                        isMonthlyPeriod: isMonthlyPeriod
-                    }
-                });
+            getEmployeeFlowSetting: function (flowTemplateId, teamIds, isMonthly) {
+                return $http.get(baseUrl + 'api/PersonalFlow/GetEmployeeFlowSetting', { params: { flowTemplateId, teamIds, isMonthly } });
             }
         };
     }

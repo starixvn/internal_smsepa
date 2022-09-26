@@ -50,8 +50,7 @@
                     select: function (event, ui) {
                         scope.$apply();
                         scope.employee = ui.item.employee;
-                        if (scope.sender !== undefined && scope.onSelect !== undefined) {
-                            ui.item.value = ''
+                        if (scope.sender !== undefined && typeof scope.onSelect === 'function') {
                             scope.onSelect(scope.sender, ui.item.employee);
                         }
                         $timeout(function () {

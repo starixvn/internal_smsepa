@@ -6,11 +6,9 @@
     {
         public int FlowTemplateId { get; set; }
 
-        public int? DepartmentId { get; set; }
+        public string TeamIds { get; set; }
 
-        public int? GroupId { get; set; }
-
-        public bool? IsMonthlyPeriod { get; set; }
+        public bool? IsMonthly { get; set; }
 
         public override bool IsValid() => FlowTemplateId > 0;
 

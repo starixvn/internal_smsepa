@@ -21,18 +21,17 @@
         vm.departmentHasSettingName = '';
 
         vm.employees = [];
-        vm.showListEmployee = true;
         vm.showDeleteButton = false;
         vm.department = null;
         vm.departmentId = null;
-        vm.searchEmployeeEvaluator = '';
-        vm.searchEmployeeReviewer = '';
-        vm.searchEmployeeManagement = '';
-        vm.searchEmployeeHumanResource = '';
-        vm.selectedEmployeeEvaluator = null;
-        vm.selectedEmployeeReviewer = null;
-        vm.selectedEmployeeManagement = null;
-        vm.selectedEmployeeHumanResource = null;
+        vm.searchEvaluator = '';
+        vm.searchReviewer = '';
+        vm.searchManagement = '';
+        vm.searchHumanResource = '';
+        vm.selectedEvaluator = null;
+        vm.selectedReviewer = null;
+        vm.selectedManagement = null;
+        vm.selectedHumanResource = null;
         vm.isFirstLoad = true;
 
         function getNameDepartment(departmentSettings) {
@@ -44,11 +43,6 @@
 
             return names;
         }
-
-        /// Show or hide list Employee.
-        vm.toggleDepartmentDraggableList = function () {
-            vm.showListEmployee = !vm.showListEmployee;
-        };
 
         vm.getDepartmentFlowById = function () {
             DeptFlowModel.getDepartmentFlowById(vm.department, vm.FlowTemplateId).then(function () {
@@ -72,6 +66,15 @@
 
         vm.adSelectedEmployee = function (sender, selectedEmployee) {
             FlowSettingModel.addEmployee(sender, vm, selectedEmployee);
+
+            vm.searchHumanResource = '';
+            vm.searchEvaluator = '';
+            vm.searchReviewer = '';
+            vm.searchManagement = '';
+            vm.selectedHumanResource = null;
+            vm.selectedEvaluator = null;
+            vm.selectedReviewer = null;
+            vm.selectedManagement = null;
         };
 
         /// Remove item from list.
@@ -104,49 +107,16 @@
         vm.getEmployee = function (identity) {
             switch (identity) {
                 case "evaluatorList":
-                    return CommonModel.searchEmployee(vm.searchEmployeeEvaluator);
+                    return CommonModel.searchEmployee(vm.searchEvaluator);
                     break;
                 case "reviewerList":
-                    return CommonModel.searchEmployee(vm.searchEmployeeReviewer);
+                    return CommonModel.searchEmployee(vm.searchReviewer);
                     break;
                 case "managementList":
-                    return CommonModel.searchEmployee(vm.searchEmployeeManagement);
+                    return CommonModel.searchEmployee(vm.searchManagement);
                     break;
                 case "humanResourceList":
-                    return CommonModel.searchEmployee(vm.searchEmployeeHumanResource);
-                    break;
-            }
-        };
-
-        vm.unSelectEmployee = function (identity) {
-            switch (identity) {
-                case "evaluatorList":
-                    if (vm.searchEmployeeEvaluator.trim() === '') {
-                        if (vm.selectedEmployeeEvaluator) {
-                            vm.selectedEmployeeEvaluator = null;
-                        }
-                    }
-                    break;
-                case "reviewerList":
-                    if (vm.searchEmployeeReviewer.trim() === '') {
-                        if (vm.selectedEmployeeReviewer) {
-                            vm.selectedEmployeeReviewer = null;
-                        }
-                    }
-                    break;
-                case "managementList":
-                    if (vm.searchEmployeeManagement.trim() === '') {
-                        if (vm.selectedEmployeeManagement) {
-                            vm.selectedEmployeeManagement = null;
-                        }
-                    }
-                    break;
-                case "humanResourceList":
-                    if (vm.searchEmployeeHumanResource.trim() === '') {
-                        if (vm.selectedEmployeeHumanResource) {
-                            vm.selectedEmployeeHumanResource = null;
-                        }
-                    }
+                    return CommonModel.searchEmployee(vm.searchHumanResource);
                     break;
             }
         };
@@ -155,7 +125,6 @@
             lockScreenService.start();
             FlowSettingModel.resetCurrentFlow(vm);
             vm.flowTemplate = $scope.updateCtrl.flowTemplate;
-            vm.showListEmployee = true;
             vm.showDeleteButton = false;
             vm.department = null;
             vm.departmentId = null;
@@ -168,8 +137,9 @@
             });
         }
 
-        $scope.$watch(function () { return $scope.updateCtrl.dataTab === 2 && $scope.updateCtrl.flowTemplate; },
-        function (newVal) {
+        $scope.$watch(function () {
+            return $scope.updateCtrl.dataTab === 2 && $scope.updateCtrl.flowTemplate;
+        }, function (newVal) {
             if (newVal && vm.isFirstLoad) {
                 initialize();
             }

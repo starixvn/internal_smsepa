@@ -111,8 +111,8 @@
             });
         };
 
-        flowModel.getEmployeeFlowSetting = function (flowTemplateId, departmentId, groupId, isMonthlyPeriod) {
-            return personalFlowFactory.getEmployeeFlowSetting(flowTemplateId, departmentId, groupId, isMonthlyPeriod).success(function (data) {
+        flowModel.getEmployeeFlowSetting = function (flowTemplateId, teamIds, isMonthly) {
+            return personalFlowFactory.getEmployeeFlowSetting(flowTemplateId, teamIds, isMonthly).success(function (data) {
                 flowModel.defaultFlowSettings = data.DefaultFlowSettings;
                 flowModel.personalFlowSettings = data.PersonalFlowSettings;
             }).error(function (response, status) {

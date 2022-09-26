@@ -48,24 +48,6 @@
         width: 90%;
     }
 
-    .expand-user {
-        background-color: #acacac;
-        left: 15px;
-        position: absolute;
-        margin-top: 10px;
-        width: 22px;
-        height: 37px;
-        z-index: 200;
-        padding: 7px 5px;
-        cursor: pointer;
-        .border-radius( 0 4px 4px 0);
-
-        .icon-user {
-            color: #fff;
-            font-size: @font-size - 2;
-        }
-    }
-
     .custom-ul {
         margin: 0;
         padding: 0;
@@ -84,44 +66,6 @@
 
     .sortable {
         min-height: 300px;
-    }
-
-    .employee-list {
-        background-color: #fff;
-        padding: 0 0 15px;
-        margin-top: 10px;
-        border: 1px solid @border-light-color;
-        .border-radius(4px);
-
-        .flow-header {
-            background-color: #acacac;
-
-            .glyphicon.glyphicon-arrow-left {
-                color: #fff;
-                font-size: @font-size;
-            }
-        }
-
-        .employee-ul {
-            max-height: 500px;
-            overflow: auto;
-            padding: 0 5% 0;
-
-            li {
-                text-align: left;
-                background: #e1e1e1;
-                margin-bottom: 1px;
-                border: none;
-                padding: 3px 5px;
-            }
-        }
-
-        .txt-search {
-            height: 30px;
-            margin: 10px 5%;
-            padding: 5px 23px 5px 5px;
-            width: 90%;
-        }
     }
 
     .department-form {
@@ -155,10 +99,13 @@
     }
 
     .set-flow {
-        padding-right: 0;
+        padding: 0;
     }
 
     .table.table-bordered {
+        table-layout: fixed;
+        max-width: 1250px;
+
         .table-body {
             .btn {
                 color: #4f4f4f;
@@ -217,41 +164,72 @@
     .department-name-setting {
         margin-top: 7px;
     }
+
+    .flow-settings {
+        .flow-item {
+            position: relative;
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            border-radius: 2px;
+            background: #e0eef7;
+            border: 1px solid #b3dbf4;
+            margin-top: 5px;
+            text-align: left;
+
+            .avatar {
+                box-shadow: 0, 1px, 4px, rgba(0,0,0,.2);
+                border-radius: 50%;
+                width: 36px;
+                height: 36px;
+                border: 1px solid #fff;
+                background-color: #d2d2d2;
+                object-fit: cover;
+                object-position: 0 20%;
+                margin-right: 8px;
+            }
+
+            p {
+                margin: 0;
+            }
+        }
+    }
 }
 
 .personal-flow {
-    .department-form {
-        margin-left: 0;
+    display: flex;
+    align-items: flex-start;
 
-        .sel-department {
-            margin-left: 0;
+    .employee-configured {
+        max-width: 330px;
+        flex-basis: 330px;
+        margin-right: 15px;
+        border: 1px solid #c8c8c8;
+        font-size: 14px;
+
+        .header {
+            background: #324373;
+            text-align: center;
+            color: #fff;
+            padding: 7px;
         }
-    }
 
+        .content {
+            overflow-y: auto;
+            max-height: 500px;
+            box-shadow: 0 2px 3px 1px rgba(0,0,0,.2);
 
-    .personal {
-        padding: 0 0 10px;
+            div {
+                background: #fff;
+                color: #474747;
+                padding: 2px 22px;
+                cursor: pointer;
 
-        .flow-personal {
-            width: 100%;
-            height: 180px;
+                &.selected, &:hover {
+                    background: #eee;
+                }
+            }
         }
-    }
-
-    .buttons {
-        text-align: center;
-
-        a {
-            margin-bottom: 10px;
-        }
-    }
-
-    .set-flow {
-        margin-top: 10px;
-    }
-
-    .employee-ul {
-        max-height: 250px !important;
     }
 }
 

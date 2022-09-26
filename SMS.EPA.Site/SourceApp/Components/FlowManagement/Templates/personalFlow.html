@@ -1,173 +1,140 @@
 ﻿<div class="personal-flow" ng-controller="PersonalFlowController as personalFlowCtrl">
-    <div class="row">
-        <div class="panel panel-default no-border">
-            <div class="panel-heading" data-toggle="collapse" data-target=".personal-flow-setting">
-                <h4 class="panel-title" data-translate="PersonalFlow"></h4>
-            </div>
-            <div class="panel-collapse collapse in personal-flow-setting">
-                <div class="panel-body">
-                    <form class="row form-horizontal department-form" role="form" novalidate>
-                        <div class="form-group">
-                            <div class="col-sm-3">
-                                <select class="sel-department departmentList form-control" required ng-model="personalFlowCtrl.department"
-                                        ng-options="opt as opt.Name for opt in updateCtrl.treeDepartment"
-                                        ng-change="personalFlowCtrl.onSelectedDepartment()">
-                                    <option style="display: none" value="">-- Select a Department / Section --</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <div class="col-sm-3">
-                                <input type="text" ng-model="personalFlowCtrl.filterDefaultSelect"
-                                       class="txt-search search-inline-textbox" placeholder="Enter full name or nick name" />
-                            </div>
-                        </div>
-                    </form>
-                    <div class="row">
-                        <div class="col-sm-3 personal">
-                            <select class="flow-personal form-control" ng-model="personalFlowCtrl.defaultSelect" multiple
-                                    ng-options="e.EmployeeId as e.NickName + ' (' + e.FullName + ')' for e in personalFlowCtrl.defaultFlowSettings | filter: personalFlowCtrl.filterDefaultSelect"></select>
-                        </div>
-                        <div class="col-sm-1 buttons">
-                            <a title="Move Right" class="btn btn-primary glyphicon glyphicon-arrow-right"
-                               ng-click="personalFlowCtrl.moveItem(personalFlowCtrl.defaultSelect, personalFlowCtrl.defaultFlowSettings, personalFlowCtrl.personalFlowSettings)">
-                            </a>
-                            <a title="Move Left" class="btn btn-primary glyphicon glyphicon-arrow-left"
-                               ng-click="personalFlowCtrl.moveItem(personalFlowCtrl.personalSelect, personalFlowCtrl.personalFlowSettings, personalFlowCtrl.defaultFlowSettings)">
-                            </a>
-                            <a title="Move Right All" class="btn btn-primary glyphicon glyphicon-fast-forward"
-                               ng-click="personalFlowCtrl.moveAll(personalFlowCtrl.defaultFlowSettings, personalFlowCtrl.personalFlowSettings)">
-                            </a>
-                            <a title="Move Left All" class="btn btn-primary glyphicon glyphicon-fast-backward"
-                               ng-click="personalFlowCtrl.moveAll(personalFlowCtrl.personalFlowSettings, personalFlowCtrl.defaultFlowSettings)">
-                            </a>
-                        </div>
-                        <div class="col-sm-3 personal">
-                            <select class="flow-personal form-control" ng-model="personalFlowCtrl.personalSelect" multiple
-                                    ng-change="personalFlowCtrl.getPersonalFlowById(personalFlowCtrl.personalSelect)"
-                                    ng-options="e.EmployeeId as e.NickName +' (' + e.FullName + ')'  for e in personalFlowCtrl.personalFlowSettings"></select>
-                        </div>
-                    </div>
-                </div>
+    <div class="employee-configured">
+        <div class="header">Already Configured</div>
+        <div class="content">
+            <div ng-repeat="employee in personalFlowCtrl.personalFlowSettings" ng-class="employee.EmployeeId === personalFlowCtrl.employeeId ? 'selected' : ''"
+                 ng-click="personalFlowCtrl.getPersonalFlowById(employee)">
+                {{employee.NickName}} ({{employee.FullName}})
             </div>
         </div>
-        <div class="row">
-            <div class="panel panel-default no-border">
-                <div class="panel-heading" data-toggle="collapse" data-target=".process-setting">
-                    <h4 class="panel-title" data-translate="EPAProcessing"></h4>
-                </div>
-                <div class="panel-collapse collapse in process-setting">
-                    <div class="panel-body">
-                        <div class="row">
-                            <div class="expand-user" title="Show Employee List" ng-show="!personalFlowCtrl.showListEmployee"
-                                 ng-click="personalFlowCtrl.toggleDepartmentDraggableList()">
-                                <span class="glyphicon glyphicon-user icon-user"></span>
-                            </div>
-                            <div class="row">
-                                <div class="col-sm-12 set-flow">
-                                    <table class="row table table-bordered table-striped">
-                                        <thead>
-                                            <tr class="headerName">
-                                                <th class="col-sm-2 text-center" data-translate="HumanResource"></th>
-                                                <th class="col-sm-2 text-center" data-translate="SelfEvaluator"></th>
-                                                <th class="col-sm-2 text-center" data-translate="Evaluator"></th>
-                                                <th class="col-sm-2 text-center" data-translate="Reviewer"></th>
-                                                <th class="col-sm-2 text-center" data-translate="Management" ng-show="!personalFlowCtrl.flowTemplate.IsMonthly"></th>
-                                            </tr>
-                                        </thead>
-                                        <tbody class="table-body">
-                                            <tr>
-                                                <td class="col-sm-2 col-human-resource">
-                                                    <input type="text" class="form-control autocomplete-employee" maxlength="100"
-                                                           ng-model="personalFlowCtrl.searchEmployeeHumanResource"
-                                                           search-auto-complete search-employees="personalFlowCtrl.getEmployee('humanResourceList')"
-                                                           ng-change="personalFlowCtrl.unSelectEmployee('humanResourceList')" employee="personalFlowCtrl.selectedEmployeeHumanResource"
-                                                           sender="humanResourceList"
-                                                           on-select="personalFlowCtrl.adSelectedEmployee"
-                                                           placeholder="Nickname or full name" />
-                                                    <ul list-sortable class="sortable custom-ul list-unstyled" id="humanResourceList">
-                                                        <li class="alert alert-info nomargin" ng-repeat="humanResource in personalFlowCtrl.humanResources.employees">
-                                                            <a href="javascript:;" class="glyphicon glyphicon-remove icon-close"
-                                                               ng-click="personalFlowCtrl.removeItemFromList(humanResource, personalFlowCtrl.humanResources.employees)"></a>
-                                                            <img uib-tooltip="{{humanResource.FullName}}" class="img-flow" ng-src="{{humanResource.Avatar}}" />
-                                                            <p>{{humanResource.NickName}}</p>
-                                                        </li>
-                                                    </ul>
-                                                </td>
-                                                <td class="col-sm-2 text-center col-self">
-                                                    <ul class="sortable custom-ul list-unstyled" id="selfList">
-                                                        <li class="alert alert-info nomargin" ng-repeat="self in personalFlowCtrl.selfs.employees">
-                                                            <img uib-tooltip="{{self.FullName}}" class="img-flow" ng-src="{{self.Avatar}}" />
-                                                            <p>{{self.NickName}}</p>
-                                                        </li>
-                                                    </ul>
-                                                </td>
-                                                <td class="col-sm-2 col-evaluator">
-                                                    <input type="text" class="form-control autocomplete-employee" maxlength="100"
-                                                           ng-model="personalFlowCtrl.searchEmployeeEvaluator"
-                                                           search-auto-complete search-employees="personalFlowCtrl.getEmployee('evaluatorList')"
-                                                           ng-change="personalFlowCtrl.unSelectEmployee('evaluatorList')" employee="personalFlowCtrl.selectedEmployeeEvaluator"
-                                                           sender="evaluatorList"
-                                                           on-select="personalFlowCtrl.adSelectedEmployee"
-                                                           placeholder="Nickname or full name" />
-                                                    <ul list-sortable class="sortable custom-ul list-unstyled" id="evaluatorList">
-                                                        <li class="alert alert-info nomargin" ng-repeat="evaluator in personalFlowCtrl.evaluators.employees">
-                                                            <a href="javascript:;" class="glyphicon glyphicon-remove icon-close"
-                                                               ng-click="personalFlowCtrl.removeItemFromList(evaluator, personalFlowCtrl.evaluators.employees)"></a>
-                                                            <img uib-tooltip="{{evaluator.FullName}}" class="img-flow" ng-src="{{evaluator.Avatar}}" />
-                                                            <p>{{evaluator.NickName}}</p>
-                                                        </li>
-                                                    </ul>
-                                                </td>
-                                                <td class="col-sm-2 col-reviewer">
-                                                    <input type="text" class="form-control autocomplete-employee" maxlength="100"
-                                                           ng-model="personalFlowCtrl.searchEmployeeReviewer"
-                                                           search-auto-complete search-employees="personalFlowCtrl.getEmployee('reviewerList')"
-                                                           ng-change="personalFlowCtrl.unSelectEmployee('reviewerList')" employee="personalFlowCtrl.selectedEmployeeReviewer"
-                                                           sender="reviewerList"
-                                                           on-select="personalFlowCtrl.adSelectedEmployee"
-                                                           placeholder="Nickname or full name" />
-                                                    <ul list-sortable class="sortable custom-ul list-unstyled" id="reviewerList">
-                                                        <li class="alert alert-info nomargin" ng-repeat="reviewer in personalFlowCtrl.reviewers.employees">
-                                                            <a href="javascript:;" class="glyphicon glyphicon-remove icon-close"
-                                                               ng-click="personalFlowCtrl.removeItemFromList(reviewer, personalFlowCtrl.reviewers.employees)"></a>
-                                                            <img uib-tooltip="{{reviewer.FullName}}" class="img-flow" ng-src="{{reviewer.Avatar}}" />
-                                                            <p>{{reviewer.NickName}}</p>
-                                                        </li>
-                                                    </ul>
-                                                </td>
-                                                <td class="col-sm-2 col-management" ng-show="!personalFlowCtrl.flowTemplate.IsMonthly">
-                                                    <input type="text" class="form-control autocomplete-employee" maxlength="100"
-                                                           ng-model="personalFlowCtrl.searchEmployeeManagement"
-                                                           search-auto-complete search-employees="personalFlowCtrl.getEmployee('managementList')"
-                                                           ng-change="personalFlowCtrl.unSelectEmployee('managementList')" employee="personalFlowCtrl.selectedEmployeeManagement"
-                                                           sender="managementList"
-                                                           on-select="personalFlowCtrl.adSelectedEmployee"
-                                                           placeholder="Nickname or full name" />
-                                                    <ul list-sortable class="sortable custom-ul list-unstyled" id="managementList">
-                                                        <li class="alert alert-info nomargin" ng-repeat="management in personalFlowCtrl.managements.employees">
-                                                            <a href="javascript:;" class="glyphicon glyphicon-remove icon-close"
-                                                               ng-click="personalFlowCtrl.removeItemFromList(management, personalFlowCtrl.managements.employees)"></a>
-                                                            <img uib-tooltip="{{management.FullName}}" class="img-flow" ng-src="{{management.Avatar}}" />
-                                                            <p>{{management.NickName}}</p>
-                                                        </li>
-                                                    </ul>
-                                                </td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                    <form class="row form-inline department-form" role="form">
-                                        <button class="btn btn-primary" ng-click="personalFlowCtrl.savePersonalFlow()"
-                                                ng-show="updateCtrl.permission == updateCtrl.policyEnum.Host" data-translate="Save"></button>
-                                        <button class="btn btn-delete" ng-click="personalFlowCtrl.deletePersonalFlow()" data-translate="Delete"
-                                                ng-show="personalFlowCtrl.showDeleteButton && updateCtrl.permission == updateCtrl.policyEnum.Host"></button>
-                                    </form>
+    </div>
+    <div class="flow-settings">
+        <table class="row table table-bordered table-striped">
+            <thead>
+                <tr class="headerName">
+                    <th class="col-sm-2 text-center" data-translate="HumanResource"></th>
+                    <th class="col-sm-2 text-center" data-translate="Employee"></th>
+                    <th class="col-sm-2 text-center" data-translate="Evaluator"></th>
+                    <th class="col-sm-2 text-center" data-translate="Reviewer"></th>
+                    <th class="col-sm-2 text-center" data-translate="Management" ng-show="!personalFlowCtrl.flowTemplate.IsMonthly"></th>
+                </tr>
+            </thead>
+            <tbody class="table-body">
+                <tr>
+                    <td class="col-human-resource">
+                        <input type="text" class="form-control autocomplete-employee" maxlength="100"
+                               ng-model="personalFlowCtrl.searchHumanResource" sender="humanResourceList"
+                               search-auto-complete search-employees="personalFlowCtrl.getEmployee('humanResourceList')"
+                                employee="personalFlowCtrl.selectedHumanResource"
+                               on-select="personalFlowCtrl.adSelectedEmployee"
+                               placeholder="Nickname or full name" />
+                        <ul list-sortable class="sortable custom-ul list-unstyled" id="humanResourceList">
+                            <li ng-repeat="hr in personalFlowCtrl.humanResources.employees">
+                                <div class="flow-item">
+                                    <img class="avatar" ng-src="{{hr.Avatar}}" />
+                                    <div class="personal-info">
+                                        <span class="bold" ng-bind="hr.NickName"></span>
+                                        <p ng-bind="hr.FullName"></p>
+                                    </div>
+                                    <a href="javascript:;" class="glyphicon glyphicon-remove icon-close"
+                                       ng-click="personalFlowCtrl.removeItemFromList(hr, personalFlowCtrl.humanResources.employees)"></a>
                                 </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+                            </li>
+                        </ul>
+                    </td>
+                    <td class="col-self">
+                        <input type="text" class="form-control autocomplete-employee" maxlength="100"
+                               ng-model="personalFlowCtrl.searchEmployee" sender="employee"
+                               search-auto-complete search-employees="personalFlowCtrl.getEmployee('employee')"
+                               employee="personalFlowCtrl.selectedEmployee"
+                               on-select="personalFlowCtrl.adSelectedEmployee"
+                               placeholder="Nickname or full name" />
+                        <ul class="sortable custom-ul list-unstyled" id="selfList">
+                            <li ng-repeat="self in personalFlowCtrl.selfs.employees">
+                                <div class="flow-item">
+                                    <img class="avatar" ng-src="{{self.Avatar}}" />
+                                    <div class="personal-info">
+                                        <span class="bold" ng-bind="self.NickName"></span>
+                                        <p ng-bind="self.FullName"></p>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </td>
+                    <td class="col-evaluator">
+                        <input type="text" class="form-control autocomplete-employee" maxlength="100"
+                               ng-model="personalFlowCtrl.searchEvaluator"
+                               search-auto-complete search-employees="personalFlowCtrl.getEmployee('evaluatorList')"
+                               employee="personalFlowCtrl.selectedEvaluator"
+                               sender="evaluatorList"
+                               on-select="personalFlowCtrl.adSelectedEmployee"
+                               placeholder="Nickname or full name" />
+                        <ul list-sortable class="sortable custom-ul list-unstyled" id="evaluatorList">
+                            <li ng-repeat="evaluator in personalFlowCtrl.evaluators.employees">
+                                <div class="flow-item">
+                                    <img class="avatar" ng-src="{{evaluator.Avatar}}" />
+                                    <div class="personal-info">
+                                        <span class="bold" ng-bind="evaluator.NickName"></span>
+                                        <p ng-bind="evaluator.FullName"></p>
+                                    </div>
+                                    <a href="javascript:;" class="glyphicon glyphicon-remove icon-close"
+                                       ng-click="personalFlowCtrl.removeItemFromList(evaluator, personalFlowCtrl.evaluators.employees)"></a>
+                                </div>
+                            </li>
+                        </ul>
+                    </td>
+                    <td class="col-reviewer">
+                        <input type="text" class="form-control autocomplete-employee" maxlength="100"
+                               ng-model="personalFlowCtrl.searchReviewer"
+                               search-auto-complete search-employees="personalFlowCtrl.getEmployee('reviewerList')"
+                               employee="personalFlowCtrl.selectedReviewer"
+                               sender="reviewerList"
+                               on-select="personalFlowCtrl.adSelectedEmployee"
+                               placeholder="Nickname or full name" />
+                        <ul list-sortable class="sortable custom-ul list-unstyled" id="reviewerList">
+                            <li ng-repeat="reviewer in personalFlowCtrl.reviewers.employees">
+                                <div class="flow-item">
+                                    <img class="avatar" ng-src="{{reviewer.Avatar}}" />
+                                    <div class="personal-info">
+                                        <span class="bold" ng-bind="reviewer.NickName"></span>
+                                        <p ng-bind="reviewer.FullName"></p>
+                                    </div>
+                                    <a href="javascript:;" class="glyphicon glyphicon-remove icon-close"
+                                       ng-click="personalFlowCtrl.removeItemFromList(reviewer, personalFlowCtrl.reviewers.employees)"></a>
+                                </div>
+                            </li>
+                        </ul>
+                    </td>
+                    <td class="col-management" ng-show="!personalFlowCtrl.flowTemplate.IsMonthly">
+                        <input type="text" class="form-control autocomplete-employee" maxlength="100"
+                               ng-model="personalFlowCtrl.searchManagement"
+                               search-auto-complete search-employees="personalFlowCtrl.getEmployee('managementList')"
+                               employee="personalFlowCtrl.selectedManagement"
+                               sender="managementList"
+                               on-select="personalFlowCtrl.adSelectedEmployee"
+                               placeholder="Nickname or full name" />
+                        <ul list-sortable class="sortable custom-ul list-unstyled" id="managementList">
+                            <li ng-repeat="management in personalFlowCtrl.managements.employees">
+                                <div class="flow-item">
+                                    <img class="avatar" ng-src="{{management.Avatar}}" />
+                                    <div class="personal-info">
+                                        <span class="bold" ng-bind="management.NickName"></span>
+                                        <p ng-bind="management.FullName"></p>
+                                    </div>
+                                    <a href="javascript:;" class="glyphicon glyphicon-remove icon-close"
+                                       ng-click="personalFlowCtrl.removeItemFromList(management, personalFlowCtrl.managements.employees)"></a>
+                                </div>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <form class="row form-inline department-form" role="form">
+            <button class="btn btn-primary" ng-click="personalFlowCtrl.savePersonalFlow()"
+                    ng-show="updateCtrl.permission == updateCtrl.policyEnum.Host" data-translate="Save"></button>
+            <button class="btn btn-delete" ng-click="personalFlowCtrl.deletePersonalFlow()" data-translate="Delete"
+                    ng-show="personalFlowCtrl.showDeleteButton && updateCtrl.permission == updateCtrl.policyEnum.Host"></button>
+        </form>
     </div>
 </div>

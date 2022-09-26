@@ -77,16 +77,14 @@
         [ApiAuthorize(FunctionKey = EPAFunctionKey.FlowManagement, Policy = Policy.Read)]
         public EmployeeFlowSettingModel GetEmployeeFlowSetting(
             int flowTemplateId,
-            int? departmentId = null,
-            int? groupId = null,
-            bool? isMonthlyPeriod = null)
+            string teamIds = null,
+            bool? isMonthly = null)
         {
             var criteria = new GetEmployeeFlowSettingCriteria
             {
                 FlowTemplateId = flowTemplateId,
-                DepartmentId = departmentId,
-                GroupId = groupId,
-                IsMonthlyPeriod = isMonthlyPeriod
+                TeamIds = teamIds,
+                IsMonthly = isMonthly
             };
 
             var result = new EmployeeFlowSettingModel();
