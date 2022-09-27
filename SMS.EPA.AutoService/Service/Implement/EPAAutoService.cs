@@ -16,11 +16,14 @@
         private readonly IAutoMailService autoMailService;
         private readonly IEvaluationPeriodService evaluationPeriodService;
 
+        private readonly IJobLevelStandardService jobLevelStandardService;
+
         public EPAAutoService()
-            : this(null, null, null, null, null, null, null)
+            : this(null, null, null, null, null, null, null, null)
         {
         }
 
+#pragma warning disable S107 // Methods should not have too many parameters
         public EPAAutoService(
             IMonthlyService monthlyService,
             ISemiAnnualService semiAnnualService,
@@ -28,7 +31,9 @@
             IPromotionService promotionService,
             IProcessService processService,
             IAutoMailService autoMailService,
-            IEvaluationPeriodService evaluationPeriodService)
+            IEvaluationPeriodService evaluationPeriodService,
+            IJobLevelStandardService jobLevelStandardService)
+#pragma warning restore S107 // Methods should not have too many parameters
         {
             this.monthlyService = monthlyService ?? new MonthlyService();
             this.semiAnnualService = semiAnnualService ?? new SemiAnnualService();
@@ -37,27 +42,31 @@
             this.processService = processService ?? new ProcessService();
             this.autoMailService = autoMailService ?? new AutoMailService();
             this.evaluationPeriodService = evaluationPeriodService ?? new EvaluationPeriodService();
+            this.jobLevelStandardService = jobLevelStandardService ?? new JobLevelStandardService();
         }
 
         public void Run()
         {
             try
             {
-                if (AppSetting.EnableMonthlyPeriod)
-                {
-                    monthlyService.CreateMonthlyPeriod();
-                    monthlyService.CheckMonthlyPeriod();
-                }
+                //if (AppSetting.EnableMonthlyPeriod)
+                //{
+                //    monthlyService.CreateMonthlyPeriod();
+                //    monthlyService.CheckMonthlyPeriod();
+                //}
 
-                semiAnnualService.CheckSemiAnnualPeriod();
-                probationService.CheckProbationPeriod();
-                promotionService.CheckPromotionPeriod();
-                processService.UpdateInfomationOfProcess();
+                //semiAnnualService.CheckSemiAnnualPeriod();
+                //probationService.CheckProbationPeriod();
+                //promotionService.CheckPromotionPeriod();
+                //processService.UpdateInfomationOfProcess();
 
-                Task.WhenAll(new[] {
-                    Task.Factory.StartNew(() => { autoMailService.CheckAndSendMail(); }),
-                    Task.Factory.StartNew(() => { evaluationPeriodService.CheckEndEvaluationPeriod(); })
-                }).Wait();
+                //Task.WhenAll(new[] {
+                //    Task.Factory.StartNew(() => { autoMailService.CheckAndSendMail(); }),
+                //    Task.Factory.StartNew(() => { evaluationPeriodService.CheckEndEvaluationPeriod(); }),
+                //    Task.Factory.StartNew(() => { jobLevelStandardService.SendReminderEmail(); })
+                //}).Wait();
+
+                jobLevelStandardService.SendReminderEmail();
             }
             catch (Exception ex)
             {

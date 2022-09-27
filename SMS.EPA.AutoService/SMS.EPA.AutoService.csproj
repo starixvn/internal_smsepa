@@ -90,6 +90,7 @@
     <Compile Include="Criteria\GetSemiAnnualPeriodStartedCriteria.cs" />
     <Compile Include="Criteria\InsertEmployeeToProbationPeriodCriteria.cs" />
     <Compile Include="Criteria\InsertEmployeeToSemiAnnualPeriodCriteria.cs" />
+    <Compile Include="Criteria\JobLevelStandard\GetJobLevelStandardPeriodEmployeeSettingToSendMailCriteria.cs" />
     <Compile Include="Criteria\Monthly\GetMonthlyPeriodStartedCriteria.cs" />
     <Compile Include="Criteria\Monthly\InsertEmployeeToMonthlyPeriodCriteria.cs" />
     <Compile Include="Criteria\UpdateFinalScoreEndEvaluationCriteria.cs" />
@@ -100,6 +101,7 @@
     <Compile Include="Service\Implement\BasePeriodService.cs" />
     <Compile Include="Service\Implement\EPAAutoService.cs" />
     <Compile Include="Service\Implement\EvaluationPeriodService.cs" />
+    <Compile Include="Service\Implement\JobLevelStandardService.cs" />
     <Compile Include="Service\Implement\MonthlyService.cs" />
     <Compile Include="Service\Implement\ProbationService.cs" />
     <Compile Include="Service\Implement\ProcessService.cs" />
@@ -108,6 +110,7 @@
     <Compile Include="Service\Interfaces\IAutoMailService.cs" />
     <Compile Include="Service\Interfaces\IEPAAutoService.cs" />
     <Compile Include="Service\Interfaces\IEvaluationPeriodService.cs" />
+    <Compile Include="Service\Interfaces\IJobLevelStandardService.cs" />
     <Compile Include="Service\Interfaces\IMonthlyService.cs" />
     <Compile Include="Service\Interfaces\IProbationService.cs" />
     <Compile Include="Service\Interfaces\IProcessService.cs" />
@@ -159,6 +162,15 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Views\Emails\RemindDateEmailToSelf.cshtml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Views\Emails\JobLevelStandard\StartToEvaluator.cshtml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Views\Emails\JobLevelStandard\StartToManagement.cshtml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Views\Emails\JobLevelStandard\StartToEmployee.cshtml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

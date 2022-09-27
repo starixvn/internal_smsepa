@@ -41,4 +41,8 @@
         <Setting Key="EpaAuto_Monthly_GetPeriodStartedToday" SpName="EpaAuto_Monthly_GetPeriodStartedToday" DbName="SMSEPA" Plain="0" />
         <Setting Key="EpaAuto_Monthly_AddEmployeeToPeriod" SpName="EpaAuto_Monthly_AddEmployeeToPeriod" DbName="SMSEPA" Plain="0" />
     </Function>
+
+    <Function Name="Job Level Standard">
+        <Setting Key="Auto_JobLevelStandard_GetEmployeeSettingToSendMail" SpName="Auto_JobLevelStandard_GetEmployeeSettingToSendMail" DbName="SMSEPA" Plain="0" />
+    </Function>
 </Functions>
