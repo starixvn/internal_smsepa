@@ -2,7 +2,7 @@
 {
     using System;
 
-    public class JobLevelStandardPeriodEmployeeSetting
+    public class JobLevelStandardProcessSetting
     {
         public int PeriodId { get; set; }
         public string PeriodName { get; set; }

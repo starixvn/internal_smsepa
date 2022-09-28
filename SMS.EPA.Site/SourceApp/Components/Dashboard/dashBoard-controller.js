@@ -7,12 +7,15 @@
     dashboardController.$inject = ['DashboardModel', 'utilitiesFactory', 'lockScreenService', 'baseUrl'];
 
     function dashboardController(DashboardModel, utilitiesFactory, lockScreenService, baseUrl) {
-        var vm = this;
+        let vm = this;
 
         vm.epaStatusEnum = utilitiesFactory.epaStatus;
         vm.processStatus = utilitiesFactory.processStatus;
         vm.targetTypeEnum = utilitiesFactory.targetType;
         vm.todoList = {};
+        vm.announcements = [];
+        vm.runMarquee = true;
+        vm.marqueeStyle = { 'animation': '30s linear 0s infinite normal none running marquee' };
 
         vm.getClassProgress = getClassProgress;
         vm.goToEvaluatorListing = goToEvaluatorListing;
@@ -58,6 +61,10 @@
                 });
 
                 lockScreenService.stop();
+            });
+
+            DashboardModel.getAnnouncement().then(function () {
+                vm.announcements = DashboardModel.announcements;
             });
         }
 
@@ -106,6 +113,20 @@
 
         function viewEPAResult(epaId, event) {
             utilitiesFactory.handleOpenLink(event, 'EPA/Detail/' + epaId);
+        }
+
+        vm.toggleRunMarquee = function () {
+            vm.runMarquee = !vm.runMarquee;
+
+            if (vm.runMarquee) {
+                vm.marqueeStyle = { 'animation': '30s linear 0s infinite normal none running marquee' };
+            } else {
+                vm.marqueeStyle = { 'animation': '30s linear 0s infinite normal none paused marquee' };
+            }
+        };
+
+        vm.openAnnouncementModal = function () {
+            DashboardModel.openAnnouncementModal(vm.announcements);
         }
     }
 })(angular);

@@ -187,6 +187,7 @@
                             "~/SourceApp/Components/Dashboard/dashboard-factory.js",
                             "~/SourceApp/Components/Dashboard/dashboard-model.js",
                             "~/SourceApp/Components/Dashboard/dashboard-controller.js",
+                            "~/SourceApp/Components/Dashboard/announcement-controller.js",
                             "~/SourceApp/Components/EPA/RatingByKPI/rating-by-kpi-factory.js",
                             "~/SourceApp/Components/EPA/RatingByKPI/rating-by-kpi-model.js",
                             "~/SourceApp/Components/EPA/RatingByKPI/rating-by-kpi-controller.js",

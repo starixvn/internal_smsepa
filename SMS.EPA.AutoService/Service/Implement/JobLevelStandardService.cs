@@ -36,8 +36,8 @@
             var siteurl = ConfigurationManagerService.GetAppSetting("url");
 
             var criteria = new GetJobLevelStandardPeriodEmployeeSettingToSendMailCriteria();
-            var employeeSettings = baseService.GetData<JobLevelStandardPeriodEmployeeSetting>(criteria);
-            foreach (JobLevelStandardPeriodEmployeeSetting setting in employeeSettings)
+            var employeeSettings = baseService.GetData<JobLevelStandardProcessSetting>(criteria);
+            foreach (JobLevelStandardProcessSetting setting in employeeSettings)
             {
                 var emailTemplatePath = GetEmailtemplatePath(setting.ProcessId);
                 var bodyTemplate = mailService.ReadTextFile(emailTemplatePath);
@@ -86,7 +86,7 @@
             return Path.Combine(assemblyPath, ConfigurationManagerService.GetAppSetting("RelativeEmailPath") + emailtemplatePath);
         }
 
-        private static string GetSubject(JobLevelStandardPeriodEmployeeSetting setting)
+        private static string GetSubject(JobLevelStandardProcessSetting setting)
         {
             string subject;
             var fromDate = setting.FromDate.Date.ToString(Constants.FormatDateTimeEmail);

@@ -7,8 +7,9 @@
 
     function dashboardFactory($http, baseUrl) {
         return {
-            getDashboard: getDashboard,
-            getToDoList: getToDoList
+            getDashboard,
+            getToDoList,
+            getAnnouncement
         };
 
         function getDashboard() {
@@ -17,6 +18,10 @@
 
         function getToDoList() {
             return $http.get(baseUrl + 'api/Dashboard/GetToDoList');
+        }
+
+        function getAnnouncement() {
+            return $http.get(baseUrl + 'api/Dashboard/GetAnnouncement');
         }
     }
 })(angular);

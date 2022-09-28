@@ -3,35 +3,52 @@
     /* jshint latedef:nofunc */
 
     angular.module('dashboardModule').factory('DashboardModel', dashboardModel);
-    dashboardModel.$inject = ['dashboardFactory', 'errorFactory'];
+    dashboardModel.$inject = ['$uibModal', 'dashboardFactory', 'errorFactory'];
 
-    function dashboardModel(dashboardFactory, errorFactory) {
-        var dashboardInfo = {};
-        var todoList = {};
+    function dashboardModel($uibModal, dashboardFactory, errorFactory) {
+        let model = {};
+        model.dashboardInfo = {};
+        model.todoList = {};
+        model.announcements = [];
 
-        var model = {
-            dashboardInfo: dashboardInfo,
-            getDashboard: getDashboard,
-            getToDoList: getToDoList,
-            todoList: todoList
-        };
-
-        return model;
-
-        function getDashboard() {
+        model.getDashboard = function () {
             return dashboardFactory.getDashboard().success(function (dashboardInfo) {
                 model.dashboardInfo = dashboardInfo;
             }).error(function (response, status) {
                 errorFactory.errorHandle(status);
             });
-        }
+        };
 
-        function getToDoList() {
+        model.getToDoList = function () {
             return dashboardFactory.getToDoList().success(function (todoList) {
                 model.todoList = todoList;
             }).error(function (response, status) {
                 errorFactory.errorHandle(status);
             });
+        };
+
+        model.getAnnouncement = function () {
+            return dashboardFactory.getAnnouncement().success(function (announcements) {
+                model.announcements = announcements;
+            }).error(function (response, status) {
+                errorFactory.errorHandle(status);
+            });
+        };
+
+        model.openAnnouncementModal = function (announcements) {
+            $uibModal.open({
+                templateUrl: 'SourceApp/Components/Dashboard/Templates/announcement-modal.html',
+                controller: 'AnnouncementController as announcementCtrl',
+                backdrop: 'static',
+                resolve: {
+                    announcements: function () {
+                        return announcements;
+                    }
+                },
+                windowClass: 'modal-confirm-center announcement-modal'
+            });
         }
+
+        return model;
     }
 })(angular);
