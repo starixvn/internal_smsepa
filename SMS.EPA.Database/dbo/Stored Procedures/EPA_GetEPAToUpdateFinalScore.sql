@@ -1,6 +1,6 @@
 ﻿
 CREATE PROCEDURE [dbo].[EPA_GetEPAToUpdateFinalScore] @PeriodId INT
-	,@DepartmentId INT = NULL
+	,@TeamIds VARCHAR(MAX) = NULL
 	,@IsLocal BIT = NULL
 	,@EmployeeId INT = NULL
 AS
@@ -23,12 +23,14 @@ BEGIN
 		,@Yesterday DATE = DATEADD(DAY, - 1, GETDATE())
 		,@TargetTypeId INT
 		,@Today DATE = GETDATE()
-		,@tblGroupIds IntId
+
 	-- target type
 	DECLARE @ProbationId TINYINT = 1
 		,@MonthlyId TINYINT = 2
 		,@SemiId TINYINT = 3
 		,@PromotionId TINYINT = 5
+
+	CREATE TABLE #tmpTeam (TeamId INT)
 
 	CREATE TABLE #tblDisciplineScores (
 		EPAId INT
@@ -40,32 +42,13 @@ BEGIN
 	CREATE TABLE #tblEPAStatus (
 		EPAId INT
 		,StatusId TINYINT
-		)
+		)	
 
-	IF ISNULL(@DepartmentId, '') <> ''
+	IF @TeamIds IS NOT NULL
 	BEGIN
-		IF (@DepartmentId < 0)
-		BEGIN
-			INSERT INTO @tblGroupIds (Id)
-			VALUES (ABS(@DepartmentId))
-		END
-		ELSE
-		BEGIN
-			INSERT INTO @tblGroupIds (Id)
-			SELECT g.GroupId
-			FROM dbo.[Group] AS g WITH (NOLOCK)
-			WHERE (
-					g.DepartmentId IN (
-						SELECT DepartmentId
-						FROM dbo.RelatedDepartment(@DepartmentId)
-						
-						UNION
-						SELECT @DepartmentId
-						)
-					OR g.DepartmentId = @DepartmentId
-					)
-				AND g.IsDeleted = 0
-		END
+		INSERT INTO #tmpTeam (TeamId)
+		SELECT DISTINCT val
+		FROM dbo.fnc_strSplit(@TeamIds, ',')
 	END
 
 	SELECT @TargetTypeId = TargetTypeId
@@ -89,7 +72,6 @@ BEGIN
 			AND emp.IsDeleted = 0
 			AND emp.[Enabled] = 1
 			INNER JOIN dbo.[Group] AS gr WITH (NOLOCK) ON emp.GroupId = gr.GroupId
-			LEFT JOIN @tblGroupIds AS tblgr ON gr.GroupId = tblgr.Id
 		WHERE pe.EndDate <= @Today
 			AND pc.EndDate < pe.EndDate
 			AND pe.TargetTypeId IN (@MonthlyId, @SemiId)
@@ -97,8 +79,12 @@ BEGIN
 			AND pe.IsActive = 1
 			AND pe.PeriodId = @PeriodId
 			AND (
-				@DepartmentId IS NULL
-				OR tblgr.Id IS NOT NULL
+				@TeamIds IS NULL
+				OR EXISTS (
+					SELECT 1
+					FROM #tmpTeam AS tmp WITH (NOLOCK)
+					WHERE gr.GroupId = tmp.TeamId
+					)
 				)
 			AND ISNULL(@IsLocal, emp.IsLocal) = emp.IsLocal
 			AND ISNULL(@EmployeeId, emp.EmployeeId) = emp.EmployeeId
@@ -117,7 +103,6 @@ BEGIN
 			AND emp.IsDeleted = 0
 			AND emp.[Enabled] = 1
 			INNER JOIN dbo.[Group] AS gr WITH (NOLOCK) ON emp.GroupId = gr.GroupId
-			LEFT JOIN @tblGroupIds AS tblgr ON gr.GroupId = tblgr.Id
 		WHERE pc.EndDate <= @Yesterday
 			AND pc.EndDate >= pe.EndDate
 			AND pe.TargetTypeId IN (@MonthlyId, @SemiId)
@@ -125,8 +110,12 @@ BEGIN
 			AND pe.IsActive = 1
 			AND pe.PeriodId = @PeriodId
 			AND (
-				@DepartmentId IS NULL
-				OR tblgr.Id IS NOT NULL
+				@TeamIds IS NULL
+				OR EXISTS (
+					SELECT 1
+					FROM #tmpTeam AS tmp WITH (NOLOCK)
+					WHERE gr.GroupId = tmp.TeamId
+					)
 				)
 			AND ISNULL(@IsLocal, emp.IsLocal) = emp.IsLocal
 			AND ISNULL(@EmployeeId, emp.EmployeeId) = emp.EmployeeId
@@ -147,15 +136,18 @@ BEGIN
 			AND emp.IsDeleted = 0
 			AND emp.[Enabled] = 1
 			INNER JOIN dbo.[Group] AS gr WITH (NOLOCK) ON emp.GroupId = gr.GroupId
-			LEFT JOIN @tblGroupIds AS tblgr ON gr.GroupId = tblgr.Id
 		WHERE pc.EndDate <= @Yesterday
 			AND pe.TargetTypeId IN (@ProbationId, @PromotionId)
 			AND ISNULL(epa.[Status], 0) IN (0, 1)
 			AND pe.IsActive = 1
 			AND pe.PeriodId = @PeriodId
 			AND (
-				@DepartmentId IS NULL
-				OR tblgr.Id IS NOT NULL
+				@TeamIds IS NULL
+				OR EXISTS (
+					SELECT 1
+					FROM #tmpTeam AS tmp WITH (NOLOCK)
+					WHERE gr.GroupId = tmp.TeamId
+					)
 				)
 			AND ISNULL(@IsLocal, emp.IsLocal) = emp.IsLocal
 			AND ISNULL(@EmployeeId, emp.EmployeeId) = emp.EmployeeId
@@ -249,10 +241,13 @@ BEGIN
 		LEFT JOIN dbo.[Group] AS gr WITH (NOLOCK) ON emp.GroupId = gr.GroupId
 		LEFT JOIN dbo.Department AS dept WITH (NOLOCK) ON gr.DepartmentId = dept.DepartmentId
 		LEFT JOIN dbo.HRMJobTitle AS job WITH (NOLOCK) ON emp.JobTitle = job.Id
-	ORDER BY emp.NickName ASC
+	ORDER BY gr.[Name]
+		,emp.NickName
 
 	-- Process
 	EXECUTE dbo.EPA_GetProcess @TblEPAId
+
+	DROP TABLE #tmpTeam
 
 	DROP TABLE #tblDisciplineScores
 

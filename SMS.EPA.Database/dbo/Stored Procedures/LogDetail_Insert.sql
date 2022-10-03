@@ -25,7 +25,7 @@ BEGIN
 		,[LogDate]
 		,[ObjectId]
 		,[ObjectTypeId]
-		,[ActionId]
+		--,[ActionId]
 		,[Data]
 		,[OldData]
 		,[ObjectIds]
@@ -35,10 +35,8 @@ BEGIN
 		,GETDATE()
 		,@ObjectId
 		,@ObjectTypeId
-		,[Id]
+		--,[Id]
 		,@Data
 		,@OldData
 		,@ObjectIds
-	FROM [dbo].[LogAction] WITH (NOLOCK)
-	WHERE [SpName] = @SpName
 END

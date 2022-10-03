@@ -2,7 +2,7 @@
 CREATE PROCEDURE [dbo].[Report_GetEmployees] @ActorId INT
 	,@Query NVARCHAR(100) = NULL
 	,@PeriodIds NVARCHAR(MAX) = NULL
-	,@DepartmentId INT = NULL
+	,@TeamIds VARCHAR(MAX) = NULL
 	,@IsLocal BIT = NULL
 AS
 /*
@@ -19,33 +19,43 @@ BEGIN
 	SET NOCOUNT ON;
 
 	DECLARE @Today DATE = GETDATE()
+
 	SET @query = '%' + ISNULL(@query, '') + '%'
 
-	CREATE TABLE #Period (
+	CREATE TABLE #tmpTeam (TeamId INT)
+
+	CREATE TABLE #tmpPeriod (
 		PeriodId INT
 		,[Name] NVARCHAR(200)
 		,StartDate DATE
 		)
 
-	CREATE TABLE #PeriodTemp (
+	CREATE TABLE #tmpPeriodTemp (
 		PeriodId INT
 		,[Name] NVARCHAR(200)
 		)
 
-	INSERT INTO #Period (
+	IF @TeamIds IS NOT NULL
+	BEGIN
+		INSERT INTO #tmpTeam (TeamId)
+		SELECT DISTINCT val
+		FROM dbo.fnc_strSplit(@TeamIds, ',')
+	END
+
+	INSERT INTO #tmpPeriod (
 		PeriodId
 		,[Name]
 		,StartDate
 		)
 	EXECUTE dbo.EpaPeriod_GetAllPeriodIncludeImport
 
-	INSERT INTO #PeriodTemp (
+	INSERT INTO #tmpPeriodTemp (
 		PeriodId
 		,[Name]
 		)
 	SELECT PeriodId
 		,[Name]
-	FROM #Period WITH (NOLOCK)
+	FROM #tmpPeriod WITH (NOLOCK)
 	WHERE @PeriodIds IS NULL
 		OR PeriodId IN (
 			SELECT DISTINCT val
@@ -62,21 +72,14 @@ BEGIN
 			,emp.NickName
 			,emp.FullName
 			,emp.IsLocal
-			,dept.DepartmentId
 			,gr.GroupId
-			,gr.[Name] AS GroupName
 		FROM dbo.EPA AS epa WITH (NOLOCK)
 			INNER JOIN dbo.EPAProcess AS pcSelf WITH (NOLOCK) ON epa.EPAId = pcSelf.EPAId
 			AND pcSelf.ProcessId = 2
 			AND pcSelf.StartDate <= @Today
-			INNER JOIN dbo.EPAProcess AS pc WITH (NOLOCK) ON epa.EPAId = pc.EPAId
-			INNER JOIN #PeriodTemp AS period ON epa.PeriodId = period.PeriodId
+			INNER JOIN #tmpPeriodTemp AS period ON epa.PeriodId = period.PeriodId
 			INNER JOIN dbo.Employee AS emp WITH (NOLOCK) ON epa.EmployeeId = emp.EmployeeId
 			LEFT JOIN dbo.[Group] AS gr WITH (NOLOCK) ON emp.GroupId = gr.GroupId
-			LEFT JOIN dbo.Department AS dept WITH (NOLOCK) ON gr.DepartmentId = dept.DepartmentId
-			LEFT JOIN dbo.HRMJobTitle AS job WITH (NOLOCK) ON emp.JobTitle = job.Id
-			INNER JOIN dbo.Period AS period1 WITH (NOLOCK) ON epa.PeriodId = period1.PeriodId
-			INNER JOIN dbo.TargetType AS tt WITH (NOLOCK) ON period1.TargetTypeId = tt.TargetTypeId
 		WHERE epa.[Status] <> 2 -- rejected
 		
 		UNION ALL
@@ -85,38 +88,22 @@ BEGIN
 			,emp.NickName
 			,emp.FullName
 			,emp.IsLocal
-			,dept.DepartmentId
 			,gr.GroupId
-			,gr.[Name] AS GroupName
 		FROM dbo.EPASummaryImport AS epa WITH (NOLOCK)
-			INNER JOIN #PeriodTemp AS period ON epa.PeriodId = period.PeriodId
+			INNER JOIN #tmpPeriodTemp AS period ON epa.PeriodId = period.PeriodId
 			INNER JOIN dbo.Employee AS emp WITH (NOLOCK) ON epa.Code = emp.Code
 			LEFT JOIN dbo.[Group] AS gr WITH (NOLOCK) ON emp.GroupId = gr.GroupId
-			LEFT JOIN dbo.Department AS dept WITH (NOLOCK) ON gr.DepartmentId = dept.DepartmentId
-			LEFT JOIN dbo.HRMJobTitle AS job WITH (NOLOCK) ON emp.JobTitle = job.Id
 		) AS tblData
 	WHERE (
 			tblData.FullName LIKE @Query
 			OR tblData.NickName LIKE @Query
 			)
 		AND (
-			@DepartmentId IS NULL
-			OR (
-				@DepartmentId < 0
-				AND tblData.GroupId = ABS(@DepartmentId)
-				)
-			OR (
-				@DepartmentId > 0
-				AND (
-					tblData.DepartmentId = @DepartmentId
-					OR tblData.DepartmentId IN (
-						SELECT DepartmentId
-						FROM dbo.RelatedDepartment(@DepartmentId)
-						
-						UNION
-						SELECT @DepartmentId
-						)
-					)
+			@TeamIds IS NULL
+			OR EXISTS (
+				SELECT 1
+				FROM #tmpTeam AS tmp WITH (NOLOCK)
+				WHERE tblData.GroupId = tmp.TeamId
 				)
 			)
 		AND ISNULL(@IsLocal, tblData.IsLocal) = tblData.IsLocal
@@ -190,7 +177,9 @@ BEGIN
 	ORDER BY tblData.NickName ASC
 		,tblData.FullName ASC
 
-	DROP TABLE #Period
+	DROP TABLE #tmpTeam
 
-	DROP TABLE #PeriodTemp
+	DROP TABLE #tmpPeriod
+
+	DROP TABLE #tmpPeriodTemp
 END

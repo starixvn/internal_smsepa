@@ -1,7 +1,6 @@
 ﻿
-
 CREATE PROCEDURE [dbo].[EpaPeriod_GetEmployeeSetting] @PeriodId INT
-	,@DepartmentId INT = NULL
+	,@TeamIds VARCHAR(MAX) = NULL
 	,@IsLocal BIT = NULL
 	,@IsExcludedEmployee BIT = NULL
 	,@IsGeneratedEPA BIT = NULL
@@ -23,6 +22,15 @@ BEGIN
 
 	DECLARE @TargetTypeId INT
 		,@Today DATE = GETDATE()
+
+	CREATE TABLE #tmpTeam (TeamId INT)
+
+	IF ISNULL(@TeamIds, '') != ''
+	BEGIN
+		INSERT INTO #tmpTeam (TeamId)
+		SELECT DISTINCT val
+		FROM dbo.fnc_strSplit(@TeamIds, ',')
+	END
 
 	SELECT @TargetTypeId = TargetTypeId
 	FROM dbo.Period WITH (NOLOCK)
@@ -48,9 +56,9 @@ BEGIN
 			) AS Category
 		,dept.DepartmentId
 		,dept.[Name]
-		,gr.GroupId
-		,gr.[Name] AS GroupName
-		,gr.Code AS GroupCode
+		,team.GroupId
+		,team.[Name] AS GroupName
+		,team.Code AS GroupCode
 		,emp.JobTitle AS JobTitleId
 		,job.[Name] AS JobTitleName
 		,peTar.TargetTemplateId
@@ -78,8 +86,8 @@ BEGIN
 		AND emp.IsDeleted = 0
 		AND emp.[Enabled] = 1
 		AND emp.ResignedDate IS NULL
-		LEFT JOIN dbo.[Group] AS gr WITH (NOLOCK) ON emp.GroupId = gr.GroupId
-		LEFT JOIN dbo.Department AS dept WITH (NOLOCK) ON gr.DepartmentId = dept.DepartmentId
+		INNER JOIN dbo.[Group] AS team WITH (NOLOCK) ON emp.GroupId = team.GroupId
+		LEFT JOIN dbo.Department AS dept WITH (NOLOCK) ON team.DepartmentId = dept.DepartmentId
 		LEFT JOIN dbo.HRMJobTitle AS job WITH (NOLOCK) ON emp.JobTitle = job.Id
 		LEFT JOIN dbo.PeriodTargetSetting AS peTar WITH (NOLOCK) ON pe.PeriodId = peTar.PeriodId
 		AND pe.EmployeeId = peTar.EmployeeId
@@ -113,20 +121,11 @@ BEGIN
 				)
 			)
 		AND (
-			@DepartmentId IS NULL
-			OR (
-				@DepartmentId < 0
-				AND gr.GroupId = - @DepartmentId
-				)
-			OR (
-				@DepartmentId > 0
-				AND EXISTS (
-					SELECT 1
-					FROM dbo.Department WITH (NOLOCK)
-					WHERE DepartmentId = @DepartmentId
-						AND Department.lft <= gr.lft
-						AND Department.rgt >= gr.rgt
-					)
+			ISNULL(@TeamIds, '') = ''
+			OR EXISTS (
+				SELECT 1
+				FROM #tmpTeam AS tmp WITH (NOLOCK)
+				WHERE team.GroupId = tmp.TeamId
 				)
 			)
 		AND ISNULL(@IsLocal, emp.IsLocal) = emp.IsLocal
@@ -272,4 +271,6 @@ BEGIN
 					AND epa.[Status] = @EPAStatus
 				)
 			)
+
+	DROP TABLE #tmpTeam
 END

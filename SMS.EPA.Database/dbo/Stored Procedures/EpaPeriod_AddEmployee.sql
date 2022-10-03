@@ -1,6 +1,6 @@
 ﻿
 CREATE PROCEDURE [dbo].[EpaPeriod_AddEmployee] @PeriodId INT
-	,@Departments VARCHAR(MAX) = NULL
+	,@TeamIds VARCHAR(MAX) = NULL
 	,@EmployeeId INT = NULL
 	,@ModifiedBy INT = NULL
 	,@ErrCode INT = 0 OUTPUT
@@ -10,32 +10,15 @@ AS
 Created: 2015-06-12@Josh.Phan
 Task: Add employee to evaluation period.
 DB: SMSEPA
-Original: 
+Original:
 
 Revisions:
-    2017-04-13@Hunter.Tran: don't add employee if employee has [Enable] = 0 or ResignDate not null
-    2017-11-10@Tim.Trinh: don't add employee to semi if employee has JoinedDate > 15-Mar or 15-Sep 
 Param's Explanation:
-	@Departments = <ROOT><Department DepartmentId='1' IsGroup='1'></Department</ROOT>
-
 */
 BEGIN
 	SET NOCOUNT ON;
 
-	IF NOT EXISTS (
-			SELECT 1
-			FROM dbo.Period WITH (NOLOCK)
-			WHERE PeriodId = @PeriodId
-			)
-	BEGIN
-		SELECT @ErrCode = 1
-			,@ErrMsg = N'The Period does not exists.'
-
-		RETURN
-	END
-
-	DECLARE @DocHandler INT
-		,@TargetTypeId INT
+	DECLARE @TargetTypeId INT
 		,@StartDate DATE
 		,@EmployeeIds IntId
 		,@ExistedEmployeeIds IntId
@@ -64,10 +47,7 @@ BEGIN
 	FROM dbo.Period WITH (NOLOCK)
 	WHERE PeriodId = @PeriodId
 
-	CREATE TABLE #Department (
-		DepartmentId INT
-		,IsGroup BIT
-		)
+	CREATE TABLE #tmpTeam (TeamId INT)
 
 	CREATE TABLE #DeptFlowAndTargetTemplate (
 		DepartmentId INT
@@ -84,94 +64,51 @@ BEGIN
 		)
 	EXEC dbo.GetFlowAndTargetTemplateSetting @TargetTypeId
 
-	EXEC sp_xml_preparedocument @DocHandler OUTPUT
-		,@Departments
-
-	IF ISNULL(@Departments, '') <> ''
+	IF ISNULL(@TeamIds, '') != ''
 	BEGIN
-		INSERT INTO #Department (
-			DepartmentId
-			,IsGroup
-			)
-		SELECT DepartmentId
-			,IsGroup
-		FROM OPENXML(@DocHandler, '/ROOT/Department', 1) WITH (DepartmentId INT, IsGroup BIT) AS Data
-
-		EXEC sp_xml_removedocument @DocHandler
-
-		INSERT INTO @EmployeeIds (Id)
-		SELECT DISTINCT tblEmp.EmployeeId
-		FROM (
-			SELECT DISTINCT emp.EmployeeId
-			FROM #Department AS deptT WITH (NOLOCK)
-				INNER JOIN dbo.Department AS dept WITH (NOLOCK) ON deptT.DepartmentId = dept.DepartmentId
-				AND deptT.IsGroup = 0
-				INNER JOIN dbo.[Group] AS gr WITH (NOLOCK) ON gr.lft >= dept.lft
-				AND gr.rgt <= dept.rgt
-				AND gr.IsDeleted = 0
-				INNER JOIN dbo.Employee AS emp WITH (NOLOCK) ON gr.GroupId = emp.GroupId
-			WHERE emp.IsDeleted = 0
-				AND emp.[Enabled] = 1
-				AND emp.ResignedDate IS NULL
-				AND (
-					(
-						@EnableDisciplineRule = 1
-						AND (
-							(
-								@TargetTypeId = @SemiTarget
-								AND (
-									(
-										MONTH(@StartDate) <= 6
-										AND CAST(emp.JoinedDate AS DATE) <= CAST(CAST(@CurrentYear AS NVARCHAR(5)) + '-03-15' AS DATE)
-										)
-									OR (
-										MONTH(@StartDate) > 6
-										AND CAST(emp.JoinedDate AS DATE) <= CAST(CAST(@CurrentYear AS NVARCHAR(5)) + '-09-15' AS DATE)
-										)
-									)
-								)
-							OR @TargetTypeId <> @SemiTarget
-							)
-						)
-					OR @EnableDisciplineRule = 0
-					)
-			
-			UNION
-			SELECT DISTINCT emp.EmployeeId
-			FROM #Department AS deptT WITH (NOLOCK)
-				INNER JOIN dbo.[Group] AS gr WITH (NOLOCK) ON deptT.DepartmentId = gr.GroupId
-				AND deptT.IsGroup = 1
-				AND gr.IsDeleted = 0
-				INNER JOIN dbo.Employee AS emp WITH (NOLOCK) ON gr.GroupId = emp.GroupId
-			WHERE emp.IsDeleted = 0
-				AND emp.[Enabled] = 1
-				AND emp.ResignedDate IS NULL
-				AND (
-					(
-						@EnableDisciplineRule = 1
-						AND (
-							(
-								@TargetTypeId = @SemiTarget
-								AND (
-									(
-										MONTH(@StartDate) <= 6
-										AND CAST(emp.JoinedDate AS DATE) <= CAST(CAST(@CurrentYear AS NVARCHAR(5)) + '-03-15' AS DATE)
-										)
-									OR (
-										MONTH(@StartDate) > 6
-										AND CAST(emp.JoinedDate AS DATE) <= CAST(CAST(@CurrentYear AS NVARCHAR(5)) + '-09-15' AS DATE)
-										)
-									)
-								)
-							OR @TargetTypeId <> @SemiTarget
-							)
-						)
-					OR @EnableDisciplineRule = 0
-					)
-			) AS tblEmp
-		WHERE @EmployeeId IS NULL
-			OR tblEmp.EmployeeId <> @EmployeeId
+		INSERT INTO #tmpTeam (TeamId)
+		SELECT DISTINCT val
+		FROM dbo.fnc_strSplit(@TeamIds, ',')
 	END
+
+	INSERT INTO @EmployeeIds (Id)
+	SELECT emp.EmployeeId
+	FROM dbo.Employee AS emp WITH (NOLOCK)
+	WHERE emp.IsDeleted = 0
+		AND emp.[Enabled] = 1
+		AND emp.ResignedDate IS NULL
+		AND (
+			(
+				@EnableDisciplineRule = 1
+				AND (
+					(
+						@TargetTypeId = @SemiTarget
+						AND (
+							(
+								MONTH(@StartDate) <= 6
+								AND CAST(emp.JoinedDate AS DATE) <= CAST(CAST(@CurrentYear AS NVARCHAR(5)) + '-03-15' AS DATE)
+								)
+							OR (
+								MONTH(@StartDate) > 6
+								AND CAST(emp.JoinedDate AS DATE) <= CAST(CAST(@CurrentYear AS NVARCHAR(5)) + '-09-15' AS DATE)
+								)
+							)
+						)
+					OR @TargetTypeId != @SemiTarget
+					)
+				)
+			OR @EnableDisciplineRule = 0
+			)
+		AND ISNULL(@TeamIds, '') != ''
+		AND EXISTS (
+			SELECT 1
+			FROM #tmpTeam AS tmp WITH (NOLOCK)
+			WHERE emp.GroupId = tmp.TeamId
+			)
+		AND (
+			@EmployeeId IS NULL
+			OR emp.EmployeeId != @EmployeeId
+			)
 
 	IF @EmployeeId IS NOT NULL
 	BEGIN
@@ -625,7 +562,7 @@ BEGIN
 			,@ErrMsg = N'All employee into period unsuccessfully.'
 	END CATCH
 
-	DROP TABLE #Department
+	DROP TABLE #tmpTeam
 
 	DROP TABLE #DeptFlowAndTargetTemplate
 END

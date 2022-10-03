@@ -1,5 +1,6 @@
-﻿CREATE PROCEDURE [dbo].[EPA_GetEmployeeToUpdateFinalScore] @PeriodId INT
-	,@GroupId INT = NULL
+﻿
+CREATE PROCEDURE [dbo].[EPA_GetEmployeeToUpdateFinalScore] @PeriodId INT
+	,@TeamIds VARCHAR(MAX) = NULL
 	,@IsLocal BIT = NULL
 	,@Query NVARCHAR(100) = NULL
 AS
@@ -27,6 +28,15 @@ BEGIN
 
 	SET @query = '%' + ISNULL(@query, '') + '%'
 
+	CREATE TABLE #tmpTeam (TeamId INT)
+
+	IF @TeamIds IS NOT NULL
+	BEGIN
+		INSERT INTO #tmpTeam (TeamId)
+		SELECT DISTINCT val
+		FROM dbo.fnc_strSplit(@TeamIds, ',')
+	END
+
 	IF @TargetTypeId IN (2, 3)
 	BEGIN
 		INSERT INTO @EPAIds (Id)
@@ -50,8 +60,12 @@ BEGIN
 		WHERE pc.EndDate < pe.EndDate
 			AND epa.[Status] IN (0, 1) -- open/closed
 			AND (
-				@GroupId IS NULL
-				OR gr.GroupId = gr.GroupId
+				@TeamIds IS NULL
+				OR EXISTS (
+					SELECT 1
+					FROM #tmpTeam AS tmp WITH (NOLOCK)
+					WHERE gr.GroupId = tmp.TeamId
+					)
 				)
 			AND (
 				@IsLocal IS NULL
@@ -83,8 +97,12 @@ BEGIN
 			AND pc.EndDate >= pe.EndDate
 			AND epa.[Status] IN (0, 1) -- open/closed
 			AND (
-				@GroupId IS NULL
-				OR gr.GroupId = gr.GroupId
+				@TeamIds IS NULL
+				OR EXISTS (
+					SELECT 1
+					FROM #tmpTeam AS tmp WITH (NOLOCK)
+					WHERE gr.GroupId = tmp.TeamId
+					)
 				)
 			AND (
 				@IsLocal IS NULL
@@ -117,8 +135,12 @@ BEGIN
 		WHERE pc.EndDate <= @Yesterday
 			AND epa.[Status] IN (0, 1) -- open/closed
 			AND (
-				@GroupId IS NULL
-				OR gr.GroupId = gr.GroupId
+				@TeamIds IS NULL
+				OR EXISTS (
+					SELECT 1
+					FROM #tmpTeam AS tmp WITH (NOLOCK)
+					WHERE gr.GroupId = tmp.TeamId
+					)
 				)
 			AND (
 				@IsLocal IS NULL
@@ -138,4 +160,6 @@ BEGIN
 		INNER JOIN dbo.Employee AS emp WITH (NOLOCK) ON epa.EmployeeId = emp.EmployeeId
 		AND emp.IsDeleted = 0
 		AND emp.[Enabled] = 1
+
+	DROP TABLE #tmpTeam
 END

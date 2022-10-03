@@ -1,7 +1,8 @@
-﻿CREATE PROCEDURE [dbo].[DisciplineSummary_Get] @StartDate DATE
+﻿
+CREATE PROCEDURE [dbo].[DisciplineSummary_Get] @StartDate DATE
 	,@EndDate DATE
 	,@ApproverId INT
-	,@DepartmentId INT = NULL
+	,@TeamIds VARCHAR(MAX) = NULL
 	,@EmployeeId INT = NULL
 	,@ReasonId INT = NULL
 	,@IsLocal BIT = NULL
@@ -18,6 +19,8 @@ Param's Explanation:
 */
 BEGIN
 	SET NOCOUNT ON;
+
+	CREATE TABLE #tmpTeam (TeamId INT)
 
 	CREATE TABLE #tblEmployeeDiscipline (
 		EmployeeId INT
@@ -36,6 +39,13 @@ BEGIN
 		,SystemSubtractScore DECIMAL(5, 2)
 		,ApproverSubtractScore DECIMAL(5, 2)
 		)
+
+	IF @TeamIds IS NOT NULL
+	BEGIN
+		INSERT INTO #tmpTeam (TeamId)
+		SELECT DISTINCT val
+		FROM dbo.fnc_strSplit(@TeamIds, ',')
+	END
 
 	INSERT INTO #tblEmployeeDiscipline (
 		EmployeeId
@@ -68,7 +78,8 @@ BEGIN
 		,SUM(ISNULL(d.SevenDaysLeave, 0))
 		,SUM(d.OtherDisciplines)
 		,SUM(d.SystemSubtractScore)
-		,SUM(d.ChangeShift) + SUM(d.MissingCheckInOut) + SUM(d.LateIn) + SUM(d.EarlyOut) + SUM(d.[Absent]) + SUM(d.UnpaidLeave) + SUM(d.WorkingUndertime) + SUM(d.UnpaidLeaveAbsent) + SUM(ISNULL(d.UnplannedLeave, 0)) + SUM(ISNULL(d.WeekendLeave, 0)) + SUM(ISNULL(d.SevenDaysLeave, 0))
+		,SUM(d.ChangeShift) + SUM(d.MissingCheckInOut) + SUM(d.LateIn) + SUM(d.EarlyOut) + SUM(d.[Absent]) + SUM(d.UnpaidLeave)
+			+ SUM(d.WorkingUndertime) + SUM(d.UnpaidLeaveAbsent) + SUM(ISNULL(d.UnplannedLeave, 0)) + SUM(ISNULL(d.WeekendLeave, 0)) + SUM(ISNULL(d.SevenDaysLeave, 0))
 	FROM dbo.Employee AS emp WITH (NOLOCK)
 		INNER JOIN dbo.DisciplineSummary AS d WITH (NOLOCK) ON emp.EmployeeId = d.EmployeeId
 		AND d.IsDeleted = 0
@@ -76,8 +87,14 @@ BEGIN
 			AND @EndDate
 	WHERE emp.[Enabled] = 1
 		AND emp.IsDeleted = 0
-		AND ISNULL(@EmployeeId, emp.EmployeeId) = emp.EmployeeId
-		AND ISNULL(@IsLocal, emp.IsLocal) = emp.IsLocal
+		AND (
+			@EmployeeId IS NULL
+			OR emp.EmployeeId = @EmployeeId
+			)
+		AND (
+			@IsLocal IS NULL
+			OR emp.IsLocal = @IsLocal
+			)
 	GROUP BY emp.EmployeeId
 
 	DECLARE @Is_HR_MGT_SA BIT
@@ -115,16 +132,25 @@ BEGIN
 			ELSE 'Expat' END
 			) AS Category
 		,emp.Code
-		,gr.[Name] AS Section
+		,dept.[Name] AS Section
+		,gr.[Name] AS Team
 		,job.[Name] AS JobTitle
 	FROM dbo.Employee AS emp WITH (NOLOCK)
 		INNER JOIN dbo.[Group] AS gr WITH (NOLOCK) ON emp.GroupId = gr.GroupId
+		LEFT JOIN dbo.Department AS dept WITH (NOLOCK) ON gr.DepartmentId = dept.DepartmentId
+		AND dept.IsActive = 1
 		LEFT JOIN dbo.HRMJobTitle AS job WITH (NOLOCK) ON emp.JobTitle = job.Id
 		LEFT JOIN #tblEmployeeDiscipline AS d WITH (NOLOCK) ON emp.EmployeeId = d.EmployeeId
 	WHERE emp.[Enabled] = 1
-		AND ISNULL(emp.IsDeleted, 0) = 0
-		AND ISNULL(@EmployeeId, emp.EmployeeId) = emp.EmployeeId
-		AND ISNULL(@IsLocal, emp.IsLocal) = emp.IsLocal
+		AND emp.IsDeleted = 0
+		AND (
+			@EmployeeId IS NULL
+			OR emp.EmployeeId = @EmployeeId
+			)
+		AND (
+			@IsLocal IS NULL
+			OR emp.IsLocal = @IsLocal
+			)
 		AND (
 			@IsShowAll = 1
 			OR (
@@ -154,7 +180,7 @@ BEGIN
 				FROM dbo.TeamDisciplinePermission AS teamDP WITH (NOLOCK)
 				WHERE gr.GroupId = teamDP.TeamId
 					AND teamDP.OwnerId = @ApproverId
-					AND emp.EmployeeId <> @ApproverId
+					AND emp.EmployeeId != @ApproverId
 					AND ISNULL(teamDP.IsDeleted, 0) = 0
 				)
 			OR EXISTS (
@@ -166,20 +192,11 @@ BEGIN
 				)
 			)
 		AND (
-			ISNULL(@DepartmentId, '') = ''
-			OR (
-				@DepartmentId < 0
-				AND gr.GroupId = - @DepartmentId
-				)
-			OR (
-				@DepartmentId > 0
-				AND EXISTS (
-					SELECT 1
-					FROM dbo.Department AS dept WITH (NOLOCK)
-					WHERE dept.DepartmentId = @DepartmentId
-						AND dept.lft <= gr.lft
-						AND dept.rgt >= gr.rgt
-					)
+			@TeamIds IS NULL
+			OR EXISTS (
+				SELECT 1
+				FROM #tmpTeam AS tmp WITH (NOLOCK)
+				WHERE emp.GroupId = tmp.TeamId
 				)
 			)
 		AND (
@@ -251,10 +268,13 @@ BEGIN
 		,emp.JoinedDate
 		,emp.IsLocal
 		,emp.Code
+		,dept.[Name]
 		,gr.[Name]
 		,job.[Name]
 	ORDER BY gr.[Name] ASC
 		,emp.Code ASC
+
+	DROP TABLE #tmpTeam
 
 	DROP TABLE #tblEmployeeDiscipline
 END

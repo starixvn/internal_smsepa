@@ -1,7 +1,8 @@
-﻿CREATE PROCEDURE [dbo].[Report_EPADetail] @ActorId INT
+﻿
+CREATE PROCEDURE [dbo].[Report_EPADetail] @ActorId INT
 	,@PeriodId INT = NULL
 	,@PhaseIds NVARCHAR(10) = NULL
-	,@DepartmentId INT = NULL
+	,@TeamIds VARCHAR(MAX) = NULL
 	,@IsLocal BIT = NULL
 	,@EmployeeId INT = NULL
 	,@SortColumnName NVARCHAR(100) = NULL
@@ -24,9 +25,11 @@ BEGIN
 		,@Today DATE = GETDATE()
 		,@Ids NVARCHAR(MAX)
 		,@SortCode NVARCHAR(10) = 'code'
-		,@SortSection NVARCHAR(10) = 'section'
+		,@SortTeam NVARCHAR(10) = 'team'
 	-- target type
 	DECLARE @SemiTargetId INT = 3
+
+	CREATE TABLE #tmpTeam (TeamId INT)
 
 	CREATE TABLE #tblEPAs (
 		EPAId INT
@@ -70,6 +73,13 @@ BEGIN
 		,StartDate DATE
 		)
 
+	IF @TeamIds IS NOT NULL
+	BEGIN
+		INSERT INTO #tmpTeam (TeamId)
+		SELECT DISTINCT val
+		FROM dbo.fnc_strSplit(@TeamIds, ',')
+	END
+	
 	IF ISNULL(@PhaseIds, '') <> ''
 	BEGIN
 		INSERT INTO @Phases (Id)
@@ -127,7 +137,6 @@ BEGIN
 			,emp.Code
 			,emp.NickName
 			,emp.IsLocal
-			,dept.DepartmentId
 			,gr.GroupId
 			,gr.[Name] AS GroupName
 			,period1.TargetTypeId
@@ -142,8 +151,6 @@ BEGIN
 			AND emp.IsDeleted = 0
 			AND emp.ResignedDate IS NULL
 			LEFT JOIN dbo.[Group] AS gr WITH (NOLOCK) ON emp.GroupId = gr.GroupId
-			LEFT JOIN dbo.Department AS dept WITH (NOLOCK) ON gr.DepartmentId = dept.DepartmentId
-			LEFT JOIN dbo.HRMJobTitle AS job WITH (NOLOCK) ON emp.JobTitle = job.Id
 		WHERE ISNULL(epa.[Status], 0) IN (0, 1)
 		
 		UNION ALL
@@ -151,7 +158,6 @@ BEGIN
 			,emp.Code
 			,emp.NickName
 			,emp.IsLocal
-			,dept.DepartmentId
 			,gr.GroupId
 			,gr.[Name] AS GroupName
 			,@SemiTargetId AS TargetTypeId
@@ -162,27 +168,13 @@ BEGIN
 			AND emp.IsDeleted = 0
 			AND emp.ResignedDate IS NULL
 			LEFT JOIN dbo.[Group] AS gr WITH (NOLOCK) ON emp.GroupId = gr.GroupId
-			LEFT JOIN dbo.Department AS dept WITH (NOLOCK) ON gr.DepartmentId = dept.DepartmentId
-			LEFT JOIN dbo.HRMJobTitle AS job WITH (NOLOCK) ON emp.JobTitle = job.Id
 		) AS tblData
 	WHERE (
-			@DepartmentId IS NULL
-			OR (
-				@DepartmentId < 0
-				AND tblData.GroupId = ABS(@DepartmentId)
-				)
-			OR (
-				@DepartmentId > 0
-				AND (
-					tblData.DepartmentId = @DepartmentId
-					OR tblData.DepartmentId IN (
-						SELECT DepartmentId
-						FROM dbo.RelatedDepartment(@DepartmentId)
-						
-						UNION
-						SELECT @DepartmentId
-						)
-					)
+			@TeamIds IS NULL
+			OR EXISTS (
+				SELECT 1
+				FROM #tmpTeam AS tmp WITH (NOLOCK)
+				WHERE tblData.GroupId = tmp.TeamId
 				)
 			)
 		AND ISNULL(@IsLocal, tblData.IsLocal) = tblData.IsLocal
@@ -454,7 +446,7 @@ BEGIN
 				AND ISNULL(@SortDirection, '') <> ''
 				AND @SortDirection = 'desc' THEN CASE LOWER(@SortColumnName)
 					WHEN @SortCode THEN tblData.Code
-					WHEN @SortSection THEN tblData.GroupName
+					WHEN @SortTeam THEN tblData.GroupName
 					END
 			END DESC
 		,CASE 
@@ -462,7 +454,7 @@ BEGIN
 				AND ISNULL(@SortDirection, '') <> ''
 				AND @SortDirection = 'asc' THEN CASE LOWER(@SortColumnName)
 					WHEN @SortCode THEN tblData.Code
-					WHEN @SortSection THEN tblData.GroupName
+					WHEN @SortTeam THEN tblData.GroupName
 					END
 			END ASC
 
@@ -491,6 +483,8 @@ BEGIN
 	ORDER BY epa.EPAId ASC
 		,pc.ProcessId ASC
 
+	DROP TABLE #tmpTeam
+	
 	DROP TABLE #tblEPAs
 
 	DROP TABLE #tblEmployees

@@ -1,7 +1,7 @@
 ﻿
 CREATE PROCEDURE [dbo].[Epa_GetEPAHistory] @PeriodId INT = 0
 	,@EvaluatorId INT
-	,@DepartmentId INT = NULL
+	,@TeamIds VARCHAR(MAX) = NULL
 	,@IsLocal BIT = NULL
 	,@EmployeeId INT = NULL
 AS
@@ -21,7 +21,16 @@ BEGIN
 		,@TargetTypeId TINYINT
 		,@MonthlyTargetId SMALLINT = 2
 
-	CREATE TABLE #tblLastedEPA (
+	CREATE TABLE #tmpTeam (TeamId INT)
+
+	IF ISNULL(@TeamIds, '') != ''
+	BEGIN
+		INSERT INTO #tmpTeam (TeamId)
+		SELECT val
+		FROM dbo.fnc_strSplit(@TeamIds, ',')
+	END
+
+	CREATE TABLE #tmpLatestEPA (
 		EmployeeId INT
 		,StartDate DATE
 		)
@@ -40,7 +49,7 @@ BEGIN
 	FROM dbo.Period WITH (NOLOCK)
 	WHERE PeriodId = @PeriodId
 
-	INSERT INTO #tblLastedEPA (
+	INSERT INTO #tmpLatestEPA (
 		EmployeeId
 		,StartDate
 		)
@@ -74,6 +83,8 @@ BEGIN
 		,data.IsLocal
 		,data.GroupId
 		,data.GroupName
+		,data.DepartmentId
+		,data.DepartmentName
 	FROM (
 		SELECT epa.FinalScore AS EncodeFinalScore
 			,epa.Grade AS EncodeGrade
@@ -102,7 +113,7 @@ BEGIN
 			AND emp.[Enabled] = 1
 			AND emp.IsDeleted = 0
 			AND emp.ResignedDate IS NULL
-			LEFT JOIN dbo.[Group] AS gr WITH (NOLOCK) ON emp.GroupId = gr.GroupId
+			INNER JOIN dbo.[Group] AS gr WITH (NOLOCK) ON emp.GroupId = gr.GroupId
 			LEFT JOIN dbo.Department AS dept WITH (NOLOCK) ON gr.DepartmentId = dept.DepartmentId
 		
 		UNION ALL
@@ -132,34 +143,28 @@ BEGIN
 			AND emp.[Enabled] = 1
 			AND emp.IsDeleted = 0
 			AND emp.ResignedDate IS NULL
-			LEFT JOIN dbo.[Group] AS gr WITH (NOLOCK) ON emp.GroupId = gr.GroupId
+			INNER JOIN dbo.[Group] AS gr WITH (NOLOCK) ON emp.GroupId = gr.GroupId
 			LEFT JOIN dbo.Department AS dept WITH (NOLOCK) ON gr.DepartmentId = dept.DepartmentId
 		) AS data
 	WHERE data.PeriodId = @PeriodId
 		AND (
-			ISNULL(@DepartmentId, '') = ''
-			OR (
-				@DepartmentId < 0
-				AND data.GroupId = ABS(@DepartmentId)
-				)
-			OR (
-				@DepartmentId > 0
-				AND (
-					data.DepartmentId = @DepartmentId
-					OR data.DepartmentId IN (
-						SELECT DepartmentId
-						FROM dbo.RelatedDepartment(@DepartmentId)
-						
-						UNION
-						SELECT @DepartmentId
-						)
-					)
+			ISNULL(@TeamIds, '') = ''
+			OR EXISTS (
+				SELECT 1
+				FROM #tmpTeam AS tmp WITH (NOLOCK)
+				WHERE data.GroupId = tmp.TeamId
 				)
 			)
-		AND ISNULL(@EmployeeId, data.EmployeeId) = data.EmployeeId
-		AND ISNULL(@IsLocal, data.IsLocal) = data.IsLocal
+		AND (
+			@EmployeeId IS NULL
+			OR data.EmployeeId = @EmployeeId
+			)
+		AND (
+			@IsLocal IS NULL
+			OR data.IsLocal = @IsLocal
+			)
 		AND data.[Status] = 1 -- Closed
-		AND data.TargetTypeId <> @MonthlyTargetId
+		AND data.TargetTypeId != @MonthlyTargetId
 		AND (
 			@Is_HR_SA = 1
 			OR (
@@ -186,8 +191,8 @@ BEGIN
 								INNER JOIN dbo.Period AS period1 WITH (NOLOCK) ON epa1.PeriodId = period1.PeriodId
 								AND period1.TargetTypeId = data.TargetTypeId
 								AND process1.ProcessId = 1 -- HR
-								INNER JOIN #tblLastedEPA AS lastedepa WITH (NOLOCK) ON epa1.EmployeeId = lastedepa.EmployeeId
-								AND process1.StartDate = lastedepa.StartDate
+								INNER JOIN #tmpLatestEPA AS latestepa WITH (NOLOCK) ON epa1.EmployeeId = latestepa.EmployeeId
+								AND process1.StartDate = latestepa.StartDate
 							)
 					)
 				)
@@ -204,5 +209,7 @@ BEGIN
 		,data.GroupCode
 		,data.Code
 
-	DROP TABLE #tblLastedEPA
+	DROP TABLE #tmpTeam
+
+	DROP TABLE #tmpLatestEPA
 END

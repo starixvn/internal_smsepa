@@ -1,5 +1,4 @@
-﻿
-CREATE PROCEDURE [dbo].[EPA_RatingByKPI_Get] @EvaluatorId INT
+﻿CREATE PROCEDURE [dbo].[EPA_RatingByKPI_Get] @EvaluatorId INT
 	,@PeriodId INT
 	,@TargetTemplateId INT
 	,@KPIId INT
@@ -152,7 +151,7 @@ BEGIN
 		,emp.NickName
 		,emp.FullName
 		,dept.DepartmentId
-		,dept.[Name]
+		,dept.[Name] AS DepartmentName
 		,gr.GroupId
 		,gr.Code AS GroupCode
 		,gr.[Name] AS GroupName
