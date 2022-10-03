@@ -8,6 +8,7 @@
 
     function editBasicInfoPeriodController($scope, PeriodModel, utilitiesFactory) {
         let vm = this;
+        vm.isFirstLoad = true;
 
         vm.calendar = angular.copy(PeriodModel.calendar);
         vm.process = utilitiesFactory.jobLevelAssessmentProcess;
@@ -23,7 +24,8 @@
 
         $scope.$watch(function () { return $scope.editCtrl.period && $scope.editCtrl.dataTab === 1; },
             function (newVal) {
-                if (newVal) {
+                if (newVal && vm.isFirstLoad) {
+                    vm.isFirstLoad = false;
                     vm.period = angular.copy($scope.editCtrl.period);
                     for (var setting of vm.period.Settings) {
                         setting.FromDate = new Date(setting.FromDate);
