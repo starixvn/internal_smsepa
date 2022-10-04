@@ -425,6 +425,7 @@
     <Content Include="Libs\FanexGrid\Language\Fanex.Gird.Lang.zh-TW.js" />
     <Content Include="Libs\FanexGrid\moment.min.js" />
     <Content Include="Libs\FanexGrid\numeral.min.js" />
+    <Content Include="Libs\floatThead\jquery.floatThead.js" />
     <Content Include="Libs\jquery-3.2.1.js" />
     <Content Include="Libs\jquery-3.2.1.min.js" />
     <Content Include="Libs\jquery-ui.js" />
@@ -622,6 +623,7 @@
     <Content Include="SourceApp\Components\Period\add-employee-setting-controller.js" />
     <Content Include="SourceApp\Components\Period\Templates\addEmployeeSetting.html" />
     <Content Include="SourceApp\Shared\Directives\epa-searchAutoComplete-directive.js" />
+    <Content Include="SourceApp\Shared\Directives\floatThead-directive.js" />
     <Content Include="SourceApp\Shared\Templates\modal-confirm-refresh-data.html" />
     <Content Include="SourceApp\Components\JobDescription\Templates\personnel.html" />
     <Content Include="SourceApp\Components\JobDescription\Templates\group.html" />

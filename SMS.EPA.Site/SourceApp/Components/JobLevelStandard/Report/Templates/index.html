@@ -42,7 +42,7 @@
                     ng-click="assessmentReportCtrl.query()"></button>
         </div>
     </form>
-    <table class="row table table-bordered table-striped table-job-level-assessment" ng-show="assessmentReportCtrl.filteredItems">
+    <table class="row table table-bordered table-striped table-job-level-assessment" ng-show="assessmentReportCtrl.filteredItems" float-thead>
         <thead>
             <tr class="header-table">
                 <th colspan="{{16 + assessmentReportCtrl.kpis.length * 2}}">

@@ -26,6 +26,7 @@
 
             bundles.Add(new ScriptBundle("~/bundles/vendor").Include(
                             "~/Libs/jquery-3.2.1.min.js",
+                            "~/Libs/floatThead/jquery.floatThead.js",
                             "~/Libs/bootstrap-3.3.7/js/bootstrap.min.js",
                             "~/Libs/angularjs/angular.js",
                             "~/Libs/angularjs/angular-resource.js",
@@ -284,6 +285,7 @@
                             "~/SourceApp/Shared/Directives/epa-searchAutoComplete-directive.js",
                             "~/SourceApp/Shared/Directives/popover-avatar-directive.js",
                             "~/SourceApp/Shared/Directives/multiselect-treeview-directive.js",
+                            "~/SourceApp/Shared/Directives/floatThead-directive.js",
                             "~/SourceApp/Shared/Factories/error-factory.js",
                             "~/SourceApp/Shared/Factories/history-factory.js",
                             "~/SourceApp/Shared/Factories/lockScreen-factory.js",

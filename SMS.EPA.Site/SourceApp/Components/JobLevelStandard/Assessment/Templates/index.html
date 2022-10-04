@@ -32,7 +32,8 @@
             <button class="btn btn-primary" data-translate="Search" ng-click="assessmentCtrl.query()"></button>
         </div>
     </form>
-    <table class="row table table-bordered table-striped table-job-level-assessment" ng-show="assessmentCtrl.periods && assessmentCtrl.periods.length > 0">
+    <table class="row table table-bordered table-striped table-job-level-assessment"
+           ng-show="assessmentCtrl.periods && assessmentCtrl.periods.length > 0" float-thead>
         <thead>
             <tr class="header-table">
                 <th colspan="{{18 + assessmentCtrl.kpis.length * 2}}">
