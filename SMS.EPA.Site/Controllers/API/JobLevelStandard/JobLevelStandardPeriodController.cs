@@ -141,18 +141,19 @@
 
         [HttpPut]
         [ApiAuthorize(FunctionKey = EPAFunctionKey.JobLevelStandardPeriod, Policy = Policy.Host)]
-        public async Task<CommandResult> EditEmployeeSetting(PeriodEmployeeSetting employeeSetting)
+        public async Task<CommandResult> EditEmployeeSetting(IList<PeriodEmployeeSetting> employeeSettings)
         {
-            var settings = new List<PeriodProcessSetting>
+            var settings = new List<PeriodProcessSetting>();
+            foreach(var setting in employeeSettings)
             {
-                employeeSetting.Employee
-            };
-            settings.AddRange(employeeSetting.Evaluators);
-            settings.AddRange(employeeSetting.Managements);
+                settings.Add(setting.Employee);
+                settings.AddRange(setting.Evaluators);
+                settings.AddRange(setting.Managements);
+            }
 
             var command = new EditPeriodEmployeeSettingCommand
             {
-                PeriodId = employeeSetting.PeriodId,
+                PeriodId = employeeSettings.First().PeriodId,
                 SettingXml = settings.ToXML().ToString(),
                 ModifiedBy = SessionService.EmployeeId
             };

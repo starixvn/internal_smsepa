@@ -46,12 +46,21 @@
     <table class="row table table-bordered table-striped" id="data">
         <thead>
             <tr class="header-table">
-                <th colspan="12">
+                <th colspan="13">
+                    <a class="pull-left button-icon period-create-button"
+                       ng-if="employeeSettingCtrl.permission === employeeSettingCtrl.policy.Host" ng-click="employeeSettingCtrl.editMultiple()">
+                        <span class="icon-edit glyphicon glyphicon-edit"></span>
+                        <span class="button-text btn-edit-employee-setting" data-translate="EditEmployeeSetting"></span>
+                    </a>
                     <input type="text" ng-model="employeeSettingCtrl.searchKey" ng-change="employeeSettingCtrl.search()"
                            class="search-inline-textbox search pull-right" />
                 </th>
             </tr>
             <tr class="headerName">
+                <th ng-if="employeeSettingCtrl.permission === employeeSettingCtrl.policy.Host">
+                    <input type="checkbox" ng-model="employeeSettingCtrl.selectedAll"
+                           ng-click="employeeSettingCtrl.checkAll(employeeSettingCtrl.selectedAll)" />
+                </th>
                 <th data-translate="SymbolCount"></th>
                 <th data-translate="Department"></th>
                 <th data-translate="Section"></th>
@@ -69,6 +78,9 @@
         <tbody class="table-body" dir-paginate="employee in employeeSettingCtrl.filteredItems | itemsPerPage: employeeSettingCtrl.pageSize"
                current-page="employeeSettingCtrl.currentPage">
             <tr ng-class="{oddRow: $index % 2 === 0, evenRow: $index % 2 !== 0}">
+                <td class="text-center" rowspan="3" ng-if="employeeSettingCtrl.permission === employeeSettingCtrl.policy.Host">
+                    <input type="checkbox" ng-model="employee.Selected" />
+                </td>
                 <td class="text-center" rowspan="3"
                     ng-bind="employeeSettingCtrl.getIndex($index, employeeSettingCtrl.currentPage, employeeSettingCtrl.pageSize)"></td>
                 <td rowspan="3" ng-bind="employee.Department"></td>
@@ -98,7 +110,7 @@
             </tr>
             <tr ng-class="{oddRow: $index % 2 === 0, evenRow: $index % 2 !== 0}">
                 <td data-translate="Employee"></td>
-                <td>{{employee.FullName}} ({{employee.Nickname}})</td>
+                <td>- {{employee.FullName}} ({{employee.Nickname}})</td>
                 <td class="text-center" ng-bind="employee.Employee.FromDate | date: employeeSettingCtrl.dateFormat"></td>
                 <td class="text-center" ng-bind="employee.Employee.ToDate | date: employeeSettingCtrl.dateFormat"></td>
             </tr>
@@ -115,12 +127,12 @@
         </tbody>
         <tbody ng-show="employeeSettingCtrl.filteredItems.length === 0">
             <tr>
-                <td class="empty-result" colspan="12" data-translate="EmptyResult"></td>
+                <td class="empty-result" colspan="13" data-translate="EmptyResult"></td>
             </tr>
         </tbody>
         <tfoot>
             <tr>
-                <td colspan="12" class="paging">
+                <td colspan="13" class="paging">
                     <span data-translate="Show"></span>
                     <select class="dropdown-entry form-control" ng-model="employeeSettingCtrl.pageSize"
                             ng-options="entry for entry in employeeSettingCtrl.entries" ng-change="employeeSettingCtrl.currentPage = 1"></select>

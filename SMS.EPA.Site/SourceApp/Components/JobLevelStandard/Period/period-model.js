@@ -315,14 +315,22 @@
             });
         };
 
-        model.openPopupEditEmployeeSetting = function (vm, employee) {
+        model.editMultipleEmployeeSetting = function (vm, employees) {
+            if (employees.length === 0) {
+                notificationFactory.error('', 'Please select at least an employee!');
+            } else {
+                return model.openPopupEditEmployeeSetting(vm, employees);
+            }
+        };
+
+        model.openPopupEditEmployeeSetting = function (vm, employees) {
             vm.modalInstance = $uibModal.open({
                 templateUrl: 'SourceApp/Components/JobLevelStandard/Period/Templates/editEmployeeSetting.html',
                 controller: 'EditEmployeeSettingController as editEmployeeSettingCtrl',
                 backdrop: 'static',
                 resolve: {
-                    employee: function () {
-                        return angular.copy(employee);
+                    employees: function () {
+                        return angular.copy(employees);
                     }
                 },
                 windowClass: 'modal-confirm-center edit-employee-setting-modal'
@@ -331,7 +339,12 @@
             return vm.modalInstance.result;
         };
 
-        model.validateEditEmployeeSetting = function (employeeSettings) {
+        model.validateEditEmployeeSetting = function (singleMode, fieldEdit, employeeSettings) {
+            if (!singleMode && !fieldEdit.evaluator && !fieldEdit.date) {
+                notificationFactory.error('', 'Please select at least a field to edit!');
+                return false;
+            }
+
             let fromDate, toDate;
 
             if (employeeSettings.evaluator.ids && employeeSettings.evaluator.ids.length > 0) {

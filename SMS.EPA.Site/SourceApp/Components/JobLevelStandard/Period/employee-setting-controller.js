@@ -12,6 +12,7 @@
         vm.period = null;
         vm.employeeSettings = [];
         vm.isFirstLoad = true;
+        vm.selectedAll = false;
         vm.orgChart = [];
 
         vm.currentPage = 1;
@@ -81,16 +82,7 @@
 
         vm.edit = function (employee) {
             if (vm.permission === vm.policy.Host) {
-                PeriodModel.openPopupEditEmployeeSetting(vm, employee).then(function () {
-                    vm.modalInstance = null;
-                    getEmployeeSettings(vm.filter);
-                });
-            }
-        };
-
-        vm.editAssessmentStatus = function (employee) {
-            if (vm.permission === vm.policy.Host) {
-                PeriodModel.openPopupEditAssessmentStatus(vm, employee).then(function () {
+                PeriodModel.openPopupEditEmployeeSetting(vm, [employee]).then(function () {
                     vm.modalInstance = null;
                     getEmployeeSettings(vm.filter);
                 });
@@ -105,6 +97,25 @@
 
         vm.onSelectTeam = function (teamIds) {
             vm.filter.teamIds = teamIds;
+        };
+
+        vm.checkAll = function (selectedAll) {
+            for (let employee of vm.filteredItems) {
+                employee.Selected = selectedAll;
+            }
+
+            for (let employee of vm.employeeSettings) {
+                employee.Selected = selectedAll;
+            }
+        };
+
+        vm.editMultiple = function () {
+            const employees = vm.employeeSettings.filter(x => x.Selected);
+
+            PeriodModel.editMultipleEmployeeSetting(vm, employees).then(function () {
+                vm.modalInstance = null;
+                getEmployeeSettings(vm.filter);
+            });
         };
     }
 })(angular);

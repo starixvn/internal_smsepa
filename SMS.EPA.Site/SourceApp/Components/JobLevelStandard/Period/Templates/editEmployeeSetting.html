@@ -8,14 +8,15 @@
     <form novalidate class="row form-horizontal form-multiLine" updated-chosen-period>
         <div class="form-group">
             <label class="col-sm-3 control-label" data-translate="Employee"></label>
-            <div class="col-sm-8 field">
-                <input type="text" class="form-control" ng-model="editEmployeeSettingCtrl.employee" disabled />
+            <div class="col-sm-8 field employee-info">
+                <span ng-bind="editEmployeeSettingCtrl.employeeInfo"></span>
             </div>
         </div>
     </form>
     <table class="row table table-bordered table-striped table-edit-employee-setting">
         <thead>
             <tr class="headerName">
+                <th ng-show="!editEmployeeSettingCtrl.singleMode"></th>
                 <th data-translate="SymbolCount"></th>
                 <th>Evaluator/Reviewer</th>
                 <th data-translate="Employee"></th>
@@ -24,6 +25,9 @@
         </thead>
         <tbody>
             <tr>
+                <td ng-show="!editEmployeeSettingCtrl.singleMode" class="text-center">
+                    <input type="checkbox" ng-model="editEmployeeSettingCtrl.fieldEdit.evaluator" />
+                </td>
                 <td data-translate="Evaluator"></td>
                 <td>
                     <select class="form-control" multiple chosen
@@ -44,6 +48,9 @@
                 </td>
             </tr>
             <tr>
+                <td rowspan="2" ng-show="!editEmployeeSettingCtrl.singleMode" class="text-center">
+                    <input type="checkbox" ng-model="editEmployeeSettingCtrl.fieldEdit.date" />
+                </td>
                 <td data-translate="FromDate"></td>
                 <td class="text-center">
                     <p class="input-group calendar-input-group">
