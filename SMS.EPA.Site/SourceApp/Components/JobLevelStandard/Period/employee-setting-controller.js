@@ -109,6 +109,18 @@
             }
         };
 
+        vm.syncSelectedAll = function (employee) {
+            const index = vm.employeeSettings.findIndex(x => x.EmployeeId === employee.EmployeeId);
+            vm.employeeSettings[index].Selected = employee.Selected;
+
+            const selectedItems = vm.filteredItems.filter(x => x.Selected);
+            if (selectedItems.length < vm.filteredItems.length) {
+                vm.selectedAll = false;
+            } else {
+                vm.selectedAll = true;
+            }
+        };
+
         vm.editMultiple = function () {
             const employees = vm.employeeSettings.filter(x => x.Selected);
 

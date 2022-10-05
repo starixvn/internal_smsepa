@@ -79,7 +79,7 @@
                current-page="employeeSettingCtrl.currentPage">
             <tr ng-class="{oddRow: $index % 2 === 0, evenRow: $index % 2 !== 0}">
                 <td class="text-center" rowspan="3" ng-if="employeeSettingCtrl.permission === employeeSettingCtrl.policy.Host">
-                    <input type="checkbox" ng-model="employee.Selected" />
+                    <input type="checkbox" ng-model="employee.Selected" ng-click="employeeSettingCtrl.syncSelectedAll(employee)" />
                 </td>
                 <td class="text-center" rowspan="3"
                     ng-bind="employeeSettingCtrl.getIndex($index, employeeSettingCtrl.currentPage, employeeSettingCtrl.pageSize)"></td>
