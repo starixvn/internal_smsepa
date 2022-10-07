@@ -49,24 +49,22 @@
         {
             try
             {
-                //if (AppSetting.EnableMonthlyPeriod)
-                //{
-                //    monthlyService.CreateMonthlyPeriod();
-                //    monthlyService.CheckMonthlyPeriod();
-                //}
+                if (AppSetting.EnableMonthlyPeriod)
+                {
+                    monthlyService.CreateMonthlyPeriod();
+                    monthlyService.CheckMonthlyPeriod();
+                }
 
-                //semiAnnualService.CheckSemiAnnualPeriod();
-                //probationService.CheckProbationPeriod();
-                //promotionService.CheckPromotionPeriod();
-                //processService.UpdateInfomationOfProcess();
+                semiAnnualService.CheckSemiAnnualPeriod();
+                probationService.CheckProbationPeriod();
+                promotionService.CheckPromotionPeriod();
+                processService.UpdateInfomationOfProcess();
 
-                //Task.WhenAll(new[] {
-                //    Task.Factory.StartNew(() => { autoMailService.CheckAndSendMail(); }),
-                //    Task.Factory.StartNew(() => { evaluationPeriodService.CheckEndEvaluationPeriod(); }),
-                //    Task.Factory.StartNew(() => { jobLevelStandardService.SendReminderEmail(); })
-                //}).Wait();
-
-                jobLevelStandardService.SendReminderEmail();
+                Task.WhenAll(new[] {
+                    Task.Factory.StartNew(() => { autoMailService.CheckAndSendMail(); }),
+                    Task.Factory.StartNew(() => { evaluationPeriodService.CheckEndEvaluationPeriod(); }),
+                    Task.Factory.StartNew(() => { jobLevelStandardService.SendReminderEmail(); })
+                }).Wait();
             }
             catch (Exception ex)
             {
