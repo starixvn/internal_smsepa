@@ -8,8 +8,7 @@
     using SMS.EPA.Core.Services;
     using SMS.EPA.Model.AutoService;
     using SMS.EPA.Model.Email;
-    using SMS.EPA.Services.Implement;
-    using SMS.EPA.Services.Interfaces;
+    using SMS.EPA.Services;
 
     public class JobLevelStandardService : IJobLevelStandardService
     {

@@ -4,6 +4,7 @@
     using System.Linq;
     using System.Threading.Tasks;
     using System.Web.Http;
+    using HRM.UserControl.Client.Core.Enumerables;
     using SMS.EPA.Core.Attribute;
     using SMS.EPA.Core.Constants;
     using SMS.EPA.Core.Enumerations;
@@ -61,7 +62,7 @@
             {
                 command.SettingXml = command.Settings.ToXML().ToString();
                 command.IsActive = true;
-                command.CreatedBy = SessionService.EmployeeId;
+                command.CreatedBy = CurrentEmployeeId;
                 commandResult = await baseService.ExecuteNonQueryAsync(command);
             }
 
@@ -76,7 +77,7 @@
             if (command != null)
             {
                 command.SettingXml = command.Settings.ToXML().ToString();
-                command.ModifiedBy = SessionService.EmployeeId;
+                command.ModifiedBy = CurrentEmployeeId;
                 commandResult = await baseService.ExecuteNonQueryAsync(command);
             }
 
@@ -90,7 +91,7 @@
             var commandResult = new CommandResult();
             if (command != null)
             {
-                command.ModifiedBy = SessionService.EmployeeId;
+                command.ModifiedBy = CurrentEmployeeId;
                 commandResult = await baseService.ExecuteNonQueryAsync(command);
             }
 
@@ -104,7 +105,7 @@
             var criteria = new DeleteJobLevelStandardPeriodCommand
             {
                 PeriodId = periodId,
-                ModifiedBy = SessionService.EmployeeId
+                ModifiedBy = CurrentEmployeeId
             };
             return await baseService.ExecuteNonQueryAsync(criteria);
         }
@@ -132,7 +133,7 @@
             var commandResult = new CommandResult();
             if (command != null)
             {
-                command.ModifiedBy = SessionService.EmployeeId;
+                command.ModifiedBy = CurrentEmployeeId;
                 commandResult = await baseService.ExecuteNonQueryAsync(command);
             }
 
@@ -155,7 +156,7 @@
             {
                 PeriodId = employeeSettings.First().PeriodId,
                 SettingXml = settings.ToXML().ToString(),
-                ModifiedBy = SessionService.EmployeeId
+                ModifiedBy = CurrentEmployeeId
             };
             CommandResult commandResult = await baseService.ExecuteNonQueryAsync(command);
 
@@ -169,7 +170,7 @@
             var commandResult = new CommandResult();
             if (command != null)
             {
-                command.ModifiedBy = SessionService.EmployeeId;
+                command.ModifiedBy = CurrentEmployeeId;
                 commandResult = await baseService.ExecuteNonQueryAsync(command);
             }
 
@@ -200,7 +201,7 @@
             if (command != null)
             {
                 command.SettingXml = command.Settings.ToXML().ToString();
-                command.ModifiedBy = SessionService.EmployeeId;
+                command.ModifiedBy = CurrentEmployeeId;
                 commandResult = await baseService.ExecuteNonQueryAsync(command);
             }
 
@@ -214,7 +215,7 @@
             var commandResult = new CommandResult();
             if (command != null)
             {
-                command.ModifiedBy = SessionService.EmployeeId;
+                command.ModifiedBy = CurrentEmployeeId;
                 commandResult = await baseService.ExecuteNonQueryAsync(command);
             }
 
@@ -223,7 +224,7 @@
 
         public byte GetPermission()
         {
-            return SessionService.GetPermission(EPAFunctionKey.JobLevelStandardPeriod);
+            return GetPermissionOnFunction(EPAFunctionKey.JobLevelStandardPeriod);
         }
     }
 }

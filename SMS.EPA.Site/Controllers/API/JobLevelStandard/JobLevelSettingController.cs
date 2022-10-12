@@ -4,9 +4,9 @@
     using System.Linq;
     using System.Threading.Tasks;
     using System.Web.Http;
+    using HRM.UserControl.Client.Core.Enumerables;
     using SMS.EPA.Core.Attribute;
     using SMS.EPA.Core.Constants;
-    using SMS.EPA.Core.Enumerations;
     using SMS.EPA.Core.Extensions;
     using SMS.EPA.Core.Model;
     using SMS.EPA.Core.Services;
@@ -51,7 +51,7 @@
             if (command != null)
             {
                 command.SettingXml = command.Settings.ToXML().ToString();
-                command.ModifiedBy = SessionService.EmployeeId;
+                command.ModifiedBy = CurrentEmployeeId;
                 commandResult = await baseService.ExecuteNonQueryAsync(command);
             }
 
@@ -60,7 +60,7 @@
 
         public byte GetPermission()
         {
-            return SessionService.GetPermission(EPAFunctionKey.JobLevelSetting);
+            return GetPermissionOnFunction(EPAFunctionKey.JobLevelSetting);
         }
     }
 }

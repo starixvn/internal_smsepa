@@ -45,11 +45,6 @@
         public IList<Employee> GetEmployee(GetEmployeeCriteria criteria)
         {
             return employeeRepository.GetAllEmployee(criteria).ToList();
-                var roles = roleService.GetBySiteId(userControlSession.SiteId);
-                foreach(var employee in employees)
-                {
-                    employee.Roles = roles.Where(x => employee.Roles.Any(r => r.RoleId == x.RoleId)).ToList();
-                }
         }
 
         public Employee GetEmployeeById(int employeeId)

@@ -88,7 +88,7 @@
         }
 
 #pragma warning disable S1541 // Methods and properties should not be too complex
-        public void RemoveSensitiveDataOnEmployeeRole(EPAModel epaInfo, ISessionService sessionService)
+        public void RemoveSensitiveDataOnEmployeeRole(EPAModel epaInfo, IUserControlSession userControlSession)
 #pragma warning restore S1541 // Methods and properties should not be too complex
         {
             var currentEmployeeId = userControlSession.Get<int>(Constants.CurrentEmployeeIdKey);

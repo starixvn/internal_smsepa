@@ -4,6 +4,9 @@
     using System.IO;
     using System.Linq;
     using System.Web.Mvc;
+    using HRM.UserControl.Client.AspNetMvc.Session;
+    using HRM.UserControl.Client.Core.Session;
+    using SMS.EPA.Core.Constants;
     using SMS.EPA.Core.Services;
     using SMS.EPA.Criteria.JobLevelStandard;
     using SMS.EPA.Criteria.JobLevelStandard.Report;
@@ -16,7 +19,7 @@
     public class ExportAssessmentController : Controller
     {
         private readonly IBaseService baseService;
-        private readonly ISessionService sessionService;
+        private readonly IUserControlSession userControlSession;
         private readonly IJoblevelAssessmentReportService reportService;
         private readonly IExportJobLevelAssessmentService exportService;
 
@@ -27,12 +30,12 @@
 
         public ExportAssessmentController(
             IBaseService baseService,
-            ISessionService sessionService,
+            IUserControlSession userControlSession,
             IJoblevelAssessmentReportService reportService,
             IExportJobLevelAssessmentService exportService)
         {
             this.baseService = baseService ?? new BaseService();
-            this.sessionService = sessionService ?? new SessionService();
+            this.userControlSession = userControlSession ?? new UserControlSession();
             this.reportService = reportService ?? new JoblevelAssessmentReportService();
             this.exportService = exportService ?? new ExportJobLevelAssessmentService();
         }
@@ -42,7 +45,7 @@
             var kpicriteria = new GetKPIByPeriodIdCriteria { PeriodId = criteria.PeriodId };
             var kpis = baseService.GetData<JobLevelStandardKPI>(kpicriteria).ToList();
 
-            criteria.ActorId = sessionService.CurrentUser.EmployeeId;
+            criteria.ActorId = userControlSession.Get<int>(Constants.CurrentEmployeeIdKey);
             IList<JobLevelAssessment> assessments = reportService.GetJoblevelAssessment(criteria);
             var title = Lang.JoblevelAssessmentReportTitle + " - " + criteria.PeriodName;
             MemoryStream output = exportService.ExportJoblevelAssessmentReport(kpis, assessments, title);

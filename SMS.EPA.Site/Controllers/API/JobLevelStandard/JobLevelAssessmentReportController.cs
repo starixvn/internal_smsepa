@@ -4,9 +4,9 @@
     using System.Linq;
     using System.Threading.Tasks;
     using System.Web.Http;
+    using HRM.UserControl.Client.Core.Enumerables;
     using SMS.EPA.Core.Attribute;
     using SMS.EPA.Core.Constants;
-    using SMS.EPA.Core.Enumerations;
     using SMS.EPA.Core.Services;
     using SMS.EPA.Criteria.JobLevelStandard;
     using SMS.EPA.Criteria.JobLevelStandard.Report;
@@ -43,7 +43,7 @@
         {
             var criteria = new Criteria.JobLevelStandard.Report.GetOrgChartByActorIdCriteria
             {
-                ActorId = SessionService.EmployeeId,
+                ActorId = CurrentEmployeeId,
                 PeriodId = periodId
             };
             var tuple = baseService.FetchMultiple<Department, Section, Team>(criteria);
@@ -81,7 +81,7 @@
             var kpicriteria = new GetKPIByPeriodIdCriteria { PeriodId = criteria.PeriodId };
             var kpis = baseService.GetData<JobLevelStandardKPI>(kpicriteria).ToList();
 
-            criteria.ActorId = SessionService.EmployeeId;
+            criteria.ActorId = CurrentEmployeeId;
             IList<JobLevelAssessment> assessments = reportService.GetJoblevelAssessment(criteria);
 
             return new { kpis, assessments };

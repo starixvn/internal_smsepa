@@ -277,9 +277,6 @@
             return service;
         }
 
-            _employeeService = GetEmployeeService(_employeeRepository);
-        }
-
         private void ArrangeGetEmployeeById(Employee result = null)
         {
             _employeeRepository = FakeEmployeeRepository();

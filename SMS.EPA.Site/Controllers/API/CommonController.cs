@@ -18,7 +18,7 @@
     using SMS.EPA.Criteria.TargetType;
     using SMS.EPA.Model;
     using SMS.EPA.Model.Enitites;
-    using SMS.EPA.Services;
+    using SMS.EPA.Core.Enumerations;
 
     public class CommonController : BaseController
     {

@@ -5,9 +5,9 @@
     using System.Linq;
     using System.Threading.Tasks;
     using System.Web.Http;
+    using HRM.UserControl.Client.Core.Enumerables;
     using SMS.EPA.Core.Attribute;
     using SMS.EPA.Core.Constants;
-    using SMS.EPA.Core.Enumerations;
     using SMS.EPA.Core.Extensions;
     using SMS.EPA.Core.Model;
     using SMS.EPA.Core.Services;
@@ -36,7 +36,7 @@
         {
             var criteria = new GetPeriodByActorCriteria
             {
-                ActorId = SessionService.EmployeeId
+                ActorId = CurrentEmployeeId
             };
             var periods = await baseService.GetDataAsync<JobLevelStandardPeriod>(criteria);
             return periods.ToList();
@@ -53,7 +53,7 @@
             var settingCriteria = new GetPeriodJobLevelSettingByPeriodIdCriteria { PeriodId = criteria.PeriodId };
             var jobLevelSettings = baseService.GetData<JobLevelSetting>(settingCriteria).ToList();
 
-            criteria.ActorId = SessionService.EmployeeId;
+            criteria.ActorId = CurrentEmployeeId;
             var tuple = baseService.FetchMultiple<JobLevelAssessment, PeriodProcessSetting, JobLevelAssessmentKPI>(criteria);
             IList<JobLevelAssessment> assessments = tuple.Item1.ToList();
             foreach(var assessment in assessments)
@@ -64,7 +64,7 @@
                 assessment.KPIs = tuple.Item3.Where(x => x.EmployeeId == assessment.EmployeeId).ToList();
 
                 var currentProcess = assessment.Processes
-                    .FirstOrDefault(x => x.EvaluatorId == SessionService.EmployeeId && x.FromDate <= today && x.ToDate >= today);
+                    .FirstOrDefault(x => x.EvaluatorId == CurrentEmployeeId && x.FromDate <= today && x.ToDate >= today);
                 if(currentProcess != null)
                 {
                     assessment.IsHost = true;
@@ -77,7 +77,7 @@
                 }
             }
 
-            assessments = assessments.OrderBy(x => x.Processes.Any(y => y.EvaluatorId == SessionService.EmployeeId) ? 0 : 1)
+            assessments = assessments.OrderBy(x => x.Processes.Any(y => y.EvaluatorId == CurrentEmployeeId) ? 0 : 1)
                 .ThenBy(x => x.StatusId.HasValue ? 0 : 1).ToList();
 
             return new { kpis, jobLevelSettings, assessments };
@@ -100,7 +100,7 @@
                     StatusId = assessment.StatusId,
                     AssessmentKPIXml = assessment.KPIs.ToXML().ToString(),
                     Remark = assessment.Remark,
-                    ModifiedBy = SessionService.EmployeeId
+                    ModifiedBy = CurrentEmployeeId
                 };
                 commandResult = await baseService.ExecuteNonQueryAsync(command);
             }
@@ -115,7 +115,7 @@
             var commandResult = new CommandResult();
             if (command != null)
             {
-                command.ModifiedBy = SessionService.EmployeeId;
+                command.ModifiedBy = CurrentEmployeeId;
                 commandResult = await baseService.ExecuteNonQueryAsync(command);
             }
 
@@ -124,7 +124,7 @@
 
         public IList<MultiSelectItem> GetOrgChart(int? periodId = null)
         {
-            var criteria = new GetOrgChartByActorIdCriteria { ActorId = SessionService.EmployeeId, PeriodId = periodId };
+            var criteria = new GetOrgChartByActorIdCriteria { ActorId = CurrentEmployeeId, PeriodId = periodId };
             var tuple = baseService.FetchMultiple<Department, Section, Team>(criteria);
 
             var departments = tuple.Item1.ToList();

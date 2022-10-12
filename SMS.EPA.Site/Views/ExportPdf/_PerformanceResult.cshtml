@@ -152,7 +152,7 @@
                               : (Model.DisciplineScore != 0 ? Model.DisciplineScore.ToString() : "-"))
                     </td>
                     <td rowspan="@rowspan" class="border-r-b align-center">
-                        @if (Model.StatusId == (int)EPAStatus.Closed)
+                        @if (Model.StatusId == (int)EpaStatus.Closed)
                         {
                             if (!string.IsNullOrEmpty(Model.FinalScore))
                             {
@@ -169,7 +169,7 @@
                         }
                     </td>
                     <td rowspan="@rowspan" class="border-r-b align-center">
-                        @if (Model.StatusId == (int)EPAStatus.Closed)
+                        @if (Model.StatusId == (int)EpaStatus.Closed)
                         {
                             @Model.Grade
                         }

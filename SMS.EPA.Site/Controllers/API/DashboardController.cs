@@ -11,6 +11,7 @@
     using SMS.EPA.Services;
     using SMS.EPA.Criteria.Dashboard;
     using SMS.EPA.Model.Dashboard;
+    using SMS.EPA.Core.Enumerations;
 
     public class DashboardController : BaseController
     {
@@ -62,7 +63,7 @@
             var result = new List<string>();
             var criteria = new GetAnnouncementCriteria
             {
-                EmployeeId = SessionService.EmployeeId
+                EmployeeId = CurrentEmployeeId
             };
             var settings = baseService.GetData<JobLevelStandardProcessSetting>(criteria);
             foreach(var setting in settings)
