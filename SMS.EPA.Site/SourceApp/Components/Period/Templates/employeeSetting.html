@@ -68,7 +68,7 @@
     <table class="row table table-bordered table-striped" id="data">
         <thead>
             <tr class="header-table">
-                <th colspan="15">
+                <th colspan="17">
                     <a class="pull-left button-icon period-create-button"
                         ng-show="updateCtrl.permission == updateCtrl.policyEnum.Host" ng-click="empSettingCtrl.manageSetting()">
                         <span class="icon-edit glyphicon glyphicon-edit"></span>
@@ -280,12 +280,12 @@
         </tbody>
         <tbody ng-show="empSettingCtrl.filteredItems.length === 0">
             <tr>
-                <td class="empty-result" colspan="15" data-translate="EmptyResult"></td>
+                <td class="empty-result" colspan="17" data-translate="EmptyResult"></td>
             </tr>
         </tbody>
         <tfoot>
             <tr>
-                <td colspan="15" class="paging">
+                <td colspan="17" class="paging">
                     <span data-translate="Show"></span>
                     <select class="dropdown-entry form-control" ng-model="empSettingCtrl.pageSize"
                             ng-options="entry for entry in empSettingCtrl.entries" ng-change="empSettingCtrl.currentPage = 1"></select>
