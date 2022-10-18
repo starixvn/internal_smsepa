@@ -29,7 +29,8 @@
                                         Name: employee.NickName,
                                         HasMonthlyEPA: employee.HasMonthlyEPA,
                                         Avatar: employee.Avatar,
-                                        NickName: employee.NickName
+                                        NickName: employee.NickName,
+                                        FullName: employee.FullName
                                     }
                                 });
                             });
