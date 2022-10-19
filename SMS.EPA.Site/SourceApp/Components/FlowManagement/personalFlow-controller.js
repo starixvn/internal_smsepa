@@ -24,6 +24,7 @@
         vm.defaultFlowSettings = [];
         vm.personalFlowSettings = [];
 
+        vm.searchEmployeeConfigured = '';
         vm.searchEmployee = '';
         vm.searchEvaluator = '';
         vm.searchReviewer = '';
@@ -162,6 +163,17 @@
 
         vm.deletePersonalFlow = function () {
             PersonalFlowModel.openPopupDeletePersonalFlow(vm);
+        };
+
+        vm.filterEmployeeConfigured = function () {
+            return function (item) {
+                const filterVal = vm.searchEmployeeConfigured.toLowerCase();
+                let matcher = new RegExp(filterVal, 'gi');
+
+                if (filterVal === '' || matcher.test(item.NickName.toLowerCase()) || matcher.test(item.FullName.toLowerCase())) {
+                    return item;
+                };
+            }
         };
     }
 })(angular);
