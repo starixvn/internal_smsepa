@@ -91,15 +91,21 @@
             var loginResult = authService.Login(loginParam);
             if (loginResult.IsSuccessfull)
             {
+                UserSession employee = GetEmployeeLogin();
+                if (employee == null)
+                {
+                    ModelState.AddModelError(string.Empty, "User has not been mapped.");
+                    return View(model);
+                }
+
                 userControlSession.UserId = loginResult.UserId;
                 userControlSession.SiteId = userControlSettings.SiteId;
                 userControlSession.JwtToken = loginResult.JwtToken;
                 userControlSession.MenuItems = userService.GetMenuItem();
                 userControlSession.Functions = userService.GetFunctionPermission(userControlSession.SiteId, userControlSession.UserId);
 
-                UserSession employee = GetEmployeeLogin();
-                userControlSession.Set<UserSession>(Constants.CurrentEmployeeKey, employee);
-                userControlSession.Set<int>(Constants.CurrentEmployeeIdKey, employee.EmployeeId);
+                userControlSession.Set(Constants.CurrentEmployeeKey, employee);
+                userControlSession.Set(Constants.CurrentEmployeeIdKey, employee.EmployeeId);
                 FormsAuthentication.SetAuthCookie(employee.EmployeeId.ToString(), false);
                 Response.Redirect(Url.IsLocalUrl(model.ReturnPath) ? model.ReturnPath : FormsAuthentication.DefaultUrl);
             }

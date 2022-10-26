@@ -1,20 +1,14 @@
 ﻿namespace SMS.EPA.ClientHrm.Criteria
 {
-    using Fanex.Data.Repository;
     using System;
+    using Fanex.Data.Repository;
 
     public class GetEmployeeCriteria : CriteriaBase
     {
         public DateTime? FromDate { get; set; }
 
-        public override string GetSettingKey()
-        {
-            return "Employee_Get";
-        }
+        public override string GetSettingKey() => "Sync_Employee_Get";
 
-        public override bool IsValid()
-        {
-            return true;
-        }
+        public override bool IsValid() => true;
     }
 }

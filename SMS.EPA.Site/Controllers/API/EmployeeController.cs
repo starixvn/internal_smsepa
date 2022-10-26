@@ -77,10 +77,11 @@
                 var rijndaelIV = keyiv[1];
                 var result = userService.Create(new CreateUserParam
                 {
+                    RefId = criteria.EmployeeId,
                     Username = criteria.Username,
                     Nickname = criteria.NickName,
                     FullName = criteria.FullName,
-                    Password = cryptoService.Encrypt(password, rijndaelKey, rijndaelIV),
+                    BCryptPassword = cryptoService.Encrypt(password, rijndaelKey, rijndaelIV),
                     Token = token
                 });
                 if (result.IsSuccessful)
@@ -109,6 +110,7 @@
                 var employee = employeeService.GetEmployeeById(criteria.EmployeeId);
                 var result = userService.UpdateInfo(new UpdateUserInfoParam
                 {
+                    RefId = criteria.EmployeeId,
                     UserId = employee.UserId,
                     Code = employee.Code,
                     Nickname = criteria.NickName,

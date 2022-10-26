@@ -4,7 +4,7 @@
 
     public class Employee
     {
-        public int UserId { get; set; }
+        public int? UserId { get; set; }
         public int EmployeeId { get; set; }
         public string Code { get; set; }
         public string DomainUsername { get; set; }

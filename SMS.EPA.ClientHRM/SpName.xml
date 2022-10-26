@@ -1,25 +1,20 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Functions>
-  <Function Name="Employee">
-    <Setting Key="Employee_Get" SpName="Employee_Get" DbName="nexhr" Plain="0" >
-      <Mapping DataField="UserId" ObjectProperty="EmployeeId" />
-      <Mapping DataField="DomainName" ObjectProperty="DomainUsername" />
-    </Setting>
-    <Setting Key="EmployeeGroup_Get" SpName="EmployeeGroup_Get" DbName="nexhr" Plain="0" >
-    </Setting>
-    <Setting Key="Sync_Department" SpName="Sync_Department" DbName="nexhr" Plain="0" >
-    </Setting>
-    <Setting Key="JobTitle_Get" SpName="JobTitle_Get" DbName="nexhr" Plain="0" >
-      <Mapping DataField="Id" ObjectProperty="JobTitleId" />
-    </Setting>
-    <Setting Key="Sync_DisciplineSummary" SpName="Sync_DisciplineSummary" DbName="nexhr" Plain="0" >
-    </Setting>
-    <Setting Key="EmployeeSupervisor_GetForSync" SpName="EmployeeSupervisor_GetForSync" DbName="nexhr" Plain="0" >
-      <Mapping DataField="EmpId" ObjectProperty="EmployeeId" />
-    </Setting>
-    <Setting Key="GroupSupervisor_GetForSync" SpName="GroupSupervisor_GetForSync" DbName="nexhr" Plain="0" >
-      <Mapping DataField="GroupId" ObjectProperty="TeamId" />
-    </Setting>
-    <Setting Key="Sync_JobLevel" SpName="Sync_JobLevel" DbName="nexhr" Plain="0" ></Setting>
-  </Function>
+    <Function Name="Employee">
+        <Setting Key="Sync_Employee_Get" SpName="Sync_Employee_Get" DbName="nexhr" Plain="0" />
+        <Setting Key="EmployeeGroup_Get" SpName="EmployeeGroup_Get" DbName="nexhr" Plain="0" />
+        <Setting Key="Sync_Department" SpName="Sync_Department" DbName="nexhr" Plain="0">
+        </Setting>
+        <Setting Key="JobTitle_Get" SpName="JobTitle_Get" DbName="nexhr" Plain="0">
+            <Mapping DataField="Id" ObjectProperty="JobTitleId" />
+        </Setting>
+        <Setting Key="Sync_DisciplineSummary" SpName="Sync_DisciplineSummary" DbName="nexhr" Plain="0" />
+        <Setting Key="EmployeeSupervisor_GetForSync" SpName="EmployeeSupervisor_GetForSync" DbName="nexhr" Plain="0">
+            <Mapping DataField="EmpId" ObjectProperty="EmployeeId" />
+        </Setting>
+        <Setting Key="GroupSupervisor_GetForSync" SpName="GroupSupervisor_GetForSync" DbName="nexhr" Plain="0">
+            <Mapping DataField="GroupId" ObjectProperty="TeamId" />
+        </Setting>
+        <Setting Key="Sync_JobLevel" SpName="Sync_JobLevel" DbName="nexhr" Plain="0" />
+    </Function>
 </Functions>

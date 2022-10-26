@@ -15,11 +15,10 @@
 
     public class UpdateEmployeeCriteria : CriteriaBase
     {
-        private const string UserTpl =
-            "<User EmployeeId='{0}' DomainUsername='{1}' Code='{2}'"
+        private const string UserTpl = "<Row EmployeeId='{0}' DomainUsername='{1}' Code='{2}'"
             + " NickName='{3}' FullName='{4}' TeamId='{5}' JobTitleId='{6}' Phone='{7}'"
             + " Email='{8}' CardNumber='{9}' IsEnabled='{10}' IsDeleted='{11}' Password='{12}'"
-            + " JoinedDate='{13}' ModifiedDate='{14}' IsLocal='{15}' ResignedDate ='{16}' ConfirmedDate='{17}' JobLevelId='{18}' />";
+            + " JoinedDate='{13}' ModifiedDate='{14}' IsLocal='{15}' ResignedDate ='{16}' ConfirmedDate='{17}' JobLevelId='{18}' UserId='{19}' />";
 
         [SpParam(Ignored = true)]
         public IList<Employee> Employees { get; set; }
@@ -29,16 +28,15 @@
             get
             {
                 var value = new StringBuilder(Constants.BeginRootTag);
-                bool encryptedPassword = bool.Parse(ConfigurationManagerService.GetAppSetting("EncryptedPassword"));
+                var encryptedPassword = bool.Parse(ConfigurationManagerService.GetAppSetting("EncryptedPassword"));
 
                 if (Employees != null && Employees.Any())
                 {
                     foreach (Employee employee in Employees)
                     {
-                        string password = employee.Password;
                         if (!encryptedPassword)
                         {
-                            password = Encryption.ComputeHash(HashProvider.Sha1, employee.Password);
+                            employee.Password = Encryption.ComputeHash(HashProvider.Sha1, employee.Password);
                         }
 
                         value.AppendFormat(
@@ -55,13 +53,14 @@
                             employee.EmployeeCard,
                             employee.IsEnabled,
                             employee.IsDeleted,
-                            password,
+                            employee.Password,
                             FormatDateTime(employee.JoinedDate),
                             FormatDateTime(employee.ModifiedDate),
                             employee.IsLocal,
                             FormatDateTime(employee.ResignedDate),
                             FormatDateTime(employee.ConfirmedDate),
-                            employee.JobLevelId);
+                            employee.JobLevelId,
+                            employee.UserId);
                     }
                 }
 

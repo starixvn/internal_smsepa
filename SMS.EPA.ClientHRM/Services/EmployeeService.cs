@@ -24,7 +24,7 @@
         public IEnumerable<Employee> GetEmployees(DateTime? fromDate)
         {
             var criteria = new GetEmployeeCriteria { FromDate = fromDate };
-            IEnumerable<Employee> employees = _dynamicRepository.Fetch<Employee>(criteria);
+            var employees = _dynamicRepository.Fetch<Employee>(criteria);
 
             return employees;
         }

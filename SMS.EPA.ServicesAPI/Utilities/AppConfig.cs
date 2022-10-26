@@ -50,6 +50,9 @@
 
         public static string PhotoPath => ConfigurationManager.AppSettings["PhotoPath"];
 
+        public static string UserControl_Username => ConfigurationManager.AppSettings["UserControl.Username"];
+        public static string UserControl_Password => ConfigurationManager.AppSettings["UserControl.Password"];
+
         public static short UserControlSettings_SiteId
             => short.Parse(ConfigurationManager.AppSettings["UserControl.Configurations:SiteId"]);
 
