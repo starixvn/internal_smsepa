@@ -91,7 +91,7 @@
             var loginResult = authService.Login(loginParam);
             if (loginResult.IsSuccessfull)
             {
-                UserSession employee = GetEmployeeLogin();
+                UserSession employee = GetEmployeeLogin(loginResult.UserId);
                 if (employee == null)
                 {
                     ModelState.AddModelError(string.Empty, "User has not been mapped.");
@@ -119,12 +119,12 @@
 
         public ActionResult SSO(string userId, string onUserId, string time, string redirectUrl = null)
         {
+            const string DateTimeFormat = "yyyy-MM-dd HH:mm:ss.fff";
             var userIdValue = Cryptography.DecryptPassword(userId.Replace(" ", "+"));
             var onUserIdValue = Cryptography.DecryptPassword(onUserId.Replace(" ", "+"));
             var timeValue = Cryptography.DecryptPassword(time.Replace(" ", "+"));
             var currentTime = authService.SSOGetTime();
-            TimeSpan expiration = DateTime.ParseExact(currentTime, "yyyy-MM-dd HH:mm:ss.fff", null)
-                - DateTime.ParseExact(timeValue, "yyyy-MM-dd HH:mm:ss.fff", null);
+            TimeSpan expiration = DateTime.ParseExact(currentTime, DateTimeFormat, null) - DateTime.ParseExact(timeValue, DateTimeFormat, null);
             const byte TimeExpiration = 30;
             if (expiration.TotalSeconds <= TimeExpiration)
             {
@@ -141,16 +141,21 @@
                 LoginResult loginResult = authService.SSOLogin(ssoParam);
                 if (loginResult.IsSuccessfull)
                 {
+                    UserSession employee = GetEmployeeLogin(Convert.ToInt32(userIdValue));
+                    if (employee == null)
+                    {
+                        return RedirectToAction("Login");
+                    }
+
                     userControlSession.UserId = Convert.ToInt32(userIdValue);
                     userControlSession.SiteId = userControlSettings.SiteId;
                     userControlSession.JwtToken = loginResult.JwtToken;
                     userControlSession.OnUserId = loginResult.OnUserId;
                     userControlSession.MenuItems = userService.GetMenuItem();
                     userControlSession.Functions = userService.GetFunctionPermission(userControlSession.SiteId, userControlSession.UserId);
-                    UserSession employee = GetEmployeeLogin();
 
-                    userControlSession.Set<UserSession>(Constants.CurrentEmployeeKey, employee);
-                    userControlSession.Set<int>(Constants.CurrentEmployeeIdKey, employee.EmployeeId);
+                    userControlSession.Set(Constants.CurrentEmployeeKey, employee);
+                    userControlSession.Set(Constants.CurrentEmployeeIdKey, employee.EmployeeId);
                     FormsAuthentication.SetAuthCookie(employee.EmployeeId.ToString(), false);
                     return !string.IsNullOrWhiteSpace(redirectUrl) && Url.IsLocalUrl(redirectUrl)
                         ? Redirect(string.Format("/#/{0}", redirectUrl)) : Redirect(FormsAuthentication.DefaultUrl);
@@ -160,11 +165,11 @@
             return RedirectToAction("Login");
         }
 
-        private UserSession GetEmployeeLogin()
+        private UserSession GetEmployeeLogin(int userId)
         {
             var criteria = new GetEmployeeLoginByUserIdCriteria
             {
-                UserId = userControlSession.UserId
+                UserId = userId
             };
             return baseService.GetDataEntity<UserSession>(criteria);
         }
