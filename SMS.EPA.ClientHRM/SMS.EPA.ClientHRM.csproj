@@ -196,9 +196,6 @@
     <None Include="AppConfigs\App.PRO.hm.config">
       <SubType>Designer</SubType>
     </None>
-    <None Include="AppConfigs\App.PRO.cts.config">
-      <SubType>Designer</SubType>
-    </None>
     <None Include="AppConfigs\App.PRO.sms.config">
       <SubType>Designer</SubType>
     </None>
