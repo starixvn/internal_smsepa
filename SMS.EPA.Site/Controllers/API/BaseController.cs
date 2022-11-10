@@ -50,13 +50,13 @@
         protected byte GetPermissionOnFunction(string functionKey)
         {
             byte policy = (byte)Policy.None;
-            if (UserControlSession.HasPermissionOnFunction(EPAFunctionKey.FlowManagement, Policy.Host))
+            if (UserControlSession.HasPermissionOnFunction(functionKey, Policy.Host))
             {
                 policy = (byte)Policy.Host;
             }
             else
             {
-                if (UserControlSession.HasPermissionOnFunction(EPAFunctionKey.FlowManagement, Policy.Read))
+                if (UserControlSession.HasPermissionOnFunction(functionKey, Policy.Read))
                 {
                     policy = (byte)Policy.Read;
                 }

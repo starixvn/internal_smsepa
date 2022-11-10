@@ -92,6 +92,7 @@
                     {
                         endPoint = "api/user/update";
                         data.Add("userId", employee.UserId);
+                        data.Add("OldPassword", employee.Password);
                         await SendAsync<Dictionary<string, object>, CommandResult>(endPoint, data, loginResult.JwtToken.Token);
                     }
                     else

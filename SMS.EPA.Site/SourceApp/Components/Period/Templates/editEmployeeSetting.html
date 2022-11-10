@@ -49,7 +49,7 @@
                                 options="updatePeriodSettingCtrl.employeeOptions.humanResourceEmployees"
                                 ng-model="updatePeriodSettingCtrl.employeeOptions.humanResource.ids"
                                 data-placeholder="-- Select --" name="humanResourceSelect"
-                                ng-options="opt.EmployeeId as opt.NickName for opt in updatePeriodSettingCtrl.employeeOptions.humanResourceEmployees"
+                                ng-options="opt.EmployeeId as (opt.FullName + ' (' + opt.NickName + ')') for opt in updatePeriodSettingCtrl.employeeOptions.humanResourceEmployees"
                                 on-show-dropdown="updatePeriodSettingCtrl.updateTrigger()"></select>
                     </td>
                     <td ng-show="!updatePeriodSettingCtrl.isEditOnEPAHasMonthly"></td>
@@ -58,7 +58,7 @@
                                 options="updatePeriodSettingCtrl.employeeOptions.evaluatorEmployees"
                                 ng-model="updatePeriodSettingCtrl.employeeOptions.evaluator.ids"
                                 data-placeholder="-- Select --" name="evaluatorSelect"
-                                ng-options="opt.EmployeeId as opt.NickName for opt in updatePeriodSettingCtrl.employeeOptions.evaluatorEmployees"
+                                ng-options="opt.EmployeeId as (opt.FullName + ' (' + opt.NickName + ')') for opt in updatePeriodSettingCtrl.employeeOptions.evaluatorEmployees"
                                 on-show-dropdown="updatePeriodSettingCtrl.updateTrigger()"></select>
                     </td>
                     <td>
@@ -66,7 +66,7 @@
                                 options="updatePeriodSettingCtrl.employeeOptions.reviewerEmployees"
                                 ng-model="updatePeriodSettingCtrl.employeeOptions.reviewer.ids"
                                 data-placeholder="-- Select --" name="reviewerSelect"
-                                ng-options="opt.EmployeeId as opt.NickName for opt in updatePeriodSettingCtrl.employeeOptions.reviewerEmployees"
+                                ng-options="opt.EmployeeId as (opt.FullName + ' (' + opt.NickName + ')') for opt in updatePeriodSettingCtrl.employeeOptions.reviewerEmployees"
                                 on-show-dropdown="updatePeriodSettingCtrl.updateTrigger()"></select>
                     </td>
                     <td>
@@ -74,7 +74,7 @@
                                 options="updatePeriodSettingCtrl.employeeOptions.managementEmployees"
                                 ng-model="updatePeriodSettingCtrl.employeeOptions.management.ids"
                                 data-placeholder="-- Select --" name="managementSelect"
-                                ng-options="opt.EmployeeId as opt.NickName for opt in updatePeriodSettingCtrl.employeeOptions.managementEmployees"
+                                ng-options="opt.EmployeeId as (opt.FullName + ' (' + opt.NickName + ')') for opt in updatePeriodSettingCtrl.employeeOptions.managementEmployees"
                                 on-show-dropdown="updatePeriodSettingCtrl.updateTrigger()"></select>
                     </td>
                 </tr>

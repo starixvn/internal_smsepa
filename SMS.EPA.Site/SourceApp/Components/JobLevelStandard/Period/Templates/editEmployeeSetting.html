@@ -34,7 +34,7 @@
                             options="editEmployeeSettingCtrl.employeeSettings.evaluatorOptions"
                             ng-model="editEmployeeSettingCtrl.employeeSettings.evaluator.ids"
                             data-placeholder="-- Select --" name="evaluatorSelect"
-                            ng-options="opt.EmployeeId as opt.NickName for opt in editEmployeeSettingCtrl.employeeSettings.evaluatorOptions"
+                            ng-options="opt.EmployeeId as (opt.FullName + ' (' + opt.NickName + ')') for opt in editEmployeeSettingCtrl.employeeSettings.evaluatorOptions"
                             on-show-dropdown="editEmployeeSettingCtrl.updateTrigger()"></select>
                 </td>
                 <td></td>
@@ -43,7 +43,7 @@
                             options="editEmployeeSettingCtrl.employeeSettings.managementOptionss"
                             ng-model="editEmployeeSettingCtrl.employeeSettings.management.ids"
                             data-placeholder="-- Select --" name="managementSelect"
-                            ng-options="opt.EmployeeId as opt.NickName for opt in editEmployeeSettingCtrl.employeeSettings.managementOptions"
+                            ng-options="opt.EmployeeId as (opt.FullName + ' (' + opt.NickName + ')') for opt in editEmployeeSettingCtrl.employeeSettings.managementOptions"
                             on-show-dropdown="editEmployeeSettingCtrl.updateTrigger()"></select>
                 </td>
             </tr>
