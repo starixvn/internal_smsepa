@@ -58,7 +58,7 @@
                 <th rowspan="3" data-translate="SymbolCount"></th>
                 <th rowspan="2" colspan="10">Employee Info</th>
                 <th colspan="{{assessmentReportCtrl.kpis.length * 2}}">
-                    Job Level Standards (Assessment by Section Head/Superior)
+                    Job Level Standards (Assessment by Department P.I.C)
                 </th>
                 <th colspan="3" rowspan="2">Review by Unit Head</th>
                 <th rowspan="3" data-translate="Remark"></th>
@@ -113,7 +113,7 @@
                 <td class="text-center">
                     <span ng-show="assessment.StatusId === assessmentReportCtrl.assessmentStatus.Pending" data-translate="Pending"></span>
                     <span ng-show="assessment.StatusId === assessmentReportCtrl.assessmentStatus.Verified" data-translate="Verified"></span>
-                    <span ng-show="assessment.StatusId === assessmentReportCtrl.assessmentStatus.Approved" data-translate="Approved"></span>
+                    <span ng-show="assessment.StatusId === assessmentReportCtrl.assessmentStatus.Approved" data-translate="Reviewed"></span>
                 </td>
             </tr>
             <tr ng-show="assessmentReportCtrl.filteredItems.length === 0">

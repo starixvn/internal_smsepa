@@ -7,6 +7,7 @@
     using NPOI.SS.UserModel;
     using NPOI.SS.Util;
     using SMS.EPA.Core.Constants;
+    using SMS.EPA.Core.Utilities;
     using SMS.EPA.Core.Utilities.NPOIExtensions;
     using SMS.EPA.Model.JobLevelStandard;
     using SMS.EPA.Resources;
@@ -151,7 +152,7 @@
                 var totolCellJobLevel = kpis.Count * 2 + startAssessmentColumnIndex - 1;
                 var cellJobLevelHeader = row.CreateCell(startAssessmentColumnIndex);
                 cellJobLevelHeader.CellStyle = cellStyle;
-                cellJobLevelHeader.SetCellValue("Job Level Standards (Assessment by Section Head/Superior)");
+                cellJobLevelHeader.SetCellValue("Job Level Standards (Assessment by Department P.I.C)");
                 region = new CellRangeAddress(1, 1, startAssessmentColumnIndex, totolCellJobLevel);
                 sheet.AddMergedRegion(region);
                 StyleMergedRegionHeader(workbook, sheet, region);
@@ -270,7 +271,7 @@
 
                 cellBody = row.CreateCell(cellIndex);
                 cellBody.CellStyle = bodyStyle;
-                cellBody.SetCellValue(assessment.StatusId.ToString());
+                cellBody.SetCellValue(Enumerations.GetDescription(assessment.StatusId));
                 SetColumnWidth(ref sheet, cellIndex, CellNormalWidth + 3);
 
                 rowIndex++;
@@ -369,19 +370,19 @@
             var bodyStyle = workbook.CreateCellStyle();
             bodyStyle.Alignment = HorizontalAlignment.Center;
             bodyStyle.VerticalAlignment = VerticalAlignment.Center;
-            if (assessment.SystemPropose > 0 && assessment.CurrentJobLevelId != assessment.NewJobLevelId)
+            if (assessment.SystemPropose < 0)
             {
-                bodyStyle.FillForegroundColor = HSSFColor.LightGreen.Index;
+                bodyStyle.FillForegroundColor = HSSFColor.LightOrange.Index;
                 bodyStyle.FillPattern = FillPattern.SolidForeground;
-                bodyStyle.FillBackgroundColor = HSSFColor.LightGreen.Index;
+                bodyStyle.FillBackgroundColor = HSSFColor.LightOrange.Index;
             }
             else
             {
-                if (assessment.SystemPropose < 0)
+                if (assessment.SystemPropose > 0 && assessment.NewJobLevelId.HasValue && assessment.CurrentJobLevelId != assessment.NewJobLevelId)
                 {
-                    bodyStyle.FillForegroundColor = HSSFColor.LightOrange.Index;
+                    bodyStyle.FillForegroundColor = HSSFColor.LightGreen.Index;
                     bodyStyle.FillPattern = FillPattern.SolidForeground;
-                    bodyStyle.FillBackgroundColor = HSSFColor.LightOrange.Index;
+                    bodyStyle.FillBackgroundColor = HSSFColor.LightGreen.Index;
                 }
             }
 
