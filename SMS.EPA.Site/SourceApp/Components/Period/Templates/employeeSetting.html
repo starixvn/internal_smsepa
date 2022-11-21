@@ -70,19 +70,19 @@
             <tr class="header-table">
                 <th colspan="17">
                     <a class="pull-left button-icon period-create-button"
-                        ng-show="updateCtrl.permission == updateCtrl.policyEnum.Host" ng-click="empSettingCtrl.manageSetting()">
+                       ng-show="updateCtrl.permission == updateCtrl.policyEnum.Host" ng-click="empSettingCtrl.manageSetting()">
                         <span class="icon-edit glyphicon glyphicon-edit"></span>
                         <span class="button-text btn-edit-employee-setting" data-translate="EditEmployeeSetting"></span>
                     </a>
                     <a class="pull-left button-icon period-create-button"
-                        ng-show="updateCtrl.permission == updateCtrl.policyEnum.Host" ng-click="empSettingCtrl.generateEvaluation()">
+                       ng-show="updateCtrl.permission == updateCtrl.policyEnum.Host" ng-click="empSettingCtrl.generateEvaluation()">
                         <span class="icon-edit glyphicon glyphicon-edit"></span>
                         <span class="button-text btn-edit-employee-setting" data-translate="GenerateEvaluation"></span>
                     </a>
                     <input class="btnExcel pull-right" export-employee-flow-setting-report
                            ng-click="empSettingCtrl.exportReport(empSettingCtrl.filter)"
                            type="button" title="Export to Excel">
-                    <input type="text" ng-model="empSettingCtrl.searchKey" ng-change="empSettingCtrl.search()" class="search-inline-textbox search pull-right" />
+                    <input type="text" ng-model="empSettingCtrl.searchKey" ng-change="empSettingCtrl.searchOnlyEmployee()" class="search-inline-textbox search pull-right" />
                 </th>
             </tr>
             <tr class="headerName">

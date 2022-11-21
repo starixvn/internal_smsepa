@@ -212,10 +212,10 @@
                     var childItem = item[attr];
 
                     if (childItem != null && /^[a-zA-Z0-9]*$/.test(attr) &&
-                            attr.toLowerCase().search('id') === -1 && attr.toLowerCase().search('length') === -1 &&
-                            attr.toLowerCase().search('index') === -1 && attr.toLowerCase().search('hash') === -1 &&
-                            attr.toLowerCase().search('time') === -1 && attr.toLowerCase().search('date') === -1 &&
-                            attr.toLowerCase().search('modifiedby') === -1 && attr.toLowerCase().search('createdby') === -1) {
+                        attr.toLowerCase().search('id') === -1 && attr.toLowerCase().search('length') === -1 &&
+                        attr.toLowerCase().search('index') === -1 && attr.toLowerCase().search('hash') === -1 &&
+                        attr.toLowerCase().search('time') === -1 && attr.toLowerCase().search('date') === -1 &&
+                        attr.toLowerCase().search('modifiedby') === -1 && attr.toLowerCase().search('createdby') === -1) {
                         if (typeof (childItem) === 'object') {
                             var exist = checkAllItemRecursion(childItem, searchKey);
 
@@ -240,6 +240,17 @@
                 if (originalData && originalData.length > 0) {
                     vm.filteredItems = $filter('filter')(originalData, function (item) {
                         return checkAllItemRecursion(item, vm.searchKey);
+                    });
+                }
+            };
+
+            vm.searchOnlyEmployee = function () {
+                vm.filteredItems = [];
+
+                if (originalData && originalData.length > 0) {
+                    vm.filteredItems = $filter('filter')(originalData, function (item) {
+                        var empData = item.Employee;
+                        return checkAllItemRecursion(empData, vm.searchKey);
                     });
                 }
             };
@@ -313,8 +324,7 @@
             }
         }
 
-        function handleOpenLinkWithParams(event, url, params)
-        {
+        function handleOpenLinkWithParams(event, url, params) {
             if (isOpenNewTabEvent(event)) {
                 var queryString = getParamsQuery(params);
                 var bindUrl = '#' + url + queryString;
