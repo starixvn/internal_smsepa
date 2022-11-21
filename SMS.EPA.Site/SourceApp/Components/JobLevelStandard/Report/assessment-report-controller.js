@@ -34,6 +34,22 @@
             AssessmentReportModel.getAssessments(filter).then(function () {
                 vm.kpis = AssessmentReportModel.kpis;
                 vm.assessments = AssessmentReportModel.assessments;
+
+                for (let assessment of vm.assessments) {
+                    assessment.CssClass = '';
+                    if (assessment.NewJobLevelId !== null) {
+                        if (assessment.SystemPropose < 0) {
+                            assessment.CssClass = 'under-standard';
+                        } else {
+                            if (assessment.CurrentJobLevelId !== assessment.NewJobLevelId) {
+                                assessment.CssClass = 'promotion';
+                            } else {
+                                assessment.CssClass = 'maintain';
+                            }
+                        }
+                    }
+                }
+
                 utilitiesFactory.searchOnPage(vm, vm.assessments);
 
                 lockScreenService.stop();

@@ -370,19 +370,22 @@
             var bodyStyle = workbook.CreateCellStyle();
             bodyStyle.Alignment = HorizontalAlignment.Center;
             bodyStyle.VerticalAlignment = VerticalAlignment.Center;
-            if (assessment.SystemPropose < 0)
+            if (assessment.NewJobLevelId.HasValue)
             {
-                bodyStyle.FillForegroundColor = HSSFColor.LightOrange.Index;
-                bodyStyle.FillPattern = FillPattern.SolidForeground;
-                bodyStyle.FillBackgroundColor = HSSFColor.LightOrange.Index;
-            }
-            else
-            {
-                if (assessment.SystemPropose > 0 && assessment.NewJobLevelId.HasValue && assessment.CurrentJobLevelId != assessment.NewJobLevelId)
+                if (assessment.SystemPropose < 0)
                 {
-                    bodyStyle.FillForegroundColor = HSSFColor.LightGreen.Index;
+                    bodyStyle.FillForegroundColor = HSSFColor.LightOrange.Index;
                     bodyStyle.FillPattern = FillPattern.SolidForeground;
-                    bodyStyle.FillBackgroundColor = HSSFColor.LightGreen.Index;
+                    bodyStyle.FillBackgroundColor = HSSFColor.LightOrange.Index;
+                }
+                else
+                {
+                    if (assessment.SystemPropose > 0 && assessment.CurrentJobLevelId != assessment.NewJobLevelId)
+                    {
+                        bodyStyle.FillForegroundColor = HSSFColor.LightGreen.Index;
+                        bodyStyle.FillPattern = FillPattern.SolidForeground;
+                        bodyStyle.FillBackgroundColor = HSSFColor.LightGreen.Index;
+                    }
                 }
             }
 

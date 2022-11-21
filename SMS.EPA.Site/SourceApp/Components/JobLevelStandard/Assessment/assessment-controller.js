@@ -43,6 +43,19 @@
                         vm.showApproveAll = true;
                         assessment.ShowCheckbox = true;
                     }
+
+                    assessment.CssClass = '';
+                    if (assessment.NewJobLevelId !== null) {
+                        if (assessment.SystemPropose < 0) {
+                            assessment.CssClass = 'under-standard';
+                        } else {
+                            if (assessment.CurrentJobLevelId !== assessment.NewJobLevelId) {
+                                assessment.CssClass = 'promotion';
+                            } else {
+                                assessment.CssClass = 'maintain';
+                            }
+                        }
+                    }
                 }
 
                 utilitiesFactory.searchOnPage(vm, vm.assessments);
@@ -80,6 +93,7 @@
             assessment.NewJobLevelId = vm.selectedAssessment.NewJobLevelId;
             assessment.NewJobLevel = vm.selectedAssessment.NewJobLevel;
             assessment.Remark = vm.selectedAssessment.Remark;
+            assessment.CssClass = vm.selectedAssessment.CssClass;
 
             vm.selectedAssessment = null;
         };
@@ -113,6 +127,12 @@
                 }
             });
 
+            assessment.TotalWeight = null;
+            assessment.SystemPropose = null;
+            assessment.NewJobLevelId = null;
+            assessment.NewJobLevel = null;
+            assessment.Remark = null;
+            assessment.CssClass = '';
             if (totalWeight !== null) {
                 assessment.TotalWeight = totalWeight;
                 assessment.SystemPropose = parseFloat(parseFloat(totalWeight - (assessment.RequirementMinScore ? assessment.RequirementMinScore : 0)).toFixed(2));
@@ -121,28 +141,19 @@
                 if (setting) {
                     assessment.NewJobLevelId = setting.JobLevelId;
                     assessment.NewJobLevel = setting.Name;
-
                     if (assessment.SystemPropose < 0) {
                         assessment.Remark = 'Under standard';
+                        assessment.CssClass = 'under-standard';
                     } else {
                         if (assessment.CurrentJobLevelId !== assessment.NewJobLevelId) {
                             assessment.Remark = 'Promotion';
+                            assessment.CssClass = 'promotion';
                         } else {
                             assessment.Remark = 'Maintain';
+                            assessment.CssClass = 'maintain';
                         }
                     }
-                } else {
-                    assessment.NewJobLevelId = null;
-                    assessment.NewJobLevel = null;
-                    assessment.Remark = null;
                 }
-            } else {
-                assessment.TotalWeight = null;
-                assessment.SystemPropose = null;
-                assessment.NewJobLevelId = null;
-                assessment.NewJobLevel = null;
-                assessment.Remark = null;
-                assessment.StatusId = null;
             }
         };
 

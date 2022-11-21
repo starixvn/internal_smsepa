@@ -80,8 +80,8 @@
             </tr>
         </thead>
         <tbody>
-            <tr dir-paginate="assessment in assessmentCtrl.filteredItems | itemsPerPage: assessmentCtrl.pageSize" current-page="assessmentCtrl.currentPage"
-                ng-class="assessment.SystemPropose < 0 ? 'under-standard' : assessment.SystemPropose > 0 && assessment.NewJobLevelId && assessment.CurrentJobLevelId !== assessment.NewJobLevelId ? 'promotion' : ''">
+            <tr dir-paginate="assessment in assessmentCtrl.filteredItems | itemsPerPage: assessmentCtrl.pageSize"
+                current-page="assessmentCtrl.currentPage" ng-class="assessment.CssClass">
                 <td ng-show="assessmentCtrl.showApproveAll">
                     <input type="checkbox" ng-show="assessment.ShowCheckbox" ng-model="assessment.Selected" />
                 </td>
