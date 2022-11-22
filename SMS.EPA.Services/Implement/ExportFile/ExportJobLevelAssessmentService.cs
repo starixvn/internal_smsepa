@@ -22,7 +22,7 @@
         {
             const byte StartBodyRowIndex = 4;
             const byte FontHeight = 18;
-            var totalColumns = 16 + kpis.Count * 2;
+            var totalColumns = 15 + kpis.Count * 2;
             var titleHeadersEmployeeInfo = new List<string>
             {
                 Lang.Code,
@@ -183,14 +183,7 @@
                     cellReviewedTotalWeight.SetCellValue(titleHeadersReview[i]);
                 }
 
-                var indexCellRemark = reviewedHeaderIndex + titleHeadersReview.Count;
-                var indexCellStatus = reviewedHeaderIndex + titleHeadersReview.Count + 1;
-
-                var cellRemark = row.CreateCell(indexCellRemark);
-                cellRemark.CellStyle = cellStyle;
-                cellRemark.SetCellValue(Lang.Remark);
-                sheet.AddMergedRegion(new CellRangeAddress(1, 3, indexCellRemark, indexCellRemark));
-
+                var indexCellStatus = reviewedHeaderIndex + titleHeadersReview.Count;
                 var cellStatus = row.CreateCell(indexCellStatus);
                 cellStatus.CellStyle = cellStyle;
                 cellStatus.SetCellValue(Lang.Status);
@@ -251,21 +244,17 @@
                 SetColumnWidth(ref sheet, cellIndex, CellNormalWidth);
                 cellIndex++;
 
+                bodyStyle = CreateBodyStyle(assessment, workbook, true);
                 cellBody = row.CreateCell(cellIndex);
                 cellBody.CellStyle = bodyStyle;
                 cellBody.SetCellValue(assessment.SystemPropose);
                 SetColumnWidth(ref sheet, cellIndex, CellNormalWidth);
                 cellIndex++;
 
+                bodyStyle = CreateBodyStyle(assessment, workbook);
                 cellBody = row.CreateCell(cellIndex);
                 cellBody.CellStyle = bodyStyle;
                 cellBody.SetCellValue(assessment.NewJobLevel);
-                SetColumnWidth(ref sheet, cellIndex, CellNormalWidth);
-                cellIndex++;
-
-                cellBody = row.CreateCell(cellIndex);
-                cellBody.CellStyle = bodyStyle;
-                cellBody.SetCellValue(assessment.Remark);
                 SetColumnWidth(ref sheet, cellIndex, CellNormalWidth);
                 cellIndex++;
 
@@ -365,12 +354,13 @@
             return sheet;
         }
 
-        private static ICellStyle CreateBodyStyle(JobLevelAssessment assessment, HSSFWorkbook workbook)
+        private static ICellStyle CreateBodyStyle(JobLevelAssessment assessment, HSSFWorkbook workbook, bool isHighlight = false)
         {
             var bodyStyle = workbook.CreateCellStyle();
             bodyStyle.Alignment = HorizontalAlignment.Center;
             bodyStyle.VerticalAlignment = VerticalAlignment.Center;
-            if (assessment.NewJobLevelId.HasValue)
+
+            if (isHighlight)
             {
                 if (assessment.SystemPropose < 0)
                 {

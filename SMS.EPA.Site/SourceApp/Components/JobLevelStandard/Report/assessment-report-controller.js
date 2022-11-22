@@ -37,15 +37,15 @@
 
                 for (let assessment of vm.assessments) {
                     assessment.CssClass = '';
-                    if (assessment.NewJobLevelId !== null) {
-                        if (assessment.SystemPropose < 0) {
-                            assessment.CssClass = 'under-standard';
+                    if (assessment.SystemPropose < 0) {
+                        assessment.CssClass = 'under-standard';
+                    } else if (assessment.SystemPropose === 0) {
+                        assessment.CssClass = 'maintain';
+                    } else {
+                        if (assessment.CurrentJobLevelId === assessment.NewJobLevelId) {
+                            assessment.CssClass = 'maintain';
                         } else {
-                            if (assessment.CurrentJobLevelId !== assessment.NewJobLevelId) {
-                                assessment.CssClass = 'promotion';
-                            } else {
-                                assessment.CssClass = 'maintain';
-                            }
+                            assessment.CssClass = 'promotion';
                         }
                     }
                 }

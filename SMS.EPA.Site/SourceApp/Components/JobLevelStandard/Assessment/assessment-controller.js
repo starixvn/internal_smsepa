@@ -45,15 +45,15 @@
                     }
 
                     assessment.CssClass = '';
-                    if (assessment.NewJobLevelId !== null) {
-                        if (assessment.SystemPropose < 0) {
-                            assessment.CssClass = 'under-standard';
+                    if (assessment.SystemPropose < 0) {
+                        assessment.CssClass = 'under-standard';
+                    } else if (assessment.SystemPropose === 0) {
+                        assessment.CssClass = 'maintain';
+                    } else {
+                        if (assessment.CurrentJobLevelId === assessment.NewJobLevelId) {
+                            assessment.CssClass = 'maintain';
                         } else {
-                            if (assessment.CurrentJobLevelId !== assessment.NewJobLevelId) {
-                                assessment.CssClass = 'promotion';
-                            } else {
-                                assessment.CssClass = 'maintain';
-                            }
+                            assessment.CssClass = 'promotion';
                         }
                     }
                 }
@@ -130,9 +130,9 @@
             assessment.TotalWeight = null;
             assessment.SystemPropose = null;
             assessment.NewJobLevelId = null;
-            assessment.NewJobLevel = null;
-            assessment.Remark = null;
-            assessment.CssClass = '';
+            assessment.NewJobLevel = '';
+            assessment.Remark = '';
+
             if (totalWeight !== null) {
                 assessment.TotalWeight = totalWeight;
                 assessment.SystemPropose = parseFloat(parseFloat(totalWeight - (assessment.RequirementMinScore ? assessment.RequirementMinScore : 0)).toFixed(2));
@@ -141,18 +141,23 @@
                 if (setting) {
                     assessment.NewJobLevelId = setting.JobLevelId;
                     assessment.NewJobLevel = setting.Name;
-                    if (assessment.SystemPropose < 0) {
-                        assessment.Remark = 'Under standard';
-                        assessment.CssClass = 'under-standard';
-                    } else {
-                        if (assessment.CurrentJobLevelId !== assessment.NewJobLevelId) {
-                            assessment.Remark = 'Promotion';
-                            assessment.CssClass = 'promotion';
-                        } else {
-                            assessment.Remark = 'Maintain';
-                            assessment.CssClass = 'maintain';
-                        }
-                    }
+                }
+            }
+
+            assessment.CssClass = '';
+            if (assessment.SystemPropose < 0) {
+                assessment.Remark = 'Under standard';
+                assessment.CssClass = 'under-standard';
+            } else if (assessment.SystemPropose === 0) {
+                assessment.Remark = 'Maintain';
+                assessment.CssClass = 'maintain';
+            } else {
+                if (assessment.CurrentJobLevelId === assessment.NewJobLevelId) {
+                    assessment.Remark = 'Maintain';
+                    assessment.CssClass = 'maintain';
+                } else {
+                    assessment.Remark = 'Promotion';
+                    assessment.CssClass = 'promotion';
                 }
             }
         };
