@@ -46,7 +46,7 @@
     <table class="row table table-bordered table-striped" id="data">
         <thead>
             <tr class="header-table">
-                <th colspan="13">
+                <th colspan="14">
                     <a class="pull-left button-icon period-create-button"
                        ng-if="employeeSettingCtrl.permission === employeeSettingCtrl.policy.Host" ng-click="employeeSettingCtrl.editMultiple()">
                         <span class="icon-edit glyphicon glyphicon-edit"></span>
@@ -66,6 +66,7 @@
                 <th data-translate="Section"></th>
                 <th data-translate="Team"></th>
                 <th class="width-140" data-translate="Employee"></th>
+                <th class="width-60" data-translate="JobLevel"></th>
                 <th class="width-60" data-translate="Step"></th>
                 <th class="width-140" data-translate="Name"></th>
                 <th class="width-60" data-translate="FromDate"></th>
@@ -87,6 +88,7 @@
                 <td rowspan="3" ng-bind="employee.Section"></td>
                 <td rowspan="3" ng-bind="employee.Team"></td>
                 <td rowspan="3">{{employee.FullName}} ({{employee.Nickname}})</td>
+                <td rowspan="3">{{employee.JobLevel}}</td>
                 <td>Evaluator/Reviewer</td>
                 <td>
                     <div ng-repeat="evaluator in employee.Evaluators">
