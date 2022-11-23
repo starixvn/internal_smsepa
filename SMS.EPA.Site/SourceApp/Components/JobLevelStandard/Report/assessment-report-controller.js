@@ -42,10 +42,11 @@
                     } else if (assessment.SystemPropose === 0) {
                         assessment.CssClass = 'maintain';
                     } else {
-                        if (assessment.CurrentJobLevelId === assessment.NewJobLevelId) {
-                            assessment.CssClass = 'maintain';
-                        } else {
+                        const currentJobLevelId = assessment.CurrentJobLevelId !== null ? assessment.CurrentJobLevelId : 0;
+                        if (assessment.NewJobLevelId !== null && currentJobLevelId !== assessment.NewJobLevelId) {
                             assessment.CssClass = 'promotion';
+                        } else {
+                            assessment.CssClass = 'maintain';
                         }
                     }
                 }

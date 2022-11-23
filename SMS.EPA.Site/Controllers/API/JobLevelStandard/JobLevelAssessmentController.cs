@@ -1,6 +1,5 @@
 ﻿namespace SMS.EPA.Site.Controllers.API
 {
-    using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
@@ -20,16 +19,18 @@
     public class JobLevelAssessmentController : BaseController
     {
         private readonly IBaseService baseService;
-        private readonly ICommonService commonService;
+        private readonly IJobLevelAssessmentService jobLevelAssessmentService;
 
         public JobLevelAssessmentController() : this(null, null)
         {
         }
 
-        public JobLevelAssessmentController(IBaseService baseService, ICommonService commonService)
+        public JobLevelAssessmentController(
+            IBaseService baseService,
+            IJobLevelAssessmentService jobLevelAssessmentService)
         {
             this.baseService = baseService ?? new BaseService();
-            this.commonService = commonService ?? new CommonService();
+            this.jobLevelAssessmentService = jobLevelAssessmentService ?? new JobLevelAssessmentService();
         }
 
         public async Task<IList<JobLevelStandardPeriod>> GetPeriods()
@@ -46,39 +47,13 @@
         [ApiAuthorize(FunctionKey = EPAFunctionKey.JobLevelAssessment, Policy = Policy.Read)]
         public object GetAssessments(GetJobLevelAssessmentByActorIdCriteria criteria)
         {
-            var today = DateTime.Today;
             var kpicriteria = new GetKPIByPeriodIdCriteria { PeriodId = criteria.PeriodId };
             var kpis = baseService.GetData<JobLevelStandardKPI>(kpicriteria).ToList();
 
-            var settingCriteria = new GetPeriodJobLevelSettingByPeriodIdCriteria { PeriodId = criteria.PeriodId };
-            var jobLevelSettings = baseService.GetData<JobLevelSetting>(settingCriteria).ToList();
+            IList<JobLevelSetting> jobLevelSettings = jobLevelAssessmentService.GetJobLevelSettingByPeriod(criteria.PeriodId);
 
             criteria.ActorId = CurrentEmployeeId;
-            var tuple = baseService.FetchMultiple<JobLevelAssessment, PeriodProcessSetting, JobLevelAssessmentKPI>(criteria);
-            IList<JobLevelAssessment> assessments = tuple.Item1.ToList();
-            foreach(var assessment in assessments)
-            {
-                assessment.LengthOfService = commonService.CalculateLengthOfService(assessment.JoinedDate, assessment.PeriodStartDate);
-                assessment.RequirementMinScore = GetRequirementMinScore(jobLevelSettings, assessment);
-                assessment.Processes = tuple.Item2.Where(x => x.EmployeeId == assessment.EmployeeId).ToList();
-                assessment.KPIs = tuple.Item3.Where(x => x.EmployeeId == assessment.EmployeeId).ToList();
-
-                var currentProcess = assessment.Processes
-                    .FirstOrDefault(x => x.EvaluatorId == CurrentEmployeeId && x.FromDate <= today && x.ToDate >= today);
-                if(currentProcess != null)
-                {
-                    assessment.IsHost = true;
-                    assessment.CurrentProcessId = currentProcess.ProcessId;
-                }
-
-                if (assessment.TotalWeight.HasValue)
-                {
-                    assessment.SystemPropose = assessment.TotalWeight.Value - (assessment.RequirementMinScore ?? 0);
-                }
-            }
-
-            assessments = assessments.OrderBy(x => x.Processes.Any(y => y.EvaluatorId == CurrentEmployeeId) ? 0 : 1)
-                .ThenBy(x => x.StatusId.HasValue ? 0 : 1).ToList();
+            IList<JobLevelAssessment> assessments = jobLevelAssessmentService.GetJobLevelAssessmentByActor(criteria);
 
             return new { kpis, jobLevelSettings, assessments };
         }
@@ -151,11 +126,6 @@
                 }).ToList();
 
             return items;
-        }
-
-        private static decimal? GetRequirementMinScore(IList<JobLevelSetting> jobLevelSettings, JobLevelAssessment assessment)
-        {
-            return jobLevelSettings.FirstOrDefault(x => x.SectionId == assessment.SectionId && x.JobLevelId == assessment.CurrentJobLevelId)?.MinWeight;
         }
     }
 }

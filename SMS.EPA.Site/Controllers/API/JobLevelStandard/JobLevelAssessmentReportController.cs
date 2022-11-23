@@ -18,7 +18,7 @@
     public class JobLevelAssessmentReportController : BaseController
     {
         private readonly IBaseService baseService;
-        private readonly IJoblevelAssessmentReportService reportService;
+        private readonly IJobLevelAssessmentService jobLevelAssessmentService;
 
         public JobLevelAssessmentReportController() : this(null, null)
         {
@@ -26,10 +26,10 @@
 
         public JobLevelAssessmentReportController(
             IBaseService baseService,
-            IJoblevelAssessmentReportService reportService)
+            IJobLevelAssessmentService jobLevelAssessmentService)
         {
             this.baseService = baseService ?? new BaseService();
-            this.reportService = reportService ?? new JoblevelAssessmentReportService();
+            this.jobLevelAssessmentService = jobLevelAssessmentService ?? new JobLevelAssessmentService();
         }
 
         public async Task<IList<JobLevelStandardPeriod>> GetPeriods()
@@ -82,7 +82,7 @@
             var kpis = baseService.GetData<JobLevelStandardKPI>(kpicriteria).ToList();
 
             criteria.ActorId = CurrentEmployeeId;
-            IList<JobLevelAssessment> assessments = reportService.GetJoblevelAssessment(criteria);
+            IList<JobLevelAssessment> assessments = jobLevelAssessmentService.GetJobLevelAssessmentReport(criteria);
 
             return new { kpis, assessments };
         }

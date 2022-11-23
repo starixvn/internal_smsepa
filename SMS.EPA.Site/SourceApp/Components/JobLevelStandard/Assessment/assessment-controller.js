@@ -50,10 +50,11 @@
                     } else if (assessment.SystemPropose === 0) {
                         assessment.CssClass = 'maintain';
                     } else {
-                        if (assessment.CurrentJobLevelId === assessment.NewJobLevelId) {
-                            assessment.CssClass = 'maintain';
-                        } else {
+                        const currentJobLevelId = assessment.CurrentJobLevelId !== null ? assessment.CurrentJobLevelId : 0;
+                        if (assessment.NewJobLevelId !== null && currentJobLevelId !== assessment.NewJobLevelId) {
                             assessment.CssClass = 'promotion';
+                        } else {
+                            assessment.CssClass = 'maintain';
                         }
                     }
                 }
@@ -133,31 +134,36 @@
             assessment.NewJobLevel = '';
             assessment.Remark = '';
 
+            const currentJobLevelId = assessment.CurrentJobLevelId !== null ? assessment.CurrentJobLevelId : 0;
             if (totalWeight !== null) {
+                const requirementMinScore = assessment.RequirementMinScore !== null ? assessment.RequirementMinScore : 0;
                 assessment.TotalWeight = totalWeight;
-                assessment.SystemPropose = parseFloat(parseFloat(totalWeight - (assessment.RequirementMinScore ? assessment.RequirementMinScore : 0)).toFixed(2));
+                assessment.SystemPropose = parseFloat(parseFloat(totalWeight - requirementMinScore).toFixed(2));
 
-                const setting = vm.jobLevelSettings.find(x => x.SectionId === assessment.SectionId && x.MinWeight <= totalWeight && x.MaxWeight >= totalWeight);
-                if (setting) {
-                    assessment.NewJobLevelId = setting.JobLevelId;
-                    assessment.NewJobLevel = setting.Name;
+                if (assessment.SystemPropose > 0) {
+                    const settings = vm.jobLevelSettings.filter(x => x.SectionId === assessment.SectionId
+                        && x.JobLevelId != currentJobLevelId && x.MinWeight >= requirementMinScore && x.MinWeight <= totalWeight)
+                        .sort(function (a, b) {
+                            return a.MinWeight - b.MinWeight;
+                        });
+
+                    if (settings && settings.length > 0 && settings[0].JobLevelId !== currentJobLevelId) {
+                        assessment.NewJobLevelId = settings[0].JobLevelId;
+                        assessment.NewJobLevel = settings[0].Name;
+                    }
                 }
             }
 
             assessment.CssClass = '';
             if (assessment.SystemPropose < 0) {
-                assessment.Remark = 'Under standard';
                 assessment.CssClass = 'under-standard';
             } else if (assessment.SystemPropose === 0) {
-                assessment.Remark = 'Maintain';
                 assessment.CssClass = 'maintain';
             } else {
-                if (assessment.CurrentJobLevelId === assessment.NewJobLevelId) {
-                    assessment.Remark = 'Maintain';
-                    assessment.CssClass = 'maintain';
-                } else {
-                    assessment.Remark = 'Promotion';
+                if (assessment.NewJobLevelId !== null && currentJobLevelId !== assessment.NewJobLevelId) {
                     assessment.CssClass = 'promotion';
+                } else {
+                    assessment.CssClass = 'maintain';
                 }
             }
         };

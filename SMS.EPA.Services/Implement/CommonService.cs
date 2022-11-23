@@ -1,6 +1,5 @@
 ﻿namespace SMS.EPA.Services
 {
-    using System;
     using System.Collections.Generic;
     using System.Linq;
     using SMS.EPA.Core.Services;
@@ -10,8 +9,6 @@
     using SMS.EPA.Model;
     using SMS.EPA.Model.Enitites;
     using SMS.EPA.Model.JobDescription;
-    using SMS.EPA.Services.Implement;
-    using SMS.EPA.Services.Interfaces;
 
     public class CommonService : ICommonService
     {
@@ -146,46 +143,6 @@
             }
 
             return groupItems.OrderBy(x => x.DisplayOrder).ToList();
-        }
-
-        public string CalculateLengthOfService(DateTime fromDate, DateTime toDate)
-        {
-            if ((toDate.Year - fromDate.Year) > 0 || (fromDate.Month < toDate.Month))
-            {
-                const byte Eleven = 11;
-                int years;
-                int months;
-                int daysInFromDateMonth = DateTime.DaysInMonth(fromDate.Year, fromDate.Month);
-                int daysRemain = toDate.Day + (daysInFromDateMonth - fromDate.Day);
-
-                if (toDate.Month > fromDate.Month)
-                {
-                    years = toDate.Year - fromDate.Year;
-                    months = toDate.Month - (fromDate.Month + 1) + Math.Abs(daysRemain / daysInFromDateMonth);
-                }
-                else if (toDate.Month == fromDate.Month)
-                {
-                    if (toDate.Day >= fromDate.Day)
-                    {
-                        years = toDate.Year - fromDate.Year;
-                        months = 0;
-                    }
-                    else
-                    {
-                        years = (toDate.Year - 1) - fromDate.Year;
-                        months = Eleven;
-                    }
-                }
-                else
-                {
-                    years = (toDate.Year - 1) - fromDate.Year;
-                    months = toDate.Month + (Eleven - fromDate.Month) + Math.Abs(daysRemain / daysInFromDateMonth);
-                }
-
-                return string.Format("{0} Year(s) {1} Month(s)", years, months);
-            }
-
-            return string.Empty;
         }
     }
 }

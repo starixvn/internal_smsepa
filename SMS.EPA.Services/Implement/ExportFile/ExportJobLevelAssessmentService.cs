@@ -370,7 +370,8 @@
                 }
                 else
                 {
-                    if (assessment.SystemPropose > 0 && assessment.CurrentJobLevelId != assessment.NewJobLevelId)
+                    int currentJobLevelId = assessment.CurrentJobLevelId ?? 0;
+                    if (assessment.SystemPropose > 0 && assessment.NewJobLevelId.HasValue && currentJobLevelId != assessment.NewJobLevelId.Value)
                     {
                         bodyStyle.FillForegroundColor = HSSFColor.LightGreen.Index;
                         bodyStyle.FillPattern = FillPattern.SolidForeground;

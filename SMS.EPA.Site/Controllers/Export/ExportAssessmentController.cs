@@ -20,7 +20,7 @@
     {
         private readonly IBaseService baseService;
         private readonly IUserControlSession userControlSession;
-        private readonly IJoblevelAssessmentReportService reportService;
+        private readonly IJobLevelAssessmentService jobLevelAssessmentService;
         private readonly IExportJobLevelAssessmentService exportService;
 
         public ExportAssessmentController()
@@ -31,12 +31,12 @@
         public ExportAssessmentController(
             IBaseService baseService,
             IUserControlSession userControlSession,
-            IJoblevelAssessmentReportService reportService,
+            IJobLevelAssessmentService jobLevelAssessmentService,
             IExportJobLevelAssessmentService exportService)
         {
             this.baseService = baseService ?? new BaseService();
             this.userControlSession = userControlSession ?? new UserControlSession();
-            this.reportService = reportService ?? new JoblevelAssessmentReportService();
+            this.jobLevelAssessmentService = jobLevelAssessmentService ?? new JobLevelAssessmentService();
             this.exportService = exportService ?? new ExportJobLevelAssessmentService();
         }
 
@@ -46,7 +46,7 @@
             var kpis = baseService.GetData<JobLevelStandardKPI>(kpicriteria).ToList();
 
             criteria.ActorId = userControlSession.Get<int>(Constants.CurrentEmployeeIdKey);
-            IList<JobLevelAssessment> assessments = reportService.GetJoblevelAssessment(criteria);
+            IList<JobLevelAssessment> assessments = jobLevelAssessmentService.GetJobLevelAssessmentReport(criteria);
             var title = Lang.JoblevelAssessmentReportTitle + " - " + criteria.PeriodName;
             MemoryStream output = exportService.ExportJoblevelAssessmentReport(kpis, assessments, title);
 
