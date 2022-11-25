@@ -52,6 +52,9 @@
                         <span class="icon-edit glyphicon glyphicon-edit"></span>
                         <span class="button-text btn-edit-employee-setting" data-translate="EditEmployeeSetting"></span>
                     </a>
+                    <input class="btnExcel pull-right"
+                           ng-click="employeeSettingCtrl.exportReport(employeeSettingCtrl.filter)"
+                           type="button" title="Export to Excel">
                     <input type="text" ng-model="employeeSettingCtrl.searchKey" ng-change="employeeSettingCtrl.searchOnlyEmployee()"
                            class="search-inline-textbox search pull-right" />
                 </th>

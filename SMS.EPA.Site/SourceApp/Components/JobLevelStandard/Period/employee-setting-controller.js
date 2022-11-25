@@ -4,9 +4,9 @@
     /* jshint validthis:true */
 
     angular.module('jobLevelStandardModule').controller('JobLevelStandardPeriodEmployeeSettingController', employeeSettingController);
-    employeeSettingController.$inject = ['$scope', 'JobLevelStandardPeriodModel', 'CommonModel', 'utilitiesFactory', 'lockScreenService'];
+    employeeSettingController.$inject = ['$scope', 'baseUrl', 'JobLevelStandardPeriodModel', 'CommonModel', 'utilitiesFactory', 'lockScreenService'];
 
-    function employeeSettingController($scope, PeriodModel, CommonModel, utilitiesFactory, lockScreenService) {
+    function employeeSettingController($scope, baseUrl,PeriodModel, CommonModel, utilitiesFactory, lockScreenService) {
         let vm = this;
 
         vm.period = null;
@@ -124,6 +124,21 @@
                 vm.modalInstance = null;
                 getEmployeeSettings(vm.filter);
             });
+        };
+
+        vm.exportReport = function (filter) {
+            vm.exportCriteria = {
+                periodId: filter.periodId,
+                teamIds: filter.teamIds,
+                isLocal: filter.isLocal,
+                isExcluded: filter.isExcluded,
+                statusId: filter.statusId,
+                periodName: vm.period.Name,
+            };
+
+            var url = baseUrl + 'ExportReport/ExportJLSPeriodEmployeeSetting';
+
+            utilitiesFactory.exportExcel(vm.exportCriteria,url)
         };
     }
 })(angular);

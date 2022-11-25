@@ -81,6 +81,7 @@
             splitNumber: splitNumber,
             processStatus: processStatus,
             targetType: targetType,
+            exportExcel: exportExcel,
             handleOpenLink: handleOpenLink,
             handleOpenLinkWithParams: handleOpenLinkWithParams,
             isOpenNewTabEvent: isOpenNewTabEvent,
@@ -114,6 +115,19 @@
         };
 
         return utilities;
+
+        function exportExcel(criteria,url) {
+            var data = $.param(criteria),
+                downloadUrl = url + "?" + data,
+                iframe = $('body iframe');
+
+            if (iframe.length === 0) {
+                iframe = $('<iframe width="0" height="0" class="display-none"></iframe>');
+                iframe.appendTo('body');
+            }
+
+            iframe.attr('src', downloadUrl);
+        }
 
         function formatString() {
             var theString = arguments[0];
