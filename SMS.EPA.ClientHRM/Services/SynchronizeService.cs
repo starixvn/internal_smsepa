@@ -18,6 +18,7 @@
         private readonly IDisciplineSummaryService _disciplineSummaryService;
         private readonly IPhotoService _photoService;
         private readonly IJobLevelService jobLevelService;
+        private readonly IUserMappingService _userMappingService;
 
         private TokenAccess _token = new TokenAccess();
 
@@ -31,7 +32,8 @@
             ISupervisorService supervisorService,
             IDisciplineSummaryService disciplineSummaryService,
             IPhotoService photoService,
-            IJobLevelService jobLevelService)
+            IJobLevelService jobLevelService,
+            IUserMappingService userMappingService)
 #pragma warning restore S107 // Methods should not have too many parameters
         {
             _tokenService = tokenService;
@@ -43,6 +45,7 @@
             _disciplineSummaryService = disciplineSummaryService;
             _photoService = photoService;
             this.jobLevelService = jobLevelService;
+            _userMappingService = userMappingService;
         }
 
         public async Task Synchronize()
@@ -56,6 +59,7 @@
             await SynchronizeDisciplineSummaryAsync();
             await SynchronizePhotoAsync();
             await SynchronizeJobLevelAsync();
+            await SynchronizeUserMappingAsync();
         }
 
         private async Task SynchronizeDepartmentAsync()
@@ -199,6 +203,16 @@
                 }
                 Console.WriteLine("JobLevel");
             }
+        }
+
+        private async Task SynchronizeUserMappingAsync()
+        {
+            var lastSyncUserDate= await _userMappingService.GetLastSyncUserDateAsync();
+            const string requestUrl = "api/UserMapping/GetBySiteId?lastModifiedDate={0}";
+            var userMappings = await _userMappingService.GetUserMapping(requestUrl, lastSyncUserDate);
+
+            await _userMappingService.UpdateUserMapping(userMappings);
+            Console.WriteLine("User Mapping");
         }
 
         private async Task InitToken()

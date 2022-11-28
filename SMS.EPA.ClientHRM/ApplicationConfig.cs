@@ -47,5 +47,14 @@
                 return photoPath;
             }
         }
+
+        public static short UserControlSettings_SiteId
+            => short.Parse(ConfigurationManager.AppSettings["UserControl.Configurations:SiteId"]);
+
+        public static string UserControlSettings_AccessToken
+            => ConfigurationManager.AppSettings["UserControl.Configurations:AccessToken"];
+
+        public static string UserControlSettings_ServiceUrl
+            => ConfigurationManager.AppSettings["UserControl.Configurations:ServiceUrl"];
     }
 }

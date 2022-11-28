@@ -146,6 +146,7 @@
     <Compile Include="API\Photo.cs" />
     <Compile Include="API\Team.cs" />
     <Compile Include="API\TeamDisciplinePermission.cs" />
+    <Compile Include="API\UserMapping.cs" />
     <Compile Include="Department\DepartmentViewModel.cs" />
     <Compile Include="Discipline\DisciplineSummaryBase.cs" />
     <Compile Include="Discipline\DisciplineSummaryModel.cs" />

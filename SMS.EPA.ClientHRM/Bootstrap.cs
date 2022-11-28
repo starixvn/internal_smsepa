@@ -4,17 +4,20 @@
     using Fanex.Data.Repository;
     using Services;
     using SimpleInjector;
+    using SMS.EPA.Core.Repositories;
+    using SMS.EPA.Core.Services;
     using ThirdPartyAPI;
 
     public static class Bootstrap
     {
         public static Container Container { get; set; }
 
-        [SuppressMessage("Microsoft.Maintainability", "CA1506:AvoidExcessiveClassCoupling", Justification = "Ok.")]
         public static void Start()
         {
             Container = new Container();
 
+            Container.Register<IBaseRepository, BaseRepository>(Lifestyle.Singleton);
+            Container.Register<IBaseService, BaseService>(Lifestyle.Singleton);
             Container.Register<IDepartmentService, DepartmentService>(Lifestyle.Singleton);
             Container.Register<IJobLevelService, JobLevelService>(Lifestyle.Singleton);
             Container.Register<IDisciplineSummaryService, DisciplineSummaryService>(Lifestyle.Singleton);
@@ -25,6 +28,7 @@
             Container.Register<ISynchronizeService, SynchronizeService>(Lifestyle.Singleton);
             Container.Register<ITeamService, TeamService>(Lifestyle.Singleton);
             Container.Register<IPhotoService, PhotoService>(Lifestyle.Singleton);
+            Container.Register<IUserMappingService, UserMappingService>(Lifestyle.Singleton);
             Container.Register<IDynamicRepository, DynamicRepository>(Lifestyle.Singleton);
             Container.Register<IDepartmentAPI, DepartmentAPI>(Lifestyle.Singleton);
             Container.Register<IDisciplineSummaryAPI, DisciplineSummaryAPI>(Lifestyle.Singleton);
