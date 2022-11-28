@@ -25,6 +25,8 @@
     [ConfirmedDate]  DATETIME       NULL,
     [JobLevelId]     INT            NULL,
     [UserId]         INT            NULL,
+    [UC_SyncDate]    DATETIME       NULL,
+    [UC_ModifiedDate]DATETIME       NULL,
     CONSTRAINT [PK_Employee] PRIMARY KEY CLUSTERED ([EmployeeId] ASC)
 );
 
