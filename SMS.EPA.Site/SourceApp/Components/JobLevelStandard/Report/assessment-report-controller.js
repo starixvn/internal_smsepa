@@ -23,7 +23,7 @@
         vm.assessmentStatusOptions = [
             { StatusId: vm.assessmentStatus.Pending, Name: 'Pending' },
             { StatusId: vm.assessmentStatus.Verified, Name: 'Verified' },
-            { StatusId: vm.assessmentStatus.Approved, Name: 'Approved' }
+            { StatusId: vm.assessmentStatus.Approved, Name: 'Reviewed' }
         ];
 
         vm.exportReport = exportReport;

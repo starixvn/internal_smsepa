@@ -22,7 +22,7 @@
         vm.statusOptions = [
             { statusId: vm.status.Pending, name: 'Pending' },
             { statusId: vm.status.Verified, name: 'Verified' },
-            { statusId: vm.status.Approved, name: 'Approved' }
+            { statusId: vm.status.Approved, name: 'Reviewed' }
         ];
         utilitiesFactory.getDateFormat(vm);
         vm.entries = [10, 20, 50, 100, 200, 500];
