@@ -90,9 +90,11 @@
                     <input type="checkbox" ng-click="empSettingCtrl.checkAll(empSettingCtrl.selectedAll)" ng-model="empSettingCtrl.selectedAll" />
                 </th>
                 <th data-translate="SymbolCount"></th>
+                <th data-translate="Department"></th>
                 <th data-translate="Section"></th>
                 <th data-translate="Team"></th>
                 <th data-translate="Employee"></th>
+                <th data-translate="GroupDate"></th>
                 <th data-translate="TargetType"></th>
                 <th data-translate="TargetTemplate"></th>
                 <th ng-if="empSettingCtrl.period.IsProbation || empSettingCtrl.period.IsPromotion" data-translate="DisciplineStartDate"></th>
@@ -117,6 +119,7 @@
                 <td class="text-center" ng-bind="empSettingCtrl.getIndex($index, empSettingCtrl.currentPage, empSettingCtrl.pageSize)"
                     rowspan="{{employee.NumberEvaluators}}"></td>
                 <td rowspan="{{employee.NumberEvaluators}}" ng-bind="employee.Employee.Department.Name"></td>
+                <td rowspan="{{employee.NumberEvaluators}}" ng-bind="employee.Employee.Section"></td>
                 <td rowspan="{{employee.NumberEvaluators}}" ng-bind="employee.Employee.Group.GroupName"></td>
                 <td class="text-center" rowspan="{{employee.NumberEvaluators}}">
                     <div ng-bind="employee.Employee.FullName"></div>
@@ -124,6 +127,7 @@
                     <div>({{employee.Employee.NickName}})</div>
                     <div ng-bind="employee.Employee.JobTitle.JobTitleName"></div>
                 </td>
+                <td class="width-140" rowspan="{{employee.NumberEvaluators}}" ng-bind="employee.Employee.JoinedDate | date: empSettingCtrl.dateFormat"></td>
                 <td class="text-center" ng-bind="employee.TargetTemplate.TargetTypeName" rowspan="{{employee.NumberEvaluators}}"></td>
                 <td class="width-190" ng-bind="employee.TargetTemplate.Name" rowspan="{{employee.NumberEvaluators}}"></td>
                 <td ng-if="empSettingCtrl.period.IsProbation || empSettingCtrl.period.IsPromotion" rowspan="{{employee.NumberEvaluators}}"
