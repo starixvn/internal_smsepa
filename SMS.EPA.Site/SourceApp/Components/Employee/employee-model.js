@@ -13,8 +13,8 @@
         model.defaultPassword = null;
         model.permission = 0;
 
-        model.getEmployee = function (query, teamIds, isLocal, isSpecialUser, isDisabledUser, hasMonthlyEPA) {
-            return employeeFactory.getEmployee(query, teamIds, isLocal, isSpecialUser, isDisabledUser, hasMonthlyEPA)
+        model.getEmployee = function (query, teamIds, isLocal, isSpecialUser, isDisabledUser, hasMonthlyEPA, jobLevel) {
+            return employeeFactory.getEmployee(query, teamIds, isLocal, isSpecialUser, isDisabledUser, hasMonthlyEPA, jobLevel)
             .success(function (employees) {
                 model.employees = employees;
             }).error(function (response, status) {

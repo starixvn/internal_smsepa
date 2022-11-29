@@ -48,7 +48,8 @@
             bool? isLocal = null,
             bool? isSpecialUser = null,
             bool? isDisabledUser = null,
-            bool? hasMonthlyEPA = null)
+            bool? hasMonthlyEPA = null,
+            int? jobLevel = null)
         {
             var criteria = new GetEmployeeCriteria
             {
@@ -57,7 +58,8 @@
                 IsLocal = isLocal,
                 IsSpecialUser = isSpecialUser,
                 IsDisabledUser = isDisabledUser,
-                HasMonthlyEPA = hasMonthlyEPA
+                HasMonthlyEPA = hasMonthlyEPA,
+                JobLevel = jobLevel,
             };
             return employeeService.GetEmployee(criteria);
         }

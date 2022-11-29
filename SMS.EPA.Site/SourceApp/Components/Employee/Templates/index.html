@@ -25,7 +25,14 @@
                 <option value="true">{{"Local" | translate}}</option>
             </select>
         </div>
-        <div class="form-group"></div>
+
+        <div class="form-group">
+            <label class="label-form" data-translate="JobLevel"></label>
+            <select class="form-control select-form" ng-model="employeeCtrl.filter.jobLevel"
+                    ng-options="jobLevel.JobLevelId as jobLevel.Name for jobLevel in employeeCtrl.jobLevelOptions">
+                <option value="">-- {{"Select" | translate}} --</option>
+            </select>
+        </div>
         <div class="form-group">
             <label class="label-form"></label>
             <div class="checkbox checkbox-form">
