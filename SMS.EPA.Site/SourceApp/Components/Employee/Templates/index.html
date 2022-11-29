@@ -58,7 +58,7 @@
     <table class="row table table-bordered table-striped" id="data">
         <thead>
             <tr class="header-table">
-                <th colspan="14">
+                <th colspan="15">
                     <a class="pull-left button-icon create-button" ng-click="employeeCtrl.create()"
                        ng-if="employeeCtrl.permission == employeeCtrl.policyEnum.Host">
                         <span class="glyphicon glyphicon-plus icon-add"></span>
@@ -78,6 +78,7 @@
                 <th data-translate="FullName"></th>
                 <th data-translate="JobTitle"></th>
                 <th data-translate="JobLevel"></th>
+                <th data-translate="Department"></th>
                 <th data-translate="Section"></th>
                 <th data-translate="Team"></th>
                 <th data-translate="ShortSpecialUser"></th>
@@ -108,6 +109,7 @@
                     </div>
                 </td>
                 <td ng-bind="employee.Department.Name"></td>
+                <td ng-bind="employee.Section"></td>
                 <td ng-bind="employee.Group.GroupName"></td>
                 <td class="text-center">
                     <div ng-if="employee.IsSpecialUser">

@@ -21,6 +21,7 @@
         public string NickName { get; set; }
 
         public string FullName { get; set; }
+        public string Section { get; set; }
 
         public string Password { get; set; }
 
@@ -73,7 +74,8 @@
                 Username,
                 NickName,
                 FullName,
-                Section = Department?.Name,
+                Department = Department?.Name,
+                Section = Section,
                 Team = Group?.GroupName,
                 JobTitle = JobTitle?.JobTitleName,
                 JobLevel = JobLevel?.Name,
