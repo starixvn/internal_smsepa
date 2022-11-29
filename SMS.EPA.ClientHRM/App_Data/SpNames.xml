@@ -18,7 +18,7 @@
             <Mapping DataField="GroupId" ObjectProperty="TeamId" />
         </Setting>
         <Setting Key="Sync_JobLevel" SpName="Sync_JobLevel" DbName="nexhr" Plain="0" />
-        <Setting Key="Employee_GetLastSyncUserDate" SpName="Employee_GetLastSyncUserDate" DbName="nexhr" Plain="0" />
+        <Setting Key="Employee_GetLastUCModifiedDate" SpName="Employee_GetLastUCModifiedDate" DbName="nexhr" Plain="0" />
         <Setting Key="Sync_UserMapping" SpName="Sync_UserMapping" DbName="nexhr" Plain="0" />
     </Function>
 </Functions>

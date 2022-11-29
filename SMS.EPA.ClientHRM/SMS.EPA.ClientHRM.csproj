@@ -135,7 +135,7 @@
     <Compile Include="Criteria\GetEmployeeDisciplinePermissionCriteria.cs" />
     <Compile Include="Criteria\GetGroupDisciplinePermissionCriteria.cs" />
     <Compile Include="Criteria\GetJobTitleCriteria.cs" />
-    <Compile Include="Criteria\GetLastSyncUserDateCriteria.cs" />
+    <Compile Include="Criteria\GetLastUCModifiedDateCriteria.cs" />
     <Compile Include="Criteria\GetTeamCriteria.cs" />
     <Compile Include="Bootstrap.cs" />
     <Compile Include="Criteria\UpdateUserMappingCriteria.cs" />

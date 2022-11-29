@@ -10,6 +10,7 @@
     using Newtonsoft.Json;
     using SMS.EPA.ClientHrm.Criteria;
     using SMS.EPA.ClientHRM.Criteria;
+    using SMS.EPA.Core.Constants;
     using SMS.EPA.Core.Model;
     using SMS.EPA.Core.Services;
     using SMS.EPA.Model.API;
@@ -25,16 +26,18 @@
             this.baseService = baseService;
         }
 
-        public async Task<DateTime?> GetLastSyncUserDateAsync()
+        public async Task<DateTime?> GetLastUCModifiedDateAsync()
         {
-            var criteria = new GetLastSyncUserDateCriteria();
-            var lastSyncDate = await baseService.GetDataEntityAsync<DateTime?>(criteria);
-            return lastSyncDate;
+            var criteria = new GetLastUCModifiedDateCriteria();
+            var lastUCModifiedDate = await baseService.GetDataEntityAsync<DateTime?>(criteria);
+            return lastUCModifiedDate;
         }
 
-        public async Task<IEnumerable<UserMapping>> GetUserMapping(string requestUrl, DateTime? lastSyncDate)
+        public async Task<IEnumerable<UserMapping>> GetUserMapping(string requestUrl, DateTime? lastUCModifiedDate)
         {
-            var endPoint = string.Format(requestUrl, lastSyncDate);
+            var formatUCDate = lastUCModifiedDate.HasValue ? lastUCModifiedDate.Value.ToString(Constants.ModifiedDateTimeFormat) : null;
+
+            var endPoint = string.Format(requestUrl, formatUCDate);
             try
             {
                 using (var request = CreateRequest(endPoint, HttpMethod.Get))
