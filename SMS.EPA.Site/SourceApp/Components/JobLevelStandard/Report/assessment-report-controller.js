@@ -20,11 +20,7 @@
         utilitiesFactory.getDateFormat(vm);
         vm.entries = [10, 20, 50, 100, 200, 500];
         vm.assessmentStatus = utilitiesFactory.jobLevelAssessmentStatus;
-        vm.assessmentStatusOptions = [
-            { StatusId: vm.assessmentStatus.Pending, Name: 'Pending' },
-            { StatusId: vm.assessmentStatus.Verified, Name: 'Verified' },
-            { StatusId: vm.assessmentStatus.Approved, Name: 'Reviewed' }
-        ];
+        vm.assessmentStatusOptions = utilitiesFactory.assessmentStatusOptions;
 
         vm.exportReport = exportReport;
 

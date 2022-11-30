@@ -99,7 +99,12 @@
                 Pending: 1,
                 Verified: 2,
                 Approved: 3
-            }
+            },
+            assessmentStatusOptions: [
+                { StatusId: 1, Name: 'Pending' },
+                { StatusId: 2, Name: 'Verified' },
+                { StatusId: 3, Name: 'Reviewed' }
+            ]
         };
 
         utilities.parseFloat = function (input) {

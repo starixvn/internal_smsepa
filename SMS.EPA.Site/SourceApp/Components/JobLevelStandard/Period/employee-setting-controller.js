@@ -20,11 +20,7 @@
         vm.permission = PeriodModel.permission;
         vm.policy = utilitiesFactory.policy;
         vm.assessmentStatus = utilitiesFactory.jobLevelAssessmentStatus;
-        vm.assessmentStatusOptions = [
-            { StatusId: vm.assessmentStatus.Pending, Name: 'Pending' },
-            { StatusId: vm.assessmentStatus.Verified, Name: 'Verified' },
-            { StatusId: vm.assessmentStatus.Approved, Name: 'Approved' }
-        ];
+        vm.assessmentStatusOptions = utilitiesFactory.assessmentStatusOptions;
         utilitiesFactory.numberEntryList(vm);
         utilitiesFactory.getDateFormat(vm);
 
