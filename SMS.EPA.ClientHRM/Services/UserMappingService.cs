@@ -35,7 +35,7 @@
 
         public async Task<IEnumerable<UserMapping>> GetUserMapping(string requestUrl, DateTime? lastUCModifiedDate)
         {
-            var formatUCDate = lastUCModifiedDate.HasValue ? lastUCModifiedDate.Value.ToString(Constants.ModifiedDateTimeFormat) : null;
+            var formatUCDate = lastUCModifiedDate.HasValue ? lastUCModifiedDate.Value.ToString(Constants.ModifiedDateTimeSendFormat) : null;
 
             var endPoint = string.Format(requestUrl, formatUCDate);
             try

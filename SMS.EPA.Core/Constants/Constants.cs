@@ -15,6 +15,8 @@
 
         public const string ModifiedDateTimeFormat = "yyyy-MM-dd HH:mm:ss:fff";
 
+        public const string ModifiedDateTimeSendFormat = "yyyy-MM-dd HH:mm:ss.fff";
+
         public const string DateFormat = "dd MMM, yyyy";
 
         public const string TimeFormat = "HH:mm";
