@@ -96,9 +96,9 @@
                 <td class="text-center" ng-bind="employee.Evaluators[0].FromDate | date: employeeSettingCtrl.dateFormat"></td>
                 <td class="text-center" ng-bind="employee.Evaluators[0].ToDate | date: employeeSettingCtrl.dateFormat"></td>
                 <td class="text-center" rowspan="3">
-                    <span ng-show="employee.StatusId === employeeSettingCtrl.assessmentStatus.Pending">Pending</span>
-                    <span ng-show="employee.StatusId === employeeSettingCtrl.assessmentStatus.Verified">Verified</span>
-                    <span ng-show="employee.StatusId === employeeSettingCtrl.assessmentStatus.Approved">Approved</span>
+                    <span ng-show="employee.StatusId === employeeSettingCtrl.assessmentStatus.Pending" data-translate="Pending"></span>
+                    <span ng-show="employee.StatusId === employeeSettingCtrl.assessmentStatus.Verified" data-translate="Verified"></span>
+                    <span ng-show="employee.StatusId === employeeSettingCtrl.assessmentStatus.Approved" data-translate="Reviewed"></span>
                 </td>
                 <td class="text-center" rowspan="3">
                     <input type="checkbox" ng-checked="!employee.IsExcluded" ng-click="employeeSettingCtrl.editStatus(employee)"
