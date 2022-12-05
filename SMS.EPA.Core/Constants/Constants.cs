@@ -46,5 +46,7 @@
         public const string EndRootTag = "</ROOT>";
 
         public const double Tolerance = 0;
+
+        public const string UrlGetLastUCModifiedDate = "api/UserMapping/GetBySiteId?lastModifiedDate={0}";
     }
 }

@@ -10,7 +10,7 @@
     {
         Task<DateTime?> GetLastUCModifiedDateAsync();
 
-        Task<IEnumerable<UserMapping>> GetUserMapping(string requestUrl, DateTime? lastUCModifiedDate);
+        Task<IEnumerable<UserMapping>> GetUserMapping(DateTime? lastUCModifiedDate);
 
         Task<CommandResult> UpdateUserMapping(IEnumerable<UserMapping> userMappings);
     }

@@ -208,8 +208,7 @@
         private async Task SynchronizeUserMappingAsync()
         {
             var lastUCModifiedDate = await _userMappingService.GetLastUCModifiedDateAsync();
-            const string requestUrl = "api/UserMapping/GetBySiteId?lastModifiedDate={0}";
-            var userMappings = await _userMappingService.GetUserMapping(requestUrl, lastUCModifiedDate);
+            var userMappings = await _userMappingService.GetUserMapping(lastUCModifiedDate);
 
             await _userMappingService.UpdateUserMapping(userMappings);
             Console.WriteLine("User Mapping");

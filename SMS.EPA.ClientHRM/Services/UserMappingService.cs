@@ -33,11 +33,11 @@
             return lastUCModifiedDate;
         }
 
-        public async Task<IEnumerable<UserMapping>> GetUserMapping(string requestUrl, DateTime? lastUCModifiedDate)
+        public async Task<IEnumerable<UserMapping>> GetUserMapping(DateTime? lastUCModifiedDate)
         {
             var formatUCDate = lastUCModifiedDate.HasValue ? lastUCModifiedDate.Value.ToString(Constants.ModifiedDateTimeSendFormat) : null;
 
-            var endPoint = string.Format(requestUrl, formatUCDate);
+            var endPoint = string.Format(Constants.UrlGetLastUCModifiedDate, formatUCDate);
             try
             {
                 using (var request = CreateRequest(endPoint, HttpMethod.Get))
