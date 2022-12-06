@@ -1,8 +1,8 @@
 ﻿namespace SMS.EPA.AutoJob.Workers
 {
-    using System.Threading.Tasks;
-    using System.Threading;
     using System;
+    using System.Threading;
+    using System.Threading.Tasks;
     using Microsoft.Extensions.Hosting;
     using SMS.EPA.AutoJob.Models;
 
