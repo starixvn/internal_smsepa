@@ -9,6 +9,7 @@
     using SMS.EPA.Core.Constants;
     using SMS.EPA.Core.Services;
     using SMS.EPA.Criteria.JobLevelStandard;
+    using SMS.EPA.Criteria.JobLevelStandard.Period;
     using SMS.EPA.Criteria.JobLevelStandard.Report;
     using SMS.EPA.Model.JobLevelStandard;
     using SMS.EPA.Resources;
@@ -47,6 +48,15 @@
 
             criteria.ActorId = userControlSession.Get<int>(Constants.CurrentEmployeeIdKey);
             IList<JobLevelAssessment> assessments = jobLevelAssessmentService.GetJobLevelAssessmentReport(criteria);
+            var criteriaGetEvaluators = new GetPeriodEvaluatorCriteria
+            {
+                PeriodId = criteria.PeriodId
+            };
+            var evaluators = baseService.GetData<PeriodProcessSetting>(criteriaGetEvaluators);
+            foreach (var employee in assessments)
+            {
+                employee.Evaluators = evaluators.Where(x => x.EmployeeId == employee.EmployeeId).ToList();
+            }
 
             var title = Lang.JoblevelAssessmentReportTitle + " - " + criteria.PeriodName;
             MemoryStream output = exportService.ExportJoblevelAssessmentReport(kpis, assessments, title);

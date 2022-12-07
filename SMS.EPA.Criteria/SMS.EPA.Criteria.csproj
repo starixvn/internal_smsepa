@@ -119,6 +119,7 @@
     <Compile Include="JobLevelStandard\Period\EditJobLevelStandardPeriodCommand.cs" />
     <Compile Include="JobLevelStandard\Period\EditStatusJobLevelStandardPeriodCommand.cs" />
     <Compile Include="JobLevelStandard\Period\GetPeriodEmployeeSettingCriteria.cs" />
+    <Compile Include="JobLevelStandard\Period\GetPeriodEvaluatorCriteria.cs" />
     <Compile Include="JobLevelStandard\Period\GetPeriodJobLevelSettingByPeriodIdCriteria.cs" />
     <Compile Include="JobLevelStandard\Period\GetPeriodJobLevelSettingBySectionIdCriteria.cs" />
     <Compile Include="JobLevelStandard\Period\GetJobLevelSettingSummaryCriteria.cs" />

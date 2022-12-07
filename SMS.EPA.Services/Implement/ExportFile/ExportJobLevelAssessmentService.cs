@@ -383,6 +383,17 @@
                 .Where(x => !string.IsNullOrEmpty(x.JobLevel) && x.JobLevel[0].ToString() == typeOfSuperior)
                 .Select(x => string.Format(CultureInfo.InvariantCulture, "[{0}]", x.Nickname));
 
+            string evaluatorNames = string.Join(", ", nickNames);
+
+            return evaluatorNames;
+        }
+
+        private static string GetEvaluator(IList<PeriodProcessSetting> evaluators, string typeOfSuperior)
+        {
+            IEnumerable<string> nickNames = evaluators
+                .Where(x => !string.IsNullOrEmpty(x.JobLevel) && x.JobLevel[0].ToString() == typeOfSuperior)
+                .Select(x => string.Format(CultureInfo.InvariantCulture, "[{0}]", x.Nickname));
+
             string evaluatorNames = string.Join(" ", nickNames);
 
             return evaluatorNames;
