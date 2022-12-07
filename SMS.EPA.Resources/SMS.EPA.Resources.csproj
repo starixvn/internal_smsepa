@@ -59,6 +59,7 @@
     <EmbeddedResource Include="Lang.resx">
       <LastGenOutput>Lang.Designer.cs</LastGenOutput>
       <Generator>PublicResXFileCodeGenerator</Generator>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

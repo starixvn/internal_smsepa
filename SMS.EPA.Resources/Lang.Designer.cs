@@ -19,7 +19,7 @@ namespace SMS.EPA.Resources {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "16.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     public class Lang {
@@ -3711,6 +3711,24 @@ namespace SMS.EPA.Resources {
         public static string SummaryComment {
             get {
                 return ResourceManager.GetString("SummaryComment", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to  Superior (M).
+        /// </summary>
+        public static string SuperiorM {
+            get {
+                return ResourceManager.GetString("SuperiorM", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to  Superior (P).
+        /// </summary>
+        public static string SuperiorP {
+            get {
+                return ResourceManager.GetString("SuperiorP", resourceCulture);
             }
         }
         

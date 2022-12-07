@@ -46,7 +46,7 @@
            ng-show="assessmentReportCtrl.filteredItems && assessmentReportCtrl.periods.length > 0">
         <thead>
             <tr class="header-table">
-                <th colspan="{{17 + assessmentReportCtrl.kpis.length * 2}}">
+                <th colspan="{{19 + assessmentReportCtrl.kpis.length * 2}}">
                     <div class="grid-title-label pull-left">Assessment Report</div>
                     <input type="button" class="btnExcel pull-right" title="Export to Excel"
                            ng-click="assessmentReportCtrl.exportReport()">
@@ -56,7 +56,7 @@
             </tr>
             <tr class="headerName">
                 <th rowspan="3" data-translate="SymbolCount"></th>
-                <th rowspan="2" colspan="10">Employee Info</th>
+                <th rowspan="2" colspan="12">Employee Info</th>
                 <th colspan="{{assessmentReportCtrl.kpis.length * 2}}">
                     Job Level Standards (Assessment by Department P.I.C)
                 </th>
@@ -78,6 +78,8 @@
                 <th class="col-team" data-translate="Team"></th>
                 <th class="col-current-joblevel" data-translate="CurrentJobLevel"></th>
                 <th data-translate="RequirementMinScore"></th>
+                <th data-translate="SuperiorP"></th>
+                <th data-translate="SuperiorM"></th>
                 <th ng-repeat-start="kpi in assessmentReportCtrl.kpis" class="col-level" data-translate="Level"></th>
                 <th ng-repeat-end class="col-weight" data-translate="Weight"></th>
                 <th data-translate="TotalWeight"></th>
@@ -99,6 +101,16 @@
                 <td ng-bind="assessment.Team"></td>
                 <td class="text-center" ng-bind="assessment.CurrentJobLevel"></td>
                 <td class="text-center" ng-bind="assessment.RequirementMinScore"></td>
+                <td>
+                    <div ng-repeat="evaluator in assessment.Evaluators" ng-show="evaluator.JobLevel[0]==='P'">
+                        [{{evaluator.Nickname}}]
+                    </div>
+                </td>
+                <td>
+                    <div ng-repeat="evaluator in assessment.Evaluators" ng-show="evaluator.JobLevel[0]==='M'">
+                        [{{evaluator.Nickname}}]
+                    </div>
+                </td>
                 <td ng-repeat-start="kpi in assessmentReportCtrl.kpis" class="text-center col-input col-level">
                     <span ng-if="$first" ng-repeat="akpi in assessment.KPIs | filter: {KPIId: kpi.KPIId}" ng-bind="akpi.Level"></span>
                 </td>
@@ -121,7 +133,7 @@
         </tbody>
         <tfoot>
             <tr>
-                <td colspan="{{17 + assessmentReportCtrl.kpis.length * 2}}" class="paging">
+                <td colspan="{{19 + assessmentReportCtrl.kpis.length * 2}}" class="paging">
                     <span data-translate="Show"></span>
                     <select class="dropdown-entry form-control" ng-model="assessmentReportCtrl.pageSize"
                             ng-options="entry for entry in assessmentReportCtrl.entries" ng-change="assessmentReportCtrl.currentPage = 1"></select>

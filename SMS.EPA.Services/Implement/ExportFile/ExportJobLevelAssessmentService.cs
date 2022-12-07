@@ -1,7 +1,11 @@
 ﻿namespace SMS.EPA.Services.Implement.ExportFile
 {
+    using System.Collections;
+    using System;
     using System.Collections.Generic;
+    using System.Globalization;
     using System.IO;
+    using System.Linq;
     using NPOI.HSSF.UserModel;
     using NPOI.HSSF.Util;
     using NPOI.SS.UserModel;
@@ -22,7 +26,7 @@
         {
             const byte StartBodyRowIndex = 4;
             const byte FontHeight = 18;
-            var totalColumns = 15 + kpis.Count * 2;
+            var totalColumns = 18 + kpis.Count * 2;
             var titleHeadersEmployeeInfo = new List<string>
             {
                 Lang.Code,
@@ -35,6 +39,8 @@
                 Lang.Team,
                 Lang.CurrentJobLevel,
                 Lang.RequirementMinScore,
+                Lang.SuperiorP,
+                Lang.SuperiorM,
             };
 
             var titleHeadersReview = new List<string>
@@ -119,7 +125,7 @@
             IList<string> titleHeadersReview)
         {
             var tableHeaderRowSpanIndex = kpis.Count > 0 ? 3 : 2;
-            const int tableHeaderColSpanEmployeeInfor = 10;
+            const int tableHeaderColSpanEmployeeInfor = 12;
             var startAssessmentColumnIndex = titleHeadersEmployeeInfo.Count + 1;
 
             ICellStyle cellStyle = CreateHeaderStyle(workbook);
@@ -210,7 +216,7 @@
                 ICellStyle bodyStyle;
                 IRow row;
                 ICell cellBody;
-                const byte StartAssessmentColumnIndex = 11;
+                const byte StartAssessmentColumnIndex = 13;
                 const byte CellNormalWidth = 12;
                 sheet = CreateEmployeeInfoCells(
                     sheet,
@@ -350,8 +356,36 @@
             cellBody.CellStyle = bodyStyle;
             cellBody.SetCellValue(assessment.RequirementMinScore);
             SetColumnWidth(ref sheet, columnIndex, 12);
+            columnIndex++;
+
+            cellBody = row.CreateCell(columnIndex);
+            bodyStyle = CreateBodyStyle(assessment, workbook);
+            bodyStyle.Alignment = HorizontalAlignment.Left;
+            cellBody.CellStyle = bodyStyle;
+            cellBody.SetCellValue(GetEvaluator(assessment.Evaluators, "P"));
+            SetColumnWidth(ref sheet, columnIndex, 20);
+            columnIndex++;
+
+            cellBody = row.CreateCell(columnIndex);
+            bodyStyle = CreateBodyStyle(assessment, workbook);
+            bodyStyle.Alignment = HorizontalAlignment.Left;
+            cellBody.CellStyle = bodyStyle;
+            cellBody.SetCellValue(GetEvaluator(assessment.Evaluators, "M"));
+            SetColumnWidth(ref sheet, columnIndex, 20);
+
 
             return sheet;
+        }
+
+        private static string GetEvaluator(IList<PeriodProcessSetting> evaluators, string typeOfSuperior)
+        {
+            IEnumerable<string> nickNames = evaluators
+                .Where(x => !string.IsNullOrEmpty(x.JobLevel) && x.JobLevel[0].ToString() == typeOfSuperior)
+                .Select(x => string.Format(CultureInfo.InvariantCulture, "[{0}]", x.Nickname));
+
+            string evaluatorNames = string.Join(", ", nickNames);
+
+            return evaluatorNames;
         }
 
         private static ICellStyle CreateBodyStyle(JobLevelAssessment assessment, HSSFWorkbook workbook, bool isHighlight = false)

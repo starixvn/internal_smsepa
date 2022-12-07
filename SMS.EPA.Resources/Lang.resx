@@ -1518,6 +1518,12 @@
 	<data name="RequirementMinScore" xml:space="preserve">
     <value>Requirement min score</value>
   </data>
+	<data name="SuperiorP" xml:space="preserve">
+    <value> Superior (P)</value>
+  </data>
+	<data name="SuperiorM" xml:space="preserve">
+    <value> Superior (M)</value>
+  </data>
 	<data name="Team" xml:space="preserve">
     <value>Team</value>
   </data>

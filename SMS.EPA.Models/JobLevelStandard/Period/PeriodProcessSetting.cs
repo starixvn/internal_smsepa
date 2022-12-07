@@ -21,6 +21,8 @@
 
         [XmlIgnore]
         public string FullName { get; set; }
+        [XmlIgnore]
+        public string JobLevel { get; set; }
 
         public DateTime FromDate { get; set; }
         public DateTime ToDate { get; set; }

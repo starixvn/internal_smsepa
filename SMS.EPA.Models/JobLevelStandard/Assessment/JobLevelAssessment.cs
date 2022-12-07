@@ -36,6 +36,7 @@
         public decimal? RequirementMinScore { get; set; }
         public decimal? SystemPropose { get; set; }
         public string Remark { get; set; }
+        public IList<PeriodProcessSetting> Evaluators { get; set; } = new List<PeriodProcessSetting>();
 
         public IList<JobLevelAssessmentKPI> KPIs { get; set; } = new List<JobLevelAssessmentKPI>();
 
