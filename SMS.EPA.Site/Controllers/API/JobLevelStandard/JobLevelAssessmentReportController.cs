@@ -10,7 +10,6 @@
     using SMS.EPA.Core.Enumerations;
     using SMS.EPA.Core.Services;
     using SMS.EPA.Criteria.JobLevelStandard;
-    using SMS.EPA.Criteria.JobLevelStandard.Period;
     using SMS.EPA.Criteria.JobLevelStandard.Report;
     using SMS.EPA.Model.Enitites;
     using SMS.EPA.Model.JobLevelStandard;
@@ -85,16 +84,6 @@
 
             criteria.ActorId = CurrentEmployeeId;
             IList<JobLevelAssessment> assessments = jobLevelAssessmentService.GetJobLevelAssessmentReport(criteria);
-
-            var criteriaGetEvaluators = new GetPeriodEvaluatorCriteria
-            {
-                PeriodId = criteria.PeriodId
-            };
-            var evaluators = baseService.GetData<PeriodProcessSetting>(criteriaGetEvaluators);
-            foreach (var employee in assessments)
-            {
-                employee.Evaluators = evaluators.Where(x => x.EmployeeId == employee.EmployeeId).ToList();
-            }
 
             return new { kpis, assessments };
         }
