@@ -1,7 +1,7 @@
 ﻿namespace SMS.EPA.AutoJob.Constants
 {
-    public class JobConstants
+    public static class JobConstants
     {
-        public const string SyncEPAUserControlMapping = "SyncEPAUserControlMapping";
+        public const string SyncUserMapping = "SyncUserMapping";
     }
 }

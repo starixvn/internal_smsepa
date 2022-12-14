@@ -3,42 +3,47 @@
     using System;
     using System.Threading;
     using System.Threading.Tasks;
+    using Cronos;
     using Microsoft.Extensions.Hosting;
+    using Microsoft.Extensions.Logging;
     using SMS.EPA.AutoJob.Models;
 
-    public abstract class BaseWorker : BackgroundService
+    public class BaseWorker : BackgroundService
     {
-        protected JobSetting jobSetting;
+        private readonly ILogger logger;
+        protected JobSettings jobSetting;
 
-        private readonly log4net.ILog logger = log4net.LogManager.GetLogger(typeof(BaseWorker));
-
-        protected override async Task ExecuteAsync(CancellationToken stoppingToken)
+        public BaseWorker(ILogger<BaseWorker> logger)
         {
-            const byte MillisecondsDelay = 10;
-            await Task.Delay(MillisecondsDelay).ConfigureAwait(false);
-
-            try
-            {
-                while (!stoppingToken.IsCancellationRequested)
-                {
-                    await RunJobAsync();
-
-                    await Task.Delay(TimeSpan.FromSeconds(jobSetting.TimeInterval), stoppingToken);
-                }
-
-                logger.Info($"Execution ended. Cancelation token cancelled = {stoppingToken.IsCancellationRequested}");
-            }
-            catch (Exception ex)
-            {
-                logger.Info("Unhandeled exception. Execution Stopping");
-                logger.Info(ex.Message);
-            }
+            this.logger = logger;
         }
 
         public override Task StartAsync(CancellationToken cancellationToken)
         {
-            logger.Info($"{jobSetting.JobName}: Service Starting");
+            logger.LogInformation($"{jobSetting.JobName}: Start");
             return base.StartAsync(cancellationToken);
+        }
+
+        protected override async Task ExecuteAsync(CancellationToken stoppingToken)
+        {
+            try
+            {
+                while (!stoppingToken.IsCancellationRequested)
+                {
+                    var cronExpression = CronExpression.Parse(jobSetting.CronExpression);
+                    var currentUtcTime = DateTimeOffset.UtcNow.UtcDateTime;
+                    var occurenceTime = cronExpression.GetNextOccurrence(currentUtcTime);
+
+                    var delay = occurenceTime.GetValueOrDefault() - currentUtcTime;
+                    await Task.Delay(delay, stoppingToken);
+
+                    await RunJobAsync();
+                }
+            }
+            catch (Exception ex)
+            {
+                logger.LogError($"{jobSetting.JobName}: Error - {ex}");
+            }
         }
 
         private async Task RunJobAsync()
@@ -47,29 +52,32 @@
             {
                 if (jobSetting.IsEnabled)
                 {
-                    logger.Warn($"{jobSetting.JobName}: Doing...");
-                    await ExecuteJobAsync();
-                    logger.Warn($"{jobSetting.JobName}: Done.");
+                    logger.LogInformation($"{jobSetting.JobName}: Doing...");
+                    await DoWorkAsync();
+                    logger.LogInformation($"{jobSetting.JobName}: Done.");
                 }
             }
             catch (Exception ex)
             {
-                logger.Error($"{jobSetting.JobName}: Error - {ex}");
+                logger.LogError($"{jobSetting.JobName}: Error - {ex}");
             }
         }
 
-        public abstract Task ExecuteJobAsync();
+        public virtual async Task DoWorkAsync()
+        {
+            await Task.CompletedTask;
+        }
 
         public override async Task StopAsync(CancellationToken cancellationToken)
         {
-            logger.Error($"{jobSetting.JobName}: Stopping Service");
+            logger.LogInformation($"{jobSetting.JobName}: Stop");
 
             await base.StopAsync(cancellationToken);
         }
 
         public override void Dispose()
         {
-            logger.Warn($"{jobSetting.JobName}: Disposing Service");
+            logger.LogInformation($"{jobSetting.JobName}: Disposed");
             GC.SuppressFinalize(this);
             base.Dispose();
         }

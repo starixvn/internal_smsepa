@@ -30,7 +30,7 @@
                             userMapping.UserId,
                             userMapping.RefId,
                             userMapping.NewUserId,
-                            userMapping.ModifiedDate.ToString(Constants.ModifiedDateTimeFormat)
+                            userMapping.ModifiedDate.HasValue ? userMapping.ModifiedDate.Value.ToString(Constants.ModifiedDateTimeFormat) : string.Empty
                         );
                     }
                 }

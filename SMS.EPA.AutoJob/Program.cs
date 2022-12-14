@@ -5,7 +5,7 @@
     using Microsoft.Extensions.Hosting;
     using Microsoft.Extensions.Logging;
 
-    public class Program
+    public static class Program
     {
         public static void Main(string[] args)
         {
@@ -13,6 +13,7 @@
 
             try
             {
+                logger.Info("Application start.");
                 CreateHostBuilder(args).Build().Run();
             }
             catch (Exception exception)

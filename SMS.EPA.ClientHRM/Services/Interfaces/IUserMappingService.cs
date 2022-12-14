@@ -8,10 +8,10 @@
 
     public interface IUserMappingService
     {
-        Task<DateTime?> GetLastUCModifiedDateAsync();
+        Task<DateTime?> GetLastModifiedDateAsync();
 
-        Task<IEnumerable<UserMapping>> GetUserMapping(DateTime? lastUCModifiedDate);
+        Task<IEnumerable<UserMapping>> GetUserMappingAsync(DateTime? lastModifiedDate);
 
-        Task<CommandResult> UpdateUserMapping(IEnumerable<UserMapping> userMappings);
+        Task<CommandResult> UpdateUserMappingAsync(IEnumerable<UserMapping> userMappings);
     }
 }

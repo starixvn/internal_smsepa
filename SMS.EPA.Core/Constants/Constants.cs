@@ -15,8 +15,6 @@
 
         public const string ModifiedDateTimeFormat = "yyyy-MM-dd HH:mm:ss:fff";
 
-        public const string ModifiedDateTimeSendFormat = "yyyy-MM-dd HH:mm:ss.fff";
-
         public const string DateFormat = "dd MMM, yyyy";
 
         public const string TimeFormat = "HH:mm";
@@ -46,7 +44,5 @@
         public const string EndRootTag = "</ROOT>";
 
         public const double Tolerance = 0;
-
-        public const string UrlGetLastUCModifiedDate = "api/UserMapping/GetBySiteId?lastModifiedDate={0}";
     }
 }

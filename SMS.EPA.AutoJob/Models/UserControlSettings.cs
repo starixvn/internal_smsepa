@@ -1,6 +1,6 @@
 ﻿namespace SMS.EPA.AutoJob.Models
 {
-    public class UCSettings
+    public class UserControlSettings
     {
         public short SiteId { get; set; }
 

@@ -18,7 +18,7 @@
         private readonly IDisciplineSummaryService _disciplineSummaryService;
         private readonly IPhotoService _photoService;
         private readonly IJobLevelService jobLevelService;
-        private readonly IUserMappingService _userMappingService;
+        private readonly IUserMappingService userMappingService;
 
         private TokenAccess _token = new TokenAccess();
 
@@ -45,7 +45,7 @@
             _disciplineSummaryService = disciplineSummaryService;
             _photoService = photoService;
             this.jobLevelService = jobLevelService;
-            _userMappingService = userMappingService;
+            this.userMappingService = userMappingService;
         }
 
         public async Task Synchronize()
@@ -207,10 +207,10 @@
 
         private async Task SynchronizeUserMappingAsync()
         {
-            var lastUCModifiedDate = await _userMappingService.GetLastUCModifiedDateAsync();
-            var userMappings = await _userMappingService.GetUserMapping(lastUCModifiedDate);
+            var lastModifiedDate = await userMappingService.GetLastModifiedDateAsync();
+            var userMappings = await userMappingService.GetUserMappingAsync(lastModifiedDate);
 
-            await _userMappingService.UpdateUserMapping(userMappings);
+            await userMappingService.UpdateUserMappingAsync(userMappings);
             Console.WriteLine("User Mapping");
         }
 

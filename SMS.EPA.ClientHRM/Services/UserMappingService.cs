@@ -10,7 +10,6 @@
     using Newtonsoft.Json;
     using SMS.EPA.ClientHrm.Criteria;
     using SMS.EPA.ClientHRM.Criteria;
-    using SMS.EPA.Core.Constants;
     using SMS.EPA.Core.Model;
     using SMS.EPA.Core.Services;
     using SMS.EPA.Model.API;
@@ -26,18 +25,17 @@
             this.baseService = baseService;
         }
 
-        public async Task<DateTime?> GetLastUCModifiedDateAsync()
+        public async Task<DateTime?> GetLastModifiedDateAsync()
         {
-            var criteria = new GetLastUCModifiedDateCriteria();
-            var lastUCModifiedDate = await baseService.GetDataEntityAsync<DateTime?>(criteria);
-            return lastUCModifiedDate;
+            var criteria = new GetLastModifiedDateUserMappingCriteria();
+            return await baseService.GetDataEntityAsync<DateTime?>(criteria);
         }
 
-        public async Task<IEnumerable<UserMapping>> GetUserMapping(DateTime? lastUCModifiedDate)
+        public async Task<IEnumerable<UserMapping>> GetUserMappingAsync(DateTime? lastModifiedDate)
         {
-            var formatUCDate = lastUCModifiedDate.HasValue ? lastUCModifiedDate.Value.ToString(Constants.ModifiedDateTimeSendFormat) : null;
+            var modifiedDate = lastModifiedDate.HasValue ? lastModifiedDate.Value.ToString("yyyy-MM-dd HH:mm:ss.fff") : null;
 
-            var endPoint = string.Format(Constants.UrlGetLastUCModifiedDate, formatUCDate);
+            var endPoint = string.Format("api/UserMapping/GetBySiteId?lastModifiedDate={0}", modifiedDate);
             try
             {
                 using (var request = CreateRequest(endPoint, HttpMethod.Get))
@@ -69,6 +67,15 @@
             }
         }
 
+        public async Task<CommandResult> UpdateUserMappingAsync(IEnumerable<UserMapping> userMappings)
+        {
+            var criteria = new UpdateUserMappingCriteria
+            {
+                UserMappings = userMappings
+            };
+
+            return await baseService.ExecuteNonQueryAsync(criteria);
+        }
 
         private static HttpRequestMessage CreateRequest(string endPoint, HttpMethod method)
         {
@@ -89,16 +96,6 @@
                 { "AccessToken", ApplicationConfig.UserControlSettings_AccessToken }
             };
             return JWT.Encode(data, Encoding.UTF8.GetBytes(ApplicationConfig.UserControlSettings_AccessToken), JwsAlgorithm.HS256);
-        }
-
-        public async Task<CommandResult> UpdateUserMapping(IEnumerable<UserMapping> userMappings)
-        {
-            var criteria = new UpdateUserMappingCriteria
-            {
-                UserMappings = userMappings
-            };
-
-            return await baseService.ExecuteNonQueryAsync(criteria);
         }
     }
 }
