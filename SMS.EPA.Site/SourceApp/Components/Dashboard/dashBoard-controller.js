@@ -13,6 +13,7 @@
         vm.processStatus = utilitiesFactory.processStatus;
         vm.targetTypeEnum = utilitiesFactory.targetType;
         vm.todoList = {};
+        vm.jlsDashboard = {};
         vm.announcements = [];
         vm.runMarquee = true;
         vm.marqueeStyle = { 'animation': '30s linear 0s infinite normal none running marquee' };
@@ -20,6 +21,7 @@
         vm.getClassProgress = getClassProgress;
         vm.goToEvaluatorListing = goToEvaluatorListing;
         vm.goToManagementListing = goToManagementListing;
+        vm.goToAssessment = goToAssessment;
         vm.goToReviewerListing = goToReviewerListing;
         vm.selfEvaluationDetail = selfEvaluationDetail;
         vm.viewEPAResult = viewEPAResult;
@@ -31,6 +33,10 @@
 
             DashboardModel.getToDoList().then(function () {
                 vm.todoList = DashboardModel.todoList;
+            });
+
+            DashboardModel.getJLSDashboard().then(function () {
+                vm.jlsDashboard = DashboardModel.jlsDashboard;
             });
 
             DashboardModel.getDashboard().then(function () {
@@ -95,6 +101,14 @@
             };
 
             utilitiesFactory.handleOpenLinkWithParams(event, 'Management/Index', params);
+        }
+
+        function goToAssessment(periodId, event) {
+            var params = {
+                periodId,
+            };
+
+            utilitiesFactory.handleOpenLinkWithParams(event, 'JobLevelStandard/Assessment/Index', params);
         }
 
         function goToReviewerListing(periodId, finished, isMonthly, event) {

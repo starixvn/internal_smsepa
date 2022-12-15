@@ -464,6 +464,7 @@
     <Content Include="SourceApp\Components\Dashboard\announcement-controller.js" />
     <Content Include="SourceApp\Components\Dashboard\Templates\announcement-modal.html" />
     <Content Include="SourceApp\Components\Dashboard\Templates\announcement.html" />
+    <Content Include="SourceApp\Components\Dashboard\Templates\JLSDashboard.html" />
     <Content Include="SourceApp\Components\Dashboard\Templates\todoList.html" />
     <Content Include="SourceApp\Components\Discipline\discipline-summary-controller.js" />
     <Content Include="SourceApp\Components\Discipline\discipline-summary-directive.js" />

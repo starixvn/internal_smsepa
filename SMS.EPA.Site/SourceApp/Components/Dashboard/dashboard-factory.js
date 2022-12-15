@@ -9,6 +9,7 @@
         return {
             getDashboard,
             getToDoList,
+            getJLSDashboard,
             getAnnouncement
         };
 
@@ -18,6 +19,10 @@
 
         function getToDoList() {
             return $http.get(baseUrl + 'api/Dashboard/GetToDoList');
+        }
+
+        function getJLSDashboard() {
+            return $http.get(baseUrl + 'api/Dashboard/GetJobLevelStandardDashboard');
         }
 
         function getAnnouncement() {

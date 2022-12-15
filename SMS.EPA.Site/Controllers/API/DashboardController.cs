@@ -58,6 +58,19 @@
 
         [HttpGet]
         [ApiAuthorize(FunctionKey = EPAFunctionKey.Home, Policy = Policy.Read)]
+        public JobLevelStandardDashboardViewModel GetJobLevelStandardDashboard()
+        {
+            var criteria = new GetJobLevelStandardDashboardCriteria
+            {
+                EmployeeId = CurrentEmployeeId
+            };
+            var result = new JobLevelStandardDashboardViewModel { ToDoList = baseService.GetData<JobLevelStandardDashboard>(criteria) };
+
+            return result;
+        }
+
+        [HttpGet]
+        [ApiAuthorize(FunctionKey = EPAFunctionKey.Home, Policy = Policy.Read)]
         public IList<string> GetAnnouncement()
         {
             var result = new List<string>();
@@ -66,7 +79,7 @@
                 EmployeeId = CurrentEmployeeId
             };
             var settings = baseService.GetData<JobLevelStandardProcessSetting>(criteria);
-            foreach(var setting in settings)
+            foreach (var setting in settings)
             {
                 var fromDate = setting.FromDate.Date.ToString(Constants.FormatDateTimeEmail);
                 var toDate = setting.ToDate.AddDays(1).AddSeconds(-1).ToString(Constants.FormatDateTimeEmail);

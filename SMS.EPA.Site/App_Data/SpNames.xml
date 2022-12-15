@@ -199,6 +199,7 @@
 			<Mapping DataField="ModifiedById" ObjectProperty="EmployeeId" />
 		</Setting>
 		<Setting Key="Dashboard_GetToDoList" SpName="Dashboard_GetToDoList" DbName="SMSEPA" Plain="0" />
+		<Setting Key="JobLevelStandard_GetDashboard" SpName="JobLevelStandard_GetDashboard" DbName="SMSEPA" Plain="0" />
 		<Setting Key="Dashboard_GetAnnouncement" SpName="Dashboard_GetAnnouncement" DbName="SMSEPA" Plain="0" />
 	</Function>
 	<Function Name="Discipline Summary">

@@ -110,6 +110,8 @@
     <Compile Include="AutoService\AutoEvaluationProcessModel.cs" />
     <Compile Include="AutoService\EmployeeSettingToSendMail.cs" />
     <Compile Include="AutoService\JobLevelStandardProcessSetting.cs" />
+    <Compile Include="Dashboard\JobLevelStandardDashboard.cs" />
+    <Compile Include="Dashboard\JobLevelStandardDashboardViewModel.cs" />
     <Compile Include="Dashboard\JobLevelStandardProcessSetting.cs" />
     <Compile Include="Email\MailModel.cs" />
     <Compile Include="Email\MailReminder.cs" />

@@ -4,9 +4,9 @@
     /* jshint validthis:true */
 
     angular.module('jobLevelStandardModule').controller('AssessmentController', assessmentController);
-    assessmentController.$inject = ['CommonModel', 'AssessmentModel', 'utilitiesFactory', 'lockScreenService'];
+    assessmentController.$inject = ['$location', 'CommonModel', 'AssessmentModel', 'utilitiesFactory', 'lockScreenService'];
 
-    function assessmentController(CommonModel, AssessmentModel, utilitiesFactory, lockScreenService) {
+    function assessmentController($location, CommonModel, AssessmentModel, utilitiesFactory, lockScreenService) {
         let vm = this;
 
         vm.periods = null;
@@ -185,9 +185,14 @@
         function initialize() {
             AssessmentModel.getPeriods().then(function () {
                 vm.periods = AssessmentModel.periods;
+                var periodId = $location.search().periodId;
 
                 if (vm.periods.length > 0) {
-                    vm.filter.periodId = vm.periods[0].PeriodId;
+                    if (periodId === undefined) {
+                        vm.filter.periodId = vm.periods[0].PeriodId;
+                    } else {
+                        vm.filter.periodId = periodId;
+                    }
 
                     AssessmentModel.getOrgChart().then(function () {
                         vm.orgChart = AssessmentModel.orgChart;

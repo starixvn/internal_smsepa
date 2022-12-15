@@ -74,6 +74,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Dashboard\GetAnnouncementCriteria.cs" />
+    <Compile Include="Dashboard\GetJobLevelStandardDashboardCriteria.cs" />
     <Compile Include="Department\GetOrgChartCriteria.cs" />
     <Compile Include="EmployeeEPA\GetDataToUpdateFinalScoreCriteria.cs" />
     <Compile Include="EmployeeEPA\GetDataToUpdateTotalScoreOfProcessCriteria.cs" />
