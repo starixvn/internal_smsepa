@@ -47,9 +47,8 @@
 
         public bool HasMonthlyEPA { get; set; }
 
-        public string Username => !string.IsNullOrWhiteSpace(DomainUsername) && IsSpecialUser
-            ? DomainUsername.Replace("sms\\", string.Empty)
-            : string.Empty;
+        public string Username => !string.IsNullOrWhiteSpace(DomainUsername)
+            ? DomainUsername.Replace("sms\\", string.Empty) : string.Empty;
 
         public bool IsSpecialUser { get; set; }
 

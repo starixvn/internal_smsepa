@@ -79,9 +79,12 @@
                 foreach (Employee employee in employees)
                 {
                     string endPoint;
+                    var username = !string.IsNullOrWhiteSpace(employee.DomainUsername) ? employee.DomainUsername.Replace("sms\\", string.Empty) : string.Empty;
                     var data = new Dictionary<string, object>
                     {
+                        { "refId", employee.EmployeeId },
                         { "code", employee.Code },
+                        { "username", username },
                         { "nickname", employee.NickName },
                         { "fullName", employee.FullName },
                         { "email", employee.Email },
@@ -92,7 +95,6 @@
                     {
                         endPoint = "api/user/update";
                         data.Add("userId", employee.UserId);
-                        data.Add("refId", employee.EmployeeId);
                         data.Add("OldPassword", employee.Password);
                         await SendAsync<Dictionary<string, object>, CommandResult>(endPoint, data, loginResult.JwtToken.Token);
                     }
