@@ -15,7 +15,6 @@ BEGIN
 
 	SELECT JobGradeId
 		,[Name]
-		,IsActive
 	FROM dbo.JobGrade WITH (NOLOCK)
 	WHERE @IsActive IS NULL
 		OR IsActive = @IsActive

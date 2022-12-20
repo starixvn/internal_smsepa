@@ -1,4 +1,6 @@
 ﻿
+
+
 CREATE PROCEDURE [dbo].[EpaEmployee_ChangePassword] @EmployeeId INT
 	,@NewPassword NVARCHAR(100)
 	,@ModifiedBy INT = NULL
@@ -25,6 +27,7 @@ BEGIN
 	UPDATE dbo.Employee WITH (ROWLOCK, UPDLOCK)
 	SET [Password] = @NewPassword
 		,ModifiedBy = @ModifiedBy
+		,ModifiedDate = CASE WHEN IsSpecialUser = 1 THEN GETDATE() ELSE ModifiedDate END
 	WHERE EmployeeId = @EmployeeId
 
 	EXEC @Data = dbo.fncGetDataForWriteLog_Employee_ChangePassWord @EmployeeId = @EmployeeId

@@ -1,4 +1,5 @@
 ﻿
+
 CREATE PROCEDURE [dbo].[JobLevelStandard_Period_Update] @PeriodId INT
 	,@Name NVARCHAR(200)
 	,@SettingXml VARCHAR(MAX)
@@ -107,6 +108,8 @@ BEGIN
 
 	UPDATE a
 	SET a.StatusId = @pendingStatusId
+		,a.ModifiedBy = @ModifiedBy
+		,a.ModifiedDate = GETDATE()
 	FROM dbo.JobLevelStandard_Assessment AS a WITH (ROWLOCK, UPDLOCK)
 	WHERE a.PeriodId = @PeriodId
 		AND a.StatusId IN (@verifiedStatusId, @approvedStatusId)

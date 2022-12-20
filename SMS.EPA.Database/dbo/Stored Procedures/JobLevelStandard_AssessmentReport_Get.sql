@@ -1,4 +1,5 @@
 ﻿
+
 CREATE PROCEDURE [dbo].[JobLevelStandard_AssessmentReport_Get] @ActorId INT
 	,@PeriodId INT
 	,@SectionIds VARCHAR(MAX) = NULL
@@ -117,14 +118,11 @@ BEGIN
 		,a.TotalWeight
 		,a.CurrentJobLevelId
 		,cjl.[Name] AS CurrentJobLevel
-		,a.NewJobLevelId
-		,newjl.[Name] AS NewJobLevel
 		,a.StatusId
 		,a.Remark
 		,@PeriodStartDate AS PeriodStartDate
 	FROM #tmpAssessment AS a WITH (NOLOCK)
 		LEFT JOIN dbo.JobLevel AS cjl WITH (NOLOCK) ON a.CurrentJobLevelId = cjl.JobLevelId
-		LEFT JOIN dbo.JobLevel AS newjl WITH (NOLOCK) ON a.NewJobLevelId = newjl.JobLevelId
 	ORDER BY Department
 		,Section
 		,Team

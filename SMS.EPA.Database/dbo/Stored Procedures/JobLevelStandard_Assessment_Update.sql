@@ -1,4 +1,5 @@
 ﻿
+
 CREATE PROCEDURE [dbo].[JobLevelStandard_Assessment_Update] @AssessmentId INT OUTPUT
 	,@PeriodId INT
 	,@EmployeeId INT
@@ -75,7 +76,7 @@ BEGIN
 					,EmployeeId AS '@EmployeeId'
 					,TotalWeight AS '@TotalWeight'
 					,CurrentJobLevelId AS '@CurrentJobLevelId'
-					,NewJobLevelId AS '@NewJobLevelId'
+					--,NewJobLevelId AS '@NewJobLevelId'
 					,StatusId AS '@StatusId'
 					,Remark AS '@Remark'
 					,ModifiedBy AS '@ModifiedBy'
@@ -91,7 +92,7 @@ BEGIN
 		UPDATE dbo.JobLevelStandard_Assessment WITH (ROWLOCK, UPDLOCK)
 		SET TotalWeight = @TotalWeight
 			,CurrentJobLevelId = @CurrentJobLevelId
-			,NewJobLevelId = @NewJobLevelId
+			--,NewJobLevelId = @NewJobLevelId
 			,StatusId = @StatusId
 			,Remark = @Remark
 			,ModifiedBy = @ModifiedBy
@@ -113,7 +114,7 @@ BEGIN
 					,EmployeeId AS '@EmployeeId'
 					,TotalWeight AS '@TotalWeight'
 					,CurrentJobLevelId AS '@CurrentJobLevelId'
-					,NewJobLevelId AS '@NewJobLevelId'
+					--,NewJobLevelId AS '@NewJobLevelId'
 					,StatusId AS '@StatusId'
 					,Remark AS '@Remark'
 					,ModifiedBy AS '@ModifiedBy'
@@ -143,7 +144,7 @@ BEGIN
 			,PeriodId
 			,TotalWeight
 			,CurrentJobLevelId
-			,NewJobLevelId
+			--,NewJobLevelId
 			,StatusId
 			,Remark
 			,CreatedBy
@@ -154,7 +155,7 @@ BEGIN
 			,@PeriodId
 			,@TotalWeight
 			,@CurrentJobLevelId
-			,@NewJobLevelId
+			--,@NewJobLevelId
 			,@StatusId
 			,@Remark
 			,@ModifiedBy
@@ -194,7 +195,7 @@ BEGIN
 					,EmployeeId AS '@EmployeeId'
 					,TotalWeight AS '@TotalWeight'
 					,CurrentJobLevelId AS '@CurrentJobLevelId'
-					,NewJobLevelId AS '@NewJobLevelId'
+					--,NewJobLevelId AS '@NewJobLevelId'
 					,StatusId AS '@StatusId'
 					,Remark AS '@Remark'
 					,CreatedBy AS '@CreatedBy'

@@ -1,4 +1,5 @@
 ﻿
+
 CREATE PROCEDURE [dbo].[Employee_GetByUserId] @UserId INT
 AS
 /*
@@ -14,6 +15,8 @@ BEGIN
 	SET NOCOUNT ON;
 
 	SELECT emp.EmployeeId
+		,emp.DomainUsername
+		,emp.Code
 		,emp.NickName
 		,emp.FullName
 		,emp.[Password]

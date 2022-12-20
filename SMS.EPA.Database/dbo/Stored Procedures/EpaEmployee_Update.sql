@@ -1,4 +1,6 @@
 ﻿
+
+
 CREATE PROCEDURE [dbo].[EpaEmployee_Update] @EmployeeId INT
 	,@NickName NVARCHAR(20)
 	,@FullName NVARCHAR(50) = ''
@@ -27,9 +29,9 @@ BEGIN
 
 	IF EXISTS (
 			SELECT 1
-			FROM [dbo].[Employee] WITH (NOLOCK)
-			WHERE [EmployeeId] <> @EmployeeId
-				AND [DomainUsername] = @DomainUsername
+			FROM dbo.Employee WITH (NOLOCK)
+			WHERE EmployeeId != @EmployeeId
+				AND DomainUsername = @DomainUsername
 			)
 	BEGIN
 		SELECT @ErrCode = 100
@@ -40,9 +42,9 @@ BEGIN
 
 	IF EXISTS (
 			SELECT 1
-			FROM [dbo].[Employee] WITH (NOLOCK)
-			WHERE [EmployeeId] <> @EmployeeId
-				AND [NickName] = @NickName
+			FROM dbo.Employee WITH (NOLOCK)
+			WHERE EmployeeId != @EmployeeId
+				AND NickName = @NickName
 			)
 	BEGIN
 		SELECT @ErrCode = 100
@@ -54,7 +56,7 @@ BEGIN
 	DECLARE @Data NVARCHAR(MAX)
 		,@OldData NVARCHAR(MAX)
 
-	EXEC @OldData = [dbo].[fncGetDataForWriteLog] @ObjectId = @EmployeeId
+	EXEC @OldData = dbo.fncGetDataForWriteLog @ObjectId = @EmployeeId
 		,@ObjectType = 4
 
 	BEGIN TRY

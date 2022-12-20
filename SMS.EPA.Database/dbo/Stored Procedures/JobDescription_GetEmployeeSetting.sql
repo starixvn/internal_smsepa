@@ -1,5 +1,6 @@
 ﻿
-CREATE PROCEDURE [dbo].[JobDescription_GetEmployeeSetting] @GroupId INT = NULL
+
+CREATE PROCEDURE [dbo].[JobDescription_GetEmployeeSetting] @TeamIds VARCHAR(MAX) = NULL
 	,@EmployeeId INT = NULL
 	,@ShowAll BIT = 0
 AS
@@ -16,22 +17,38 @@ Param's Explanation:
 BEGIN
 	SET NOCOUNT ON;
 
+	CREATE TABLE #tmpTeam (TeamId INT)
+
+	IF @TeamIds IS NOT NULL
+	BEGIN
+		INSERT INTO #tmpTeam (TeamId)
+		SELECT DISTINCT val
+		FROM dbo.fnc_strSplit(@TeamIds, ',')
+	END
+
 	SELECT emp.EmployeeId
 		,emp.Code
 		,emp.Nickname
 		,emp.FullName
 		,emp.[Enabled]
+		,dept.[Name] AS Section
 		,gr.[Name] AS GroupName
 		,gr.Code AS GroupCode
 		,job.[Name] AS JobLevel
 	FROM dbo.Employee AS emp WITH (NOLOCK)
 		INNER JOIN dbo.[Group] AS gr WITH (NOLOCK) ON emp.GroupId = gr.GroupId
 		INNER JOIN dbo.JobLevel AS job WITH (NOLOCK) ON emp.JobLevelId = job.JobLevelId
+		LEFT JOIN dbo.Department AS dept WITH (NOLOCK) ON gr.DepartmentId = dept.DepartmentId
+		AND dept.IsActive = 1
 	WHERE emp.[Enabled] = 1
 		AND emp.IsDeleted = 0
 		AND (
-			@GroupId IS NULL
-			OR gr.GroupId = @GroupId
+			@TeamIds IS NULL
+			OR EXISTS (
+				SELECT 1
+				FROM #tmpTeam AS tmp WITH (NOLOCK)
+				WHERE gr.GroupId = tmp.TeamId
+				)
 			)
 		AND (
 			@EmployeeId IS NULL
@@ -48,5 +65,7 @@ BEGIN
 				)
 			OR @ShowAll = 1
 			)
-	ORDER BY emp.Code, emp.NickName
+	ORDER BY gr.[Name]
+		,emp.Code
+		,emp.NickName
 END

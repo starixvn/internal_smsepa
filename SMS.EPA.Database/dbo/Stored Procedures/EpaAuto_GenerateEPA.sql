@@ -321,7 +321,7 @@ BEGIN
 			AND period.TargetTypeId = @SemiTargetTypeId
 			INNER JOIN dbo.SemiPeriodSetting AS setting WITH (NOLOCK) ON CAST(period.StartDate AS DATE) BETWEEN CAST(CAST(YEAR(period.StartDate) AS VARCHAR) + '-' + setting.FromDate AS DATE)
 				AND CAST(CAST(YEAR(period.StartDate) AS VARCHAR) + '-' + setting.ToDate AS DATE)
-			INNER JOIN dbo.SemiPeriodSettingDetail AS sdetail WITH (NOLOCK) ON sdetail.SemiPeriodSettingId = sdetail.SemiPeriodSettingId
+			INNER JOIN dbo.SemiPeriodSettingDetail AS sdetail WITH (NOLOCK) ON setting.SemiPeriodSettingId = sdetail.SemiPeriodSettingId
 			AND sdetail.IsActive = 1
 		WHERE epa.HasMonthlyEPA = 1
 			AND setting.EffectiveDate = (
@@ -389,6 +389,6 @@ BEGIN
 		ROLLBACK TRANSACTION
 
 		SELECT @ErrCode = 1
-			,@ErrMsg = N'Generate EPA unsuccessfully.'
+			,@ErrMsg = ERROR_MESSAGE()
 	END CATCH
 END

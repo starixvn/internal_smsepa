@@ -12,10 +12,10 @@ Original:
 Revisions:  
 20160414@Razor.nguyen: Create EPA Service API
 Param's Explanation:
-- @UserXML: <User EmployeeId='{0}' DomainUsername='{1}' Code='{2}' "
-            + "NickName='{3}' FullName='{4}' TeamId='{5}' JobTitleId='{6}' Phone='{7}' "
-            + " Email='{8}' CardNumber='{9}' IsEnabled='{10}' IsDeleted='{11}' Password='{12}' "
-            + " JoinedDate='{13}' ModifiedDate='{14}' IsLocal='{15}' ResignedDate = '{16}' ConfirmedDate='{17}' JobLevelId='{18}'></User>
+- @UserXML: <ROOT><Row EmployeeId='{0}' DomainUsername='{1}' Code='{2}' "
+		NickName='{3}' FullName='{4}' TeamId='{5}' JobTitleId='{6}' Phone='{7}' "
+        Email='{8}' CardNumber='{9}' IsEnabled='{10}' IsDeleted='{11}' Password='{12}' "
+        JoinedDate='{13}' ModifiedDate='{14}' IsLocal='{15}' ResignedDate = '{16}' ConfirmedDate='{17}' JobLevelId='{18}' UserId='{19}' /></ROOT>
 */
 BEGIN
 	SET NOCOUNT ON;
@@ -26,6 +26,7 @@ BEGIN
 
 	CREATE TABLE #tmpEmployee (
 		EmployeeId INT NULL
+		,UserId INT NULL
 		,DomainUsername NVARCHAR(50) NULL
 		,Code NVARCHAR(20) NULL
 		,FullName NVARCHAR(150) NULL
@@ -62,7 +63,8 @@ BEGIN
 			,@UserXML
 
 		INSERT INTO #tmpEmployee (
-			EmployeeId
+			UserId
+			,EmployeeId
 			,DomainUsername
 			,Code
 			,FullName
@@ -82,7 +84,8 @@ BEGIN
 			,ConfirmedDate
 			,JobLevelId
 			)
-		SELECT EmployeeId
+		SELECT UserId
+			,EmployeeId
 			,DomainUsername
 			,Code
 			,REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(FullName, '&amp;', '&'), '&#39;', ''''), '&lt;', '<'), '&gt;', '>'), '&quot;', '"')
@@ -113,7 +116,7 @@ BEGIN
 				ELSE ConfirmedDate
 				END
 			,JobLevelId
-		FROM OPENXML(@DocHandler, '/ROOT/User', 1) WITH (EmployeeId INT, DomainUsername NVARCHAR(50), Code NVARCHAR(20), FullName NVARCHAR(150), NickName NVARCHAR(20), TeamId INT, JobTitleId INT, Phone VARCHAR(50), Email VARCHAR(50), CardNumber VARCHAR(20), IsEnabled BIT, IsDeleted BIT, [Password] NVARCHAR(100), JoinedDate NVARCHAR(100), ModifiedDate DATETIME, IsLocal BIT, ResignedDate DATETIME, ConfirmedDate DATETIME, JobLevelId INT) AS Data
+		FROM OPENXML(@DocHandler, '/ROOT/Row', 1) WITH (UserId INT, EmployeeId INT, DomainUsername NVARCHAR(50), Code NVARCHAR(20), FullName NVARCHAR(150), NickName NVARCHAR(20), TeamId INT, JobTitleId INT, Phone VARCHAR(50), Email VARCHAR(50), CardNumber VARCHAR(20), IsEnabled BIT, IsDeleted BIT, [Password] NVARCHAR(100), JoinedDate NVARCHAR(100), ModifiedDate DATETIME, IsLocal BIT, ResignedDate DATETIME, ConfirmedDate DATETIME, JobLevelId INT) AS Data
 
 		EXEC sp_xml_removedocument @DocHandler
 	END TRY
@@ -126,7 +129,8 @@ BEGIN
 	END CATCH;
 
 	INSERT INTO dbo.Employee (
-		EmployeeId
+		UserId
+		,EmployeeId
 		,DomainUsername
 		,Code
 		,FullName
@@ -148,15 +152,17 @@ BEGIN
 		,ConfirmedDate
 		,JobLevelId
 		)
-	OUTPUT INSERTED.EmployeeId
+	OUTPUT INSERTED.UserId
+		,INSERTED.EmployeeId
 		,INSERTED.Code
 		,INSERTED.NickName
 		,INSERTED.FullName
 		,INSERTED.[Password]
 		,INSERTED.[Enabled]
 		,INSERTED.IsDeleted
-	INTO #tmpChangedEmployee(EmployeeId, Code, Nickname, FullName, [Password], IsEnabled, IsDeleted)
-	SELECT new.EmployeeId
+	INTO #tmpChangedEmployee(UserId, EmployeeId, Code, Nickname, FullName, [Password], IsEnabled, IsDeleted)
+	SELECT new.UserId
+		,new.EmployeeId
 		,new.DomainUsername
 		,new.Code
 		,new.FullName
@@ -182,7 +188,11 @@ BEGIN
 	WHERE curr.EmployeeId IS NULL
 
 	UPDATE curr
-	SET curr.DomainUsername = ISNULL(new.DomainUsername, '')
+	SET curr.UserId = CASE 
+			WHEN ISNULL(new.UserId, 0) > 0 THEN new.UserId
+			ELSE curr.UserId
+			END
+		,curr.DomainUsername = ISNULL(new.DomainUsername, '')
 		,curr.Code = ISNULL(new.Code, '')
 		,curr.FullName = ISNULL(new.FullName, '')
 		,curr.NickName = ISNULL(new.NickName, '')
@@ -224,7 +234,14 @@ BEGIN
 		AND er.RoleId = 6
 	WHERE er.EmployeeId IS NULL
 
-	SELECT *
+	SELECT UserId
+		,EmployeeId
+		,Code
+		,Nickname
+		,FullName
+		,[Password]
+		,IsEnabled
+		,IsDeleted
 	FROM #tmpChangedEmployee WITH (NOLOCK)
 
 	DROP TABLE #tmpEmployee

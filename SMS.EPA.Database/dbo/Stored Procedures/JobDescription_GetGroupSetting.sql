@@ -1,4 +1,5 @@
 ﻿
+
 CREATE PROCEDURE [dbo].[JobDescription_GetGroupSetting]
 AS
 /*
@@ -30,4 +31,5 @@ BEGIN
 	FROM dbo.[Group] AS gr WITH (NOLOCK)
 		LEFT JOIN dbo.Department AS dept WITH (NOLOCK) ON gr.DepartmentId = dept.DepartmentId
 	WHERE gr.IsDeleted = 0
+	ORDER BY gr.[Name]
 END

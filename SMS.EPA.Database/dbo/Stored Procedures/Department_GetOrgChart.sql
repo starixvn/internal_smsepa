@@ -1,4 +1,5 @@
 ﻿
+
 CREATE PROCEDURE [dbo].[Department_GetOrgChart]
 AS
 /*
@@ -15,21 +16,21 @@ BEGIN
 
 	CREATE TABLE #tmpTeam (
 		TeamId INT
-		,Code VARCHAR(20)
-		,[Name] NVARCHAR(150)
+		,Code VARCHAR(200)
+		,[Name] NVARCHAR(200)
 		,SectionId INT
 		)
 
 	CREATE TABLE #tmpSection (
 		SectionId INT
-		,Code VARCHAR(50)
+		,Code VARCHAR(200)
 		,[Name] NVARCHAR(200)
 		,DepartmentId INT
 		)
 
 	CREATE TABLE #tmpDepartment (
 		DepartmentId INT
-		,Code VARCHAR(50)
+		,Code VARCHAR(200)
 		,[Name] NVARCHAR(200)
 		)
 
