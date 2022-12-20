@@ -1,7 +1,9 @@
 ﻿namespace SMS.EPA.Services
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Runtime.Remoting.Messaging;
     using SMS.EPA.Core.Services;
     using SMS.EPA.Criteria;
     using SMS.EPA.Criteria.EPAHistory;
@@ -9,6 +11,8 @@
     using SMS.EPA.Model;
     using SMS.EPA.Model.Enitites;
     using SMS.EPA.Model.JobDescription;
+    using SMS.EPA.Services.Implement;
+    using SMS.EPA.Services.Interfaces;
 
     public class CommonService : ICommonService
     {
@@ -143,6 +147,44 @@
             }
 
             return groupItems.OrderBy(x => x.DisplayOrder).ToList();
+        }
+
+        public string CalculateLengthOfService(DateTime? fromDate, DateTime? toDate, DateTime? militaryFromDate, DateTime? militaryToDate)
+        {
+            const byte HalfMonth = 15;
+            const short DayOfYear = 365;
+            const byte DayOfMonth = 30;
+            const byte MonthOfYear = 12;
+            int totalDays;
+            int years;
+            int months;
+            int days;
+            string lengOfService = string.Empty;
+            if (fromDate.HasValue)
+            {
+                totalDays = ((TimeSpan)(toDate - fromDate)).Days;
+                if (militaryToDate.HasValue && militaryFromDate.HasValue)
+                {
+                    totalDays -= ((TimeSpan)(militaryToDate - militaryFromDate)).Days;
+                }
+                years = totalDays / DayOfYear;
+                months = (totalDays - (years * DayOfYear)) / DayOfMonth;
+                days = totalDays - (years * DayOfYear) - (months * DayOfMonth);
+                if (days >= HalfMonth)
+                {
+                    months++;
+                }
+
+                if (months >= MonthOfYear)
+                {
+                    years++;
+                    months = 0;
+                }
+
+                lengOfService = string.Format("{0} Year(s) {1} Month(s)", years, months);
+            }
+
+            return lengOfService;
         }
     }
 }

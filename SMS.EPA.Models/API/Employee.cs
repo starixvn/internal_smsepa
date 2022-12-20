@@ -26,5 +26,7 @@
         public DateTime? ResignedDate { get; set; }
 
         public DateTime? ModifiedDate { get; set; }
+        public DateTime? MilitaryFromDate { get; set; }
+        public DateTime? MilitaryToDate { get; set; }
     }
 }

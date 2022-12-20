@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
     using Newtonsoft.Json;
     using SMS.EPA.Core.Enumerations;
 
@@ -23,6 +24,11 @@
         public string Team { get; set; }
         public DateTime JoinedDate { get; set; }
         public DateTime PeriodStartDate { get; set; }
+        [DataType(DataType.Date)]
+        public DateTime? MilitaryFromDate { get; set; }
+
+        [DataType(DataType.Date)]
+        public DateTime? MilitaryToDate { get; set; }
         public string LengthOfService { get; set; }
         public decimal? TotalWeight { get; set; }
 

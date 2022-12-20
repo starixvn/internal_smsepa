@@ -17,8 +17,8 @@
     {
         private const string UserTpl = "<Row EmployeeId='{0}' DomainUsername='{1}' Code='{2}'"
             + " NickName='{3}' FullName='{4}' TeamId='{5}' JobTitleId='{6}' Phone='{7}'"
-            + " Email='{8}' CardNumber='{9}' IsEnabled='{10}' IsDeleted='{11}' Password='{12}'"
-            + " JoinedDate='{13}' ModifiedDate='{14}' IsLocal='{15}' ResignedDate ='{16}' ConfirmedDate='{17}' JobLevelId='{18}' UserId='{19}' />";
+            + " Email='{8}' CardNumber='{9}' IsEnabled='{10}' IsDeleted='{11}' Password='{12}' JoinedDate='{13}' ModifiedDate='{14}'"
+            + " IsLocal='{15}' ResignedDate ='{16}' ConfirmedDate='{17}' JobLevelId='{18}' UserId='{19}' MilitaryFromDate='{20}' MilitaryToDate='{21}'/>";
 
         [SpParam(Ignored = true)]
         public IList<Employee> Employees { get; set; }
@@ -60,7 +60,9 @@
                             FormatDateTime(employee.ResignedDate),
                             FormatDateTime(employee.ConfirmedDate),
                             employee.JobLevelId,
-                            employee.UserId);
+                            employee.UserId,
+                            FormatDateTime(employee.MilitaryFromDate),
+                            FormatDateTime(employee.MilitaryToDate));
                     }
                 }
 
