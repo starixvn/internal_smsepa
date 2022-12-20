@@ -11,14 +11,16 @@
     public class JobLevelAssessmentService : IJobLevelAssessmentService
     {
         private readonly IBaseService baseService;
+        private readonly ICommonService commonService;
 
-        public JobLevelAssessmentService() : this(null)
+        public JobLevelAssessmentService() : this(null, null)
         {
         }
 
-        public JobLevelAssessmentService(IBaseService baseService)
+        public JobLevelAssessmentService(IBaseService baseService, ICommonService commonService)
         {
             this.baseService = baseService ?? new BaseService();
+            this.commonService = commonService ?? new CommonService();
         }
 
         public IList<JobLevelSetting> GetJobLevelSettingByPeriod(int periodId)
@@ -36,7 +38,7 @@
             IList<JobLevelAssessment> assessments = tuple.Item1.ToList();
             foreach (var assessment in assessments)
             {
-                assessment.LengthOfService = CalculateLengthOfService(assessment.JoinedDate, assessment.PeriodStartDate);
+                assessment.LengthOfService = commonService.CalculateLengthOfService(assessment.JoinedDate, assessment.PeriodStartDate, assessment.MilitaryFromDate, assessment.MilitaryToDate);
                 assessment.RequirementMinScore = GetRequirementMinScore(jobLevelSettings, assessment);
                 assessment.Processes = tuple.Item2.Where(x => x.EmployeeId == assessment.EmployeeId).ToList();
                 assessment.KPIs = tuple.Item3.Where(x => x.EmployeeId == assessment.EmployeeId).ToList();
@@ -71,7 +73,7 @@
             IList<JobLevelAssessment> assessments = tuple.Item1.ToList();
             foreach (var assessment in assessments)
             {
-                assessment.LengthOfService = CalculateLengthOfService(assessment.JoinedDate, assessment.PeriodStartDate);
+                assessment.LengthOfService = commonService.CalculateLengthOfService(assessment.JoinedDate, assessment.PeriodStartDate, assessment.MilitaryFromDate, assessment.MilitaryToDate);
                 assessment.RequirementMinScore = jobLevelSettings
                     .FirstOrDefault(x => x.SectionId == assessment.SectionId && x.JobLevelId == assessment.CurrentJobLevelId)?.MinWeight;
                 assessment.KPIs = tuple.Item2.Where(x => x.EmployeeId == assessment.EmployeeId).ToList();

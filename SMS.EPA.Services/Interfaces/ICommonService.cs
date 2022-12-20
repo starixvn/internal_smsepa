@@ -1,5 +1,6 @@
 ﻿namespace SMS.EPA.Services
 {
+    using System;
     using System.Collections.Generic;
     using SMS.EPA.Criteria;
     using SMS.EPA.Criteria.EPAHistory;
