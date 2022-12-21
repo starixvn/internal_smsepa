@@ -1,9 +1,6 @@
 ﻿namespace SMS.EPA.Services.Implement.ExportFile
 {
-    using System.Collections;
-    using System;
     using System.Collections.Generic;
-    using System.Globalization;
     using System.IO;
     using System.Linq;
     using NPOI.HSSF.UserModel;
@@ -373,19 +370,16 @@
             cellBody.SetCellValue(GetEvaluator(assessment.Evaluators, "M"));
             SetColumnWidth(ref sheet, columnIndex, 20);
 
-
             return sheet;
         }
 
         private static string GetEvaluator(IList<PeriodProcessSetting> evaluators, string typeOfSuperior)
         {
-            IEnumerable<string> nickNames = evaluators
-                .Where(x => !string.IsNullOrEmpty(x.JobLevel) && x.JobLevel[0].ToString() == typeOfSuperior)
-                .Select(x => string.Format(CultureInfo.InvariantCulture, "[{0}]", x.Nickname));
+            var nicknames = evaluators
+                .Where(x => !string.IsNullOrWhiteSpace(x.JobLevel) && x.JobLevel[0].ToString() == typeOfSuperior)
+                .Select(x => string.Format("[{0}]", x.Nickname)).ToList();
 
-            string evaluatorNames = string.Join(" ", nickNames);
-
-            return evaluatorNames;
+            return string.Join(" ", nicknames);
         }
 
         private static ICellStyle CreateBodyStyle(JobLevelAssessment assessment, HSSFWorkbook workbook, bool isHighlight = false)

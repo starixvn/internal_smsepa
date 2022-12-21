@@ -40,6 +40,7 @@
         IEnumerable<ScoreRatingTypeModel> GetScoreRatingType(GetScoreRatingTypeCriteria criteria);
 
         IEnumerable<JobDescriptionGroupItem> GetJobDescriptionByEPAId(int epaId);
+
         string CalculateLengthOfService(DateTime? fromDate, DateTime? toDate, DateTime? militaryFromDate, DateTime? militaryToDate);
     }
 }

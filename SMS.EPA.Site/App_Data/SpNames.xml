@@ -1,303 +1,303 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <Functions>
-	<Function Name="Authentication">
-		<Setting Key="EpaEmployee_GetByCode" SpName="EpaEmployee_GetByCode" DbName="SMSEPA" Plain="0"></Setting>
-		<Setting Key="EpaEmployee_GetByDomainUsername" SpName="EpaEmployee_GetByDomainUsername" DbName="SMSEPA" Plain="0"></Setting>
-		<Setting Key="EpaEmployeeIpAddress_Insert" SpName="EpaEmployeeIpAddress_Insert" DbName="SMSEPA" Plain="0"></Setting>
-		<Setting Key="Login_GetEmployee" SpName="Login_GetEmployee" DbName="SMSEPA" Plain="0"></Setting>
-	</Function>
-	<Function Name="Employee">
-		<Setting Key="Employee_Get" SpName="Employee_Get" DbName="SMSEPA" Plain="0">
-			<Mapping DataField="JobLevelName" ObjectProperty="Name" />
-		</Setting>
-		<Setting Key="Employee_Search" SpName="Employee_Search" DbName="SMSEPA" Plain="0"></Setting>
-		<Setting Key="EpaEmployee_GetById" SpName="EpaEmployee_GetById" DbName="SMSEPA" Plain="0"></Setting>
-		<Setting Key="EpaGroup_Get" SpName="EpaGroup_Get" DbName="SMSEPA" Plain="0"></Setting>
-		<Setting Key="EpaEmployee_Insert" SpName="EpaEmployee_Insert" DbName="SMSEPA" Plain="0"></Setting>
-		<Setting Key="EpaEmployee_Update" SpName="EpaEmployee_Update" DbName="SMSEPA" Plain="0"></Setting>
-		<Setting Key="EpaJobTitle_Get" SpName="EpaJobTitle_Get" DbName="SMSEPA" Plain="0"></Setting>
-		<Setting Key="EpaEmployee_ChangePassword" SpName="EpaEmployee_ChangePassword" DbName="SMSEPA" Plain="0"></Setting>
-		<Setting Key="EpaEmployee_AssignRoleToEmployee" SpName="EpaEmployee_AssignRoleToEmployee" DbName="SMSEPA" Plain="0"></Setting>
-		<Setting Key="EpaEmployee_GetByDepartmentId" SpName="EpaEmployee_GetByDepartmentId" DbName="SMSEPA" Plain="0"></Setting>
-		<Setting Key="EpaEmployee_GetByGroupId" SpName="EpaEmployee_GetByGroupId" DbName="SMSEPA" Plain="0" />
-		<Setting Key="EpaEmployee_UpdateHasMonthlyEPA" SpName="EpaEmployee_UpdateHasMonthlyEPA" DbName="SMSEPA" Plain="0" />
-		<Setting Key="EpaEmployee_GetPasswordByEmpId" SpName="EpaEmployee_GetPasswordByEmpId" DbName="SMSEPA" Plain="0" />
-		<Setting Key="EpaEmployee_UpdateJobLevel" SpName="EpaEmployee_UpdateJobLevel" DbName="SMSEPA" Plain="0" />
-		<Setting Key="Employee_GetByUserId" SpName="Employee_GetByUserId" DbName="SMSEPA" Plain="0" />
-		<Setting Key="Employee_UpdateUserId" SpName="Employee_UpdateUserId" DbName="SMSEPA" Plain="0" />
-	</Function>
-	<Function Name="KPI">
-		<Setting Key="KPI_Get" SpName="KPI_Get" DbName="SMSEPA" Plain="0"></Setting>
-		<Setting Key="KPI_Insert" SpName="KPI_Insert" DbName="SMSEPA" Plain="0"></Setting>
-		<Setting Key="KPI_Update" SpName="KPI_Update" DbName="SMSEPA" Plain="0"></Setting>
-		<Setting Key="KPI_UpdateStatus" SpName="KPI_UpdateStatus" DbName="SMSEPA" Plain="0"></Setting>
-		<Setting Key="KPI_UpdateRequiredEvaluate" SpName="KPI_UpdateRequiredEvaluate" DbName="SMSEPA" Plain="0"></Setting>
-		<Setting Key="KPI_Delete" SpName="KPI_Delete" DbName="SMSEPA" Plain="0"></Setting>
-	</Function>
-	<Function Name="KPIGroup">
-		<Setting Key="KPIGroup_Get" SpName="KPIGroup_Get" DbName="SMSEPA" Plain="0"></Setting>
-		<Setting Key="KPIGroup_GetById" SpName="KPIGroup_GetById" DbName="SMSEPA" Plain="0"></Setting>
-		<Setting Key="KPIGroup_Insert" SpName="KPIGroup_Insert" DbName="SMSEPA" Plain="0"></Setting>
-		<Setting Key="KPIGroup_Update" SpName="KPIGroup_Update" DbName="SMSEPA" Plain="0"></Setting>
-		<Setting Key="KPIGroup_UpdateStatus" SpName="KPIGroup_UpdateStatus" DbName="SMSEPA" Plain="0"></Setting>
-		<Setting Key="KPIGroup_Delete" SpName="KPIGroup_Delete" DbName="SMSEPA" Plain="0"></Setting>
-	</Function>
-	<Function Name="TargetType">
-		<Setting Key="TargetType_Get" SpName="TargetType_Get" DbName="SMSEPA" Plain="0"></Setting>
-	</Function>
-	<Function Name="TargetTemplate">
-		<Setting Key="TargetTemplate_GetAll" SpName="TargetTemplate_GetAll" DbName="SMSEPA" Plain="0"></Setting>
-		<Setting Key="TargetTemplate_Insert" SpName="TargetTemplate_Insert" DbName="SMSEPA" Plain="0"></Setting>
-		<Setting Key="TargetTemplate_UpdateStatus" SpName="TargetTemplate_UpdateStatus" DbName="SMSEPA" Plain="0"></Setting>
-		<Setting Key="TargetTemplate_GetById" SpName="TargetTemplate_GetById" DbName="SMSEPA" Plain="0"></Setting>
-		<Setting Key="TargetTemplate_Delete" SpName="TargetTemplate_Delete" DbName="SMSEPA" Plain="0"></Setting>
-		<Setting Key="TargetTemplate_Update" SpName="TargetTemplate_Update" DbName="SMSEPA" Plain="0"></Setting>
-		<Setting Key="TargetTemplate_UpdateBasicInformation" SpName="TargetTemplate_UpdateBasicInformation" DbName="SMSEPA" Plain="0"></Setting>
-		<Setting Key="TargetTemplate_GetKPIGroup" SpName="TargetTemplate_GetKPIGroup" DbName="SMSEPA" Plain="0"></Setting>
-		<Setting Key="TargetTemplate_SetKPIGroup" SpName="TargetTemplate_SetKPIGroup" DbName="SMSEPA" Plain="0"></Setting>
-		<Setting Key="TargetTemplate_GetAllKPIByKPIGroups" SpName="TargetTemplate_GetAllKPIByKPIGroups" DbName="SMSEPA" Plain="0"></Setting>
-		<Setting Key="TargetTemplate_RemoveKPIGroup" SpName="TargetTemplate_RemoveKPIGroup" DbName="SMSEPA" Plain="0"></Setting>
-		<Setting Key="EpaRatingType_Get" SpName="EpaRatingType_Get" DbName="SMSEPA" Plain="0"></Setting>
-	</Function>
-	<Function Name="Flow">
-		<Setting Key="FlowTemplate_Get" SpName="FlowTemplate_Get" DbName="SMSEPA" Plain="0"></Setting>
-		<Setting Key="FlowTemplate_GetById" SpName="FlowTemplate_GetById" DbName="SMSEPA" Plain="0"></Setting>
-		<Setting Key="FlowTemplate_Insert" SpName="FlowTemplate_Insert" DbName="SMSEPA" Plain="0"></Setting>
-		<Setting Key="FlowTemplate_Update" SpName="FlowTemplate_Update" DbName="SMSEPA" Plain="0"></Setting>
-		<Setting Key="FlowTemplate_UpdateStatus" SpName="FlowTemplate_UpdateStatus" DbName="SMSEPA" Plain="0"></Setting>
-		<Setting Key="FlowTemplate_Delete" SpName="FlowTemplate_Delete" DbName="SMSEPA" Plain="0"></Setting>
-		<Setting Key="SettingDepartmentFlow_Get" SpName="SettingDepartmentFlow_Get" DbName="SMSEPA" Plain="0"></Setting>
-		<Setting Key="SettingDepartmentFlow_GetById" SpName="SettingDepartmentFlow_GetById" DbName="SMSEPA" Plain="0"></Setting>
-		<Setting Key="SettingDepartmentFlow_Set" SpName="SettingDepartmentFlow_Set" DbName="SMSEPA" Plain="0"></Setting>
-		<Setting Key="SettingDepartmentFlow_Delete" SpName="SettingDepartmentFlow_Delete" DbName="SMSEPA" Plain="0"></Setting>
-		<Setting Key="SettingEmployeeFlow_Get" SpName="SettingEmployeeFlow_Get" DbName="SMSEPA" Plain="0"></Setting>
-		<Setting Key="SettingEmployeeFlow_GetById" SpName="SettingEmployeeFlow_GetById" DbName="SMSEPA" Plain="0"></Setting>
-		<Setting Key="SettingEmployeeFlow_Set" SpName="SettingEmployeeFlow_Set" DbName="SMSEPA" Plain="0"></Setting>
-		<Setting Key="SettingEmployeeFlow_Delete" SpName="SettingEmployeeFlow_Delete" DbName="SMSEPA" Plain="0"></Setting>
-		<Setting Key="EpaEmployeeFlowSetting_Get" SpName="EpaEmployeeFlowSetting_Get" DbName="SMSEPA" Plain="0"></Setting>
-		<Setting Key="FlowTemplate_GetDepartmentHasSetting" SpName="FlowTemplate_GetDepartmentHasSetting" DbName="SMSEPA" Plain="0"></Setting>
-	</Function>
-	<Function Name="Target Employee Setting Template">
-		<Setting Key="EpaTargetTemplateEmployee_Assign" SpName="EpaTargetTemplateEmployee_Assign" DbName="SMSEPA" Plain="0"></Setting>
-		<Setting Key="EpaTargetTemplateEmployee_Get" SpName="EpaTargetTemplateEmployee_Get" DbName="SMSEPA" Plain="0"></Setting>
-		<Setting Key="EpaTargetTemplateEmployee_Delete" SpName="EpaTargetTemplateEmployee_Delete" DbName="SMSEPA" Plain="0"></Setting>
-		<Setting Key="EpaTargetTemplateDepartment_Assign" SpName="EpaTargetTemplateDepartment_Assign" DbName="SMSEPA" Plain="0"></Setting>
-		<Setting Key="EpaTargetTemplateDepartment_Get" SpName="EpaTargetTemplateDepartment_Get" DbName="SMSEPA" Plain="0"></Setting>
-		<Setting Key="EpaTargetTemplateDepartment_Delete" SpName="EpaTargetTemplateDepartment_Delete" DbName="SMSEPA" Plain="0"></Setting>
-	</Function>
-	<Function Name="Department">
-		<Setting Key="Department_Get" SpName="Department_Get" DbName="SMSEPA" Plain="0">
-			<Mapping DataField="ManagerId" ObjectProperty="EmployeeId" />
-		</Setting>
-		<Setting Key="Department_GetOrgChart" SpName="Department_GetOrgChart" DbName="SMSEPA" Plain="0" />
-	</Function>
-	<Function Name="Score Rating Type">
-		<Setting Key="EpaScoreRatingType_Get" SpName="EpaScoreRatingType_Get" DbName="SMSEPA" Plain="0"></Setting>
-	</Function>
-	<Function Name="EPA">
-		<Setting Key="EPA_CheckPermission" SpName="EPA_CheckPermission" DbName="SMSEPA" Plain="0"></Setting>
-		<Setting Key="EPA_GetByEmployee" SpName="EPA_GetByEmployee" DbName="SMSEPA" Plain="0">
-			<Mapping DataField="EvaluatorId" ObjectProperty="EmployeeId" />
-			<Mapping DataField="ModifiedById" ObjectProperty="EmployeeId" />
-		</Setting>
-		<Setting Key="EPA_GetInfoByEmployee" SpName="EPA_GetInfoByEmployee" DbName="SMSEPA" Plain="0">
-			<Mapping DataField="EvaluatorId" ObjectProperty="EmployeeId" />
-			<Mapping DataField="ModifiedById" ObjectProperty="EmployeeId" />
-			<Mapping DataField="Rate" ObjectProperty="RateEncrypt" />
-		</Setting>
-		<Setting Key="EPA_UpdateScore" SpName="EPA_UpdateScore" DbName="SMSEPA" Plain="0"></Setting>
-		<Setting Key="EPA_GetMember" SpName="EPA_GetMember" DbName="SMSEPA" Plain="0"></Setting>
-		<Setting Key="EPA_GetGroup" SpName="EPA_GetGroup" DbName="SMSEPA" Plain="0"></Setting>
-		<Setting Key="EPA_GetByEvaluator" SpName="EPA_GetByEvaluator" DbName="SMSEPA" Plain="0">
-			<Mapping DataField="EvaluatorId" ObjectProperty="EmployeeId" />
-			<Mapping DataField="ModifiedById" ObjectProperty="EmployeeId" />
-		</Setting>
-		<Setting Key="EPA_GetInfoByEvaluator" SpName="EPA_GetInfoByEvaluator" DbName="SMSEPA" Plain="0">
-			<Mapping DataField="EvaluatorId" ObjectProperty="EmployeeId" />
-			<Mapping DataField="ModifiedById" ObjectProperty="EmployeeId" />
-			<Mapping DataField="Rate" ObjectProperty="RateEncrypt" />
-		</Setting>
-		<Setting Key="EPA_GetByReviewer" SpName="EPA_GetByReviewer" DbName="SMSEPA" Plain="0">
-			<Mapping DataField="EvaluatorId" ObjectProperty="EmployeeId" />
-			<Mapping DataField="ModifiedById" ObjectProperty="EmployeeId" />
-		</Setting>
-		<Setting Key="EPA_GetInfoByReviewer" SpName="EPA_GetInfoByReviewer" DbName="SMSEPA" Plain="0">
-			<Mapping DataField="EvaluatorId" ObjectProperty="EmployeeId" />
-			<Mapping DataField="ModifiedById" ObjectProperty="EmployeeId" />
-			<Mapping DataField="Rate" ObjectProperty="RateEncrypt" />
-		</Setting>
-		<Setting Key="EPA_GetByManagement" SpName="EPA_GetByManagement" DbName="SMSEPA" Plain="0">
-			<Mapping DataField="EvaluatorId" ObjectProperty="EmployeeId" />
-			<Mapping DataField="ModifiedById" ObjectProperty="EmployeeId" />
-		</Setting>
-		<Setting Key="EPA_GetInfoByManagement" SpName="EPA_GetInfoByManagement" DbName="SMSEPA" Plain="0">
-			<Mapping DataField="EvaluatorId" ObjectProperty="EmployeeId" />
-			<Mapping DataField="ModifiedById" ObjectProperty="EmployeeId" />
-			<Mapping DataField="Rate" ObjectProperty="RateEncrypt" />
-		</Setting>
-		<Setting Key="EPA_GetInfoById" SpName="EPA_GetInfoById" DbName="SMSEPA" Plain="0">
-			<Mapping DataField="EvaluatorId" ObjectProperty="EmployeeId" />
-			<Mapping DataField="ModifiedById" ObjectProperty="EmployeeId" />
-			<Mapping DataField="Rate" ObjectProperty="RateEncrypt" />
-		</Setting>
-		<Setting Key="EPA_AdjustScoreByReviewerOrManagement" SpName="EPA_AdjustScoreByReviewerOrManagement" DbName="SMSEPA" Plain="0"></Setting>
-		<Setting Key="EPA_GetStandardGrade" SpName="EPA_GetStandardGrade" DbName="SMSEPA" Plain="0"></Setting>
-		<Setting Key="EPASummaryImport_Get" SpName="EPASummaryImport_Get" DbName="SMSEPA" Plain="0"></Setting>
-		<Setting Key="EPASummaryImport_Update" SpName="EPASummaryImport_Update" DbName="SMSEPA" Plain="0"></Setting>
-		<Setting Key="EPA_SemiAnnual_GetMonthly" SpName="EPA_SemiAnnual_GetMonthly" DbName="SMSEPA" Plain="0">
-			<Mapping DataField="EvaluatorId" ObjectProperty="EmployeeId" />
-			<Mapping DataField="ModifiedById" ObjectProperty="EmployeeId" />
-		</Setting>
-		<Setting Key="EPA_ResetScore" SpName="EPA_ResetScore" DbName="SMSEPA" Plain="0"></Setting>
-		<Setting Key="EPA_UpdateFinalScoreEndEvaluation" SpName="EPA_UpdateFinalScoreEndEvaluation" DbName="SMSEPA" Plain="0"></Setting>
-		<Setting Key="EPA_GetEPAToUpdateFinalScore" SpName="EPA_GetEPAToUpdateFinalScore" DbName="SMSEPA" Plain="0">
-			<Mapping DataField="EvaluatorId" ObjectProperty="EmployeeId" />
-			<Mapping DataField="ModifiedById" ObjectProperty="EmployeeId" />
-		</Setting>
-		<Setting Key="EPA_GetEmployeeToUpdateFinalScore" SpName="EPA_GetEmployeeToUpdateFinalScore" DbName="SMSEPA" Plain="0"></Setting>
-		<Setting Key="EPA_GetPeriodToUpdateFinalScore" SpName="EPA_GetPeriodToUpdateFinalScore" DbName="SMSEPA" Plain="0"></Setting>
-		<Setting Key="EPA_GetRecommendationById" SpName="EPA_GetRecommendationById" DbName="SMSEPA" Plain="0"></Setting>
-		<Setting Key="EPA_GetPeriodByActorId" SpName="EPA_GetPeriodByActorId" DbName="SMSEPA" Plain="0"></Setting>
-		<Setting Key="EPA_GetExtendedQuestion" SpName="EPA_GetExtendedQuestion" DbName="SMSEPA" Plain="0"></Setting>
-		<Setting Key="EPA_GetJobDescriptiontionById" SpName="EPA_GetJobDescriptiontionById" DbName="SMSEPA" Plain="0" />
-		<Setting Key="EPA_GetDataToUpdateTotalScoreOfProcess" SpName="EPA_GetDataToUpdateTotalScoreOfProcess" DbName="SMSEPA" Plain="0" />
-		<Setting Key="EPA_GetDataToUpdateFinalScore" SpName="EPA_GetDataToUpdateFinalScore" DbName="SMSEPA" Plain="0" />
-	</Function>
-	<Function Name="Period">
-		<Setting Key="EpaPeriod_Get" SpName="EpaPeriod_Get" DbName="SMSEPA" Plain="0"></Setting>
-		<Setting Key="EpaPeriod_Insert" SpName="EpaPeriod_Insert" DbName="SMSEPA" Plain="0"></Setting>
-		<Setting Key="EpaPeriod_UpdateBasicInformation" SpName="EpaPeriod_UpdateBasicInformation" DbName="SMSEPA" Plain="0"></Setting>
-		<Setting Key="EpaPeriod_GetById" SpName="EpaPeriod_GetById" DbName="SMSEPA" Plain="0"></Setting>
-		<Setting Key="EpaPeriod_UpdateStatus" SpName="EpaPeriod_UpdateStatus" DbName="SMSEPA" Plain="0"></Setting>
-		<Setting Key="EpaPeriod_Delete" SpName="EpaPeriod_Delete" DbName="SMSEPA" Plain="0"></Setting>
-		<Setting Key="EpaPeriod_GetEmployeeSetting" SpName="EpaPeriod_GetEmployeeSetting" DbName="SMSEPA" Plain="0">
-			<Mapping DataField="EvaluatorId" ObjectProperty="EmployeeId" />
-		</Setting>
-		<Setting Key="EpaPeriod_AddEmployee" SpName="EpaPeriod_AddEmployee" DbName="SMSEPA" Plain="0"></Setting>
-		<Setting Key="EpaPeriod_EditEmployeeSetting" SpName="EpaPeriod_EditEmployeeSetting" DbName="SMSEPA" Plain="0"></Setting>
-		<Setting Key="EpaPeriod_UpdateIncludeStatusEmployeeToPeriod" SpName="EpaPeriod_UpdateIncludeStatusEmployeeToPeriod" DbName="SMSEPA" Plain="0"></Setting>
-		<Setting Key="EpaPeriod_GetProcessSetting" SpName="EpaPeriod_GetProcessSetting" DbName="SMSEPA" Plain="0">
-			<Mapping DataField="NoticeAtBegin" ObjectProperty="HasSendMail" />
-		</Setting>
-		<Setting Key="EpaPeriod_UpdateProcessSetting" SpName="EpaPeriod_UpdateProcessSetting" DbName="SMSEPA" Plain="0"></Setting>
-		<Setting Key="EPAPeriod_CheckSelfProcessStarted" SpName="EPAPeriod_CheckSelfProcessStarted" DbName="SMSEPA" Plain="0"></Setting>
-		<Setting Key="EpaPeriod_GetEvaluationGlobalSettingByTargetTypeId" SpName="EpaPeriod_GetEvaluationGlobalSettingByTargetTypeId" DbName="SMSEPA" Plain="0">
-			<Mapping DataField="NoticeAtBegin" ObjectProperty="HasSendMail" />
-		</Setting>
-		<Setting Key="EpaAuto_GenerateEPA" SpName="EpaAuto_GenerateEPA" DbName="SMSEPA" Plain="0" />
-		<Setting Key="EpaAuto_GetEmployeeSettingToSendMail" SpName="EpaAuto_GetEmployeeSettingToSendMail" DbName="SMSEPA" Plain="0" />
-		<Setting Key="EpaAuto_GetEPAEndEvaluationPeriod" SpName="EpaAuto_GetEPAEndEvaluationPeriod" DbName="SMSEPA" Plain="0">
-			<Mapping DataField="EvaluatorId" ObjectProperty="EmployeeId" />
-			<Mapping DataField="ModifiedById" ObjectProperty="EmployeeId" />
-		</Setting>
-		<Setting Key="EpaAuto_UpdateTotalScoreOfProcess" SpName="EpaAuto_UpdateTotalScoreOfProcess" DbName="SMSEPA" Plain="0" />
-		<Setting Key="EpaAuto_SemiAnnual_UpdateTotalScore" SpName="EpaAuto_SemiAnnual_UpdateTotalScore" DbName="SMSEPA" Plain="0" />
-	</Function>
-	<Function Name="Dashboard">
-		<Setting Key="Epa_Dashboard" SpName="Epa_Dashboard" DbName="SMSEPA" Plain="0">
-			<Mapping DataField="EvaluatorId" ObjectProperty="EmployeeId" />
-			<Mapping DataField="ModifiedById" ObjectProperty="EmployeeId" />
-		</Setting>
-		<Setting Key="Dashboard_GetToDoList" SpName="Dashboard_GetToDoList" DbName="SMSEPA" Plain="0" />
-		<Setting Key="JobLevelStandard_GetDashboard" SpName="JobLevelStandard_GetDashboard" DbName="SMSEPA" Plain="0" />
-		<Setting Key="Dashboard_GetAnnouncement" SpName="Dashboard_GetAnnouncement" DbName="SMSEPA" Plain="0" />
-	</Function>
-	<Function Name="Discipline Summary">
-		<Setting Key="DisciplineSummary_Get" SpName="DisciplineSummary_Get" DbName="SMSEPA" Plain="0"></Setting>
-		<Setting Key="DisciplineSummary_GetForOtherSystem" SpName="DisciplineSummary_GetForOtherSystem" DbName="SMSEPA" Plain="0"></Setting>
-	</Function>
-	<Function Name="Rating By KPI">
-		<Setting Key="EPA_RatingByKPI_GetPeriodByEvaluator" SpName="EPA_RatingByKPI_GetPeriodByEvaluator" DbName="SMSEPA" Plain="0"></Setting>
-		<Setting Key="EPA_RatingByKPI_GetTargetTemplateByEvaluator" SpName="EPA_RatingByKPI_GetTargetTemplateByEvaluator" DbName="SMSEPA" Plain="0"></Setting>
-		<Setting Key="EPA_RatingByKPI_GetTargetTemplateToView" SpName="EPA_RatingByKPI_GetTargetTemplateToView" DbName="SMSEPA" Plain="0"></Setting>
-		<Setting Key="EPA_RatingByKPI_GetKPIByTargetTemplate" SpName="EPA_RatingByKPI_GetKPIByTargetTemplate" DbName="SMSEPA" Plain="0"></Setting>
-		<Setting Key="EPA_RatingByKPI_GetKPIToView" SpName="EPA_RatingByKPI_GetKPIToView" DbName="SMSEPA" Plain="0"></Setting>
-		<Setting Key="EPA_RatingByKPI_GetPeriodToView" SpName="EPA_RatingByKPI_GetPeriodToView" DbName="SMSEPA" Plain="0"></Setting>
-		<Setting Key="EPA_RatingByKPI_GetEvaluatorByTargetTemplate" SpName="EPA_RatingByKPI_GetEvaluatorByTargetTemplate" DbName="SMSEPA" Plain="0"></Setting>
-		<Setting Key="EPA_RatingByKPI_Get" SpName="EPA_RatingByKPI_Get" DbName="SMSEPA" Plain="0">
-			<Mapping DataField="Rate" ObjectProperty="RateEncrypt" />
-		</Setting>
-		<Setting Key="EPA_RatingByKPI_GetEmployeeToView" SpName="EPA_RatingByKPI_GetEmployeeToView" DbName="SMSEPA" Plain="0">
-			<Mapping DataField="Rate" ObjectProperty="RateEncrypt" />
-		</Setting>
-		<Setting Key="EPA_RatingByKPI_UpdateKPIScore" SpName="EPA_RatingByKPI_UpdateKPIScore" DbName="SMSEPA" Plain="0"></Setting>
-	</Function>
-	<Function Name="Report">
-		<Setting Key="Report_EPASummary" SpName="Report_EPASummary" DbName="SMSEPA" Plain="0"></Setting>
-		<Setting Key="Report_MonthlyEPASummary" SpName="Report_MonthlyEPASummary" DbName="SMSEPA" Plain="0"></Setting>
-		<Setting Key="Report_EPADetail" SpName="Report_EPADetail" DbName="SMSEPA" Plain="0"></Setting>
-		<Setting Key="Report_MonthlyEPADetail" SpName="Report_MonthlyEPADetail" DbName="SMSEPA" Plain="0"></Setting>
-		<Setting Key="Report_GetEmployees" SpName="Report_GetEmployees" DbName="SMSEPA" Plain="0"></Setting>
-		<Setting Key="Report_EPARecommendation" SpName="Report_EPARecommendation" DbName="SMSEPA" Plain="0"></Setting>
-		<Setting Key="Report_EPAComment" SpName="Report_EPAComment" DbName="SMSEPA" Plain="0"></Setting>
-	</Function>
-	<Function Name="EPA History">
-		<Setting Key="Epa_GetEPAHistory" SpName="Epa_GetEPAHistory" DbName="SMSEPA" Plain="0"></Setting>
-		<Setting Key="Epa_GetMonthlyEPAHistory" SpName="Epa_GetMonthlyEPAHistory" DbName="SMSEPA" Plain="0"></Setting>
-		<Setting Key="EpaPeriod_GetAllPeriodIncludeImport" SpName="EpaPeriod_GetAllPeriodIncludeImport" DbName="SMSEPA" Plain="0"></Setting>
-	</Function>
-	<Function Name="Monthly Period">
-		<Setting Key="EpaMonthlyPeriod_Get" SpName="EpaMonthlyPeriod_Get" DbName="SMSEPA" Plain="0"></Setting>
-		<Setting Key="EpaMonthlyPeriod_GetAll" SpName="EpaMonthlyPeriod_GetAll" DbName="SMSEPA" Plain="0"></Setting>
-		<Setting Key="EpaAuto_Monthly_InsertPeriod" SpName="EpaAuto_Monthly_InsertPeriod" DbName="SMSEPA" Plain="0"></Setting>
-	</Function>
-	<Function Name="Menu">
-		<Setting Key="Menu_GetByEmployeeId" SpName="Menu_GetByEmployeeId" DbName="SMSEPA" Plain="0"></Setting>
-	</Function>
-	<Function Name="Job Level">
-		<Setting Key="JobLevel_Get" SpName="JobLevel_Get" DbName="SMSEPA" Plain="0" />
-		<Setting Key="JobLevel_Insert" SpName="JobLevel_Insert" DbName="SMSEPA" Plain="0" />
-		<Setting Key="JobLevel_Update" SpName="JobLevel_Update" DbName="SMSEPA" Plain="0" />
-		<Setting Key="JobLevel_Delete" SpName="JobLevel_Delete" DbName="SMSEPA" Plain="0" />
-	</Function>
-	<Function Name="Job Description">
-		<Setting Key="JobDescription_GetGroupSetting" SpName="JobDescription_GetGroupSetting" DbName="SMSEPA" Plain="0" />
-		<Setting Key="JobDescription_GetGroupSettingById" SpName="JobDescription_GetGroupSettingById" DbName="SMSEPA" Plain="0" />
-		<Setting Key="JobDescription_UpdateGroupSetting" SpName="JobDescription_UpdateGroupSetting" DbName="SMSEPA" Plain="0" />
-		<Setting Key="JobDescription_GetEmployeeSetting" SpName="JobDescription_GetEmployeeSetting" DbName="SMSEPA" Plain="0" />
-		<Setting Key="JobDescription_GetEmployeeSettingById" SpName="JobDescription_GetEmployeeSettingById" DbName="SMSEPA" Plain="0" />
-		<Setting Key="JobDescription_InsertGroupItem" SpName="JobDescription_InsertGroupItem" DbName="SMSEPA" Plain="0" />
-		<Setting Key="JobDescription_UpdateGroupItem" SpName="JobDescription_UpdateGroupItem" DbName="SMSEPA" Plain="0" />
-		<Setting Key="JobDescription_DeleteGroupItem" SpName="JobDescription_DeleteGroupItem" DbName="SMSEPA" Plain="0" />
-		<Setting Key="JobDescription_InsertItem" SpName="JobDescription_InsertItem" DbName="SMSEPA" Plain="0" />
-		<Setting Key="JobDescription_UpdateItem" SpName="JobDescription_UpdateItem" DbName="SMSEPA" Plain="0" />
-		<Setting Key="JobDescription_DeleteItem" SpName="JobDescription_DeleteItem" DbName="SMSEPA" Plain="0" />
-		<Setting Key="JobDescription_UpdateEmployeeSetting" SpName="JobDescription_UpdateEmployeeSetting" DbName="SMSEPA" Plain="0" />
-		<Setting Key="JobDescription_CopyGroupSetting" SpName="JobDescription_CopyGroupSetting" DbName="SMSEPA" Plain="0" />
-		<Setting Key="JobDescription_CopyEmployeeSetting" SpName="JobDescription_CopyEmployeeSetting" DbName="SMSEPA" Plain="0" />
-	</Function>
-	<Function Name="Job Level Standard">
-		<Setting Key="JobLevelStandard_JobLevelSetting_Get" SpName="JobLevelStandard_JobLevelSetting_Get" DbName="SMSEPA" Plain="0" />
-		<Setting Key="JobLevelStandard_JobLevelSetting_GetBySectionId" SpName="JobLevelStandard_JobLevelSetting_GetBySectionId" DbName="SMSEPA" Plain="0" />
-		<Setting Key="JobLevelStandard_JobLevelSetting_Update" SpName="JobLevelStandard_JobLevelSetting_Update" DbName="SMSEPA" Plain="0" />
+    <Function Name="Authentication">
+        <Setting Key="EpaEmployee_GetByCode" SpName="EpaEmployee_GetByCode" DbName="SMSEPA" Plain="0"></Setting>
+        <Setting Key="EpaEmployee_GetByDomainUsername" SpName="EpaEmployee_GetByDomainUsername" DbName="SMSEPA" Plain="0"></Setting>
+        <Setting Key="EpaEmployeeIpAddress_Insert" SpName="EpaEmployeeIpAddress_Insert" DbName="SMSEPA" Plain="0"></Setting>
+        <Setting Key="Login_GetEmployee" SpName="Login_GetEmployee" DbName="SMSEPA" Plain="0"></Setting>
+    </Function>
+    <Function Name="Employee">
+        <Setting Key="Employee_Get" SpName="Employee_Get" DbName="SMSEPA" Plain="0">
+            <Mapping DataField="JobLevelName" ObjectProperty="Name" />
+        </Setting>
+        <Setting Key="Employee_Search" SpName="Employee_Search" DbName="SMSEPA" Plain="0"></Setting>
+        <Setting Key="EpaEmployee_GetById" SpName="EpaEmployee_GetById" DbName="SMSEPA" Plain="0"></Setting>
+        <Setting Key="EpaGroup_Get" SpName="EpaGroup_Get" DbName="SMSEPA" Plain="0"></Setting>
+        <Setting Key="EpaEmployee_Insert" SpName="EpaEmployee_Insert" DbName="SMSEPA" Plain="0"></Setting>
+        <Setting Key="EpaEmployee_Update" SpName="EpaEmployee_Update" DbName="SMSEPA" Plain="0"></Setting>
+        <Setting Key="EpaJobTitle_Get" SpName="EpaJobTitle_Get" DbName="SMSEPA" Plain="0"></Setting>
+        <Setting Key="EpaEmployee_ChangePassword" SpName="EpaEmployee_ChangePassword" DbName="SMSEPA" Plain="0"></Setting>
+        <Setting Key="EpaEmployee_AssignRoleToEmployee" SpName="EpaEmployee_AssignRoleToEmployee" DbName="SMSEPA" Plain="0"></Setting>
+        <Setting Key="EpaEmployee_GetByDepartmentId" SpName="EpaEmployee_GetByDepartmentId" DbName="SMSEPA" Plain="0"></Setting>
+        <Setting Key="EpaEmployee_GetByGroupId" SpName="EpaEmployee_GetByGroupId" DbName="SMSEPA" Plain="0" />
+        <Setting Key="EpaEmployee_UpdateHasMonthlyEPA" SpName="EpaEmployee_UpdateHasMonthlyEPA" DbName="SMSEPA" Plain="0" />
+        <Setting Key="EpaEmployee_GetPasswordByEmpId" SpName="EpaEmployee_GetPasswordByEmpId" DbName="SMSEPA" Plain="0" />
+        <Setting Key="EpaEmployee_UpdateJobLevel" SpName="EpaEmployee_UpdateJobLevel" DbName="SMSEPA" Plain="0" />
+        <Setting Key="Employee_GetByUserId" SpName="Employee_GetByUserId" DbName="SMSEPA" Plain="0" />
+        <Setting Key="Employee_UpdateUserId" SpName="Employee_UpdateUserId" DbName="SMSEPA" Plain="0" />
+    </Function>
+    <Function Name="KPI">
+        <Setting Key="KPI_Get" SpName="KPI_Get" DbName="SMSEPA" Plain="0"></Setting>
+        <Setting Key="KPI_Insert" SpName="KPI_Insert" DbName="SMSEPA" Plain="0"></Setting>
+        <Setting Key="KPI_Update" SpName="KPI_Update" DbName="SMSEPA" Plain="0"></Setting>
+        <Setting Key="KPI_UpdateStatus" SpName="KPI_UpdateStatus" DbName="SMSEPA" Plain="0"></Setting>
+        <Setting Key="KPI_UpdateRequiredEvaluate" SpName="KPI_UpdateRequiredEvaluate" DbName="SMSEPA" Plain="0"></Setting>
+        <Setting Key="KPI_Delete" SpName="KPI_Delete" DbName="SMSEPA" Plain="0"></Setting>
+    </Function>
+    <Function Name="KPIGroup">
+        <Setting Key="KPIGroup_Get" SpName="KPIGroup_Get" DbName="SMSEPA" Plain="0"></Setting>
+        <Setting Key="KPIGroup_GetById" SpName="KPIGroup_GetById" DbName="SMSEPA" Plain="0"></Setting>
+        <Setting Key="KPIGroup_Insert" SpName="KPIGroup_Insert" DbName="SMSEPA" Plain="0"></Setting>
+        <Setting Key="KPIGroup_Update" SpName="KPIGroup_Update" DbName="SMSEPA" Plain="0"></Setting>
+        <Setting Key="KPIGroup_UpdateStatus" SpName="KPIGroup_UpdateStatus" DbName="SMSEPA" Plain="0"></Setting>
+        <Setting Key="KPIGroup_Delete" SpName="KPIGroup_Delete" DbName="SMSEPA" Plain="0"></Setting>
+    </Function>
+    <Function Name="TargetType">
+        <Setting Key="TargetType_Get" SpName="TargetType_Get" DbName="SMSEPA" Plain="0"></Setting>
+    </Function>
+    <Function Name="TargetTemplate">
+        <Setting Key="TargetTemplate_GetAll" SpName="TargetTemplate_GetAll" DbName="SMSEPA" Plain="0"></Setting>
+        <Setting Key="TargetTemplate_Insert" SpName="TargetTemplate_Insert" DbName="SMSEPA" Plain="0"></Setting>
+        <Setting Key="TargetTemplate_UpdateStatus" SpName="TargetTemplate_UpdateStatus" DbName="SMSEPA" Plain="0"></Setting>
+        <Setting Key="TargetTemplate_GetById" SpName="TargetTemplate_GetById" DbName="SMSEPA" Plain="0"></Setting>
+        <Setting Key="TargetTemplate_Delete" SpName="TargetTemplate_Delete" DbName="SMSEPA" Plain="0"></Setting>
+        <Setting Key="TargetTemplate_Update" SpName="TargetTemplate_Update" DbName="SMSEPA" Plain="0"></Setting>
+        <Setting Key="TargetTemplate_UpdateBasicInformation" SpName="TargetTemplate_UpdateBasicInformation" DbName="SMSEPA" Plain="0"></Setting>
+        <Setting Key="TargetTemplate_GetKPIGroup" SpName="TargetTemplate_GetKPIGroup" DbName="SMSEPA" Plain="0"></Setting>
+        <Setting Key="TargetTemplate_SetKPIGroup" SpName="TargetTemplate_SetKPIGroup" DbName="SMSEPA" Plain="0"></Setting>
+        <Setting Key="TargetTemplate_GetAllKPIByKPIGroups" SpName="TargetTemplate_GetAllKPIByKPIGroups" DbName="SMSEPA" Plain="0"></Setting>
+        <Setting Key="TargetTemplate_RemoveKPIGroup" SpName="TargetTemplate_RemoveKPIGroup" DbName="SMSEPA" Plain="0"></Setting>
+        <Setting Key="EpaRatingType_Get" SpName="EpaRatingType_Get" DbName="SMSEPA" Plain="0"></Setting>
+    </Function>
+    <Function Name="Flow">
+        <Setting Key="FlowTemplate_Get" SpName="FlowTemplate_Get" DbName="SMSEPA" Plain="0"></Setting>
+        <Setting Key="FlowTemplate_GetById" SpName="FlowTemplate_GetById" DbName="SMSEPA" Plain="0"></Setting>
+        <Setting Key="FlowTemplate_Insert" SpName="FlowTemplate_Insert" DbName="SMSEPA" Plain="0"></Setting>
+        <Setting Key="FlowTemplate_Update" SpName="FlowTemplate_Update" DbName="SMSEPA" Plain="0"></Setting>
+        <Setting Key="FlowTemplate_UpdateStatus" SpName="FlowTemplate_UpdateStatus" DbName="SMSEPA" Plain="0"></Setting>
+        <Setting Key="FlowTemplate_Delete" SpName="FlowTemplate_Delete" DbName="SMSEPA" Plain="0"></Setting>
+        <Setting Key="SettingDepartmentFlow_Get" SpName="SettingDepartmentFlow_Get" DbName="SMSEPA" Plain="0"></Setting>
+        <Setting Key="SettingDepartmentFlow_GetById" SpName="SettingDepartmentFlow_GetById" DbName="SMSEPA" Plain="0"></Setting>
+        <Setting Key="SettingDepartmentFlow_Set" SpName="SettingDepartmentFlow_Set" DbName="SMSEPA" Plain="0"></Setting>
+        <Setting Key="SettingDepartmentFlow_Delete" SpName="SettingDepartmentFlow_Delete" DbName="SMSEPA" Plain="0"></Setting>
+        <Setting Key="SettingEmployeeFlow_Get" SpName="SettingEmployeeFlow_Get" DbName="SMSEPA" Plain="0"></Setting>
+        <Setting Key="SettingEmployeeFlow_GetById" SpName="SettingEmployeeFlow_GetById" DbName="SMSEPA" Plain="0"></Setting>
+        <Setting Key="SettingEmployeeFlow_Set" SpName="SettingEmployeeFlow_Set" DbName="SMSEPA" Plain="0"></Setting>
+        <Setting Key="SettingEmployeeFlow_Delete" SpName="SettingEmployeeFlow_Delete" DbName="SMSEPA" Plain="0"></Setting>
+        <Setting Key="EpaEmployeeFlowSetting_Get" SpName="EpaEmployeeFlowSetting_Get" DbName="SMSEPA" Plain="0"></Setting>
+        <Setting Key="FlowTemplate_GetDepartmentHasSetting" SpName="FlowTemplate_GetDepartmentHasSetting" DbName="SMSEPA" Plain="0"></Setting>
+    </Function>
+    <Function Name="Target Employee Setting Template">
+        <Setting Key="EpaTargetTemplateEmployee_Assign" SpName="EpaTargetTemplateEmployee_Assign" DbName="SMSEPA" Plain="0"></Setting>
+        <Setting Key="EpaTargetTemplateEmployee_Get" SpName="EpaTargetTemplateEmployee_Get" DbName="SMSEPA" Plain="0"></Setting>
+        <Setting Key="EpaTargetTemplateEmployee_Delete" SpName="EpaTargetTemplateEmployee_Delete" DbName="SMSEPA" Plain="0"></Setting>
+        <Setting Key="EpaTargetTemplateDepartment_Assign" SpName="EpaTargetTemplateDepartment_Assign" DbName="SMSEPA" Plain="0"></Setting>
+        <Setting Key="EpaTargetTemplateDepartment_Get" SpName="EpaTargetTemplateDepartment_Get" DbName="SMSEPA" Plain="0"></Setting>
+        <Setting Key="EpaTargetTemplateDepartment_Delete" SpName="EpaTargetTemplateDepartment_Delete" DbName="SMSEPA" Plain="0"></Setting>
+    </Function>
+    <Function Name="Department">
+        <Setting Key="Department_Get" SpName="Department_Get" DbName="SMSEPA" Plain="0">
+            <Mapping DataField="ManagerId" ObjectProperty="EmployeeId" />
+        </Setting>
+        <Setting Key="Department_GetOrgChart" SpName="Department_GetOrgChart" DbName="SMSEPA" Plain="0" />
+    </Function>
+    <Function Name="Score Rating Type">
+        <Setting Key="EpaScoreRatingType_Get" SpName="EpaScoreRatingType_Get" DbName="SMSEPA" Plain="0"></Setting>
+    </Function>
+    <Function Name="EPA">
+        <Setting Key="EPA_CheckPermission" SpName="EPA_CheckPermission" DbName="SMSEPA" Plain="0"></Setting>
+        <Setting Key="EPA_GetByEmployee" SpName="EPA_GetByEmployee" DbName="SMSEPA" Plain="0">
+            <Mapping DataField="EvaluatorId" ObjectProperty="EmployeeId" />
+            <Mapping DataField="ModifiedById" ObjectProperty="EmployeeId" />
+        </Setting>
+        <Setting Key="EPA_GetInfoByEmployee" SpName="EPA_GetInfoByEmployee" DbName="SMSEPA" Plain="0">
+            <Mapping DataField="EvaluatorId" ObjectProperty="EmployeeId" />
+            <Mapping DataField="ModifiedById" ObjectProperty="EmployeeId" />
+            <Mapping DataField="Rate" ObjectProperty="RateEncrypt" />
+        </Setting>
+        <Setting Key="EPA_UpdateScore" SpName="EPA_UpdateScore" DbName="SMSEPA" Plain="0"></Setting>
+        <Setting Key="EPA_GetMember" SpName="EPA_GetMember" DbName="SMSEPA" Plain="0"></Setting>
+        <Setting Key="EPA_GetGroup" SpName="EPA_GetGroup" DbName="SMSEPA" Plain="0"></Setting>
+        <Setting Key="EPA_GetByEvaluator" SpName="EPA_GetByEvaluator" DbName="SMSEPA" Plain="0">
+            <Mapping DataField="EvaluatorId" ObjectProperty="EmployeeId" />
+            <Mapping DataField="ModifiedById" ObjectProperty="EmployeeId" />
+        </Setting>
+        <Setting Key="EPA_GetInfoByEvaluator" SpName="EPA_GetInfoByEvaluator" DbName="SMSEPA" Plain="0">
+            <Mapping DataField="EvaluatorId" ObjectProperty="EmployeeId" />
+            <Mapping DataField="ModifiedById" ObjectProperty="EmployeeId" />
+            <Mapping DataField="Rate" ObjectProperty="RateEncrypt" />
+        </Setting>
+        <Setting Key="EPA_GetByReviewer" SpName="EPA_GetByReviewer" DbName="SMSEPA" Plain="0">
+            <Mapping DataField="EvaluatorId" ObjectProperty="EmployeeId" />
+            <Mapping DataField="ModifiedById" ObjectProperty="EmployeeId" />
+        </Setting>
+        <Setting Key="EPA_GetInfoByReviewer" SpName="EPA_GetInfoByReviewer" DbName="SMSEPA" Plain="0">
+            <Mapping DataField="EvaluatorId" ObjectProperty="EmployeeId" />
+            <Mapping DataField="ModifiedById" ObjectProperty="EmployeeId" />
+            <Mapping DataField="Rate" ObjectProperty="RateEncrypt" />
+        </Setting>
+        <Setting Key="EPA_GetByManagement" SpName="EPA_GetByManagement" DbName="SMSEPA" Plain="0">
+            <Mapping DataField="EvaluatorId" ObjectProperty="EmployeeId" />
+            <Mapping DataField="ModifiedById" ObjectProperty="EmployeeId" />
+        </Setting>
+        <Setting Key="EPA_GetInfoByManagement" SpName="EPA_GetInfoByManagement" DbName="SMSEPA" Plain="0">
+            <Mapping DataField="EvaluatorId" ObjectProperty="EmployeeId" />
+            <Mapping DataField="ModifiedById" ObjectProperty="EmployeeId" />
+            <Mapping DataField="Rate" ObjectProperty="RateEncrypt" />
+        </Setting>
+        <Setting Key="EPA_GetInfoById" SpName="EPA_GetInfoById" DbName="SMSEPA" Plain="0">
+            <Mapping DataField="EvaluatorId" ObjectProperty="EmployeeId" />
+            <Mapping DataField="ModifiedById" ObjectProperty="EmployeeId" />
+            <Mapping DataField="Rate" ObjectProperty="RateEncrypt" />
+        </Setting>
+        <Setting Key="EPA_AdjustScoreByReviewerOrManagement" SpName="EPA_AdjustScoreByReviewerOrManagement" DbName="SMSEPA" Plain="0"></Setting>
+        <Setting Key="EPA_GetStandardGrade" SpName="EPA_GetStandardGrade" DbName="SMSEPA" Plain="0"></Setting>
+        <Setting Key="EPASummaryImport_Get" SpName="EPASummaryImport_Get" DbName="SMSEPA" Plain="0"></Setting>
+        <Setting Key="EPASummaryImport_Update" SpName="EPASummaryImport_Update" DbName="SMSEPA" Plain="0"></Setting>
+        <Setting Key="EPA_SemiAnnual_GetMonthly" SpName="EPA_SemiAnnual_GetMonthly" DbName="SMSEPA" Plain="0">
+            <Mapping DataField="EvaluatorId" ObjectProperty="EmployeeId" />
+            <Mapping DataField="ModifiedById" ObjectProperty="EmployeeId" />
+        </Setting>
+        <Setting Key="EPA_ResetScore" SpName="EPA_ResetScore" DbName="SMSEPA" Plain="0"></Setting>
+        <Setting Key="EPA_UpdateFinalScoreEndEvaluation" SpName="EPA_UpdateFinalScoreEndEvaluation" DbName="SMSEPA" Plain="0"></Setting>
+        <Setting Key="EPA_GetEPAToUpdateFinalScore" SpName="EPA_GetEPAToUpdateFinalScore" DbName="SMSEPA" Plain="0">
+            <Mapping DataField="EvaluatorId" ObjectProperty="EmployeeId" />
+            <Mapping DataField="ModifiedById" ObjectProperty="EmployeeId" />
+        </Setting>
+        <Setting Key="EPA_GetEmployeeToUpdateFinalScore" SpName="EPA_GetEmployeeToUpdateFinalScore" DbName="SMSEPA" Plain="0"></Setting>
+        <Setting Key="EPA_GetPeriodToUpdateFinalScore" SpName="EPA_GetPeriodToUpdateFinalScore" DbName="SMSEPA" Plain="0"></Setting>
+        <Setting Key="EPA_GetRecommendationById" SpName="EPA_GetRecommendationById" DbName="SMSEPA" Plain="0"></Setting>
+        <Setting Key="EPA_GetPeriodByActorId" SpName="EPA_GetPeriodByActorId" DbName="SMSEPA" Plain="0"></Setting>
+        <Setting Key="EPA_GetExtendedQuestion" SpName="EPA_GetExtendedQuestion" DbName="SMSEPA" Plain="0"></Setting>
+        <Setting Key="EPA_GetJobDescriptiontionById" SpName="EPA_GetJobDescriptiontionById" DbName="SMSEPA" Plain="0" />
+        <Setting Key="EPA_GetDataToUpdateTotalScoreOfProcess" SpName="EPA_GetDataToUpdateTotalScoreOfProcess" DbName="SMSEPA" Plain="0" />
+        <Setting Key="EPA_GetDataToUpdateFinalScore" SpName="EPA_GetDataToUpdateFinalScore" DbName="SMSEPA" Plain="0" />
+    </Function>
+    <Function Name="Period">
+        <Setting Key="EpaPeriod_Get" SpName="EpaPeriod_Get" DbName="SMSEPA" Plain="0"></Setting>
+        <Setting Key="EpaPeriod_Insert" SpName="EpaPeriod_Insert" DbName="SMSEPA" Plain="0"></Setting>
+        <Setting Key="EpaPeriod_UpdateBasicInformation" SpName="EpaPeriod_UpdateBasicInformation" DbName="SMSEPA" Plain="0"></Setting>
+        <Setting Key="EpaPeriod_GetById" SpName="EpaPeriod_GetById" DbName="SMSEPA" Plain="0"></Setting>
+        <Setting Key="EpaPeriod_UpdateStatus" SpName="EpaPeriod_UpdateStatus" DbName="SMSEPA" Plain="0"></Setting>
+        <Setting Key="EpaPeriod_Delete" SpName="EpaPeriod_Delete" DbName="SMSEPA" Plain="0"></Setting>
+        <Setting Key="EpaPeriod_GetEmployeeSetting" SpName="EpaPeriod_GetEmployeeSetting" DbName="SMSEPA" Plain="0">
+            <Mapping DataField="EvaluatorId" ObjectProperty="EmployeeId" />
+        </Setting>
+        <Setting Key="EpaPeriod_AddEmployee" SpName="EpaPeriod_AddEmployee" DbName="SMSEPA" Plain="0"></Setting>
+        <Setting Key="EpaPeriod_EditEmployeeSetting" SpName="EpaPeriod_EditEmployeeSetting" DbName="SMSEPA" Plain="0"></Setting>
+        <Setting Key="EpaPeriod_UpdateIncludeStatusEmployeeToPeriod" SpName="EpaPeriod_UpdateIncludeStatusEmployeeToPeriod" DbName="SMSEPA" Plain="0"></Setting>
+        <Setting Key="EpaPeriod_GetProcessSetting" SpName="EpaPeriod_GetProcessSetting" DbName="SMSEPA" Plain="0">
+            <Mapping DataField="NoticeAtBegin" ObjectProperty="HasSendMail" />
+        </Setting>
+        <Setting Key="EpaPeriod_UpdateProcessSetting" SpName="EpaPeriod_UpdateProcessSetting" DbName="SMSEPA" Plain="0"></Setting>
+        <Setting Key="EPAPeriod_CheckSelfProcessStarted" SpName="EPAPeriod_CheckSelfProcessStarted" DbName="SMSEPA" Plain="0"></Setting>
+        <Setting Key="EpaPeriod_GetEvaluationGlobalSettingByTargetTypeId" SpName="EpaPeriod_GetEvaluationGlobalSettingByTargetTypeId" DbName="SMSEPA" Plain="0">
+            <Mapping DataField="NoticeAtBegin" ObjectProperty="HasSendMail" />
+        </Setting>
+        <Setting Key="EpaAuto_GenerateEPA" SpName="EpaAuto_GenerateEPA" DbName="SMSEPA" Plain="0" />
+        <Setting Key="EpaAuto_GetEmployeeSettingToSendMail" SpName="EpaAuto_GetEmployeeSettingToSendMail" DbName="SMSEPA" Plain="0" />
+        <Setting Key="EpaAuto_GetEPAEndEvaluationPeriod" SpName="EpaAuto_GetEPAEndEvaluationPeriod" DbName="SMSEPA" Plain="0">
+            <Mapping DataField="EvaluatorId" ObjectProperty="EmployeeId" />
+            <Mapping DataField="ModifiedById" ObjectProperty="EmployeeId" />
+        </Setting>
+        <Setting Key="EpaAuto_UpdateTotalScoreOfProcess" SpName="EpaAuto_UpdateTotalScoreOfProcess" DbName="SMSEPA" Plain="0" />
+        <Setting Key="EpaAuto_SemiAnnual_UpdateTotalScore" SpName="EpaAuto_SemiAnnual_UpdateTotalScore" DbName="SMSEPA" Plain="0" />
+    </Function>
+    <Function Name="Dashboard">
+        <Setting Key="Epa_Dashboard" SpName="Epa_Dashboard" DbName="SMSEPA" Plain="0">
+            <Mapping DataField="EvaluatorId" ObjectProperty="EmployeeId" />
+            <Mapping DataField="ModifiedById" ObjectProperty="EmployeeId" />
+        </Setting>
+        <Setting Key="Dashboard_GetToDoList" SpName="Dashboard_GetToDoList" DbName="SMSEPA" Plain="0" />
+        <Setting Key="JobLevelStandard_GetDashboard" SpName="JobLevelStandard_GetDashboard" DbName="SMSEPA" Plain="0" />
+        <Setting Key="Dashboard_GetAnnouncement" SpName="Dashboard_GetAnnouncement" DbName="SMSEPA" Plain="0" />
+    </Function>
+    <Function Name="Discipline Summary">
+        <Setting Key="DisciplineSummary_Get" SpName="DisciplineSummary_Get" DbName="SMSEPA" Plain="0"></Setting>
+        <Setting Key="DisciplineSummary_GetForOtherSystem" SpName="DisciplineSummary_GetForOtherSystem" DbName="SMSEPA" Plain="0"></Setting>
+    </Function>
+    <Function Name="Rating By KPI">
+        <Setting Key="EPA_RatingByKPI_GetPeriodByEvaluator" SpName="EPA_RatingByKPI_GetPeriodByEvaluator" DbName="SMSEPA" Plain="0"></Setting>
+        <Setting Key="EPA_RatingByKPI_GetTargetTemplateByEvaluator" SpName="EPA_RatingByKPI_GetTargetTemplateByEvaluator" DbName="SMSEPA" Plain="0"></Setting>
+        <Setting Key="EPA_RatingByKPI_GetTargetTemplateToView" SpName="EPA_RatingByKPI_GetTargetTemplateToView" DbName="SMSEPA" Plain="0"></Setting>
+        <Setting Key="EPA_RatingByKPI_GetKPIByTargetTemplate" SpName="EPA_RatingByKPI_GetKPIByTargetTemplate" DbName="SMSEPA" Plain="0"></Setting>
+        <Setting Key="EPA_RatingByKPI_GetKPIToView" SpName="EPA_RatingByKPI_GetKPIToView" DbName="SMSEPA" Plain="0"></Setting>
+        <Setting Key="EPA_RatingByKPI_GetPeriodToView" SpName="EPA_RatingByKPI_GetPeriodToView" DbName="SMSEPA" Plain="0"></Setting>
+        <Setting Key="EPA_RatingByKPI_GetEvaluatorByTargetTemplate" SpName="EPA_RatingByKPI_GetEvaluatorByTargetTemplate" DbName="SMSEPA" Plain="0"></Setting>
+        <Setting Key="EPA_RatingByKPI_Get" SpName="EPA_RatingByKPI_Get" DbName="SMSEPA" Plain="0">
+            <Mapping DataField="Rate" ObjectProperty="RateEncrypt" />
+        </Setting>
+        <Setting Key="EPA_RatingByKPI_GetEmployeeToView" SpName="EPA_RatingByKPI_GetEmployeeToView" DbName="SMSEPA" Plain="0">
+            <Mapping DataField="Rate" ObjectProperty="RateEncrypt" />
+        </Setting>
+        <Setting Key="EPA_RatingByKPI_UpdateKPIScore" SpName="EPA_RatingByKPI_UpdateKPIScore" DbName="SMSEPA" Plain="0"></Setting>
+    </Function>
+    <Function Name="Report">
+        <Setting Key="Report_EPASummary" SpName="Report_EPASummary" DbName="SMSEPA" Plain="0"></Setting>
+        <Setting Key="Report_MonthlyEPASummary" SpName="Report_MonthlyEPASummary" DbName="SMSEPA" Plain="0"></Setting>
+        <Setting Key="Report_EPADetail" SpName="Report_EPADetail" DbName="SMSEPA" Plain="0"></Setting>
+        <Setting Key="Report_MonthlyEPADetail" SpName="Report_MonthlyEPADetail" DbName="SMSEPA" Plain="0"></Setting>
+        <Setting Key="Report_GetEmployees" SpName="Report_GetEmployees" DbName="SMSEPA" Plain="0"></Setting>
+        <Setting Key="Report_EPARecommendation" SpName="Report_EPARecommendation" DbName="SMSEPA" Plain="0"></Setting>
+        <Setting Key="Report_EPAComment" SpName="Report_EPAComment" DbName="SMSEPA" Plain="0"></Setting>
+    </Function>
+    <Function Name="EPA History">
+        <Setting Key="Epa_GetEPAHistory" SpName="Epa_GetEPAHistory" DbName="SMSEPA" Plain="0"></Setting>
+        <Setting Key="Epa_GetMonthlyEPAHistory" SpName="Epa_GetMonthlyEPAHistory" DbName="SMSEPA" Plain="0"></Setting>
+        <Setting Key="EpaPeriod_GetAllPeriodIncludeImport" SpName="EpaPeriod_GetAllPeriodIncludeImport" DbName="SMSEPA" Plain="0"></Setting>
+    </Function>
+    <Function Name="Monthly Period">
+        <Setting Key="EpaMonthlyPeriod_Get" SpName="EpaMonthlyPeriod_Get" DbName="SMSEPA" Plain="0"></Setting>
+        <Setting Key="EpaMonthlyPeriod_GetAll" SpName="EpaMonthlyPeriod_GetAll" DbName="SMSEPA" Plain="0"></Setting>
+        <Setting Key="EpaAuto_Monthly_InsertPeriod" SpName="EpaAuto_Monthly_InsertPeriod" DbName="SMSEPA" Plain="0"></Setting>
+    </Function>
+    <Function Name="Menu">
+        <Setting Key="Menu_GetByEmployeeId" SpName="Menu_GetByEmployeeId" DbName="SMSEPA" Plain="0"></Setting>
+    </Function>
+    <Function Name="Job Level">
+        <Setting Key="JobLevel_Get" SpName="JobLevel_Get" DbName="SMSEPA" Plain="0" />
+        <Setting Key="JobLevel_Insert" SpName="JobLevel_Insert" DbName="SMSEPA" Plain="0" />
+        <Setting Key="JobLevel_Update" SpName="JobLevel_Update" DbName="SMSEPA" Plain="0" />
+        <Setting Key="JobLevel_Delete" SpName="JobLevel_Delete" DbName="SMSEPA" Plain="0" />
+    </Function>
+    <Function Name="Job Description">
+        <Setting Key="JobDescription_GetGroupSetting" SpName="JobDescription_GetGroupSetting" DbName="SMSEPA" Plain="0" />
+        <Setting Key="JobDescription_GetGroupSettingById" SpName="JobDescription_GetGroupSettingById" DbName="SMSEPA" Plain="0" />
+        <Setting Key="JobDescription_UpdateGroupSetting" SpName="JobDescription_UpdateGroupSetting" DbName="SMSEPA" Plain="0" />
+        <Setting Key="JobDescription_GetEmployeeSetting" SpName="JobDescription_GetEmployeeSetting" DbName="SMSEPA" Plain="0" />
+        <Setting Key="JobDescription_GetEmployeeSettingById" SpName="JobDescription_GetEmployeeSettingById" DbName="SMSEPA" Plain="0" />
+        <Setting Key="JobDescription_InsertGroupItem" SpName="JobDescription_InsertGroupItem" DbName="SMSEPA" Plain="0" />
+        <Setting Key="JobDescription_UpdateGroupItem" SpName="JobDescription_UpdateGroupItem" DbName="SMSEPA" Plain="0" />
+        <Setting Key="JobDescription_DeleteGroupItem" SpName="JobDescription_DeleteGroupItem" DbName="SMSEPA" Plain="0" />
+        <Setting Key="JobDescription_InsertItem" SpName="JobDescription_InsertItem" DbName="SMSEPA" Plain="0" />
+        <Setting Key="JobDescription_UpdateItem" SpName="JobDescription_UpdateItem" DbName="SMSEPA" Plain="0" />
+        <Setting Key="JobDescription_DeleteItem" SpName="JobDescription_DeleteItem" DbName="SMSEPA" Plain="0" />
+        <Setting Key="JobDescription_UpdateEmployeeSetting" SpName="JobDescription_UpdateEmployeeSetting" DbName="SMSEPA" Plain="0" />
+        <Setting Key="JobDescription_CopyGroupSetting" SpName="JobDescription_CopyGroupSetting" DbName="SMSEPA" Plain="0" />
+        <Setting Key="JobDescription_CopyEmployeeSetting" SpName="JobDescription_CopyEmployeeSetting" DbName="SMSEPA" Plain="0" />
+    </Function>
+    <Function Name="Job Level Standard">
+        <Setting Key="JobLevelStandard_JobLevelSetting_Get" SpName="JobLevelStandard_JobLevelSetting_Get" DbName="SMSEPA" Plain="0" />
+        <Setting Key="JobLevelStandard_JobLevelSetting_GetBySectionId" SpName="JobLevelStandard_JobLevelSetting_GetBySectionId" DbName="SMSEPA" Plain="0" />
+        <Setting Key="JobLevelStandard_JobLevelSetting_Update" SpName="JobLevelStandard_JobLevelSetting_Update" DbName="SMSEPA" Plain="0" />
 
-		<Setting Key="JobLevelStandard_Period_Get" SpName="JobLevelStandard_Period_Get" DbName="SMSEPA" Plain="0" />
-		<Setting Key="JobLevelStandard_Period_GetById" SpName="JobLevelStandard_Period_GetById" DbName="SMSEPA" Plain="0" />
-		<Setting Key="JobLevelStandard_Period_Insert" SpName="JobLevelStandard_Period_Insert" DbName="SMSEPA" Plain="0" />
-		<Setting Key="JobLevelStandard_Period_Update" SpName="JobLevelStandard_Period_Update" DbName="SMSEPA" Plain="0" />
-		<Setting Key="JobLevelStandard_Period_UpdateStatus" SpName="JobLevelStandard_Period_UpdateStatus" DbName="SMSEPA" Plain="0" />
-		<Setting Key="JobLevelStandard_Period_Delete" SpName="JobLevelStandard_Period_Delete" DbName="SMSEPA" Plain="0" />
+        <Setting Key="JobLevelStandard_Period_Get" SpName="JobLevelStandard_Period_Get" DbName="SMSEPA" Plain="0" />
+        <Setting Key="JobLevelStandard_Period_GetById" SpName="JobLevelStandard_Period_GetById" DbName="SMSEPA" Plain="0" />
+        <Setting Key="JobLevelStandard_Period_Insert" SpName="JobLevelStandard_Period_Insert" DbName="SMSEPA" Plain="0" />
+        <Setting Key="JobLevelStandard_Period_Update" SpName="JobLevelStandard_Period_Update" DbName="SMSEPA" Plain="0" />
+        <Setting Key="JobLevelStandard_Period_UpdateStatus" SpName="JobLevelStandard_Period_UpdateStatus" DbName="SMSEPA" Plain="0" />
+        <Setting Key="JobLevelStandard_Period_Delete" SpName="JobLevelStandard_Period_Delete" DbName="SMSEPA" Plain="0" />
 
-		<Setting Key="JobLevelStandard_PeriodEmployeeSetting_Get" SpName="JobLevelStandard_PeriodEmployeeSetting_Get" DbName="SMSEPA" Plain="0" />
-		<Setting Key="JobLevelStandard_PeriodEmployeeSetting_Insert" SpName="JobLevelStandard_PeriodEmployeeSetting_Insert" DbName="SMSEPA" Plain="0" />
-		<Setting Key="JobLevelStandard_PeriodEmployeeSetting_Update" SpName="JobLevelStandard_PeriodEmployeeSetting_Update" DbName="SMSEPA" Plain="0" />
-		<Setting Key="JobLevelStandard_PeriodEmployeeSetting_UpdateStatus" SpName="JobLevelStandard_PeriodEmployeeSetting_UpdateStatus" DbName="SMSEPA" Plain="0" />
+        <Setting Key="JobLevelStandard_PeriodEmployeeSetting_Get" SpName="JobLevelStandard_PeriodEmployeeSetting_Get" DbName="SMSEPA" Plain="0" />
+        <Setting Key="JobLevelStandard_PeriodEmployeeSetting_Insert" SpName="JobLevelStandard_PeriodEmployeeSetting_Insert" DbName="SMSEPA" Plain="0" />
+        <Setting Key="JobLevelStandard_PeriodEmployeeSetting_Update" SpName="JobLevelStandard_PeriodEmployeeSetting_Update" DbName="SMSEPA" Plain="0" />
+        <Setting Key="JobLevelStandard_PeriodEmployeeSetting_UpdateStatus" SpName="JobLevelStandard_PeriodEmployeeSetting_UpdateStatus" DbName="SMSEPA" Plain="0" />
 
-		<Setting Key="JobLevelStandard_PeriodJobLevelSetting_Get" SpName="JobLevelStandard_PeriodJobLevelSetting_Get" DbName="SMSEPA" Plain="0" />
-		<Setting Key="JobLevelStandard_PeriodJobLevelSetting_GetByPeriodId" SpName="JobLevelStandard_PeriodJobLevelSetting_GetByPeriodId" DbName="SMSEPA" Plain="0" />
-		<Setting Key="JobLevelStandard_PeriodJobLevelSetting_GetBySectionId" SpName="JobLevelStandard_PeriodJobLevelSetting_GetBySectionId" DbName="SMSEPA" Plain="0" />
-		<Setting Key="JobLevelStandard_PeriodJobLevelSetting_Update" SpName="JobLevelStandard_PeriodJobLevelSetting_Update" DbName="SMSEPA" Plain="0" />
-		<Setting Key="JobLevelStandard_PeriodJobLevelSetting_CopyFromDefault" SpName="JobLevelStandard_PeriodJobLevelSetting_CopyFromDefault" DbName="SMSEPA" Plain="0" />
+        <Setting Key="JobLevelStandard_PeriodJobLevelSetting_Get" SpName="JobLevelStandard_PeriodJobLevelSetting_Get" DbName="SMSEPA" Plain="0" />
+        <Setting Key="JobLevelStandard_PeriodJobLevelSetting_GetByPeriodId" SpName="JobLevelStandard_PeriodJobLevelSetting_GetByPeriodId" DbName="SMSEPA" Plain="0" />
+        <Setting Key="JobLevelStandard_PeriodJobLevelSetting_GetBySectionId" SpName="JobLevelStandard_PeriodJobLevelSetting_GetBySectionId" DbName="SMSEPA" Plain="0" />
+        <Setting Key="JobLevelStandard_PeriodJobLevelSetting_Update" SpName="JobLevelStandard_PeriodJobLevelSetting_Update" DbName="SMSEPA" Plain="0" />
+        <Setting Key="JobLevelStandard_PeriodJobLevelSetting_CopyFromDefault" SpName="JobLevelStandard_PeriodJobLevelSetting_CopyFromDefault" DbName="SMSEPA" Plain="0" />
 
-		<Setting Key="JobLevelStandard_Assessment_GetPeriodByActorId" SpName="JobLevelStandard_Assessment_GetPeriodByActorId" DbName="SMSEPA" Plain="0" />
-		<Setting Key="JobLevelStandard_Assessment_GetOrgChartByActorId" SpName="JobLevelStandard_Assessment_GetOrgChartByActorId" DbName="SMSEPA" Plain="0" />
-		<Setting Key="JobLevelStandard_Assessment_GetKPIByPeriodId" SpName="JobLevelStandard_Assessment_GetKPIByPeriodId" DbName="SMSEPA" Plain="0" />
-		<Setting Key="JobLevelStandard_Assessment_GetByActorId" SpName="JobLevelStandard_Assessment_GetByActorId" DbName="SMSEPA" Plain="0" />
-		<Setting Key="JobLevelStandard_Assessment_Update" SpName="JobLevelStandard_Assessment_Update" DbName="SMSEPA" Plain="0" />
-		<Setting Key="JobLevelStandard_Assessment_UpdateStatus" SpName="JobLevelStandard_Assessment_UpdateStatus" DbName="SMSEPA" Plain="0" />
+        <Setting Key="JobLevelStandard_Assessment_GetPeriodByActorId" SpName="JobLevelStandard_Assessment_GetPeriodByActorId" DbName="SMSEPA" Plain="0" />
+        <Setting Key="JobLevelStandard_Assessment_GetOrgChartByActorId" SpName="JobLevelStandard_Assessment_GetOrgChartByActorId" DbName="SMSEPA" Plain="0" />
+        <Setting Key="JobLevelStandard_Assessment_GetKPIByPeriodId" SpName="JobLevelStandard_Assessment_GetKPIByPeriodId" DbName="SMSEPA" Plain="0" />
+        <Setting Key="JobLevelStandard_Assessment_GetByActorId" SpName="JobLevelStandard_Assessment_GetByActorId" DbName="SMSEPA" Plain="0" />
+        <Setting Key="JobLevelStandard_Assessment_Update" SpName="JobLevelStandard_Assessment_Update" DbName="SMSEPA" Plain="0" />
+        <Setting Key="JobLevelStandard_Assessment_UpdateStatus" SpName="JobLevelStandard_Assessment_UpdateStatus" DbName="SMSEPA" Plain="0" />
 
-		<Setting Key="JobLevelStandard_Report_GetOrgChartByActorId" SpName="JobLevelStandard_Report_GetOrgChartByActorId" DbName="SMSEPA" Plain="0" />
-		<Setting Key="JobLevelStandard_Report_GetPeriod" SpName="JobLevelStandard_Report_GetPeriod" DbName="SMSEPA" Plain="0" />
-		<Setting Key="JobLevelStandard_AssessmentReport_Get" SpName="JobLevelStandard_AssessmentReport_Get" DbName="SMSEPA" Plain="0" />
-	</Function>
+        <Setting Key="JobLevelStandard_Report_GetOrgChartByActorId" SpName="JobLevelStandard_Report_GetOrgChartByActorId" DbName="SMSEPA" Plain="0" />
+        <Setting Key="JobLevelStandard_Report_GetPeriod" SpName="JobLevelStandard_Report_GetPeriod" DbName="SMSEPA" Plain="0" />
+        <Setting Key="JobLevelStandard_AssessmentReport_Get" SpName="JobLevelStandard_AssessmentReport_Get" DbName="SMSEPA" Plain="0" />
+    </Function>
 </Functions>

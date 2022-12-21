@@ -3,7 +3,6 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using System.Runtime.Remoting.Messaging;
     using SMS.EPA.Core.Services;
     using SMS.EPA.Criteria;
     using SMS.EPA.Criteria.EPAHistory;
@@ -11,8 +10,6 @@
     using SMS.EPA.Model;
     using SMS.EPA.Model.Enitites;
     using SMS.EPA.Model.JobDescription;
-    using SMS.EPA.Services.Implement;
-    using SMS.EPA.Services.Interfaces;
 
     public class CommonService : ICommonService
     {

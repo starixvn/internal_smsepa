@@ -21,6 +21,7 @@
 
         [XmlIgnore]
         public string FullName { get; set; }
+
         [XmlIgnore]
         public string JobLevel { get; set; }
 
