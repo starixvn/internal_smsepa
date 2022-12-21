@@ -7,6 +7,7 @@
     using System.Linq.Expressions;
     using SMS.EPA.Core.Constants;
     using SMS.EPA.Core.Enumerations;
+    using SMS.EPA.Core.Utilities;
     using SMS.EPA.Model.Report;
 
     [Serializable]
@@ -43,25 +44,10 @@
                 JobLevel = JobLevel,
                 Evaluator = GetEvaluator(Evaluators),
                 Management = GetEvaluator(Managements),
-                Status = GetStatus(StatusId),
+                Status = Enumerations.GetDescription(StatusId),
             };
 
             return record;
-        }
-
-        private static string GetStatus(JobLevelAssessmentStatus? StatusId)
-        {
-            switch (StatusId)
-            {
-                case JobLevelAssessmentStatus.Approved:
-                    return "Approved";
-                case JobLevelAssessmentStatus.Verified:
-                    return "Verified";
-                case JobLevelAssessmentStatus.Pending:
-                    return "Pending";
-                default:
-                    return "";
-            }
         }
 
         private static string GetEvaluator(IList<PeriodProcessSetting> evaluators)
@@ -70,7 +56,7 @@
                 .Where(x => !string.IsNullOrEmpty(x.FullName) || !string.IsNullOrEmpty(x.Nickname))
                 .Select(x => string.Format(CultureInfo.InvariantCulture, "{0} ({1})", x.FullName, x.Nickname));
 
-            string evaluatorNames = string.Join(", ", nickNames);
+            string evaluatorNames = string.Join("\n", nickNames);
 
             return evaluatorNames;
         }

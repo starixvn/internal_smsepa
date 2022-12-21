@@ -206,6 +206,8 @@
                 <td rowspan="{{employee.NumberEvaluators}}" ng-show="employee.IsSemiHasMonthly && $first"
                     ng-bind="employee.Employee.Department.Name"></td>
                 <td rowspan="{{employee.NumberEvaluators}}" ng-show="employee.IsSemiHasMonthly && $first"
+                    ng-bind="employee.Employee.Section"></td>
+                <td rowspan="{{employee.NumberEvaluators}}" ng-show="employee.IsSemiHasMonthly && $first"
                     ng-bind="employee.Employee.Group.GroupName"></td>
                 <td class="text-center" rowspan="{{employee.NumberEvaluators}}" ng-show="employee.IsSemiHasMonthly && $first">
                     <div ng-bind="employee.Employee.FullName"></div>
@@ -213,6 +215,7 @@
                     <div>({{employee.Employee.NickName}})</div>
                     <div ng-bind="employee.Employee.JobTitle.JobTitleName"></div>
                 </td>
+                <td class="width-140" rowspan="{{employee.NumberEvaluators}}" ng-show="employee.IsSemiHasMonthly && $first" ng-bind="employee.Employee.JoinedDate | date: empSettingCtrl.dateFormat"></td>
                 <td class="text-center" ng-bind="employee.TargetTemplate.TargetTypeName" rowspan="{{employee.NumberEvaluators}}"
                     ng-show="employee.IsSemiHasMonthly && $first"></td>
                 <td class="text-center" rowspan="{{employee.NumberEvaluators}}" ng-show="employee.IsSemiHasMonthly && $first">

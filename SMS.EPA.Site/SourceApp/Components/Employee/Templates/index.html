@@ -145,12 +145,12 @@
                 </td>
             </tr>
             <tr ng-show="employeeCtrl.filteredItems.length === 0">
-                <td class="empty-result" colspan="14" data-translate="EmptyResult"></td>
+                <td class="empty-result" colspan="15" data-translate="EmptyResult"></td>
             </tr>
         </tbody>
         <tfoot>
             <tr>
-                <td colspan="14" class="paging">
+                <td colspan="15" class="paging">
                     <span data-translate="Show"></span>
                     <select class="dropdown-entry form-control" ng-model="employeeCtrl.pageSize"
                             ng-options="entry for entry in employeeCtrl.entries" ng-change="employeeCtrl.currentPage = 1"></select>
