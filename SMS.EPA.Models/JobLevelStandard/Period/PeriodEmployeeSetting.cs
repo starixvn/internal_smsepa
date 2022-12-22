@@ -36,12 +36,12 @@
             var record = new
             {
                 Count = 0,
-                Department = Department,
-                Section = Section,
-                Team = Team,
-                FullName = FullName,
-                NickName = Nickname,
-                JobLevel = JobLevel,
+                Department,
+                Section,
+                Team,
+                FullName,
+                Nickname,
+                JobLevel,
                 Evaluator = GetEvaluator(Evaluators),
                 Management = GetEvaluator(Managements),
                 Status = Enumerations.GetDescription(StatusId),
