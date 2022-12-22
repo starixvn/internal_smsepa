@@ -25,7 +25,8 @@
                             <td class="text-center" ng-bind="$index + 1"></td>
                             <td ng-bind="period.Name"></td>
                             <td class="text-center" ng-if="dashboardCtrl.jlsDashboard.HasEvaluator">
-                                <span ng-bind="period.UnfinishedByEvaluator" ng-if="period.UnfinishedByEvaluator > 0"></span>
+                                <a ng-bind="period.UnfinishedByEvaluator" ng-if="period.UnfinishedByEvaluator > 0"
+                                   ng-click="dashboardCtrl.goToAssessment(period.PeriodId, $event)"></a>
                                 <span ng-if="period.UnfinishedByEvaluator === 0">0</span>
                             </td>
                             <td class="text-center" ng-if="dashboardCtrl.jlsDashboard.HasEvaluator">

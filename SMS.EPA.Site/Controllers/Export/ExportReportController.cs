@@ -1,10 +1,5 @@
 ﻿namespace SMS.EPA.Site.Controllers
 {
-    using System.Collections.Generic;
-    using System.IO;
-    using System.Linq;
-    using System.Threading.Tasks;
-    using System.Web.Mvc;
     using HRM.UserControl.Client.AspNetMvc.Session;
     using HRM.UserControl.Client.Core.Session;
     using NPOI.HSSF.Util;
@@ -17,7 +12,6 @@
     using SMS.EPA.Model;
     using SMS.EPA.Model.Discipline;
     using SMS.EPA.Model.Enitites;
-    using SMS.EPA.Model.JobLevelStandard;
     using SMS.EPA.Model.Report;
     using SMS.EPA.Resources;
     using SMS.EPA.Services;
@@ -25,6 +19,10 @@
     using SMS.EPA.Services.Implement.ExportFile;
     using SMS.EPA.Services.Interfaces;
     using SMS.EPA.Services.Interfaces.ExportFile;
+    using System.Collections.Generic;
+    using System.IO;
+    using System.Linq;
+    using System.Web.Mvc;
 
     public class ExportReportController : Controller
     {
@@ -34,7 +32,6 @@
         private const string DisciplineSummaryTemplatePath = @"~\ExcelTemplates\DisciplineSummaryReport.xls";
         private const string EmployeeBasicInfoTemplate = @"~\ExcelTemplates\EmployeeBasicInfoTemplate.xls";
         private const string EmployeeFlowSettingTemplate = @"~\ExcelTemplates\EmployeeFlowSettingTemplate.xls";
-        private const string EmployeeSettingJLSPeriodTemplate = @"~\ExcelTemplates\EmployeeSettingJLSPeriodTemplate.xls";
         private const string DepartmentFlowSettingTemplate = @"~\ExcelTemplates\DepartmentFlowSettingTemplate.xls";
         private const string PersonalFlowSettingTemplate = @"~\ExcelTemplates\PersonalFlowSettingTemplate.xls";
         private const string TargetPersonnelSettingTemplate = @"~\ExcelTemplates\TargetPersonnelSettingTemplate.xls";
@@ -51,10 +48,9 @@
         private readonly IUserControlSession userControlSession;
         private readonly ITargetEmployeeSettingService _targetEmployeeSettingService;
         private readonly IDepartmentFlowService departmentFlowService;
-        private readonly IBaseService baseService;
 
         public ExportReportController()
-            : this(null, null, null, null, null, null, null, null, null, null, null, null, null)
+            : this(null, null, null, null, null, null, null, null, null, null, null, null)
         {
         }
 
@@ -73,8 +69,7 @@
             IEmployeeService employeeService,
             IPersonalFlowService personalFlowService,
             IUserControlSession userControlSession,
-            IDepartmentFlowService departmentFlowService,
-            IBaseService baseService)
+            IDepartmentFlowService departmentFlowService)
 #pragma warning restore S107 // Methods should not have too many parameters
         {
             _reportService = reportService ?? new ReportService();
@@ -89,7 +84,6 @@
             _employeeService = employeeService ?? new EmployeeService();
             _personalFlowService = personalFlowService ?? new PersonalFlowService();
             this.departmentFlowService = departmentFlowService ?? new DepartmentFlowService();
-            this.baseService = baseService ?? new BaseService();
         }
 
         public ActionResult ExportDisciplineSummaryForOtherSystemReport(GetDisciplineSummaryForOtherSystemCriteria criteria)
@@ -155,29 +149,6 @@
             _exportExcelService.InitializeWithTemplate(Server.MapPath(EmployeeFlowSettingTemplate));
 
             _exportExcelService.ExportWithTemplate(employeeFlowSettings, true, true);
-
-            return new EmptyResult();
-        }
-
-        public ActionResult ExportJLSPeriodEmployeeSetting(Criteria.JobLevelStandard.GetPeriodEmployeeSettingCriteria criteria)
-        {
-            var tuple = baseService.FetchMultiple<PeriodEmployeeSetting, PeriodProcessSetting>(criteria);
-            IList<PeriodEmployeeSetting> employees = tuple.Item1.ToList();
-            foreach (var employee in employees)
-            {
-                employee.Employee = tuple.Item2.FirstOrDefault(x => x.EmployeeId == employee.EmployeeId && x.ProcessId == (byte)JobLevelAssessmentProcess.Employee);
-                employee.Evaluators = tuple.Item2.Where(x => x.EmployeeId == employee.EmployeeId && x.ProcessId == (byte)JobLevelAssessmentProcess.Evaluator).ToList();
-                employee.Managements = tuple.Item2.Where(x => x.EmployeeId == employee.EmployeeId && x.ProcessId == (byte)JobLevelAssessmentProcess.Management).ToList();
-            }
-
-            _exportExcelService.FileName = string.Format("{0}_Employee_Setting_Job_Level_Standard_Period", criteria.PeriodName);
-            _exportExcelService.SheetName = "Employee Setting Job Level Standard Period";
-            _exportExcelService.Title = string.Format("{0}_Employee_Setting_Job_Level_Standard_Period", criteria.PeriodName);
-            _exportExcelService.ContentRowStartIndex = DefaultContentRowStartIndexForTemplate;
-
-            _exportExcelService.InitializeWithTemplate(Server.MapPath(EmployeeSettingJLSPeriodTemplate));
-
-            _exportExcelService.ExportWithTemplate(employees, true, true);
 
             return new EmptyResult();
         }

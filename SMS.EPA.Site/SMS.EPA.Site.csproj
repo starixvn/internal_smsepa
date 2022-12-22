@@ -226,6 +226,7 @@
     <Compile Include="Controllers\API\JobLevelStandard\JobLevelStandardPeriodController.cs" />
     <Compile Include="Controllers\Export\ExportCommentReportController.cs" />
     <Compile Include="Controllers\Export\ExportAssessmentController.cs" />
+    <Compile Include="Controllers\Export\ExportJLSPeriodEmployeeSettingController.cs" />
     <Compile Include="Controllers\Export\ExportRecommendationReportController.cs" />
     <Compile Include="Controllers\Export\ExportTargetTemplateController.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -1026,6 +1027,9 @@
     <Analyzer Include="..\packages\SonarAnalyzer.CSharp.8.34.0.42011\analyzers\SonarAnalyzer.CFG.dll" />
     <Analyzer Include="..\packages\SonarAnalyzer.CSharp.8.34.0.42011\analyzers\SonarAnalyzer.CSharp.dll" />
     <Analyzer Include="..\packages\SonarAnalyzer.CSharp.8.34.0.42011\analyzers\SonarAnalyzer.dll" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Views\ExportJLSPeriodEmployeeSetting\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

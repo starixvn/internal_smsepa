@@ -14,18 +14,22 @@
     using SMS.EPA.Criteria.JobLevelStandard;
     using SMS.EPA.Model.JobLevelStandard;
     using SMS.EPA.Model.JobLevelStandard.Period;
+    using SMS.EPA.Services.Implement.JobLevelStandard;
+    using SMS.EPA.Services.Interfaces.JobLevelStandard;
 
     public class JobLevelStandardPeriodController : BaseController
     {
         private readonly IBaseService baseService;
+        private readonly IJobLevelStandardPeriodService jobLevelStandardPeriodService;
 
-        public JobLevelStandardPeriodController() : this(null)
+        public JobLevelStandardPeriodController() : this(null, null)
         {
         }
 
-        public JobLevelStandardPeriodController(IBaseService baseService)
+        public JobLevelStandardPeriodController(IBaseService baseService, IJobLevelStandardPeriodService jobLevelStandardPeriodService)
         {
             this.baseService = baseService ?? new BaseService();
+            this.jobLevelStandardPeriodService = jobLevelStandardPeriodService ?? new JobLevelStandardPeriodService();
         }
 
         [HttpPost]
@@ -34,7 +38,7 @@
         {
             var tuple = await baseService.FetchMultipleAsync<JobLevelStandardPeriod, JobLevelStandardPeriodSetting>(criteria);
             IList<JobLevelStandardPeriod> periods = tuple.Item1.ToList();
-            foreach(var period in periods)
+            foreach (var period in periods)
             {
                 period.Settings = tuple.Item2.Where(x => x.PeriodId == period.PeriodId).ToList();
             }
@@ -114,15 +118,7 @@
         [ApiAuthorize(FunctionKey = EPAFunctionKey.JobLevelStandardPeriod, Policy = Policy.Read)]
         public async Task<IList<PeriodEmployeeSetting>> GetEmployeeSettings(GetPeriodEmployeeSettingCriteria criteria)
         {
-            var tuple = await baseService.FetchMultipleAsync<PeriodEmployeeSetting, PeriodProcessSetting>(criteria);
-            IList<PeriodEmployeeSetting> employees = tuple.Item1.ToList();
-            foreach(var employee in employees)
-            {
-                employee.Employee = tuple.Item2.FirstOrDefault(x => x.EmployeeId == employee.EmployeeId && x.ProcessId == (byte)JobLevelAssessmentProcess.Employee);
-                employee.Evaluators = tuple.Item2.Where(x => x.EmployeeId == employee.EmployeeId && x.ProcessId == (byte)JobLevelAssessmentProcess.Evaluator).ToList();
-                employee.Managements = tuple.Item2.Where(x => x.EmployeeId == employee.EmployeeId && x.ProcessId == (byte)JobLevelAssessmentProcess.Management).ToList();
-            }
-
+            var employees = await jobLevelStandardPeriodService.GetEmployeeSettingsAsync(criteria);
             return employees;
         }
 
@@ -145,7 +141,7 @@
         public async Task<CommandResult> EditEmployeeSetting(IList<PeriodEmployeeSetting> employeeSettings)
         {
             var settings = new List<PeriodProcessSetting>();
-            foreach(var setting in employeeSettings)
+            foreach (var setting in employeeSettings)
             {
                 settings.Add(setting.Employee);
                 settings.AddRange(setting.Evaluators);

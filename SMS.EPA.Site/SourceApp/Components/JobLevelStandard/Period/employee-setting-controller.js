@@ -6,7 +6,7 @@
     angular.module('jobLevelStandardModule').controller('JobLevelStandardPeriodEmployeeSettingController', employeeSettingController);
     employeeSettingController.$inject = ['$scope', 'baseUrl', 'JobLevelStandardPeriodModel', 'CommonModel', 'utilitiesFactory', 'lockScreenService'];
 
-    function employeeSettingController($scope, baseUrl,PeriodModel, CommonModel, utilitiesFactory, lockScreenService) {
+    function employeeSettingController($scope, baseUrl, PeriodModel, CommonModel, utilitiesFactory, lockScreenService) {
         let vm = this;
 
         vm.period = null;
@@ -136,9 +136,9 @@
                 periodName: vm.period.Name,
             };
 
-            var url = baseUrl + 'ExportReport/ExportJLSPeriodEmployeeSetting';
+            var url = baseUrl + 'ExportJLSPeriodEmployeeSetting/ExportExcel';
 
-            utilitiesFactory.exportExcel(vm.exportCriteria,url)
+            utilitiesFactory.exportExcel(vm.exportCriteria, url)
         };
     }
 })(angular);
