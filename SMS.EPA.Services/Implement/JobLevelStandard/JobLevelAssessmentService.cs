@@ -69,10 +69,12 @@
         {
             IList<JobLevelSetting> jobLevelSettings = GetJobLevelSettingByPeriod(criteria.PeriodId);
 
-            var tuple = baseService.FetchMultiple<JobLevelAssessment, JobLevelAssessmentKPI>(criteria);
+            var tuple = baseService.FetchMultiple<JobLevelAssessment, JobLevelAssessmentKPI, PeriodProcessSetting>(criteria);
             IList<JobLevelAssessment> assessments = tuple.Item1.ToList();
+            var evaluators = tuple.Item3.ToList();
             foreach (var assessment in assessments)
             {
+                assessment.Evaluators = tuple.Item3.Where(x => x.EmployeeId == assessment.EmployeeId).ToList();
                 assessment.LengthOfService = commonService.CalculateLengthOfService(assessment.JoinedDate, assessment.PeriodStartDate, assessment.MilitaryFromDate, assessment.MilitaryToDate);
                 assessment.RequirementMinScore = jobLevelSettings
                     .FirstOrDefault(x => x.SectionId == assessment.SectionId && x.JobLevelId == assessment.CurrentJobLevelId)?.MinWeight;
