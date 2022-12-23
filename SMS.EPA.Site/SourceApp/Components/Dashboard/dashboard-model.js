@@ -9,7 +9,6 @@
         let model = {};
         model.dashboardInfo = {};
         model.todoList = {};
-        model.jlsDashboard = {};
         model.announcements = [];
 
         model.getDashboard = function () {
@@ -21,16 +20,9 @@
         };
 
         model.getToDoList = function () {
-            return dashboardFactory.getToDoList().success(function (todoList) {
-                model.todoList = todoList;
-            }).error(function (response, status) {
-                errorFactory.errorHandle(status);
-            });
-        };
-
-        model.getJLSDashboard = function () {
-            return dashboardFactory.getJLSDashboard().success(function (todoList) {
-                model.jlsDashboard = todoList;
+            return dashboardFactory.getToDoList().success(function (result) {
+                model.todoList = result.epaDashboard;
+                model.jlsDashboard = result.jlsDashboard;
             }).error(function (response, status) {
                 errorFactory.errorHandle(status);
             });

@@ -13,7 +13,6 @@
         vm.processStatus = utilitiesFactory.processStatus;
         vm.targetTypeEnum = utilitiesFactory.targetType;
         vm.todoList = {};
-        vm.jlsDashboard = {};
         vm.announcements = [];
         vm.runMarquee = true;
         vm.marqueeStyle = { 'animation': '30s linear 0s infinite normal none running marquee' };
@@ -33,9 +32,6 @@
 
             DashboardModel.getToDoList().then(function () {
                 vm.todoList = DashboardModel.todoList;
-            });
-
-            DashboardModel.getJLSDashboard().then(function () {
                 vm.jlsDashboard = DashboardModel.jlsDashboard;
             });
 

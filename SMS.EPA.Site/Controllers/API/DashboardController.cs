@@ -12,6 +12,7 @@
     using SMS.EPA.Criteria.Dashboard;
     using SMS.EPA.Model.Dashboard;
     using SMS.EPA.Core.Enumerations;
+    using SMS.EPA.Model.JobLevelStandard;
 
     public class DashboardController : BaseController
     {
@@ -45,28 +46,21 @@
 
         [HttpGet]
         [ApiAuthorize(FunctionKey = EPAFunctionKey.Home, Policy = Policy.Read)]
-        public ToDoListViewModel GetToDoList()
+        public object GetToDoList()
         {
-            var criteria = new GetToDoListCriteria
+            var criteriaGetEpaDashboard = new GetToDoListCriteria
             {
                 EmployeeId = CurrentEmployeeId
             };
-            var result = new ToDoListViewModel { ToDoList = baseService.GetData<ToDoListModel>(criteria) };
+            var epaDashboard = new ToDoListViewModel { ToDoList = baseService.GetData<ToDoListModel>(criteriaGetEpaDashboard) };
 
-            return result;
-        }
-
-        [HttpGet]
-        [ApiAuthorize(FunctionKey = EPAFunctionKey.Home, Policy = Policy.Read)]
-        public JobLevelStandardDashboardViewModel GetJobLevelStandardDashboard()
-        {
-            var criteria = new GetJobLevelStandardDashboardCriteria
+            var criteriaGetJlsDashboard = new GetJobLevelStandardDashboardCriteria
             {
                 EmployeeId = CurrentEmployeeId
             };
-            var result = new JobLevelStandardDashboardViewModel { ToDoList = baseService.GetData<JobLevelStandardDashboard>(criteria) };
+            var jlsDashboard = new JobLevelStandardDashboardViewModel { ToDoList = baseService.GetData<JobLevelStandardDashboard>(criteriaGetJlsDashboard) };
 
-            return result;
+            return new { epaDashboard, jlsDashboard };
         }
 
         [HttpGet]
