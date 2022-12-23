@@ -356,17 +356,11 @@
             columnIndex++;
 
             cellBody = row.CreateCell(columnIndex);
-            bodyStyle = CreateBodyStyle(assessment, workbook);
-            bodyStyle.Alignment = HorizontalAlignment.Left;
-            cellBody.CellStyle = bodyStyle;
             cellBody.SetCellValue(GetEvaluator(assessment.Evaluators, "P"));
             SetColumnWidth(ref sheet, columnIndex, 20);
             columnIndex++;
 
             cellBody = row.CreateCell(columnIndex);
-            bodyStyle = CreateBodyStyle(assessment, workbook);
-            bodyStyle.Alignment = HorizontalAlignment.Left;
-            cellBody.CellStyle = bodyStyle;
             cellBody.SetCellValue(GetEvaluator(assessment.Evaluators, "M"));
             SetColumnWidth(ref sheet, columnIndex, 20);
 
