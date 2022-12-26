@@ -207,10 +207,11 @@
             ref HSSFWorkbook workbook,
             ref ISheet sheet)
         {
+
             var rowIndex = 4;
             foreach (var assessment in assessments)
             {
-                ICellStyle bodyStyle;
+                ICellStyle bodyStyle = CreateBodyStyle(assessment, workbook);
                 IRow row;
                 ICell cellBody;
                 const byte StartAssessmentColumnIndex = 13;
@@ -220,11 +221,10 @@
                     rowIndex,
                     workbook,
                     assessment,
-                    out bodyStyle,
+                    bodyStyle,
                     out row,
                     out cellBody);
 
-                bodyStyle = CreateBodyStyle(assessment, workbook);
                 int cellIndex;
                 for (int i = 0; i < assessment.KPIs.Count; i++)
                 {
@@ -247,14 +247,12 @@
                 SetColumnWidth(ref sheet, cellIndex, CellNormalWidth);
                 cellIndex++;
 
-                bodyStyle = CreateBodyStyle(assessment, workbook, true);
                 cellBody = row.CreateCell(cellIndex);
                 cellBody.CellStyle = bodyStyle;
                 cellBody.SetCellValue(assessment.SystemPropose);
                 SetColumnWidth(ref sheet, cellIndex, CellNormalWidth);
                 cellIndex++;
 
-                bodyStyle = CreateBodyStyle(assessment, workbook);
                 cellBody = row.CreateCell(cellIndex);
                 cellBody.CellStyle = bodyStyle;
                 cellBody.SetCellValue(assessment.NewJobLevel);
@@ -275,7 +273,7 @@
             int rowIndex,
             HSSFWorkbook workbook,
             JobLevelAssessment assessment,
-            out ICellStyle bodyStyle,
+            ICellStyle bodyStyle,
             out IRow row,
             out ICell cellBody)
         {
@@ -283,7 +281,6 @@
             var columnIndex = 0;
 
             cellBody = row.CreateCell(columnIndex);
-            bodyStyle = CreateBodyStyle(assessment, workbook);
             cellBody.CellStyle = bodyStyle;
             cellBody.SetCellValue(rowIndex - 3);
             SetColumnWidth(ref sheet, columnIndex, 5);
@@ -296,15 +293,13 @@
             columnIndex++;
 
             cellBody = row.CreateCell(columnIndex);
-            bodyStyle = CreateBodyStyle(assessment, workbook);
-            bodyStyle.Alignment = HorizontalAlignment.Left;
             cellBody.CellStyle = bodyStyle;
+            cellBody.CellStyle.Alignment = HorizontalAlignment.Left;
             cellBody.SetCellValue(assessment.FullName);
-            SetColumnWidth(ref sheet, columnIndex, 20);
+            SetColumnWidth(ref sheet, columnIndex, 23);
             columnIndex++;
 
             cellBody = row.CreateCell(columnIndex);
-            bodyStyle = CreateBodyStyle(assessment, workbook);
             cellBody.CellStyle = bodyStyle;
             cellBody.SetCellValue(assessment.Nickname);
             SetColumnWidth(ref sheet, columnIndex, 12);
@@ -319,13 +314,12 @@
             cellBody = row.CreateCell(columnIndex);
             cellBody.CellStyle = bodyStyle;
             cellBody.SetCellValue(assessment.LengthOfService);
-            SetColumnWidth(ref sheet, columnIndex, 16);
+            SetColumnWidth(ref sheet, columnIndex, 23);
             columnIndex++;
 
             cellBody = row.CreateCell(columnIndex);
-            bodyStyle = CreateBodyStyle(assessment, workbook);
-            bodyStyle.Alignment = HorizontalAlignment.Left;
             cellBody.CellStyle = bodyStyle;
+            cellBody.CellStyle.Alignment = HorizontalAlignment.Left;
             cellBody.SetCellValue(assessment.Department);
             SetColumnWidth(ref sheet, columnIndex, 16);
             columnIndex++;
@@ -343,7 +337,6 @@
             columnIndex++;
 
             cellBody = row.CreateCell(columnIndex);
-            bodyStyle = CreateBodyStyle(assessment, workbook);
             cellBody.CellStyle = bodyStyle;
             cellBody.SetCellValue(assessment.CurrentJobLevel);
             SetColumnWidth(ref sheet, columnIndex, 12);
@@ -356,11 +349,15 @@
             columnIndex++;
 
             cellBody = row.CreateCell(columnIndex);
+            cellBody.CellStyle = bodyStyle;
+            cellBody.CellStyle.Alignment = HorizontalAlignment.Left;
             cellBody.SetCellValue(GetEvaluator(assessment.Evaluators, "P"));
             SetColumnWidth(ref sheet, columnIndex, 20);
             columnIndex++;
 
             cellBody = row.CreateCell(columnIndex);
+            cellBody.CellStyle = bodyStyle;
+            cellBody.CellStyle.Alignment = HorizontalAlignment.Left;
             cellBody.SetCellValue(GetEvaluator(assessment.Evaluators, "M"));
             SetColumnWidth(ref sheet, columnIndex, 20);
 
