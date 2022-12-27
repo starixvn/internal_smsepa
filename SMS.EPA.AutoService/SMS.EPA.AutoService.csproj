@@ -91,7 +91,7 @@
     <Compile Include="Criteria\Monthly\GetMonthlyPeriodStartedCriteria.cs" />
     <Compile Include="Criteria\Monthly\InsertEmployeeToMonthlyPeriodCriteria.cs" />
     <Compile Include="Criteria\UpdateFinalScoreEndEvaluationCriteria.cs" />
-    <Compile Include="Criteria\UpdateIsEndProcessCriteria.cs" />
+    <Compile Include="Criteria\UpdateEndProcessCriteria.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Service\Implement\AutoMailService.cs" />

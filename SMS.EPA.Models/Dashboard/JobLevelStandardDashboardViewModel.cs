@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace SMS.EPA.Model.Dashboard
+﻿namespace SMS.EPA.Model.Dashboard
 {
+    using System.Collections.Generic;
+    using System.Linq;
+
     public class JobLevelStandardDashboardViewModel
     {
         public IEnumerable<JobLevelStandardDashboard> ToDoList { get; set; } = new List<JobLevelStandardDashboard>();

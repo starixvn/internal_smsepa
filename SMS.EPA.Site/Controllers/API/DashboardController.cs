@@ -5,14 +5,13 @@
     using HRM.UserControl.Client.Core.Enumerables;
     using SMS.EPA.Core.Attribute;
     using SMS.EPA.Core.Constants;
+    using SMS.EPA.Core.Enumerations;
     using SMS.EPA.Core.Services;
     using SMS.EPA.Criteria;
-    using SMS.EPA.Model;
-    using SMS.EPA.Services;
     using SMS.EPA.Criteria.Dashboard;
+    using SMS.EPA.Model;
     using SMS.EPA.Model.Dashboard;
-    using SMS.EPA.Core.Enumerations;
-    using SMS.EPA.Model.JobLevelStandard;
+    using SMS.EPA.Services;
 
     public class DashboardController : BaseController
     {
@@ -52,13 +51,19 @@
             {
                 EmployeeId = CurrentEmployeeId
             };
-            var epaDashboard = new ToDoListViewModel { ToDoList = baseService.GetData<ToDoListModel>(criteriaGetEpaDashboard) };
+            var epaDashboard = new ToDoListViewModel
+            {
+                ToDoList = baseService.GetData<ToDoListModel>(criteriaGetEpaDashboard)
+            };
 
             var criteriaGetJlsDashboard = new GetJobLevelStandardDashboardCriteria
             {
                 EmployeeId = CurrentEmployeeId
             };
-            var jlsDashboard = new JobLevelStandardDashboardViewModel { ToDoList = baseService.GetData<JobLevelStandardDashboard>(criteriaGetJlsDashboard) };
+            var jlsDashboard = new JobLevelStandardDashboardViewModel
+            {
+                ToDoList = baseService.GetData<JobLevelStandardDashboard>(criteriaGetJlsDashboard)
+            };
 
             return new { epaDashboard, jlsDashboard };
         }

@@ -4,6 +4,7 @@
     using System.Linq;
     using SMS.EPA.AutoService.Criteria;
     using SMS.EPA.Core.Enumerations;
+    using SMS.EPA.Core.Extensions;
     using SMS.EPA.Core.Services;
     using SMS.EPA.Model;
     using SMS.EPA.Services;
@@ -31,7 +32,7 @@
         public void UpdateInfomationOfProcess()
         {
             var criteria = new CheckEndProcessCriteria();
-            var processes = baseService.GetData<AutoEvaluationProcessModel>(criteria);
+            var processes = baseService.GetData<AutoEvaluationProcessModel>(criteria).ToList();
             DecryptTotalScore(processes);
             if (processes != null && processes.Any())
             {
@@ -41,11 +42,11 @@
             }
         }
 
-        private void UpdateEndProcess(IEnumerable<AutoEvaluationProcessModel> evaluationProcesses)
+        private void UpdateEndProcess(IEnumerable<AutoEvaluationProcessModel> processes)
         {
-            var criteria = new UpdateIsEndProcessCriteria
+            var criteria = new UpdateEndProcessCriteria
             {
-                EvaluationProcesses = evaluationProcesses
+                EPAProcess = processes.ToXML().ToString()
             };
             baseService.ExecuteNonQuery(criteria);
         }

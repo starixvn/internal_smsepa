@@ -7,15 +7,13 @@
     using HRM.UserControl.Client.Core.Enumerables;
     using SMS.EPA.Core.Attribute;
     using SMS.EPA.Core.Constants;
-    using SMS.EPA.Core.Enumerations;
     using SMS.EPA.Core.Extensions;
     using SMS.EPA.Core.Model;
     using SMS.EPA.Core.Services;
     using SMS.EPA.Criteria.JobLevelStandard;
     using SMS.EPA.Model.JobLevelStandard;
     using SMS.EPA.Model.JobLevelStandard.Period;
-    using SMS.EPA.Services.Implement.JobLevelStandard;
-    using SMS.EPA.Services.Interfaces.JobLevelStandard;
+    using SMS.EPA.Services;
 
     public class JobLevelStandardPeriodController : BaseController
     {
@@ -26,7 +24,9 @@
         {
         }
 
-        public JobLevelStandardPeriodController(IBaseService baseService, IJobLevelStandardPeriodService jobLevelStandardPeriodService)
+        public JobLevelStandardPeriodController(
+            IBaseService baseService,
+            IJobLevelStandardPeriodService jobLevelStandardPeriodService)
         {
             this.baseService = baseService ?? new BaseService();
             this.jobLevelStandardPeriodService = jobLevelStandardPeriodService ?? new JobLevelStandardPeriodService();
@@ -116,10 +116,9 @@
 
         [HttpPost]
         [ApiAuthorize(FunctionKey = EPAFunctionKey.JobLevelStandardPeriod, Policy = Policy.Read)]
-        public async Task<IList<PeriodEmployeeSetting>> GetEmployeeSettings(GetPeriodEmployeeSettingCriteria criteria)
+        public IList<PeriodEmployeeSetting> GetEmployeeSettings(GetPeriodEmployeeSettingCriteria criteria)
         {
-            var employees = await jobLevelStandardPeriodService.GetEmployeeSettingsAsync(criteria);
-            return employees;
+            return jobLevelStandardPeriodService.GetEmployeeSettings(criteria);
         }
 
         [HttpPut]

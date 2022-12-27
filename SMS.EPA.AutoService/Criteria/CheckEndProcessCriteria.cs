@@ -4,14 +4,8 @@
 
     public class CheckEndProcessCriteria : CriteriaBase
     {
-        public override bool IsValid()
-        {
-            return true;
-        }
+        public override bool IsValid() => true;
 
-        public override string GetSettingKey()
-        {
-            return "EpaAuto_CheckEndProcess";
-        }
+        public override string GetSettingKey() => "EpaAuto_CheckEndProcess";
     }
 }
