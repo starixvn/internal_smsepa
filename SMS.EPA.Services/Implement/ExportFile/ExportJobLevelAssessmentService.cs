@@ -193,7 +193,7 @@
                 sheet.AddMergedRegion(new CellRangeAddress(1, 3, indexCellStatus, indexCellStatus));
             }
 
-            for (var i = 0; i <= tableHeaderColSpanEmployeeInfor; i++)
+            for (var i = 0; i <= kpis.Count * 2; i++)
             {
                 const int odd = 2;
                 var cellEmployeeInfo = row3.CreateCell(startAssessmentColumnIndex + i);
@@ -212,6 +212,7 @@
             foreach (var assessment in assessments)
             {
                 ICellStyle bodyStyle = CreateBodyStyle(assessment, workbook);
+                ICellStyle bodyColorStyle = CreateBodyStyle(assessment, workbook, true);
                 IRow row;
                 ICell cellBody;
                 const byte StartAssessmentColumnIndex = 13;
@@ -219,7 +220,6 @@
                 sheet = CreateEmployeeInfoCells(
                     sheet,
                     rowIndex,
-                    workbook,
                     assessment,
                     bodyStyle,
                     out row,
@@ -230,37 +230,33 @@
                 {
                     cellIndex = StartAssessmentColumnIndex + i * 2;
                     cellBody = row.CreateCell(cellIndex);
-                    cellBody.CellStyle = bodyStyle;
                     cellBody.SetCellValue((int?)assessment.KPIs[i].Level);
                     SetColumnWidth(ref sheet, cellIndex, CellNormalWidth);
 
                     cellBody = row.CreateCell(cellIndex + 1);
-                    cellBody.CellStyle = bodyStyle;
                     cellBody.SetCellValue(assessment.KPIs[i].Weight);
                     SetColumnWidth(ref sheet, cellIndex + 1, CellNormalWidth);
                 }
 
                 cellIndex = StartAssessmentColumnIndex + assessment.KPIs.Count * 2;
                 cellBody = row.CreateCell(cellIndex);
-                cellBody.CellStyle = bodyStyle;
+                cellBody.CellStyle.Alignment = HorizontalAlignment.Center;
                 cellBody.SetCellValue(assessment.TotalWeight);
                 SetColumnWidth(ref sheet, cellIndex, CellNormalWidth);
                 cellIndex++;
 
                 cellBody = row.CreateCell(cellIndex);
-                cellBody.CellStyle = bodyStyle;
+                cellBody.CellStyle = bodyColorStyle;
                 cellBody.SetCellValue(assessment.SystemPropose);
                 SetColumnWidth(ref sheet, cellIndex, CellNormalWidth);
                 cellIndex++;
 
                 cellBody = row.CreateCell(cellIndex);
-                cellBody.CellStyle = bodyStyle;
                 cellBody.SetCellValue(assessment.NewJobLevel);
                 SetColumnWidth(ref sheet, cellIndex, CellNormalWidth);
                 cellIndex++;
 
                 cellBody = row.CreateCell(cellIndex);
-                cellBody.CellStyle = bodyStyle;
                 cellBody.SetCellValue(Enumerations.GetDescription(assessment.StatusId));
                 SetColumnWidth(ref sheet, cellIndex, CellNormalWidth + 3);
 
@@ -271,7 +267,6 @@
         private static ISheet CreateEmployeeInfoCells(
             ISheet sheet,
             int rowIndex,
-            HSSFWorkbook workbook,
             JobLevelAssessment assessment,
             ICellStyle bodyStyle,
             out IRow row,
@@ -281,13 +276,13 @@
             var columnIndex = 0;
 
             cellBody = row.CreateCell(columnIndex);
-            cellBody.CellStyle = bodyStyle;
+            cellBody.CellStyle.Alignment = HorizontalAlignment.Center;
             cellBody.SetCellValue(rowIndex - 3);
             SetColumnWidth(ref sheet, columnIndex, 5);
             columnIndex++;
 
             cellBody = row.CreateCell(columnIndex);
-            cellBody.CellStyle = bodyStyle;
+            cellBody.CellStyle.Alignment = HorizontalAlignment.Center;
             cellBody.SetCellValue(assessment.Code);
             SetColumnWidth(ref sheet, columnIndex, 10);
             columnIndex++;
@@ -301,25 +296,25 @@
 
             cellBody = row.CreateCell(columnIndex);
             cellBody.CellStyle = bodyStyle;
+            cellBody.CellStyle.Alignment = HorizontalAlignment.Left;
             cellBody.SetCellValue(assessment.Nickname);
             SetColumnWidth(ref sheet, columnIndex, 12);
             columnIndex++;
 
             cellBody = row.CreateCell(columnIndex);
-            cellBody.CellStyle = bodyStyle;
+            cellBody.CellStyle.Alignment = HorizontalAlignment.Center;
             cellBody.SetCellValue(assessment.JoinedDate.ToString(Constants.DateFormat));
             SetColumnWidth(ref sheet, columnIndex, 16);
             columnIndex++;
 
             cellBody = row.CreateCell(columnIndex);
-            cellBody.CellStyle = bodyStyle;
+            cellBody.CellStyle.Alignment = HorizontalAlignment.Center;
             cellBody.SetCellValue(assessment.LengthOfService);
             SetColumnWidth(ref sheet, columnIndex, 23);
             columnIndex++;
 
             cellBody = row.CreateCell(columnIndex);
             cellBody.CellStyle = bodyStyle;
-            cellBody.CellStyle.Alignment = HorizontalAlignment.Left;
             cellBody.SetCellValue(assessment.Department);
             SetColumnWidth(ref sheet, columnIndex, 16);
             columnIndex++;
@@ -337,27 +332,25 @@
             columnIndex++;
 
             cellBody = row.CreateCell(columnIndex);
-            cellBody.CellStyle = bodyStyle;
+            cellBody.CellStyle.Alignment = HorizontalAlignment.Center;
             cellBody.SetCellValue(assessment.CurrentJobLevel);
             SetColumnWidth(ref sheet, columnIndex, 12);
             columnIndex++;
 
             cellBody = row.CreateCell(columnIndex);
-            cellBody.CellStyle = bodyStyle;
+            cellBody.CellStyle.Alignment = HorizontalAlignment.Center;
             cellBody.SetCellValue(assessment.RequirementMinScore);
             SetColumnWidth(ref sheet, columnIndex, 12);
             columnIndex++;
 
             cellBody = row.CreateCell(columnIndex);
             cellBody.CellStyle = bodyStyle;
-            cellBody.CellStyle.Alignment = HorizontalAlignment.Left;
             cellBody.SetCellValue(GetEvaluator(assessment.Evaluators, "P"));
             SetColumnWidth(ref sheet, columnIndex, 20);
             columnIndex++;
 
             cellBody = row.CreateCell(columnIndex);
             cellBody.CellStyle = bodyStyle;
-            cellBody.CellStyle.Alignment = HorizontalAlignment.Left;
             cellBody.SetCellValue(GetEvaluator(assessment.Evaluators, "M"));
             SetColumnWidth(ref sheet, columnIndex, 20);
 
