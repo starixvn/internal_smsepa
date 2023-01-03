@@ -22,5 +22,8 @@
 
         [XmlIgnore]
         public bool IsSemiHasMonthly => TargetTypeId == (byte)TargetType.SemiAnnual && HasMonthlyEPA;
+
+        [XmlIgnore]
+        public bool IsChanged { get; set; }
     }
 }

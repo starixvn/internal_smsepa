@@ -1,10 +1,10 @@
-﻿using System.Web.Mvc;
-using SMS.EPA.Services;
-using SMS.EPA.Services.Implement.ExportFile;
-using SMS.EPA.Services.Interfaces.ExportFile;
-
-namespace SMS.EPA.Site.Controllers.Export
+﻿namespace SMS.EPA.Site.Controllers.Export
 {
+    using System.Web.Mvc;
+    using SMS.EPA.Services;
+    using SMS.EPA.Services.Implement.ExportFile;
+    using SMS.EPA.Services.Interfaces.ExportFile;
+
     public class ExportJLSPeriodEmployeeSettingController : Controller
     {
         private const int DefaultContentRowStartIndexForTemplate = 3;

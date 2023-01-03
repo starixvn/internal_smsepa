@@ -11,42 +11,44 @@ Original:
 
 Revisions:  
 Param's Explanation:
-	@EPAProcess = '<ROOT><EPAProcess EPAId='' ProcessId=''></EPAProcess></ROOT>'
+	@EPAProcess = '<Root><Row EPAId='' ProcessId='' /></Root>'
 */
 BEGIN
 	SET NOCOUNT ON;
 
-	DECLARE @DocHandler INT
+	DECLARE @Today DATE = GETDATE()
+		,@DocHandler INT
 
-	CREATE TABLE #EPAProcessTemp (
+	CREATE TABLE #tblEPAProcess (
 		EPAId INT
-		,ProcessId INT
+		,ProcessId TINYINT
 		)
 
 	EXEC sp_xml_preparedocument @DocHandler OUTPUT
 		,@EPAProcess
 
-	INSERT INTO #EPAProcessTemp (
+	INSERT INTO #tblEPAProcess (
 		EPAId
 		,ProcessId
 		)
 	SELECT EPAId
 		,ProcessId
-	FROM OPENXML(@DocHandler, '/ROOT/EPAProcess', 1) WITH (EPAId INT, ProcessId INT) AS Data
+	FROM OPENXML(@DocHandler, '/Root/Row', 1) WITH (EPAId INT, ProcessId INT) AS Data
 
 	EXEC sp_xml_removedocument @DocHandler
 
-	UPDATE pc WITH (ROWLOCK, UPDLOCK)
+	UPDATE pc 
 	SET pc.IsEndProcess = 1
-	FROM dbo.EPAProcess AS pc
-		INNER JOIN #EPAProcessTemp AS pcT ON pc.EPAId = pcT.EPAId
-		AND pc.ProcessId = pcT.ProcessId
-
-	UPDATE pc WITH (ROWLOCK, UPDLOCK)
-	SET pc.IsEndProcess = 1
-	FROM dbo.EPAProcess AS pc
+	FROM dbo.EPAProcess AS pc WITH (ROWLOCK, UPDLOCK)
+		INNER JOIN #tblEPAProcess AS tblpc ON pc.EPAId = tblpc.EPAId
+		AND pc.ProcessId = tblpc.ProcessId
 	WHERE pc.IsEndProcess = 0
-		AND CAST(pc.EndDate AS DATE) < CAST(GETDATE() AS DATE)
 
-	DROP TABLE #EPAProcessTemp
+	UPDATE pc
+	SET pc.IsEndProcess = 1
+	FROM dbo.EPAProcess AS pc WITH (ROWLOCK, UPDLOCK)
+	WHERE pc.IsEndProcess = 0
+		AND pc.EndDate < @Today
+
+	DROP TABLE #tblEPAProcess
 END

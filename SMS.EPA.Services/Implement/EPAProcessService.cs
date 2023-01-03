@@ -1,9 +1,12 @@
 ﻿namespace SMS.EPA.Services
 {
+    using System;
     using System.Collections.Generic;
     using System.Globalization;
     using System.Linq;
+    using SMS.EPA.Core.Constants;
     using SMS.EPA.Core.Enumerations;
+    using SMS.EPA.Core.Extensions;
     using SMS.EPA.Core.Services;
     using SMS.EPA.Criteria.EmployeeEPA;
     using SMS.EPA.Model;
@@ -11,8 +14,6 @@
     public interface IEPAProcessService
     {
         void UpdateTotalScoreOfProcess(int periodId, string employeeIds = null);
-
-        void UpdateTotalScoreOfSemiHasMonthly(IEnumerable<AutoEvaluationProcessModel> processes);
 
         void UpdateTotalScoreOfProcess(IEnumerable<AutoEvaluationProcessModel> processes);
     }
@@ -49,52 +50,81 @@
             if (processes.Any())
             {
                 DecryptTotalScore(processes);
-                UpdateTotalScoreOfSemiHasMonthly(processes.Where(x => x.ProcessId == (byte)ProcessType.Evaluator && x.IsSemiHasMonthly));
-                UpdateTotalScoreOfProcess(processes.Where(x => x.ProcessId >= (byte)ProcessType.Reviewer));
-            }
-        }
-
-        public void UpdateTotalScoreOfSemiHasMonthly(IEnumerable<AutoEvaluationProcessModel> processes)
-        {
-            foreach (AutoEvaluationProcessModel process in processes)
-            {
-                EPAModel epaInfo = employeeEPAService.GetEPAInfoById(process.EPAId);
-                var criteria = new UpdateTotalScoreOfSemiHasMonthlyCriteria
-                {
-                    EPAId = process.EPAId,
-                    MonthlyEPA = epaInfo.MonthlyEPA
-                };
-                baseService.ExecuteNonQuery(criteria);
+                UpdateTotalScoreOfProcess(processes);
             }
         }
 
         public void UpdateTotalScoreOfProcess(IEnumerable<AutoEvaluationProcessModel> processes)
         {
-            var epaInfos = new List<EPAModel>();
-            foreach (AutoEvaluationProcessModel process in processes)
-            {
-                if (string.IsNullOrWhiteSpace(process.TotalScore))
-                {
-                    EPAModel epaInfo = epaInfos.Any(x => x.EPAId == process.EPAId)
-                        ? epaInfos.First(x => x.EPAId == process.EPAId)
-                        : employeeEPAService.GetEPAInfoById(process.EPAId);
+            UpdateTotalScoreOfSemiHasMonthly(processes.Where(x => x.ProcessId == (byte)ProcessType.Evaluator && x.IsSemiHasMonthly).ToList());
 
-                    float? averageScore = GetAverageScorePreProcess(epaInfo, process.ProcessId);
+            var reviewerManagements = processes.Where(x => x.ProcessId >= (byte)ProcessType.Reviewer).ToList();
+            foreach (AutoEvaluationProcessModel process in reviewerManagements)
+            {
+                if (string.IsNullOrWhiteSpace(process.TotalScore) || process.TotalScore.Equals("0"))
+                {
+                    float? averageScore = GetAverageScorePreProcess(processes.Where(x => x.EPAId == process.EPAId).ToList(), process.ProcessId);
                     float? adjustScore = !string.IsNullOrWhiteSpace(process.AdjustScore) ? float.Parse(process.AdjustScore) : (float?)null;
                     averageScore = CalculateTotalScoreOfProcess(averageScore, adjustScore);
 
-                    UpdateTotalScoreOfProcess(epaInfo, process, averageScore);
+                    process.TotalScore = averageScore.HasValue ? averageScore.Value.ToString(CultureInfo.InvariantCulture) : string.Empty;
+                    process.IsChanged = true;
+                }
+            }
 
-                    var criteria = new UpdateTotalScoreOfProcessCriteria
-                    {
-                        EPAId = process.EPAId,
-                        EvaluatorId = process.EvaluatorId,
-                        ProcessId = process.ProcessId,
-                        TotalScore = averageScore.HasValue
-                            ? cryptographyService.Encrypt(averageScore.Value.ToString(CultureInfo.InvariantCulture))
-                            : string.Empty
-                    };
-                    baseService.ExecuteNonQuery(criteria);
+            processes = processes.Where(x => x.IsChanged).ToList();
+            foreach(var process in processes)
+            {
+                process.TotalScore = cryptographyService.Encrypt(process.TotalScore?.ToString());
+            }
+
+            var criteria = new UpdateTotalScoreOfProcessCriteria
+            {
+                DataXml = processes.Where(x => x.IsChanged).ToXML().ToString()
+            };
+            baseService.ExecuteNonQuery(criteria);
+        }
+
+        private void UpdateTotalScoreOfSemiHasMonthly(IEnumerable<AutoEvaluationProcessModel> processes)
+        {
+            var epaInfos = new List<EPAModel>();
+            foreach (var process in processes)
+            {
+                EPAModel epaInfo;
+                if (epaInfos.Any(x => x.EPAId == process.EPAId))
+                {
+                    epaInfo = epaInfos.First(x => x.EPAId == process.EPAId);
+                }
+                else
+                {
+                    epaInfo = employeeEPAService.GetEPAInfoById(process.EPAId);
+                    epaInfos.Add(epaInfo);
+                }
+
+                switch (process.ProcessId)
+                {
+                    case (byte)ProcessType.Self:
+                        process.TotalScore = epaInfo.MonthlyEPA.AverageSelfScoreConverted?.ToString();
+                        process.IsChanged = true;
+                        break;
+
+                    case (byte)ProcessType.Evaluator:
+                        process.TotalScore = epaInfo.MonthlyEPA.AverageEvaluatorScoreConverted?.ToString();
+                        process.IsChanged = true;
+                        break;
+
+                    case (byte)ProcessType.Reviewer:
+                        float? averageScore = epaInfo.MonthlyEPA.AverageReviewerScoreConverted;
+                        float? adjustScore = !string.IsNullOrWhiteSpace(process.AdjustScore) ? float.Parse(process.AdjustScore) : (float?)null;
+                        averageScore = CalculateTotalScoreOfProcess(averageScore, adjustScore);
+
+                        process.TotalScore = averageScore.HasValue ? averageScore.Value.ToString(CultureInfo.InvariantCulture) : string.Empty;
+                        process.IsChanged = true;
+                        break;
+
+                    default:
+                        // nothing
+                        break;
                 }
             }
         }
@@ -109,37 +139,33 @@
             return adjustScore;
         }
 
-        private static void UpdateTotalScoreOfProcess(EPAModel epaInfo, AutoEvaluationProcessModel process, float? averageScore = null)
+        private static float? CalculateAverageScore(IList<AutoEvaluationProcessModel> processes)
         {
-            switch (process.ProcessId)
+            float average = 0;
+            float? result = null;
+
+            var validProcesses = processes.Where(x => !string.IsNullOrWhiteSpace(x.TotalScore)).ToList();
+            if (validProcesses.Any())
             {
-                case (byte)ProcessType.Reviewer:
-                    epaInfo.Process.Reviewers.First(x => x.EvaluatorInfo.EmployeeId == process.EvaluatorId).TotalScore
-                        = averageScore.HasValue ? averageScore.Value.ToString(CultureInfo.InvariantCulture) : string.Empty;
-                    break;
+                average += validProcesses.Sum(process => float.Parse(process.TotalScore));
 
-                case (byte)ProcessType.Management:
-                    epaInfo.Process.Managements.First(x => x.EvaluatorInfo.EmployeeId == process.EvaluatorId).TotalScore
-                        = averageScore.HasValue ? averageScore.Value.ToString(CultureInfo.InvariantCulture) : string.Empty;
-                    break;
-
-                default:
-                    // do nothing
-                    break;
+                result = (float)Math.Round(average / validProcesses.Count, Constants.NumberOfDecimalDefault);
             }
+
+            return result;
         }
 
-        private static float? GetAverageScorePreProcess(EPAModel epaInfo, byte processId)
+        private static float? GetAverageScorePreProcess(IEnumerable<AutoEvaluationProcessModel> processes, byte processId)
         {
             float? averageScore;
             switch (processId)
             {
                 case (byte)ProcessType.Reviewer:
-                    averageScore = epaInfo.Process.AverageScoreByEvaluators;
+                    averageScore = CalculateAverageScore(processes.Where(x => x.ProcessId == (byte)ProcessType.Evaluator).ToList());
                     break;
 
                 case (byte)ProcessType.Management:
-                    averageScore = epaInfo.Process.AverageScoreByReviewers;
+                    averageScore = CalculateAverageScore(processes.Where(x => x.ProcessId == (byte)ProcessType.Reviewer).ToList());
                     break;
 
                 default:

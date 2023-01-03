@@ -191,7 +191,6 @@
             <Mapping DataField="ModifiedById" ObjectProperty="EmployeeId" />
         </Setting>
         <Setting Key="EpaAuto_UpdateTotalScoreOfProcess" SpName="EpaAuto_UpdateTotalScoreOfProcess" DbName="SMSEPA" Plain="0" />
-        <Setting Key="EpaAuto_SemiAnnual_UpdateTotalScore" SpName="EpaAuto_SemiAnnual_UpdateTotalScore" DbName="SMSEPA" Plain="0" />
     </Function>
     <Function Name="Dashboard">
         <Setting Key="Epa_Dashboard" SpName="Epa_Dashboard" DbName="SMSEPA" Plain="0">

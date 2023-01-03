@@ -76,7 +76,8 @@
             reviewerEmployees: [],
             managementEmployees: [],
             disciplineStartDate: null,
-            disciplineEndDate: null
+            disciplineEndDate: null,
+            isSemiHasMonthly: vm.selectedEmployees[0].IsSemiHasMonthly
         };
 
         function createEmployeeIds(evaluators) {

@@ -3,7 +3,6 @@
     using System.Collections.Generic;
     using System.Linq;
     using SMS.EPA.AutoService.Criteria;
-    using SMS.EPA.Core.Enumerations;
     using SMS.EPA.Core.Extensions;
     using SMS.EPA.Core.Services;
     using SMS.EPA.Model;
@@ -37,8 +36,7 @@
             if (processes != null && processes.Any())
             {
                 UpdateEndProcess(processes);
-                processService.UpdateTotalScoreOfSemiHasMonthly(processes.Where(x => x.ProcessId == (byte)ProcessType.Evaluator && x.IsSemiHasMonthly));
-                processService.UpdateTotalScoreOfProcess(processes.Where(x => x.ProcessId >= (byte)ProcessType.Reviewer));
+                processService.UpdateTotalScoreOfProcess(processes);
             }
         }
 

@@ -4,12 +4,9 @@
 
     public class UpdateTotalScoreOfProcessCriteria : CriteriaBase
     {
-        public int EPAId { get; set; }
-        public int EvaluatorId { get; set; }
-        public byte ProcessId { get; set; }
-        public string TotalScore { get; set; }
+        public string DataXml { get; set; }
 
-        public override bool IsValid() => EPAId > 0 && ProcessId > 0;
+        public override bool IsValid() => !string.IsNullOrWhiteSpace(DataXml);
 
         public override string GetSettingKey() => "EpaAuto_UpdateTotalScoreOfProcess";
     }
