@@ -250,24 +250,29 @@
 
             cellBody = row.CreateCell(5);
             cellBody.CellStyle = bodyStyle;
-            cellBody.SetCellValue(epaInfo.Section);
+            cellBody.SetCellValue(epaInfo.Department);
             SetColumnWidth(ref sheet, 5, 16);
 
             cellBody = row.CreateCell(6);
             cellBody.CellStyle = bodyStyle;
-            cellBody.SetCellValue(epaInfo.Group.GroupName);
+            cellBody.SetCellValue(epaInfo.Section);
             SetColumnWidth(ref sheet, 6, 16);
 
             cellBody = row.CreateCell(7);
             cellBody.CellStyle = bodyStyle;
-            cellBody.SetCellValue(epaInfo.JobTitle.JobTitleName);
-            SetColumnWidth(ref sheet, 7, 25);
+            cellBody.SetCellValue(epaInfo.Group.GroupName);
+            SetColumnWidth(ref sheet, 7, 16);
 
-            bodyStyle = rowIndex % 2 == 0 ? bodyStyle2 : bodyStyle1;
             cellBody = row.CreateCell(8);
             cellBody.CellStyle = bodyStyle;
+            cellBody.SetCellValue(epaInfo.JobTitle.JobTitleName);
+            SetColumnWidth(ref sheet, 8, 25);
+
+            bodyStyle = rowIndex % 2 == 0 ? bodyStyle2 : bodyStyle1;
+            cellBody = row.CreateCell(9);
+            cellBody.CellStyle = bodyStyle;
             cellBody.SetCellValue(epaInfo.JoinedDate.ToString(Constants.DateFormat));
-            SetColumnWidth(ref sheet, 8, 15);
+            SetColumnWidth(ref sheet, 9, 15);
 
             return sheet;
         }
@@ -284,6 +289,7 @@
                 Lang.NickName,
                 Lang.FullName,
                 Lang.Category,
+                Lang.Department,
                 Lang.Section,
                 Lang.Team,
                 Lang.JobTitle,
@@ -336,7 +342,7 @@
             string grade,
             IFont redFont = null)
         {
-            int summaryColIndex = 9 + (2 * i);
+            int summaryColIndex = 10 + (2 * i);
 
             ICell cellBody = row.CreateCell(summaryColIndex);
             cellBody.CellStyle = bodyStyle;
@@ -449,7 +455,7 @@
                     }
                     else
                     {
-                        int summaryColumnIndex = 9 + (2 * i);
+                        int summaryColumnIndex = 10 + (2 * i);
 
                         cellBody = row.CreateCell(summaryColumnIndex);
                         cellBody.CellStyle = bodyStyle;

@@ -21,6 +21,8 @@
 
         public string Section { get; set; }
 
+        public string Department { get; set; }
+
         public Group Group { get; set; }
 
         public DateTime JoinedDate { get; set; }
