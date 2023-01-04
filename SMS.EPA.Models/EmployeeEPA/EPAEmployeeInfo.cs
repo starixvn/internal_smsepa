@@ -40,6 +40,7 @@
         public string DepartmentCode { get; set; }
 
         public string DepartmentName { get; set; }
+        public string Section { get; set; }
 
         public int JobTitleId { get; set; }
 

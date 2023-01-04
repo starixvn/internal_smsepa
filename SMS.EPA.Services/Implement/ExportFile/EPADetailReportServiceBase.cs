@@ -233,8 +233,8 @@
                 performanceScore = score - epaInfo.DisciplineScore;
             }
 
-            return epaInfo.FinalScoreToExport != string.Empty 
-                ? epaInfo.Grade 
+            return epaInfo.FinalScoreToExport != string.Empty
+                ? epaInfo.Grade
                 : employeeEPAService.ConvertScoreToGrade(
                     performanceScore,
                     epaInfo.DisciplineScore,
@@ -285,6 +285,11 @@
             cell = row.CreateCell(currentColumn);
             cell.CellStyle = BodyStyle;
             cell.SetCellValue(epaInfo.Employee.DepartmentName);
+            SetColumnWidth(currentColumn++, 16);
+
+            cell = row.CreateCell(currentColumn);
+            cell.CellStyle = BodyStyle;
+            cell.SetCellValue(epaInfo.Employee.Section);
             SetColumnWidth(currentColumn++, 16);
 
             cell = row.CreateCell(currentColumn);

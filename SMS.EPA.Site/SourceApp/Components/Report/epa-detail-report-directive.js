@@ -19,6 +19,7 @@
                 },
                 { HeaderText: 'Nickname', Width: 100, Name: 'NickName', HeaderAlign: 'center', CellAlign: 'left', AllowTruncate: true },
                 { HeaderText: 'Full Name', Width: 140, Name: 'FullName', HeaderAlign: 'center', CellAlign: 'left' },
+                { HeaderText: 'Department', Width: 120, Name: 'Department', HeaderAlign: 'center', CellAlign: 'left' },
                 { HeaderText: 'Section', Width: 120, Name: 'Section', HeaderAlign: 'center', CellAlign: 'left' },
                 {
                     HeaderText: 'Team', Width: 120, Name: 'Team',
@@ -79,7 +80,8 @@
                                 { Name: 'Code', Value: epaInfo.Employee.Code },
                                 { Name: 'NickName', Value: epaInfo.Employee.NickName },
                                 { Name: 'FullName', Value: epaInfo.Employee.FullName },
-                                { Name: 'Section', Value: epaInfo.Employee.DepartmentName },
+                                { Name: 'Department', Value: epaInfo.Employee.DepartmentName },
+                                { Name: 'Section', Value: epaInfo.Employee.Section },
                                 { Name: 'Team', Value: epaInfo.Employee.GroupName },
                                 { Name: 'JobTitle', Value: epaInfo.Employee.JobTitleName },
                                 { Name: 'GroupDate', Value: epaInfo.Employee.JoinedDate },

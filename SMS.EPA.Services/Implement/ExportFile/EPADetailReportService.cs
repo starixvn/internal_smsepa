@@ -27,6 +27,7 @@
             Lang.NickName,
             Lang.FullName,
             Lang.Category,
+            Lang.Department,
             Lang.Section,
             Lang.Team,
             Lang.JobTitle,
