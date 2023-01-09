@@ -36,7 +36,7 @@
             });
         };
 
-        model.updateFinalScore = function (vm, selectedEPAs) {
+        model.updateFinalScore = function (vm, employeeIds) {
             let modalInstance = $uibModal.open({
                 templateUrl: '/SourceApp/Shared/Templates/ModalConfirmContent.html',
                 controller: 'ModalConfirmController as modalConfirmCtrl',
@@ -53,10 +53,9 @@
             });
 
             modalInstance.result.then(function () {
-                return updateFinalScoreFactory.updateFinalScore(selectedEPAs).success(function (response) {
+                return updateFinalScoreFactory.updateFinalScore({ periodId: vm.filter.periodId, employeeIds }).success(function (response) {
                     if (response.IsSuccessful) {
                         vm.dataSaved = true;
-                        notificationFactory.success('UpdatedSuccessfully');
 
                         const employeeId = vm.filter.employee ? vm.filter.employee.EmployeeId : null;
                         updateFinalScoreFactory.getEPAToUpdateFinalScore(vm.filter.periodId, vm.filter.teamIds, vm.filter.isLocal, employeeId)
@@ -73,6 +72,8 @@
                             }).error(function (response, status) {
                                 errorFactory.errorHandle(status);
                             });
+
+                        notificationFactory.success('UpdatedSuccessfully');
                     } else {
                         notificationFactory.error('', response.Message);
                     }

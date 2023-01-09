@@ -89,15 +89,15 @@
         }
 
         function getSelectedEPA(epaInfos) {
-            var selectedEPAs = [];
+            const employeeIds = [];
 
             angular.forEach(epaInfos, function (epaInfo) {
                 if (epaInfo.Selected) {
-                    selectedEPAs.push(epaInfo);
+                    employeeIds.push(epaInfo.Employee.EmployeeId);
                 }
             });
 
-            return selectedEPAs;
+            return employeeIds;
         }
 
         function initialize() {
@@ -140,12 +140,12 @@
         }
 
         function updateFinalScore() {
-            var selectedEPAs = getSelectedEPA(vm.filteredItems);
+            const employeeIds = getSelectedEPA(vm.filteredItems);
 
-            if (!selectedEPAs || selectedEPAs.length === 0) {
+            if (!employeeIds || employeeIds.length === 0) {
                 notificationFactory.error('SelectEPABeforeEditSettingWarning');
             } else {
-                UpdateFinalScoreModel.updateFinalScore(vm, selectedEPAs);
+                UpdateFinalScoreModel.updateFinalScore(vm, employeeIds.join(','));
             }
         }
 

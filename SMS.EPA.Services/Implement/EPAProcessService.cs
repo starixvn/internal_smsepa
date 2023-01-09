@@ -7,15 +7,16 @@
     using SMS.EPA.Core.Constants;
     using SMS.EPA.Core.Enumerations;
     using SMS.EPA.Core.Extensions;
+    using SMS.EPA.Core.Model;
     using SMS.EPA.Core.Services;
     using SMS.EPA.Criteria.EmployeeEPA;
     using SMS.EPA.Model;
 
     public interface IEPAProcessService
     {
-        void UpdateTotalScoreOfProcess(int periodId, string employeeIds = null);
+        CommandResult UpdateTotalScoreOfProcess(int periodId, string employeeIds = null);
 
-        void UpdateTotalScoreOfProcess(IEnumerable<AutoEvaluationProcessModel> processes);
+        CommandResult UpdateTotalScoreOfProcess(IEnumerable<AutoEvaluationProcessModel> processes);
     }
 
     public class EPAProcessService : IEPAProcessService
@@ -38,9 +39,10 @@
             this.baseService = baseService ?? new BaseService();
         }
 
-        public void UpdateTotalScoreOfProcess(int periodId, string employeeIds = null)
+        public CommandResult UpdateTotalScoreOfProcess(int periodId, string employeeIds = null)
         {
-            var criteria = new GetDataToUpdateTotalScoreOfProcessCriteria
+            var commandResult = new CommandResult { Code = 0 };
+               var criteria = new GetDataToUpdateTotalScoreOfProcessCriteria
             {
                 PeriodId = periodId,
                 EmployeeIds = employeeIds
@@ -50,11 +52,13 @@
             if (processes.Any())
             {
                 DecryptTotalScore(processes);
-                UpdateTotalScoreOfProcess(processes);
+                commandResult = UpdateTotalScoreOfProcess(processes);
             }
+
+            return commandResult;
         }
 
-        public void UpdateTotalScoreOfProcess(IEnumerable<AutoEvaluationProcessModel> processes)
+        public CommandResult UpdateTotalScoreOfProcess(IEnumerable<AutoEvaluationProcessModel> processes)
         {
             UpdateTotalScoreOfSemiHasMonthly(processes.Where(x => x.ProcessId == (byte)ProcessType.Evaluator && x.IsSemiHasMonthly).ToList());
 
@@ -82,7 +86,7 @@
             {
                 DataXml = processes.Where(x => x.IsChanged).ToXML().ToString()
             };
-            baseService.ExecuteNonQuery(criteria);
+            return baseService.ExecuteNonQuery(criteria);
         }
 
         private void UpdateTotalScoreOfSemiHasMonthly(IEnumerable<AutoEvaluationProcessModel> processes)

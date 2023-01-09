@@ -117,6 +117,7 @@
     <Compile Include="Email\MailReminder.cs" />
     <Compile Include="EmployeeEPA\ProbationExtendedQuestion\EPAProbationExtendedQuestionModel.cs" />
     <Compile Include="EmployeeEPA\ProbationExtendedQuestion\ProbationSubQuestionModel.cs" />
+    <Compile Include="EmployeeEPA\UpdateFinalScoreParam.cs" />
     <Compile Include="Enitites\MultiSelectItem.cs" />
     <Compile Include="Enitites\Section.cs" />
     <Compile Include="Enitites\Team.cs" />

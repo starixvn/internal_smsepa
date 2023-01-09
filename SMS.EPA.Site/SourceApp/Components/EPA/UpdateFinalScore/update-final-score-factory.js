@@ -29,8 +29,8 @@
             return $http.get(baseUrl + 'api/UpdateFinalScore/GetPeriodToUpdateFinalScore');
         }
 
-        function updateFinalScore(epaInfos) {
-            return $http.put(baseUrl + 'api/UpdateFinalScore/UpdateFinalScore', epaInfos);
+        function updateFinalScore(params) {
+            return $http.put(baseUrl + 'api/UpdateFinalScore/UpdateFinalScore', params);
         }
     }
 })(angular);
