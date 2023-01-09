@@ -124,6 +124,7 @@
     <Compile Include="JobLevelStandard\Period\GetJobLevelStandardPeriodByIdCriteria.cs" />
     <Compile Include="JobLevelStandard\Period\GetJobLevelStandardPeriodCriteria.cs" />
     <Compile Include="JobLevelStandard\JobLevelSetting\GetJobLevelSettingSummaryCriteria.cs" />
+    <Compile Include="JobLevelStandard\Period\UpdateJobLevelEmployeeSettingCommand.cs" />
     <Compile Include="JobLevelStandard\Report\GetJobLevelAssessmentReportCriteria.cs" />
     <Compile Include="JobLevelStandard\Report\GetOrgChartByActorIdCriteria.cs" />
     <Compile Include="JobLevelStandard\Report\GetPeriodCriteria.cs" />

@@ -111,6 +111,11 @@
                 </td>
                 <td class="text-center" rowspan="3" ng-if="employeeSettingCtrl.permission === employeeSettingCtrl.policy.Host">
                     <a class="glyphicon glyphicon-edit icon-edit" title="Edit" href="" ng-click="employeeSettingCtrl.edit(employee)"></a>
+                    <a ng-show="employee.StatusId !== null"
+                       class="glyphicon glyphicon-refresh icon-edit"
+                       title="Update Job Level According User Management"
+                       href=""
+                       ng-click="employeeSettingCtrl.updateJobLevel(employee)"></a>
                 </td>
             </tr>
             <tr ng-class="{oddRow: $index % 2 === 0, evenRow: $index % 2 !== 0}">

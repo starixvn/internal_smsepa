@@ -266,6 +266,7 @@
                             "~/SourceApp/Components/JobLevelStandard/Period/copy-job-level-setting-controller.js",
                             "~/SourceApp/Components/JobLevelStandard/Period/employee-setting-controller.js",
                             "~/SourceApp/Components/JobLevelStandard/Period/add-employee-setting-controller.js",
+                            "~/SourceApp/Components/JobLevelStandard/Period/update-job-level-controller.js",
                             "~/SourceApp/Components/JobLevelStandard/Period/edit-employee-setting-controller.js",
                             "~/SourceApp/Components/JobLevelStandard/JobLevelSetting/job-level-setting-factory.js",
                             "~/SourceApp/Components/JobLevelStandard/JobLevelSetting/job-level-setting-model.js",

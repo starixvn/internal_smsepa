@@ -188,9 +188,9 @@
 
             let action = period.IsActive ? 'activate' : 'deactivate',
                 params = {
-                PeriodId: period.PeriodId,
-                IsActive: period.IsActive
-            };
+                    PeriodId: period.PeriodId,
+                    IsActive: period.IsActive
+                };
 
             let modalInstance = $uibModal.open({
                 templateUrl: '/SourceApp/Shared/Templates/ModalConfirmContent.html',
@@ -291,6 +291,22 @@
             return vm.modalInstance.result;
         };
 
+        model.openPopupUpdateJobLevel = function (vm, employee) {
+            vm.modalInstance = $uibModal.open({
+                templateUrl: 'SourceApp/Components/JobLevelStandard/Period/Templates/updateJobLevel.html',
+                controller: 'UpdateJobLevelController as updateJobLevelCtrl',
+                backdrop: 'static',
+                resolve: {
+                    employee: function () {
+                        return angular.copy(employee);
+                    }
+                },
+                windowClass: 'modal-confirm-center add-employee-setting-modal'
+            });
+
+            return vm.modalInstance.result;
+        };
+
         model.validateAddEmployeeSetting = function (params) {
             let isValid = true;
             if (params.employeeId === null && params.teamIds === '') {
@@ -306,6 +322,19 @@
             return periodFactory.addEmployeeSetting(params).success(function (response) {
                 if (response.IsSuccessful) {
                     notificationFactory.success('', 'Add employee successfully!');
+                    modalInstance.close();
+                } else {
+                    notificationFactory.error('', response.Message);
+                }
+            }).error(function (response, status) {
+                errorFactory.errorHandle(status);
+            });
+        };
+
+        model.updateJobLevel = function (params, modalInstance) {
+            return periodFactory.updateJobLevel(params).success(function (response) {
+                if (response.IsSuccessful) {
+                    notificationFactory.success('', 'Update job level successfully!');
                     modalInstance.close();
                 } else {
                     notificationFactory.error('', response.Message);

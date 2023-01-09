@@ -11,6 +11,7 @@
     using SMS.EPA.Core.Model;
     using SMS.EPA.Core.Services;
     using SMS.EPA.Criteria.JobLevelStandard;
+    using SMS.EPA.Criteria.JobLevelStandard.Period;
     using SMS.EPA.Model.JobLevelStandard;
     using SMS.EPA.Model.JobLevelStandard.Period;
     using SMS.EPA.Services;
@@ -124,6 +125,20 @@
         [HttpPut]
         [ApiAuthorize(FunctionKey = EPAFunctionKey.JobLevelStandardPeriod, Policy = Policy.Host)]
         public async Task<CommandResult> AddEmployeeSetting(AddPeriodEmployeeSettingCommand command)
+        {
+            var commandResult = new CommandResult();
+            if (command != null)
+            {
+                command.ModifiedBy = CurrentEmployeeId;
+                commandResult = await baseService.ExecuteNonQueryAsync(command);
+            }
+
+            return commandResult;
+        }
+
+        [HttpPut]
+        [ApiAuthorize(FunctionKey = EPAFunctionKey.JobLevelStandardPeriod, Policy = Policy.Host)]
+        public async Task<CommandResult> UpdateJobLevel(UpdateJobLevelEmployeeSettingCommand command)
         {
             var commandResult = new CommandResult();
             if (command != null)

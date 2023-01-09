@@ -1,0 +1,14 @@
+﻿<div class="modal-header">
+    <div class="popup-header">
+        Add Employee Setting
+        <span class="close-popup" ng-click="updateJobLevelCtrl.cancel()"></span>
+    </div>
+</div>
+<div class="modal-body">
+    Update job level for <b>{{updateJobLevelCtrl.employee.FullName}} ({{updateJobLevelCtrl.employee.Nickname}})</b>?
+</div>
+
+<div class="modal-footer">
+    <button class="btn btn-primary" ng-click="updateJobLevelCtrl.save()" data-translate="Submit"></button>
+    <button class="btn btn-cancel" ng-click="updateJobLevelCtrl.cancel()" data-translate="Cancel"></button>
+</div>

@@ -76,6 +76,15 @@
             }
         };
 
+        vm.updateJobLevel = function (employee) {
+            if (vm.permission === vm.policy.Host) {
+                PeriodModel.openPopupUpdateJobLevel(vm, employee).then(function () {
+                    vm.modalInstance = null;
+                    getEmployeeSettings(vm.filter);
+                });
+            }
+        };
+
         vm.edit = function (employee) {
             if (vm.permission === vm.policy.Host) {
                 PeriodModel.openPopupEditEmployeeSetting(vm, [employee]).then(function () {
