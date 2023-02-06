@@ -3,6 +3,7 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Text;
     using HRM.UserControl.Client.Core.Models.Role;
     using SMS.EPA.Core.Constants;
     using SMS.EPA.Core.Services;
@@ -48,8 +49,24 @@
 
         public bool HasMonthlyEPA { get; set; }
 
-        public string Username => !string.IsNullOrWhiteSpace(DomainUsername)
-            ? DomainUsername.Replace("sms\\", string.Empty) : string.Empty;
+        public string Username
+        {
+            get
+            {
+                if (!string.IsNullOrWhiteSpace(DomainUsername))
+                {
+                    var username = string.Empty;
+                    if(DomainUsername.IndexOf("sms\\", StringComparison.OrdinalIgnoreCase) != -1)
+                    {
+                        username = ReplaceString(DomainUsername, "sms\\", string.Empty, StringComparison.OrdinalIgnoreCase);
+                    }
+
+                    return username;
+                }
+
+                return DomainUsername;
+            }
+        }
 
         public bool IsSpecialUser { get; set; }
 
@@ -86,6 +103,33 @@
             };
 
             return record;
+        }
+
+        private static string ReplaceString(string str, string oldValue, string newValue, StringComparison comparison)
+        {
+            if (string.IsNullOrEmpty(oldValue))
+            {
+                return str;
+            }
+
+            var sb = new StringBuilder();
+
+            int previousIndex = 0;
+            int index = str.IndexOf(oldValue, comparison);
+
+            while (index != -1)
+            {
+                sb.Append(str.Substring(previousIndex, index - previousIndex));
+                sb.Append(newValue);
+                index += oldValue.Length;
+
+                previousIndex = index;
+                index = str.IndexOf(oldValue, index, comparison);
+            }
+
+            sb.Append(str.Substring(previousIndex));
+
+            return sb.ToString();
         }
     }
 }

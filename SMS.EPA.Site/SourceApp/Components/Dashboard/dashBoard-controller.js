@@ -32,7 +32,6 @@
 
             DashboardModel.getToDoList().then(function () {
                 vm.todoList = DashboardModel.todoList;
-                vm.jlsDashboard = DashboardModel.jlsDashboard;
             });
 
             DashboardModel.getDashboard().then(function () {

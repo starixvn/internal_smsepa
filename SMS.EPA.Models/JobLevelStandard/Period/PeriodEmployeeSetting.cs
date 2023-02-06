@@ -4,8 +4,6 @@
     using System.Collections.Generic;
     using System.Globalization;
     using System.Linq;
-    using System.Linq.Expressions;
-    using SMS.EPA.Core.Constants;
     using SMS.EPA.Core.Enumerations;
     using SMS.EPA.Core.Utilities;
     using SMS.EPA.Model.Report;
@@ -52,14 +50,11 @@
 
         private static string GetEvaluator(IList<PeriodProcessSetting> evaluators)
         {
-            IEnumerable<string> nickNames = evaluators
+            var nicknames = evaluators
                 .Where(x => !string.IsNullOrEmpty(x.FullName) || !string.IsNullOrEmpty(x.Nickname))
-                .Select(x => string.Format(CultureInfo.InvariantCulture, "{0} ({1})", x.FullName, x.Nickname));
+                .Select(x => string.Format(CultureInfo.InvariantCulture, "- {0} ({1})", x.FullName, x.Nickname)).ToList();
 
-            string evaluatorNames = string.Join("\n", nickNames);
-
-            return evaluatorNames;
+            return string.Join(Environment.NewLine, nicknames);
         }
-
     }
 }

@@ -2,7 +2,7 @@
 {
     using Core.Enumerations;
 
-    public class ToDoListModel
+    public class EPAToDoList
     {
         public int PeriodId { get; set; }
 

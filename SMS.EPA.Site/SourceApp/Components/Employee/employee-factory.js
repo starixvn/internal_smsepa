@@ -19,10 +19,10 @@
             updateJobLevel
         };
 
-        function getEmployee(query, teamIds, isLocal, isSpecialUser, isDisabledUser, hasMonthlyEPA, jobLevel) {
+        function getEmployee(query, teamIds, isLocal, isSpecialUser, isDisabledUser, hasMonthlyEPA, jobLevelId) {
             return $http.get(baseUrl + 'api/Employee/GetAllEmployee',
                 {
-                    params: { query, teamIds, isLocal, isSpecialUser, isDisabledUser, hasMonthlyEPA, jobLevel }
+                    params: { query, teamIds, isLocal, isSpecialUser, isDisabledUser, hasMonthlyEPA, jobLevelId }
                 });
         }
 

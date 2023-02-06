@@ -14,7 +14,7 @@
         public bool? IsSpecialUser { get; set; }
         public bool? IsDisabledUser { get; set; }
         public bool? HasMonthlyEPA { get; set; }
-        public int? JobLevel { get; set; }
+        public int? JobLevelId { get; set; }
 
         public override bool IsValid() => true;
 

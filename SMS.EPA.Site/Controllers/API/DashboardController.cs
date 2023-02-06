@@ -45,27 +45,13 @@
 
         [HttpGet]
         [ApiAuthorize(FunctionKey = EPAFunctionKey.Home, Policy = Policy.Read)]
-        public object GetToDoList()
+        public ToDoListViewModel GetToDoList()
         {
-            var criteriaGetEpaDashboard = new GetToDoListCriteria
+            return new ToDoListViewModel
             {
-                EmployeeId = CurrentEmployeeId
+                EPAToDoList = GetEPAToDoList(),
+                JLSToDoList = GetJobLevelStandardToDoList()
             };
-            var epaDashboard = new ToDoListViewModel
-            {
-                ToDoList = baseService.GetData<ToDoListModel>(criteriaGetEpaDashboard)
-            };
-
-            var criteriaGetJlsDashboard = new GetJobLevelStandardDashboardCriteria
-            {
-                EmployeeId = CurrentEmployeeId
-            };
-            var jlsDashboard = new JobLevelStandardDashboardViewModel
-            {
-                ToDoList = baseService.GetData<JobLevelStandardDashboard>(criteriaGetJlsDashboard)
-            };
-
-            return new { epaDashboard, jlsDashboard };
         }
 
         [HttpGet]
@@ -112,6 +98,30 @@
             }
 
             return result;
+        }
+
+        private EPAToDoListViewModel GetEPAToDoList()
+        {
+            var criteria = new GetToDoListCriteria
+            {
+                EmployeeId = CurrentEmployeeId
+            };
+            return new EPAToDoListViewModel
+            {
+                ToDoList = baseService.GetData<EPAToDoList>(criteria)
+            };
+        }
+
+        private JobLevelStandardDashboardViewModel GetJobLevelStandardToDoList()
+        {
+            var criteria = new GetJobLevelStandardDashboardCriteria
+            {
+                EmployeeId = CurrentEmployeeId
+            };
+            return new JobLevelStandardDashboardViewModel
+            {
+                ToDoList = baseService.GetData<JobLevelStandardDashboard>(criteria)
+            };
         }
     }
 }

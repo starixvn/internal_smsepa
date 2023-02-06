@@ -1,9 +1,8 @@
 ﻿namespace SMS.EPA.ClientHrm
 {
-    using System.Diagnostics.CodeAnalysis;
     using Fanex.Data.Repository;
-    using Services;
     using SimpleInjector;
+    using SMS.EPA.ClientHrm.Services;
     using SMS.EPA.Core.Repositories;
     using SMS.EPA.Core.Services;
     using ThirdPartyAPI;
@@ -16,6 +15,7 @@
         {
             Container = new Container();
 
+            Container.Register<IDynamicRepository, DynamicRepository>(Lifestyle.Singleton);
             Container.Register<IBaseRepository, BaseRepository>(Lifestyle.Singleton);
             Container.Register<IBaseService, BaseService>(Lifestyle.Singleton);
             Container.Register<IDepartmentService, DepartmentService>(Lifestyle.Singleton);
@@ -29,7 +29,6 @@
             Container.Register<ITeamService, TeamService>(Lifestyle.Singleton);
             Container.Register<IPhotoService, PhotoService>(Lifestyle.Singleton);
             Container.Register<IUserMappingService, UserMappingService>(Lifestyle.Singleton);
-            Container.Register<IDynamicRepository, DynamicRepository>(Lifestyle.Singleton);
             Container.Register<IDepartmentAPI, DepartmentAPI>(Lifestyle.Singleton);
             Container.Register<IDisciplineSummaryAPI, DisciplineSummaryAPI>(Lifestyle.Singleton);
             Container.Register<IEmployeeAPI, EmployeeAPI>(Lifestyle.Singleton);

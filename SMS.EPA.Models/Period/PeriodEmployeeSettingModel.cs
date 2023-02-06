@@ -4,37 +4,28 @@
     using System.Collections.Generic;
     using System.Globalization;
     using System.Linq;
-    using Core.Constants;
-    using Core.Enumerations;
-    using Report;
+    using SMS.EPA.Core.Constants;
+    using SMS.EPA.Core.Enumerations;
+    using SMS.EPA.Model.Report;
 
     [Serializable]
     public class PeriodEmployeeSettingModel : IExcelRecord
     {
-        public PeriodEmployeeSettingModel()
-        {
-            HumanResources = new List<PeriodFlowModel>();
-            SelfEvaluators = new List<PeriodFlowModel>();
-            Evaluators = new List<PeriodFlowModel>();
-            Reviewers = new List<PeriodFlowModel>();
-            Managements = new List<PeriodFlowModel>();
-        }
-
         public int PeriodId { get; set; }
 
         public string Name { get; set; }
 
         public EmployeeViewModel Employee { get; set; }
 
-        public IList<PeriodFlowModel> HumanResources { get; set; }
+        public IList<PeriodFlowModel> HumanResources { get; set; } = new List<PeriodFlowModel>();
 
-        public IList<PeriodFlowModel> SelfEvaluators { get; set; }
+        public IList<PeriodFlowModel> SelfEvaluators { get; set; } = new List<PeriodFlowModel>();
 
-        public IList<PeriodFlowModel> Evaluators { get; set; }
+        public IList<PeriodFlowModel> Evaluators { get; set; } = new List<PeriodFlowModel>();
 
-        public IList<PeriodFlowModel> Reviewers { get; set; }
+        public IList<PeriodFlowModel> Reviewers { get; set; } = new List<PeriodFlowModel>();
 
-        public IList<PeriodFlowModel> Managements { get; set; }
+        public IList<PeriodFlowModel> Managements { get; set; } = new List<PeriodFlowModel>();
 
         public DateTime? DisciplineStartDate { get; set; }
 
@@ -54,20 +45,18 @@
 
         private static string GetEvaluator(IList<PeriodFlowModel> evaluators)
         {
-            IEnumerable<string> nickNames = evaluators
+            var nicknames = evaluators
                 .Where(x => !string.IsNullOrEmpty(x.EvaluatorInfo.FullName) || !string.IsNullOrEmpty(x.EvaluatorInfo.NickName))
-                .Select(x => string.Format(CultureInfo.InvariantCulture, "{0} ({1})", x.EvaluatorInfo.FullName, x.EvaluatorInfo.NickName));
+                .Select(x => string.Format(CultureInfo.InvariantCulture, "- {0} ({1})", x.EvaluatorInfo.FullName, x.EvaluatorInfo.NickName)).ToList();
 
-            string evaluatorNames = string.Join(", ", nickNames);
-
-            return evaluatorNames;
+            return string.Join(Environment.NewLine, nicknames);
         }
 
         public object ConvertToExcelRecord()
         {
-            string department = Employee.Department != null ? Employee.Department.Name : string.Empty;
-            string group = Employee.Group != null ? Employee.Group.GroupName : string.Empty;
-            string form = TargetTemplate != null ? TargetTemplate.TargetTypeName : string.Empty;
+            var department = Employee.Department != null ? Employee.Department.Name : string.Empty;
+            var group = Employee.Group != null ? Employee.Group.GroupName : string.Empty;
+            var form = TargetTemplate != null ? TargetTemplate.TargetTypeName : string.Empty;
 
             var record = new
             {

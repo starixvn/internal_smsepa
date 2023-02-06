@@ -47,7 +47,7 @@
             bool? isSpecialUser = null,
             bool? isDisabledUser = null,
             bool? hasMonthlyEPA = null,
-            int? jobLevel = null)
+            int? jobLevelId = null)
         {
             var criteria = new GetEmployeeCriteria
             {
@@ -57,7 +57,7 @@
                 IsSpecialUser = isSpecialUser,
                 IsDisabledUser = isDisabledUser,
                 HasMonthlyEPA = hasMonthlyEPA,
-                JobLevel = jobLevel,
+                JobLevelId = jobLevelId,
             };
             return employeeService.GetEmployee(criteria);
         }

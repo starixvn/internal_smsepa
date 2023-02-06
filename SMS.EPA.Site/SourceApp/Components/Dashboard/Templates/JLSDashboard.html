@@ -1,4 +1,4 @@
-﻿<div ng-if="dashboardCtrl.jlsDashboard.ToDoList.length > 0">
+﻿<div ng-if="dashboardCtrl.todoList.JLSToDoList.ToDoList.length > 0">
     <div class="panel panel-default">
         <div class="panel-heading" data-toggle="collapse" data-target=".todoList">
             <h4 class="panel-title text-uppercase">Job Level Standard DASHBOARD</h4>
@@ -10,36 +10,36 @@
                         <tr>
                             <th data-translate="SymbolCount" rowspan="2"></th>
                             <th data-translate="Period" rowspan="2"></th>
-                            <th colspan="2" ng-if="dashboardCtrl.jlsDashboard.HasEvaluator">Evaluator/Reviewer</th>
-                            <th data-translate="Management" colspan="2" ng-if="dashboardCtrl.jlsDashboard.HasManagement"></th>
+                            <th colspan="2" ng-if="dashboardCtrl.todoList.JLSToDoList.HasEvaluator">Evaluator/Reviewer</th>
+                            <th data-translate="Management" colspan="2" ng-if="dashboardCtrl.todoList.JLSToDoList.HasManagement"></th>
                         </tr>
                         <tr>
-                            <th data-translate="Unfinished" ng-if="dashboardCtrl.jlsDashboard.HasEvaluator"></th>
-                            <th data-translate="Finished" ng-if="dashboardCtrl.jlsDashboard.HasEvaluator"></th>
-                            <th data-translate="Unfinished" ng-if="dashboardCtrl.jlsDashboard.HasManagement"></th>
-                            <th data-translate="Finished" ng-if="dashboardCtrl.jlsDashboard.HasManagement"></th>
+                            <th data-translate="Unfinished" ng-if="dashboardCtrl.todoList.JLSToDoList.HasEvaluator"></th>
+                            <th data-translate="Finished" ng-if="dashboardCtrl.todoList.JLSToDoList.HasEvaluator"></th>
+                            <th data-translate="Unfinished" ng-if="dashboardCtrl.todoList.JLSToDoList.HasManagement"></th>
+                            <th data-translate="Finished" ng-if="dashboardCtrl.todoList.JLSToDoList.HasManagement"></th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr ng-repeat="period in dashboardCtrl.jlsDashboard.ToDoList">
+                        <tr ng-repeat="period in dashboardCtrl.todoList.JLSToDoList.ToDoList">
                             <td class="text-center" ng-bind="$index + 1"></td>
                             <td ng-bind="period.Name"></td>
-                            <td class="text-center" ng-if="dashboardCtrl.jlsDashboard.HasEvaluator">
+                            <td class="text-center" ng-if="dashboardCtrl.todoList.JLSToDoList.HasEvaluator">
                                 <a ng-bind="period.UnfinishedByEvaluator" ng-if="period.UnfinishedByEvaluator > 0"
                                    ng-click="dashboardCtrl.goToAssessment(period.PeriodId, $event)"></a>
                                 <span ng-if="period.UnfinishedByEvaluator === 0">0</span>
                             </td>
-                            <td class="text-center" ng-if="dashboardCtrl.jlsDashboard.HasEvaluator">
+                            <td class="text-center" ng-if="dashboardCtrl.todoList.JLSToDoList.HasEvaluator">
                                 <a ng-bind="period.FinishedByEvaluator" ng-if="period.FinishedByEvaluator > 0"
                                    ng-click="dashboardCtrl.goToAssessment(period.PeriodId, $event)"></a>
                                 <span ng-if="period.FinishedByEvaluator === 0">0</span>
                             </td>
-                            <td class="text-center" ng-if="dashboardCtrl.jlsDashboard.HasManagement">
+                            <td class="text-center" ng-if="dashboardCtrl.todoList.JLSToDoList.HasManagement">
                                 <a ng-bind="period.UnfinishedByManagement" ng-if="period.UnfinishedByManagement > 0"
                                    ng-click="dashboardCtrl.goToAssessment(period.PeriodId, $event)"></a>
                                 <span ng-if="period.UnfinishedByManagement === 0">0</span>
                             </td>
-                            <td class="text-center" ng-if="dashboardCtrl.jlsDashboard.HasManagement">
+                            <td class="text-center" ng-if="dashboardCtrl.todoList.JLSToDoList.HasManagement">
                                 <a ng-bind="period.FinishedByManagement" ng-if="period.FinishedByManagement > 0"
                                    ng-click="dashboardCtrl.goToAssessment(period.PeriodId, $event)"></a>
                                 <span ng-if="period.FinishedByManagement === 0">0</span>

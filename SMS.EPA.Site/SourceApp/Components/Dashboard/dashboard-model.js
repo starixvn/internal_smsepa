@@ -21,8 +21,7 @@
 
         model.getToDoList = function () {
             return dashboardFactory.getToDoList().success(function (result) {
-                model.todoList = result.epaDashboard;
-                model.jlsDashboard = result.jlsDashboard;
+                model.todoList = result;
             }).error(function (response, status) {
                 errorFactory.errorHandle(status);
             });
