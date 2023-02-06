@@ -1,4 +1,5 @@
 ﻿
+
 CREATE PROCEDURE [dbo].[Report_EPADetail] @ActorId INT
 	,@PeriodId INT = NULL
 	,@PhaseIds NVARCHAR(10) = NULL
@@ -367,6 +368,7 @@ BEGIN
 				) AS Category
 			,dept.DepartmentId
 			,dept.[Name] AS DepartmentName
+			,section.[Name] AS Section
 			,gr.GroupId
 			,gr.Code AS GroupCode
 			,gr.[Name] AS GroupName
@@ -393,7 +395,9 @@ BEGIN
 			INNER JOIN dbo.TargetTemplate AS ttem WITH (NOLOCK) ON ttem.TargetTemplateId = pertar.TargetTemplateId
 			INNER JOIN #tblEPAStatus AS tblstatus WITH (NOLOCK) ON epa.EPAId = tblstatus.EPAId
 			LEFT JOIN dbo.[Group] AS gr WITH (NOLOCK) ON emp.GroupId = gr.GroupId
-			LEFT JOIN dbo.Department AS dept WITH (NOLOCK) ON gr.DepartmentId = dept.DepartmentId
+			LEFT JOIN dbo.Department AS section WITH (NOLOCK) ON gr.DepartmentId = section.DepartmentId
+			AND section.IsActive = 1
+			LEFT JOIN dbo.Department AS dept WITH (NOLOCK) ON section.ParentId = dept.DepartmentId
 			LEFT JOIN dbo.HRMJobTitle AS job WITH (NOLOCK) ON emp.[JobTitle] = job.[Id]
 			LEFT JOIN #tblDisciplineScores AS ds WITH (NOLOCK) ON epa.EPAId = ds.EPAId
 		
@@ -418,6 +422,7 @@ BEGIN
 				) AS Category
 			,dept.DepartmentId
 			,dept.[Name] AS DepartmentName
+			,section.[Name] AS Section
 			,gr.GroupId
 			,gr.Code AS GroupCode
 			,gr.[Name] AS GroupName
@@ -438,7 +443,9 @@ BEGIN
 			INNER JOIN dbo.EPASummaryImport AS epa WITH (NOLOCK) ON tbl.EPAId = - epa.Id
 			INNER JOIN dbo.Employee AS emp WITH (NOLOCK) ON epa.Code = emp.Code
 			LEFT JOIN dbo.[Group] AS gr WITH (NOLOCK) ON emp.GroupId = gr.GroupId
-			LEFT JOIN dbo.Department AS dept WITH (NOLOCK) ON gr.DepartmentId = dept.DepartmentId
+			LEFT JOIN dbo.Department AS section WITH (NOLOCK) ON gr.DepartmentId = section.DepartmentId
+			AND section.IsActive = 1
+			LEFT JOIN dbo.Department AS dept WITH (NOLOCK) ON section.ParentId = dept.DepartmentId
 			LEFT JOIN dbo.HRMJobTitle AS job WITH (NOLOCK) ON emp.[JobTitle] = job.[Id]
 		) AS tblData
 	ORDER BY CASE 

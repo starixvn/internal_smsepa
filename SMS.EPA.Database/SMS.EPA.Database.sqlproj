@@ -435,6 +435,8 @@
     <Build Include="dbo\Stored Procedures\Department_GetOrgChart.sql" />
     <Build Include="dbo\Stored Procedures\Dashboard_GetAnnouncement.sql" />
     <Build Include="dbo\Stored Procedures\Auto_JobLevelStandard_GetEmployeeSettingToSendMail.sql" />
+    <Build Include="dbo\Stored Procedures\JobLevelStandard_Period_UpdateJobLevel.sql" />
+    <Build Include="dbo\Stored Procedures\JobLevelStandard_GetDashboard.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="scripts\auto-add-staff-into-semi-period.sql" />

@@ -1,4 +1,5 @@
 ﻿
+
 CREATE PROCEDURE [dbo].[Report_EPASummary] @ActorId INT
 	,@PeriodIds NVARCHAR(MAX) = NULL
 	,@TeamIds VARCHAR(MAX) = NULL
@@ -301,7 +302,8 @@ BEGIN
 			WHEN emp.IsLocal = 1 THEN 'Local'
 			ELSE 'Expat' END
 			) AS Category
-		,dept.[Name] AS Section
+		,section.[Name] AS Section
+		,dept.[Name] AS Department
 		,gr.GroupId
 		,gr.Code AS GroupCode
 		,gr.[Name] AS GroupName
@@ -310,7 +312,10 @@ BEGIN
 	FROM dbo.Employee AS emp WITH (NOLOCK)
 		INNER JOIN #tblEmployee AS tblemp WITH (NOLOCK) ON emp.EmployeeId = tblemp.EmployeeId
 		LEFT JOIN dbo.[Group] AS gr WITH (NOLOCK) ON emp.GroupId = gr.GroupId
-		LEFT JOIN dbo.Department AS dept WITH (NOLOCK) ON gr.DepartmentId = dept.DepartmentId
+		LEFT JOIN dbo.Department AS section WITH (NOLOCK) ON gr.DepartmentId = section.DepartmentId
+			AND section.IsActive = 1
+		LEFT JOIN dbo.Department AS dept WITH (NOLOCK) ON section.ParentId = dept.DepartmentId
+			AND dept.IsActive = 1
 		LEFT JOIN dbo.HRMJobTitle AS job WITH (NOLOCK) ON emp.JobTitle = job.Id
 	ORDER BY CASE 
 			WHEN ISNULL(@SortColumnName, '') <> ''

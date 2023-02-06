@@ -42,6 +42,8 @@ BEGIN
 		,section.[Name] AS Section
 		,dept.[Name] AS Department
 		,emp.JoinedDate
+		,emp.MilitaryFromDate
+		,emp.MilitaryToDate
 		,pes.PeriodId
 		,pes.TemplateId
 		,a.AssessmentId
@@ -114,6 +116,8 @@ BEGIN
 		,a.StatusId
 		,a.Remark
 		,@PeriodStartDate AS PeriodStartDate
+		,a.MilitaryFromDate
+		,a.MilitaryToDate
 	FROM #tmpAssessment AS a WITH (NOLOCK)
 		LEFT JOIN dbo.JobLevel AS cjl WITH (NOLOCK) ON a.CurrentJobLevelId = cjl.JobLevelId
 	ORDER BY Department

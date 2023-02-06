@@ -1,4 +1,5 @@
 ﻿
+
 CREATE PROCEDURE [dbo].[Dashboard_GetAnnouncement] @EmployeeId INT
 AS
 /*
@@ -15,11 +16,11 @@ BEGIN
 
 	DECLARE @Today DATE = GETDATE()
 
-	SELECT DISTINCT period.PeriodId
+	SELECT period.PeriodId
 		,period.[Name] AS PeriodName
 		,pps.ProcessId
-		,pps.FromDate
-		,pps.ToDate
+		,MIN(pps.FromDate) AS FromDate
+		,MAX(pps.ToDate) AS ToDate
 	FROM dbo.JobLevelStandard_Period AS period WITH (NOLOCK)
 		INNER JOIN dbo.JobLevelStandard_PeriodEmployeeSetting AS pes WITH (NOLOCK) ON period.PeriodId = pes.PeriodId
 		AND pes.IsExcluded = 0
@@ -32,7 +33,10 @@ BEGIN
 		AND eva.[Enabled] = 1
 		AND eva.IsDeleted = 0
 	WHERE eva.EmployeeId = @EmployeeId
-		AND pps.FromDate = @Today
+		AND @Today BETWEEN pps.FromDate AND pps.ToDate
+	GROUP BY period.PeriodId
+		,period.[Name]
+		,pps.ProcessId
 	ORDER BY period.PeriodId
 		,pps.ProcessId
 END

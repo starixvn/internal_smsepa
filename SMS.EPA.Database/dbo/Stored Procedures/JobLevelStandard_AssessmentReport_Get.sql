@@ -1,5 +1,4 @@
 ﻿
-
 CREATE PROCEDURE [dbo].[JobLevelStandard_AssessmentReport_Get] @ActorId INT
 	,@PeriodId INT
 	,@SectionIds VARCHAR(MAX) = NULL
@@ -43,6 +42,8 @@ BEGIN
 		,section.[Name] AS Section
 		,dept.[Name] AS Department
 		,emp.JoinedDate
+		,emp.MilitaryFromDate
+		,emp.MilitaryToDate
 		,pes.PeriodId
 		,pes.TemplateId
 		,a.AssessmentId
@@ -121,11 +122,13 @@ BEGIN
 		,a.StatusId
 		,a.Remark
 		,@PeriodStartDate AS PeriodStartDate
+		,a.MilitaryFromDate
+		,a.MilitaryToDate
 	FROM #tmpAssessment AS a WITH (NOLOCK)
 		LEFT JOIN dbo.JobLevel AS cjl WITH (NOLOCK) ON a.CurrentJobLevelId = cjl.JobLevelId
-	ORDER BY Department
-		,Section
-		,Team
+	ORDER BY a.Department
+		,a.Section
+		,a.Team
 
 	SELECT a.EmployeeId
 		,kpi.KPIId
@@ -155,6 +158,26 @@ BEGIN
 			WHEN akpi.DisplayOrder IS NOT NULL THEN akpi.DisplayOrder
 			ELSE tkpi.DisplayOrder
 			END
+
+	SELECT pps.EmployeeId
+		,eva.EmployeeId AS EvaluatorId
+		,eva.Nickname
+		,eva.FullName
+		,joblevel.[Name] AS JobLevel
+	FROM dbo.JobLevelStandard_PeriodProcessSetting AS pps WITH (NOLOCK)
+		INNER JOIN dbo.Employee AS eva WITH (NOLOCK) ON pps.EvaluatorId = eva.EmployeeId
+		AND eva.[Enabled] = 1
+		AND eva.IsDeleted = 0
+		LEFT JOIN dbo.JobLevel AS joblevel WITH (NOLOCK) ON eva.JobLevelId = joblevel.JobLevelId
+	WHERE pps.PeriodId = @PeriodId
+		AND pps.ProcessId = 1
+		AND EXISTS (
+			SELECT 1
+			FROM #tmpAssessment AS tmp WITH (NOLOCK)
+			WHERE pps.PeriodId = tmp.PeriodId
+				AND pps.EmployeeId = tmp.EmployeeId
+			)
+	ORDER BY pps.EmployeeId
 
 	DROP TABLE #tmpSection
 

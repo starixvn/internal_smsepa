@@ -1,4 +1,5 @@
 ﻿
+
 CREATE PROCEDURE [dbo].[EpaPeriod_GetEmployeeSetting] @PeriodId INT
 	,@TeamIds VARCHAR(MAX) = NULL
 	,@IsLocal BIT = NULL
@@ -48,6 +49,7 @@ BEGIN
 		,emp.NickName
 		,emp.FullName
 		,emp.Code
+		,section.Name AS Section
 		,emp.JoinedDate
 		,emp.HasMonthlyEPA
 		,(CASE 
@@ -87,7 +89,10 @@ BEGIN
 		AND emp.[Enabled] = 1
 		AND emp.ResignedDate IS NULL
 		INNER JOIN dbo.[Group] AS team WITH (NOLOCK) ON emp.GroupId = team.GroupId
-		LEFT JOIN dbo.Department AS dept WITH (NOLOCK) ON team.DepartmentId = dept.DepartmentId
+		LEFT JOIN dbo.Department AS section WITH (NOLOCK) ON team.DepartmentId = section.DepartmentId
+		AND section.IsActive = 1
+		LEFT JOIN dbo.Department AS dept WITH (NOLOCK) ON section.ParentId = dept.DepartmentId
+		AND dept.IsActive = 1
 		LEFT JOIN dbo.HRMJobTitle AS job WITH (NOLOCK) ON emp.JobTitle = job.Id
 		LEFT JOIN dbo.PeriodTargetSetting AS peTar WITH (NOLOCK) ON pe.PeriodId = peTar.PeriodId
 		AND pe.EmployeeId = peTar.EmployeeId

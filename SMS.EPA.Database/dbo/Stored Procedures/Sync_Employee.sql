@@ -7,15 +7,15 @@ AS
 Created: 20150828@Quinn.Vo
 Task: Synchronize data Users from hrm.
 DB: SMSEPA
-Original: 
+Original:
 
-Revisions:  
+Revisions:
 20160414@Razor.nguyen: Create EPA Service API
 Param's Explanation:
 - @UserXML: <ROOT><Row EmployeeId='{0}' DomainUsername='{1}' Code='{2}' "
-		NickName='{3}' FullName='{4}' TeamId='{5}' JobTitleId='{6}' Phone='{7}' "
-        Email='{8}' CardNumber='{9}' IsEnabled='{10}' IsDeleted='{11}' Password='{12}' "
-        JoinedDate='{13}' ModifiedDate='{14}' IsLocal='{15}' ResignedDate = '{16}' ConfirmedDate='{17}' JobLevelId='{18}' UserId='{19}' /></ROOT>
+		NickName='{3}' FullName='{4}' TeamId='{5}' JobTitleId='{6}' Phone='{7}' Email='{8}'"
+		CardNumber='{9}' IsEnabled='{10}' IsDeleted='{11}' Password='{12}' JoinedDate='{13}' ModifiedDate='{14}' IsLocal='{15}'"
+		ResignedDate = '{16}' ConfirmedDate='{17}' JobLevelId='{18}' UserId='{19}' MilitaryFromDate='{20}' MilitaryToDate='{21}'/></ROOT>
 */
 BEGIN
 	SET NOCOUNT ON;
@@ -39,12 +39,14 @@ BEGIN
 		,[Enabled] BIT NULL
 		,IsDeleted BIT NULL
 		,[Password] NVARCHAR(100) NULL
-		,JoinedDate DATETIME NULL
+		,JoinedDate DATE NULL
 		,ModifiedDate DATETIME NULL
 		,IsLocal BIT NULL
-		,ResignedDate DATETIME NULL
-		,ConfirmedDate DATETIME NULL
+		,ResignedDate DATE NULL
+		,ConfirmedDate DATE NULL
 		,JobLevelId INT NULL
+		,MilitaryFromDate DATE NULL
+		,MilitaryToDate DATE NULL
 		)
 
 	CREATE TABLE #tmpChangedEmployee (
@@ -77,12 +79,14 @@ BEGIN
 			,[Enabled]
 			,IsDeleted
 			,[Password]
+			,IsLocal
+			,JobLevelId
 			,JoinedDate
 			,ModifiedDate
-			,IsLocal
 			,ResignedDate
 			,ConfirmedDate
-			,JobLevelId
+			,MilitaryFromDate
+			,MilitaryToDate
 			)
 		SELECT UserId
 			,EmployeeId
@@ -97,26 +101,39 @@ BEGIN
 			,CardNumber
 			,ISNULL(IsEnabled, 1) IsEnabled
 			,ISNULL(IsDeleted, 0) IsDeleted
-			,Password
+			,[Password]
+			,IsLocal
+			,JobLevelId
 			,CASE 
-				WHEN JoinedDate = CONVERT(DATETIME, '1900-01-01 00:00:00.000') THEN NULL
+				WHEN JoinedDate = CONVERT(DATE, '1900-01-01') THEN NULL
 				ELSE JoinedDate
 				END
 			,CASE 
 				WHEN ModifiedDate = CONVERT(DATETIME, '1900-01-01 00:00:00.000') THEN NULL
 				ELSE ModifiedDate
 				END
-			,IsLocal
 			,CASE 
-				WHEN ResignedDate = CONVERT(DATETIME, '1900-01-01 00:00:00.000') THEN NULL
-				ELSE ModifiedDate
+				WHEN ResignedDate = CONVERT(DATE, '1900-01-01') THEN NULL
+				ELSE ResignedDate
 				END
 			,CASE 
-				WHEN ConfirmedDate = CONVERT(DATETIME, '1900-01-01 00:00:00.000') THEN NULL
+				WHEN ConfirmedDate = CONVERT(DATETIME, '1900-01-01') THEN NULL
 				ELSE ConfirmedDate
 				END
-			,JobLevelId
-		FROM OPENXML(@DocHandler, '/ROOT/Row', 1) WITH (UserId INT, EmployeeId INT, DomainUsername NVARCHAR(50), Code NVARCHAR(20), FullName NVARCHAR(150), NickName NVARCHAR(20), TeamId INT, JobTitleId INT, Phone VARCHAR(50), Email VARCHAR(50), CardNumber VARCHAR(20), IsEnabled BIT, IsDeleted BIT, [Password] NVARCHAR(100), JoinedDate NVARCHAR(100), ModifiedDate DATETIME, IsLocal BIT, ResignedDate DATETIME, ConfirmedDate DATETIME, JobLevelId INT) AS Data
+			,CASE 
+				WHEN MilitaryFromDate = CONVERT(DATETIME, '1900-01-01') THEN NULL
+				ELSE MilitaryFromDate
+				END
+			,CASE 
+				WHEN MilitaryToDate = CONVERT(DATETIME, '1900-01-01') THEN NULL
+				ELSE MilitaryToDate
+				END
+		FROM OPENXML(@DocHandler, '/ROOT/Row', 1) WITH (UserId INT, EmployeeId INT, DomainUsername NVARCHAR(50)
+			,Code NVARCHAR(20), FullName NVARCHAR(150), NickName NVARCHAR(20)
+			,TeamId INT, JobTitleId INT, Phone VARCHAR(50), Email VARCHAR(50)
+			,CardNumber VARCHAR(20), IsEnabled BIT, IsDeleted BIT, [Password] NVARCHAR(100)
+			,JoinedDate DATE, ModifiedDate DATE, IsLocal BIT, ResignedDate DATE
+			,ConfirmedDate DATE, JobLevelId INT, MilitaryFromDate DATE, MilitaryToDate DATE) AS Data
 
 		EXEC sp_xml_removedocument @DocHandler
 	END TRY
@@ -151,6 +168,8 @@ BEGIN
 		,ResignedDate
 		,ConfirmedDate
 		,JobLevelId
+		,MilitaryFromDate
+		,MilitaryToDate
 		)
 	OUTPUT INSERTED.UserId
 		,INSERTED.EmployeeId
@@ -183,6 +202,8 @@ BEGIN
 		,new.ResignedDate
 		,new.ConfirmedDate
 		,new.JobLevelId
+		,new.MilitaryFromDate
+		,new.MilitaryToDate
 	FROM #tmpEmployee AS new WITH (NOLOCK)
 		LEFT JOIN dbo.Employee AS curr WITH (NOLOCK) ON new.EmployeeId = curr.EmployeeId
 	WHERE curr.EmployeeId IS NULL
@@ -211,6 +232,8 @@ BEGIN
 		,curr.ResignedDate = new.ResignedDate
 		,curr.ConfirmedDate = new.ConfirmedDate
 		,curr.JobLevelId = new.JobLevelId
+		,curr.MilitaryFromDate = new.MilitaryFromDate
+		,curr.MilitaryToDate = new.MilitaryToDate
 	OUTPUT INSERTED.UserId
 		,INSERTED.EmployeeId
 		,INSERTED.Code

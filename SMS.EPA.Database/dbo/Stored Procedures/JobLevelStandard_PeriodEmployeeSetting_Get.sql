@@ -49,6 +49,12 @@ BEGIN
 		,pes.IsExcluded
 		,assessment.AssessmentId
 		,assessment.StatusId
+		--,assessment.CurrentJobLevelId
+		,CASE 
+			WHEN assessment.CurrentJobLevelId IS NOT NULL
+				AND assessment.CurrentJobLevelId != 0 THEN assessment.CurrentJobLevelId
+			ELSE emp.JobLevelId
+			END AS CurrentJobLevelId
 	INTO #tmpEmployeeSetting
 	FROM dbo.JobLevelStandard_PeriodEmployeeSetting AS pes WITH (NOLOCK)
 		INNER JOIN dbo.Employee AS emp WITH (NOLOCK) ON pes.EmployeeId = emp.EmployeeId
@@ -56,6 +62,7 @@ BEGIN
 		AND emp.[Enabled] = 1
 		INNER JOIN dbo.[Group] AS team WITH (NOLOCK) ON emp.GroupId = team.GroupId
 		AND team.IsDeleted = 0
+		LEFT JOIN dbo.JobLevel AS joblevel WITH (NOLOCK) ON emp.JobLevelId = joblevel.JobLevelId
 		LEFT JOIN dbo.Department AS section WITH (NOLOCK) ON team.DepartmentId = section.DepartmentId
 		AND section.IsActive = 1
 		LEFT JOIN dbo.Department AS dept WITH (NOLOCK) ON section.ParentId = dept.DepartmentId
@@ -81,24 +88,26 @@ BEGIN
 			OR assessment.StatusId = @StatusId
 			)
 
-	SELECT PeriodId
-		,EmployeeId
-		,Code
-		,Nickname
-		,FullName
-		,JoinedDate
-		,Category
-		,Team
-		,Section
-		,Department
-		,IsExcluded
-		,AssessmentId
-		,StatusId
-	FROM #tmpEmployeeSetting WITH (NOLOCK)
-	ORDER BY Department
-		,Section
-		,Team
-		,Nickname
+	SELECT a.PeriodId
+		,a.EmployeeId
+		,a.Code
+		,a.Nickname
+		,a.FullName
+		,jl.[Name] AS JobLevel
+		,a.JoinedDate
+		,a.Category
+		,a.Team
+		,a.Section
+		,a.Department
+		,a.IsExcluded
+		,a.AssessmentId
+		,a.StatusId
+	FROM #tmpEmployeeSetting AS a WITH (NOLOCK)
+		LEFT JOIN dbo.JobLevel AS jl WITH (NOLOCK) ON a.CurrentJobLevelId = jl.JobLevelId
+	ORDER BY a.Department
+		,a.Section
+		,a.Team
+		,a.Nickname
 
 	SELECT pps.EmployeeId
 		,pps.ProcessId
@@ -108,10 +117,12 @@ BEGIN
 		,eva.Code
 		,eva.Nickname
 		,eva.FullName
+		,joblevel.NAME AS JobLevel
 	FROM dbo.JobLevelStandard_PeriodProcessSetting AS pps WITH (NOLOCK)
 		INNER JOIN dbo.Employee AS eva WITH (NOLOCK) ON pps.EvaluatorId = eva.EmployeeId
 		AND eva.[Enabled] = 1
 		AND eva.IsDeleted = 0
+		LEFT JOIN dbo.JobLevel AS joblevel WITH (NOLOCK) ON eva.JobLevelId = joblevel.JobLevelId
 	WHERE pps.PeriodId = @PeriodId
 		AND EXISTS (
 			SELECT 1

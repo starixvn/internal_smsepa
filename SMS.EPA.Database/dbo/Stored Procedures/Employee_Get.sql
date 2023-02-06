@@ -5,6 +5,7 @@ CREATE PROCEDURE [dbo].[Employee_Get] @Query NVARCHAR(100) = NULL
 	,@IsSpecialUser BIT = NULL
 	,@IsDisabledUser BIT = NULL
 	,@HasMonthlyEPA BIT = NULL
+	,@JobLevelId INT = NULL
 AS
 /*
 Created: 2022-09-14@Tim.Trinh
@@ -20,9 +21,9 @@ BEGIN
 	SET NOCOUNT ON;
 	SET @query = '%' + ISNULL(@query, '') + '%'
 
-	CREATE TABLE #tmpGroup (GroupId INT)
+	CREATE TABLE #tmpGroup (GroupId INT PRIMARY KEY)
 
-	CREATE TABLE #tmpEmployee (EmployeeId INT)
+	CREATE TABLE #tmpEmployee (EmployeeId INT PRIMARY KEY)
 
 	IF @GroupIds IS NOT NULL
 	BEGIN
@@ -70,12 +71,17 @@ BEGIN
 			@HasMonthlyEPA IS NULL
 			OR emp.HasMonthlyEPA = @HasMonthlyEPA
 			)
+		AND (
+			@JobLevelId IS NULL
+			OR emp.JobLevelId = @JobLevelId
+			)
 
 	SELECT DISTINCT emp.EmployeeId
 		,emp.Code
 		,emp.DomainUsername
 		,emp.NickName
 		,emp.FullName
+		,section.[Name] AS Section
 		,emp.IsSpecialUser
 		,emp.[Password]
 		,emp.[Enabled]
@@ -90,7 +96,7 @@ BEGIN
 		,emp.JobTitle AS JobTitleId
 		,job.[Name] AS JobTitleName
 		,emp.JobLevelId AS JobLevelId
-		,jlevel.[Name] AS JobLevelName
+		,jl.[Name] AS JobLevelName
 		,gr.GroupId
 		,gr.[Name] AS GroupName
 		,gr.Code AS GroupCode
@@ -100,9 +106,13 @@ BEGIN
 	FROM dbo.Employee AS emp WITH (NOLOCK)
 		INNER JOIN #tmpEmployee AS tbl WITH (NOLOCK) ON emp.EmployeeId = tbl.EmployeeId
 		LEFT JOIN dbo.[Group] AS gr WITH (NOLOCK) ON emp.GroupId = gr.GroupId
-		LEFT JOIN dbo.Department AS dept WITH (NOLOCK) ON gr.DepartmentId = dept.DepartmentId
+		LEFT JOIN dbo.Department AS section WITH (NOLOCK) ON gr.DepartmentId = section.DepartmentId
+		AND section.IsActive = 1
+		LEFT JOIN dbo.Department AS dept WITH (NOLOCK) ON section.ParentId = dept.DepartmentId
+		AND dept.IsActive = 1
 		LEFT JOIN dbo.HRMJobTitle AS job WITH (NOLOCK) ON emp.JobTitle = job.Id
-		LEFT JOIN dbo.JobLevel AS jlevel WITH (NOLOCK) ON emp.JobLevelId = jlevel.JobLevelId
+		LEFT JOIN dbo.JobLevel AS jl WITH (NOLOCK) ON emp.JobLevelId = jl.JobLevelId
+		AND jl.IsDeleted = 0
 
 	SELECT ro.EmployeeId
 		,ro.RoleId
