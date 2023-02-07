@@ -6,8 +6,7 @@
     using System.IO;
     using System.Linq;
     using System.Runtime.Serialization.Formatters.Binary;
-    using HRM.UserControl.Client.Core.Services;
-    using HRM.UserControl.Client.Core.Session;
+    using HRM.UserControl.Client.Core.Models.Role;
     using SMS.EPA.Core.Constants;
     using SMS.EPA.Core.Enumerations;
     using SMS.EPA.Core.Model;
@@ -26,9 +25,8 @@
         private readonly IBaseService baseService;
         private readonly ICommonService commonService;
         private readonly ICryptographyService cryptographyService;
-        private readonly IRoleService roleService;
 
-        public EmployeeEPAService() : this(null, null, null, null, null, null)
+        public EmployeeEPAService() : this(null, null, null, null, null)
         {
         }
 
@@ -37,15 +35,13 @@
             IProbationExtendedQuestionRepository extendedQuestionRepository,
             IBaseService baseService,
             ICommonService commonService,
-            ICryptographyService cryptographyService,
-            IRoleService roleService)
+            ICryptographyService cryptographyService)
         {
             this.employeeEPARepository = employeeEPARepository ?? new EmployeeEPARepository();
             this.extendedQuestionRepository = extendedQuestionRepository ?? new ProbationExtendedQuestionRepository();
             this.cryptographyService = cryptographyService ?? new CryptographyService();
             this.baseService = baseService ?? new BaseService();
             this.commonService = commonService ?? new CommonService();
-            this.roleService = roleService ?? new RoleService();
         }
 
         public EPAModel GetEPAInfoById(int epaId)
@@ -88,12 +84,9 @@
         }
 
 #pragma warning disable S1541 // Methods and properties should not be too complex
-        public void RemoveSensitiveDataOnEmployeeRole(EPAModel epaInfo, IUserControlSession userControlSession)
+        public void RemoveSensitiveDataOnEmployeeRole(EPAModel epaInfo, int currentEmployeeId, IList<Role> roles)
 #pragma warning restore S1541 // Methods and properties should not be too complex
         {
-            var currentEmployeeId = userControlSession.Get<int>(Constants.CurrentEmployeeIdKey);
-            var roles = roleService.GetByUserId(userControlSession.UserId).Select(x => x.RoleId).ToList();
-
             // Remove all data for open Process (process that not evaluated / already evaluated but are extended
             var processOfOtherActors = epaInfo.Process.Managements.Where(x => x.StatusId == (byte)ProcessStatusType.Open);
             processOfOtherActors = processOfOtherActors.Concat(epaInfo.Process.Reviewers.Where(x => x.StatusId == (byte)ProcessStatusType.Open));
@@ -101,7 +94,7 @@
 
             RemoveSensitiveTotalScoreAndComment(processOfOtherActors);
 
-            if (roles.Contains((byte)SystemRole.HumanResource) || roles.Contains((byte)SystemRole.SystemAdmin))
+            if (roles.Any(x => x.RoleId == (byte)SystemRole.HumanResource || x.RoleId == (byte)SystemRole.SystemAdmin))
             {
                 if (epaInfo.IsSemiHasMonthly)
                 {

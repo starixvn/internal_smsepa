@@ -5,29 +5,37 @@
     using System.Net;
     using System.Net.Http;
     using System.Web.Http;
+    using HRM.UserControl.Client.AspNetMvc.Session;
     using HRM.UserControl.Client.Core.Enumerables;
+    using HRM.UserControl.Client.Core.Models.Role;
+    using HRM.UserControl.Client.Core.Services;
+    using HRM.UserControl.Client.Core.Session;
     using SMS.EPA.Core.Attribute;
     using SMS.EPA.Core.Constants;
     using SMS.EPA.Core.Enumerations;
+    using SMS.EPA.Criteria.EPAHistory;
     using SMS.EPA.Criteria.Report;
     using SMS.EPA.Model;
     using SMS.EPA.Services;
 
     public class ReportController : BaseController
     {
+        private readonly IRoleService roleService;
         private readonly IReportService reportService;
-        private readonly CommonController commonController;
+        private readonly ICommonService commonService;
 
-        public ReportController() : this(null, null)
+        public ReportController() : this(null, null, null)
         {
         }
 
         public ReportController(
+            IRoleService roleService, 
             IReportService reportService,
-            CommonController commonController)
+            ICommonService commonService)
         {
+            this.roleService = roleService ?? new RoleService();
             this.reportService = reportService ?? new ReportService();
-            this.commonController = commonController ?? new CommonController();
+            this.commonService = commonService ?? new CommonService();
         }
 
         [HttpGet]
@@ -79,7 +87,8 @@
                 SortDirection = sortDirection
             };
 
-            EPADetailModel epaInfos = reportService.GetEPADetailReport(criteria);
+            IList<Role> roles = roleService.GetBySiteId(UserControlSession.SiteId);
+            EPADetailModel epaInfos = reportService.GetEPADetailReport(criteria, CurrentEmployeeId, roles);
 
             if (string.IsNullOrEmpty(sortColumnName) && epaInfos.EpaInfos.Any())
             {
@@ -111,7 +120,8 @@
                 SortDirection = sortDirection
             };
 
-            EPADetailModel epaInfos = reportService.GetMonthlyEPADetailReport(criteria);
+            IList<Role> roles = roleService.GetBySiteId(UserControlSession.SiteId);
+            EPADetailModel epaInfos = reportService.GetMonthlyEPADetailReport(criteria, CurrentEmployeeId, roles);
 
             return Request.CreateResponse(HttpStatusCode.OK, epaInfos);
         }
@@ -142,7 +152,8 @@
         [HttpGet]
         public IEnumerable<PeriodModel> GetAllPeriodIncludeImport()
         {
-            IEnumerable<PeriodModel> periods = commonController.GetAllPeriodIncludeImport();
+            var criteria = new GetAllPeriodIncludeImportCriteria();
+            IEnumerable<PeriodModel> periods = commonService.GetAllPeriodIncludeImport(criteria);
 
             if (periods.Any())
             {

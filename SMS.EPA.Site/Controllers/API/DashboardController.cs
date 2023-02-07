@@ -2,7 +2,11 @@
 {
     using System.Collections.Generic;
     using System.Web.Http;
+    using HRM.UserControl.Client.AspNetMvc.Session;
     using HRM.UserControl.Client.Core.Enumerables;
+    using HRM.UserControl.Client.Core.Models.Role;
+    using HRM.UserControl.Client.Core.Services;
+    using HRM.UserControl.Client.Core.Session;
     using SMS.EPA.Core.Attribute;
     using SMS.EPA.Core.Constants;
     using SMS.EPA.Core.Enumerations;
@@ -18,19 +22,22 @@
         private readonly IEmployeeService employeeService;
         private readonly IReportService reportService;
         private readonly IBaseService baseService;
+        private readonly IRoleService roleService;
 
-        public DashboardController() : this(null, null, null)
+        public DashboardController() : this(null, null, null, null)
         {
         }
 
         public DashboardController(
+            IBaseService baseService,
             IEmployeeService employeeService,
             IReportService reportService,
-            IBaseService baseService)
+            IRoleService roleService)
         {
+            this.baseService = baseService ?? new BaseService();
             this.employeeService = employeeService ?? new EmployeeService();
             this.reportService = reportService ?? new ReportService();
-            this.baseService = baseService ?? new BaseService();
+            this.roleService = roleService ?? new RoleService();
         }
 
         [HttpGet]
@@ -38,7 +45,8 @@
         public DashboardModel GetDashboard()
         {
             DashboardModel dashboard = reportService.GetDashboard(CurrentEmployeeId);
-            dashboard.Employee = employeeService.GetEmployeeById(CurrentEmployeeId);
+            IList<Role> roles = roleService.GetBySiteId(UserControlSession.SiteId);
+            dashboard.Employee = employeeService.GetEmployeeById(CurrentEmployeeId, roles);
 
             return dashboard;
         }

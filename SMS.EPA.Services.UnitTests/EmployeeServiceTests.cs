@@ -1,12 +1,12 @@
 ﻿namespace SMS.EPA.Services.UnitTests
 {
+    using System.Collections.Generic;
     using Core.Enumerations;
     using Core.Model;
     using Core.Security;
     using Core.Services;
     using Criteria;
-    using HRM.UserControl.Client.Core.Services;
-    using HRM.UserControl.Client.Core.Session;
+    using HRM.UserControl.Client.Core.Models.Role;
     using Model.Enitites;
     using NSubstitute;
     using NUnit.Framework;
@@ -18,28 +18,8 @@
         private IEmployeeRepository _employeeRepository;
         private IBaseService baseService;
         private EmployeeService _employeeService;
-        private IUserControlSession userControlSession;
-        private IRoleService roleService;
 
         #region GetEmployeeById
-
-        [Test]
-        public void GetEmployeeId_ValidArg_ReturnExpectedEmployee()
-        {
-            // Arrange
-            var employeeId = 1;
-            var expectedEmployee = new Employee
-            {
-                EmployeeId = employeeId
-            };
-            ArrangeGetEmployeeById(expectedEmployee);
-
-            // Act
-            var actual = _employeeService.GetEmployeeById(employeeId);
-
-            // Assert
-            Assert.AreEqual(expectedEmployee, actual);
-        }
 
         [Test]
         public void GetEmployeeId_InValidArg_ReturnDefaultEmployee()
@@ -53,10 +33,28 @@
             ArrangeGetEmployeeById(expectedEmployee);
 
             // Act
-            var actual = _employeeService.GetEmployeeById(employeeId);
+            var actual = _employeeService.GetEmployeeById(employeeId, Arg.Any<IList<Role>>());
 
             // Assert
             Assert.AreNotEqual(expectedEmployee, actual);
+        }
+
+        [Test]
+        public void GetEmployeeId_ValidArg_ReturnExpectedEmployee()
+        {
+            // Arrange
+            var employeeId = 1;
+            var expectedEmployee = new Employee
+            {
+                EmployeeId = employeeId
+            };
+            ArrangeGetEmployeeById(expectedEmployee);
+
+            // Act
+            var actual = _employeeService.GetEmployeeById(employeeId, Arg.Any<IList<Role>>());
+
+            // Assert
+            Assert.AreEqual(expectedEmployee, actual);
         }
 
         #endregion GetEmployeeById
@@ -271,9 +269,7 @@
             IEmployeeRepository employeeRepository = null,
             IBaseService baseService = null)
         {
-            userControlSession = Substitute.For<IUserControlSession>();
-            roleService = Substitute.For<IRoleService>();
-            var service = new EmployeeService(employeeRepository, baseService, userControlSession, roleService);
+            var service = new EmployeeService(employeeRepository, baseService);
             return service;
         }
 

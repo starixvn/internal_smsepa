@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using HRM.UserControl.Client.Core.Models.Role;
     using SMS.EPA.Criteria;
     using SMS.EPA.Criteria.EPAHistory;
     using SMS.EPA.Criteria.TargetType;
@@ -21,7 +22,7 @@
 
         IEnumerable<Employee> GetEmployeeByGroupId(int groupId);
 
-        Employee GetEmployeeById(int employeeId);
+        Employee GetEmployeeById(int employeeId, IList<Role> roles);
 
         IEnumerable<Group> GetAllGroup(GetAllGroupCriteria criteria);
 

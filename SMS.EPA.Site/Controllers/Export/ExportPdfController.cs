@@ -1,9 +1,12 @@
 ﻿namespace SMS.EPA.Site.Controllers
 {
+    using System.Collections.Generic;
     using System.Web.Hosting;
     using System.Web.Mvc;
     using HRM.UserControl.Client.AspNetMvc.Session;
     using HRM.UserControl.Client.Core.Enumerables;
+    using HRM.UserControl.Client.Core.Models.Role;
+    using HRM.UserControl.Client.Core.Services;
     using HRM.UserControl.Client.Core.Session;
     using SMS.EPA.Core.Constants;
     using SMS.EPA.Core.Enumerations;
@@ -20,12 +23,13 @@
         private const string CssFilePath = @"~\Content\Site\pdf.css";
         private const string ViewTemplatePath = "~/Views/ExportPdf/EpaDetail.cshtml";
 
-        private readonly IEmployeeEPAService _employeeEPAService;
-        private readonly IRazorRenderService _razorRenderService;
+        private readonly IEmployeeEPAService employeeEPAService;
+        private readonly IRazorRenderService razorRenderService;
         private readonly IUserControlSession userControlSession;
+        private readonly IRoleService roleService;
         private readonly IBaseService baseService;
 
-        public ExportPdfController() : this(null, null, null, null)
+        public ExportPdfController() : this(null, null, null, null, null)
         {
         }
 
@@ -33,20 +37,23 @@
             IEmployeeEPAService employeeEPAService,
             IRazorRenderService razorRenderService,
             IUserControlSession userControlSession,
+            IRoleService roleService,
             IBaseService baseService)
         {
-            _employeeEPAService = employeeEPAService ?? new EmployeeEPAService();
-            _razorRenderService = razorRenderService ?? new RazorRenderService();
+            this.employeeEPAService = employeeEPAService ?? new EmployeeEPAService();
+            this.razorRenderService = razorRenderService ?? new RazorRenderService();
             this.userControlSession = userControlSession ?? new UserControlSession();
+            this.roleService = roleService ?? new RoleService();
             this.baseService = baseService ?? new BaseService();
         }
 
         public ActionResult ExportPdf(int id)
         {
+            int currentEmployeeId = userControlSession.Get<int>(Constants.CurrentEmployeeIdKey);
             var criteria = new GetEmployeePermissionCriteria
             {
                 EPAId = id,
-                ActorUserId = userControlSession.Get<int>(Constants.CurrentEmployeeIdKey)
+                ActorUserId = currentEmployeeId
             };
 
             int permission = baseService.GetDataEntity<int>(criteria);
@@ -56,8 +63,9 @@
                 return new EmptyResult();
             }
 
-            EPAModel epaInfo = _employeeEPAService.GetEPAInfoById(id);
-            _employeeEPAService.RemoveSensitiveDataOnEmployeeRole(epaInfo, userControlSession);
+            EPAModel epaInfo = employeeEPAService.GetEPAInfoById(id);
+            IList<Role> roles = roleService.GetBySiteId(userControlSession.SiteId);
+            employeeEPAService.RemoveSensitiveDataOnEmployeeRole(epaInfo, currentEmployeeId, roles);
             epaInfo.Grade = GetGradeToExport(epaInfo);
 
             byte[] streamContent = RenderPdfContent(epaInfo);
@@ -79,7 +87,7 @@
         private byte[] RenderPdfContent(EPAModel epaInfo)
         {
             var cssFilePath = GetPhysicalFilePath(CssFilePath);
-            var htmlString = _razorRenderService.RenderViewToString(this, ViewTemplatePath, epaInfo);
+            var htmlString = razorRenderService.RenderViewToString(this, ViewTemplatePath, epaInfo);
 
             return RenderPdfContent(cssFilePath, htmlString);
         }
@@ -97,7 +105,7 @@
                     performanceScore = finalScore - epaInfo.DisciplineScore;
                 }
 
-                grade = _employeeEPAService.ConvertScoreToGrade(
+                grade = employeeEPAService.ConvertScoreToGrade(
                     performanceScore,
                     epaInfo.DisciplineScore,
                     epaInfo.HasDisciplineScore,

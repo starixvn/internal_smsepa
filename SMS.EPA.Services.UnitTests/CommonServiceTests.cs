@@ -6,6 +6,7 @@
     using Criteria;
     using Criteria.EPAHistory;
     using Criteria.TargetType;
+    using HRM.UserControl.Client.Core.Models.Role;
     using Implement;
     using Interfaces;
     using Model;
@@ -188,10 +189,11 @@
         {
             // Arrange
             var expectedEmployee = new Employee();
-            ArrangeGetEmployeeById(expectedEmployee);
+            ArrangeCommon();
+            employeeService.GetEmployeeById(Arg.Any<int>(), Arg.Any<IList<Role>>()).Returns(expectedEmployee);
 
             // Act
-            var actual = commonService.GetEmployeeById(Arg.Any<int>());
+            var actual = commonService.GetEmployeeById(Arg.Any<int>(), Arg.Any<IList<Role>>());
 
             // Assert
             Assert.AreEqual(expectedEmployee, actual);
@@ -511,12 +513,6 @@
         {
             ArrangeCommon();
             baseService.GetData<Employee>(Arg.Any<GetEmployeeByGroupIdCriteria>()).Returns(employees ?? new List<Employee>());
-        }
-
-        private void ArrangeGetEmployeeById(Employee employee = null)
-        {
-            ArrangeCommon();
-            employeeService.GetEmployeeById(Arg.Any<int>()).Returns(employee ?? new Employee());
         }
 
         private void ArrangeGetAllGroup(IEnumerable<Group> groups = null)

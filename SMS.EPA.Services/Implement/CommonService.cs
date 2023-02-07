@@ -3,6 +3,7 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using HRM.UserControl.Client.Core.Models.Role;
     using SMS.EPA.Core.Services;
     using SMS.EPA.Criteria;
     using SMS.EPA.Criteria.EPAHistory;
@@ -66,9 +67,9 @@
             return baseService.GetData<Employee>(criteria);
         }
 
-        public Employee GetEmployeeById(int employeeId)
+        public Employee GetEmployeeById(int employeeId, IList<Role> roles)
         {
-            return employeeService.GetEmployeeById(employeeId);
+            return employeeService.GetEmployeeById(employeeId, roles);
         }
 
         public IEnumerable<Group> GetAllGroup(GetAllGroupCriteria criteria)

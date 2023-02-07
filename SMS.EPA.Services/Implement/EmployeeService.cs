@@ -2,39 +2,31 @@
 {
     using System.Collections.Generic;
     using System.Linq;
-    using Core.Enumerations;
-    using Core.Model;
-    using Core.Security;
-    using Core.Services;
-    using Criteria;
-    using HRM.UserControl.Client.AspNetMvc.Session;
-    using HRM.UserControl.Client.Core.Services;
-    using HRM.UserControl.Client.Core.Session;
-    using Model.Enitites;
-    using Repositories;
-    using Resources;
+    using HRM.UserControl.Client.Core.Models.Role;
+    using SMS.EPA.Core.Enumerations;
+    using SMS.EPA.Core.Model;
+    using SMS.EPA.Core.Security;
+    using SMS.EPA.Core.Services;
+    using SMS.EPA.Criteria;
+    using SMS.EPA.Model.Enitites;
+    using SMS.EPA.Repositories;
+    using SMS.EPA.Resources;
 
     public class EmployeeService : IEmployeeService
     {
         private readonly IEmployeeRepository employeeRepository;
         private readonly IBaseService baseService;
-        private readonly IUserControlSession userControlSession;
-        private readonly IRoleService roleService;
 
-        public EmployeeService() : this(null, null, null, null)
+        public EmployeeService() : this(null, null)
         {
         }
 
         public EmployeeService(
             IEmployeeRepository employeeRepository,
-            IBaseService baseService,
-            IUserControlSession userControlSession,
-            IRoleService roleService)
+            IBaseService baseService)
         {
             this.employeeRepository = employeeRepository ?? new EmployeeRepository();
             this.baseService = baseService ?? new BaseService();
-            this.userControlSession = userControlSession ?? new UserControlSession();
-            this.roleService = roleService ?? new RoleService();
         }
 
         public bool ValidatePassword(string enterPassword, string employeePassword)
@@ -42,11 +34,10 @@
             return Encryption.CompareStringToHash(HashProvider.Sha1, enterPassword, employeePassword);
         }
 
-        public IList<Employee> GetEmployee(GetEmployeeCriteria criteria)
+        public IList<Employee> GetEmployee(GetEmployeeCriteria criteria, IList<Role> roles)
         {
-            var roles = roleService.GetBySiteId(userControlSession.SiteId);
             IList<Employee> employees = employeeRepository.GetAllEmployee(criteria).ToList();
-            foreach(var employee in employees)
+            foreach (var employee in employees)
             {
                 employee.Roles = roles.Where(x => employee.Roles.Any(r => r.RoleId == x.RoleId)).ToList();
             }
@@ -54,7 +45,7 @@
             return employees;
         }
 
-        public Employee GetEmployeeById(int employeeId)
+        public Employee GetEmployeeById(int employeeId, IList<Role> roles)
         {
             var criteria = new GetEmployeeByIdCriteria
             {
@@ -64,7 +55,6 @@
 
             if (criteria.IsValid())
             {
-                var roles = roleService.GetBySiteId(userControlSession.SiteId);
                 employee = employeeRepository.GetEmployeeById(criteria);
                 employee.Roles = roles.Where(x => employee.Roles.Any(r => r.RoleId == x.RoleId)).ToList();
             }

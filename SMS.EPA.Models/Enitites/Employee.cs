@@ -55,7 +55,7 @@
             {
                 if (!string.IsNullOrWhiteSpace(DomainUsername))
                 {
-                    var username = string.Empty;
+                    var username = DomainUsername;
                     if(DomainUsername.IndexOf("sms\\", StringComparison.OrdinalIgnoreCase) != -1)
                     {
                         username = ReplaceString(DomainUsername, "sms\\", string.Empty, StringComparison.OrdinalIgnoreCase);
@@ -92,7 +92,7 @@
                 NickName,
                 FullName,
                 Department = Department?.Name,
-                Section = Section,
+                Section,
                 Team = Group?.GroupName,
                 JobTitle = JobTitle?.JobTitleName,
                 JobLevel = JobLevel?.Name,

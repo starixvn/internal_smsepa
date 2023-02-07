@@ -2,8 +2,9 @@
 {
     using System.Collections.Generic;
     using System.IO;
-    using Criteria.Report;
-    using Model;
+    using HRM.UserControl.Client.Core.Models.Role;
+    using SMS.EPA.Criteria.Report;
+    using SMS.EPA.Model;
 
     public interface IReportService
     {
@@ -15,11 +16,11 @@
 
         MemoryStream ExportMonthlyEPASummaryReport(EPASummaryModel epaSummary);
 
-        EPADetailModel GetEPADetailReport(GetEPADetailCriteria criteria);
+        EPADetailModel GetEPADetailReport(GetEPADetailCriteria criteria, int currentEmployeeId, IList<Role> roles);
 
         PeriodModel GetEPADetailPeriodForExportedFileName(string periodId);
 
-        EPADetailModel GetMonthlyEPADetailReport(GetMonthlyEPADetailCriteria criteria);
+        EPADetailModel GetMonthlyEPADetailReport(GetMonthlyEPADetailCriteria criteria, int currentEmployeeId, IList<Role> roles);
 
         EPASummaryModel GetMonthlyEPASummaryReport(GetMonthlyEPASummaryCriteria criteria);
 

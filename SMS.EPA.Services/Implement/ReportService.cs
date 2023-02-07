@@ -6,8 +6,7 @@
     using System.IO;
     using System.Linq;
     using System.Text;
-    using HRM.UserControl.Client.AspNetMvc.Session;
-    using HRM.UserControl.Client.Core.Session;
+    using HRM.UserControl.Client.Core.Models.Role;
     using NPOI.HSSF.UserModel;
     using NPOI.HSSF.Util;
     using NPOI.SS.UserModel;
@@ -25,24 +24,21 @@
     public class ReportService : IReportService
     {
         private const int ExcelColumnWidth = 256;
-        private readonly IUserControlSession userControlSession;
         private readonly IEmployeeEPARepository employeeEPARepository;
         private readonly IEmployeeEPAService employeeEPAService;
         private readonly IReportRepository reportRepository;
         private readonly IBaseService baseService;
 
-        public ReportService() : this(null, null, null, null, null)
+        public ReportService() : this(null, null, null, null)
         {
         }
 
         public ReportService(
-            IUserControlSession userControlSession,
             IReportRepository reportRepository,
             IEmployeeEPARepository employeeEPARepository,
             IEmployeeEPAService employeeEPAService,
             IBaseService baseService)
         {
-            this.userControlSession = userControlSession ?? new UserControlSession();
             this.reportRepository = reportRepository ?? new ReportRepository();
             this.employeeEPARepository = employeeEPARepository ?? new EmployeeEPARepository();
             this.employeeEPAService = employeeEPAService ?? new EmployeeEPAService();
@@ -94,12 +90,12 @@
             return null;
         }
 
-        public EPADetailModel GetEPADetailReport(GetEPADetailCriteria criteria)
+        public EPADetailModel GetEPADetailReport(GetEPADetailCriteria criteria, int currentEmployeeId, IList<Role> roles)
         {
             EPADetailModel result = reportRepository.GetEPADetail(criteria);
             foreach (EPAModel epaInfo in result.EpaInfos)
             {
-                    employeeEPAService.RemoveSensitiveDataOnEmployeeRole(epaInfo, userControlSession);
+                employeeEPAService.RemoveSensitiveDataOnEmployeeRole(epaInfo, currentEmployeeId, roles);
             }
 
             string epaIds = string.Join(",", result.EpaInfos.Where(x => x.IsSemiHasMonthly && x.EPAId > 0).Select(x => x.EPAId));
@@ -116,11 +112,9 @@
             return result;
         }
 
-#pragma warning disable S1541 // Methods and properties should not be too complex
         public EPASummaryModel GetEPASummaryReport(GetEPASummaryCriteria criteria)
-#pragma warning restore S1541 // Methods and properties should not be too complex
         {
-            IEnumerable<StandardGradeModel> standardGrades = baseService.GetData<StandardGradeModel>(new GetStandardGradeCriteria());
+            var standardGrades = baseService.GetData<StandardGradeModel>(new GetStandardGradeCriteria());
             EPASummaryModel result = reportRepository.GetEPASummary(criteria);
 
             var epaIds = new StringBuilder();
@@ -159,12 +153,12 @@
             return result;
         }
 
-        public EPADetailModel GetMonthlyEPADetailReport(GetMonthlyEPADetailCriteria criteria)
+        public EPADetailModel GetMonthlyEPADetailReport(GetMonthlyEPADetailCriteria criteria, int currentEmployeeId, IList<Role> roles)
         {
             EPADetailModel result = reportRepository.GetMonthlyEPADetail(criteria);
             foreach (EPAModel epaInfo in result.EpaInfos)
             {
-                    employeeEPAService.RemoveSensitiveDataOnEmployeeRole(epaInfo, userControlSession);
+                employeeEPAService.RemoveSensitiveDataOnEmployeeRole(epaInfo, currentEmployeeId, roles);
             }
 
             return result;

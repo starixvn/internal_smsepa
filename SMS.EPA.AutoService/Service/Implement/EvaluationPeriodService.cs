@@ -81,8 +81,8 @@
                 logfile.InfoFormat("EPAId: {0}\nPerformanceScore: {1}\nHasDisciplineScore: {2}\nDisciplineScore: {3}",
                     epaInfo.EPAId,
                     performanceScore,
-                    epaInfo.DisciplineScore,
-                    epaInfo.HasDisciplineScore);
+                    epaInfo.HasDisciplineScore,
+                    epaInfo.DisciplineScore);
                 epaInfo.Grade = performanceScore.HasValue
                     ? employeeEPAService.ConvertScoreToGrade(performanceScore, epaInfo.DisciplineScore, epaInfo.HasDisciplineScore, standardGrades)
                     : string.Empty;

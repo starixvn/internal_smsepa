@@ -1,17 +1,18 @@
 ﻿namespace SMS.EPA.Services
 {
     using System.Collections.Generic;
-    using Core.Model;
-    using Criteria;
-    using Model.Enitites;
+    using HRM.UserControl.Client.Core.Models.Role;
+    using SMS.EPA.Core.Model;
+    using SMS.EPA.Criteria;
+    using SMS.EPA.Model.Enitites;
 
     public interface IEmployeeService
     {
         bool ValidatePassword(string enterPassword, string employeePassword);
 
-        IList<Employee> GetEmployee(GetEmployeeCriteria criteria);
+        IList<Employee> GetEmployee(GetEmployeeCriteria criteria, IList<Role> roles);
 
-        Employee GetEmployeeById(int employeeId);
+        Employee GetEmployeeById(int employeeId, IList<Role> roles);
 
         CommandResult CreateSpecialEmployee(CreateSpecialEmployeeCriteria criteria);
 

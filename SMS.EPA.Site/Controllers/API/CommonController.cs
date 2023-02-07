@@ -22,22 +22,19 @@
 
     public class CommonController : BaseController
     {
-        private readonly IUserControlSession userControlSession;
         private readonly IRoleService roleService;
         private readonly IBaseService baseService;
         private readonly ICommonService commonService;
 
-        public CommonController() : this(null, null, null, null)
+        public CommonController() : this(null, null, null)
         {
         }
 
         public CommonController(
-            IUserControlSession userControlSession,
             IRoleService roleService,
             IBaseService baseService,
             ICommonService commonService)
         {
-            this.userControlSession = userControlSession ?? new UserControlSession();
             this.roleService = roleService ?? new RoleService();
             this.baseService = baseService ?? new BaseService();
             this.commonService = commonService ?? new CommonService();
@@ -86,7 +83,7 @@
 
         public IList<Role> GetSystemRoles(bool? isActive = true)
         {
-            IList<Role> systemRoles = roleService.GetBySiteId(userControlSession.SiteId, isActive);
+            IList<Role> systemRoles = roleService.GetBySiteId(UserControlSession.SiteId, isActive);
             return systemRoles;
         }
 
@@ -126,7 +123,8 @@
         [HttpGet]
         public Employee GetEmployeeById(int employeeId)
         {
-            return commonService.GetEmployeeById(employeeId);
+            IList<Role> roles = roleService.GetBySiteId(UserControlSession.SiteId);
+            return commonService.GetEmployeeById(employeeId, roles);
         }
 
         [HttpGet]
@@ -202,7 +200,7 @@
         [HttpGet]
         public IEnumerable<MenuItem> GetMenusByEmployeeId()
         {
-            IEnumerable<MenuItem> menus = userControlSession.MenuItems;
+            IEnumerable<MenuItem> menus = UserControlSession.MenuItems;
             return GroupMenuItem(menus);
         }
 

@@ -213,7 +213,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Controllers\DashboardControllerTests.cs" />
     <Compile Include="Controllers\DepartmentControllerTests.cs" />
     <Compile Include="Controllers\EmployeeControllerTests.cs" />
     <Compile Include="Controllers\KPIControllerTests.cs" />

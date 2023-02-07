@@ -1,7 +1,7 @@
 ﻿namespace SMS.EPA.Services
 {
     using System.Collections.Generic;
-    using HRM.UserControl.Client.Core.Session;
+    using HRM.UserControl.Client.Core.Models.Role;
     using SMS.EPA.Core.Model;
     using SMS.EPA.Criteria;
     using SMS.EPA.Model;
@@ -20,7 +20,7 @@
 
         EPAModel GetEPAInfoById(int epaId);
 
-        void RemoveSensitiveDataOnEmployeeRole(EPAModel epaInfo, IUserControlSession userControlSession);
+        void RemoveSensitiveDataOnEmployeeRole(EPAModel epaInfo, int currentEmployeeId, IList<Role> roles);
 
         IList<EPAModel> GetEPAToUpdateFinalScore(GetEPAToUpdateFinalScoreCriteria criteria);
 

@@ -5,6 +5,7 @@
     using System.Net.Http;
     using System.Web.Http;
     using HRM.UserControl.Client.Core.Enumerables;
+    using HRM.UserControl.Client.Core.Models.Role;
     using HRM.UserControl.Client.Core.Models.User;
     using HRM.UserControl.Client.Core.Services;
     using SMS.EPA.Core.Attribute;
@@ -18,21 +19,24 @@
 
     public class EmployeeController : BaseController
     {
+        private readonly IRoleService roleService;
         private readonly IEmployeeService employeeService;
         private readonly IBaseService baseService;
         private readonly ICryptoService cryptoService;
         private readonly IUserService userService;
 
-        public EmployeeController() : this(null, null, null, null)
+        public EmployeeController() : this(null, null, null, null, null)
         {
         }
 
         public EmployeeController(
+            IRoleService roleService,
             IEmployeeService employeeService,
             IBaseService baseService,
             ICryptoService cryptoService,
             IUserService userService)
         {
+            this.roleService = roleService ?? new RoleService();
             this.employeeService = employeeService ?? new EmployeeService();
             this.baseService = baseService ?? new BaseService();
             this.cryptoService = cryptoService ?? new CryptoService();
@@ -59,7 +63,8 @@
                 HasMonthlyEPA = hasMonthlyEPA,
                 JobLevelId = jobLevelId,
             };
-            return employeeService.GetEmployee(criteria);
+            IList<Role> roles = roleService.GetBySiteId(UserControlSession.SiteId);
+            return employeeService.GetEmployee(criteria, roles);
         }
 
         [HttpPost]
@@ -107,7 +112,8 @@
             CommandResult commandResult = baseService.ExecuteNonQuery(criteria);
             if (commandResult.IsSuccessful)
             {
-                var employee = employeeService.GetEmployeeById(criteria.EmployeeId);
+                IList<Role> roles = roleService.GetBySiteId(UserControlSession.SiteId);
+                var employee = employeeService.GetEmployeeById(criteria.EmployeeId, roles);
                 var result = userService.UpdateInfo(new UpdateUserInfoParam
                 {
                     RefId = criteria.EmployeeId,
@@ -164,7 +170,8 @@
             CommandResult commandResult = baseService.ExecuteNonQuery(criteria);
             if (commandResult.IsSuccessful)
             {
-                var employee = employeeService.GetEmployeeById(criteria.EmployeeId);
+                IList<Role> roles = roleService.GetBySiteId(UserControlSession.SiteId);
+                var employee = employeeService.GetEmployeeById(criteria.EmployeeId, roles);
                 var result = userService.AssignRole(new AssignRoleParam
                 {
                     UserId = employee.UserId,
@@ -190,7 +197,8 @@
             CommandResult commandResult = employeeService.ResetPassword(criteria);
             if (commandResult.IsSuccessful)
             {
-                Employee employee = employeeService.GetEmployeeById(employeeId);
+                IList<Role> roles = roleService.GetBySiteId(UserControlSession.SiteId);
+                Employee employee = employeeService.GetEmployeeById(employeeId, roles);
                 var token = cryptoService.GenerateRijndaelKeyIV();
                 string[] keyiv = token.Split(':');
                 var rijndaelKey = keyiv[0];

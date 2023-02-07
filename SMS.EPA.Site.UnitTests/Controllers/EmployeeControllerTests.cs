@@ -5,6 +5,7 @@
     using Core.Services;
     using Criteria;
     using Fanex.Data.Repository;
+    using HRM.UserControl.Client.Core.Models.Role;
     using HRM.UserControl.Client.Core.Services;
     using HRM.UserControl.Client.Core.Session;
     using Model.Enitites;
@@ -20,6 +21,7 @@
         private IEmployeeService employeeService;
         private IBaseService baseService;
         private IUserControlSession userControlSession;
+        private IRoleService roleService;
         private ICryptoService cryptoService;
         private IUserService userService;
 
@@ -29,12 +31,15 @@
         public void GetAllEmployee_WhenCalled_ReturnExpectedEmployees()
         {
             // Arrange
+            var roles = new List<Role>();
             var expected = new List<Employee>();
             var controller = GetEmployeeController();
-            employeeService.GetEmployee(Arg.Any<GetEmployeeCriteria>()).Returns(expected);
+            roleService.GetBySiteId(1).Returns(roles);
+            employeeService.GetEmployee(Arg.Any<GetEmployeeCriteria>(), roles).Returns(expected);
 
             // Act
-            var actual = controller.GetAllEmployee(Arg.Any<string>(), Arg.Any<string>(), Arg.Any<bool?>(), Arg.Any<bool?>(), Arg.Any<bool?>(), Arg.Any<bool?>());
+            var actual = controller.GetAllEmployee(Arg.Any<string>(), Arg.Any<string>(), Arg.Any<bool?>(),
+                Arg.Any<bool?>(), Arg.Any<bool?>(), Arg.Any<bool?>());
 
             // Assert
             Assert.IsInstanceOf(typeof(IEnumerable<Employee>), actual);
@@ -156,11 +161,12 @@
         private EmployeeController GetEmployeeController()
         {
             userControlSession = FakeUserControlSession();
+            roleService = Substitute.For<IRoleService>();
             employeeService = Substitute.For<IEmployeeService>();
             baseService = Substitute.For<IBaseService>();
             cryptoService = Substitute.For<ICryptoService>();
             userService = Substitute.For<IUserService>();
-            var controller = new EmployeeController(employeeService, baseService, cryptoService, userService)
+            var controller = new EmployeeController(roleService, employeeService, baseService, cryptoService, userService)
             {
                 UserControlSession = userControlSession
             };

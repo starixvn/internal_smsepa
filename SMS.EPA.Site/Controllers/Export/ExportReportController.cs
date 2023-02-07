@@ -1,12 +1,17 @@
 ﻿namespace SMS.EPA.Site.Controllers
 {
+    using System.Collections.Generic;
+    using System.IO;
+    using System.Linq;
+    using System.Web.Mvc;
     using HRM.UserControl.Client.AspNetMvc.Session;
+    using HRM.UserControl.Client.Core.Models.Role;
+    using HRM.UserControl.Client.Core.Services;
     using HRM.UserControl.Client.Core.Session;
     using NPOI.HSSF.Util;
     using NPOI.SS.UserModel;
     using SMS.EPA.Core.Constants;
     using SMS.EPA.Core.Enumerations;
-    using SMS.EPA.Core.Services;
     using SMS.EPA.Criteria;
     using SMS.EPA.Criteria.Report;
     using SMS.EPA.Model;
@@ -19,10 +24,6 @@
     using SMS.EPA.Services.Implement.ExportFile;
     using SMS.EPA.Services.Interfaces;
     using SMS.EPA.Services.Interfaces.ExportFile;
-    using System.Collections.Generic;
-    using System.IO;
-    using System.Linq;
-    using System.Web.Mvc;
 
     public class ExportReportController : Controller
     {
@@ -46,16 +47,18 @@
         private readonly IPersonalFlowService _personalFlowService;
         private readonly IReportService _reportService;
         private readonly IUserControlSession userControlSession;
+        private readonly IRoleService roleService;
         private readonly ITargetEmployeeSettingService _targetEmployeeSettingService;
         private readonly IDepartmentFlowService departmentFlowService;
 
         public ExportReportController()
-            : this(null, null, null, null, null, null, null, null, null, null, null, null)
+            : this(null, null, null, null, null, null, null, null, null, null, null, null, null)
         {
         }
 
 #pragma warning disable S1541 // Methods and properties should not be too complex
 #pragma warning disable S107 // Methods should not have too many parameters
+
         public ExportReportController(
 #pragma warning restore S1541 // Methods and properties should not be too complex
             IReportService reportService,
@@ -69,6 +72,7 @@
             IEmployeeService employeeService,
             IPersonalFlowService personalFlowService,
             IUserControlSession userControlSession,
+            IRoleService roleService,
             IDepartmentFlowService departmentFlowService)
 #pragma warning restore S107 // Methods should not have too many parameters
         {
@@ -77,6 +81,7 @@
             _monthlyEPADetailReportService = monthlyEPADetailReportService ?? new MonthlyEPADetailReportService();
             _disciplineService = disciplineService ?? new DisciplineService();
             this.userControlSession = userControlSession ?? new UserControlSession();
+            this.roleService = roleService ?? new RoleService();
             _employeeEPAService = employeeEPAService ?? new EmployeeEPAService();
             _exportExcelService = exportExcelService ?? new ExportExcelService();
             _targetEmployeeSettingService = targetEmployeeSettingService ?? new TargetEmployeeSettingService();
@@ -157,7 +162,8 @@
         {
             if (criteria != null)
             {
-                IEnumerable<Employee> employees = _employeeService.GetEmployee(criteria);
+                IList<Role> roles = roleService.GetBySiteId(userControlSession.SiteId);
+                IEnumerable<Employee> employees = _employeeService.GetEmployee(criteria, roles);
 
                 if (employees.Any())
                 {
@@ -205,7 +211,8 @@
         {
             criteria.ActorId = userControlSession.Get<int>(Constants.CurrentEmployeeIdKey);
 
-            EPADetailModel epaDetail = _reportService.GetEPADetailReport(criteria);
+            IList<Role> roles = roleService.GetBySiteId(userControlSession.SiteId);
+            EPADetailModel epaDetail = _reportService.GetEPADetailReport(criteria, criteria.ActorId, roles);
 
             epaDetail.Period = _reportService.GetEPADetailPeriodForExportedFileName(criteria.PeriodId?.ToString());
 
@@ -239,7 +246,8 @@
         {
             criteria.EmployeeId = userControlSession.Get<int>(Constants.CurrentEmployeeIdKey);
 
-            EPADetailModel epaDetail = _reportService.GetMonthlyEPADetailReport(criteria);
+            IList<Role> roles = roleService.GetBySiteId(userControlSession.SiteId);
+            EPADetailModel epaDetail = _reportService.GetMonthlyEPADetailReport(criteria, criteria.EmployeeId, roles);
             epaDetail.Period = _reportService.GetEPADetailPeriodForExportedFileName(criteria.PeriodId?.ToString());
             _monthlyEPADetailReportService.Render(epaDetail);
 
