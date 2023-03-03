@@ -1,6 +1,7 @@
 ﻿namespace SMS.EPA.ClientHrm
 {
     using Fanex.Data.Repository;
+    using HRM.UserControl.Client.Core.Services;
     using SimpleInjector;
     using SMS.EPA.ClientHrm.Services;
     using SMS.EPA.Core.Repositories;
@@ -15,20 +16,12 @@
         {
             Container = new Container();
 
+            Container.Register<ICryptoService, CryptoService>(Lifestyle.Singleton);
+
             Container.Register<IDynamicRepository, DynamicRepository>(Lifestyle.Singleton);
             Container.Register<IBaseRepository, BaseRepository>(Lifestyle.Singleton);
             Container.Register<IBaseService, BaseService>(Lifestyle.Singleton);
-            Container.Register<IDepartmentService, DepartmentService>(Lifestyle.Singleton);
-            Container.Register<IJobLevelService, JobLevelService>(Lifestyle.Singleton);
-            Container.Register<IDisciplineSummaryService, DisciplineSummaryService>(Lifestyle.Singleton);
-            Container.Register<IEmployeeService, EmployeeService>(Lifestyle.Singleton);
-            Container.Register<IJobTitleService, JobTitleService>(Lifestyle.Singleton);
-            Container.Register<ISupervisorService, DisciplinePermissionService>(Lifestyle.Singleton);
-            Container.Register<ITokenService, TokenService>(Lifestyle.Singleton);
-            Container.Register<ISynchronizeService, SynchronizeService>(Lifestyle.Singleton);
-            Container.Register<ITeamService, TeamService>(Lifestyle.Singleton);
-            Container.Register<IPhotoService, PhotoService>(Lifestyle.Singleton);
-            Container.Register<IUserMappingService, UserMappingService>(Lifestyle.Singleton);
+
             Container.Register<IDepartmentAPI, DepartmentAPI>(Lifestyle.Singleton);
             Container.Register<IDisciplineSummaryAPI, DisciplineSummaryAPI>(Lifestyle.Singleton);
             Container.Register<IEmployeeAPI, EmployeeAPI>(Lifestyle.Singleton);
@@ -39,6 +32,19 @@
             Container.Register<IPhotoAPI, PhotoAPI>(Lifestyle.Singleton);
             Container.Register<ITokenAPI, TokenAPI>(Lifestyle.Singleton);
             Container.Register<IJobLevelAPI, JobLevelAPI>(Lifestyle.Singleton);
+
+            Container.Register<IDepartmentService, DepartmentService>(Lifestyle.Singleton);
+            Container.Register<IJobLevelService, JobLevelService>(Lifestyle.Singleton);
+            Container.Register<IDisciplineSummaryService, DisciplineSummaryService>(Lifestyle.Singleton);
+            Container.Register<IEmployeeService, EmployeeService>(Lifestyle.Singleton);
+            Container.Register<IJobTitleService, JobTitleService>(Lifestyle.Singleton);
+            Container.Register<ISupervisorService, DisciplinePermissionService>(Lifestyle.Singleton);
+            Container.Register<ITokenService, TokenService>(Lifestyle.Singleton);
+            Container.Register<ITeamService, TeamService>(Lifestyle.Singleton);
+            Container.Register<IPhotoService, PhotoService>(Lifestyle.Singleton);
+            Container.Register<IUserMappingService, UserMappingService>(Lifestyle.Singleton);
+            Container.Register<IUnitHeadService, UnitHeadService>(Lifestyle.Singleton);
+            Container.Register<ISyncEPADataService, SyncEPADataService>(Lifestyle.Singleton);
 
             Container.Verify();
         }

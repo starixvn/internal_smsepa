@@ -7,7 +7,7 @@
     using EPA.Model.API;
     using Model;
 
-    public class SynchronizeService : ISynchronizeService
+    public class SyncEPADataService : ISyncEPADataService
     {
         private readonly ITokenService _tokenService;
         private readonly IDepartmentService _departmentService;
@@ -18,12 +18,11 @@
         private readonly IDisciplineSummaryService _disciplineSummaryService;
         private readonly IPhotoService _photoService;
         private readonly IJobLevelService jobLevelService;
-        private readonly IUserMappingService userMappingService;
 
         private TokenAccess _token = new TokenAccess();
 
 #pragma warning disable S107 // Methods should not have too many parameters
-        public SynchronizeService(
+        public SyncEPADataService(
             ITokenService tokenService,
             IDepartmentService departmentService,
             IEmployeeService employeeService,
@@ -32,8 +31,7 @@
             ISupervisorService supervisorService,
             IDisciplineSummaryService disciplineSummaryService,
             IPhotoService photoService,
-            IJobLevelService jobLevelService,
-            IUserMappingService userMappingService)
+            IJobLevelService jobLevelService)
 #pragma warning restore S107 // Methods should not have too many parameters
         {
             _tokenService = tokenService;
@@ -45,10 +43,9 @@
             _disciplineSummaryService = disciplineSummaryService;
             _photoService = photoService;
             this.jobLevelService = jobLevelService;
-            this.userMappingService = userMappingService;
         }
 
-        public async Task Synchronize()
+        public async Task ExecuteAsync()
         {
             await SynchronizeDepartmentAsync();
             await SynchronizeTeamAsync();
@@ -59,7 +56,6 @@
             await SynchronizeDisciplineSummaryAsync();
             await SynchronizePhotoAsync();
             await SynchronizeJobLevelAsync();
-            await SynchronizeUserMappingAsync();
         }
 
         private async Task SynchronizeDepartmentAsync()
@@ -73,8 +69,6 @@
                 {
                     await _departmentService.Update(departments, _token);
                 }
-
-                Console.WriteLine("Dept");
             }
         }
 
@@ -89,8 +83,6 @@
                 {
                     await _teamService.UpdateAsync(teams, _token);
                 }
-
-                Console.WriteLine("Team");
             }
         }
 
@@ -105,8 +97,6 @@
                 {
                     await _employeeService.UpdateAsync(employees, _token);
                 }
-
-                Console.WriteLine("Employee");
             }
         }
 
@@ -120,8 +110,6 @@
                 {
                     await _jobTitleService.UpdateAsync(jobTitles, _token);
                 }
-
-                Console.WriteLine("JobTitle");
             }
         }
 
@@ -136,8 +124,6 @@
                 {
                     await _supervisorService.UpdateEmployeesAsync(employees, _token);
                 }
-
-                Console.WriteLine("EmployeeDisciplinePermission");
             }
         }
 
@@ -152,8 +138,6 @@
                 {
                     await _supervisorService.UpdateGroupsAsync(groups, _token);
                 }
-
-                Console.WriteLine("GroupDisciplinePermission");
             }
         }
 
@@ -168,8 +152,6 @@
                 {
                     await _disciplineSummaryService.UpdateAsync(violations, _token);
                 }
-
-                Console.WriteLine("DisciplineSummary");
             }
         }
 
@@ -184,15 +166,12 @@
                 {
                     await _photoService.UpdateAsync(photos, _token);
                 }
-
-                Console.WriteLine("Photo");
             }
         }
 
         private async Task SynchronizeJobLevelAsync()
         {
             await InitToken();
-
             if (_token.IsValid())
             {
                 DateTime lastModifiedDate = await jobLevelService.GetLastModifiedDateAsync(_token);
@@ -201,17 +180,7 @@
                 {
                     await jobLevelService.Update(jobLevel, _token);
                 }
-                Console.WriteLine("JobLevel");
             }
-        }
-
-        private async Task SynchronizeUserMappingAsync()
-        {
-            var lastModifiedDate = await userMappingService.GetLastModifiedDateAsync();
-            var userMappings = await userMappingService.GetUserMappingAsync(lastModifiedDate);
-
-            await userMappingService.UpdateUserMappingAsync(userMappings);
-            Console.WriteLine("User Mapping");
         }
 
         private async Task InitToken()

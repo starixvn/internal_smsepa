@@ -20,5 +20,8 @@
         <Setting Key="Sync_JobLevel" SpName="Sync_JobLevel" DbName="nexhr" Plain="0" />
         <Setting Key="Sync_UserMapping_GetLastModifiedDate" SpName="Sync_UserMapping_GetLastModifiedDate" DbName="nexhr" Plain="0" />
         <Setting Key="Sync_UserMapping" SpName="Sync_UserMapping" DbName="nexhr" Plain="0" />
+        
+        <Setting Key="Sync_GO_UnitHead_GetInfo" SpName="Sync_GO_UnitHead_GetInfo" DbName="nexhr" Plain="0" />
+        <Setting Key="Sync_GO_UnitHead_GetSchedule" SpName="Sync_GO_UnitHead_GetSchedule" DbName="nexhr" Plain="0" />
     </Function>
 </Functions>

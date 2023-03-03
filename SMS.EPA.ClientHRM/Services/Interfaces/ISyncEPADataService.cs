@@ -2,8 +2,8 @@
 {
     using System.Threading.Tasks;
 
-    public interface ISynchronizeService
+    public interface ISyncEPADataService
     {
-        Task Synchronize();
+        Task ExecuteAsync();
     }
 }

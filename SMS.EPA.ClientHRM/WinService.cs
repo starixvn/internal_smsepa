@@ -2,55 +2,59 @@
 {
     using System;
     using System.ComponentModel;
-    using System.Diagnostics.CodeAnalysis;
     using System.ServiceProcess;
-    using System.Timers;
-    using Services;
+    using SMS.EPA.ClientHrm.Services;
+    using SMS.EPA.ClientHRM.Jobs;
 
     [RunInstaller(true)]
     public partial class WinService : ServiceBase
     {
         private readonly log4net.ILog logger = log4net.LogManager.GetLogger(typeof(WinService));
-        private readonly ISynchronizeService _service;
-        private readonly Timer _timer;
 
-        private bool _isWorking;
+        private readonly ISyncEPADataService epaService;
+        private readonly IUserMappingService userMappingService;
+        private readonly IUnitHeadService unitHeadService;
 
-        public WinService(ISynchronizeService service)
+        private readonly JobScheduler scheduler;
+
+        public WinService(
+            ISyncEPADataService epaService,
+            IUserMappingService userMappingService,
+            IUnitHeadService unitHeadService)
         {
             InitializeComponent();
-            _service = service;
-            _timer = new Timer { Interval = ApplicationConfig.Interval };
-            _timer.Elapsed += ExecuteJob;
-            _timer.Enabled = false;
+
+            this.epaService = epaService;
+            this.userMappingService = userMappingService;
+            this.unitHeadService = unitHeadService;
+
+            scheduler = new JobScheduler();
         }
 
         protected override void OnStart(string[] args)
         {
-            _timer.Enabled = true;
+            try
+            {
+                logger.Info("HRMService: OnStart");
+
+                scheduler.Start(epaService, userMappingService, unitHeadService);
+            }
+            catch (Exception ex)
+            {
+                logger.Error("HRMService: OnStart -- " + ex.Message, ex);
+            }
         }
 
         protected override void OnStop()
         {
-            _timer.Enabled = false;
-        }
-
-        [SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes", Justification = "OK")]
-        private void ExecuteJob(object sender, ElapsedEventArgs e)
-        {
             try
             {
-                if (!_isWorking)
-                {
-                    _isWorking = true;
-                    _service.Synchronize();
-                    _isWorking = false;
-                }
+                logger.Info("HRMService: OnStop");
+                scheduler.Stop();
             }
             catch (Exception ex)
             {
-                _isWorking = false;
-                logger.Error(ex.Message);
+                logger.Error("HRMService: OnStop -- " + ex.Message, ex);
             }
         }
     }

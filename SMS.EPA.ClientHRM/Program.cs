@@ -27,7 +27,9 @@
 
                 var servicesToRun = new ServiceBase[]
                 {
-                    new WinService(Bootstrap.Container.GetInstance<ISynchronizeService>())
+                    new WinService(Bootstrap.Container.GetInstance<ISyncEPADataService>(),
+                        Bootstrap.Container.GetInstance<IUserMappingService>(),
+                        Bootstrap.Container.GetInstance<IUnitHeadService>())
                 };
 
                 if (Environment.UserInteractive)
@@ -55,11 +57,8 @@
             }
             catch (Exception ex)
             {
-                if (!string.IsNullOrWhiteSpace(ex.Message))
-                {
-                    log4net.ILog logger = log4net.LogManager.GetLogger(typeof(Program));
-                    logger.Error(ex.Message, ex);
-                }
+                log4net.ILog logger = log4net.LogManager.GetLogger(typeof(Program));
+                logger.Error(ex.Message, ex);
             }
         }
     }

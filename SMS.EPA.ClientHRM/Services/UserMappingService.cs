@@ -2,25 +2,21 @@
 {
     using System;
     using System.Collections.Generic;
-    using System.Net.Http;
-    using System.Text;
-    using System.Threading;
     using System.Threading.Tasks;
-    using Jose;
-    using Newtonsoft.Json;
+    using HRM.UserControl.Client.Core.Services;
     using SMS.EPA.ClientHrm.Criteria;
     using SMS.EPA.ClientHRM.Criteria;
     using SMS.EPA.Core.Model;
     using SMS.EPA.Core.Services;
     using SMS.EPA.Model.API;
 
-    public class UserMappingService : IUserMappingService
+    public class UserMappingService : BaseGOHttpClient, IUserMappingService
     {
-        private readonly log4net.ILog logger = log4net.LogManager.GetLogger(typeof(UserMappingService));
         private readonly IBaseService baseService;
-        private static readonly HttpClient httpClient = new HttpClient();
 
-        public UserMappingService(IBaseService baseService)
+        public UserMappingService(
+            IBaseService baseService,
+            ICryptoService cryptoService) : base(cryptoService)
         {
             this.baseService = baseService;
         }
@@ -33,38 +29,15 @@
 
         public async Task<IEnumerable<UserMapping>> GetUserMappingAsync(DateTime? lastModifiedDate)
         {
-            var modifiedDate = lastModifiedDate.HasValue ? lastModifiedDate.Value.ToString("yyyy-MM-dd HH:mm:ss.fff") : null;
-
-            var endPoint = string.Format("api/UserMapping/GetBySiteId?lastModifiedDate={0}", modifiedDate);
-            try
+            await GetTokenAsync();
+            if (!_jwttoken.IsExpired)
             {
-                using (var request = CreateRequest(endPoint, HttpMethod.Get))
-                {
-                    using (var response = await httpClient.SendAsync(request, HttpCompletionOption.ResponseContentRead, CancellationToken.None))
-                    {
-                        if (response.IsSuccessStatusCode)
-                        {
-                            var responseData = await response.Content.ReadAsStringAsync();
-                            var result = JsonConvert.DeserializeObject<IEnumerable<UserMapping>>(responseData);
-
-                            return result;
-                        }
-                        else
-                        {
-                            var message = await response.Content.ReadAsStringAsync();
-                            logger.Error(string.Format("StatusCode: {0}\r\nMessage: {1}", response.StatusCode, message));
-
-                            return null;
-                        }
-                    }
-                }
+                var modifiedDate = lastModifiedDate.HasValue ? lastModifiedDate.Value.ToString("yyyy-MM-dd HH:mm:ss.fff") : null;
+                var requestUrl = string.Format("api/UserMapping/GetBySiteId?lastModifiedDate={0}", modifiedDate);
+                return await GetAsync<IEnumerable<UserMapping>>(requestUrl);
             }
-            catch (Exception ex)
-            {
-                logger.Error(ex.Message);
 
-                return null;
-            }
+            return new List<UserMapping>();
         }
 
         public async Task<CommandResult> UpdateUserMappingAsync(IEnumerable<UserMapping> userMappings)
@@ -75,27 +48,6 @@
             };
 
             return await baseService.ExecuteNonQueryAsync(criteria);
-        }
-
-        private static HttpRequestMessage CreateRequest(string endPoint, HttpMethod method)
-        {
-            Uri url = new Uri($"{ApplicationConfig.UserControlSettings_ServiceUrl}{endPoint}");
-            var request = new HttpRequestMessage(method, url);
-            request.Headers.Accept.Clear();
-            string siteIdentity = GenerateSiteIdentity();
-            request.Headers.Add("SiteIdentity", $"Bearer {siteIdentity}");
-
-            return request;
-        }
-
-        private static string GenerateSiteIdentity()
-        {
-            var data = new Dictionary<string, object>
-            {
-                { "SiteId", ApplicationConfig.UserControlSettings_SiteId },
-                { "AccessToken", ApplicationConfig.UserControlSettings_AccessToken }
-            };
-            return JWT.Encode(data, Encoding.UTF8.GetBytes(ApplicationConfig.UserControlSettings_AccessToken), JwsAlgorithm.HS256);
         }
     }
 }

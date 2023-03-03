@@ -5,14 +5,12 @@
 
     public static class ApplicationConfig
     {
-        const int milisecondUnit = 1000;
-
-        public static double Interval
+        public static int Interval
         {
             get
             {
                 var interval = ConfigurationManager.AppSettings["Interval"];
-                return double.Parse(interval) * milisecondUnit;
+                return int.Parse(interval);
             }
         }
 
@@ -47,6 +45,12 @@
                 return photoPath;
             }
         }
+
+        public static bool IsEnableSyncUserMapping => bool.Parse(ConfigurationManager.AppSettings["IsEnableSyncUserMapping"]);
+        public static bool IsEnableSyncUnitHead => bool.Parse(ConfigurationManager.AppSettings["IsEnableSyncUnitHead"]);
+
+        public static string UserControl_Username => ConfigurationManager.AppSettings["UserControl.Username"];
+        public static string UserControl_Password => ConfigurationManager.AppSettings["UserControl.Password"];
 
         public static short UserControlSettings_SiteId
             => short.Parse(ConfigurationManager.AppSettings["UserControl.Configurations:SiteId"]);
