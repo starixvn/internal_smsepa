@@ -23,7 +23,9 @@
 
                 if (schedules != null && schedules.Any())
                 {
+                    logger.Info("begin");
                     await service.UpdateUnitHeadScheduleAsync(schedules);
+                    logger.Info("end");
                 }
             }
             catch (Exception ex)

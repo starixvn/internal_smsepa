@@ -23,7 +23,9 @@
 
                 if (infos != null && infos.Any())
                 {
+                    logger.Info("begin");
                     await service.UpdateUnitHeadInfoAsync(infos);
+                    logger.Info("end");
                 }
             }
             catch (Exception ex)

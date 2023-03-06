@@ -24,7 +24,9 @@
 
                 if (userMappings != null && userMappings.Any())
                 {
+                    logger.Info("begin");
                     await service.UpdateUserMappingAsync(userMappings);
+                    logger.Info("end");
                 }
             }
             catch (Exception ex)
