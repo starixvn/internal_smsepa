@@ -1,16 +1,16 @@
-﻿using HRM.UserControl.Client.Core.Enumerables;
-using SMS.EPA.Core.Attribute;
-using SMS.EPA.Core.Constants;
-using SMS.EPA.Core.Model;
-using SMS.EPA.Core.Services;
-using SMS.EPA.Criteria;
-using SMS.EPA.Criteria.JobLevelStandard.KPI;
-using SMS.EPA.Model.JobLevelStandard;
-using System.Collections.Generic;
-using System.Web.Http;
-
-namespace SMS.EPA.Site.Controllers.API.JobLevelStandard
+﻿namespace SMS.EPA.Site.Controllers.API.JobLevelStandard
 {
+    using System.Collections.Generic;
+    using System.Web.Http;
+    using HRM.UserControl.Client.Core.Enumerables;
+    using SMS.EPA.Core.Attribute;
+    using SMS.EPA.Core.Constants;
+    using SMS.EPA.Core.Model;
+    using SMS.EPA.Core.Services;
+    using SMS.EPA.Criteria;
+    using SMS.EPA.Criteria.JobLevelStandard.KPI;
+    using SMS.EPA.Model.JobLevelStandard;
+
     public class JobLevelStandardKPIController : BaseController
     {
         private readonly IBaseService baseService;

@@ -638,7 +638,6 @@
     <Content Include="SourceApp\Components\JobLevelStandard\KPI\Templates\create.html" />
     <Content Include="SourceApp\Components\JobLevelStandard\KPI\Templates\edit.html" />
     <Content Include="SourceApp\Components\JobLevelStandard\KPI\Templates\index.html" />
-    <Content Include="SourceApp\Components\JobLevelStandard\KPI\Templates\modalConfirmRequired.html" />
     <Content Include="SourceApp\Components\JobLevelStandard\KPI\update-kpi-controller.js" />
     <Content Include="SourceApp\Components\JobLevelStandard\Period\update-job-level-controller.js" />
     <Content Include="SourceApp\Components\JobLevelStandard\Period\copy-job-level-setting-controller.js" />
