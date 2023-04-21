@@ -1,0 +1,20 @@
+﻿<div class="modal-header">
+    <div class="popup-header">
+        {{"EditKPI" | translate}}
+        <span class="close-popup" ng-click="updateKPICtrl.cancel()"></span>
+    </div>
+</div>
+<div class="modal-body kpi-modal-body">
+    <form class="form-horizontal col-sm-11" role="form">
+        <div class="form-group required">
+            <label class="col-sm-4 control-label" data-translate="Title"></label>
+            <div class="col-sm-8 field">
+                <input type="text" class="form-control" ng-model="updateKPICtrl.kpi.Name" required maxlength="500" />
+            </div>
+        </div>
+    </form>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-primary" ng-click="updateKPICtrl.save()" data-translate="Submit"></button>
+    <button class="btn btn-cancel" ng-click="updateKPICtrl.cancel()" data-translate="Cancel"></button>
+</div>

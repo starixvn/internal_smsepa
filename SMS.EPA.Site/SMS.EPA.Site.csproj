@@ -246,6 +246,7 @@
   <ItemGroup>
     <Compile Include="Controllers\API\JobDescriptionController.cs" />
     <Compile Include="Controllers\API\JobLevelController.cs" />
+    <Compile Include="Controllers\API\JobLevelStandard\JobLevelStandardKPIController.cs" />
     <Compile Include="Controllers\API\JobLevelStandard\JobLevelAssessmentController.cs" />
     <Compile Include="Controllers\API\JobLevelStandard\JobLevelAssessmentReportController.cs" />
     <Compile Include="Controllers\API\JobLevelStandard\JobLevelSettingController.cs" />
@@ -630,6 +631,15 @@
     <Content Include="SourceApp\Components\JobLevelStandard\JobLevelSetting\Templates\copy.html" />
     <Content Include="SourceApp\Components\JobLevelStandard\JobLevelSetting\Templates\edit.html" />
     <Content Include="SourceApp\Components\JobLevelStandard\JobLevelSetting\Templates\index.html" />
+    <Content Include="SourceApp\Components\JobLevelStandard\KPI\create-kpi-controller.js" />
+    <Content Include="SourceApp\Components\JobLevelStandard\KPI\kpi-access-controller.js" />
+    <Content Include="SourceApp\Components\JobLevelStandard\KPI\kpi-factory.js" />
+    <Content Include="SourceApp\Components\JobLevelStandard\KPI\kpi-model.js" />
+    <Content Include="SourceApp\Components\JobLevelStandard\KPI\Templates\create.html" />
+    <Content Include="SourceApp\Components\JobLevelStandard\KPI\Templates\edit.html" />
+    <Content Include="SourceApp\Components\JobLevelStandard\KPI\Templates\index.html" />
+    <Content Include="SourceApp\Components\JobLevelStandard\KPI\Templates\modalConfirmRequired.html" />
+    <Content Include="SourceApp\Components\JobLevelStandard\KPI\update-kpi-controller.js" />
     <Content Include="SourceApp\Components\JobLevelStandard\Period\update-job-level-controller.js" />
     <Content Include="SourceApp\Components\JobLevelStandard\Period\copy-job-level-setting-controller.js" />
     <Content Include="SourceApp\Components\JobLevelStandard\Period\add-employee-setting-controller.js" />
@@ -1053,7 +1063,9 @@
     <Analyzer Include="..\packages\SonarAnalyzer.CSharp.8.34.0.42011\analyzers\SonarAnalyzer.CSharp.dll" />
     <Analyzer Include="..\packages\SonarAnalyzer.CSharp.8.34.0.42011\analyzers\SonarAnalyzer.dll" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Views\Default\" />
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

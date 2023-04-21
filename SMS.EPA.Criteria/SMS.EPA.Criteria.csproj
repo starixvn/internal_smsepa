@@ -108,6 +108,11 @@
     <Compile Include="JobLevelStandard\Assessment\GetOrgChartByActorIdCriteria.cs" />
     <Compile Include="JobLevelStandard\JobLevelSetting\EditJobLevelSettingCommand.cs" />
     <Compile Include="JobLevelStandard\JobLevelSetting\GetJobLevelSettingBySectionIdCriteria.cs" />
+    <Compile Include="JobLevelStandard\KPI\CreateJobLevelStandardKPICriteria.cs" />
+    <Compile Include="JobLevelStandard\KPI\DeleteJobLevelStandardKPICriteria.cs" />
+    <Compile Include="JobLevelStandard\KPI\GetJobLevelStandardKPICriteria.cs" />
+    <Compile Include="JobLevelStandard\KPI\UpdateJobLevelStandardKPICriteria.cs" />
+    <Compile Include="JobLevelStandard\KPI\UpdateStatusJobLevelStandardKPICriteria.cs" />
     <Compile Include="JobLevelStandard\Period\EditPeriodEmployeeSettingCommand.cs" />
     <Compile Include="JobLevelStandard\Period\AddPeriodEmployeeSettingCommand.cs" />
     <Compile Include="JobLevelStandard\Period\CreateJobLevelStandardPeriodCommand.cs" />

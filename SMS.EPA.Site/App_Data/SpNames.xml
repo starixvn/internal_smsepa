@@ -299,5 +299,11 @@
         <Setting Key="JobLevelStandard_Report_GetOrgChartByActorId" SpName="JobLevelStandard_Report_GetOrgChartByActorId" DbName="SMSEPA" Plain="0" />
         <Setting Key="JobLevelStandard_Report_GetPeriod" SpName="JobLevelStandard_Report_GetPeriod" DbName="SMSEPA" Plain="0" />
         <Setting Key="JobLevelStandard_AssessmentReport_Get" SpName="JobLevelStandard_AssessmentReport_Get" DbName="SMSEPA" Plain="0" />
+
+        <Setting Key="JobLevelStandard_KPI_Get" SpName="JobLevelStandard_KPI_Get" DbName="SMSEPA" Plain="0" />
+        <Setting Key="JobLevelStandard_KPI_UpdateStatus" SpName="JobLevelStandard_KPI_UpdateStatus" DbName="SMSEPA" Plain="0" />
+        <Setting Key="JobLevelStandardKPI_Delete" SpName="JobLevelStandardKPI_Delete" DbName="SMSEPA" Plain="0" />
+        <Setting Key="JobLevelStandard_KPI_Insert" SpName="JobLevelStandard_KPI_Insert" DbName="SMSEPA" Plain="0" />
+        <Setting Key="JobLevelStandard_KPI_Update" SpName="JobLevelStandard_KPI_Update" DbName="SMSEPA" Plain="0" />
     </Function>
 </Functions>

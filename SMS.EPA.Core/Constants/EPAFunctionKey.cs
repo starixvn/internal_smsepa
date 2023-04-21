@@ -30,6 +30,8 @@
 
         public const string KPI = "KPI";
 
+        public const string JobLevelStandardKPI = "JobLevelStandardKPI";
+
         public const string KPIGroup = "KPIGroup";
 
         public const string TargetTemplate = "TargetTemplate";

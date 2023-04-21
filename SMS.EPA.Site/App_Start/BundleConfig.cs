@@ -278,7 +278,13 @@
                             "~/SourceApp/Components/JobLevelStandard/Assessment/assessment-controller.js",
                             "~/SourceApp/Components/JobLevelStandard/Report/assessment-report-factory.js",
                             "~/SourceApp/Components/JobLevelStandard/Report/assessment-report-model.js",
-                            "~/SourceApp/Components/JobLevelStandard/Report/assessment-report-controller.js"));
+                            "~/SourceApp/Components/JobLevelStandard/Report/assessment-report-controller.js",
+                            "~/SourceApp/Components/JobLevelStandard/KPI/kpi-factory.js",
+                            "~/SourceApp/Components/JobLevelStandard/KPI/kpi-model.js",
+                            "~/SourceApp/Components/JobLevelStandard/KPI/kpi-directive.js",
+                            "~/SourceApp/Components/JobLevelStandard/KPI/kpi-access-controller.js",
+                            "~/SourceApp/Components/JobLevelStandard/KPI/create-kpi-controller.js",
+                            "~/SourceApp/Components/JobLevelStandard/KPI/update-kpi-controller.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/common/js").Include(
                             "~/SourceApp/Shared/Directives/epa-addClassToRoleFilter-directive.js",
