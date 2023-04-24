@@ -223,6 +223,7 @@
   <ItemGroup>
     <Compile Include="Controllers\DepartmentControllerTests.cs" />
     <Compile Include="Controllers\EmployeeControllerTests.cs" />
+    <Compile Include="Controllers\JobLevelStandardKPIControllerTests.cs" />
     <Compile Include="Controllers\KPIControllerTests.cs" />
     <Compile Include="Controllers\FlowTemplateControllerTests.cs" />
     <Compile Include="Controllers\KPIGroupControllerTests.cs" />
