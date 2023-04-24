@@ -17,6 +17,6 @@
 
         public TargetTypeModel TargetType { get; set; }
 
-        public bool IsMonthly => TargetType.TargetTypeId == (int)Core.Enumerations.TargetType.Monthly;
+        public bool IsMonthly => TargetType.TargetTypeId == (byte)Core.Enumerations.TargetType.Monthly;
     }
 }

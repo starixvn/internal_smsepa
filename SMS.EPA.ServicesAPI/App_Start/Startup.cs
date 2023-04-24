@@ -8,8 +8,8 @@
     using Microsoft.Owin.Cors;
     using Microsoft.Owin.Security.OAuth;
     using Owin;
-    using Providers;
-    using Utilities;
+    using SMS.EPA.ServicesAPI.Providers;
+    using SMS.EPA.ServicesAPI.Utilities;
 
     public class Startup
     {

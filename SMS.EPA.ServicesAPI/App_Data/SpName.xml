@@ -18,4 +18,7 @@
         <Setting Key="Sync_JobLevel" SpName="Sync_JobLevel" DbName="SMSEPA" Plain="0" />
         <Setting Key="Employee_UpdateUserId" SpName="Employee_UpdateUserId" DbName="SMSEPA" Plain="0" />
     </Function>
+    <Function Name="Todolist">
+        <Setting Key="API_GO_GetTodolistEPAByUserId" SpName="API_GO_GetTodolistEPAByUserId" DbName="SMSEPA" Plain="0" />
+    </Function>
 </Functions>

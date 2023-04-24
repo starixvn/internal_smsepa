@@ -228,9 +228,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controllers\JobLevelController.cs" />
+    <Compile Include="Controllers\TodolistController.cs" />
     <Compile Include="Criteria\Employee\UpdateUserIdCommand.cs" />
     <Compile Include="Criteria\JobLevel\GetLastModifiedDateForJobLevelCriteria.cs" />
     <Compile Include="Criteria\JobLevel\UpdateJobLevelCriteria.cs" />
+    <Compile Include="Criteria\Todolist\GetTodolistEPAByUserIdCriteria.cs" />
+    <Compile Include="Models\Todolist\TodolistAction.cs" />
+    <Compile Include="Models\Todolist\TodolistEPA.cs" />
+    <Compile Include="Models\Todolist\TodolistItem.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <!-- Exclude the file from analysis -->
       <SonarQubeExclude>true</SonarQubeExclude>
@@ -259,12 +264,14 @@
     <Compile Include="Filters\HttpsRequiredAttribute.cs" />
     <Compile Include="Filters\IPHostValidationAttribute.cs" />
     <Compile Include="Controllers\EmployeeController.cs" />
+    <Compile Include="Services\Interfaces\ITodolistService.cs" />
     <Compile Include="Services\ServiceAPI.cs" />
     <Compile Include="Services\IServiceAPI.cs" />
     <Compile Include="Criteria\Employee\GetLastModifiedDateForEmployeeCriteria.cs" />
     <Compile Include="Criteria\Employee\UpdateEmployeeCriteria.cs" />
     <Compile Include="Providers\ApplicationOAuthProvider.cs" />
     <Compile Include="Results\ChallengeResult.cs" />
+    <Compile Include="Services\TodolistService.cs" />
     <Compile Include="Utilities\AppConfig.cs" />
   </ItemGroup>
   <ItemGroup>
