@@ -251,6 +251,7 @@
     <Compile Include="Controllers\API\JobLevelStandard\JobLevelAssessmentReportController.cs" />
     <Compile Include="Controllers\API\JobLevelStandard\JobLevelSettingController.cs" />
     <Compile Include="Controllers\API\JobLevelStandard\JobLevelStandardPeriodController.cs" />
+    <Compile Include="Controllers\API\JobLevelStandard\JobLevelStandardTemplateController.cs" />
     <Compile Include="Controllers\Export\ExportCommentReportController.cs" />
     <Compile Include="Controllers\Export\ExportAssessmentController.cs" />
     <Compile Include="Controllers\Export\ExportJLSPeriodEmployeeSettingController.cs" />
@@ -666,6 +667,23 @@
     <Content Include="SourceApp\Components\JobLevelStandard\Report\assessment-report-factory.js" />
     <Content Include="SourceApp\Components\JobLevelStandard\Report\assessment-report-model.js" />
     <Content Include="SourceApp\Components\JobLevelStandard\Report\Templates\index.html" />
+    <Content Include="SourceApp\Components\JobLevelStandard\TargetTemplate\add-kpi-group-controller.js" />
+    <Content Include="SourceApp\Components\JobLevelStandard\TargetTemplate\create-target-template-controller.js" />
+    <Content Include="SourceApp\Components\JobLevelStandard\TargetTemplate\export-target-template-directive.js" />
+    <Content Include="SourceApp\Components\JobLevelStandard\TargetTemplate\general-info-controller.js" />
+    <Content Include="SourceApp\Components\JobLevelStandard\TargetTemplate\kpi-list-controller.js" />
+    <Content Include="SourceApp\Components\JobLevelStandard\TargetTemplate\tagert-template-detail-controller.js" />
+    <Content Include="SourceApp\Components\JobLevelStandard\TargetTemplate\target-template-access-controller.js" />
+    <Content Include="SourceApp\Components\JobLevelStandard\TargetTemplate\target-template-factory.js" />
+    <Content Include="SourceApp\Components\JobLevelStandard\TargetTemplate\target-template-model.js" />
+    <Content Include="SourceApp\Components\JobLevelStandard\TargetTemplate\Templates\addKPIGroup.html" />
+    <Content Include="SourceApp\Components\JobLevelStandard\TargetTemplate\Templates\create.html" />
+    <Content Include="SourceApp\Components\JobLevelStandard\TargetTemplate\Templates\detail.html" />
+    <Content Include="SourceApp\Components\JobLevelStandard\TargetTemplate\Templates\generalInformation.html" />
+    <Content Include="SourceApp\Components\JobLevelStandard\TargetTemplate\Templates\index.html" />
+    <Content Include="SourceApp\Components\JobLevelStandard\TargetTemplate\Templates\KPIList.html" />
+    <Content Include="SourceApp\Components\JobLevelStandard\TargetTemplate\Templates\update.html" />
+    <Content Include="SourceApp\Components\JobLevelStandard\TargetTemplate\update-target-template-controller.js" />
     <Content Include="SourceApp\Components\JobLevel\create-job-level-controller.js" />
     <Content Include="SourceApp\Components\JobLevel\job-level-controller.js" />
     <Content Include="SourceApp\Components\JobLevel\job-level-factory.js" />
@@ -1064,6 +1082,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Views\Default\" />
+    <Folder Include="Views\JobLevelStandardTemplate\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

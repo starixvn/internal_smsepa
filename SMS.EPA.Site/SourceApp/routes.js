@@ -190,4 +190,10 @@ angular.module('jobLevelStandardModule', ['ngRoute'])
             { templateUrl: baseUrl + 'SourceApp/Components/JobLevelStandard/Report/Templates/index.html', caseInsensitiveMatch: true });
         $routeProvider.when('/JobLevelStandard/KPI/Index',
             { templateUrl: baseUrl + 'SourceApp/Components/JobLevelStandard/KPI/Templates/index.html', caseInsensitiveMatch: true });
+        $routeProvider.when('/JobLevelStandard/Template/Index',
+            { templateUrl: baseUrl + 'SourceApp/Components/JobLevelStandard/TargetTemplate/Templates/index.html', caseInsensitiveMatch: true });
+        $routeProvider.when('/JobLevelStandard/Template/Update/:id',
+            { templateUrl: baseUrl + 'SourceApp/Components/JobLevelStandard/TargetTemplate/Templates/update.html', caseInsensitiveMatch: true });
+        $routeProvider.when('/JobLevelStandard/Template/Detail/:id',
+            { templateUrl: baseUrl + 'SourceApp/Components/JobLevelStandard/TargetTemplate/Templates/detail.html', caseInsensitiveMatch: true });
     }]);

@@ -133,6 +133,12 @@
     <Compile Include="JobLevelStandard\Report\GetJobLevelAssessmentReportCriteria.cs" />
     <Compile Include="JobLevelStandard\Report\GetOrgChartByActorIdCriteria.cs" />
     <Compile Include="JobLevelStandard\Report\GetPeriodCriteria.cs" />
+    <Compile Include="JobLevelStandard\Template\CreateJobLevelStandardTemplateCriteria.cs" />
+    <Compile Include="JobLevelStandard\Template\DeleteJobLevelStandardTemplateCriteria.cs" />
+    <Compile Include="JobLevelStandard\Template\GetJobLevelStandardTemplateByIdCriteria.cs" />
+    <Compile Include="JobLevelStandard\Template\GetJobLevelStandardTemplateCriteria.cs" />
+    <Compile Include="JobLevelStandard\Template\UpdateJobLevelStandardTemplateCriteria.cs" />
+    <Compile Include="JobLevelStandard\Template\UpdateStatusJobLevelStandardTemplateCriteria.cs" />
     <Compile Include="JobLevel\CreateJobLevelCriteria.cs" />
     <Compile Include="JobLevel\DeleteJobLevelCriteria.cs" />
     <Compile Include="JobLevel\EditJobLevelCriteria.cs" />
@@ -304,6 +310,7 @@
     <Analyzer Include="..\packages\SonarAnalyzer.CSharp.8.34.0.42011\analyzers\SonarAnalyzer.CSharp.dll" />
     <Analyzer Include="..\packages\SonarAnalyzer.CSharp.8.34.0.42011\analyzers\SonarAnalyzer.dll" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets" Condition="Exists('..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

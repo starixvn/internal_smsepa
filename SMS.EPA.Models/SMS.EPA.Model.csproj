@@ -137,6 +137,7 @@
     <Compile Include="JobLevelStandard\Period\JobLevelStandardPeriodSetting.cs" />
     <Compile Include="JobLevelStandard\Period\PeriodEmployeeSetting.cs" />
     <Compile Include="JobLevelStandard\Period\PeriodProcessSetting.cs" />
+    <Compile Include="JobLevelStandard\Template\JobLevelStandardTemplate.cs" />
     <Compile Include="JobLevel\JobLevel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <!-- Exclude the file from analysis -->

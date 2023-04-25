@@ -305,5 +305,12 @@
         <Setting Key="JobLevelStandardKPI_Delete" SpName="JobLevelStandardKPI_Delete" DbName="SMSEPA" Plain="0" />
         <Setting Key="JobLevelStandard_KPI_Insert" SpName="JobLevelStandard_KPI_Insert" DbName="SMSEPA" Plain="0" />
         <Setting Key="JobLevelStandard_KPI_Update" SpName="JobLevelStandard_KPI_Update" DbName="SMSEPA" Plain="0" />
+
+        <Setting Key="JobLevelStandard_Template_Get" SpName="JobLevelStandard_Template_Get" DbName="SMSEPA" Plain="0" />
+        <Setting Key="JobLevelStandard_Template_GetById" SpName="JobLevelStandard_Template_GetById" DbName="SMSEPA" Plain="0" />
+        <Setting Key="JobLevelStandard_Template_Insert" SpName="JobLevelStandard_Template_Insert" DbName="SMSEPA" Plain="0" />
+        <Setting Key="JobLevelStandard_Template_UpdateStatus" SpName="JobLevelStandard_Template_UpdateStatus" DbName="SMSEPA" Plain="0" />
+        <Setting Key="JobLevelStandard_Template_Delete" SpName="JobLevelStandard_Template_Delete" DbName="SMSEPA" Plain="0" />
+        <Setting Key="JobLevelStandard_Template_Update" SpName="JobLevelStandard_Template_Update" DbName="SMSEPA" Plain="0" />
     </Function>
 </Functions>

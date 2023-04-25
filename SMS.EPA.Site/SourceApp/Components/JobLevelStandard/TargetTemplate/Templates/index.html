@@ -1,0 +1,88 @@
+﻿<div class="col-sm-12" ng-controller="JobLevelStandardTemplateController as templateCtrl">
+    <div class="sub-header">
+        <ul class="row breadcrumb">
+            <li class="current">Job Level Standard Template Management</li>
+        </ul>
+    </div>
+    <form novalidate class="form-filter" role="form">
+        <div class="form-group">
+            <label class="label-form" data-translate="Status"></label>
+            <select class="form-control select-form" ng-model="templateCtrl.filter.isActive">
+                <option value="">-- {{"All" | translate}} --</option>
+                <option selected value="true" data-translate="Active"></option>
+                <option value="false" data-translate="InActive"></option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label class="label-form"></label>
+            <button class="btn btn-primary" ng-click="templateCtrl.query(templateCtrl.filter)" data-translate="Submit"></button>
+        </div>
+    </form>
+    <table class="row table table-bordered table-striped">
+        <thead>
+            <tr class="header-table">
+                <th colspan="5">
+                    <a class="pull-left button-icon create-button" href="" ng-click="templateCtrl.create()"
+                       ng-if="templateCtrl.permission === templateCtrl.policyEnum.Host">
+                        <span class="glyphicon glyphicon-plus icon-add"></span>
+                        <span class="button-text">Create Template</span>
+                    </a>
+                    <input type="text" ng-model="templateCtrl.searchKey" ng-change="templateCtrl.search()" class="search-inline-textbox search pull-right">
+                </th>
+            </tr>
+            <tr class="headerName">
+                <th data-translate="SymbolCount"></th>
+                <th data-translate="Name"></th>
+                <th data-translate="KPIs"></th>
+                <th data-translate="Active"></th>
+                <th data-translate="Action" ng-if="templateCtrl.permission === templateCtrl.policyEnum.Host"></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr dir-paginate="targetTemplate in templateCtrl.filteredItems | itemsPerPage: templateCtrl.pageSize" current-page="templateCtrl.currentPage">
+                <td class="text-center" ng-bind="templateCtrl.getIndex($index, templateCtrl.currentPage, templateCtrl.pageSize)"></td>
+                <td class="column-limit">
+                    <a class="link" ng-click="templateCtrl.detail(targetTemplate, $event)" ng-bind="targetTemplate.Name"></a>
+                </td>
+                <td class="text-center">
+                    <a href="#/TargetTemplate/Update/{{targetTemplate.TargetTemplateId}}?viewKPIs" ng-if="templateCtrl.permission === templateCtrl.policyEnum.Host"
+                       ng-bind="targetTemplate.KPIs"></a>
+                    <span ng-if="templateCtrl.permission === templateCtrl.policyEnum.Read" ng-bind="targetTemplate.KPIs"></span>
+                </td>
+                <td class="text-center">
+                    <input type="checkbox" ng-checked="targetTemplate.IsActive" ng-click="templateCtrl.confirmActive(targetTemplate)"
+                           ng-disabled="templateCtrl.permission !== templateCtrl.policyEnum.Host" />
+                </td>
+                <td class="text-center" ng-if="templateCtrl.permission === templateCtrl.policyEnum.Host" style="width: 90px;">
+                    <div class="btn-group">
+                        <!--<a class="link glyphicon glyphicon-download-alt icon-export" export-target-template-management title="Export Excel" ng-click="templateCtrl.exportTargetKPIs(targetTemplate.TargetTemplateId)"></a>-->
+                        <a class="glyphicon glyphicon-edit icon-edit" title="Edit"
+                           href="#/JobLevelStandard/Template/Update/{{targetTemplate.TemplateId}}?viewInfo"
+                           ng-if="templateCtrl.permission === templateCtrl.policyEnum.Host"></a>
+                        <a href="javascript:;" class="glyphicon glyphicon-remove icon-remove" title="Delete"
+                           ng-click="templateCtrl.deleteTemplate(targetTemplate)"
+                           ng-if="templateCtrl.permission === templateCtrl.policyEnum.Host"></a>
+                    </div>
+                </td>
+            </tr>
+            <tr ng-show="templateCtrl.filteredItems.length === 0">
+                <td class="empty-result" colspan="5" data-translate="EmptyResult"></td>
+            </tr>
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="5" class="paging">
+                    <span data-translate="Show"></span>
+                    <select class="dropdown-entry form-control" ng-model="templateCtrl.pageSize"
+                            ng-options="entry for entry in templateCtrl.entries" ng-change="templateCtrl.currentPage = 1"></select>
+                    <span data-translate="entries"></span>
+                    <div class="pull-right custom-paging">
+                        <ul uib-pagination total-items="templateCtrl.filteredItems.length" items-per-page="templateCtrl.pageSize"
+                            boundary-links="true" max-size="5" boundary-link-numbers="true" ng-model="templateCtrl.currentPage"
+                            class="pagination-sm" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></ul>
+                    </div>
+                </td>
+            </tr>
+        </tfoot>
+    </table>
+</div>

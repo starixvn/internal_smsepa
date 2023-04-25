@@ -284,7 +284,17 @@
                             "~/SourceApp/Components/JobLevelStandard/KPI/kpi-directive.js",
                             "~/SourceApp/Components/JobLevelStandard/KPI/kpi-access-controller.js",
                             "~/SourceApp/Components/JobLevelStandard/KPI/create-kpi-controller.js",
-                            "~/SourceApp/Components/JobLevelStandard/KPI/update-kpi-controller.js"));
+                            "~/SourceApp/Components/JobLevelStandard/KPI/update-kpi-controller.js",
+                            "~/SourceApp/Components/JobLevelStandard/TargetTemplate/target-template-factory.js",
+                            "~/SourceApp/Components/JobLevelStandard/TargetTemplate/target-template-model.js",
+                            "~/SourceApp/Components/JobLevelStandard/TargetTemplate/target-template-access-controller.js",
+                            "~/SourceApp/Components/JobLevelStandard/TargetTemplate/general-info-controller.js",
+                            "~/SourceApp/Components/JobLevelStandard/TargetTemplate/tagert-template-detail-controller.js",
+                            "~/SourceApp/Components/JobLevelStandard/TargetTemplate/create-target-template-controller.js",
+                            "~/SourceApp/Components/JobLevelStandard/TargetTemplate/update-target-template-controller.js",
+                            "~/SourceApp/Components/JobLevelStandard/TargetTemplate/add-kpi-group-controller.js",
+                            "~/SourceApp/Components/JobLevelStandard/TargetTemplate/kpi-list-controller.js",
+                            "~/SourceApp/Components/JobLevelStandard/TargetTemplate/export-target-template-directive.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/common/js").Include(
                             "~/SourceApp/Shared/Directives/epa-addClassToRoleFilter-directive.js",

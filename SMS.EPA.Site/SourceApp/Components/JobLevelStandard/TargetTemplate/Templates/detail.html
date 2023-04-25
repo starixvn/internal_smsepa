@@ -1,0 +1,86 @@
+﻿<div class="col-sm-12 detail-target-template" ng-controller="TargetTemplateDetailController as detailCtrl">
+    <div class="sub-header">
+        <ul class="breadcrumb">
+            <li class="current" data-translate="TargetTemplateDetail"></li>
+        </ul>
+    </div>
+    <div class="panel panel-default">
+        <div class="panel-heading" data-toggle="collapse" data-target=".targetTemplateInfo">
+            <h4 class="panel-title text-uppercase" data-translate="TargetTemplateInformation"></h4>
+        </div>
+        <div class="panel-collapse collapse in targetTemplateInfo">
+            <div class="panel-body information">
+                <div class="row line">
+                    <div class="col-sm-6">
+                        <strong class="col-sm-4 lab" data-translate="Name"></strong>
+                        <div class="col-sm-8 lab" ng-bind="detailCtrl.targetTemplate.Name"></div>
+                    </div>
+                    <div class="col-sm-6">
+                        <strong class="col-sm-4 lab" data-translate="TargetType"></strong>
+                        <div class="col-sm-8 lab" ng-bind="detailCtrl.targetTemplate.TargetTypeName"></div>
+                    </div>
+                </div>
+                <div class="row line">
+                    <div class="col-sm-6">
+                        <strong class="col-sm-4 lab" data-translate="CreatedBy"></strong>
+                        <div class="col-sm-8 lab">
+                            {{detailCtrl.targetTemplate.CreatedFullName}} ({{detailCtrl.targetTemplate.CreatedNickName}})
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <strong class="col-sm-4 lab" data-translate="LastModifiedBy"></strong>
+                        <div class="col-sm-8 lab">
+                            {{detailCtrl.targetTemplate.ModifiedFullName}} ({{detailCtrl.targetTemplate.ModifiedNickName}})
+                        </div>
+                    </div>
+                </div>
+                <div class="row line">
+                    <div class="col-sm-6">
+                        <strong class="col-sm-4 lab" data-translate="CreatedDate"></strong>
+                        <div class="col-sm-8 lab" ng-bind="detailCtrl.targetTemplate.CreatedDate | date: detailCtrl.dateFormat"></div>
+                    </div>
+                    <div class="col-sm-6">
+                        <strong class="col-sm-4 lab" data-translate="LastModifiedDate"></strong>
+                        <div class="col-sm-8 lab" ng-bind="detailCtrl.targetTemplate.ModifiedDate | date: detailCtrl.dateFormat"></div>
+                    </div>
+                </div>
+                <div class="row line">
+                    <div class="col-sm-12">
+                        <strong class="col-sm-2 lab" data-translate="Description"></strong>
+                        <div class="col-sm-6 lab" ng-bind="detailCtrl.targetTemplate.Description"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="panel panel-default">
+        <div class="panel-heading" data-toggle="collapse" data-target=".kpiList">
+            <h4 class="panel-title text-uppercase" data-translate="KPIList"></h4>
+        </div>
+        <div class="panel-collapse collapse in kpiList">
+            <div class="panel-body kpi-content">
+                <div class="col-sm-6 no-padding" ng-repeat="group in detailCtrl.kpiList | filter: KPIName" ng-class="{'self-clear': $index % 2 == 0}">
+                    <ul class="col-sm-12 list-unstyled kpi-list">
+                        <li class="title-list">
+                            <strong>{{ group.Name }}</strong> <strong ng-show="group.KPIs.length > 0">
+                                ({{ group.Weight }})
+                            </strong>
+                        </li>
+                        <li ng-repeat="item in group.KPIs | filter: KPIName" ng-show="item.Selected">
+                            <span class="glyphicon glyphicon-ok item-list-icon">
+                            </span>{{item.Name}}
+                            <span ng-show="!group.IsSpreadKPI">({{item.Weight}})</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="navbar navbar-default navbar-fixed-bottom action-button">
+        <div class="container text-center">
+            <button ng-click="detailCtrl.back()" class="btn btn-cancel">
+                <span class="glyphicon glyphicon-menu-left"></span> <span data-translate="BackToList"></span>
+            </button>
+        </div>
+    </div>
+</div>

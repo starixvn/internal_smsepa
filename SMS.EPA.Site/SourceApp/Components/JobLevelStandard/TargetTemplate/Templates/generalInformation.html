@@ -1,0 +1,21 @@
+﻿<div ng-controller="TargetTemplateGeneralInfoController as generalInfoCtrl">
+    <form class="col-sm-8 form-horizontal common-form info-form" novalidate>
+        <div class="form-group required">
+            <label class="col-sm-3 control-label" data-translate="Name">
+            </label>
+            <div class="col-sm-8">
+                <input type="text" class="form-control" ng-model="updateCtrl.template.Name" required maxlength="200" />
+            </div>
+        </div>
+        <div class="form-group top-buffer">
+            <label class="col-sm-3 control-label" data-translate="Active">
+            </label>
+            <div class="col-sm-8 field active-div">
+                <input ng-model="updateCtrl.template.IsActive" type="checkbox">
+            </div>
+        </div>
+        <div class="col-sm-offset-5 top-buffer">
+            <button class="btn btn-primary" data-translate="Submit" ng-click="generalInfoCtrl.save(updateCtrl.template)"></button>
+        </div>
+    </form>
+</div>

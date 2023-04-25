@@ -9,6 +9,7 @@
     using SMS.EPA.Core.Services;
     using SMS.EPA.Criteria;
     using SMS.EPA.Criteria.JobLevelStandard.KPI;
+    using SMS.EPA.Criteria.JobLevelStandard.Template;
     using SMS.EPA.Model.JobLevelStandard;
 
     public class JobLevelStandardKPIController : BaseController

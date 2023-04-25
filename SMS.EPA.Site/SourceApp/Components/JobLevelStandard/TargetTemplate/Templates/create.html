@@ -1,0 +1,22 @@
+﻿<div class="modal-header">
+    <div class="popup-header">
+        {{"CreateTargetTemplate" | translate}}
+        <span class="close-popup" ng-click="createJLSTemplateCtrl.cancel()"></span>
+    </div>
+</div>
+<div class="modal-body">
+    <form class="form-horizontal" role="form">
+        <div class="form-group required">
+            <label class="col-sm-3 control-label" data-translate="Name">
+            </label>
+            <div class="col-sm-8 field">
+                <input type="text" class="form-control" ng-model="createJLSTemplateCtrl.template.Name" required maxlength="200" />
+            </div>
+        </div>
+    </form>
+</div>
+
+<div class="modal-footer">
+    <button class="btn btn-primary" data-translate="Submit" ng-click="createJLSTemplateCtrl.save(createJLSTemplateCtrl.template)"></button>
+    <button class="btn btn-cancel" ng-click="createJLSTemplateCtrl.cancel()" data-translate="Cancel"></button>
+</div>
