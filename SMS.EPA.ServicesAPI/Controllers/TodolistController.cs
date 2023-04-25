@@ -22,7 +22,13 @@
 
         public async Task<IHttpActionResult> GetByUserId(int userId)
         {
-            IList<TodolistItem> items = await todolistService.GetEPAByUserIdAsync(userId);
+            IList<TodolistItem> epas = await todolistService.GetEPAByUserIdAsync(userId);
+            IList<TodolistItem> assessments = await todolistService.GetJobLevelStandardByUserIdAsync(userId);
+
+            var items = new List<TodolistItem>();
+            items.AddRange(epas);
+            items.AddRange(assessments);
+
             return Json(items);
         }
     }

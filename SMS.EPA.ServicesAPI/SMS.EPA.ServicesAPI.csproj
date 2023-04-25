@@ -232,10 +232,12 @@
     <Compile Include="Criteria\Employee\UpdateUserIdCommand.cs" />
     <Compile Include="Criteria\JobLevel\GetLastModifiedDateForJobLevelCriteria.cs" />
     <Compile Include="Criteria\JobLevel\UpdateJobLevelCriteria.cs" />
+    <Compile Include="Criteria\Todolist\GetTodolistJobLevelStandardByUserIdCriteria.cs" />
     <Compile Include="Criteria\Todolist\GetTodolistEPAByUserIdCriteria.cs" />
     <Compile Include="Models\Todolist\TodolistAction.cs" />
     <Compile Include="Models\Todolist\TodolistEPA.cs" />
     <Compile Include="Models\Todolist\TodolistItem.cs" />
+    <Compile Include="Models\Todolist\TodolistJobLevelStandard.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <!-- Exclude the file from analysis -->
       <SonarQubeExclude>true</SonarQubeExclude>

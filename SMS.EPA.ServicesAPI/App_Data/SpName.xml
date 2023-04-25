@@ -20,5 +20,6 @@
     </Function>
     <Function Name="Todolist">
         <Setting Key="API_GO_GetTodolistEPAByUserId" SpName="API_GO_GetTodolistEPAByUserId" DbName="SMSEPA" Plain="0" />
+        <Setting Key="API_GO_GetTodolistJobLevelStandardByUserId" SpName="API_GO_GetTodolistJobLevelStandardByUserId" DbName="SMSEPA" Plain="0" />
     </Function>
 </Functions>

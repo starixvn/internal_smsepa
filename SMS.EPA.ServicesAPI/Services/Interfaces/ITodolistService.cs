@@ -7,5 +7,7 @@
     public interface ITodolistService
     {
         Task<IList<TodolistItem>> GetEPAByUserIdAsync(int userId);
+
+        Task<IList<TodolistItem>> GetJobLevelStandardByUserIdAsync(int userId);
     }
 }

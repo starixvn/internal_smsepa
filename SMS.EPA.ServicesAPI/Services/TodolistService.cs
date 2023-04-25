@@ -74,6 +74,58 @@
             return items;
         }
 
+        public async Task<IList<TodolistItem>> GetJobLevelStandardByUserIdAsync(int userId)
+        {
+            var criteria = new GetTodolistJobLevelStandardByUserIdCriteria
+            {
+                UserId = userId
+            };
+            var assessments = await baseService.GetDataAsync<TodolistJobLevelStandard>(criteria);
+            var items = new List<TodolistItem>();
+            foreach (var assessment in assessments)
+            {
+                var item = new TodolistItem();
+                switch (assessment.ProcessId)
+                {
+                    case (byte)JobLevelAssessmentProcess.Evaluator:
+                        item.Name = string.Format("<div><strong>{0}</strong> Assessment is ready for key-in data.</div>" +
+                            "<div>You are given a period from <strong>{1}</strong> until <strong>{2}</strong> to complete this Assessment.</div>",
+                            assessment.Name,
+                            FormatStartDate(assessment.FromDate),
+                            FormatEndDate(assessment.ToDate));
+                        item.Actions = GetAction(assessment);
+                        items.Add(item);
+                        break;
+
+                    case (byte)JobLevelAssessmentProcess.Employee:
+                        item.Name = string.Format("<div><strong>{0}</strong> Assessment is ready for your Verification.</div>" +
+                            "<div>You are given a period from <strong>{1}</strong> until <strong>{2}</strong> to complete the Verification.</div>",
+                            assessment.Name,
+                            FormatStartDate(assessment.FromDate),
+                            FormatEndDate(assessment.ToDate));
+                        item.Actions = GetAction(assessment);
+                        items.Add(item);
+                        break;
+
+                    case (byte)JobLevelAssessmentProcess.Management:
+                        item.Name = string.Format("<div><strong>{0}</strong> Assessment is ready for your Approval.</div>" +
+                            "<div>You are given a period from <strong>{1}</strong> until <strong>{2}</strong> to complete the Approval.</div>",
+                            assessment.Name,
+                            FormatStartDate(assessment.FromDate),
+                            FormatEndDate(assessment.ToDate));
+                        item.Actions = GetAction(assessment);
+                        items.Add(item);
+                        break;
+
+                    default:
+                        // nothing
+                        break;
+                }
+            }
+
+            return items;
+        }
+
         private static IList<TodolistAction> GetAction(TodolistEPA epa)
         {
             var action = new TodolistAction
@@ -104,6 +156,19 @@
                     // nothing
                     break;
             }
+
+            return new List<TodolistAction> { action };
+        }
+
+        private static IList<TodolistAction> GetAction(TodolistJobLevelStandard assessment)
+        {
+            var action = new TodolistAction
+            {
+                Name = "View",
+                Method = "Get",
+                IsRedirect = true,
+                Url = string.Format("/JobLevelStandard/Assessment/Index?periodId={0}", assessment.PeriodId)
+            };
 
             return new List<TodolistAction> { action };
         }

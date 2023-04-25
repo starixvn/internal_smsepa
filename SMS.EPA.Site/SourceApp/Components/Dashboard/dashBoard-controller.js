@@ -99,9 +99,7 @@
         }
 
         function goToAssessment(periodId, event) {
-            var params = {
-                periodId,
-            };
+            var params = { periodId };
 
             utilitiesFactory.handleOpenLinkWithParams(event, 'JobLevelStandard/Assessment/Index', params);
         }
