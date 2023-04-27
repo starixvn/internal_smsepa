@@ -10,12 +10,12 @@
     function templateModel($uibModal, jlsTemplateFactory, errorFactory, notificationFactory, utilitiesFactory) {
         var templates = [],
             template = {},
-            //kpiList = [],
+            kpiList = [],
             permission = 0
 
         var model = {
             createTemplate: createTemplate,
-            //kpiList: kpiList,
+            kpiList: kpiList,
             openPopupCreateTemplate: openPopupCreateTemplate,
             openPopupDeleteTemplate: openPopupDeleteTemplate,
             openPopupUpdateStatusTemplate: openPopupUpdateStatusTemplate,
@@ -25,12 +25,46 @@
             getTemplate: getTemplate,
             getTemplateById: getTemplateById,
             getPermissionOnTemplate: getPermissionOnTemplate,
-            //updateTargetTemplate: updateTargetTemplate,
+            getKPIListSelected: getKPIListSelected,
+            checkSelectedAllKPI: checkSelectedAllKPI,
+            updateTemplateKPI: updateTemplateKPI,
             updateTemplateBasicInfo: updateTemplateBasicInfo,
             validateTemplate: validateTemplate
         };
 
         return model;
+
+        function updateTemplateKPI(targetTemplate) {
+            return jlsTemplateFactory.updateTemplateKPI(targetTemplate).success(function (response) {
+                if (response.IsSuccessful) {
+                    notificationFactory.success("UpdatedSuccessfully");
+                } else {
+                    notificationFactory.error("", response.Message);
+                }
+            }).error(function (response, status) {
+                errorFactory.errorHandle(status);
+            });
+        }
+
+        function checkSelectedAllKPI(vm, kpiList) {
+            vm.SelectedAll = true;
+
+            for (let i = 0; i < kpiList.length; i++) {
+                if (!kpiList[i].IsSelected) {
+                    vm.SelectedAll = false;
+                    break;
+                }
+            }
+        }
+
+        function getKPIListSelected(id, isSelected) {
+            return jlsTemplateFactory.getKPIListSelected(id, isSelected).success(
+                function (data) {
+                    model.kpiList = data;
+                }).error(function (response, status) {
+                    errorFactory.errorHandle(status);
+                });
+        }
 
         function createTemplate(template, modalInstance) {
             return jlsTemplateFactory.createTemplate(template).success(function (response) {

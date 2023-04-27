@@ -45,7 +45,7 @@
                     <a class="link" ng-click="templateCtrl.detail(targetTemplate, $event)" ng-bind="targetTemplate.Name"></a>
                 </td>
                 <td class="text-center">
-                    <a href="#/TargetTemplate/Update/{{targetTemplate.TargetTemplateId}}?viewKPIs" ng-if="templateCtrl.permission === templateCtrl.policyEnum.Host"
+                    <a href="#/JobLevelStandard/Template/Update/{{targetTemplate.TemplateId}}?viewKPIs" ng-if="templateCtrl.permission === templateCtrl.policyEnum.Host"
                        ng-bind="targetTemplate.KPIs"></a>
                     <span ng-if="templateCtrl.permission === templateCtrl.policyEnum.Read" ng-bind="targetTemplate.KPIs"></span>
                 </td>

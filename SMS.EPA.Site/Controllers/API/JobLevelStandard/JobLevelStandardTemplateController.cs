@@ -10,6 +10,7 @@
     using SMS.EPA.Criteria;
     using SMS.EPA.Criteria.JobLevelStandard.Template;
     using SMS.EPA.Model;
+    using SMS.EPA.Model.JobLevelStandard;
     using SMS.EPA.Model.JobLevelStandard.Template;
 
     public class JobLevelStandardTemplateController : BaseController
@@ -96,6 +97,26 @@
             }
 
             return baseService.ExecuteNonQuery(criteria);
+        }
+
+        [HttpGet]
+        [ApiAuthorize(FunctionKey = EPAFunctionKey.JobLevelStandardTemplate, Policy = Policy.Read)]
+        public IEnumerable<JobLevelStandardKPI> GetKPIListSelected([FromUri] GetKPIListSelectedCriteria criteria)
+        {
+            return baseService.GetData<JobLevelStandardKPI>(criteria);
+        }
+
+        [HttpPut]
+        [ApiAuthorize(FunctionKey = EPAFunctionKey.JobLevelStandardTemplate, Policy = Policy.Host)]
+        public CommandResult UpdateTemplateKPI(UpdateJobLevelStandardTemplateKPICriteria criteria)
+        {
+            if (criteria != null)
+            {
+                criteria.ModifiedBy = CurrentEmployeeId;
+            }
+
+            CommandResult commandResult = baseService.ExecuteNonQuery(criteria);
+            return commandResult;
         }
 
         public byte GetUserPermissionOnKPI()

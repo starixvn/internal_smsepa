@@ -56,7 +56,7 @@
         };
 
         vm.detail = function (template, event) {
-            var url = baseUrl + 'TargetTemplate/Detail/' + template.TemplateId;
+            var url = baseUrl + 'JobLevelStandard/Template/Detail/' + template.TemplateId;
             utilitiesFactory.handleOpenLink(event, url);
         };
 

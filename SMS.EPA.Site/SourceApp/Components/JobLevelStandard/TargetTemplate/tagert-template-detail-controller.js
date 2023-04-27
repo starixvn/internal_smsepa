@@ -3,10 +3,10 @@
     /* jshint latedef:nofunc */
     /* jshint validthis:true */
 
-    angular.module('jobLevelStandardModule').controller('JLSTemplateDetailController', detailController);
-    detailController.$inject = ['$routeParams', 'TargetTemplateModel', 'utilitiesFactory', 'historyFactory'];
+    angular.module('jobLevelStandardModule').controller('JLSTemplateDetailController', controller);
+    controller.$inject = ['$routeParams', 'JobLevelStandardTemplateModel', 'utilitiesFactory', 'historyFactory'];
 
-    function detailController($routeParams, TargetTemplateModel, utilitiesFactory, historyFactory) {
+    function controller($routeParams, JobLevelStandardTemplateModel, utilitiesFactory, historyFactory) {
         var vm = this;
 
         vm.targetTemplateId = parseInt($routeParams.id);
@@ -20,12 +20,12 @@
         };
 
         function initialize() {
-            TargetTemplateModel.getTemplateById(vm.targetTemplateId).then(function () {
-                vm.targetTemplate = TargetTemplateModel.targetTemplate;
+            JobLevelStandardTemplateModel.getTemplateById(vm.targetTemplateId).then(function () {
+                vm.targetTemplate = JobLevelStandardTemplateModel.template;
             });
 
-            TargetTemplateModel.getKPIOfTargetTemplate(vm.targetTemplateId, true).then(function () {
-                vm.kpiList = TargetTemplateModel.kpiList;
+            JobLevelStandardTemplateModel.getKPIListSelected(vm.targetTemplateId, true).then(function () {
+                vm.kpiList = JobLevelStandardTemplateModel.kpiList;
             });
         }
 

@@ -13,9 +13,19 @@
             getTemplate: getTemplate,
             getTemplateById: getTemplateById,
             updateTemplateBasicInfo: updateTemplateBasicInfo,
-            updateStatusTemplate: updateStatusTemplate
+            updateStatusTemplate: updateStatusTemplate,
+            updateTemplateKPI: updateTemplateKPI,
+            getKPIListSelected: getKPIListSelected
         };
 
+        function updateTemplateKPI(template) {
+            return $http.put(baseUrl + 'api/JobLevelStandardTemplate/UpdateTemplateKPI', template);
+        }
+
+        function getKPIListSelected(id, isSelected) {
+            return $http.get(baseUrl + 'api/JobLevelStandardTemplate/GetKPIListSelected',
+                { params: { templateId: id, isSelected: isSelected } });
+        }
 
         function createTemplate(template) {
             return $http.post(baseUrl + 'api/JobLevelStandardTemplate/CreateJobLevelStandardTemplate', template);
