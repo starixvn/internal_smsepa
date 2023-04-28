@@ -57,8 +57,8 @@
             }
         }
 
-        function getKPIListSelected(id, isSelected) {
-            return jlsTemplateFactory.getKPIListSelected(id, isSelected).success(
+        function getKPIListSelected(id, isSelectedAll) {
+            return jlsTemplateFactory.getKPIListSelected(id, isSelectedAll).success(
                 function (data) {
                     model.kpiList = data;
                 }).error(function (response, status) {

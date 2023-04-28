@@ -5,7 +5,7 @@
     {
         public int TemplateId { get; set; }
 
-        public bool IsSelected { get; set; }
+        public bool OnlySelected { get; set; }
 
         public override bool IsValid()
         {

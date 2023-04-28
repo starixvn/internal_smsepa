@@ -48,17 +48,17 @@
             vm.SelectedAll = isSelectedAll;
         };
 
-        vm.scoreSpread = function (group) {
+        vm.scoreSpread = function (kpiList) {
             var kpiSelected = [];
 
-            angular.forEach(group.KPIs, function (kpi) {
-                if (kpi.Selected) {
+            angular.forEach(kpiList, function (kpi) {
+                if (kpi.IsSelected) {
                     kpiSelected.push(kpi);
                 }
             });
 
             if (kpiSelected.length > 0) {
-                var averageWeight = group.Weight / kpiSelected.length;
+                var averageWeight = 100 / kpiSelected.length;
                 averageWeight = utilitiesFactory.splitNumber(averageWeight, 4);
 
                 angular.forEach(kpiSelected, function (kpi) {

@@ -6,11 +6,12 @@
     using Fanex.Data.Repository;
     using SMS.EPA.Core.Constants;
     using SMS.EPA.Model.JobLevelStandard;
+    using SMS.EPA.Model.JobLevelStandard.Template;
 
     public class UpdateJobLevelStandardTemplateKPICriteria : CriteriaBase
     {
         private const string KPIXmlTemplate =
-            @"<KPI KPIId='{0}' DisplayOrder='{1}'></KPI>";
+            @"<KPI KPIId='{0}' DisplayOrder='{1}' Weight='{2}'></KPI>";
 
         public int TemplateId { get; set; }
 
@@ -22,12 +23,13 @@
 
                 if (KPIIds != null)
                 {
-                    foreach (JobLevelStandardKPI item in KPIIds)
+                    foreach (JobLevelStandardTemplateKPI item in KPIIds)
                     {
                         kpiXml.AppendFormat(
                             KPIXmlTemplate,
                             item.KPIId,
-                            item.DisplayOrder);
+                            item.DisplayOrder,
+                            item.Weight);
                     }
                 }
 
@@ -38,7 +40,7 @@
         public int ModifiedBy { get; set; }
 
         [SpParam(Ignored = true)]
-        public List<JobLevelStandardKPI> KPIIds { get; set; }
+        public List<JobLevelStandardTemplateKPI> KPIIds { get; set; }
 
         public override bool IsValid()
         {

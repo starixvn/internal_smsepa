@@ -101,9 +101,9 @@
 
         [HttpGet]
         [ApiAuthorize(FunctionKey = EPAFunctionKey.JobLevelStandardTemplate, Policy = Policy.Read)]
-        public IEnumerable<JobLevelStandardKPI> GetKPIListSelected([FromUri] GetKPIListSelectedCriteria criteria)
+        public IEnumerable<JobLevelStandardTemplateKPI> GetKPIListSelected([FromUri] GetKPIListSelectedCriteria criteria)
         {
-            return baseService.GetData<JobLevelStandardKPI>(criteria);
+            return baseService.GetData<JobLevelStandardTemplateKPI>(criteria);
         }
 
         [HttpPut]

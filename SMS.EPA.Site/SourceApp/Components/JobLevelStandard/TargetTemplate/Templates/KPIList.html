@@ -1,8 +1,5 @@
 ﻿<div ng-controller="JLSKPIListController as kpiListCtrl">
     <form class="form-horizontal project-form" novalidate>
-        <div>
-            <input class="search-textbox pull-right" placeholder="KPI Name..." type="text" ng-model="Name" ng-keypress="kpiListCtrl.preventEnter($event)" />
-        </div>
         <div class="line top-buffer">
             <div>
                 <table class="table table-bordered table-striped table-hover" id="tblKPI">
@@ -18,6 +15,15 @@
                         </tr>
                     </thead>
                     <tbody class="kpiItemBody" list-sortable>
+                        <tr class="row-header unsortable">
+                            <td class="text-center row-highlight"></td>
+                            <td class="row-highlight"></td>
+                            <td class="text-center row-highlight"></td>
+                            <td class="text-center row-highlight">
+                                <a href="javascript:;" ng-click="kpiListCtrl.scoreSpread(kpiListCtrl.kpiList)">Spread</a>
+                            </td>
+                            <td class="text-center row-highlight"></td>
+                        </tr>
                         <tr class="row-data" ng-repeat="item in kpiListCtrl.kpiList | filter: Name">
                             <td class="text-center" item-id="{{item.KPIId}}">
                                 <input class="check-group" type="checkbox" value="{{item.Name}}" ng-model="item.IsSelected" ng-click="kpiListCtrl.check(item)" />
@@ -26,7 +32,7 @@
                             <td ng-bind="item.Name"></td>
                             <td class="width-100 text-center">
                                 <input type="text" class="weight-form-control text-center"
-                                       ng-model="item.Weight" name="weight" epa-number-dot />
+                                       ng-model="item.Weight" name="weight" epa-number-dot ng-show="item.IsSelected" />
                             </td>
                             <td class="text-center priority-limit">
                                 <a href="javascript:;" title="Top" class="glyphicon glyphicon-open kpiTop" move-kpi-row> | </a>

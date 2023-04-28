@@ -22,9 +22,9 @@
             return $http.put(baseUrl + 'api/JobLevelStandardTemplate/UpdateTemplateKPI', template);
         }
 
-        function getKPIListSelected(id, isSelected) {
+        function getKPIListSelected(id, onlySelected) {
             return $http.get(baseUrl + 'api/JobLevelStandardTemplate/GetKPIListSelected',
-                { params: { templateId: id, isSelected: isSelected } });
+                { params: { templateId: id, onlySelected: onlySelected } });
         }
 
         function createTemplate(template) {

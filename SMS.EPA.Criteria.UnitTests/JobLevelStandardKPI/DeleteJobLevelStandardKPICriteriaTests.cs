@@ -11,7 +11,7 @@
         {
             // Arrange
             var criteria = new DeleteJobLevelStandardKPICriteria();
-            string expected = "JobLevelStandardKPI_Delete";
+            string expected = "JobLevelStandard_KPI_Delete";
 
             // Act
             string actual = criteria.GetSettingKey();

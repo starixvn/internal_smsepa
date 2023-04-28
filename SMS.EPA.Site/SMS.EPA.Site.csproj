@@ -669,7 +669,6 @@
     <Content Include="SourceApp\Components\JobLevelStandard\Report\Templates\index.html" />
     <Content Include="SourceApp\Components\JobLevelStandard\TargetTemplate\add-kpi-group-controller.js" />
     <Content Include="SourceApp\Components\JobLevelStandard\TargetTemplate\create-target-template-controller.js" />
-    <Content Include="SourceApp\Components\JobLevelStandard\TargetTemplate\Directives\draggable-directive.js" />
     <Content Include="SourceApp\Components\JobLevelStandard\TargetTemplate\Directives\get-group-weight-directive.js" />
     <Content Include="SourceApp\Components\JobLevelStandard\TargetTemplate\Directives\get-weight-directive.js" />
     <Content Include="SourceApp\Components\JobLevelStandard\TargetTemplate\Directives\move-group-row-directive.js" />
@@ -762,9 +761,7 @@
     <Content Include="SourceApp\Components\TargetTemplate\target-template-access-controller.js" />
     <Content Include="SourceApp\Components\TargetTemplate\Directives\sortable-directive.js" />
     <Content Include="SourceApp\Components\TargetTemplate\Directives\draggable-directive.js" />
-    <Content Include="SourceApp\Components\TargetTemplate\Directives\move-group-row-directive.js" />
     <Content Include="SourceApp\Components\TargetTemplate\Directives\move-kpi-row-directive.js" />
-    <Content Include="SourceApp\Components\TargetTemplate\Directives\get-group-weight-directive.js" />
     <Content Include="SourceApp\Components\TargetTemplate\Directives\get-weight-directive.js" />
     <Content Include="SourceApp\Components\TargetTemplate\target-template-factory.js" />
     <Content Include="SourceApp\Components\TargetTemplate\target-template-model.js" />

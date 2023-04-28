@@ -10,6 +10,6 @@
 
         public override bool IsValid() => KPIId > 0 && ModifiedBy > 0;
 
-        public override string GetSettingKey() => "JobLevelStandardKPI_Delete";
+        public override string GetSettingKey() => "JobLevelStandard_KPI_Delete";
     }
 }

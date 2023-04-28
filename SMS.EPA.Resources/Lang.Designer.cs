@@ -3985,6 +3985,15 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Total Score of all KPI must be equal to 100.
+        /// </summary>
+        public static string TotalKPIWeightOfJLSWarning {
+            get {
+                return ResourceManager.GetString("TotalKPIWeightOfJLSWarning", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Total Score of all KPI of the group must be equal to Score of the group!.
         /// </summary>
         public static string TotalKPIWeightWarning {
