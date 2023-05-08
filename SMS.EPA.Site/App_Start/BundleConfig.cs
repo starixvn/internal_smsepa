@@ -292,14 +292,9 @@
                             "~/SourceApp/Components/JobLevelStandard/TargetTemplate/tagert-template-detail-controller.js",
                             "~/SourceApp/Components/JobLevelStandard/TargetTemplate/create-target-template-controller.js",
                             "~/SourceApp/Components/JobLevelStandard/TargetTemplate/update-target-template-controller.js",
-                            "~/SourceApp/Components/JobLevelStandard/TargetTemplate/add-kpi-group-controller.js",
                             "~/SourceApp/Components/JobLevelStandard/TargetTemplate/kpi-list-controller.js",
-                            "~/SourceApp/Components/JobLevelStandard/TargetTemplate/export-target-template-directive.js",
-                            "~/SourceApp/Components/JobLevelStandard/TargetTemplate/Directives/draggable-directive.js",
                             "~/SourceApp/Components/JobLevelStandard/TargetTemplate/Directives/sortable-directive.js",
-                            "~/SourceApp/Components/JobLevelStandard/TargetTemplate/Directives/move-group-row-directive.js",
                             "~/SourceApp/Components/JobLevelStandard/TargetTemplate/Directives/move-kpi-row-directive.js",
-                            "~/SourceApp/Components/JobLevelStandard/TargetTemplate/Directives/get-group-weight-directive.js",
                             "~/SourceApp/Components/JobLevelStandard/TargetTemplate/Directives/get-weight-directive.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/common/js").Include(

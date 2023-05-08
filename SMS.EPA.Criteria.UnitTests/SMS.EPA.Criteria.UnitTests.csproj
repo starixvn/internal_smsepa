@@ -97,6 +97,14 @@
     <Compile Include="JobLevelStandardKPI\GetJobLevelStandardKPICriteriaTests.cs" />
     <Compile Include="JobLevelStandardKPI\UpdateJobLevelStandardKPICriteriaTests.cs" />
     <Compile Include="JobLevelStandardKPI\UpdateStatusJobLevelStandardKPICriteriaTests.cs" />
+    <Compile Include="JobLevelStandardTemplate\CreateJobLevelStandardTemplateCriteriaTests.cs" />
+    <Compile Include="JobLevelStandardTemplate\DeleteJobLevelStandardTemplateCriteriaTests.cs" />
+    <Compile Include="JobLevelStandardTemplate\GetJobLevelStandardTemplateByIdCriteriaTests.cs" />
+    <Compile Include="JobLevelStandardTemplate\GetJobLevelStandardTemplateCriteriaTests.cs" />
+    <Compile Include="JobLevelStandardTemplate\GetKPIListSelectedCriteriaTests.cs" />
+    <Compile Include="JobLevelStandardTemplate\UpdateJobLevelStandardTemplateCriteriaTests.cs" />
+    <Compile Include="JobLevelStandardTemplate\UpdateJobLevelStandardTemplateKPICriteriaTests.cs" />
+    <Compile Include="JobLevelStandardTemplate\UpdateStatusJobLevelStandardTemplateCriteriaTests.cs" />
     <Compile Include="KPIGroup\CreateKPIGroupCriteriaTests.cs" />
     <Compile Include="KPIGroup\DeleteKPIGroupCriteriaTests.cs" />
     <Compile Include="KPIGroup\GetKPIGroupByIdCriteriaTests.cs" />

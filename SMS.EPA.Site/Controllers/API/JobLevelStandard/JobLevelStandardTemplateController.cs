@@ -7,10 +7,7 @@
     using SMS.EPA.Core.Constants;
     using SMS.EPA.Core.Model;
     using SMS.EPA.Core.Services;
-    using SMS.EPA.Criteria;
     using SMS.EPA.Criteria.JobLevelStandard.Template;
-    using SMS.EPA.Model;
-    using SMS.EPA.Model.JobLevelStandard;
     using SMS.EPA.Model.JobLevelStandard.Template;
 
     public class JobLevelStandardTemplateController : BaseController
@@ -62,7 +59,7 @@
 
         [HttpDelete]
         [ApiAuthorize(FunctionKey = EPAFunctionKey.JobLevelStandardTemplate, Policy = Policy.Host)]
-        public CommandResult DeleteStatusJobLevelStandardTemplate(int templateId)
+        public CommandResult DeleteJobLevelStandardTemplate(int templateId)
         {
             var criteria = new DeleteJobLevelStandardTemplateCriteria()
             {

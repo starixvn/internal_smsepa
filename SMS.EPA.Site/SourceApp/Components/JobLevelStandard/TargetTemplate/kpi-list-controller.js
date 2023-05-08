@@ -74,34 +74,6 @@
             }
         };
 
-        function getTotalWeight(kpiList) {
-            var totalWeight = 0;
-
-            angular.forEach(kpiList, function (kpiGroup) {
-                if (kpiGroup.KPIs && kpiGroup.KPIs.length > 0) {
-                    var kpiLength = kpiGroup.KPIs.length,
-                        groupWeight = 0;
-
-                    for (var i = 0; i < kpiLength; i++) {
-                        var item = kpiGroup.KPIs[i];
-
-                        if (item.Selected) {
-                            if (kpiGroup.IsSpreadKPI) {
-                                groupWeight = kpiGroup.Weight;
-                                i = kpiLength;
-                            } else {
-                                groupWeight += parseFloat(item.Weight);
-                            }
-                        }
-                    }
-
-                    totalWeight += groupWeight;
-                }
-            });
-
-            return utilitiesFactory.parseFloat(totalWeight);
-        }
-
         vm.save = function (template) {
             JobLevelStandardTemplateModel.updateTemplateKPI(template);
         };

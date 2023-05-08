@@ -1,6 +1,5 @@
 ﻿namespace SMS.EPA.Criteria.UnitTests.JobLevelStandardKPI
 {
-    using Criteria;
     using NUnit.Framework;
     using SMS.EPA.Criteria.JobLevelStandard.KPI;
 

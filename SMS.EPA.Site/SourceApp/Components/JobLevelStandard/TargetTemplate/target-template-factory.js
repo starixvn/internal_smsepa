@@ -32,7 +32,7 @@
         }
 
         function deleteTemplate(templateId) {
-            return $http['delete'](baseUrl + 'api/JobLevelStandardTemplate/DeleteStatusJobLevelStandardTemplate', { params: { templateId: templateId } });
+            return $http['delete'](baseUrl + 'api/JobLevelStandardTemplate/DeleteJobLevelStandardTemplate', { params: { templateId: templateId } });
         }
 
         function getPermissionOnTemplate() {

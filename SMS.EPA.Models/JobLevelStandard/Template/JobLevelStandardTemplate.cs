@@ -19,8 +19,6 @@
 
         public int ModifiedBy { get; set; }
 
-        //public List<TargetTemplateKPIModel> KPIIds { get; set; }
-
         public string CreatedNickName { get; set; }
 
         public string CreatedFullName { get; set; }
