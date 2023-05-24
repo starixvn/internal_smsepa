@@ -54,6 +54,7 @@
             foreach (AutoEvaluationProcessModel evaluationProcess in evaluationProcesses)
             {
                 evaluationProcess.TotalScore = cryptographyService.Decrypt(evaluationProcess.TotalScore);
+                evaluationProcess.AdjustScore = cryptographyService.Decrypt(evaluationProcess.AdjustScore);
             }
         }
     }
