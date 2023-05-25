@@ -60,17 +60,21 @@
 
         public CommandResult UpdateTotalScoreOfProcess(IEnumerable<AutoEvaluationProcessModel> processes)
         {
-            UpdateTotalScoreOfSemiHasMonthly(processes.Where(x => x.ProcessId == (byte)ProcessType.Evaluator && x.IsSemiHasMonthly).ToList());
+            UpdateTotalScoreOfSemiHasMonthly(processes.Where(x => x.ProcessId <= (byte)ProcessType.Reviewer && x.IsSemiHasMonthly).ToList());
 
-            var reviewerManagements = processes.Where(x => x.ProcessId >= (byte)ProcessType.Reviewer).OrderBy(x => x.EPAId).ThenBy(x => x.ProcessId).ToList();
+            var reviewerManagements = processes.Where(x => x.ProcessId >= (byte)ProcessType.Reviewer)
+                .OrderBy(x => x.EPAId).ThenBy(x => x.ProcessId).ToList();
             foreach (AutoEvaluationProcessModel process in reviewerManagements)
             {
-                float? averageScore = GetAverageScorePreProcess(processes.Where(x => x.EPAId == process.EPAId).ToList(), process.ProcessId);
-                float? adjustScore = !string.IsNullOrWhiteSpace(process.AdjustScore) ? float.Parse(process.AdjustScore) : (float?)null;
-                averageScore = CalculateTotalScoreOfProcess(averageScore, adjustScore);
+                if (process.ProcessId != (byte)ProcessType.Reviewer || !process.IsSemiHasMonthly)
+                {
+                    float? averageScore = GetAverageScorePreProcess(processes.Where(x => x.EPAId == process.EPAId).ToList(), process.ProcessId);
+                    float? adjustScore = !string.IsNullOrWhiteSpace(process.AdjustScore) ? float.Parse(process.AdjustScore) : (float?)null;
+                    averageScore = CalculateTotalScoreOfProcess(averageScore, adjustScore);
 
-                process.TotalScore = averageScore.HasValue ? averageScore.Value.ToString(CultureInfo.InvariantCulture) : string.Empty;
-                process.IsChanged = true;
+                    process.TotalScore = averageScore.HasValue ? averageScore.Value.ToString(CultureInfo.InvariantCulture) : string.Empty;
+                    process.IsChanged = true;
+                }
             }
 
             processes = processes.Where(x => x.IsChanged).ToList();
