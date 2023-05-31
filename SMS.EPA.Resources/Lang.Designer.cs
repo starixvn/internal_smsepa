@@ -3400,6 +3400,15 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Please select at least an section to assign template!.
+        /// </summary>
+        public static string SelectSectionBeforeAssignWarning {
+            get {
+                return ResourceManager.GetString("SelectSectionBeforeAssignWarning", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Select Violation Type.
         /// </summary>
         public static string SelectViolationType {

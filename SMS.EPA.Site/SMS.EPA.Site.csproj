@@ -252,9 +252,11 @@
     <Compile Include="Controllers\API\JobLevelStandard\JobLevelSettingController.cs" />
     <Compile Include="Controllers\API\JobLevelStandard\JobLevelStandardPeriodController.cs" />
     <Compile Include="Controllers\API\JobLevelStandard\JobLevelStandardTemplateController.cs" />
+    <Compile Include="Controllers\API\JobLevelStandard\JobLevelStandardTemplateSettingController.cs" />
     <Compile Include="Controllers\Export\ExportCommentReportController.cs" />
     <Compile Include="Controllers\Export\ExportAssessmentController.cs" />
     <Compile Include="Controllers\Export\ExportJLSPeriodEmployeeSettingController.cs" />
+    <Compile Include="Controllers\Export\ExportJLSSectionTemplateSettingController.cs" />
     <Compile Include="Controllers\Export\ExportRecommendationReportController.cs" />
     <Compile Include="Controllers\Export\ExportTargetTemplateController.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -667,6 +669,12 @@
     <Content Include="SourceApp\Components\JobLevelStandard\Report\assessment-report-factory.js" />
     <Content Include="SourceApp\Components\JobLevelStandard\Report\assessment-report-model.js" />
     <Content Include="SourceApp\Components\JobLevelStandard\Report\Templates\index.html" />
+    <Content Include="SourceApp\Components\JobLevelStandard\TemplateSetting\section-setting-controller.js" />
+    <Content Include="SourceApp\Components\JobLevelStandard\TemplateSetting\templateSetting-controller.js" />
+    <Content Include="SourceApp\Components\JobLevelStandard\TemplateSetting\templateSetting-factory.js" />
+    <Content Include="SourceApp\Components\JobLevelStandard\TemplateSetting\templateSetting-model.js" />
+    <Content Include="SourceApp\Components\JobLevelStandard\TemplateSetting\Templates\index.html" />
+    <Content Include="SourceApp\Components\JobLevelStandard\TemplateSetting\Templates\section.html" />
     <Content Include="SourceApp\Components\JobLevelStandard\TargetTemplate\create-target-template-controller.js" />
     <Content Include="SourceApp\Components\JobLevelStandard\TargetTemplate\Directives\get-weight-directive.js" />
     <Content Include="SourceApp\Components\JobLevelStandard\TargetTemplate\Directives\move-kpi-row-directive.js" />
@@ -960,6 +968,7 @@
     <Content Include="Content\Site\views\_joblevel-standard.less" />
     <Content Include="Content\Site\components\_multiselect-treeview.less" />
     <Content Include="ExcelTemplates\EmployeeSettingJLSPeriodTemplate.xls" />
+    <Content Include="ExcelTemplates\SectionSettingTemplate.xls" />
     <None Include="Libs\angularjs\angular-resource.min.js.map" />
     <None Include="Libs\angularjs\angular-route.min.js.map" />
     <Content Include="Libs\angularjs\angular-touch.min.js.map" />
@@ -1080,6 +1089,8 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Views\Default\" />
+    <Folder Include="Views\ExportJLSSectionTemplateSetting\" />
+    <Folder Include="Views\JobLevelStandardTemplateSetting\" />
     <Folder Include="Views\JobLevelStandardTemplate\" />
   </ItemGroup>
   <PropertyGroup>

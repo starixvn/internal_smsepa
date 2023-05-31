@@ -8,7 +8,9 @@
     using SMS.EPA.Core.Model;
     using SMS.EPA.Core.Services;
     using SMS.EPA.Criteria.JobLevelStandard.Template;
+    using SMS.EPA.Criteria.JobLevelStandard.TemplateSetting;
     using SMS.EPA.Model.JobLevelStandard.Template;
+    using SMS.EPA.Model.JobLevelStandard.TemplateSetting;
 
     public class JobLevelStandardTemplateController : BaseController
     {

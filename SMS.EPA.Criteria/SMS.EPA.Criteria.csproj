@@ -133,6 +133,9 @@
     <Compile Include="JobLevelStandard\Report\GetJobLevelAssessmentReportCriteria.cs" />
     <Compile Include="JobLevelStandard\Report\GetOrgChartByActorIdCriteria.cs" />
     <Compile Include="JobLevelStandard\Report\GetPeriodCriteria.cs" />
+    <Compile Include="JobLevelStandard\TemplateSetting\AssignJobLevelStandardTemplateSettingCriteria.cs" />
+    <Compile Include="JobLevelStandard\TemplateSetting\DeleteJobLevelStandardTemplateSettingCriteria.cs" />
+    <Compile Include="JobLevelStandard\TemplateSetting\GetJobLevelStandardTemplateSettingCriteria.cs" />
     <Compile Include="JobLevelStandard\Template\CreateJobLevelStandardTemplateCriteria.cs" />
     <Compile Include="JobLevelStandard\Template\DeleteJobLevelStandardTemplateCriteria.cs" />
     <Compile Include="JobLevelStandard\Template\GetJobLevelStandardTemplateByIdCriteria.cs" />

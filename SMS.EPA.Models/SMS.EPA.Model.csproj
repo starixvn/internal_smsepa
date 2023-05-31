@@ -137,6 +137,7 @@
     <Compile Include="JobLevelStandard\Period\JobLevelStandardPeriodSetting.cs" />
     <Compile Include="JobLevelStandard\Period\PeriodEmployeeSetting.cs" />
     <Compile Include="JobLevelStandard\Period\PeriodProcessSetting.cs" />
+    <Compile Include="JobLevelStandard\TemplateSetting\JobLevelStandardTemplateSetting.cs" />
     <Compile Include="JobLevelStandard\Template\JobLevelStandardTemplate.cs" />
     <Compile Include="JobLevelStandard\Template\JobLevelStandardTemplateKPI.cs" />
     <Compile Include="JobLevel\JobLevel.cs" />
@@ -255,6 +256,7 @@
     <Analyzer Include="..\packages\SonarAnalyzer.CSharp.8.34.0.42011\analyzers\SonarAnalyzer.CSharp.dll" />
     <Analyzer Include="..\packages\SonarAnalyzer.CSharp.8.34.0.42011\analyzers\SonarAnalyzer.dll" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets" Condition="Exists('..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

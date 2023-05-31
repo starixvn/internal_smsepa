@@ -30,10 +30,6 @@
 
         public const string KPI = "KPI";
 
-        public const string JobLevelStandardKPI = "JobLevelStandardKPI";
-
-        public const string JobLevelStandardTemplate = "JobLevelStandardTemplate";
-
         public const string KPIGroup = "KPIGroup";
 
         public const string TargetTemplate = "TargetTemplate";
@@ -77,5 +73,8 @@
         public const string JobLevelStandardPeriod = "JobLevelStandardPeriod";
         public const string JobLevelAssessment = "JobLevelAssessment";
         public const string JobLevelAssessmentReport = "JobLevelAssessmentReport";
+        public const string JobLevelStandardKPI = "JobLevelStandardKPI";
+        public const string JobLevelStandardTemplate = "JobLevelStandardTemplate";
+        public const string JobLevelStandardTemplateSetting = "JobLevelStandardTemplateSetting";
     }
 }

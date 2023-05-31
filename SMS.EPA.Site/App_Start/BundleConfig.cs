@@ -295,7 +295,11 @@
                             "~/SourceApp/Components/JobLevelStandard/TargetTemplate/kpi-list-controller.js",
                             "~/SourceApp/Components/JobLevelStandard/TargetTemplate/Directives/sortable-directive.js",
                             "~/SourceApp/Components/JobLevelStandard/TargetTemplate/Directives/move-kpi-row-directive.js",
-                            "~/SourceApp/Components/JobLevelStandard/TargetTemplate/Directives/get-weight-directive.js"));
+                            "~/SourceApp/Components/JobLevelStandard/TargetTemplate/Directives/get-weight-directive.js",
+                            "~/SourceApp/Components/JobLevelStandard/TemplateSetting/templateSetting-factory.js",
+                            "~/SourceApp/Components/JobLevelStandard/TemplateSetting/templateSetting-model.js",
+                            "~/SourceApp/Components/JobLevelStandard/TemplateSetting/templateSetting-controller.js",
+                            "~/SourceApp/Components/JobLevelStandard/TemplateSetting/section-setting-controller.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/common/js").Include(
                             "~/SourceApp/Shared/Directives/epa-addClassToRoleFilter-directive.js",

@@ -1,0 +1,14 @@
+﻿<div class="col-sm-12" ng-controller="JLSTemplateSettingController as targetCtrl">
+    <div class="sub-header">
+        <ul class="row breadcrumb">
+            <li class="current">Job Level Standard Template Setting</li>
+        </ul>
+    </div>
+    <div class="target-tabset">
+        <uib-tabset id="TargetTemplateTab" active="targetCtrl.dataTab = 2">
+            <uib-tab heading="SECTION" class="tab-cursor" index="2" select="targetCtrl.dataTab = 2">
+                <div ng-include src="'/SourceApp/Components/JobLevelStandard/TemplateSetting/Templates/section.html'"></div>
+            </uib-tab>
+        </uib-tabset>
+    </div>
+</div>

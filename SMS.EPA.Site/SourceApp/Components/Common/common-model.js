@@ -155,6 +155,24 @@
             });
         };
 
+        function generateTreeSection(departments, options, level) {
+            angular.forEach(departments, function (item) {
+                if (item.DepartmentId > 0) {
+                    options.push({
+                        Name: createLabel(item, level),
+                        DepartmentId: item.DepartmentId,
+                    });
+                    generateTreeSection(item.Childrens, options, level + 1);
+                }
+            });
+
+            return options;
+        }
+
+        model.generateTreeSection = function (departments) {
+            return generateTreeSection(departments, [], 0);
+        };
+
         model.getAllStatus = function () {
             return commonFactory.getAllStatus().success(function (statusList) {
                 model.statusList = statusList;

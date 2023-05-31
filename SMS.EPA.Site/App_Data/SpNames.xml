@@ -314,5 +314,8 @@
         <Setting Key="JobLevelStandard_Template_Update" SpName="JobLevelStandard_Template_Update" DbName="SMSEPA" Plain="0" />
         <Setting Key="JobLevelStandard_Template_GetKPIList" SpName="JobLevelStandard_Template_GetKPIList" DbName="SMSEPA" Plain="0" />
         <Setting Key="JobLevelStandard_Template_UpdateKPI" SpName="JobLevelStandard_Template_UpdateKPI" DbName="SMSEPA" Plain="0" />
+        <Setting Key="JobLevelStandard_TemplateSetting_Get" SpName="JobLevelStandard_TemplateSetting_Get" DbName="SMSEPA" Plain="0" />
+        <Setting Key="JobLevelStandard_TemplateSetting_Delete" SpName="JobLevelStandard_TemplateSetting_Delete" DbName="SMSEPA" Plain="0" />
+        <Setting Key="JobLevelStandard_TemplateSetting_Assign" SpName="JobLevelStandard_TemplateSetting_Assign" DbName="SMSEPA" Plain="0" />
     </Function>
 </Functions>
