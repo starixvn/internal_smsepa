@@ -161,6 +161,7 @@
                     options.push({
                         Name: createLabel(item, level),
                         DepartmentId: item.DepartmentId,
+                        Disable: level !== 2
                     });
                     generateTreeSection(item.Childrens, options, level + 1);
                 }

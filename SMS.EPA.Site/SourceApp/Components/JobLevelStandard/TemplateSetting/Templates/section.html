@@ -2,7 +2,7 @@
     <form novalidate class="form-filter">
         <div class="form-group">
             <label class="label-form" data-translate="DepartmentSection"></label>
-            <select ng-model="sectionCtrl.filter.departmentId" ng-options="opt.DepartmentId as opt.Name for opt in sectionCtrl.treeDepartment"
+            <select ng-model="sectionCtrl.filter.departmentId" ng-options="opt.DepartmentId as opt.Name disable when opt.Disable for opt in sectionCtrl.treeDepartment"
                     class="form-control select-form">
                 <option value="">-- {{"All" | translate}} --</option>
             </select>
