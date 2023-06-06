@@ -10,6 +10,14 @@
             <label class="col-sm-3 control-label" data-translate="Employee"></label>
             <div class="col-sm-8 field employee-info">
                 <span ng-bind="editEmployeeSettingCtrl.employeeInfo"></span>
+                <a ng-show="editEmployeeSettingCtrl.showMore"
+                   href="javascript:;"
+                   data-translate="ReadMore"
+                   ng-click="editEmployeeSettingCtrl.readMore()"></a>
+                <a ng-show="editEmployeeSettingCtrl.showLess"
+                   href="javascript:;"
+                   data-translate="ReadLess"
+                   ng-click="editEmployeeSettingCtrl.readLess()"></a>
             </div>
         </div>
     </form>
@@ -46,6 +54,7 @@
                             ng-options="opt.EmployeeId as (opt.FullName + ' (' + opt.NickName + ')') for opt in editEmployeeSettingCtrl.employeeSettings.managementOptions"
                             on-show-dropdown="editEmployeeSettingCtrl.updateTrigger()"></select>
                 </td>
+
             </tr>
             <tr>
                 <td rowspan="2" ng-show="!editEmployeeSettingCtrl.singleMode" class="text-center">
@@ -139,6 +148,21 @@
                         </span>
                     </p>
                 </td>
+            </tr>
+            <tr>
+                <td ng-show="!editEmployeeSettingCtrl.singleMode" class="text-center">
+                    <input type="checkbox" ng-model="editEmployeeSettingCtrl.fieldEdit.template" />
+                </td>
+                <td data-translate="Template"></td>
+                <td class="text-center" colspan="3">
+                    <select ng-model="editEmployeeSettingCtrl.employeeSettings.templateId"
+                            ng-options="opt.TemplateId as opt.Name for opt in editEmployeeSettingCtrl.templates"
+                            ng-disabled="editEmployeeSettingCtrl.isDisableSelectTemplate()"
+                            class="target-template-setting-select lstBox-limit">
+                        <option value="">None</option>
+                    </select>
+                </td>
+
             </tr>
         </tbody>
     </table>

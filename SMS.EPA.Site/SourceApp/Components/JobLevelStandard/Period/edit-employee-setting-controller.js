@@ -4,17 +4,21 @@
     /* jshint validthis:true */
 
     angular.module('jobLevelStandardModule').controller('EditEmployeeSettingController', editEmployeeSettingController);
-    editEmployeeSettingController.$inject = ['$scope', '$uibModalInstance', 'JobLevelStandardPeriodModel', 'CommonModel', 'utilitiesFactory', 'employees'];
+    editEmployeeSettingController.$inject = ['$scope', '$uibModalInstance', 'JobLevelStandardPeriodModel', 'CommonModel', 'JLSTemplateSettingModel', 'utilitiesFactory', 'employees'];
 
-    function editEmployeeSettingController($scope, $uibModalInstance, PeriodModel, CommonModel, utilitiesFactory, selectedEmployees) {
+    function editEmployeeSettingController($scope, $uibModalInstance, PeriodModel, CommonModel, TemplateSettingModel, utilitiesFactory, selectedEmployees) {
         let vm = this,
             date = new Date();
         vm.singleMode = selectedEmployees.length === 1;
         vm.employeeInfo = '';
+        vm.templates = [];
+        vm.showMore = selectedEmployees.length > 10
+        vm.showLess = false
 
         vm.fieldEdit = {
             evaluator: false,
-            date: false
+            date: false,
+            template: false,
         };
 
         vm.process = utilitiesFactory.jobLevelAssessmentProcess;
@@ -44,9 +48,22 @@
                 fromDate: null,
                 toDate: null
             },
+            templateId: null,
             evaluatorOptions: [],
             managementOptions: []
         };
+
+        vm.readMore = function () {
+            vm.showMore = false
+            vm.showLess = true
+            generateEmployeeInfo(true);
+        }
+
+        vm.readLess = function () {
+            vm.showMore = true
+            vm.showLess = false
+            generateEmployeeInfo(false);
+        }
 
         function getEvaluators(evaluators) {
             const evaluator = {
@@ -68,11 +85,23 @@
             return evaluator;
         }
 
-        function initialize() {
-            for (const employee of selectedEmployees) {
+        function generateEmployeeInfo(isShowAll) {
+            vm.employeeInfo = '';
+            let data = [];
+            if (selectedEmployees.length <= 10) {
+                data = selectedEmployees
+            } else {
+                data = isShowAll ? selectedEmployees : selectedEmployees.slice(0, 10);
+            }
+
+            for (const employee of data) {
                 const employeeInfo = employee.FullName + ' (' + employee.Nickname + ')';
                 vm.employeeInfo += vm.employeeInfo ? ', ' + employeeInfo : employeeInfo;
             }
+        }
+
+        function initialize() {
+            generateEmployeeInfo(false);
 
             CommonModel.searchEmployee().then(function () {
                 vm.employees = CommonModel.employees;
@@ -82,8 +111,21 @@
                 vm.employeeSettings.employee = getEvaluators([selectedEmployees[0].Employee]);
                 vm.employeeSettings.evaluator = getEvaluators(selectedEmployees[0].Evaluators);
                 vm.employeeSettings.management = getEvaluators(selectedEmployees[0].Managements);
+                vm.employeeSettings.templateId = selectedEmployees[0].TemplateId;
+            });
+
+            TemplateSettingModel.getTemplates().then(function () {
+                vm.templates = TemplateSettingModel.templates;
+
+                if (vm.templates && vm.templates.length > 0 && vm.singleMode) {
+                    vm.employeeSettings.templateId = selectedEmployees[0].TemplateId;
+                }
             });
         }
+
+        vm.isDisableSelectTemplate = function () {
+            return vm.employeeSettings.evaluator.fromDate <= new Date();
+        };
 
         vm.updateTrigger = function () {
             $scope.$broadcast('updatedChosen');
@@ -107,6 +149,7 @@
                 for (const employee of selectedEmployees) {
                     const employeeSetting = {
                         periodId: employee.PeriodId,
+                        templateId: vm.employeeSettings.templateId,
                         employee: {
                             processId: vm.process.Employee,
                             employeeId: employee.EmployeeId,
@@ -117,7 +160,7 @@
                         evaluators: [],
                         managements: []
                     };
-                    if (vm.singleMode || vm.fieldEdit.evaluator) {
+                    if (vm.singleMode || vm.fieldEdit.evaluator || vm.fieldEdit.template) {
                         angular.forEach(vm.employeeSettings.evaluator.ids, function (id) {
                             employeeSetting.evaluators.push({
                                 processId: vm.process.Evaluator,

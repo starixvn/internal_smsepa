@@ -369,7 +369,7 @@
         };
 
         model.validateEditEmployeeSetting = function (singleMode, fieldEdit, employeeSettings) {
-            if (!singleMode && !fieldEdit.evaluator && !fieldEdit.date) {
+            if (!singleMode && !fieldEdit.evaluator && !fieldEdit.date && !fieldEdit.template) {
                 notificationFactory.error('', 'Please select at least a field to edit!');
                 return false;
             }

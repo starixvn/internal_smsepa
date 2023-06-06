@@ -21,6 +21,8 @@
         public string Department { get; set; }
         public string Section { get; set; }
         public string Team { get; set; }
+        public string Template { get; set; }
+        public int TemplateId { get; set; }
         public bool IsExcluded { get; set; }
 
         public JobLevelAssessmentStatus? StatusId { get; set; }

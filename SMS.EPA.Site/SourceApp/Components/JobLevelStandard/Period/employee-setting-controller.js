@@ -3,10 +3,10 @@
     /* jshint latedef:nofunc */
     /* jshint validthis:true */
 
-    angular.module('jobLevelStandardModule').controller('JobLevelStandardPeriodEmployeeSettingController', employeeSettingController);
-    employeeSettingController.$inject = ['$scope', 'baseUrl', 'JobLevelStandardPeriodModel', 'CommonModel', 'utilitiesFactory', 'lockScreenService'];
+    angular.module('jobLevelStandardModule').controller('JobLevelStandardPeriodEmployeeSettingController', controller);
+    controller.$inject = ['$scope', 'baseUrl', 'JobLevelStandardPeriodModel', 'CommonModel', 'utilitiesFactory', 'lockScreenService'];
 
-    function employeeSettingController($scope, baseUrl, PeriodModel, CommonModel, utilitiesFactory, lockScreenService) {
+    function controller($scope, baseUrl, PeriodModel, CommonModel, utilitiesFactory, lockScreenService) {
         let vm = this;
 
         vm.period = null;
