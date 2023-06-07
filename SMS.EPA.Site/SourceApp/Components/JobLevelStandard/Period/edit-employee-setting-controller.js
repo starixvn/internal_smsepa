@@ -21,6 +21,13 @@
             template: false,
         };
 
+        vm.disableInput = {
+            evaluator: false,
+            employee: false,
+            management: false,
+            template: false,
+        };
+
         vm.process = utilitiesFactory.jobLevelAssessmentProcess;
         vm.calendar = angular.copy(PeriodModel.calendar);
 
@@ -100,8 +107,43 @@
             }
         }
 
+        function disableInput() {
+            let today = new Date();
+            let evaluator = {
+                FromDate: null
+            };
+            let employee = {
+                FromDate: null
+            };;
+            let management = {
+                FromDate: null
+            };;
+
+            for (const item of selectedEmployees) {
+                disableInput_AddDateToObject(evaluator, item.Evaluators[0])
+                disableInput_AddDateToObject(employee, item.Employee)
+                disableInput_AddDateToObject(management, item.Managements[0])
+            }
+
+            vm.disableInput = {
+                evaluator: today >= evaluator.FromDate,
+                employee: today >= employee.FromDate,
+                management: today >= management.FromDate,
+                template: today >= evaluator.FromDate,
+            };
+
+        }
+
+        function disableInput_AddDateToObject(obj, data) {
+            let fromDate = new Date(data.FromDate)
+            if (obj.FromDate === null || fromDate < obj.FromDate) {
+                obj.FromDate = fromDate
+            }
+        }
+
         function initialize() {
             generateEmployeeInfo(false);
+            disableInput();
 
             CommonModel.searchEmployee().then(function () {
                 vm.employees = CommonModel.employees;
@@ -122,10 +164,6 @@
                 }
             });
         }
-
-        vm.isDisableSelectTemplate = function () {
-            return vm.employeeSettings.evaluator.fromDate <= new Date();
-        };
 
         vm.updateTrigger = function () {
             $scope.$broadcast('updatedChosen');

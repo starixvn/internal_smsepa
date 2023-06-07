@@ -39,6 +39,7 @@
                 <td data-translate="Evaluator"></td>
                 <td>
                     <select class="form-control" multiple chosen
+                            ng-disabled="editEmployeeSettingCtrl.disableInput.evaluator"
                             options="editEmployeeSettingCtrl.employeeSettings.evaluatorOptions"
                             ng-model="editEmployeeSettingCtrl.employeeSettings.evaluator.ids"
                             data-placeholder="-- Select --" name="evaluatorSelect"
@@ -48,6 +49,7 @@
                 <td></td>
                 <td>
                     <select class="form-control" multiple chosen
+                            ng-disabled="editEmployeeSettingCtrl.disableInput.management"
                             options="editEmployeeSettingCtrl.employeeSettings.managementOptionss"
                             ng-model="editEmployeeSettingCtrl.employeeSettings.management.ids"
                             data-placeholder="-- Select --" name="managementSelect"
@@ -64,6 +66,7 @@
                 <td class="text-center">
                     <p class="input-group calendar-input-group">
                         <input readonly class="calendar-form-control" type="text" uib-datepicker-popup
+                               ng-disabled="editEmployeeSettingCtrl.disableInput.evaluator"
                                ng-model="editEmployeeSettingCtrl.employeeSettings.evaluator.fromDate"
                                ng-click="editEmployeeSettingCtrl.openFromDate($event, editEmployeeSettingCtrl.process.Evaluator)"
                                is-open="editEmployeeSettingCtrl.calendar.fromDateEvaluatorOpened" />
@@ -78,6 +81,7 @@
                 <td class="text-center">
                     <p class="input-group calendar-input-group">
                         <input readonly class="calendar-form-control" type="text" uib-datepicker-popup
+                               ng-disabled="editEmployeeSettingCtrl.disableInput.employee"
                                ng-model="editEmployeeSettingCtrl.employeeSettings.employee.fromDate"
                                ng-click="editEmployeeSettingCtrl.openFromDate($event, editEmployeeSettingCtrl.process.Employee)"
                                is-open="editEmployeeSettingCtrl.calendar.fromDateEmployeeOpened" />
@@ -92,6 +96,7 @@
                 <td class="text-center">
                     <p class="input-group calendar-input-group">
                         <input readonly class="calendar-form-control" type="text" uib-datepicker-popup
+                               ng-disabled="editEmployeeSettingCtrl.disableInput.management"
                                ng-model="editEmployeeSettingCtrl.employeeSettings.management.fromDate"
                                ng-click="editEmployeeSettingCtrl.openFromDate($event, editEmployeeSettingCtrl.process.Management)"
                                is-open="editEmployeeSettingCtrl.calendar.fromDateManagementOpened" />
@@ -109,6 +114,7 @@
                 <td class="text-center">
                     <p class="input-group calendar-input-group">
                         <input readonly class="calendar-form-control" type="text" uib-datepicker-popup
+                               ng-disabled="editEmployeeSettingCtrl.disableInput.evaluator"
                                ng-model="editEmployeeSettingCtrl.employeeSettings.evaluator.toDate"
                                ng-click="editEmployeeSettingCtrl.openToDate($event, editEmployeeSettingCtrl.process.Evaluator)"
                                is-open="editEmployeeSettingCtrl.calendar.toDateEvaluatorOpened" />
@@ -123,6 +129,7 @@
                 <td class="text-center">
                     <p class="input-group calendar-input-group">
                         <input readonly class="calendar-form-control" type="text" uib-datepicker-popup
+                               ng-disabled="editEmployeeSettingCtrl.disableInput.employee"
                                ng-model="editEmployeeSettingCtrl.employeeSettings.employee.toDate"
                                ng-click="editEmployeeSettingCtrl.openToDate($event, editEmployeeSettingCtrl.process.Employee)"
                                is-open="editEmployeeSettingCtrl.calendar.toDateEmployeeOpened" />
@@ -137,6 +144,7 @@
                 <td class="text-center">
                     <p class="input-group calendar-input-group">
                         <input readonly class="calendar-form-control" type="text" uib-datepicker-popup
+                               ng-disabled="editEmployeeSettingCtrl.disableInput.management"
                                ng-model="editEmployeeSettingCtrl.employeeSettings.management.toDate"
                                ng-click="editEmployeeSettingCtrl.openToDate($event, editEmployeeSettingCtrl.process.Management)"
                                is-open="editEmployeeSettingCtrl.calendar.toDateManagementOpened" />
@@ -156,8 +164,8 @@
                 <td data-translate="Template"></td>
                 <td class="text-center" colspan="3">
                     <select ng-model="editEmployeeSettingCtrl.employeeSettings.templateId"
+                            ng-disabled="editEmployeeSettingCtrl.disableInput.template"
                             ng-options="opt.TemplateId as opt.Name for opt in editEmployeeSettingCtrl.templates"
-                            ng-disabled="editEmployeeSettingCtrl.isDisableSelectTemplate()"
                             class="target-template-setting-select lstBox-limit">
                         <option value="">None</option>
                     </select>
