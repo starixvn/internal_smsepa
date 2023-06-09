@@ -6,18 +6,17 @@
     angular.module('jobLevelStandardModule').controller('UpdateJLSTemplateController', updateController);
     updateController.$inject = ['$routeParams', 'JobLevelStandardTemplateModel', 'historyFactory'];
 
-    function updateController($routeParams, JLSTemplateModel, historyFactory) {
-        var vm = this;
+    function updateController($routeParams, TemplateModel, historyFactory) {
+        let vm = this;
 
         vm.templateId = parseInt($routeParams.id);
         vm.template = null;
-        vm.originalScoreTypeId = '';
 
         vm.dataTab = $routeParams.viewKPIs ? 2 : 1;
 
         vm.getTemplateById = function (id) {
-            JLSTemplateModel.getTemplateById(id).then(function () {
-                vm.template = JLSTemplateModel.template;
+            TemplateModel.getTemplateById(id).then(function () {
+                vm.template = TemplateModel.template;
             });
         };
 

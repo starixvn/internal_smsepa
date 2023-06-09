@@ -7,7 +7,7 @@
     createKPIController.$inject = ['$uibModalInstance', 'JobLevelStandardKPIModel'];
 
     function createKPIController($uibModalInstance, JobLevelStandardKPIModel) {
-        var vm = this;
+        let vm = this;
 
         vm.kpi = {
             Name: '',

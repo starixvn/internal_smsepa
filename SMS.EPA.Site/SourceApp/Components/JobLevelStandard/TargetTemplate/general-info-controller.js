@@ -4,14 +4,14 @@
     /* jshint validthis:true */
 
     angular.module('targetTemplateModule').controller('TargetTemplateGeneralInfoController', generalInfoController);
-    generalInfoController.$inject = ['$scope', 'JobLevelStandardTemplateModel'];
+    generalInfoController.$inject = ['JobLevelStandardTemplateModel'];
 
-    function generalInfoController($scope, JLSTemplateModel) {
-        var vm = this;
+    function generalInfoController(TemplateModel) {
+        let vm = this;
 
         vm.save = function (template) {
-            if (JLSTemplateModel.validateTemplate(template)) {
-                JLSTemplateModel.updateTemplateBasicInfo(template)
+            if (TemplateModel.validateTemplate(template)) {
+                TemplateModel.updateTemplateBasicInfo(template)
             }
         };
     }

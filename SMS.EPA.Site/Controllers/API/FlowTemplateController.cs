@@ -53,11 +53,7 @@
         [ApiAuthorize(FunctionKey = EPAFunctionKey.FlowManagement, Policy = Policy.Host)]
         public CommandResult CreateFlowTemplate(CreateFlowTemplateCriteria criteria)
         {
-            if (criteria != null)
-            {
-                criteria.CreatedBy = CurrentEmployeeId;
-            }
-
+            criteria.CreatedBy = CurrentEmployeeId;
             return baseService.ExecuteNonQuery(criteria);
         }
 
@@ -65,11 +61,7 @@
         [ApiAuthorize(FunctionKey = EPAFunctionKey.FlowManagement, Policy = Policy.Host)]
         public CommandResult UpdateFlowTemplate(UpdateFlowTemplateCriteria criteria)
         {
-            if (criteria != null)
-            {
-                criteria.ModifiedBy = CurrentEmployeeId;
-            }
-
+            criteria.ModifiedBy = CurrentEmployeeId;
             return baseService.ExecuteNonQuery(criteria);
         }
 
@@ -77,11 +69,7 @@
         [ApiAuthorize(FunctionKey = EPAFunctionKey.FlowManagement, Policy = Policy.Host)]
         public CommandResult UpdateStatusFlowTemplate(UpdateStatusFlowTemplateCriteria criteria)
         {
-            if (criteria != null)
-            {
-                criteria.ModifiedBy = CurrentEmployeeId;
-            }
-
+            criteria.ModifiedBy = CurrentEmployeeId;
             return baseService.ExecuteNonQuery(criteria);
         }
 

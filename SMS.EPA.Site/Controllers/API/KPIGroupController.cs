@@ -51,11 +51,7 @@
         [ApiAuthorize(FunctionKey = EPAFunctionKey.KPIGroup, Policy = Policy.Host)]
         public CommandResult CreateKPIGroup(CreateKPIGroupCriteria criteria)
         {
-            if (criteria != null)
-            {
-                criteria.CreatedBy = CurrentEmployeeId;
-            }
-
+            criteria.CreatedBy = CurrentEmployeeId;
             CommandResult commandResult = baseService.ExecuteNonQuery(criteria);
 
             return commandResult;
@@ -65,11 +61,7 @@
         [ApiAuthorize(FunctionKey = EPAFunctionKey.KPIGroup, Policy = Policy.Host)]
         public CommandResult UpdateKPIGroup(UpdateKPIGroupCriteria criteria)
         {
-            if (criteria != null)
-            {
-                criteria.ModifiedBy = CurrentEmployeeId;
-            }
-
+            criteria.ModifiedBy = CurrentEmployeeId;
             CommandResult commandResult = baseService.ExecuteNonQuery(criteria);
 
             return commandResult;
@@ -79,11 +71,7 @@
         [ApiAuthorize(FunctionKey = EPAFunctionKey.KPIGroup, Policy = Policy.Host)]
         public CommandResult UpdateStatusKPIGroup(UpdateStatusKPIGroupCriteria criteria)
         {
-            if (criteria != null)
-            {
-                criteria.ModifiedBy = CurrentEmployeeId;
-            }
-
+            criteria.ModifiedBy = CurrentEmployeeId;
             CommandResult commandResult = baseService.ExecuteNonQuery(criteria);
 
             return commandResult;
@@ -98,7 +86,6 @@
                 KPIGroupId = kpiGroupId,
                 ModifiedBy = CurrentEmployeeId
             };
-
             CommandResult commandResult = baseService.ExecuteNonQuery(criteria);
 
             return commandResult;

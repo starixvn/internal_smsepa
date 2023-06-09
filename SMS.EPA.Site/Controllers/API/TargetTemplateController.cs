@@ -42,7 +42,7 @@
                 ScoreRatingTypeId = scoreRatingTypeId
 
             };
-            IEnumerable<TargetTemplate> targetTemplates = baseService.GetData<TargetTemplate>(criteria);
+            var targetTemplates = baseService.GetData<TargetTemplate>(criteria);
 
             return targetTemplates;
         }
@@ -54,7 +54,7 @@
             {
                 TargetTemplateId = targetTemplateId
             };
-            TargetTemplate targetTemplate = baseService.GetDataEntity<TargetTemplate>(criteria);
+            var targetTemplate = baseService.GetDataEntity<TargetTemplate>(criteria);
 
             return targetTemplate;
         }
@@ -63,12 +63,9 @@
         [ApiAuthorize(FunctionKey = EPAFunctionKey.TargetTemplate, Policy = Policy.Host)]
         public CommandResult CreateTargetTemplate(CreateTargetTemplateCriteria criteria)
         {
-            if (criteria != null)
-            {
-                criteria.CreatedBy = CurrentEmployeeId;
-            }
-
+            criteria.CreatedBy = CurrentEmployeeId;
             CommandResult commandResult = baseService.ExecuteNonQuery(criteria);
+
             return commandResult;
         }
 
@@ -76,12 +73,9 @@
         [ApiAuthorize(FunctionKey = EPAFunctionKey.TargetTemplate, Policy = Policy.Host)]
         public CommandResult UpdateStatusTargetTemplate(UpdateStatusTargetTemplateCriteria criteria)
         {
-            if (criteria != null)
-            {
-                criteria.ModifiedBy = CurrentEmployeeId;
-            }
-
+            criteria.ModifiedBy = CurrentEmployeeId;
             CommandResult commandResult = baseService.ExecuteNonQuery(criteria);
+
             return commandResult;
         }
 
@@ -89,12 +83,9 @@
         [ApiAuthorize(FunctionKey = EPAFunctionKey.TargetTemplate, Policy = Policy.Host)]
         public CommandResult UpdateTargetTemplateBasicInfo(UpdateTargetTemplateBasicInfoCriteria criteria)
         {
-            if (criteria != null)
-            {
-                criteria.ModifiedBy = CurrentEmployeeId;
-            }
-
+            criteria.ModifiedBy = CurrentEmployeeId;
             CommandResult commandResult = baseService.ExecuteNonQuery(criteria);
+
             return commandResult;
         }
 
@@ -102,12 +93,9 @@
         [ApiAuthorize(FunctionKey = EPAFunctionKey.TargetTemplate, Policy = Policy.Host)]
         public CommandResult UpdateTargetTemplate(UpdateTargetTemplateCriteria criteria)
         {
-            if (criteria != null)
-            {
-                criteria.ModifiedBy = CurrentEmployeeId;
-            }
-
+            criteria.ModifiedBy = CurrentEmployeeId;
             CommandResult commandResult = baseService.ExecuteNonQuery(criteria);
+
             return commandResult;
         }
 
@@ -120,8 +108,8 @@
                 TargetTemplateId = targetTemplateId,
                 ModifiedBy = CurrentEmployeeId
             };
-
             CommandResult commandResult = baseService.ExecuteNonQuery(criteria);
+
             return commandResult;
         }
 
@@ -129,12 +117,9 @@
         [ApiAuthorize(FunctionKey = EPAFunctionKey.TargetTemplate, Policy = Policy.Host)]
         public CommandResult AddKPIGroupWeight(SetKPIGroupOfTargetTemplateCriteria criteria)
         {
-            if (criteria != null)
-            {
-                criteria.ModifiedBy = CurrentEmployeeId;
-            }
-
+            criteria.ModifiedBy = CurrentEmployeeId;
             CommandResult commandResult = baseService.ExecuteNonQuery(criteria);
+
             return commandResult;
         }
 

@@ -9,7 +9,6 @@
     using SMS.EPA.Core.Services;
     using SMS.EPA.Criteria;
     using SMS.EPA.Criteria.JobLevelStandard.KPI;
-    using SMS.EPA.Criteria.JobLevelStandard.Template;
     using SMS.EPA.Model.JobLevelStandard;
 
     public class JobLevelStandardKPIController : BaseController
@@ -28,65 +27,51 @@
 
         [HttpGet]
         [ApiAuthorize(FunctionKey = EPAFunctionKey.JobLevelStandardKPI, Policy = Policy.Read)]
-        public IEnumerable<JobLevelStandardKPI> GetJobLevelStandardKPI([FromUri] GetJobLevelStandardKPICriteria criteria)
+        public IEnumerable<JobLevelStandardKPI> GetKPI([FromUri] GetJobLevelStandardKPICriteria criteria)
         {
             return baseService.GetData<JobLevelStandardKPI>(criteria);
         }
 
+        [HttpPost]
+        [ApiAuthorize(FunctionKey = EPAFunctionKey.JobLevelStandardKPI, Policy = Policy.Host)]
+        public CommandResult Create(CreateJobLevelStandardKPICriteria criteria)
+        {
+            criteria.CreatedBy = CurrentEmployeeId;
+            return baseService.ExecuteNonQuery(criteria);
+        }
+
         [HttpPut]
         [ApiAuthorize(FunctionKey = EPAFunctionKey.JobLevelStandardKPI, Policy = Policy.Host)]
-        public CommandResult UpdateStatusJobLevelStandardKPI(UpdateStatusJobLevelStandardKPICriteria criteria)
+        public CommandResult Update(UpdateJobLevelStandardKPICriteria criteria)
         {
-            if (criteria != null)
-            {
-                criteria.ModifiedBy = CurrentEmployeeId;
-            }
+            criteria.ModifiedBy = CurrentEmployeeId;
+            return baseService.ExecuteNonQuery(criteria);
+        }
 
+        [HttpPut]
+        [ApiAuthorize(FunctionKey = EPAFunctionKey.JobLevelStandardKPI, Policy = Policy.Host)]
+        public CommandResult UpdateStatus(UpdateStatusJobLevelStandardKPICriteria criteria)
+        {
+            criteria.ModifiedBy = CurrentEmployeeId;
             CommandResult commandResult = baseService.ExecuteNonQuery(criteria);
-
             return commandResult;
         }
 
         [HttpDelete]
         [ApiAuthorize(FunctionKey = EPAFunctionKey.JobLevelStandardKPI, Policy = Policy.Host)]
-        public CommandResult DeleteStatusJobLevelStandardKPI(int kpiId)
+        public CommandResult Delete(int kpiId)
         {
-            var criteria = new DeleteJobLevelStandardKPICriteria()
+            var criteria = new DeleteJobLevelStandardKPICriteria
             {
                 KPIId = kpiId,
                 ModifiedBy = CurrentEmployeeId
             };
-
             CommandResult commandResult = baseService.ExecuteNonQuery(criteria);
 
             return commandResult;
         }
 
-        [HttpPost]
-        [ApiAuthorize(FunctionKey = EPAFunctionKey.JobLevelStandardKPI, Policy = Policy.Host)]
-        public CommandResult CreateJobLevelStandardKPI(CreateJobLevelStandardKPICriteria criteria)
-        {
-            if (criteria != null)
-            {
-                criteria.CreatedBy = CurrentEmployeeId;
-            }
-
-            return baseService.ExecuteNonQuery(criteria);
-        }
-
-        [HttpPut]
-        [ApiAuthorize(FunctionKey = EPAFunctionKey.JobLevelStandardKPI, Policy = Policy.Host)]
-        public CommandResult UpdateJobLevelStandardKPI(UpdateJobLevelStandardKPICriteria criteria)
-        {
-            if (criteria != null)
-            {
-                criteria.ModifiedBy = CurrentEmployeeId;
-            }
-
-            return baseService.ExecuteNonQuery(criteria);
-        }
-
-        public byte GetUserPermissionOnKPI()
+        public byte GetUserPermission()
         {
             return GetPermissionOnFunction(EPAFunctionKey.JobLevelStandardKPI);
         }

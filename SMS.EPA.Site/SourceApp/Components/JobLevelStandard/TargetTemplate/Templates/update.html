@@ -1,11 +1,12 @@
-﻿<div class="col-sm-12" ng-controller="UpdateJLSTemplateController as updateCtrl">
+﻿<div class="col-sm-12 job-level-standard-template" ng-controller="UpdateJLSTemplateController as updateCtrl">
     <div class="sub-header">
-        <ul class="row breadcrumb float-left">
-            <li class="current">Edit Job Level Standard Template</li>
+        <ul class="row breadcrumb">
+            <li data-translate="JobLevelStandard"></li>
+            <li>
+                <a href="javascript:;" ng-click="updateCtrl.backToList()" data-translate="Template"></a>
+            </li>
+            <li class="current" data-translate="Edit"></li>
         </ul>
-        <button ng-click="updateCtrl.backToList()" class="btn btn-cancel">
-            <span class="glyphicon glyphicon-menu-left"></span> <span data-translate="BackToList"></span>
-        </button>
     </div>
     <div class="target-tabset">
         <uib-tabset id="TargetTemplateTab" active="updateCtrl.dataTab">
@@ -13,7 +14,6 @@
                 <div ng-include src="'/SourceApp/Components/JobLevelStandard/TargetTemplate/Templates/generalInformation.html'"></div>
             </uib-tab>
             <uib-tab heading="KPI LIST" class="tab-cursor" index="2" select="updateCtrl.dataTab = 2">
-                <!--<div ng-include src="'/SourceApp/Components/JobLevelStandard/TargetTemplate/Templates/KPIList.html'"></div>-->
                 <div ng-include src="'/SourceApp/Components/JobLevelStandard/TargetTemplate/Templates/KPIList.html'"></div>
             </uib-tab>
         </uib-tabset>

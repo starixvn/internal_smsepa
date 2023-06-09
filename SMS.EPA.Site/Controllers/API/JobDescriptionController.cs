@@ -63,11 +63,7 @@
         [ApiAuthorize(FunctionKey = EPAFunctionKey.JobDescription, Policy = Policy.Host)]
         public async Task<CommandResult> EditGroupSetting(EditGroupSettingJobDescriptionCriteria criteria)
         {
-            if (criteria != null)
-            {
-                criteria.ModifiedBy = CurrentEmployeeId;
-            }
-
+            criteria.ModifiedBy = CurrentEmployeeId;
             return await baseService.ExecuteNonQueryAsync(criteria);
         }
 
@@ -75,11 +71,7 @@
         [ApiAuthorize(FunctionKey = EPAFunctionKey.JobDescription, Policy = Policy.Host)]
         public async Task<CommandResult> CopyGroupSetting(CopyGroupSettingJobDescriptionCriteria criteria)
         {
-            if (criteria != null)
-            {
-                criteria.ActorId = CurrentEmployeeId;
-            }
-
+            criteria.ActorId = CurrentEmployeeId;
             return await baseService.ExecuteNonQueryAsync(criteria);
         }
 
@@ -122,11 +114,7 @@
         [ApiAuthorize(FunctionKey = EPAFunctionKey.JobDescription, Policy = Policy.Host)]
         public async Task<CommandResult> CopyEmployeeSetting(CopyEmployeeSettingJobDescriptionCriteria criteria)
         {
-            if (criteria != null)
-            {
-                criteria.ActorId = CurrentEmployeeId;
-            }
-
+            criteria.ActorId = CurrentEmployeeId;
             return await baseService.ExecuteNonQueryAsync(criteria);
         }
 

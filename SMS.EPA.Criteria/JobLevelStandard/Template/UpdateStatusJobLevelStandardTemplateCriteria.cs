@@ -1,6 +1,7 @@
 ﻿namespace SMS.EPA.Criteria.JobLevelStandard.Template
 {
     using Fanex.Data.Repository;
+
     public class UpdateStatusJobLevelStandardTemplateCriteria : CriteriaBase
     {
         public int TemplateId { get; set; }

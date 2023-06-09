@@ -8,10 +8,8 @@
     using SMS.EPA.Core.Model;
     using SMS.EPA.Core.Services;
     using SMS.EPA.Criteria;
-    using SMS.EPA.Criteria.JobLevelStandard.KPI;
     using SMS.EPA.Model;
     using SMS.EPA.Services;
-    using SMS.EPA.Site.Controllers.API.JobLevelStandard;
 
     public class KPIController : BaseController
     {
@@ -50,11 +48,7 @@
         [ApiAuthorize(FunctionKey = EPAFunctionKey.KPI, Policy = Policy.Host)]
         public CommandResult CreateKPI(CreateKPICriteria criteria)
         {
-            if (criteria != null)
-            {
-                criteria.CreatedBy = CurrentEmployeeId;
-            }
-
+            criteria.CreatedBy = CurrentEmployeeId;
             CommandResult commandResult = baseService.ExecuteNonQuery(criteria);
 
             return commandResult;
@@ -64,11 +58,7 @@
         [ApiAuthorize(FunctionKey = EPAFunctionKey.KPI, Policy = Policy.Host)]
         public CommandResult UpdateKPI(UpdateKPICriteria criteria)
         {
-            if (criteria != null)
-            {
-                criteria.ModifiedBy = CurrentEmployeeId;
-            }
-
+            criteria.ModifiedBy = CurrentEmployeeId;
             CommandResult commandResult = baseService.ExecuteNonQuery(criteria);
 
             return commandResult;
@@ -78,11 +68,7 @@
         [ApiAuthorize(FunctionKey = EPAFunctionKey.KPI, Policy = Policy.Host)]
         public CommandResult UpdateStatusKPI(UpdateStatusKPICriteria criteria)
         {
-            if (criteria != null)
-            {
-                criteria.ModifiedBy = CurrentEmployeeId;
-            }
-
+            criteria.ModifiedBy = CurrentEmployeeId;
             CommandResult commandResult = baseService.ExecuteNonQuery(criteria);
 
             return commandResult;
@@ -92,11 +78,7 @@
         [ApiAuthorize(FunctionKey = EPAFunctionKey.KPI, Policy = Policy.Host)]
         public CommandResult UpdateRequiredEvaluateKPI(UpdateRequiredEvaluateKPICriteria criteria)
         {
-            if (criteria != null)
-            {
-                criteria.ModifiedBy = CurrentEmployeeId;
-            }
-
+            criteria.ModifiedBy = CurrentEmployeeId;
             CommandResult commandResult = baseService.ExecuteNonQuery(criteria);
 
             return commandResult;
@@ -111,7 +93,6 @@
                 KPIId = kpiId,
                 ModifiedBy = CurrentEmployeeId
             };
-
             CommandResult commandResult = baseService.ExecuteNonQuery(criteria);
 
             return commandResult;

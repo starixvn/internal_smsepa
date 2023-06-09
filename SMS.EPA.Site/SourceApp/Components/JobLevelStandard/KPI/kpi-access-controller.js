@@ -4,10 +4,10 @@
     /* jshint validthis:true */
 
     angular.module('jobLevelStandardModule').controller('JobLevelStandardKPIController', kpiController);
-    kpiController.$inject = ['JobLevelStandardKPIModel', 'CommonModel', 'utilitiesFactory', 'historyFactory', 'lockScreenService'];
+    kpiController.$inject = ['JobLevelStandardKPIModel', 'CommonModel', 'utilitiesFactory', 'lockScreenService'];
 
-    function kpiController(JobLevelStandardKPIModel, CommonModel, utilitiesFactory, historyFactory, lockScreenService) {
-        var vm = this;
+    function kpiController(JobLevelStandardKPIModel, CommonModel, utilitiesFactory, lockScreenService) {
+        let vm = this;
 
         vm.currentPage = 1;
         vm.filter = {
@@ -16,8 +16,8 @@
         vm.policyEnum = utilitiesFactory.policy;
         vm.pageSize = 20;
         vm.permission = 0;
-        vm.jobLevelStandardKpis = [];
-        vm.backToList = backToList;
+        vm.kpis = [];
+
         vm.createKPI = createKPI;
         vm.deleteKPI = deleteKPI;
         vm.getIndex = getIndex;
@@ -26,18 +26,13 @@
         vm.updateStatusKPI = updateStatusKPI;
 
         utilitiesFactory.numberEntryList(vm);
-        utilitiesFactory.maxLengthDescription(vm);
         initialize();
 
-
-        function backToList() {
-            historyFactory.back();
-        }
-
         function createKPI() {
-            JobLevelStandardKPIModel.openPopupCreateKPI(vm).then()['finally'](function () {
-                vm.modalInstance = '';
+            JobLevelStandardKPIModel.openPopupCreateKPI(vm).then(function (isSuccessful) {
                 getKPI(vm.filter.isActive);
+            })['finally'](function () {
+                vm.modalInstance = '';
             });
         }
 
@@ -52,8 +47,8 @@
         function getKPI(isActive) {
             lockScreenService.start();
             JobLevelStandardKPIModel.getJobLevelStandKPI(isActive).then(function () {
-                vm.jobLevelStandardKpis = JobLevelStandardKPIModel.jobLevelStandardKpis;
-                utilitiesFactory.searchOnPage(vm, vm.jobLevelStandardKpis);
+                vm.kpis = JobLevelStandardKPIModel.kpis;
+                utilitiesFactory.searchOnPage(vm, vm.kpis);
                 lockScreenService.stop();
             });
         }

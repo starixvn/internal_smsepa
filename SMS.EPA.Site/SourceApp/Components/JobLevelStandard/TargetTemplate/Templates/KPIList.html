@@ -6,7 +6,7 @@
                     <thead>
                         <tr>
                             <th>
-                                <input type="checkbox" ng-model="kpiListCtrl.SelectedAll" ng-click="kpiListCtrl.checkAll(kpiListCtrl.SelectedAll)" />
+                                <input type="checkbox" ng-model="kpiListCtrl.selectedAll" ng-click="kpiListCtrl.checkAll(kpiListCtrl.selectedAll)" />
                             </th>
                             <th></th>
                             <th data-translate="KPIName"></th>
@@ -20,11 +20,11 @@
                             <td class="row-highlight"></td>
                             <td class="text-center row-highlight"></td>
                             <td class="text-center row-highlight">
-                                <a href="javascript:;" ng-click="kpiListCtrl.scoreSpread(kpiListCtrl.kpiList)">Spread</a>
+                                <a href="javascript:;" ng-click="kpiListCtrl.scoreSpread(kpiListCtrl.kpis)">Spread</a>
                             </td>
                             <td class="text-center row-highlight"></td>
                         </tr>
-                        <tr class="row-data" ng-repeat="item in kpiListCtrl.kpiList | filter: Name">
+                        <tr class="row-data" ng-repeat="item in kpiListCtrl.kpis | filter: Name">
                             <td class="text-center" item-id="{{item.KPIId}}">
                                 <input class="check-group" type="checkbox" value="{{item.Name}}" ng-model="item.IsSelected" ng-click="kpiListCtrl.check(item)" />
                             </td>
@@ -34,7 +34,7 @@
                                 <input type="text" class="weight-form-control text-center"
                                        ng-model="item.Weight" name="weight" epa-number-dot ng-show="item.IsSelected" />
                             </td>
-                            <td class="text-center priority-limit">
+                            <td class="width-150 text-center priority-limit">
                                 <a href="javascript:;" title="Top" class="glyphicon glyphicon-open kpiTop" move-kpi-row> | </a>
                                 <a href="javascript:;" title="Move Up" class="glyphicon glyphicon-arrow-up kpiUp" move-kpi-row> | </a>
                                 <a href="javascript:;" title="Move Down" class="glyphicon glyphicon-arrow-down kpiDown" move-kpi-row> | </a>

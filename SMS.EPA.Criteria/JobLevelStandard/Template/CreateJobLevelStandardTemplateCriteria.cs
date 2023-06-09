@@ -1,8 +1,7 @@
-﻿
-
-namespace SMS.EPA.Criteria.JobLevelStandard.Template
+﻿namespace SMS.EPA.Criteria.JobLevelStandard.Template
 {
     using Fanex.Data.Repository;
+
     public class CreateJobLevelStandardTemplateCriteria : CriteriaBase
     {
         public int TemplateId { get; set; }

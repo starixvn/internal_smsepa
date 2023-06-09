@@ -65,10 +65,10 @@
             // Arrange
             var templates = new List<JobLevelStandardTemplateKPI>();
             var controller = GetController();
-            baseService.GetData<JobLevelStandardTemplateKPI>(Arg.Any<GetKPIListSelectedCriteria>()).Returns(templates);
+            baseService.GetData<JobLevelStandardTemplateKPI>(Arg.Any<GetKPIListCriteria>()).Returns(templates);
 
             // Act
-            var actual = controller.GetKPIListSelected(Arg.Any<GetKPIListSelectedCriteria>());
+            var actual = controller.GetKPIListSelected(Arg.Any<GetKPIListCriteria>());
 
             // Assert
             Assert.IsInstanceOf(typeof(IEnumerable<JobLevelStandardTemplateKPI>), actual);

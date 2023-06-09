@@ -10,7 +10,7 @@
         public void GetSettingKey_ReturnCorrectSettingKey()
         {
             // Arrange
-            var criteria = new GetKPIListSelectedCriteria();
+            var criteria = new GetKPIListCriteria();
             string expected = "JobLevelStandard_Template_GetKPIList";
 
             // Act
@@ -25,7 +25,7 @@
         public void IsValid_CheckParameter_ReturnAsExpected(int templateId, bool expected)
         {
             // Arrange
-            var criteria = new GetKPIListSelectedCriteria
+            var criteria = new GetKPIListCriteria
             {
                 TemplateId = templateId,
             };

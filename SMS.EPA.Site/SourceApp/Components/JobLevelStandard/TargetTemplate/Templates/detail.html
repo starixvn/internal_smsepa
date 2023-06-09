@@ -1,7 +1,11 @@
-﻿<div class="col-sm-12 detail-target-template" ng-controller="JLSTemplateDetailController as detailCtrl">
+﻿<div class="col-sm-12 detail-target-template job-level-standard-template" ng-controller="JLSTemplateDetailController as detailCtrl">
     <div class="sub-header">
-        <ul class="breadcrumb">
-            <li class="current">Job Level Standard Template Detail</li>
+        <ul class="row breadcrumb">
+            <li data-translate="JobLevelStandard"></li>
+            <li>
+                <a href="javascript:;" ng-click="detailCtrl.back()" data-translate="Template"></a>
+            </li>
+            <li class="current" data-translate="Detail"></li>
         </ul>
     </div>
     <div class="panel panel-default">
@@ -49,7 +53,7 @@
         </div>
         <div class="panel-collapse collapse in kpiList">
             <div class="panel-body kpi-content">
-                <div class="col-sm-12 no-padding" ng-repeat="item in detailCtrl.kpiList | filter: KPIName">
+                <div class="col-sm-12 no-padding" ng-repeat="item in detailCtrl.kpis | filter: KPIName">
                     <ul class="col-sm-12 list-unstyled kpi-list">
                         <li>
                             <span class="glyphicon glyphicon-ok item-list-icon">
@@ -58,13 +62,6 @@
                     </ul>
                 </div>
             </div>
-        </div>
-    </div>
-    <div class="navbar navbar-default navbar-fixed-bottom action-button">
-        <div class="container text-center">
-            <button ng-click="detailCtrl.back()" class="btn btn-cancel">
-                <span class="glyphicon glyphicon-menu-left"></span> <span data-translate="BackToList"></span>
-            </button>
         </div>
     </div>
 </div>

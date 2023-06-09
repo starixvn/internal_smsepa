@@ -4,26 +4,25 @@
     /* jshint validthis:true */
 
     angular.module('jobLevelStandardModule').controller('JobLevelStandardTemplateController', templateCtrl);
-    templateCtrl.$inject = ['$scope', '$location', 'JobLevelStandardTemplateModel', 'CommonModel', 'utilitiesFactory', 'lockScreenService', 'baseUrl'];
+    templateCtrl.$inject = ['JobLevelStandardTemplateModel', 'CommonModel', 'utilitiesFactory', 'lockScreenService', 'baseUrl'];
 
-    function templateCtrl($scope, $location, JLSTemplateModel, CommonModel, utilitiesFactory, lockScreenService, baseUrl) {
-        var vm = this;
+    function templateCtrl(TemplateModel, CommonModel, utilitiesFactory, lockScreenService, baseUrl) {
+        let vm = this;
         vm.templates = [];
         vm.permission = null;
         vm.policyEnum = utilitiesFactory.policy;
         vm.filter = {
-            isActive: 'true',
+            isActive: 'true'
         };
         vm.currentPage = 1;
         vm.pageSize = 20;
 
         utilitiesFactory.numberEntryList(vm);
-        utilitiesFactory.maxLengthDescription(vm);
 
         function getTemplate(isActive) {
             lockScreenService.start();
-            JLSTemplateModel.getTemplate(isActive).then(function () {
-                vm.templates = JLSTemplateModel.templates;
+            TemplateModel.getTemplate(isActive).then(function () {
+                vm.templates = TemplateModel.templates;
                 utilitiesFactory.searchOnPage(vm, vm.templates);
                 lockScreenService.stop();
             });
@@ -41,28 +40,28 @@
         };
 
         vm.create = function () {
-            JLSTemplateModel.openPopupCreateTemplate(vm).then(function () {
+            TemplateModel.openPopupCreateTemplate(vm).then(function () {
                 vm.modalInstance = null;
-                getTemplate(vm.filter.isActive,);
+                getTemplate(vm.filter.isActive);
             });
         };
 
         vm.confirmActive = function (template) {
-            JLSTemplateModel.openPopupUpdateStatusTemplate(template);
+            TemplateModel.openPopupUpdateStatusTemplate(template);
         };
 
         vm.deleteTemplate = function (template) {
-            JLSTemplateModel.openPopupDeleteTemplate(vm, template);
+            TemplateModel.openPopupDeleteTemplate(vm, template);
         };
 
         vm.detail = function (template, event) {
-            var url = baseUrl + 'JobLevelStandard/Template/Detail/' + template.TemplateId;
+            const url = baseUrl + 'JobLevelStandard/Template/Detail/' + template.TemplateId;
             utilitiesFactory.handleOpenLink(event, url);
         };
 
         function initialize() {
-            JLSTemplateModel.getPermissionOnTemplate().then(function () {
-                vm.permission = JLSTemplateModel.permission;
+            TemplateModel.getPermissionOnTemplate().then(function () {
+                vm.permission = TemplateModel.permission;
             });
 
             getTemplate(vm.filter.isActive);

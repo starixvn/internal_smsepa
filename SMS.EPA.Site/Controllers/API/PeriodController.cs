@@ -78,12 +78,8 @@
         [ApiAuthorize(FunctionKey = EPAFunctionKey.Period, Policy = Policy.Host)]
         public CommandResult CreatePeriod(CreatePeriodCriteria criteria)
         {
-            var commandResult = new CommandResult();
-            if (criteria != null)
-            {
-                criteria.CreatedBy = CurrentEmployeeId;
-                commandResult = baseService.ExecuteNonQuery(criteria);
-            }
+            criteria.CreatedBy = CurrentEmployeeId;
+            CommandResult commandResult = baseService.ExecuteNonQuery(criteria);
 
             return commandResult;
         }
@@ -92,12 +88,8 @@
         [ApiAuthorize(FunctionKey = EPAFunctionKey.Period, Policy = Policy.Host)]
         public CommandResult UpdateBasicInformationPeriod(UpdateBasicInformationPeriodCriteria criteria)
         {
-            var commandResult = new CommandResult();
-            if (criteria != null)
-            {
-                criteria.ModifiedBy = CurrentEmployeeId;
-                commandResult = baseService.ExecuteNonQuery(criteria);
-            }
+            criteria.ModifiedBy = CurrentEmployeeId;
+            CommandResult commandResult = baseService.ExecuteNonQuery(criteria);
 
             return commandResult;
         }
@@ -112,12 +104,8 @@
         [ApiAuthorize(FunctionKey = EPAFunctionKey.Period, Policy = Policy.Host)]
         public CommandResult UpdateStatusPeriod(UpdateStatusPeriodCriteria criteria)
         {
-            var commandResult = new CommandResult();
-            if (criteria != null)
-            {
-                criteria.ModifiedBy = CurrentEmployeeId;
-                commandResult = baseService.ExecuteNonQuery(criteria);
-            }
+            criteria.ModifiedBy = CurrentEmployeeId;
+            CommandResult commandResult = baseService.ExecuteNonQuery(criteria);
 
             return commandResult;
         }
@@ -135,29 +123,8 @@
         }
 
         [ApiAuthorize(FunctionKey = EPAFunctionKey.Period, Policy = Policy.Read)]
-#pragma warning disable S107 // Methods should not have too many parameters
-        public IEnumerable<PeriodEmployeeSettingModel> GetPeriodEmployeeSettingById(
-            int periodId,
-            string teamIds = null,
-            bool? isLocal = null,
-            bool? isExcludedEmployee = null,
-            bool? isGeneratedEPA = null,
-            int? isEvaluated = null,
-            bool? hasMonthlyEPA = null,
-            int? epaStatus = null)
-#pragma warning restore S107 // Methods should not have too many parameters
+        public IEnumerable<PeriodEmployeeSettingModel> GetPeriodEmployeeSettingById([FromUri] GetPeriodEmployeeSettingCriteria criteria)
         {
-            var criteria = new GetPeriodEmployeeSettingCriteria
-            {
-                PeriodId = periodId,
-                TeamIds = teamIds,
-                IsLocal = isLocal,
-                IsExcludedEmployee = isExcludedEmployee,
-                IsGeneratedEPA = isGeneratedEPA,
-                IsEvaluated = isEvaluated,
-                HasMonthlyEPA = hasMonthlyEPA,
-                EPAStatus = epaStatus
-            };
             IEnumerable<PeriodEmployeeSettingModel> employeeSettings = periodService.GetPeriodEmployeeSettingById(criteria);
             if (employeeSettings.Any())
             {
@@ -189,12 +156,8 @@
         [ApiAuthorize(FunctionKey = EPAFunctionKey.Period, Policy = Policy.Host)]
         public CommandResult AddEmployeToPeriod(AddEmployeeToPeriodCriteria criteria)
         {
-            var commandResult = new CommandResult();
-            if (criteria != null)
-            {
-                criteria.ModifiedBy = CurrentEmployeeId;
-                commandResult = baseService.ExecuteNonQuery(criteria);
-            }
+            criteria.ModifiedBy = CurrentEmployeeId;
+            CommandResult commandResult = baseService.ExecuteNonQuery(criteria);
 
             return commandResult;
         }
@@ -203,20 +166,15 @@
         [ApiAuthorize(FunctionKey = EPAFunctionKey.Period, Policy = Policy.Host)]
         public CommandResult UpdateEmployeeSettingOfPeriod(UpdateEmployeeSettingOfPeriodCriteria criteria)
         {
-            var commandResult = new CommandResult();
-            if (criteria != null)
+            criteria.ModifiedBy = CurrentEmployeeId;
+            CommandResult commandResult = periodService.UpdateEmployeeSettingOfPeriod(criteria);
+            if (commandResult.IsSuccessful)
             {
-                criteria.ModifiedBy = CurrentEmployeeId;
-                commandResult = periodService.UpdateEmployeeSettingOfPeriod(criteria);
-
-                if (commandResult.IsSuccessful)
+                Task.Factory.StartNew(() =>
                 {
-                    Task.Factory.StartNew(() =>
-                    {
-                        processService.UpdateTotalScoreOfProcess(criteria.PeriodId, criteria.EmployeeIds);
-                        epaService.GetDataAndUpdateFinalScore(criteria.ModifiedBy, criteria.PeriodId, criteria.EmployeeIds);
-                    });
-                }
+                    processService.UpdateTotalScoreOfProcess(criteria.PeriodId, criteria.EmployeeIds);
+                    epaService.GetDataAndUpdateFinalScore(criteria.ModifiedBy, criteria.PeriodId, criteria.EmployeeIds);
+                });
             }
 
             return commandResult;
@@ -226,12 +184,8 @@
         [ApiAuthorize(FunctionKey = EPAFunctionKey.Period, Policy = Policy.Host)]
         public CommandResult UpdateIncludeStatusEmployeePeriod(UpdateIncludeStatusEmployeePeriodCriteria criteria)
         {
-            var commandResult = new CommandResult();
-            if (criteria != null)
-            {
-                criteria.ModifiedBy = CurrentEmployeeId;
-                commandResult = baseService.ExecuteNonQuery(criteria);
-            }
+            criteria.ModifiedBy = CurrentEmployeeId;
+            CommandResult commandResult = baseService.ExecuteNonQuery(criteria);
 
             return commandResult;
         }
@@ -240,17 +194,13 @@
         [ApiAuthorize(FunctionKey = EPAFunctionKey.Period, Policy = Policy.Host)]
         public CommandResult GenerateEvaluation(AutoGenerateEvaluationCriteria criteria)
         {
-            var commandResult = new CommandResult();
-            if (criteria != null)
-            {
-                var extendedQuetionEnabled = ConfigurationManagerService.GetAppSetting("ProbationExtendedQuestionEnabled");
-                criteria.ExtendedQuestionEnabled = extendedQuetionEnabled.Equals("true", StringComparison.OrdinalIgnoreCase);
+            var extendedQuetionEnabled = ConfigurationManagerService.GetAppSetting("ProbationExtendedQuestionEnabled");
+            criteria.ExtendedQuestionEnabled = extendedQuetionEnabled.Equals("true", StringComparison.OrdinalIgnoreCase);
 
-                commandResult = baseService.ExecuteNonQuery(criteria);
-                if (commandResult.IsSuccessful)
-                {
-                    periodService.SendEmailNoticeAtBegin(criteria.PeriodId);
-                }
+            CommandResult commandResult = baseService.ExecuteNonQuery(criteria);
+            if (commandResult.IsSuccessful)
+            {
+                periodService.SendEmailNoticeAtBegin(criteria.PeriodId);
             }
 
             return commandResult;
@@ -270,12 +220,8 @@
         [ApiAuthorize(FunctionKey = EPAFunctionKey.Period, Policy = Policy.Host)]
         public CommandResult UpdatePeriodProcessSetting(UpdateProcessSettingPeriodCriteria criteria)
         {
-            var commandResult = new CommandResult();
-            if (criteria != null)
-            {
-                criteria.ModifiedBy = CurrentEmployeeId;
-                commandResult = baseService.ExecuteNonQuery(criteria);
-            }
+            criteria.ModifiedBy = CurrentEmployeeId;
+            CommandResult commandResult = baseService.ExecuteNonQuery(criteria);
 
             return commandResult;
         }

@@ -6,20 +6,18 @@
     angular.module('jobLevelStandardModule').controller('CreateJLSTemplateController', controller);
     controller.$inject = ['$uibModalInstance', 'JobLevelStandardTemplateModel'];
 
-    function controller($uibModalInstance, JobLevelStandardTemplateModel) {
-        var vm = this;
+    function controller($uibModalInstance, TemplateModel) {
+        let vm = this;
+        vm.template = {
+            Name: ''
+        };
 
-        vm.permission = 0;
-
-        vm.cancel = cancel;
-        vm.save = save;
-
-        function cancel() {
+        vm.cancel = function cancel() {
             $uibModalInstance.dismiss("cancel");
-        }
+        };
 
-        function save(data) {
-            JobLevelStandardTemplateModel.createTemplate(data, $uibModalInstance);
-        }
+        vm.save = function save(data) {
+            TemplateModel.createTemplate(data, $uibModalInstance);
+        };
     }
 })(angular);

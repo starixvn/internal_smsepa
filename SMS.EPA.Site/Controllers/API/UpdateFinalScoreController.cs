@@ -80,7 +80,6 @@
                 TeamIds = teamIds,
                 EmployeeId = employeeId
             };
-
             IList<EPAModel> epaInfos = evaluationService.GetEPAToUpdateFinalScore(criteria);
 
             return Request.CreateResponse(HttpStatusCode.OK, epaInfos);

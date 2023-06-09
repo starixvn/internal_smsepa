@@ -7,11 +7,11 @@
     controller.$inject = ['$routeParams', 'JobLevelStandardTemplateModel', 'utilitiesFactory', 'historyFactory'];
 
     function controller($routeParams, JobLevelStandardTemplateModel, utilitiesFactory, historyFactory) {
-        var vm = this;
+        let vm = this;
 
         vm.targetTemplateId = parseInt($routeParams.id);
         vm.targetTemplate = null;
-        vm.kpiList = null;
+        vm.kpis = [];
 
         utilitiesFactory.getDateFormat(vm);
 
@@ -24,8 +24,8 @@
                 vm.targetTemplate = JobLevelStandardTemplateModel.template;
             });
 
-            JobLevelStandardTemplateModel.getKPIListSelected(vm.targetTemplateId, true).then(function () {
-                vm.kpiList = JobLevelStandardTemplateModel.kpiList;
+            JobLevelStandardTemplateModel.getKPI(vm.targetTemplateId, true).then(function () {
+                vm.kpis = JobLevelStandardTemplateModel.kpis;
             });
         }
 

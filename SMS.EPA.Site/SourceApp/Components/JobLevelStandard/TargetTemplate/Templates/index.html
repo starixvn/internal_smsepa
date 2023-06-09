@@ -1,7 +1,8 @@
-﻿<div class="col-sm-12" ng-controller="JobLevelStandardTemplateController as templateCtrl">
+﻿<div class="col-sm-12 job-level-standard-template" ng-controller="JobLevelStandardTemplateController as templateCtrl">
     <div class="sub-header">
         <ul class="row breadcrumb">
-            <li class="current">Job Level Standard Template Management</li>
+            <li data-translate="JobLevelStandard"></li>
+            <li class="current" data-translate="Template"></li>
         </ul>
     </div>
     <form novalidate class="form-filter" role="form">
@@ -14,7 +15,6 @@
             </select>
         </div>
         <div class="form-group">
-            <label class="label-form"></label>
             <button class="btn btn-primary" ng-click="templateCtrl.query(templateCtrl.filter)" data-translate="Submit"></button>
         </div>
     </form>
@@ -33,9 +33,9 @@
             <tr class="headerName">
                 <th data-translate="SymbolCount"></th>
                 <th data-translate="Name"></th>
-                <th data-translate="KPIs"></th>
-                <th data-translate="Active"></th>
-                <th data-translate="Action" ng-if="templateCtrl.permission === templateCtrl.policyEnum.Host"></th>
+                <th data-translate="KPIs" class="col-active"></th>
+                <th data-translate="Active" class="col-active"></th>
+                <th data-translate="Action" class="col-action" ng-if="templateCtrl.permission === templateCtrl.policyEnum.Host"></th>
             </tr>
         </thead>
         <tbody>
@@ -55,7 +55,6 @@
                 </td>
                 <td class="text-center" ng-if="templateCtrl.permission === templateCtrl.policyEnum.Host" style="width: 90px;">
                     <div class="btn-group">
-                        <!--<a class="link glyphicon glyphicon-download-alt icon-export" export-target-template-management title="Export Excel" ng-click="templateCtrl.exportTargetKPIs(targetTemplate.TargetTemplateId)"></a>-->
                         <a class="glyphicon glyphicon-edit icon-edit" title="Edit"
                            href="#/JobLevelStandard/Template/Update/{{targetTemplate.TemplateId}}?viewInfo"
                            ng-if="templateCtrl.permission === templateCtrl.policyEnum.Host"></a>

@@ -1,6 +1,7 @@
 ﻿namespace SMS.EPA.Model.JobLevelStandard.Template
 {
     using System;
+
     public class JobLevelStandardTemplate
     {
         public int TemplateId { get; set; }

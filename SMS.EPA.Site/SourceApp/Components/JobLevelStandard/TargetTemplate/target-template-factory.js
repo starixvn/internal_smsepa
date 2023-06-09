@@ -7,56 +7,54 @@
 
     function templateFactory($http, baseUrl) {
         return {
+            getTemplate: getTemplate,
             createTemplate: createTemplate,
             deleteTemplate: deleteTemplate,
             getPermissionOnTemplate: getPermissionOnTemplate,
-            getTemplate: getTemplate,
             getTemplateById: getTemplateById,
             updateTemplateBasicInfo: updateTemplateBasicInfo,
             updateStatusTemplate: updateStatusTemplate,
             updateTemplateKPI: updateTemplateKPI,
-            getKPIListSelected: getKPIListSelected
+            getKPI: getKPI
         };
+
+        function getTemplate(isActive) {
+            return $http.get(baseUrl + 'api/JobLevelStandardTemplate/GetTemplate', {
+                params: { isActive: isActive }
+            });
+        }
+
+        function createTemplate(template) {
+            return $http.post(baseUrl + 'api/JobLevelStandardTemplate/Create', template);
+        }
+
+        function deleteTemplate(templateId) {
+            return $http['delete'](baseUrl + 'api/JobLevelStandardTemplate/Delete', { params: { templateId: templateId } });
+        }
+
+        function getTemplateById(id) {
+            return $http.get(baseUrl + 'api/JobLevelStandardTemplate/GetById', { params: { templateId: id } });
+        }
+
+        function updateTemplateBasicInfo(template) {
+            return $http.put(baseUrl + 'api/JobLevelStandardTemplate/Update', template);
+        }
+
+        function updateStatusTemplate(template) {
+            return $http.put(baseUrl + 'api/JobLevelStandardTemplate/UpdateStatus', template);
+        }
 
         function updateTemplateKPI(template) {
             return $http.put(baseUrl + 'api/JobLevelStandardTemplate/UpdateTemplateKPI', template);
         }
 
-        function getKPIListSelected(id, onlySelected) {
-            return $http.get(baseUrl + 'api/JobLevelStandardTemplate/GetKPIListSelected',
-                { params: { templateId: id, onlySelected: onlySelected } });
-        }
-
-        function createTemplate(template) {
-            return $http.post(baseUrl + 'api/JobLevelStandardTemplate/CreateJobLevelStandardTemplate', template);
-        }
-
-        function deleteTemplate(templateId) {
-            return $http['delete'](baseUrl + 'api/JobLevelStandardTemplate/DeleteJobLevelStandardTemplate', { params: { templateId: templateId } });
+        function getKPI(id, isSelected) {
+            return $http.get(baseUrl + 'api/JobLevelStandardTemplate/GetKPI',
+                { params: { templateId: id, isSelected: isSelected } });
         }
 
         function getPermissionOnTemplate() {
-            return $http.get(baseUrl + 'api/JobLevelStandardTemplate/GetUserPermissionOnKPI');
-        }
-
-        function getTemplate(isActive) {
-            return $http.get(baseUrl + 'api/JobLevelStandardTemplate/GetJobLevelStandardTemplate', {
-                params: {
-                    isActive: isActive
-                }
-            });
-        }
-
-        function getTemplateById(id) {
-            return $http.get(baseUrl + 'api/JobLevelStandardTemplate/GetJobLevelStandardTemplateById', { params: { templateId: id } });
-        }
-
-        function updateTemplateBasicInfo(template) {
-            return $http.put(baseUrl + 'api/JobLevelStandardTemplate/UpdateJobLevelStandardTemplate', template);
-        }
-
-        function updateStatusTemplate(template) {
-            return $http.put(baseUrl + 'api/JobLevelStandardTemplate/UpdateStatusJobLevelStandardTemplate', template);
+            return $http.get(baseUrl + 'api/JobLevelStandardTemplate/GetUserPermission');
         }
     }
 })(angular);

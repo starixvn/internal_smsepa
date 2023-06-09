@@ -51,12 +51,9 @@
         [ApiAuthorize(FunctionKey = EPAFunctionKey.TargetEmployeeSetting, Policy = Policy.Host)]
         public CommandResult AssignTargetTemplateToEmployee(AssignTargetTemplateToEmployeeCriteria criteria)
         {
-            if (criteria != null)
-            {
-                criteria.ModifiedBy = CurrentEmployeeId;
-            }
-
+            criteria.ModifiedBy = CurrentEmployeeId;
             CommandResult commandResult = baseService.ExecuteNonQuery(criteria);
+
             return commandResult;
         }
 
@@ -70,8 +67,8 @@
                 EmployeeId = employeeId,
                 ModifiedBy = CurrentEmployeeId
             };
-
             CommandResult commandResult = baseService.ExecuteNonQuery(criteria);
+
             return commandResult;
         }
 
@@ -90,6 +87,7 @@
                 ShowAll = showAll
             };
             IList<TargetDepartmentSetting> targetDepartments = targetEmployeeSettingService.GetTargetDepartmentSetting(criteria);
+
             return targetDepartments;
         }
 
@@ -107,7 +105,6 @@
                     Departments = model.ConvertToXml(),
                     ModifiedBy = CurrentEmployeeId
                 };
-
                 commandResult = baseService.ExecuteNonQuery(criteria);
             }
 
@@ -128,8 +125,8 @@
                 IsGroup = isGroup,
                 ModifiedBy = CurrentEmployeeId
             };
-
             CommandResult commandResult = baseService.ExecuteNonQuery(criteria);
+
             return commandResult;
         }
 

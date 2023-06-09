@@ -32,7 +32,6 @@
         [ApiAuthorize(FunctionKey = EPAFunctionKey.JobLevel, Policy = Policy.Host)]
         public CommandResult Edit(EditJobLevelCriteria criteria)
         {
-
             CommandResult commandResult = baseService.ExecuteNonQuery(criteria);
 
             return commandResult;
@@ -46,7 +45,6 @@
             {
                 JobLevelId = jobLevelId
             };
-
             CommandResult commandResult = baseService.ExecuteNonQuery(criteria);
 
             return commandResult;

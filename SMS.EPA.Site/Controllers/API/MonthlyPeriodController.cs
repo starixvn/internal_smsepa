@@ -39,15 +39,14 @@
                 FromDate = fromDate,
                 ToDate = toDate
             };
-
-            IEnumerable<PeriodModel> periods = baseService.GetData<PeriodModel>(criteria);
+            var periods = baseService.GetData<PeriodModel>(criteria);
 
             return periods;
         }
 
         public IEnumerable<PeriodModel> GetAllMonthlyPeriod()
         {
-            IEnumerable<PeriodModel> periods = baseService.GetData<PeriodModel>(new GetAllMonthlyPeriodCriteria());
+            var periods = baseService.GetData<PeriodModel>(new GetAllMonthlyPeriodCriteria());
 
             return periods;
         }
@@ -64,16 +63,10 @@
         [ApiAuthorize(FunctionKey = EPAFunctionKey.MonthlyPeriod, Policy = Policy.Host)]
         public CommandResult CreateMonthlyPeriod(CreatePeriodCriteria criteria)
         {
-            var commandResult = new CommandResult();
-
-            if (criteria != null)
-            {
-                criteria.TargetTypeId = (byte)TargetType.Monthly;
-                criteria.IsActive = true;
-                criteria.CreatedBy = CurrentEmployeeId;
-
-                commandResult = baseService.ExecuteNonQuery(criteria);
-            }
+            criteria.TargetTypeId = (byte)TargetType.Monthly;
+            criteria.IsActive = true;
+            criteria.CreatedBy = CurrentEmployeeId;
+            CommandResult commandResult = baseService.ExecuteNonQuery(criteria);
 
             return commandResult;
         }
@@ -82,16 +75,10 @@
         [ApiAuthorize(FunctionKey = EPAFunctionKey.MonthlyPeriod, Policy = Policy.Host)]
         public CommandResult UpdateBasicInfoMonthlyPeriod(UpdateBasicInformationPeriodCriteria criteria)
         {
-            var commandResult = new CommandResult();
-
-            if (criteria != null)
-            {
-                criteria.TargetTypeId = (byte)TargetType.Monthly;
-                criteria.IsActive = true;
-                criteria.ModifiedBy = CurrentEmployeeId;
-
-                commandResult = baseService.ExecuteNonQuery(criteria);
-            }
+            criteria.TargetTypeId = (byte)TargetType.Monthly;
+            criteria.IsActive = true;
+            criteria.ModifiedBy = CurrentEmployeeId;
+            CommandResult commandResult = baseService.ExecuteNonQuery(criteria);
 
             return commandResult;
         }
@@ -103,7 +90,8 @@
             {
                 PeriodId = periodId
             };
-            IEnumerable<FlowModel> processSettings = baseService.GetData<FlowModel>(criteria);
+            var processSettings = baseService.GetData<FlowModel>(criteria);
+
             return processSettings;
         }
 
@@ -111,13 +99,8 @@
         [ApiAuthorize(FunctionKey = EPAFunctionKey.MonthlyPeriod, Policy = Policy.Host)]
         public CommandResult UpdateProcessSettingMonthlyPeriod(UpdateProcessSettingPeriodCriteria criteria)
         {
-            var commandResult = new CommandResult();
-
-            if (criteria != null)
-            {
-                criteria.ModifiedBy = CurrentEmployeeId;
-                commandResult = baseService.ExecuteNonQuery(criteria);
-            }
+            criteria.ModifiedBy = CurrentEmployeeId;
+            CommandResult commandResult = baseService.ExecuteNonQuery(criteria);
 
             return commandResult;
         }
@@ -131,7 +114,6 @@
                 PeriodId = periodId,
                 ModifiedBy = CurrentEmployeeId
             };
-
             CommandResult commandResult = baseService.ExecuteNonQuery(criteria);
 
             return commandResult;
@@ -139,26 +121,8 @@
 
         [HttpGet]
         [ApiAuthorize(FunctionKey = EPAFunctionKey.MonthlyPeriod, Policy = Policy.Read)]
-        public IEnumerable<PeriodEmployeeSettingModel> GetEmployeeSettingMonthlyPeriodById(
-            int periodId,
-            string teamIds = null,
-            bool? isLocal = null,
-            bool? isExcludedEmployee = null,
-            bool? isGeneratedEPA = null,
-            int? isEvaluated = null,
-            int? epaStatus = null)
+        public IEnumerable<PeriodEmployeeSettingModel> GetEmployeeSettingMonthlyPeriodById([FromUri] GetPeriodEmployeeSettingCriteria criteria)
         {
-            var criteria = new GetPeriodEmployeeSettingCriteria
-            {
-                PeriodId = periodId,
-                TeamIds = teamIds,
-                IsLocal = isLocal,
-                IsExcludedEmployee = isExcludedEmployee,
-                IsGeneratedEPA = isGeneratedEPA,
-                IsEvaluated = isEvaluated,
-                EPAStatus = epaStatus
-            };
-
             IEnumerable<PeriodEmployeeSettingModel> employeeSettings = periodService.GetPeriodEmployeeSettingById(criteria);
             employeeSettings = employeeSettings.OrderBy(x => x.Employee.Group.GroupCode).ThenBy(x => x.Employee.NickName);
 
@@ -169,13 +133,8 @@
         [ApiAuthorize(FunctionKey = EPAFunctionKey.MonthlyPeriod, Policy = Policy.Host)]
         public CommandResult AddEmployeeToMonthlyPeriod(AddEmployeeToPeriodCriteria criteria)
         {
-            var commandResult = new CommandResult();
-
-            if (criteria != null)
-            {
-                criteria.ModifiedBy = CurrentEmployeeId;
-                commandResult = baseService.ExecuteNonQuery(criteria);
-            }
+            criteria.ModifiedBy = CurrentEmployeeId;
+            CommandResult commandResult = baseService.ExecuteNonQuery(criteria);
 
             return commandResult;
         }
@@ -184,13 +143,8 @@
         [ApiAuthorize(FunctionKey = EPAFunctionKey.MonthlyPeriod, Policy = Policy.Host)]
         public CommandResult UpdateEmployeeSettingOfPeriod(UpdateEmployeeSettingOfPeriodCriteria criteria)
         {
-            var commandResult = new CommandResult();
-
-            if (criteria != null)
-            {
-                criteria.ModifiedBy = CurrentEmployeeId;
-                commandResult = periodService.UpdateEmployeeSettingOfPeriod(criteria);
-            }
+            criteria.ModifiedBy = CurrentEmployeeId;
+            CommandResult commandResult = periodService.UpdateEmployeeSettingOfPeriod(criteria);
 
             return commandResult;
         }
@@ -199,16 +153,10 @@
         [ApiAuthorize(FunctionKey = EPAFunctionKey.MonthlyPeriod, Policy = Policy.Host)]
         public CommandResult GenerateEvaluation(AutoGenerateEvaluationCriteria criteria)
         {
-            var commandResult = new CommandResult();
-
-            if (criteria != null)
+            CommandResult commandResult = baseService.ExecuteNonQuery(criteria);
+            if (commandResult.IsSuccessful)
             {
-                commandResult = baseService.ExecuteNonQuery(criteria);
-
-                if (commandResult.IsSuccessful)
-                {
-                    periodService.SendEmailNoticeAtBegin(criteria.PeriodId);
-                }
+                periodService.SendEmailNoticeAtBegin(criteria.PeriodId);
             }
 
             return commandResult;
@@ -218,13 +166,8 @@
         [ApiAuthorize(FunctionKey = EPAFunctionKey.MonthlyPeriod, Policy = Policy.Host)]
         public CommandResult UpdateIncludeStatusEmployeePeriod(UpdateIncludeStatusEmployeePeriodCriteria criteria)
         {
-            var commandResult = new CommandResult();
-
-            if (criteria != null)
-            {
-                criteria.ModifiedBy = CurrentEmployeeId;
-                commandResult = baseService.ExecuteNonQuery(criteria);
-            }
+            criteria.ModifiedBy = CurrentEmployeeId;
+            CommandResult commandResult = baseService.ExecuteNonQuery(criteria);
 
             return commandResult;
         }
@@ -238,8 +181,8 @@
                 PeriodId = periodId,
                 EmployeeIds = employeeIds
             };
-
             bool hasStarted = baseService.GetDataEntity<bool>(criteria);
+
             return hasStarted;
         }
 

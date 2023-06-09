@@ -6,14 +6,14 @@
     kpiModel.$inject = ['$uibModal', 'JobLevelStandardKPIFactory', 'utilitiesFactory', 'notificationFactory', 'errorFactory'];
 
     function kpiModel($uibModal, JobLevelStandardKPIFactory, utilitiesFactory, notificationFactory, errorFactory) {
-        var jobLevelStandardKpis = [],
+        let kpis = [],
             permission = 0;
 
-        var model = {
+        let model = {
             createKPI: createKPI,
             getJobLevelStandKPI: getJobLevelStandKPI,
             getUserPermissionOnKPI: getUserPermissionOnKPI,
-            jobLevelStandardKpis: jobLevelStandardKpis,
+            kpis: kpis,
             openPopupCreateKPI: openPopupCreateKPI,
             openPopupDeleteKPI: openPopupDeleteKPI,
             openPopupUpdateKPI: openPopupUpdateKPI,
@@ -44,8 +44,8 @@
         }
 
         function getJobLevelStandKPI(isActive) {
-            return JobLevelStandardKPIFactory.getJobLevelStandKPI(isActive).success(function (jobLevelStandardKpis) {
-                model.jobLevelStandardKpis = jobLevelStandardKpis;
+            return JobLevelStandardKPIFactory.getJobLevelStandKPI(isActive).success(function (kpis) {
+                model.kpis = kpis;
             }).error(function (response, status) {
                 errorFactory.errorHandle(status);
             });
@@ -73,7 +73,7 @@
         }
 
         function openPopupDeleteKPI(vm, kpi) {
-            var modalInstance = $uibModal.open({
+            let modalInstance = $uibModal.open({
                 templateUrl: 'SourceApp/Shared/Templates/ModalConfirmContent.html',
                 controller: 'ModalConfirmController as modalConfirmCtrl',
                 backdrop: 'static',
@@ -91,9 +91,9 @@
             modalInstance.result.then(function () {
                 JobLevelStandardKPIFactory.deleteKPI(kpi.KPIId).success(function (response) {
                     if (response.IsSuccessful) {
-                        var index = vm.jobLevelStandardKpis.indexOf(kpi);
-                        vm.jobLevelStandardKpis.splice(index, 1);
-                        utilitiesFactory.searchOnPage(vm, vm.jobLevelStandardKpis);
+                        const index = vm.kpis.indexOf(kpi);
+                        vm.kpis.splice(index, 1);
+                        utilitiesFactory.searchOnPage(vm, vm.kpis);
 
                         notificationFactory.success('DeletedSuccessfully');
                     } else {
@@ -126,13 +126,13 @@
         function openPopupUpdateStatusKPI(kpi) {
             kpi.IsActive = !kpi.IsActive;
 
-            var action = kpi.IsActive ? 'activate' : 'deactivate',
+            const action = kpi.IsActive ? 'activate' : 'deactivate',
                 newKPI = {
                     KPIId: kpi.KPIId,
                     IsActive: kpi.IsActive
                 };
 
-            var modalInstance = $uibModal.open({
+            let modalInstance = $uibModal.open({
                 templateUrl: 'SourceApp/Shared/Templates/ModalConfirmContent.html',
                 controller: 'ModalConfirmController as modalConfirmCtrl',
                 backdrop: 'static',
@@ -147,7 +147,7 @@
                 windowClass: 'modal-confirm-center'
             });
 
-            var keyMessage = '';
+            let keyMessage = '';
 
             modalInstance.result.then(function () {
                 JobLevelStandardKPIFactory.updateStatusKPI(newKPI).success(function (response) {
@@ -186,6 +186,5 @@
                 errorFactory.errorHandle(status);
             });
         }
-
     }
 })(angular);
