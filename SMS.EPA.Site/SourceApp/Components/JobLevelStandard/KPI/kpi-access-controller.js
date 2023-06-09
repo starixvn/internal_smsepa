@@ -6,7 +6,7 @@
     angular.module('jobLevelStandardModule').controller('JobLevelStandardKPIController', kpiController);
     kpiController.$inject = ['JobLevelStandardKPIModel', 'CommonModel', 'utilitiesFactory', 'lockScreenService'];
 
-    function kpiController(JobLevelStandardKPIModel, CommonModel, utilitiesFactory, lockScreenService) {
+    function kpiController(KPIModel, CommonModel, utilitiesFactory, historyFactory, lockScreenService) {
         let vm = this;
 
         vm.currentPage = 1;
@@ -29,7 +29,7 @@
         initialize();
 
         function createKPI() {
-            JobLevelStandardKPIModel.openPopupCreateKPI(vm).then(function (isSuccessful) {
+            KPIModel.openPopupCreateKPI(vm).then(function (isSuccessful) {
                 getKPI(vm.filter.isActive);
             })['finally'](function () {
                 vm.modalInstance = '';
@@ -37,7 +37,7 @@
         }
 
         function deleteKPI(kpi) {
-            JobLevelStandardKPIModel.openPopupDeleteKPI(vm, kpi);
+            KPIModel.openPopupDeleteKPI(vm, kpi);
         }
 
         function getIndex(index, currentPage, pageSize) {
@@ -46,16 +46,16 @@
 
         function getKPI(isActive) {
             lockScreenService.start();
-            JobLevelStandardKPIModel.getJobLevelStandKPI(isActive).then(function () {
-                vm.kpis = JobLevelStandardKPIModel.kpis;
+            KPIModel.getJobLevelStandKPI(isActive).then(function () {
+                vm.kpis = KPIModel.kpis;
                 utilitiesFactory.searchOnPage(vm, vm.kpis);
                 lockScreenService.stop();
             });
         }
 
         function initialize() {
-            JobLevelStandardKPIModel.getUserPermissionOnKPI().then(function () {
-                vm.permission = JobLevelStandardKPIModel.permission;
+            KPIModel.getUserPermissionOnKPI().then(function () {
+                vm.permission = KPIModel.permission;
             });
 
             getKPI(vm.filter.isActive);
@@ -68,7 +68,7 @@
         }
 
         function updateKPI(kpi) {
-            JobLevelStandardKPIModel.openPopupUpdateKPI(vm, kpi).then(function (updatedKPI) {
+            KPIModel.openPopupUpdateKPI(vm, kpi).then(function (updatedKPI) {
                 kpi.Name = updatedKPI.Name;
             })['finally'](function () {
                 vm.modalInstance = '';
@@ -76,7 +76,7 @@
         }
 
         function updateStatusKPI(kpi) {
-            JobLevelStandardKPIModel.openPopupUpdateStatusKPI(kpi);
+            KPIModel.openPopupUpdateStatusKPI(kpi);
         }
     }
 })(angular);

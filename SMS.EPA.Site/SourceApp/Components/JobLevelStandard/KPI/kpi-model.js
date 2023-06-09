@@ -20,9 +20,18 @@
             openPopupUpdateStatusKPI: openPopupUpdateStatusKPI,
             permission: permission,
             updateKPI: updateKPI,
+            validateKPI: validateKPI
         };
 
         return model;
+
+        function validateKPI(kpi) {
+            if (!kpi.Name) {
+                notificationFactory.error('', 'Name is required.');
+                return false
+            }
+            return true
+        }
 
         function createKPI(vm, isCreateAndContinued, modalInstance) {
             return JobLevelStandardKPIFactory.createKPI(vm.kpi).success(function (response) {

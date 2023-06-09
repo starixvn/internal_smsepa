@@ -3,10 +3,10 @@
     /* jshint latedef:nofunc */
     /* jshint validthis:true */
 
-    angular.module('jobLevelStandardModule').controller('CreateJobLevelStandardKPIController', createKPIController);
-    createKPIController.$inject = ['$uibModalInstance', 'JobLevelStandardKPIModel'];
+    angular.module('jobLevelStandardModule').controller('CreateJobLevelStandardKPIController', controller);
+    controller.$inject = ['$uibModalInstance', 'JobLevelStandardKPIModel'];
 
-    function createKPIController($uibModalInstance, JobLevelStandardKPIModel) {
+    function controller($uibModalInstance, model) {
         let vm = this;
 
         vm.kpi = {
@@ -21,7 +21,9 @@
         }
 
         function save(isCreateAndContinued) {
-            JobLevelStandardKPIModel.createKPI(vm, isCreateAndContinued, $uibModalInstance);
+            if (model.validateKPI(vm.kpi)) {
+                model.createKPI(vm, isCreateAndContinued, $uibModalInstance);
+            }
         }
     }
 })(angular);

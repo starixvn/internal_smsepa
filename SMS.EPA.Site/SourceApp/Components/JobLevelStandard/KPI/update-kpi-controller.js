@@ -3,10 +3,10 @@
     /* jshint latedef:nofunc */
     /* jshint validthis:true */
 
-    angular.module('jobLevelStandardModule').controller('UpdateJobLevelStandardKPIController', updateKPIController);
-    updateKPIController.$inject = ['$uibModalInstance', 'JobLevelStandardKPIModel', 'kpi'];
+    angular.module('jobLevelStandardModule').controller('UpdateJobLevelStandardKPIController', controller);
+    controller.$inject = ['$uibModalInstance', 'JobLevelStandardKPIModel', 'kpi'];
 
-    function updateKPIController($uibModalInstance, JobLevelStandardKPIModel, kpi) {
+    function controller($uibModalInstance, model, kpi) {
         var vm = this;
 
         vm.currentChosenKPIGroups = [];
@@ -24,7 +24,9 @@
         }
 
         function save() {
-            JobLevelStandardKPIModel.updateKPI(vm.kpi, $uibModalInstance);
+            if (model.validateKPI(vm.kpi)) {
+                model.updateKPI(vm.kpi, $uibModalInstance);
+            }
         }
     }
 })(angular);
