@@ -4,10 +4,9 @@
     /* jshint validthis:true */
 
     angular.module('jobLevelStandardModule').controller('SectionTemplateSettingController', controller);
-    controller.$inject = ['$scope', 'baseUrl', 'JLSTemplateSettingModel',
-        'CommonModel', 'utilitiesFactory', 'lockScreenService'];
+    controller.$inject = ['$scope', 'baseUrl', 'JLSTemplateSettingModel', 'CommonModel', 'utilitiesFactory', 'lockScreenService'];
 
-    function controller($scope, baseUrl, JLSTemplateSettingModel, CommonModel, utilitiesFactory, lockScreenService) {
+    function controller($scope, baseUrl, TemplateSettingModel, CommonModel, utilitiesFactory, lockScreenService) {
         var vm = this;
 
         vm.currentPage = 1;
@@ -43,13 +42,13 @@
         });
 
         function showDeleteBtn(template) {
-            return template !== null && template !== "";
+            return template !== null && template !== '';
         }
 
         function assignTargetTemplate() {
             vm.templateSetting.sectionIds = getSelectedEmployees(vm.templateSettings);
 
-            JLSTemplateSettingModel.assignTemplateToSection(vm.templateSetting, vm.objectType.section).then(function () {
+            TemplateSettingModel.assignTemplateToSection(vm.templateSetting, vm.objectType.section).then(function () {
                 vm.query();
                 vm.selectedAll = false;
             });
@@ -66,7 +65,7 @@
         }
 
         function deleteTemplateSetting(employee) {
-            JLSTemplateSettingModel.openPopupDelete(vm, employee);
+            TemplateSettingModel.openPopupDelete(vm, employee);
         }
 
         function getIndex(index, currentPage, pageSize) {
@@ -86,9 +85,9 @@
 
         function getTemplateSetting(objectId, showAll) {
             lockScreenService.start();
-            JLSTemplateSettingModel.getTemplateSetting(objectId, vm.objectType.section, showAll)
+            TemplateSettingModel.getTemplateSetting(objectId, vm.objectType.section, showAll)
                 .then(function () {
-                    vm.templateSettings = JLSTemplateSettingModel.templateSettings;
+                    vm.templateSettings = TemplateSettingModel.templateSettings;
                     utilitiesFactory.searchOnPage(vm, vm.templateSettings);
                     vm.isFirstLoad = false;
                     lockScreenService.stop();
@@ -109,8 +108,8 @@
                 vm.treeDepartment = CommonModel.generateTreeSection(CommonModel.treeDepartment.Childrens[0].Childrens);
             });
 
-            JLSTemplateSettingModel.getTemplates().then(function () {
-                vm.templates = JLSTemplateSettingModel.templates;
+            TemplateSettingModel.getTemplates().then(function () {
+                vm.templates = TemplateSettingModel.templates;
 
                 if (vm.templates && vm.templates.length > 0) {
                     vm.templateSetting.templateId = vm.templates[0].TemplateId;

@@ -6,8 +6,8 @@
     angular.module('jobLevelStandardModule').controller('JLSTemplateSettingController', controller);
     controller.$inject = ['JLSTemplateSettingModel', 'utilitiesFactory'];
 
-    function controller(JLSTemplateSettingModel, utilitiesFactory) {
-        var vm = this;
+    function controller(TemplateSettingModel, utilitiesFactory) {
+        let vm = this;
 
         vm.dataTab = 1;
         vm.permission = 0;
@@ -16,8 +16,8 @@
         initialize();
 
         function initialize() {
-            JLSTemplateSettingModel.getUserPermission().then(function () {
-                vm.permission = JLSTemplateSettingModel.permission;
+            TemplateSettingModel.getUserPermission().then(function () {
+                vm.permission = TemplateSettingModel.permission;
             });
         }
     }

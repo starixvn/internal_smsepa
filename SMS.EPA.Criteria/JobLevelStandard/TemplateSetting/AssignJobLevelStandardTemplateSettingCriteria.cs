@@ -8,7 +8,7 @@
 
         public string ObjectIds { get; set; }
 
-        public int ObjectTypeId { get; set; }
+        public byte ObjectTypeId { get; set; }
 
         public int ModifiedBy { get; set; }
 

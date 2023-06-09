@@ -14,6 +14,7 @@
     public class JobLevelStandardTemplateSettingController : BaseController
     {
         private readonly IBaseService baseService;
+
         public JobLevelStandardTemplateSettingController()
             : this(null)
         {
@@ -26,22 +27,21 @@
 
         [HttpGet]
         [ApiAuthorize(FunctionKey = EPAFunctionKey.JobLevelStandardTemplateSetting, Policy = Policy.Read)]
-        public IEnumerable<JobLevelStandardTemplateSetting> GetJobLevelStandardTemplateSetting([FromUri] GetJobLevelStandardTemplateSettingCriteria criteria)
+        public IEnumerable<JobLevelStandardTemplateSetting> GetTemplateSetting([FromUri] GetJobLevelStandardTemplateSettingCriteria criteria)
         {
             return baseService.GetData<JobLevelStandardTemplateSetting>(criteria).ToList();
         }
 
         [HttpDelete]
         [ApiAuthorize(FunctionKey = EPAFunctionKey.JobLevelStandardTemplateSetting, Policy = Policy.Host)]
-        public CommandResult DeleteJobLevelStandardTemplateSetting(int objectId, int objectTypeId)
+        public CommandResult Delete(int objectId, byte objectTypeId)
         {
-            var criteria = new DeleteJobLevelStandardTemplateSettingCriteria()
+            var criteria = new DeleteJobLevelStandardTemplateSettingCriteria
             {
                 ObjectId = objectId,
                 ObjectTypeId = objectTypeId,
                 ModifiedBy = CurrentEmployeeId
             };
-
             CommandResult commandResult = baseService.ExecuteNonQuery(criteria);
 
             return commandResult;
@@ -49,14 +49,11 @@
 
         [HttpPut]
         [ApiAuthorize(FunctionKey = EPAFunctionKey.JobLevelStandardTemplateSetting, Policy = Policy.Host)]
-        public CommandResult AssignJobLevelStandardTemplateSetting(AssignJobLevelStandardTemplateSettingCriteria criteria)
+        public CommandResult Assign(AssignJobLevelStandardTemplateSettingCriteria criteria)
         {
-            if (criteria != null)
-            {
-                criteria.ModifiedBy = CurrentEmployeeId;
-            }
-
+            criteria.ModifiedBy = CurrentEmployeeId;
             CommandResult commandResult = baseService.ExecuteNonQuery(criteria);
+
             return commandResult;
         }
 

@@ -4,7 +4,7 @@
     public class GetJobLevelStandardTemplateSettingCriteria : CriteriaBase
     {
         public int? ObjectId { get; set; }
-        public int ObjectTypeId { get; set; }
+        public byte ObjectTypeId { get; set; }
         public bool ShowAll { get; set; }
 
         public override bool IsValid() => ObjectTypeId > 0;

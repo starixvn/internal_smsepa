@@ -1,10 +1,11 @@
 ﻿namespace SMS.EPA.Criteria.JobLevelStandard.TemplateSetting
 {
     using Fanex.Data.Repository;
+
     public class DeleteJobLevelStandardTemplateSettingCriteria : CriteriaBase
     {
         public int ObjectId { get; set; }
-        public int ObjectTypeId { get; set; }
+        public byte ObjectTypeId { get; set; }
 
         public int ModifiedBy { get; set; }
 

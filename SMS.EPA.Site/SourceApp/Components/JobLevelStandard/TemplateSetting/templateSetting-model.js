@@ -5,8 +5,8 @@
     angular.module('jobLevelStandardModule').factory('JLSTemplateSettingModel', model);
     model.$inject = ['$uibModal', 'JLSTemplateSettingFactory', 'notificationFactory', 'utilitiesFactory', 'errorFactory'];
 
-    function model($uibModal, JLSTemplateSettingFactory, notificationFactory, utilitiesFactory, errorFactory) {
-        var model = {
+    function model($uibModal, TemplateSettingFactory, notificationFactory, utilitiesFactory, errorFactory) {
+        let model = {
             permission: 0,
             templateSettings: [],
             templates: [],
@@ -20,16 +20,16 @@
         return model;
 
         function getTemplates() {
-            return JLSTemplateSettingFactory.getTemplate()
-                .success(function (result) {
-                    model.templates = result;
+            return TemplateSettingFactory.getTemplate()
+                .success(function (templates) {
+                    model.templates = templates;
                 }).error(function (response, status) {
                     errorFactory.errorHandle(status);
                 });
         }
 
         function getTemplateSetting(id, typeId, showAll) {
-            return JLSTemplateSettingFactory.getTemplateSetting(id, typeId, showAll)
+            return TemplateSettingFactory.getTemplateSetting(id, typeId, showAll)
                 .success(function (templateSettings) {
                     model.templateSettings = templateSettings;
                 }).error(function (response, status) {
@@ -38,7 +38,7 @@
         }
 
         function getUserPermission() {
-            return JLSTemplateSettingFactory.getUserPermission().success(function (permission) {
+            return TemplateSettingFactory.getUserPermission().success(function (permission) {
                 model.permission = permission;
             }).error(function (response, status) {
                 errorFactory.errorHandle(status);
@@ -47,13 +47,13 @@
 
         function assignTemplateToSection(targetSectionSetting, objectTypeId) {
             if (targetSectionSetting.sectionIds) {
-                var params = {
+                const params = {
                     objectIds: targetSectionSetting.sectionIds,
                     objectTypeId: objectTypeId,
                     templateId: targetSectionSetting.templateId
                 }
 
-                return JLSTemplateSettingFactory.assignTemplateToSection(params).success(function (response) {
+                return TemplateSettingFactory.assignTemplateToSection(params).success(function (response) {
                     if (response.IsSuccessful) {
                         notificationFactory.success('UpdatedSuccessfully');
                     } else {
@@ -84,7 +84,7 @@
             });
 
             modalInstance.result.then(function () {
-                return JLSTemplateSettingFactory.deleteTemplateSetting(employee.ObjectId, employee.ObjectTypeId)
+                return TemplateSettingFactory.deleteTemplateSetting(employee.ObjectId, employee.ObjectTypeId)
                     .success(function (response) {
                         if (response.IsSuccessful) {
                             let index = vm.templateSettings.indexOf(employee);
