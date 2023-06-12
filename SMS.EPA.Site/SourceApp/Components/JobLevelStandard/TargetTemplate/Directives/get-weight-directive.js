@@ -37,7 +37,7 @@
             restrict: 'A',
             link: function (scope, iElement) {
                 iElement.on('click', function () {
-                    if (scope.kpiListCtrl && validateKPIList(scope.kpiListCtrl.kpiList)) {
+                    if (scope.kpiListCtrl && validateKPIList(scope.kpiListCtrl.kpis)) {
                         var KPIs = [],
                             groupTable = $('#tblKPI'),
                             selectedRows = groupTable.find('tr.row-data').has('.check-group:checked');

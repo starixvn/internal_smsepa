@@ -2,7 +2,7 @@
     'use strict';
     /* jshint latedef:nofunc */
 
-    angular.module('targetTemplateModule').directive('moveKpiRow', moveKpiRow);
+    angular.module('appModule').directive('moveKpiRow', moveKpiRow);
     moveKpiRow.$inject = [];
 
     function moveKpiRow() {
