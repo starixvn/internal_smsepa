@@ -6,7 +6,7 @@
     angular.module('jobLevelStandardModule').controller('JobLevelStandardKPIController', kpiController);
     kpiController.$inject = ['JobLevelStandardKPIModel', 'CommonModel', 'utilitiesFactory', 'lockScreenService'];
 
-    function kpiController(KPIModel, CommonModel, utilitiesFactory, historyFactory, lockScreenService) {
+    function kpiController(KPIModel, CommonModel, utilitiesFactory, lockScreenService) {
         let vm = this;
 
         vm.currentPage = 1;

@@ -17,7 +17,10 @@
         };
 
         vm.save = function save(data) {
-            TemplateModel.createTemplate(data, $uibModalInstance);
+            if (TemplateModel.validateTemplate(data)) {
+                TemplateModel.createTemplate(data, $uibModalInstance);
+            }
+
         };
     }
 })(angular);

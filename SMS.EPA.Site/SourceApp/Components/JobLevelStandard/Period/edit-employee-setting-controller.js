@@ -22,9 +22,6 @@
         };
 
         vm.disableInput = {
-            evaluator: false,
-            employee: false,
-            management: false,
             template: false,
         };
 
@@ -112,23 +109,12 @@
             let evaluator = {
                 FromDate: null
             };
-            let employee = {
-                FromDate: null
-            };;
-            let management = {
-                FromDate: null
-            };;
 
             for (const item of selectedEmployees) {
                 disableInput_AddDateToObject(evaluator, item.Evaluators[0])
-                disableInput_AddDateToObject(employee, item.Employee)
-                disableInput_AddDateToObject(management, item.Managements[0])
             }
 
             vm.disableInput = {
-                evaluator: today >= evaluator.FromDate,
-                employee: today >= employee.FromDate,
-                management: today >= management.FromDate,
                 template: today >= evaluator.FromDate,
             };
 

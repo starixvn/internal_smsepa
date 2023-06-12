@@ -103,19 +103,16 @@
                         </span>
                         <input type="text" class="text-center form-control"
                                ng-show="assessment.IsHost && assessment.CurrentProcessId === assessmentCtrl.process.Evaluator && assessment.IsEdit"
+                               ng-change="assessmentCtrl.autoUpdateWeight(akpi,assessment)"
                                ng-model="akpi.Level"
                                numeric decimals="0" min="0" max="5" autocomplete="off" />
                     </div>
                 </td>
                 <td ng-repeat-end class="col-input col-weight text-center">
                     <div ng-repeat="akpi in assessment.KPIs | filter: {KPIId: kpi.KPIId}" ng-show="$first">
-                        <span ng-show="!assessment.IsHost || assessment.CurrentProcessId !== assessmentCtrl.process.Evaluator || !assessment.IsEdit">
+                        <span>
                             {{akpi.Weight}}
                         </span>
-                        <input type="text" class="text-center form-control"
-                               ng-show="assessment.IsHost && assessment.CurrentProcessId === assessmentCtrl.process.Evaluator && assessment.IsEdit"
-                               ng-model="akpi.Weight"
-                               numeric decimals="2" min="0" max="100" autocomplete="off" ng-change="assessmentCtrl.inputWeight(assessment)" />
                     </div>
                 </td>
                 <td class="text-center" ng-bind="assessment.TotalWeight"></td>

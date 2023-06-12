@@ -61,6 +61,15 @@
             });
         }
 
+        vm.autoUpdateWeight = function (akpi, assessment) {
+            if (!akpi.Level) {
+                akpi.Weight = 0
+            } else {
+                akpi.Weight = akpi.TemplateWeight / 5 * akpi.Level
+            }
+            vm.inputWeight(assessment)
+        };
+
         vm.query = function () {
             vm.searchKey = '';
             vm.isEditing = false;

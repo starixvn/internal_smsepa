@@ -15,6 +15,8 @@
         public int? AssessmentId { get; set; }
 
         public int KPIId { get; set; }
+        public decimal? TemplateWeight { get; set; }
+
         public byte? Level { get; set; }
         public decimal? Weight { get; set; }
     }
