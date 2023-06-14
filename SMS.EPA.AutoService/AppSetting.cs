@@ -16,5 +16,9 @@
         public static string RelativeEmailPath => ConfigurationManager.AppSettings["RelativeEmailPath"];
 
         public static bool ProbationExtendedQuestionEnabled => Convert.ToBoolean(ConfigurationManager.AppSettings["ProbationExtendedQuestionEnabled"]);
+
+        public static string Sentry_Category => ConfigurationManager.AppSettings["Sentry:Category"];
+        public static string Sentry_Dsn => ConfigurationManager.AppSettings["Sentry:Dsn"];
+        public static int Sentry_Timeout => Convert.ToInt32(ConfigurationManager.AppSettings["Sentry:Timeout"]);
     }
 }

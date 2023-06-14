@@ -1,13 +1,11 @@
-﻿namespace SMS.EPA.AutoService.Service.Implement
+﻿namespace SMS.EPA.AutoService.Service
 {
     using System;
     using System.Threading.Tasks;
-    using Interfaces;
-    using Service;
+    using Fanex.Logging;
 
     public class EPAAutoService : IEPAAutoService
     {
-        private readonly log4net.ILog logger = log4net.LogManager.GetLogger(typeof(EPAAutoService));
         private readonly IMonthlyService monthlyService;
         private readonly ISemiAnnualService semiAnnualService;
         private readonly IProbationService probationService;
@@ -68,15 +66,7 @@
             }
             catch (Exception ex)
             {
-                if (!string.IsNullOrWhiteSpace(ex.Message))
-                {
-                    logger.Error(ex.Message, ex);
-                }
-
-                if (ex.InnerException != null)
-                {
-                    logger.Error(ex.InnerException.Message, ex);
-                }
+                LogService.Error(ex.Message, ex);
             }
         }
     }

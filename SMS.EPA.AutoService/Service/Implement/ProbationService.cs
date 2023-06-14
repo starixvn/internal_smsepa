@@ -1,15 +1,13 @@
 ﻿namespace SMS.EPA.AutoService.Service
 {
     using System.Collections.Generic;
-    using Core.Model;
-    using Criteria;
-    using Implement;
-    using Model;
+    using Fanex.Logging;
+    using SMS.EPA.AutoService.Criteria;
+    using SMS.EPA.Core.Model;
+    using SMS.EPA.Model;
 
     public class ProbationService : BasePeriodService, IProbationService
     {
-        private readonly log4net.ILog logger = log4net.LogManager.GetLogger(typeof(ProbationService));
-
         public void CheckProbationPeriod()
         {
             IEnumerable<AutoEmployeePeriodModel> employeePeriods = GetEmployeeEvaluation(new GetEmployeeProbationEvaluationCriteria());
@@ -36,7 +34,7 @@
 
             if (!commandResult.IsSuccessful)
             {
-                logger.Error("Auto add employee to probation period " + employeePeriod.PeriodId + ": " + commandResult.Message);
+                LogService.Error("Auto add employee to probation period " + employeePeriod.PeriodId + ": " + commandResult.Message);
             }
         }
     }

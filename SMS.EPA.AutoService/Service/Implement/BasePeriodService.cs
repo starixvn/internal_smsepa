@@ -1,20 +1,20 @@
-﻿namespace SMS.EPA.AutoService.Service.Implement
+﻿namespace SMS.EPA.AutoService.Service
 {
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
-    using Core.Model;
-    using Core.Services;
-    using EPA.Criteria;
     using Fanex.Data.Repository;
-    using Model;
+    using Fanex.Logging;
     using SMS.EPA.Core.Enumerations;
+    using SMS.EPA.Core.Model;
+    using SMS.EPA.Core.Services;
+    using SMS.EPA.Criteria;
+    using SMS.EPA.Model;
     using SMS.EPA.Model.AutoService;
     using SMS.EPA.Services;
 
     public class BasePeriodService
     {
-        private readonly log4net.ILog logger = log4net.LogManager.GetLogger(typeof(BasePeriodService));
         protected readonly IPeriodMailService PeriodMailService;
         protected readonly IPeriodService PeriodService;
         protected readonly IBaseService BaseService;
@@ -43,7 +43,7 @@
 
             if (!commandResult.IsSuccessful)
             {
-                logger.Error(string.Format("{0} {1}: {2}", messageExplanation, periodId, commandResult.Message));
+                LogService.Error(string.Format("{0} {1}: {2}", messageExplanation, periodId, commandResult.Message));
             }
         }
 
@@ -57,7 +57,7 @@
 
             if (!commandResult.IsSuccessful)
             {
-                logger.Error(string.Format("{0} {1}: {2}", messageExplanation, periodId, commandResult.Message));
+                LogService.Error(string.Format("{0} {1}: {2}", messageExplanation, periodId, commandResult.Message));
             }
         }
 
@@ -73,7 +73,7 @@
 
             if (!commandResult.IsSuccessful)
             {
-                logger.Error(string.Format("{0} {1}: {2}", messageExplanation, employeePeriod.PeriodId, commandResult.Message));
+                LogService.Error(string.Format("{0} {1}: {2}", messageExplanation, employeePeriod.PeriodId, commandResult.Message));
             }
         }
 

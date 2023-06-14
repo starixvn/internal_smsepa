@@ -1,6 +1,8 @@
 ﻿namespace SMS.EPA.Site
 {
     using System;
+    using System.Configuration;
+    using System.Diagnostics;
     using System.Web;
     using System.Web.Http;
     using System.Web.Mvc;
@@ -9,28 +11,45 @@
     using System.Web.SessionState;
     using Fanex.Data;
     using Fanex.Data.SqlServer;
+    using Fanex.Logging;
+    using Fanex.Logging.Extensions;
+    using Fanex.Logging.Extensions.Database;
+    using Fanex.Logging.Extensions.Web;
+    using Fanex.Logging.Sentry.RavenClient;
     using HRM.UserControl.Client.AspNetMvc.Configurations;
     using HRM.UserControl.Client.AspNetMvc.Session;
     using HRM.UserControl.Client.Core;
-    using Resources;
+    using SharpRaven;
 
     public class WebApiApplication : HttpApplication
     {
         private const string WebApiExecutionPath = "~/api";
-        private readonly log4net.ILog logger = log4net.LogManager.GetLogger(typeof(WebApiApplication));
 
         protected void Application_Start()
         {
+            LogManager
+                .SetDefaultLogCategory(ConfigurationManager.AppSettings["Sentry:Category"])
+                .Use(new SentryLogging(new SentryEngineOptions
+                {
+                    Dsn = new Dsn(ConfigurationManager.AppSettings["Sentry:Dsn"]),
+                    WriteLogTimeoutSeconds = Convert.ToInt32(ConfigurationManager.AppSettings["Sentry:Timeout"])
+                }));
+
+            ExceptionHandler
+                .UseConfig(new LoggingConfiguration())
+                .UseGetDbExceptionInfo(DatabaseInfoGetters.GetDbExceptionInfo);
+
+            DbSettingProviderManager
+                .StartNewSession()
+                .WithSqlServer("~/App_Data/SpNames.xml")
+                .Run();
+
             AreaRegistration.RegisterAllAreas();
 
             GlobalConfiguration.Configure(WebApiConfig.Register);
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
-            DbSettingProviderManager
-                .StartNewSession()
-                .WithSqlServer("~/App_Data/SpNames.xml")
-                .Run();
 
             log4net.Config.XmlConfigurator.Configure();
 
@@ -49,21 +68,8 @@
 
         protected void Application_Error(object sender, EventArgs e)
         {
-            Exception ex = Server.GetLastError().GetBaseException();
-            var message = string.Format(
-                "{0}{1}{2}{3}{1}{4}{5}{1}{6}{7}{1}{8}{9}",
-                ex.Message,
-                Environment.NewLine,
-                Lang.Source,
-                ex.Source,
-                Lang.Domain,
-                HttpContext.Current.Request.Headers["Host"],
-                Lang.TargetSite,
-                ex.TargetSite,
-                Lang.StackTrace,
-                ex.StackTrace);
-
-            logger.Error(message);
+            var ex = Server.GetLastError();
+            ExceptionHandler.Handle(ex, TraceEventType.Error);
         }
 
         private static bool IsWebApiRequest()

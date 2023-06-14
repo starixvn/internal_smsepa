@@ -3,18 +3,16 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using Core.Constants;
-    using Core.Enumerations;
-    using Core.Model;
-    using Criteria;
-    using EPA.Criteria;
-    using Implement;
-    using Model;
+    using Fanex.Logging;
+    using SMS.EPA.AutoService.Criteria;
+    using SMS.EPA.Core.Constants;
+    using SMS.EPA.Core.Enumerations;
+    using SMS.EPA.Core.Model;
+    using SMS.EPA.Criteria;
+    using SMS.EPA.Model;
 
     public class MonthlyService : BasePeriodService, IMonthlyService
     {
-        private readonly log4net.ILog logger = log4net.LogManager.GetLogger(typeof(MonthlyService));
-
         public void CheckMonthlyPeriod()
         {
             var monthlyPeriods = BaseService.GetData<int>(new GetMonthlyPeriodStartedCriteria());
@@ -43,12 +41,11 @@
                         StartDate = today,
                         EndDate = today.AddDays(processSettings.Sum(p => p.Duration))
                     };
-
                     CommandResult commandResult = BaseService.ExecuteNonQuery(criteria);
 
                     if (!commandResult.IsSuccessful)
                     {
-                        logger.Error(string.Format("Error create monthly period: {0}", commandResult.Message));
+                        LogService.Error(string.Format("Error create monthly period: {0}", commandResult.Message));
                     }
                 }
             }

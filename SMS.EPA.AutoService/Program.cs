@@ -3,8 +3,10 @@
     using System;
     using Fanex.Data;
     using Fanex.Data.SqlServer;
-    using SMS.EPA.AutoService.Service.Implement;
-    using SMS.EPA.AutoService.Service.Interfaces;
+    using Fanex.Logging;
+    using Fanex.Logging.Sentry.RavenClient;
+    using SharpRaven;
+    using SMS.EPA.AutoService.Service;
 
     public static class Program
     {
@@ -13,6 +15,14 @@
             log4net.Config.XmlConfigurator.Configure();
             try
             {
+                LogManager
+                    .SetDefaultLogCategory(AppSetting.Sentry_Category)
+                    .Use(new SentryLogging(new SentryEngineOptions
+                    {
+                        Dsn = new Dsn(AppSetting.Sentry_Dsn),
+                        WriteLogTimeoutSeconds = AppSetting.Sentry_Timeout
+                    }));
+
                 DbSettingProviderManager
                     .StartNewSession()
                     .WithSqlServer("~/SpNames.xml")
@@ -23,16 +33,7 @@
             }
             catch (Exception ex)
             {
-                log4net.ILog logger = log4net.LogManager.GetLogger(typeof(Program));
-                if (!string.IsNullOrWhiteSpace(ex.Message))
-                {
-                    logger.Error(ex.Message, ex);
-                }
-
-                if (ex.InnerException != null)
-                {
-                    logger.Error(ex.InnerException.Message, ex);
-                }
+                LogService.Error(ex.Message, ex);
             }
         }
     }

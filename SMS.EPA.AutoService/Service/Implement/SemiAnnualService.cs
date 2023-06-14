@@ -1,7 +1,6 @@
 ﻿namespace SMS.EPA.AutoService.Service
 {
-    using Criteria;
-    using Implement;
+    using SMS.EPA.AutoService.Criteria;
 
     public class SemiAnnualService : BasePeriodService, ISemiAnnualService
     {
