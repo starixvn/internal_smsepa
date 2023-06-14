@@ -49,7 +49,7 @@
                     <input type="checkbox" ng-model="assessmentCtrl.selectedAll" ng-click="assessmentCtrl.onSellectAll()" />
                 </th>
                 <th rowspan="3" data-translate="SymbolCount"></th>
-                <th rowspan="2" colspan="10">Employee Info</th>
+                <th rowspan="2" colspan="11">Employee Info</th>
                 <th ng-if="assessmentCtrl.kpis.length > 0" colspan="{{assessmentCtrl.kpis.length * 2}}">
                     Job Level Standards (Assessment by Department P.I.C)
                 </th>
@@ -59,7 +59,7 @@
                 <th class="col-action" rowspan="3" data-translate="Action"></th>
             </tr>
             <tr>
-                <th ng-repeat="kpi in assessmentCtrl.kpis" ng-bind="kpi.Name" colspan="2"></th>
+                <th ng-repeat="kpi in assessmentCtrl.kpis" ng-bind="kpi.KPIName" colspan="2"></th>
             </tr>
             <tr>
                 <th data-translate="Code"></th>
@@ -70,6 +70,7 @@
                 <th class="col-department" data-translate="Department"></th>
                 <th class="col-section" data-translate="Section"></th>
                 <th class="col-team" data-translate="Team"></th>
+                <th class="col-template" data-translate="Template"></th>
                 <th class="col-current-joblevel" data-translate="CurrentJobLevel"></th>
                 <th data-translate="RequirementMinScore"></th>
                 <th ng-repeat-start="kpi in assessmentCtrl.kpis" class="col-level" data-translate="Level"></th>
@@ -94,6 +95,10 @@
                 <td ng-bind="assessment.Department"></td>
                 <td ng-bind="assessment.Section"></td>
                 <td ng-bind="assessment.Team"></td>
+                <td>
+                    <div uib-tooltip="{{assessmentCtrl.showTooltipKpi(assessment.KPIs)}}"
+                         tooltip-placement="right">{{assessment.KPIs[0].Template}}</div>
+                </td>
                 <td class="text-center" ng-bind="assessment.CurrentJobLevel"></td>
                 <td class="text-center" ng-bind="assessment.RequirementMinScore"></td>
                 <td ng-repeat-start="kpi in assessmentCtrl.kpis" class="col-input col-level text-center">
@@ -111,7 +116,7 @@
                 <td ng-repeat-end class="col-input col-weight text-center">
                     <div ng-repeat="akpi in assessment.KPIs | filter: {KPIId: kpi.KPIId}" ng-show="$first">
                         <span>
-                            {{akpi.Weight}}
+                            {{akpi.DisplayWeight}}
                         </span>
                     </div>
                 </td>

@@ -6,6 +6,8 @@
     using System.Threading.Tasks;
     using System.Web.Http;
     using HRM.UserControl.Client.Core.Enumerables;
+    using Microsoft.Ajax.Utilities;
+    using NPOI.Util;
     using SMS.EPA.Core.Attribute;
     using SMS.EPA.Core.Constants;
     using SMS.EPA.Core.Extensions;
@@ -48,13 +50,16 @@
         [ApiAuthorize(FunctionKey = EPAFunctionKey.JobLevelAssessment, Policy = Policy.Read)]
         public object GetAssessments(GetJobLevelAssessmentByActorIdCriteria criteria)
         {
-            var kpicriteria = new GetKPIByPeriodIdCriteria { PeriodId = criteria.PeriodId };
-            var kpis = baseService.GetData<JobLevelStandardKPI>(kpicriteria).ToList();
-
             IList<JobLevelSetting> jobLevelSettings = jobLevelAssessmentService.GetJobLevelSettingByPeriod(criteria.PeriodId);
 
             criteria.ActorId = CurrentEmployeeId;
             IList<JobLevelAssessment> assessments = jobLevelAssessmentService.GetJobLevelAssessmentByActor(criteria);
+
+            List<JobLevelAssessmentKPI> kpis = assessments
+                .SelectMany(ass => ass.KPIs)
+                .GroupBy(kpi => new { kpi.KPIName, kpi.KPIId })
+                .Select(kpi => kpi.First())
+                .ToList();
 
             return new { kpis, jobLevelSettings, assessments };
         }

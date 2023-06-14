@@ -61,11 +61,17 @@
             });
         }
 
+        vm.showTooltipKpi = function (KPIs) {
+            return `KPI in template:\n ${KPIs.map(kpi => `- ${kpi.KPIName} (${kpi.TemplateWeight.toFixed(2)})`).join('\n')}`;
+        };
+
         vm.autoUpdateWeight = function (akpi, assessment) {
             if (!akpi.Level) {
                 akpi.Weight = 0
+                akpi.DisplayWeight = 0
             } else {
                 akpi.Weight = akpi.TemplateWeight / 5 * akpi.Level
+                akpi.DisplayWeight = akpi.Weight.toFixed(2)
             }
             vm.inputWeight(assessment)
         };
@@ -142,7 +148,7 @@
             const currentJobLevelId = assessment.CurrentJobLevelId !== null ? assessment.CurrentJobLevelId : 0;
             if (totalWeight !== null) {
                 const requirementMinScore = assessment.RequirementMinScore !== null ? assessment.RequirementMinScore : 0;
-                assessment.TotalWeight = totalWeight;
+                assessment.TotalWeight = totalWeight.toFixed(2);
                 assessment.SystemPropose = parseFloat(parseFloat(totalWeight - requirementMinScore).toFixed(2));
 
                 if (assessment.SystemPropose > 0) {

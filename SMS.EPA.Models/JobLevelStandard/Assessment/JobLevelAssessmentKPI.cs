@@ -13,11 +13,13 @@
 
         [XmlIgnore]
         public int? AssessmentId { get; set; }
-
+        public string Template { get; set; }
         public int KPIId { get; set; }
+        public string KPIName { get; set; }
         public decimal? TemplateWeight { get; set; }
 
         public byte? Level { get; set; }
         public decimal? Weight { get; set; }
+        public decimal? DisplayWeight => Weight;
     }
 }

@@ -19,6 +19,10 @@
             historyFactory.back();
         };
 
+        vm.formatWeight = function (weight) {
+            return weight % 1 !== 0 ? weight.toFixed(2) : weight
+        };
+
         function initialize() {
             JobLevelStandardTemplateModel.getTemplateById(vm.targetTemplateId).then(function () {
                 vm.targetTemplate = JobLevelStandardTemplateModel.template;
