@@ -79,11 +79,15 @@
         [ApiAuthorize(FunctionKey = EPAFunctionKey.JobLevelAssessmentReport, Policy = Policy.Read)]
         public object GetAssessments(GetJobLevelAssessmentReportCriteria criteria)
         {
-            var kpicriteria = new GetKPIByPeriodIdCriteria { PeriodId = criteria.PeriodId };
-            var kpis = baseService.GetData<JobLevelStandardKPI>(kpicriteria).ToList();
-
             criteria.ActorId = CurrentEmployeeId;
             IList<JobLevelAssessment> assessments = jobLevelAssessmentService.GetJobLevelAssessmentReport(criteria);
+
+            List<JobLevelAssessmentKPI> kpis = assessments
+                .SelectMany(ass => ass.KPIs)
+                .GroupBy(kpi => new { kpi.KPIName, kpi.KPIId })
+                .Select(kpi => kpi.First())
+                .OrderBy(kpi => kpi.KPIId)
+                .ToList();
 
             return new { kpis, assessments };
         }

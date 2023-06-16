@@ -42,11 +42,15 @@
 
         public ActionResult ExportJoblevelAssessment(GetJobLevelAssessmentReportCriteria criteria)
         {
-            var kpicriteria = new GetKPIByPeriodIdCriteria { PeriodId = criteria.PeriodId };
-            var kpis = baseService.GetData<JobLevelStandardKPI>(kpicriteria).ToList();
-
             criteria.ActorId = userControlSession.Get<int>(Constants.CurrentEmployeeIdKey);
             IList<JobLevelAssessment> assessments = jobLevelAssessmentService.GetJobLevelAssessmentReport(criteria);
+
+            List<JobLevelAssessmentKPI> kpis = assessments
+                .SelectMany(ass => ass.KPIs)
+                .GroupBy(kpi => new { kpi.KPIName, kpi.KPIId })
+                .Select(kpi => kpi.First())
+                .OrderBy(kpi => kpi.KPIId)
+                .ToList();
 
             var title = Lang.JoblevelAssessmentReportTitle + " - " + criteria.PeriodName;
             MemoryStream output = exportService.ExportJoblevelAssessmentReport(kpis, assessments, title);

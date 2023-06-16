@@ -304,6 +304,7 @@
                             "~/SourceApp/Shared/Directives/epa-numberDot-directive.js",
                             "~/SourceApp/Shared/Directives/epa-searchAutoComplete-directive.js",
                             "~/SourceApp/Shared/Directives/popover-avatar-directive.js",
+                            "~/SourceApp/Shared/Directives/popover-kpis-directive.js",
                             "~/SourceApp/Shared/Directives/multiselect-treeview-directive.js",
                             "~/SourceApp/Shared/Directives/move-kpi-row-directive.js",
                             "~/SourceApp/Shared/Directives/floatThead-directive.js",

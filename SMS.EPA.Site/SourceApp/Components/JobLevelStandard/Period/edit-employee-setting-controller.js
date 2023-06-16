@@ -173,7 +173,7 @@
                 for (const employee of selectedEmployees) {
                     const employeeSetting = {
                         periodId: employee.PeriodId,
-                        templateId: vm.employeeSettings.templateId,
+                        templateId: vm.singleMode || vm.fieldEdit.template ? vm.employeeSettings.templateId : -1,
                         employee: {
                             processId: vm.process.Employee,
                             employeeId: employee.EmployeeId,

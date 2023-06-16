@@ -1524,6 +1524,9 @@
     <data name="RequirementMinScore" xml:space="preserve">
     <value>Requirement min score</value>
   </data>
+    <data name="Template" xml:space="preserve">
+    <value>Template</value>
+  </data>
     <data name="SuperiorP" xml:space="preserve">
     <value> Superior (P)</value>
   </data>

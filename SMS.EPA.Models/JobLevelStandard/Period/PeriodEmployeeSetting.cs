@@ -41,6 +41,7 @@
                 Team,
                 FullName,
                 Nickname,
+                Template,
                 JobLevel,
                 Evaluator = GetEvaluator(Evaluators),
                 Management = GetEvaluator(Managements),

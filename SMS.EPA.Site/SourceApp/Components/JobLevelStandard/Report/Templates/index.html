@@ -56,8 +56,8 @@
             </tr>
             <tr class="headerName">
                 <th rowspan="3" data-translate="SymbolCount"></th>
-                <th rowspan="2" colspan="12">Employee Info</th>
-                <th colspan="{{assessmentReportCtrl.kpis.length * 2}}">
+                <th rowspan="2" colspan="13">Employee Info</th>
+                <th ng-if="assessmentReportCtrl.kpis.length > 0" colspan="{{assessmentReportCtrl.kpis.length * 2}}">
                     Job Level Standards (Assessment by Department P.I.C)
                 </th>
                 <th colspan="3" rowspan="2">Review by Unit Head</th>
@@ -65,7 +65,7 @@
                 <th rowspan="3" data-translate="Status"></th>
             </tr>
             <tr>
-                <th ng-repeat="kpi in assessmentReportCtrl.kpis" ng-bind="kpi.Name" colspan="2"></th>
+                <th ng-repeat="kpi in assessmentReportCtrl.kpis" ng-bind="kpi.KPIName" colspan="2"></th>
             </tr>
             <tr>
                 <th data-translate="Code"></th>
@@ -76,6 +76,7 @@
                 <th class="col-department" data-translate="Department"></th>
                 <th class="col-section" data-translate="Section"></th>
                 <th class="col-team" data-translate="Team"></th>
+                <th class="col-template" data-translate="Template"></th>
                 <th class="col-current-joblevel" data-translate="CurrentJobLevel"></th>
                 <th data-translate="RequirementMinScore"></th>
                 <th data-translate="SuperiorP"></th>
@@ -99,6 +100,9 @@
                 <td ng-bind="assessment.Department"></td>
                 <td ng-bind="assessment.Section"></td>
                 <td ng-bind="assessment.Team"></td>
+                <td>
+                    <div popover-kpis kpis-data="{{assessment.KPIs}}">{{assessment.KPIs[0].Template}}</div>
+                </td>
                 <td class="text-center" ng-bind="assessment.CurrentJobLevel"></td>
                 <td class="text-center" ng-bind="assessment.RequirementMinScore"></td>
                 <td>
@@ -128,7 +132,7 @@
                 </td>
             </tr>
             <tr ng-show="assessmentReportCtrl.filteredItems.length === 0">
-                <td class="empty-result" colspan="{{17 + assessmentReportCtrl.kpis.length * 2}}" data-translate="ThereIsNoData"></td>
+                <td class="empty-result" colspan="{{18 + assessmentReportCtrl.kpis.length * 2}}" data-translate="ThereIsNoData"></td>
             </tr>
         </tbody>
         <tfoot>

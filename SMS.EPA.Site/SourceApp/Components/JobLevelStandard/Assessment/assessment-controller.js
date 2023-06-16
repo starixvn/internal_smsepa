@@ -61,10 +61,6 @@
             });
         }
 
-        vm.showTooltipKpi = function (KPIs) {
-            return `KPI in template:\n ${KPIs.map(kpi => `- ${kpi.KPIName} (${kpi.TemplateWeight.toFixed(2)})`).join('\n')}`;
-        };
-
         vm.autoUpdateWeight = function (akpi, assessment) {
             if (!akpi.Level) {
                 akpi.Weight = 0

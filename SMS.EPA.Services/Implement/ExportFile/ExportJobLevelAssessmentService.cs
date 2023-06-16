@@ -19,7 +19,7 @@
     {
         private const int ExcelColumnWidth = 256;
 
-        public MemoryStream ExportJoblevelAssessmentReport(IList<JobLevelStandardKPI> kpis, IList<JobLevelAssessment> assessments, string title)
+        public MemoryStream ExportJoblevelAssessmentReport(List<JobLevelAssessmentKPI> kpis, IList<JobLevelAssessment> assessments, string title)
         {
             const byte StartBodyRowIndex = 4;
             const byte FontHeight = 18;
@@ -34,6 +34,7 @@
                 Lang.Department,
                 Lang.Section,
                 Lang.Team,
+                Lang.Template,
                 Lang.CurrentJobLevel,
                 Lang.RequirementMinScore,
                 Lang.SuperiorP,
@@ -65,7 +66,7 @@
             sheet.AddMergedRegion(new CellRangeAddress(0, 0, 0, totalColumns));
 
             RenderHeader(kpis, ref workbook, ref sheet, titleHeadersEmployeeInfo, titleHeadersReview);
-            RenderContent(assessments, ref workbook, ref sheet);
+            RenderContent(kpis, assessments, ref workbook, ref sheet);
             sheet.CreateFreezePane(0, StartBodyRowIndex);
 
             MemoryStream output = null;
@@ -115,14 +116,14 @@
         }
 
         private static void RenderHeader(
-            IList<JobLevelStandardKPI> kpis,
+            List<JobLevelAssessmentKPI> kpis,
             ref HSSFWorkbook workbook,
             ref ISheet sheet,
             IList<string> titleHeadersEmployeeInfo,
             IList<string> titleHeadersReview)
         {
             var tableHeaderRowSpanIndex = kpis.Count > 0 ? 3 : 2;
-            const int tableHeaderColSpanEmployeeInfor = 12;
+            const int tableHeaderColSpanEmployeeInfor = 13;
             var startAssessmentColumnIndex = titleHeadersEmployeeInfo.Count + 1;
 
             ICellStyle cellStyle = CreateHeaderStyle(workbook);
@@ -165,7 +166,7 @@
                     var cellIndex = i == 0 ? startAssessmentColumnIndex : startAssessmentColumnIndex + i * 2;
                     var cellJobLevel = row2.CreateCell(cellIndex);
                     cellJobLevel.CellStyle = cellStyle;
-                    cellJobLevel.SetCellValue(kpis[i].Name);
+                    cellJobLevel.SetCellValue(kpis[i].KPIName);
                     region = new CellRangeAddress(2, 2, cellIndex, cellIndex + 1);
                     sheet.AddMergedRegion(region);
                     StyleMergedRegionHeader(workbook, sheet, region);
@@ -203,6 +204,7 @@
         }
 
         private static void RenderContent(
+            List<JobLevelAssessmentKPI> kpis,
             IList<JobLevelAssessment> assessments,
             ref HSSFWorkbook workbook,
             ref ISheet sheet)
@@ -215,7 +217,7 @@
                 ICellStyle bodyColorStyle = CreateBodyStyle(assessment, workbook, true);
                 IRow row;
                 ICell cellBody;
-                const byte StartAssessmentColumnIndex = 13;
+                const byte StartAssessmentColumnIndex = 14;
                 const byte CellNormalWidth = 12;
                 sheet = CreateEmployeeInfoCells(
                     sheet,
@@ -225,20 +227,27 @@
                     out row,
                     out cellBody);
 
-                int cellIndex;
-                for (int i = 0; i < assessment.KPIs.Count; i++)
-                {
-                    cellIndex = StartAssessmentColumnIndex + i * 2;
-                    cellBody = row.CreateCell(cellIndex);
-                    cellBody.SetCellValue((int?)assessment.KPIs[i].Level);
-                    SetColumnWidth(ref sheet, cellIndex, CellNormalWidth);
+                int cellIndex = StartAssessmentColumnIndex;
 
-                    cellBody = row.CreateCell(cellIndex + 1);
-                    cellBody.SetCellValue(assessment.KPIs[i].Weight);
-                    SetColumnWidth(ref sheet, cellIndex + 1, CellNormalWidth);
+                for (int i = 0; i < kpis.Count; i++)
+                {
+                    var kpi = kpis[i];
+                    var kpiCell = assessment.KPIs.FirstOrDefault(obj => obj.KPIId == kpi.KPIId);
+
+                    if (kpiCell != null)
+                    {
+                        cellBody = row.CreateCell(cellIndex);
+                        cellBody.SetCellValue((int?)kpiCell.Level);
+                        SetColumnWidth(ref sheet, cellIndex, CellNormalWidth);
+
+                        cellBody = row.CreateCell(cellIndex + 1);
+                        cellBody.SetCellValue(kpiCell.Weight);
+                        SetColumnWidth(ref sheet, cellIndex + 1, CellNormalWidth);
+                    }
+                    cellIndex = cellIndex + 2;
                 }
 
-                cellIndex = StartAssessmentColumnIndex + assessment.KPIs.Count * 2;
+                cellIndex = StartAssessmentColumnIndex + kpis.Count * 2;
                 cellBody = row.CreateCell(cellIndex);
                 cellBody.CellStyle.Alignment = HorizontalAlignment.Center;
                 cellBody.SetCellValue(assessment.TotalWeight);
@@ -328,6 +337,12 @@
             cellBody = row.CreateCell(columnIndex);
             cellBody.CellStyle = bodyStyle;
             cellBody.SetCellValue(assessment.Team);
+            SetColumnWidth(ref sheet, columnIndex, 18);
+            columnIndex++;
+
+            cellBody = row.CreateCell(columnIndex);
+            cellBody.CellStyle = bodyStyle;
+            cellBody.SetCellValue(assessment.KPIs[0].Template);
             SetColumnWidth(ref sheet, columnIndex, 18);
             columnIndex++;
 

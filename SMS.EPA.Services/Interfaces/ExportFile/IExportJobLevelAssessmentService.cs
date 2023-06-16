@@ -5,6 +5,6 @@
     using SMS.EPA.Model.JobLevelStandard;
     public interface IExportJobLevelAssessmentService
     {
-        MemoryStream ExportJoblevelAssessmentReport(IList<JobLevelStandardKPI> kpis, IList<JobLevelAssessment> assessments, string title);
+        MemoryStream ExportJoblevelAssessmentReport(List<JobLevelAssessmentKPI> kpis, IList<JobLevelAssessment> assessments, string title);
     }
 }

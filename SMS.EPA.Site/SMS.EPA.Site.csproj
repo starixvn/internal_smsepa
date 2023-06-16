@@ -707,6 +707,7 @@
     <Content Include="SourceApp\Shared\Directives\epa-searchAutoComplete-directive.js" />
     <Content Include="SourceApp\Shared\Directives\floatThead-directive.js" />
     <Content Include="SourceApp\Shared\Directives\move-kpi-row-directive.js" />
+    <Content Include="SourceApp\Shared\Directives\popover-kpis-directive.js" />
     <Content Include="SourceApp\Shared\Templates\modal-confirm-refresh-data.html" />
     <Content Include="SourceApp\Components\JobDescription\Templates\personnel.html" />
     <Content Include="SourceApp\Components\JobDescription\Templates\group.html" />

@@ -59,6 +59,7 @@
                 .SelectMany(ass => ass.KPIs)
                 .GroupBy(kpi => new { kpi.KPIName, kpi.KPIId })
                 .Select(kpi => kpi.First())
+                .OrderBy(kpi => kpi.KPIId)
                 .ToList();
 
             return new { kpis, jobLevelSettings, assessments };
