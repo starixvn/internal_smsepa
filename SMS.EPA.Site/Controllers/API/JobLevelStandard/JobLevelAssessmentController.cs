@@ -55,7 +55,7 @@
             criteria.ActorId = CurrentEmployeeId;
             IList<JobLevelAssessment> assessments = jobLevelAssessmentService.GetJobLevelAssessmentByActor(criteria);
 
-            List<JobLevelAssessmentKPI> kpis = assessments
+            IList<JobLevelAssessmentKPI> kpis = assessments
                 .SelectMany(ass => ass.KPIs)
                 .GroupBy(kpi => new { kpi.KPIName, kpi.KPIId })
                 .Select(kpi => kpi.First())

@@ -56,7 +56,6 @@
                             ng-options="opt.EmployeeId as (opt.FullName + ' (' + opt.NickName + ')') for opt in editEmployeeSettingCtrl.employeeSettings.managementOptions"
                             on-show-dropdown="editEmployeeSettingCtrl.updateTrigger()"></select>
                 </td>
-
             </tr>
             <tr>
                 <td rowspan="2" ng-show="!editEmployeeSettingCtrl.singleMode" class="text-center">
@@ -162,11 +161,10 @@
                     <input type="checkbox" ng-model="editEmployeeSettingCtrl.fieldEdit.template" />
                 </td>
                 <td data-translate="Template"></td>
-                <td class="text-center" colspan="3">
+                <td class="text-center template-col" colspan="3">
                     <select ng-model="editEmployeeSettingCtrl.employeeSettings.templateId"
                             ng-disabled="editEmployeeSettingCtrl.disableInput.template"
-                            ng-options="opt.TemplateId as opt.Name for opt in editEmployeeSettingCtrl.templates"
-                            class="target-template-setting-select lstBox-limit">
+                            ng-options="opt.TemplateId as opt.Name for opt in editEmployeeSettingCtrl.templates">
                         <option value="">None</option>
                     </select>
                 </td>

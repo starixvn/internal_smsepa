@@ -101,7 +101,7 @@
                 <td ng-bind="assessment.Section"></td>
                 <td ng-bind="assessment.Team"></td>
                 <td>
-                    <div popover-kpis kpis-data="{{assessment.KPIs}}">{{assessment.KPIs[0].Template}}</div>
+                    <div popover-assessment-kpis kpis="{{assessment.KPIs}}">{{assessment.KPIs[0].Template}}</div>
                 </td>
                 <td class="text-center" ng-bind="assessment.CurrentJobLevel"></td>
                 <td class="text-center" ng-bind="assessment.RequirementMinScore"></td>

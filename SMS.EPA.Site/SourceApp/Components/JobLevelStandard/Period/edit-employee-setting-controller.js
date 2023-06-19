@@ -93,7 +93,7 @@
             vm.employeeInfo = '';
             let data = [];
             if (selectedEmployees.length <= 10) {
-                data = selectedEmployees
+                data = selectedEmployees;
             } else {
                 data = isShowAll ? selectedEmployees : selectedEmployees.slice(0, 10);
             }
@@ -111,18 +111,18 @@
             };
 
             for (const item of selectedEmployees) {
-                disableInput_AddDateToObject(evaluator, item.Evaluators[0])
+                disableInput_AddDateToObject(evaluator, item.Evaluators[0]);
             }
 
             vm.disableInput = {
-                template: today >= evaluator.FromDate,
+                template: today >= evaluator.FromDate
             };
         }
 
         function disableInput_AddDateToObject(obj, data) {
-            let fromDate = new Date(data.FromDate)
+            let fromDate = new Date(data.FromDate);
             if (obj.FromDate === null || fromDate < obj.FromDate) {
-                obj.FromDate = fromDate
+                obj.FromDate = fromDate;
             }
         }
 
