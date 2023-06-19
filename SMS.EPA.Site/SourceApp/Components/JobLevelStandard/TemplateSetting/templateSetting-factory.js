@@ -11,10 +11,10 @@
             getUserPermission,
             deleteTemplateSetting,
             getTemplate,
-            assignTemplateToSection,
+            assignTemplate
         };
 
-        function assignTemplateToSection(params) {
+        function assignTemplate(params) {
             return $http.put(baseUrl + 'api/JobLevelStandardTemplateSetting/Assign', params);
         }
 

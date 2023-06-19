@@ -7,7 +7,7 @@
     controller.$inject = ['$scope', 'baseUrl', 'JLSTemplateSettingModel', 'CommonModel', 'utilitiesFactory', 'lockScreenService'];
 
     function controller($scope, baseUrl, TemplateSettingModel, CommonModel, utilitiesFactory, lockScreenService) {
-        var vm = this;
+        let vm = this;
 
         vm.currentPage = 1;
         vm.filter = {};
@@ -31,19 +31,14 @@
         vm.query = query;
         vm.syncSelected = syncSelected;
         vm.exportReport = exportReport;
-        vm.showDeleteBtn = showDeleteBtn;
 
         utilitiesFactory.numberEntryList(vm);
 
-        $scope.$watch(function () { return $scope.targetCtrl.dataTab === 2; }, function (newVal) {
+        $scope.$watch(function () { return $scope.targetCtrl.dataTab === 1; }, function (newVal) {
             if (newVal && vm.isFirstLoad) {
                 initialize();
             }
         });
-
-        function showDeleteBtn(template) {
-            return template !== null && template !== '';
-        }
 
         function assignTargetTemplate() {
             vm.templateSetting.sectionIds = getSelectedEmployees(vm.templateSettings);
@@ -146,10 +141,10 @@
                 showAll: vm.filter.showAll,
             }
 
-            var url = baseUrl + "ExportJLSSectionTemplateSetting/ExportJLSSectionTemplateSetting";
+            var url = baseUrl + 'ExportJLSTemplateSetting/ExportSectionTemplateSetting';
             var data = $.param(vm.exportCriteria);
 
-            var downloadUrl = url + "?" + data;
+            var downloadUrl = url + '?' + data;
             var iframe = $('body iframe');
 
             if (iframe.length === 0) {
@@ -157,7 +152,7 @@
                 iframe.appendTo('body');
             }
 
-            iframe.attr("src", downloadUrl);
+            iframe.attr('src', downloadUrl);
         }
     }
 })(angular);

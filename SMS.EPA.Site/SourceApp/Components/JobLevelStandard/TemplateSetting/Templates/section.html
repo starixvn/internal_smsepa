@@ -65,7 +65,9 @@
                 <td ng-bind="employee.SectionName"></td>
                 <td ng-bind="employee.Template"></td>
                 <td class="text-center" ng-show="targetCtrl.permission === targetCtrl.policyEnum.Host">
-                    <a class="glyphicon glyphicon-remove icon-remove" href="" ng-show="sectionCtrl.showDeleteBtn(employee.Template)" ng-click="sectionCtrl.deleteTemplateSetting(employee)"
+                    <a class="glyphicon glyphicon-remove icon-remove" href=""
+                       ng-show="employee.Template !== null && employee.Template !== ''"
+                       ng-click="sectionCtrl.deleteTemplateSetting(employee)"
                        ng-attr-title='{{"Delete" | translate}}'></a>
                 </td>
             </tr>

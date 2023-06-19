@@ -37,11 +37,11 @@
                 <div class="row line">
                     <div class="col-sm-6">
                         <strong class="col-sm-4 lab" data-translate="CreatedDate"></strong>
-                        <div class="col-sm-8 lab" ng-bind="detailCtrl.targetTemplate.CreatedDate | date: detailCtrl.dateFormat"></div>
+                        <div class="col-sm-8 lab" ng-bind="detailCtrl.targetTemplate.CreatedDate | date: detailCtrl.dateTimeFormat"></div>
                     </div>
                     <div class="col-sm-6" ng-show="detailCtrl.targetTemplate.ModifiedDate !== null">
                         <strong class="col-sm-4 lab" data-translate="LastModifiedDate"></strong>
-                        <div class="col-sm-8 lab" ng-bind="detailCtrl.targetTemplate.ModifiedDate | date: detailCtrl.dateFormat"></div>
+                        <div class="col-sm-8 lab" ng-bind="detailCtrl.targetTemplate.ModifiedDate | date: detailCtrl.dateTimeFormat"></div>
                     </div>
                 </div>
             </div>
@@ -56,8 +56,7 @@
                 <div class="col-sm-12 no-padding" ng-repeat="item in detailCtrl.kpis | filter: KPIName">
                     <ul class="col-sm-12 list-unstyled">
                         <li>
-                            <span class="glyphicon glyphicon-ok item-list-icon">
-                            </span>{{item.Name}}({{detailCtrl.formatWeight(item.Weight)}})
+                            <span class="glyphicon glyphicon-ok item-list-icon"></span>{{item.Name}} (<strong>{{item.Weight}}</strong>)
                         </li>
                     </ul>
                 </div>

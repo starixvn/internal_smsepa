@@ -14,7 +14,7 @@
             getTemplates: getTemplates,
             getUserPermission: getUserPermission,
             openPopupDelete: openPopupDelete,
-            assignTemplateToSection: assignTemplateToSection,
+            assignTemplate: assignTemplate
         };
 
         return model;
@@ -45,15 +45,15 @@
             });
         }
 
-        function assignTemplateToSection(targetSectionSetting, objectTypeId) {
-            if (targetSectionSetting.sectionIds) {
+        function assignTemplate(templateSetting, objectTypeId) {
+            if (templateSetting.sectionIds) {
                 const params = {
-                    objectIds: targetSectionSetting.sectionIds,
+                    objectIds: templateSetting.sectionIds,
                     objectTypeId: objectTypeId,
-                    templateId: targetSectionSetting.templateId
+                    templateId: templateSetting.templateId
                 }
 
-                return TemplateSettingFactory.assignTemplateToSection(params).success(function (response) {
+                return TemplateSettingFactory.assignTemplate(params).success(function (response) {
                     if (response.IsSuccessful) {
                         notificationFactory.success('UpdatedSuccessfully');
                     } else {

@@ -3,12 +3,10 @@
     /* jshint latedef:nofunc */
 
     angular.module('targetTemplateModule').factory('TargetTemplateModel', targetTemplateModel);
-    targetTemplateModel.$inject = [
-        '$uibModal', 'targetTemplateFactory', 'errorFactory', 'notificationFactory', 'utilitiesFactory'
-    ];
+    targetTemplateModel.$inject = ['$uibModal', 'targetTemplateFactory', 'errorFactory', 'notificationFactory', 'utilitiesFactory'];
 
     function targetTemplateModel($uibModal, targetTemplateFactory, errorFactory, notificationFactory, utilitiesFactory) {
-        var targetTemplates = [],
+        let targetTemplates = [],
             targetTemplate = {},
             kpiGroups = [],
             kpiList = [],
@@ -16,7 +14,7 @@
             scoreRatingTypes = [],
             ratingTypes = [];
 
-        var model = {
+        let model = {
             addKPIGroupWeight: addKPIGroupWeight,
             checkSelectedAllKPI: checkSelectedAllKPI,
             checkSelectedAllKPIGroup: checkSelectedAllKPIGroup,
@@ -51,9 +49,9 @@
         function addKPIGroupWeight(kpiGroupWeightModel) {
             return targetTemplateFactory.addKPIGroupWeight(kpiGroupWeightModel).success(function(response) {
                 if (response.IsSuccessful) {
-                    notificationFactory.success("UpdatedSuccessfully");
+                    notificationFactory.success('UpdatedSuccessfully');
                 } else {
-                    notificationFactory.error("", response.Message);
+                    notificationFactory.error('', response.Message);
                 }
             }).error(function(response, status) {
                 errorFactory.errorHandle(status);
@@ -96,10 +94,10 @@
         function createTargetTemplate(targetTemplate, modalInstance) {
             return targetTemplateFactory.createTargetTemplate(targetTemplate).success(function(response) {
                 if (response.IsSuccessful) {
-                    notificationFactory.success("CreatedSuccessfully");
+                    notificationFactory.success('CreatedSuccessfully');
                     modalInstance.close();
                 } else {
-                    notificationFactory.error("", response.Message);
+                    notificationFactory.error('', response.Message);
                 }
             }).error(function() {
                 errorFactory.errorHandle(status);
@@ -167,7 +165,7 @@
         function openPopupAddKPIGroup(vm, targetTemplateId, maxWeight) {
             vm.modalInstance = $uibModal.open({
                 templateUrl: 'SourceApp/Components/TargetTemplate/Templates/addKPIGroup.html',
-                controller: "AddedKPIGroupController as addKPIGroupCtrl",
+                controller: 'AddedKPIGroupController as addKPIGroupCtrl',
                 backdrop: 'static',
                 resolve: {
                     targetTemplateId: function() {
@@ -177,7 +175,7 @@
                         return maxWeight;
                     }
                 },
-                windowClass: "modal-confirm-center kpi-group-popup"
+                windowClass: 'modal-confirm-center kpi-group-popup'
             });
 
             return vm.modalInstance.result;
@@ -186,9 +184,9 @@
         function openPopupCreateTargetTemplate(vm) {
             vm.modalInstance = $uibModal.open({
                 templateUrl: '/SourceApp/Components/TargetTemplate/Templates/create.html',
-                controller: "CreateTargetTemplateController as createTargetTemplateCtrl",
+                controller: 'CreateTargetTemplateController as createTargetTemplateCtrl',
                 backdrop: 'static',
-                windowClass: "modal-confirm-center"
+                windowClass: 'modal-confirm-center'
             });
 
             return vm.modalInstance.result;
@@ -197,7 +195,7 @@
         function openPopupDeleteKPIGroup(targetTemplateId, kpiGroup) {
             var modalInstance = $uibModal.open({
                 templateUrl: '/SourceApp/Shared/Templates/ModalConfirmContent.html',
-                controller: "ModalConfirmController as modalConfirmCtrl",
+                controller: 'ModalConfirmController as modalConfirmCtrl',
                 backdrop: 'static',
                 resolve: {
                     name: function() {
@@ -207,16 +205,16 @@
                         return 'delete';
                     }
                 },
-                windowClass: "modal-confirm-center"
+                windowClass: 'modal-confirm-center'
             });
 
             return modalInstance.result.then(function() {
                 targetTemplateFactory.deleteKPIGroupOfTargetTemplate(targetTemplateId, kpiGroup.KPIGroupId).success(
                     function(response) {
                         if (response.IsSuccessful) {
-                            notificationFactory.success("DeletedSuccessfully");
+                            notificationFactory.success('DeletedSuccessfully');
                         } else {
-                            notificationFactory.error("", response.Message);
+                            notificationFactory.error('', response.Message);
                         }
                     }).error(function(response, status) {
                     errorFactory.errorHandle(status);
@@ -229,7 +227,7 @@
         function openPopupDeleteTargetTemplate(vm, targetTemplate) {
             var modalInstance = $uibModal.open({
                 templateUrl: '/SourceApp/Shared/Templates/ModalConfirmContent.html',
-                controller: "ModalConfirmController as modalConfirmCtrl",
+                controller: 'ModalConfirmController as modalConfirmCtrl',
                 backdrop: 'static',
                 resolve: {
                     name: function() {
@@ -239,7 +237,7 @@
                         return 'delete';
                     }
                 },
-                windowClass: "modal-confirm-center"
+                windowClass: 'modal-confirm-center'
             });
 
             modalInstance.result.then(function() {
@@ -248,9 +246,9 @@
                         var index = vm.targetTemplates.indexOf(targetTemplate);
                         vm.targetTemplates.splice(index, 1);
                         utilitiesFactory.searchOnPage(vm, vm.targetTemplates);
-                        notificationFactory.success("DeletedSuccessfully");
+                        notificationFactory.success('DeletedSuccessfully');
                     } else {
-                        notificationFactory.error("", response.Message);
+                        notificationFactory.error('', response.Message);
                     }
                 }).error(function(response, status) {
                     errorFactory.errorHandle(status);
@@ -263,7 +261,7 @@
         function openPopupUpdateStatusTargetTemplate(targetTemplate) {
             targetTemplate.IsActive = !targetTemplate.IsActive;
 
-            var action = targetTemplate.IsActive ? "activate" : "deactivate",
+            var action = targetTemplate.IsActive ? 'activate' : 'deactivate',
                 newTargetTemplate = {
                     TargetTemplateId: targetTemplate.TargetTemplateId,
                     IsActive: targetTemplate.IsActive
@@ -271,7 +269,7 @@
 
             var modalInstance = $uibModal.open({
                 templateUrl: '/SourceApp/Shared/Templates/ModalConfirmContent.html',
-                controller: "ModalConfirmController as modalConfirmCtrl",
+                controller: 'ModalConfirmController as modalConfirmCtrl',
                 backdrop: 'static',
                 resolve: {
                     name: function() {
@@ -281,7 +279,7 @@
                         return action;
                     }
                 },
-                windowClass: "modal-confirm-center"
+                windowClass: 'modal-confirm-center'
             });
 
             var keyMessage = '';
@@ -289,10 +287,10 @@
             modalInstance.result.then(function() {
                     targetTemplateFactory.updateStatusTargetTemplate(newTargetTemplate).success(function(response) {
                         if (response.IsSuccessful) {
-                            keyMessage = action === "activate" ? "ActivationSuccess" : "DeactivationSuccess";
+                            keyMessage = action === 'activate' ? 'ActivationSuccess' : 'DeactivationSuccess';
                             notificationFactory.success(keyMessage);
                         } else {
-                            keyMessage = action === "activate" ? "ActivationFail" : "DeactivationFail";
+                            keyMessage = action === 'activate' ? 'ActivationFail' : 'DeactivationFail';
                             targetTemplate.IsActive = !newTargetTemplate.IsActive;
                             notificationFactory.error(keyMessage);
                         }
@@ -300,7 +298,7 @@
                         if (status === 405) {
                             errorFactory.errorHandle(status);
                         } else {
-                            keyMessage = action === "activate" ? "ActivationFail" : "DeactivationFail";
+                            keyMessage = action === 'activate' ? 'ActivationFail' : 'DeactivationFail';
                             targetTemplate.IsActive = !newTargetTemplate.IsActive;
                             notificationFactory.error(keyMessage);
                         }
@@ -319,12 +317,12 @@
                     if (totalWeight !== vm.maxWeight) {
                         var message =
                             utilitiesFactory.formatString(vm.totalWeightWarningMessage, vm.maxWeight);
-                        notificationFactory.error("", message);
+                        notificationFactory.error('', message);
                     } else {
-                        notificationFactory.success("UpdatedSuccessfully");
+                        notificationFactory.success('UpdatedSuccessfully');
                     }
                 } else {
-                    notificationFactory.error("", response.Message);
+                    notificationFactory.error('', response.Message);
                 }
             }).error(function(response, status) {
                 errorFactory.errorHandle(status);
@@ -335,12 +333,12 @@
             return targetTemplateFactory.updateTargetTemplateBasicInfo(targetTemplate).success(function(response) {
                 if (response.IsSuccessful) {
                     if (targetTemplate.ScoreRatingTypeId !== originalScoreTypeId) {
-                        notificationFactory.success("ChangeScoreRatingTypeWarning");
+                        notificationFactory.success('ChangeScoreRatingTypeWarning');
                     } else {
-                        notificationFactory.success("UpdatedSuccessfully");
+                        notificationFactory.success('UpdatedSuccessfully');
                     }
                 } else {
-                    notificationFactory.error("", response.Message);
+                    notificationFactory.error('', response.Message);
                 }
             }).error(function(response, status) {
                 errorFactory.errorHandle(status);
@@ -379,16 +377,16 @@
             if (!targetTemplate) {
                 isValid = false;
             } else if (!targetTemplate.Name) {
-                notificationFactory.error("NameRequired");
+                notificationFactory.error('NameRequired');
                 isValid = false;
             } else if (!targetTemplate.TargetTypeId) {
-                notificationFactory.error("TargetTypeRequired");
+                notificationFactory.error('TargetTypeRequired');
                 isValid = false;
             } else if (!targetTemplate.ScoreRatingTypeId) {
-                notificationFactory.error("ScoreRatingTypeRequired");
+                notificationFactory.error('ScoreRatingTypeRequired');
                 isValid = false;
             } else if (!targetTemplate.RatingTypeId) {
-                notificationFactory.error("RatingTypeRequired");
+                notificationFactory.error('RatingTypeRequired');
                 isValid = false;
             }
 

@@ -12,17 +12,17 @@
         vm.singleMode = selectedEmployees.length === 1;
         vm.employeeInfo = '';
         vm.templates = [];
-        vm.showMore = selectedEmployees.length > 10
-        vm.showLess = false
+        vm.showMore = selectedEmployees.length > 10;
+        vm.showLess = false;
 
         vm.fieldEdit = {
             evaluator: false,
             date: false,
-            template: false,
+            template: false
         };
 
         vm.disableInput = {
-            template: false,
+            template: false
         };
 
         vm.process = utilitiesFactory.jobLevelAssessmentProcess;
@@ -117,7 +117,6 @@
             vm.disableInput = {
                 template: today >= evaluator.FromDate,
             };
-
         }
 
         function disableInput_AddDateToObject(obj, data) {

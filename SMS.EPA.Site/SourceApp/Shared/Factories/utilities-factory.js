@@ -8,9 +8,6 @@
 
     function utilitiesFactory($filter, $location, $window) {
         var limitNumber = 100,
-            dateFormat = "dd MMM, yyyy",
-            dateTimeFormatString = "MM/DD/YYYY HH:mm",
-            timeFormat = 'HH:mm',
             notAvailableString = "N/A",
             maxStar = 5,
             epaStatus = {
@@ -62,6 +59,7 @@
             formatString: formatString,
             getDateFormat: getDateFormat,
             getDateTime: getDateTime,
+            getDateTimeFormat: getDateTimeFormat,
             getSelectedData: getSelectedData,
             getTimeFormat: getTimeFormat,
             notAvailableString: notAvailableString,
@@ -140,14 +138,18 @@
         }
 
         function getDateFormat(vm) {
-            vm.dateFormat = dateFormat;
+            vm.dateFormat = 'dd MMM, yyyy';
+        }
+
+        function getDateTimeFormat(vm) {
+            vm.dateTimeFormat = 'dd MMM, yyyy HH:mm';
         }
 
         function getDateTime(dateObject) {
             var resultDate = '';
 
             if (dateObject) {
-                resultDate = moment(dateObject).format(dateTimeFormatString);
+                resultDate = moment(dateObject).format('MM/DD/YYYY HH:mm');
             }
 
             return resultDate;
@@ -174,7 +176,7 @@
         }
 
         function getTimeFormat(vm) {
-            vm.timeFormat = timeFormat;
+            vm.timeFormat = 'HH:mm';
         }
 
         function maxLengthDescription(vm) {

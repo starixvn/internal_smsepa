@@ -16,7 +16,7 @@
                 if (kpi.IsSelected) {
                     weight = parseFloat(kpi.Weight);
                     if (!weight) {
-                        notificationFactory.error("WeightKPIRequired");
+                        notificationFactory.error('', 'All weights of selected KPIs are required.');
                         isValid = false;
                         break;
                     } else {
@@ -27,7 +27,7 @@
 
             if (isValid && utilitiesFactory.parseFloat(totalWeightOfGroup) !== utilitiesFactory.parseFloat(100)) {
                 isValid = false;
-                notificationFactory.error("TotalKPIWeightOfJLSWarning");
+                notificationFactory.error('', 'Total weight must be equal to 100.');
             }
 
             return isValid;

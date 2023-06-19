@@ -13,14 +13,10 @@
         vm.targetTemplate = null;
         vm.kpis = [];
 
-        utilitiesFactory.getDateFormat(vm);
+        utilitiesFactory.getDateTimeFormat(vm);
 
         vm.back = function () {
             historyFactory.back();
-        };
-
-        vm.formatWeight = function (weight) {
-            return weight % 1 !== 0 ? weight.toFixed(2) : weight
         };
 
         function initialize() {

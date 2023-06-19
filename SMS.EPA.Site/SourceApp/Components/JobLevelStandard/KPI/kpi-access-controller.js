@@ -29,7 +29,7 @@
         initialize();
 
         function createKPI() {
-            KPIModel.openPopupCreateKPI(vm).then(function (isSuccessful) {
+            KPIModel.openPopupCreateKPI(vm).then(function () {
                 getKPI(vm.filter.isActive);
             })['finally'](function () {
                 vm.modalInstance = '';

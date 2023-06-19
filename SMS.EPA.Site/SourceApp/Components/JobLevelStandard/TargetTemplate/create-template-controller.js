@@ -20,7 +20,6 @@
             if (TemplateModel.validateTemplate(data)) {
                 TemplateModel.createTemplate(data, $uibModalInstance);
             }
-
         };
     }
 })(angular);

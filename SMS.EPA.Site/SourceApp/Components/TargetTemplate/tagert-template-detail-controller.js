@@ -13,7 +13,7 @@
         vm.targetTemplate = null;
         vm.kpiList = null;
 
-        utilitiesFactory.getDateFormat(vm);
+        utilitiesFactory.getDateTimeFormat(vm);
 
         vm.back = function () {
             historyFactory.back();
