@@ -77,6 +77,7 @@
             searchOnPage: searchOnPage,
             setSelectedItem: setSelectedItem,
             splitNumber: splitNumber,
+            showKpiWeight: showKpiWeight,
             processStatus: processStatus,
             targetType: targetType,
             exportExcel: exportExcel,
@@ -114,7 +115,7 @@
 
         return utilities;
 
-        function exportExcel(criteria,url) {
+        function exportExcel(criteria, url) {
             var data = $.param(criteria),
                 downloadUrl = url + "?" + data,
                 iframe = $('body iframe');
@@ -310,6 +311,11 @@
             }
 
             return result;
+        }
+
+        function showKpiWeight(number) {
+            var result = splitNumber(number, 2)
+            return result === 0 ? "" : result.toString();
         }
 
         function getParamsQuery(params) {

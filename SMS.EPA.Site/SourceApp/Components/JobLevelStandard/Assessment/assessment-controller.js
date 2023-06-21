@@ -64,13 +64,15 @@
         vm.autoUpdateWeight = function (akpi, assessment) {
             if (!akpi.Level) {
                 akpi.Weight = 0;
-                akpi.DisplayWeight = 0;
             } else {
                 akpi.Weight = akpi.TemplateWeight / 5 * akpi.Level;
-                akpi.DisplayWeight = akpi.Weight.toFixed(2);
             }
             vm.inputWeight(assessment);
         };
+
+        vm.showKpiWeight = function (number) {
+            return utilitiesFactory.showKpiWeight(number);
+        }
 
         vm.query = function () {
             vm.searchKey = '';

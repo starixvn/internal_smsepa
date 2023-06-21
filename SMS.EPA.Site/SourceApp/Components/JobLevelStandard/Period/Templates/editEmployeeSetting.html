@@ -158,14 +158,15 @@
             </tr>
             <tr>
                 <td ng-show="!editEmployeeSettingCtrl.singleMode" class="text-center">
-                    <input type="checkbox" ng-model="editEmployeeSettingCtrl.fieldEdit.template" />
+                    <input type="checkbox"
+                           ng-model="editEmployeeSettingCtrl.fieldEdit.template"
+                           ng-disabled="editEmployeeSettingCtrl.disableInput.template" />
                 </td>
                 <td data-translate="Template"></td>
                 <td class="text-center template-col" colspan="3">
                     <select ng-model="editEmployeeSettingCtrl.employeeSettings.templateId"
                             ng-disabled="editEmployeeSettingCtrl.disableInput.template"
                             ng-options="opt.TemplateId as opt.Name for opt in editEmployeeSettingCtrl.templates">
-                        <option value="">None</option>
                     </select>
                 </td>
 

@@ -105,26 +105,31 @@
         }
 
         function disableInput() {
-            let today = new Date();
-            let evaluator = {
-                FromDate: null
-            };
-
-            for (const item of selectedEmployees) {
-                disableInput_AddDateToObject(evaluator, item.Evaluators[0]);
+            const evaluatorFromDate = getEarliestEvaluatorFromDate(selectedEmployees);
+            const today = new Date();
+            const template = today >= evaluatorFromDate;
             }
 
             vm.disableInput = {
-                template: today >= evaluator.FromDate
+                template: template,
             };
         }
 
-        function disableInput_AddDateToObject(obj, data) {
-            let fromDate = new Date(data.FromDate);
-            if (obj.FromDate === null || fromDate < obj.FromDate) {
-                obj.FromDate = fromDate;
+        function getEarliestEvaluatorFromDate(employees) {
+            let earliestFromDate = null;
+
+            for (const employee of employees) {
+                const evaluator = employee.Evaluators[0];
+                const fromDate = new Date(evaluator.FromDate);
+
+                if (earliestFromDate === null || fromDate < earliestFromDate) {
+                    earliestFromDate = fromDate;
+                }
             }
+
+            return earliestFromDate;
         }
+
 
         function initialize() {
             generateEmployeeInfo(false);
@@ -198,8 +203,8 @@
                                 processId: vm.process.Management,
                                 employeeId: employee.EmployeeId,
                                 evaluatorId: id,
-                                fromDate: getDate(employee.Managements[0].FromDate, vm.employeeSettings.management.fromDate),
-                                toDate: getDate(employee.Managements[0].ToDate, vm.employeeSettings.management.toDate)
+                                fromDate: employee.Managements[0] ? getDate(employee.Managements[0].FromDate, vm.employeeSettings.management.fromDate) : null,
+                                toDate: employee.Managements[0] ? getDate(employee.Managements[0].ToDate, vm.employeeSettings.management.toDate) : null
                             });
                         });
                     } else {
@@ -217,8 +222,8 @@
                                 processId: vm.process.Management,
                                 employeeId: employee.EmployeeId,
                                 evaluatorId: management.EvaluatorId,
-                                fromDate: getDate(management.FromDate, vm.employeeSettings.management.fromDate),
-                                toDate: getDate(management.ToDate, vm.employeeSettings.management.toDate)
+                                fromDate: management ? getDate(management.FromDate, vm.employeeSettings.management.fromDate) : null,
+                                toDate: management ? getDate(management.ToDate, vm.employeeSettings.management.toDate) : null
                             });
                         });
                     }

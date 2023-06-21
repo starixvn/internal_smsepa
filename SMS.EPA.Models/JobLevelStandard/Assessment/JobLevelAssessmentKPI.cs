@@ -16,11 +16,8 @@
         public string Template { get; set; }
         public int KPIId { get; set; }
         public string KPIName { get; set; }
-        public string Name => KPIName;
         public decimal? TemplateWeight { get; set; }
-
         public byte? Level { get; set; }
         public decimal? Weight { get; set; }
-        public decimal? DisplayWeight => Weight;
     }
 }

@@ -115,7 +115,7 @@
                 <td ng-repeat-end class="col-input col-weight text-center">
                     <div ng-repeat="akpi in assessment.KPIs | filter: {KPIId: kpi.KPIId}" ng-show="$first">
                         <span>
-                            {{akpi.DisplayWeight}}
+                            {{assessmentCtrl.showKpiWeight(akpi.Weight)}}
                         </span>
                     </div>
                 </td>
