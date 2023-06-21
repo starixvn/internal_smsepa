@@ -59,6 +59,10 @@
             getAssessments(vm.filter);
         };
 
+        vm.showKpiWeight = function (number) {
+            return !number ? "" : utilitiesFactory.splitNumber(number, 2);
+        }
+
         function exportReport() {
             vm.filter.periodName = vm.periods.filter(x => x.PeriodId === vm.filter.periodId)[0].Name;
             vm.exportCriteria = angular.copy(vm.filter);

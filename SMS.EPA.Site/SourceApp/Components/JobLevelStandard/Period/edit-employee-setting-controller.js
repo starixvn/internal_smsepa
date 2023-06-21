@@ -7,8 +7,8 @@
     editEmployeeSettingController.$inject = ['$scope', '$uibModalInstance', 'JobLevelStandardPeriodModel', 'CommonModel', 'JLSTemplateSettingModel', 'utilitiesFactory', 'employees'];
 
     function editEmployeeSettingController($scope, $uibModalInstance, PeriodModel, CommonModel, TemplateSettingModel, utilitiesFactory, selectedEmployees) {
-        let vm = this,
-            date = new Date();
+        let vm = this;
+        let date = new Date();
         vm.singleMode = selectedEmployees.length === 1;
         vm.employeeInfo = '';
         vm.templates = [];
@@ -108,7 +108,6 @@
             const evaluatorFromDate = getEarliestEvaluatorFromDate(selectedEmployees);
             const today = new Date();
             const template = today >= evaluatorFromDate;
-            }
 
             vm.disableInput = {
                 template: template,

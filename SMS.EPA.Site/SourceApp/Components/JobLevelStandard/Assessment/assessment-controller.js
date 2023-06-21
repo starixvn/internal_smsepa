@@ -71,7 +71,7 @@
         };
 
         vm.showKpiWeight = function (number) {
-            return utilitiesFactory.showKpiWeight(number);
+            return !number ? "" : utilitiesFactory.splitNumber(number, 2);
         }
 
         vm.query = function () {

@@ -77,7 +77,6 @@
             searchOnPage: searchOnPage,
             setSelectedItem: setSelectedItem,
             splitNumber: splitNumber,
-            showKpiWeight: showKpiWeight,
             processStatus: processStatus,
             targetType: targetType,
             exportExcel: exportExcel,
@@ -311,11 +310,6 @@
             }
 
             return result;
-        }
-
-        function showKpiWeight(number) {
-            var result = splitNumber(number, 2)
-            return result === 0 ? "" : result.toString();
         }
 
         function getParamsQuery(params) {

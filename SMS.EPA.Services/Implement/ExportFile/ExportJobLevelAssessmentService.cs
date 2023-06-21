@@ -1,6 +1,7 @@
 ﻿namespace SMS.EPA.Services.Implement.ExportFile
 {
     using System.Collections.Generic;
+    using System.Globalization;
     using System.IO;
     using System.Linq;
     using NPOI.HSSF.UserModel;
@@ -8,6 +9,7 @@
     using NPOI.SS.UserModel;
     using NPOI.SS.Util;
     using SMS.EPA.Core.Constants;
+    using SMS.EPA.Core.Services;
     using SMS.EPA.Core.Utilities;
     using SMS.EPA.Core.Utilities.NPOIExtensions;
     using SMS.EPA.Model.JobLevelStandard;
@@ -209,7 +211,6 @@
             ref HSSFWorkbook workbook,
             ref ISheet sheet)
         {
-
             var rowIndex = 4;
             foreach (var assessment in assessments)
             {
@@ -241,7 +242,7 @@
                         SetColumnWidth(ref sheet, cellIndex, CellNormalWidth);
 
                         cellBody = row.CreateCell(cellIndex + 1);
-                        cellBody.SetCellValue(kpiCell.Weight);
+                        cellBody.SetCellValue(kpiCell.Weight == null ? "" : FormatWeight(kpiCell.Weight));
                         SetColumnWidth(ref sheet, cellIndex + 1, CellNormalWidth);
                     }
                     cellIndex = cellIndex + 2;
@@ -413,6 +414,12 @@
         private static void SetColumnWidth(ref ISheet sheet, int columnIndex, int width)
         {
             sheet.SetColumnWidth(columnIndex, width * ExcelColumnWidth);
+        }
+
+        private static string FormatWeight(decimal? weight)
+        {
+            IUtilityService utilityService = new UtilityService();
+            return utilityService.SplitNumber((double)weight, Constants.NumberOfDecimalDefault).ToString(CultureInfo.InvariantCulture);
         }
     }
 }
