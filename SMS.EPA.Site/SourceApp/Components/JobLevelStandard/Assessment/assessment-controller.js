@@ -61,6 +61,22 @@
             });
         }
 
+        vm.showOldWeight = function (assessment) {
+            var listKPI = assessment.KPIs
+            var isHasValue = false
+            listKPI.forEach(kpi => {
+                if (kpi.OldWeight !== null && kpi.OldWeight !== 0 && kpi.OldLevel !== null && kpi.OldLevel !== 0) {
+                    isHasValue = true
+                }
+            });
+
+            return isHasValue && !assessment.AssessmentId
+        }
+
+        vm.cssOldWeight = function (assessment) {
+            return vm.showOldWeight(assessment) ? 'blur-string' : ''
+        };
+
         vm.autoUpdateWeight = function (akpi, assessment) {
             if (!akpi.Level) {
                 akpi.Weight = 0;
@@ -69,6 +85,25 @@
             }
             vm.inputWeight(assessment);
         };
+
+        vm.autoUpdateOldWeight = function (akpi, assessment) {
+            if (!akpi.OldLevel) {
+                akpi.OldWeight = 0;
+            } else {
+                akpi.OldWeight = akpi.TemplateWeight / 5 * akpi.OldLevel;
+            }
+            syncWeight(assessment);
+            vm.inputWeight(assessment);
+        };
+
+        function syncWeight(assessment) {
+            assessment.AssessmentId = -1;
+            let kpis = assessment.KPIs;
+            kpis.forEach(kpi => {
+                kpi.Weight = kpi.OldWeight;
+                kpi.Level = kpi.OldLevel;
+            });
+        }
 
         vm.showKpiWeight = function (number) {
             return !number ? "" : utilitiesFactory.splitNumber(number, 2);
@@ -106,9 +141,15 @@
             assessment.CssClass = vm.selectedAssessment.CssClass;
 
             vm.selectedAssessment = null;
+            getAssessments(vm.filter);
         };
 
         vm.save = function (assessment) {
+            if (vm.showOldWeight(assessment)) {
+                syncWeight(assessment)
+                vm.inputWeight(assessment);
+            }
+
             const isValid = AssessmentModel.validateAssessment(assessment);
             if (isValid) {
                 assessment.StatusId = assessment.TotalWeight !== null ? vm.status.Pending : null;

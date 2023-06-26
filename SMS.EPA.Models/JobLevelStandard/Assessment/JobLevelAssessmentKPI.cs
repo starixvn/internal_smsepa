@@ -19,5 +19,7 @@
         public decimal? TemplateWeight { get; set; }
         public byte? Level { get; set; }
         public decimal? Weight { get; set; }
+        public byte? OldLevel { get; set; }
+        public decimal? OldWeight { get; set; }
     }
 }

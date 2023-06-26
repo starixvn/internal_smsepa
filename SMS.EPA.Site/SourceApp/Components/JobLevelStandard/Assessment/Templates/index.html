@@ -102,11 +102,19 @@
                 <td class="text-center" ng-bind="assessment.RequirementMinScore"></td>
                 <td ng-repeat-start="kpi in assessmentCtrl.kpis" class="col-input col-level text-center">
                     <div ng-repeat="akpi in assessment.KPIs | filter: {KPIId: kpi.KPIId}" ng-show="$first">
-                        <span ng-show="!assessment.IsHost || assessment.CurrentProcessId !== assessmentCtrl.process.Evaluator || !assessment.IsEdit">
-                            {{akpi.Level}}
+                        <span ng-class="assessmentCtrl.cssOldWeight(assessment)" ng-show="!assessment.IsHost
+                              || assessment.CurrentProcessId !== assessmentCtrl.process.Evaluator
+                              || !assessment.IsEdit">
+                            {{assessmentCtrl.showOldWeight(assessment) ? akpi.OldLevel : akpi.Level}}
                         </span>
+
+                        <input type="text" class="text-center form-control blur-string"
+                               ng-show="assessment.IsHost && assessment.CurrentProcessId === assessmentCtrl.process.Evaluator && assessment.IsEdit && assessmentCtrl.showOldWeight(assessment)"
+                               ng-change="assessmentCtrl.autoUpdateOldWeight(akpi,assessment)"
+                               ng-model="akpi.OldLevel"
+                               numeric decimals="0" min="0" max="5" autocomplete="off" />
                         <input type="text" class="text-center form-control"
-                               ng-show="assessment.IsHost && assessment.CurrentProcessId === assessmentCtrl.process.Evaluator && assessment.IsEdit"
+                               ng-show="assessment.IsHost && assessment.CurrentProcessId === assessmentCtrl.process.Evaluator && assessment.IsEdit && !assessmentCtrl.showOldWeight(assessment)"
                                ng-change="assessmentCtrl.autoUpdateWeight(akpi,assessment)"
                                ng-model="akpi.Level"
                                numeric decimals="0" min="0" max="5" autocomplete="off" />
@@ -114,8 +122,8 @@
                 </td>
                 <td ng-repeat-end class="col-input col-weight text-center">
                     <div ng-repeat="akpi in assessment.KPIs | filter: {KPIId: kpi.KPIId}" ng-show="$first">
-                        <span>
-                            {{assessmentCtrl.showKpiWeight(akpi.Weight)}}
+                        <span ng-class="assessmentCtrl.cssOldWeight(assessment)">
+                            {{assessmentCtrl.showOldWeight(assessment) ? assessmentCtrl.showKpiWeight(akpi.OldWeight) : assessmentCtrl.showKpiWeight(akpi.Weight)}}
                         </span>
                     </div>
                 </td>
