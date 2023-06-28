@@ -3,6 +3,7 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using SMS.EPA.Core.Enumerations;
     using SMS.EPA.Core.Services;
     using SMS.EPA.Criteria.JobLevelStandard;
     using SMS.EPA.Criteria.JobLevelStandard.Report;
@@ -51,6 +52,8 @@
                     assessment.CurrentProcessId = currentProcess.ProcessId;
                 }
 
+                SyncWeight(assessment);
+
                 if (assessment.TotalWeight.HasValue)
                 {
                     assessment.SystemPropose = assessment.TotalWeight.Value - (assessment.RequirementMinScore ?? 0);
@@ -63,6 +66,26 @@
                 .ThenBy(x => x.StatusId.HasValue ? 0 : 1).ToList();
 
             return assessments;
+        }
+
+        private void SyncWeight(JobLevelAssessment assessment)
+        {
+            if (assessment.AssessmentId == null && assessment.KPIs.Count > 0)
+            {
+                var oldTotal = assessment.KPIs[0].OldTotalWeight;
+
+                if (oldTotal > 0)
+                {
+                    assessment.StatusId = JobLevelAssessmentStatus.Pending;
+                }
+
+                assessment.TotalWeight = oldTotal;
+                foreach (var kpi in assessment.KPIs)
+                {
+                    kpi.Level = kpi.OldLevel;
+                    kpi.Weight = kpi.OldWeight;
+                }
+            }
         }
 
         public IList<JobLevelAssessment> GetJobLevelAssessmentReport(GetJobLevelAssessmentReportCriteria criteria)

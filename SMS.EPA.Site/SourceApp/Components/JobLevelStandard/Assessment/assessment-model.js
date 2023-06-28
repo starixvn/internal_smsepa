@@ -63,6 +63,18 @@
             });
         };
 
+        model.editAndVerify = function (vm, assessment) {
+            return assessmentFactory.edit(assessment).success(function (response) {
+                if (response.IsSuccessful) {
+                    model.editStatus(vm, { assessmentIds: response.ObjectId, statusId: vm.status.Verified });
+                } else {
+                    notificationFactory.error('', response.Message);
+                }
+            }).error(function (response, status) {
+                errorFactory.errorHandle(status);
+            });
+        };
+
         model.editStatus = function (vm, params) {
             return assessmentFactory.editStatus(params).success(function (response) {
                 if (response.IsSuccessful) {

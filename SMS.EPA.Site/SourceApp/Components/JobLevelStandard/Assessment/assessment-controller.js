@@ -25,6 +25,8 @@
         vm.isEditing = false;
         vm.showApproveAll = false;
         vm.selectedAll = false;
+        vm.editEmployee = {};
+        vm.editEmployeeId = null;
 
         function getAssessments(filter) {
             lockScreenService.start();
@@ -61,23 +63,15 @@
             });
         }
 
-        vm.showOldWeight = function (assessment) {
-            var listKPI = assessment.KPIs
-            var isHasValue = false
-            listKPI.forEach(kpi => {
-                if (kpi.OldWeight !== null && kpi.OldWeight !== 0 && kpi.OldLevel !== null && kpi.OldLevel !== 0) {
-                    isHasValue = true
-                }
-            });
-
-            return isHasValue && !assessment.AssessmentId
-        }
-
-        vm.cssOldWeight = function (assessment) {
-            return vm.showOldWeight(assessment) ? 'blur-string' : ''
+        vm.cssOldWeight = function (akpi, assessment) {
+            if (akpi === null) {
+                return !assessment.AssessmentId ? 'blur-string' : ''
+            }
+            return !akpi.HasNewValue && !assessment.AssessmentId ? 'blur-string' : ''
         };
 
         vm.autoUpdateWeight = function (akpi, assessment) {
+            akpi.HasNewValue = true
             if (!akpi.Level) {
                 akpi.Weight = 0;
             } else {
@@ -85,25 +79,6 @@
             }
             vm.inputWeight(assessment);
         };
-
-        vm.autoUpdateOldWeight = function (akpi, assessment) {
-            if (!akpi.OldLevel) {
-                akpi.OldWeight = 0;
-            } else {
-                akpi.OldWeight = akpi.TemplateWeight / 5 * akpi.OldLevel;
-            }
-            syncWeight(assessment);
-            vm.inputWeight(assessment);
-        };
-
-        function syncWeight(assessment) {
-            assessment.AssessmentId = -1;
-            let kpis = assessment.KPIs;
-            kpis.forEach(kpi => {
-                kpi.Weight = kpi.OldWeight;
-                kpi.Level = kpi.OldLevel;
-            });
-        }
 
         vm.showKpiWeight = function (number) {
             return !number ? "" : utilitiesFactory.splitNumber(number, 2);
@@ -141,15 +116,9 @@
             assessment.CssClass = vm.selectedAssessment.CssClass;
 
             vm.selectedAssessment = null;
-            getAssessments(vm.filter);
         };
 
         vm.save = function (assessment) {
-            if (vm.showOldWeight(assessment)) {
-                syncWeight(assessment)
-                vm.inputWeight(assessment);
-            }
-
             const isValid = AssessmentModel.validateAssessment(assessment);
             if (isValid) {
                 assessment.StatusId = assessment.TotalWeight !== null ? vm.status.Pending : null;
@@ -158,7 +127,11 @@
         };
 
         vm.verify = function (assessment) {
-            AssessmentModel.editStatus(vm, { assessmentIds: assessment.AssessmentId, statusId: vm.status.Verified });
+            if (!assessment.AssessmentId) {
+                AssessmentModel.editAndVerify(vm, assessment)
+            } else {
+                AssessmentModel.editStatus(vm, { assessmentIds: assessment.AssessmentId, statusId: vm.status.Verified });
+            }
         };
 
         vm.approve = function (assessment) {
