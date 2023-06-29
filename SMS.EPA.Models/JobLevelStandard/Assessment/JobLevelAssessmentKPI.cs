@@ -21,7 +21,5 @@
         public decimal? Weight { get; set; }
         public byte? OldLevel { get; set; }
         public decimal? OldWeight { get; set; }
-        public decimal? OldTotalWeight { get; set; }
-        public bool HasNewValue { get; set; }
     }
 }

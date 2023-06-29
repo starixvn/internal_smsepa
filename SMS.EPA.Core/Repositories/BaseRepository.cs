@@ -41,13 +41,11 @@
         {
             var errCode = hash["errcode"];
             var errMsg = hash["errmsg"];
-            var objId = hash["objectid"];
 
             return new CommandResult
             {
                 Code = (errCode is DBNull) ? 0 : Convert.ToInt32(errCode),
-                Message = (errMsg is DBNull) ? string.Empty : Convert.ToString(errMsg),
-                ObjectId = (objId is DBNull) ? 0 : Convert.ToInt32(objId),
+                Message = (errMsg is DBNull) ? string.Empty : Convert.ToString(errMsg)
             };
         }
     }

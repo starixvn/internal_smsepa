@@ -72,7 +72,7 @@
         {
             if (assessment.AssessmentId == null && assessment.KPIs.Count > 0)
             {
-                var oldTotal = assessment.KPIs[0].OldTotalWeight;
+                var oldTotal = assessment.OldTotalWeight;
 
                 if (oldTotal > 0)
                 {

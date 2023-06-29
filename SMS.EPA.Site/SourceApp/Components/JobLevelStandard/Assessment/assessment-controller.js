@@ -67,11 +67,12 @@
             if (akpi === null) {
                 return !assessment.AssessmentId ? 'blur-string' : ''
             }
-            return !akpi.HasNewValue && !assessment.AssessmentId ? 'blur-string' : ''
+
+            let hasNewValue = akpi.Level !== akpi.OldLevel;
+            return !hasNewValue && !assessment.AssessmentId ? 'blur-string' : ''
         };
 
         vm.autoUpdateWeight = function (akpi, assessment) {
-            akpi.HasNewValue = true
             if (!akpi.Level) {
                 akpi.Weight = 0;
             } else {

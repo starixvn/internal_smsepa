@@ -85,6 +85,7 @@
                     ModifiedBy = CurrentEmployeeId
                 };
                 commandResult = await baseService.ExecuteNonQueryAsync(command);
+                commandResult.ObjectId = command.AssessmentId;
             }
 
             return commandResult;

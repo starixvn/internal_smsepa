@@ -31,7 +31,7 @@
         public DateTime? MilitaryToDate { get; set; }
         public string LengthOfService { get; set; }
         public decimal? TotalWeight { get; set; }
-
+        public decimal? OldTotalWeight { get; set; }
         public int? CurrentJobLevelId { get; set; }
         public string CurrentJobLevel { get; set; }
 

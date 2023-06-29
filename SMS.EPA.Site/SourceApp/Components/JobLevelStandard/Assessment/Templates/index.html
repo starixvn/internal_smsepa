@@ -108,11 +108,6 @@
                             {{akpi.Level}}
                         </span>
 
-                        <!--<input type="text" class="text-center form-control blur-string"
-                               ng-show="assessment.IsHost && assessment.CurrentProcessId === assessmentCtrl.process.Evaluator && assessment.IsEdit && assessmentCtrl.showOldWeight(assessment)"
-                               ng-change="assessmentCtrl.autoUpdateOldWeight(akpi,assessment)"
-                               ng-model="akpi.OldLevel"
-                               numeric decimals="0" min="0" max="5" autocomplete="off" />-->
                         <input type="text" class="text-center form-control"
                                ng-class="assessmentCtrl.cssOldWeight(akpi,assessment)"
                                ng-show="assessment.IsHost && assessment.CurrentProcessId === assessmentCtrl.process.Evaluator && assessment.IsEdit"
@@ -131,7 +126,6 @@
                 <td ng-class="assessmentCtrl.cssOldWeight(null,assessment)" class="text-center" ng-bind="assessment.TotalWeight"></td>
                 <td ng-class="assessmentCtrl.cssOldWeight(null,assessment)" class="text-center difference" ng-bind="assessment.SystemPropose"></td>
                 <td ng-class="assessmentCtrl.cssOldWeight(null,assessment)" class="text-center" ng-bind="assessment.NewJobLevel"></td>
-                <!--<td ng-bind="assessment.Remark"></td>-->
                 <td class="text-center">
                     <span ng-show="assessment.StatusId === assessmentCtrl.status.Pending" data-translate="Pending"></span>
                     <span ng-show="assessment.StatusId === assessmentCtrl.status.Verified" data-translate="Verified"></span>
