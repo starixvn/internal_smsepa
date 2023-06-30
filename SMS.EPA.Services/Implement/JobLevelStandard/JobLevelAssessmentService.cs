@@ -70,7 +70,7 @@
 
         private void SyncWeight(JobLevelAssessment assessment)
         {
-            if (assessment.AssessmentId == null && assessment.KPIs.Count > 0)
+            if (!assessment.AssessmentId.HasValue && assessment.KPIs.Count > 0)
             {
                 var oldTotal = assessment.OldTotalWeight;
 
@@ -101,6 +101,8 @@
                 assessment.RequirementMinScore = jobLevelSettings
                     .FirstOrDefault(x => x.SectionId == assessment.SectionId && x.JobLevelId == assessment.CurrentJobLevelId)?.MinWeight;
                 assessment.KPIs = tuple.Item2.Where(x => x.EmployeeId == assessment.EmployeeId).ToList();
+
+                SyncWeight(assessment);
 
                 if (assessment.TotalWeight.HasValue)
                 {

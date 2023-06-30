@@ -59,6 +59,15 @@
             getAssessments(vm.filter);
         };
 
+        vm.cssOldWeight = function (akpi, assessment) {
+            if (akpi === null) {
+                return !assessment.AssessmentId ? 'blur-string' : ''
+            }
+
+            let hasNewValue = akpi.Level !== akpi.OldLevel;
+            return !hasNewValue && !assessment.AssessmentId ? 'blur-string' : ''
+        };
+
         vm.showKpiWeight = function (number) {
             return !number ? "" : utilitiesFactory.splitNumber(number, 2);
         }

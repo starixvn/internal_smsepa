@@ -343,7 +343,7 @@
 
             cellBody = row.CreateCell(columnIndex);
             cellBody.CellStyle = bodyStyle;
-            cellBody.SetCellValue(assessment.KPIs[0].Template);
+            cellBody.SetCellValue(assessment.KPIs.Count > 0 ? assessment.KPIs[0].Template : string.Empty);
             SetColumnWidth(ref sheet, columnIndex, 18);
             columnIndex++;
 
