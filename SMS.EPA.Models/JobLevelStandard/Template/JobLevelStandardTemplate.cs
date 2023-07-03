@@ -10,15 +10,11 @@
 
         public DateTime? CreatedDate { get; set; }
 
-        public int CreatedBy { get; set; }
-
         public bool IsActive { get; set; }
 
         public int KPIs { get; set; }
 
         public DateTime? ModifiedDate { get; set; }
-
-        public int ModifiedBy { get; set; }
 
         public string CreatedNickName { get; set; }
 

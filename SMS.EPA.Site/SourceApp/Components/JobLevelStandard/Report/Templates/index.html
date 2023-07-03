@@ -119,16 +119,18 @@
                     <span ng-if="$first"
                           ng-repeat="akpi in assessment.KPIs | filter: {KPIId: kpi.KPIId}"
                           ng-bind="akpi.Level"
-                          ng-class="assessmentReportCtrl.cssOldWeight(akpi,assessment)"></span>
+                          ng-class="{'blur-string' : akpi.Level === akpi.OldLevel}"></span>
                 </td>
                 <td ng-repeat-end class="text-center col-input col-weight">
                     <span ng-if="$first"
                           ng-repeat="akpi in assessment.KPIs | filter: {KPIId: kpi.KPIId}"
-                          ng-class="assessmentReportCtrl.cssOldWeight(akpi,assessment)">{{assessmentReportCtrl.showKpiWeight(akpi.Weight)}}</span>
+                          ng-class="{'blur-string' : akpi.Weight === akpi.OldWeight}">
+                        {{assessmentReportCtrl.getDisplayKpiWeight(akpi.Weight)}}
+                    </span>
                 </td>
-                <td ng-class="assessmentReportCtrl.cssOldWeight(null,assessment)" class="text-center" ng-bind="assessment.TotalWeight"></td>
-                <td ng-class="assessmentReportCtrl.cssOldWeight(null,assessment)" class="text-center difference" ng-bind="assessment.SystemPropose"></td>
-                <td ng-class="assessmentReportCtrl.cssOldWeight(null,assessment)" class="text-center" ng-bind="assessment.NewJobLevel"></td>
+                <td class="text-center" ng-bind="assessment.TotalWeight"></td>
+                <td class="text-center difference" ng-bind="assessment.SystemPropose"></td>
+                <td class="text-center" ng-bind="assessment.NewJobLevel"></td>
                 <!--<td ng-bind="assessment.Remark"></td>-->
                 <td class="text-center">
                     <span ng-show="assessment.StatusId === assessmentReportCtrl.assessmentStatus.Pending" data-translate="Pending"></span>

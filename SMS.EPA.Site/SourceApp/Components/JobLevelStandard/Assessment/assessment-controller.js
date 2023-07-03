@@ -25,8 +25,6 @@
         vm.isEditing = false;
         vm.showApproveAll = false;
         vm.selectedAll = false;
-        vm.editEmployee = {};
-        vm.editEmployeeId = null;
 
         function getAssessments(filter) {
             lockScreenService.start();
@@ -58,31 +56,23 @@
                 }
 
                 utilitiesFactory.searchOnPage(vm, vm.assessments);
-
                 lockScreenService.stop();
             });
         }
 
-        vm.cssOldWeight = function (akpi, assessment) {
-            if (akpi === null) {
-                return !assessment.AssessmentId ? 'blur-string' : ''
-            }
-
-            let hasNewValue = akpi.Level !== akpi.OldLevel;
-            return !hasNewValue && !assessment.AssessmentId ? 'blur-string' : ''
-        };
-
-        vm.autoUpdateWeight = function (akpi, assessment) {
+        vm.inputLevel = function (akpi, assessment) {
             if (!akpi.Level) {
                 akpi.Weight = 0;
             } else {
-                akpi.Weight = akpi.TemplateWeight / 5 * akpi.Level;
+                const weight = akpi.TemplateWeight / 5 * akpi.Level;
+                akpi.Weight = utilitiesFactory.splitNumber(weight, 4);
             }
+
             vm.inputWeight(assessment);
         };
 
-        vm.showKpiWeight = function (number) {
-            return !number ? "" : utilitiesFactory.splitNumber(number, 2);
+        vm.getDisplayKpiWeight = function (number) {
+            return !number ? '' : utilitiesFactory.splitNumber(number, 2);
         }
 
         vm.query = function () {

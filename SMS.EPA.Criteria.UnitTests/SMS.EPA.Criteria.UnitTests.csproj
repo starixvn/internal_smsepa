@@ -101,7 +101,7 @@
     <Compile Include="JobLevelStandardTemplate\DeleteJobLevelStandardTemplateCriteriaTests.cs" />
     <Compile Include="JobLevelStandardTemplate\GetJobLevelStandardTemplateByIdCriteriaTests.cs" />
     <Compile Include="JobLevelStandardTemplate\GetJobLevelStandardTemplateCriteriaTests.cs" />
-    <Compile Include="JobLevelStandardTemplate\GetKPIListSelectedCriteriaTests.cs" />
+    <Compile Include="JobLevelStandardTemplate\GetKPIListCriteriaTests.cs" />
     <Compile Include="JobLevelStandardTemplate\UpdateJobLevelStandardTemplateCriteriaTests.cs" />
     <Compile Include="JobLevelStandardTemplate\UpdateJobLevelStandardTemplateKPICriteriaTests.cs" />
     <Compile Include="JobLevelStandardTemplate\UpdateStatusJobLevelStandardTemplateCriteriaTests.cs" />

@@ -102,30 +102,29 @@
                 <td class="text-center" ng-bind="assessment.RequirementMinScore"></td>
                 <td ng-repeat-start="kpi in assessmentCtrl.kpis" class="col-input col-level text-center">
                     <div ng-repeat="akpi in assessment.KPIs | filter: {KPIId: kpi.KPIId}" ng-show="$first">
-                        <span ng-class="assessmentCtrl.cssOldWeight(akpi,assessment)" ng-show="!assessment.IsHost
-                              || assessment.CurrentProcessId !== assessmentCtrl.process.Evaluator
-                              || !assessment.IsEdit">
+                        <span ng-class="{'blur-string' : akpi.Level === akpi.OldLevel}"
+                              ng-show="!assessment.IsHost || assessment.CurrentProcessId !== assessmentCtrl.process.Evaluator || !assessment.IsEdit">
                             {{akpi.Level}}
                         </span>
 
                         <input type="text" class="text-center form-control"
-                               ng-class="assessmentCtrl.cssOldWeight(akpi,assessment)"
+                               ng-class="assessmentCtrl.cssOldWeight(akpi, assessment)"
                                ng-show="assessment.IsHost && assessment.CurrentProcessId === assessmentCtrl.process.Evaluator && assessment.IsEdit"
-                               ng-change="assessmentCtrl.autoUpdateWeight(akpi,assessment)"
+                               ng-change="assessmentCtrl.inputLevel(akpi, assessment)"
                                ng-model="akpi.Level"
                                numeric decimals="0" min="0" max="5" autocomplete="off" />
                     </div>
                 </td>
                 <td ng-repeat-end class="col-input col-weight text-center">
                     <div ng-repeat="akpi in assessment.KPIs | filter: {KPIId: kpi.KPIId}" ng-show="$first">
-                        <span ng-class="assessmentCtrl.cssOldWeight(akpi,assessment)">
-                            {{assessmentCtrl.showKpiWeight(akpi.Weight) }}
+                        <span ng-class="{'blur-string' : akpi.Weight === akpi.OldWeight}">
+                            {{assessmentCtrl.getDisplayKpiWeight(akpi.Weight) }}
                         </span>
                     </div>
                 </td>
-                <td ng-class="assessmentCtrl.cssOldWeight(null,assessment)" class="text-center" ng-bind="assessment.TotalWeight"></td>
-                <td ng-class="assessmentCtrl.cssOldWeight(null,assessment)" class="text-center difference" ng-bind="assessment.SystemPropose"></td>
-                <td ng-class="assessmentCtrl.cssOldWeight(null,assessment)" class="text-center" ng-bind="assessment.NewJobLevel"></td>
+                <td class="text-center" ng-bind="assessment.TotalWeight"></td>
+                <td class="text-center difference" ng-bind="assessment.SystemPropose"></td>
+                <td class="text-center" ng-bind="assessment.NewJobLevel"></td>
                 <td class="text-center">
                     <span ng-show="assessment.StatusId === assessmentCtrl.status.Pending" data-translate="Pending"></span>
                     <span ng-show="assessment.StatusId === assessmentCtrl.status.Verified" data-translate="Verified"></span>

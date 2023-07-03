@@ -37,6 +37,8 @@
 
             ExceptionHandler
                 .UseConfig(new LoggingConfiguration())
+                .GetHttpHeaderInfo()
+                .GetHttpSessionInfo()
                 .UseGetDbExceptionInfo(DatabaseInfoGetters.GetDbExceptionInfo);
 
             DbSettingProviderManager

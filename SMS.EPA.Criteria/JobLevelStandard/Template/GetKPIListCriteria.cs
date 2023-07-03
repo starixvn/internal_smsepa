@@ -10,6 +10,6 @@
 
         public override bool IsValid() => TemplateId > 0;
 
-        public override string GetSettingKey() => "JobLevelStandard_Template_GetKPIList";
+        public override string GetSettingKey() => "JobLevelStandard_Template_GetKPI";
     }
 }

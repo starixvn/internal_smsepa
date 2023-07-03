@@ -4,14 +4,14 @@
     using SMS.EPA.Criteria.JobLevelStandard.Template;
 
     [TestFixture]
-    public class GetKPIListSelectedCriteriaTests
+    public class GetKPIListCriteriaTests
     {
         [Test]
         public void GetSettingKey_ReturnCorrectSettingKey()
         {
             // Arrange
             var criteria = new GetKPIListCriteria();
-            string expected = "JobLevelStandard_Template_GetKPIList";
+            string expected = "JobLevelStandard_Template_GetKPI";
 
             // Act
             string actual = criteria.GetSettingKey();

@@ -12,21 +12,17 @@
         {
             if (actionExecutedContext != null)
             {
-                var localFlag = actionExecutedContext.Request.Properties["MS_IsLocal"] as Lazy<bool>;
-                if (localFlag == null || !localFlag.Value)
-                {
-                    var ex = actionExecutedContext.Exception;
-                    var message = string.Format(
-                        "{0}{1}Source: {2}{1}Domain: {3}{1}TargetSite: {4}{1}StackTrace: {5}",
-                        ex.Message,
-                        Environment.NewLine,
-                        ex.Source,
-                        HttpContext.Current.Request.Headers["Host"],
-                        ex.TargetSite,
-                        ex.StackTrace);
+                var ex = actionExecutedContext.Exception;
+                var message = string.Format(
+                    "{0}{1}Source: {2}{1}Domain: {3}{1}TargetSite: {4}{1}StackTrace: {5}",
+                    ex.Message,
+                    Environment.NewLine,
+                    ex.Source,
+                    HttpContext.Current.Request.Headers["Host"],
+                    ex.TargetSite,
+                    ex.StackTrace);
 
-                    LogService.Error(message);
-                }
+                LogService.Error(message);
             }
         }
     }
