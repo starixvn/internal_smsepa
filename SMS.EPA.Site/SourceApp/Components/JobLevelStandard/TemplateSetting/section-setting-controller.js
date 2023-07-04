@@ -43,7 +43,7 @@
         function assignTargetTemplate() {
             vm.templateSetting.sectionIds = getSelectedEmployees(vm.templateSettings);
 
-            TemplateSettingModel.assignTemplateToSection(vm.templateSetting, vm.objectType.section).then(function () {
+            TemplateSettingModel.assignTemplate(vm.templateSetting, vm.objectType.section).then(function () {
                 vm.query();
                 vm.selectedAll = false;
             });
