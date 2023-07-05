@@ -8,6 +8,6 @@
 
         public override string GetSettingKey() => "JobDescription_DeleteGroupItem";
 
-        public override bool IsValid() => GroupItemId > 0 ;
+        public override bool IsValid() => GroupItemId > 0;
     }
 }

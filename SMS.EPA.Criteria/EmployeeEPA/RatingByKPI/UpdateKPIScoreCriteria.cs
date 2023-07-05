@@ -1,14 +1,14 @@
 ﻿namespace SMS.EPA.Criteria
 {
+    using System.Collections.Generic;
+    using System.Globalization;
+    using System.Text;
+    using System.Web;
     using Core.Constants;
     using Core.Services;
     using Fanex.Data;
     using Fanex.Data.Repository;
     using Model;
-    using System.Collections.Generic;
-    using System.Globalization;
-    using System.Text;
-    using System.Web;
 
     public class UpdateKPIScoreCriteria : CriteriaBase
     {

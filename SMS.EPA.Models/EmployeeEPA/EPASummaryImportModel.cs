@@ -1,7 +1,7 @@
 ﻿namespace SMS.EPA.Model
 {
-    using Core.Services;
     using System.Globalization;
+    using Core.Services;
 
     public class EPASummaryImportModel
     {

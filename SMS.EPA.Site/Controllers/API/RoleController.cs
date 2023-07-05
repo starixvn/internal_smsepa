@@ -38,7 +38,7 @@
             IList<Function> functions = functionService.GetBySiteId(userControlSession.SiteId);
             var permissions = functionService.GetPermissionBySiteAndRoleId(userControlSession.SiteId, roleId);
             var roleFunctions = new List<RoleFunctionModel>();
-            foreach(var function in functions)
+            foreach (var function in functions)
             {
                 var permission = permissions.FirstOrDefault(x => x.FunctionId == function.FunctionId);
                 roleFunctions.Add(new RoleFunctionModel
@@ -49,7 +49,7 @@
                     ParentId = function.ParentId,
                     Policy = function.Policy,
                     Level = function.Level,
-                    DisplayOrder= function.DisplayOrder,
+                    DisplayOrder = function.DisplayOrder,
                     Childs = new List<RoleFunctionModel>(),
                     IsRead = permission != null && permission.IsRead,
                     IsHost = permission != null && permission.IsHost

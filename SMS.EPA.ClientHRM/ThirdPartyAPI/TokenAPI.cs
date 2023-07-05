@@ -1,11 +1,11 @@
 ﻿namespace SMS.EPA.ClientHrm.ThirdPartyAPI
 {
-    using Model;
     using System;
     using System.Collections.Generic;
     using System.Net.Http;
     using System.Net.Http.Formatting;
     using System.Threading.Tasks;
+    using Model;
 
     public class TokenAPI : ITokenAPI
     {

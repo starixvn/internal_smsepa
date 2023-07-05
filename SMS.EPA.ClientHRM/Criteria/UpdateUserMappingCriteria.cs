@@ -17,7 +17,8 @@
 
         public string UserMappingXml
         {
-            get {
+            get
+            {
                 var value = new StringBuilder(Constants.BeginRootTag);
 
                 if (UserMappings != null && UserMappings.Any())

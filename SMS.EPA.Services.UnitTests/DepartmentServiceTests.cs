@@ -6,8 +6,6 @@
     using SMS.EPA.Criteria;
     using SMS.EPA.Model.Enitites;
     using SMS.EPA.Repositories;
-    using SMS.EPA.Services.Implement;
-    using SMS.EPA.Services.Interfaces;
 
     [TestFixture]
     public class DepartmentServiceTests

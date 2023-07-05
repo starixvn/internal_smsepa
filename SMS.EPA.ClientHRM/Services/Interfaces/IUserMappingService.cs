@@ -1,10 +1,10 @@
 ﻿namespace SMS.EPA.ClientHrm.Services
 {
-    using System.Threading.Tasks;
     using System;
-    using SMS.EPA.Model.API;
     using System.Collections.Generic;
+    using System.Threading.Tasks;
     using SMS.EPA.Core.Model;
+    using SMS.EPA.Model.API;
 
     public interface IUserMappingService
     {

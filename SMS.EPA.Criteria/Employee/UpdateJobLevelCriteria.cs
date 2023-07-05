@@ -9,6 +9,6 @@
 
         public override string GetSettingKey() => "EpaEmployee_UpdateJobLevel";
 
-        public override bool IsValid() => EmployeeId > 0 ;
+        public override bool IsValid() => EmployeeId > 0;
     }
 }

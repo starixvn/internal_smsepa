@@ -1,8 +1,8 @@
 ﻿namespace SMS.EPA.Site
 {
+    using System.Web.Optimization;
     using BundleTransformer.Core.Orderers;
     using BundleTransformer.Core.Transformers;
-    using System.Web.Optimization;
 
     public static class BundleEntensions
     {

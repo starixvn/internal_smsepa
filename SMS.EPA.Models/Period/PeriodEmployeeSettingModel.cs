@@ -62,7 +62,7 @@
             {
                 Count = 0,
                 Department = department,
-                Section = Employee.Section,
+                Employee.Section,
                 Team = group,
                 Employee.Code,
                 Employee.FullName,

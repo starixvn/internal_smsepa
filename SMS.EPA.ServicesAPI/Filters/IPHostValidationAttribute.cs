@@ -1,15 +1,15 @@
 ﻿namespace SMS.EPA.ServicesAPI.Filters
 {
-    using Resources;
     using System;
     using System.Linq;
     using System.Net;
     using System.Net.Http;
+    using System.Threading;
+    using System.Threading.Tasks;
     using System.Web.Http.Controllers;
     using System.Web.Http.Filters;
+    using Resources;
     using Utilities;
-    using System.Threading.Tasks;
-    using System.Threading;
 
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method, AllowMultiple = true)]
     public sealed class IPHostValidationAttribute : ActionFilterAttribute

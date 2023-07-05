@@ -1,17 +1,16 @@
 ﻿namespace SMS.EPA.Services.Implement
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Globalization;
+    using System.Linq;
+    using System.Web;
     using Core.Constants;
     using Core.Enumerations;
     using ExportFile;
     using Model;
     using NPOI.SS.UserModel;
     using Resources;
-    using System;
-    using System.Collections.Generic;
-    using System.Diagnostics.CodeAnalysis;
-    using System.Globalization;
-    using System.Linq;
-    using System.Web;
 
     public class EPADetailReportService : EPADetailReportServiceBase
     {

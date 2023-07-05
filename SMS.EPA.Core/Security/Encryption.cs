@@ -1,9 +1,9 @@
 ﻿namespace SMS.EPA.Core.Security
 {
-    using Enumerations;
     using System;
     using System.Security.Cryptography;
     using System.Text;
+    using Enumerations;
 
     public static class Encryption
     {

@@ -1,11 +1,11 @@
 ﻿namespace SMS.EPA.ClientHrm.Services
 {
-    using Core.Model;
-    using EPA.Model.API;
-    using Model;
     using System;
     using System.Collections.Generic;
     using System.Threading.Tasks;
+    using Core.Model;
+    using EPA.Model.API;
+    using Model;
 
     public interface IJobLevelService
     {

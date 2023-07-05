@@ -1,16 +1,16 @@
 ﻿namespace SMS.EPA.Services.Implement.ExportFile
 {
-    using Core.Utilities.NPOIExtensions;
-    using Interfaces.ExportFile;
-    using Model.Report;
-    using NPOI.HSSF.UserModel;
-    using NPOI.SS.UserModel;
     using System;
     using System.Collections.Generic;
     using System.Diagnostics;
     using System.IO;
     using System.Linq;
     using System.Reflection;
+    using Core.Utilities.NPOIExtensions;
+    using Interfaces.ExportFile;
+    using Model.Report;
+    using NPOI.HSSF.UserModel;
+    using NPOI.SS.UserModel;
 
     public class ExportExcelService : IExportExcelService
     {

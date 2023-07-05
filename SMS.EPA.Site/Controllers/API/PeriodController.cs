@@ -129,7 +129,7 @@
             if (employeeSettings.Any())
             {
                 PeriodEmployeeSettingModel employeeSetting = employeeSettings.FirstOrDefault(x => x.TargetTemplate != null);
-                byte targetTypeId = employeeSetting?.TargetTemplate.TargetTypeId ?? 0;
+                byte targetTypeId = GetTargetTypeId(employeeSetting);
                 switch (targetTypeId)
                 {
                     case (byte)TargetType.Probation:
@@ -240,6 +240,11 @@
         public byte GetUserPermissionOnPeriod()
         {
             return GetPermissionOnFunction(EPAFunctionKey.Period);
+        }
+
+        private static byte GetTargetTypeId(PeriodEmployeeSettingModel employeeSetting)
+        {
+            return employeeSetting?.TargetTemplate.TargetTypeId ?? 0;
         }
     }
 }

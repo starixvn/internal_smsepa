@@ -1,7 +1,7 @@
 ﻿namespace SMS.EPA.Model
 {
-    using Core.Services;
     using System;
+    using Core.Services;
 
     [Serializable]
     public class EPAEmployeeInfo

@@ -8,6 +8,6 @@
 
         public override string GetSettingKey() => "JobDescription_DeleteItem";
 
-        public override bool IsValid() => ItemId > 0 ;
+        public override bool IsValid() => ItemId > 0;
     }
 }

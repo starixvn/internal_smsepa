@@ -3,9 +3,8 @@
     using System;
     using System.IO;
     using System.Web;
-    using Constants;
+    using SMS.EPA.Core.Constants;
 
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("Major Code Smell", "S109:Magic numbers should not be used", Justification = "<Pending>")]
     public class UtilityService : IUtilityService
     {
         public string GetAvatar(string code)
@@ -29,7 +28,8 @@
 
             if (Math.Abs(number % 1) > Constants.Tolerance)
             {
-                result = Math.Truncate(number * Math.Pow(10, decimals)) / Math.Pow(10, decimals);
+                const byte RaisingNumber = 10;
+                result = Math.Truncate(number * Math.Pow(RaisingNumber, decimals)) / Math.Pow(RaisingNumber, decimals);
             }
 
             return result;

@@ -5,11 +5,9 @@
     using System.Net;
     using System.Net.Http;
     using System.Web.Http;
-    using HRM.UserControl.Client.AspNetMvc.Session;
     using HRM.UserControl.Client.Core.Enumerables;
     using HRM.UserControl.Client.Core.Models.Role;
     using HRM.UserControl.Client.Core.Services;
-    using HRM.UserControl.Client.Core.Session;
     using SMS.EPA.Core.Attribute;
     using SMS.EPA.Core.Constants;
     using SMS.EPA.Core.Enumerations;
@@ -29,7 +27,7 @@
         }
 
         public ReportController(
-            IRoleService roleService, 
+            IRoleService roleService,
             IReportService reportService,
             ICommonService commonService)
         {

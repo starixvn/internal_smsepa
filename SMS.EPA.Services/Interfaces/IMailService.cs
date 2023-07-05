@@ -1,7 +1,7 @@
 ﻿namespace SMS.EPA.Services
 {
-    using SMS.EPA.Model;
     using SMS.EPA.Core.Enumerations;
+    using SMS.EPA.Model;
     using SMS.EPA.Model.AutoService;
 
     public interface IMailService

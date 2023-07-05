@@ -1,12 +1,7 @@
-﻿using Fanex.Data.Repository;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace SMS.EPA.Criteria.Dashboard
+﻿namespace SMS.EPA.Criteria.Dashboard
 {
+    using Fanex.Data.Repository;
+
     public class GetJobLevelStandardDashboardCriteria : CriteriaBase
     {
         public int EmployeeId { get; set; }

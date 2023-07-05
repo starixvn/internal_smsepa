@@ -1,13 +1,13 @@
 ﻿namespace SMS.EPA.ClientHrm.Services
 {
-    using Core.Model;
-    using EPA.Model.API;
-    using Model;
     using System;
     using System.Collections.Generic;
     using System.IO;
     using System.Linq;
     using System.Threading.Tasks;
+    using Core.Model;
+    using EPA.Model.API;
+    using Model;
     using ThirdPartyAPI;
 
     public class PhotoService : IPhotoService

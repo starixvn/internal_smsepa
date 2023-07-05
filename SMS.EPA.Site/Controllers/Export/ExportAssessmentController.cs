@@ -8,7 +8,6 @@
     using HRM.UserControl.Client.Core.Session;
     using SMS.EPA.Core.Constants;
     using SMS.EPA.Core.Services;
-    using SMS.EPA.Criteria.JobLevelStandard;
     using SMS.EPA.Criteria.JobLevelStandard.Report;
     using SMS.EPA.Model.JobLevelStandard;
     using SMS.EPA.Resources;

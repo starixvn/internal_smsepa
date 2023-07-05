@@ -3,7 +3,6 @@
     using System.Collections.Generic;
     using System.Linq;
     using Criteria;
-    using Implement;
     using Model;
     using NSubstitute;
     using NUnit.Framework;

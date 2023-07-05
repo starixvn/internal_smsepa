@@ -1,6 +1,5 @@
 ﻿namespace SMS.EPA.Model
 {
-    using Enitites;
     using System.Collections.Generic;
     using System.Linq;
     using Report;

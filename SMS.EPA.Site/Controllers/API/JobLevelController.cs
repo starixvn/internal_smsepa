@@ -12,7 +12,7 @@
     {
         private readonly IBaseService baseService;
 
-        public JobLevelController() : this(null) {}
+        public JobLevelController() : this(null) { }
 
         public JobLevelController(IBaseService baseService)
         {

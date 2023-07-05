@@ -1,7 +1,6 @@
 ﻿namespace SMS.EPA.Core.Utilities
 {
     using System.Collections.Generic;
-    using System.Diagnostics.CodeAnalysis;
     using System.IO;
     using System.Linq;
     using System.Reflection;
@@ -23,7 +22,6 @@
 
         #region Constructors
 
-        [SuppressMessage("Microsoft.Reliability", "CA2000:Dispose objects before losing scope", Justification = "Reviewed. Suppression is OK here.")]
         public ExcelTemplateWriter(string filePath, string excelFileName = "Report.xls", string sheetName = "Result")
             : this(new FileStream(filePath, FileMode.Open, FileAccess.Read), excelFileName, sheetName)
         {

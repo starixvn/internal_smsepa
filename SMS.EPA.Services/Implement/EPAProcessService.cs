@@ -42,7 +42,7 @@
         public CommandResult UpdateTotalScoreOfProcess(int periodId, string employeeIds = null)
         {
             var commandResult = new CommandResult { Code = 0 };
-               var criteria = new GetDataToUpdateTotalScoreOfProcessCriteria
+            var criteria = new GetDataToUpdateTotalScoreOfProcessCriteria
             {
                 PeriodId = periodId,
                 EmployeeIds = employeeIds
@@ -78,7 +78,7 @@
             }
 
             processes = processes.Where(x => x.IsChanged).ToList();
-            foreach(var process in processes)
+            foreach (var process in processes)
             {
                 process.TotalScore = cryptographyService.Encrypt(process.TotalScore?.ToString());
             }

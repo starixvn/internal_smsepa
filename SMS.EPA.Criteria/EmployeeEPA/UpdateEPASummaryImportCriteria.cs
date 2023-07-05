@@ -1,11 +1,11 @@
 ﻿namespace SMS.EPA.Criteria
 {
-    using Fanex.Data;
-    using Fanex.Data.Repository;
-    using Model;
     using System.Collections.Generic;
     using System.Linq;
     using System.Text;
+    using Fanex.Data;
+    using Fanex.Data.Repository;
+    using Model;
 
     public class UpdateEPASummaryImportCriteria : CriteriaBase
     {

@@ -4,21 +4,19 @@
     using System.Linq;
     using System.Threading.Tasks;
     using System.Web.Http;
-    using HRM.UserControl.Client.AspNetMvc.Session;
     using HRM.UserControl.Client.Core.Models;
     using HRM.UserControl.Client.Core.Models.Role;
     using HRM.UserControl.Client.Core.Services;
-    using HRM.UserControl.Client.Core.Session;
     using SMS.EPA.Core.Constants;
+    using SMS.EPA.Core.Enumerations;
     using SMS.EPA.Core.Services;
     using SMS.EPA.Core.Utilities;
-    using SMS.EPA.Services;
     using SMS.EPA.Criteria;
     using SMS.EPA.Criteria.EPAHistory;
     using SMS.EPA.Criteria.TargetType;
     using SMS.EPA.Model;
     using SMS.EPA.Model.Enitites;
-    using SMS.EPA.Core.Enumerations;
+    using SMS.EPA.Services;
 
     public class CommonController : BaseController
     {

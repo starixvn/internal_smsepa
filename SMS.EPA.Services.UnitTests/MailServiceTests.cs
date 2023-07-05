@@ -1,7 +1,5 @@
 ﻿namespace SMS.EPA.Services.UnitTests
 {
-    using Implement;
-    using Interfaces;
     using Model;
     using Model.Email;
     using NSubstitute;

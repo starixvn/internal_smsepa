@@ -3,7 +3,6 @@
     using System.Collections.Generic;
     using System.Linq;
     using Fanex.Data.Repository;
-    using Interfaces;
     using Model;
     using Repositories;
 

@@ -1,7 +1,7 @@
 ﻿namespace SMS.EPA.Services.Interfaces
 {
-    using Model;
     using System.Collections.Generic;
+    using Model;
 
     public interface IEPADetailReportService
     {

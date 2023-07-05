@@ -1,8 +1,8 @@
 ﻿namespace SMS.EPA.Model
 {
+    using System;
     using Core.Services;
     using Enitites;
-    using System;
 
     [Serializable]
     public class EmployeeViewModel

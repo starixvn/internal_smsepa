@@ -6,11 +6,9 @@
     using System.Net;
     using System.Net.Http;
     using System.Web.Http;
-    using HRM.UserControl.Client.AspNetMvc.Session;
     using HRM.UserControl.Client.Core.Enumerables;
     using HRM.UserControl.Client.Core.Models.Role;
     using HRM.UserControl.Client.Core.Services;
-    using HRM.UserControl.Client.Core.Session;
     using SMS.EPA.Core.Enumerations;
     using SMS.EPA.Core.Model;
     using SMS.EPA.Core.Services;

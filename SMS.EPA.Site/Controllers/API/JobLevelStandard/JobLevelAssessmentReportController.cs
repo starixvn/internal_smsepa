@@ -7,9 +7,7 @@
     using HRM.UserControl.Client.Core.Enumerables;
     using SMS.EPA.Core.Attribute;
     using SMS.EPA.Core.Constants;
-    using SMS.EPA.Core.Enumerations;
     using SMS.EPA.Core.Services;
-    using SMS.EPA.Criteria.JobLevelStandard;
     using SMS.EPA.Criteria.JobLevelStandard.Report;
     using SMS.EPA.Model.Enitites;
     using SMS.EPA.Model.JobLevelStandard;

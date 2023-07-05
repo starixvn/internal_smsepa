@@ -1,7 +1,7 @@
 ﻿namespace SMS.EPA.ClientHrm
 {
-    using Model;
     using System.Configuration;
+    using Model;
 
     public static class ApplicationConfig
     {

@@ -1,6 +1,5 @@
 ﻿namespace SMS.EPA.Site.Controllers.API
 {
-    using SMS.EPA.Model.Enitites;
     using System.Collections.Generic;
     using System.Linq;
     using System.Web.Http;
@@ -10,6 +9,7 @@
     using HRM.UserControl.Client.Core.Session;
     using SMS.EPA.Core.Attribute;
     using SMS.EPA.Core.Constants;
+    using SMS.EPA.Model.Enitites;
 
     [WebApiValidateAntiForgeryToken]
     [CustomActionFilter]

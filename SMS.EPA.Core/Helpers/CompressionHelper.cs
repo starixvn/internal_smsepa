@@ -5,7 +5,6 @@
 
     public static class CompressionHelper
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2202:Do not dispose objects multiple times", Justification = "Reviewed")]
         public static byte[] DeflateByte(byte[] str)
         {
             if (str == null)

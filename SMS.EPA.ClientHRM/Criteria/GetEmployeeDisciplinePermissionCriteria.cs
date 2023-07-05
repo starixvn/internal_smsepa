@@ -1,7 +1,7 @@
 ﻿namespace SMS.EPA.ClientHrm.Criteria
 {
-    using Fanex.Data.Repository;
     using System;
+    using Fanex.Data.Repository;
 
     public class GetEmployeeDisciplinePermissionCriteria : CriteriaBase
     {

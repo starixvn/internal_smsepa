@@ -1,6 +1,5 @@
 ﻿namespace SMS.EPA.ServicesAPI.Criteria.Department
 {
-    using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Text;

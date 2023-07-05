@@ -8,6 +8,6 @@
 
         public override string GetSettingKey() => "JobLevel_Delete";
 
-        public override bool IsValid() => true ;
+        public override bool IsValid() => true;
     }
 }

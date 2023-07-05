@@ -1,6 +1,5 @@
 ﻿namespace SMS.EPA.Model
 {
-    using System;
     using System.Globalization;
     using Core.Constants;
     using Core.Services;

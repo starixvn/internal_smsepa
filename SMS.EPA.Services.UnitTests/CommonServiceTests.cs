@@ -1,14 +1,11 @@
 ﻿namespace SMS.EPA.Services.UnitTests
 {
     using System.Collections.Generic;
-    using System.Linq;
     using Core.Services;
     using Criteria;
     using Criteria.EPAHistory;
     using Criteria.TargetType;
     using HRM.UserControl.Client.Core.Models.Role;
-    using Implement;
-    using Interfaces;
     using Model;
     using Model.Enitites;
     using NSubstitute;

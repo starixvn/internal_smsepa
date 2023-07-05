@@ -58,11 +58,12 @@
                 promotionService.CheckPromotionPeriod();
                 processService.UpdateInfomationOfProcess();
 
-                Task.WhenAll(new[] {
+                var tasks = new[] {
                     Task.Factory.StartNew(() => { autoMailService.CheckAndSendMail(); }),
                     Task.Factory.StartNew(() => { evaluationPeriodService.CheckEndEvaluationPeriod(); }),
                     Task.Factory.StartNew(() => { jobLevelStandardService.SendReminderEmail(); })
-                }).Wait();
+                };
+                Task.WhenAll(tasks).Wait();
             }
             catch (Exception ex)
             {

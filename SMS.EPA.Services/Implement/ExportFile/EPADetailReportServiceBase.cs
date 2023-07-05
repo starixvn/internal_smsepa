@@ -1,5 +1,11 @@
 ﻿namespace SMS.EPA.Services.Implement.ExportFile
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Diagnostics.CodeAnalysis;
+    using System.Globalization;
+    using System.IO;
+    using System.Linq;
     using Core.Constants;
     using Core.Enumerations;
     using Interfaces;
@@ -9,12 +15,6 @@
     using NPOI.SS.UserModel;
     using NPOI.SS.Util;
     using Resources;
-    using System;
-    using System.Collections.Generic;
-    using System.Diagnostics.CodeAnalysis;
-    using System.Globalization;
-    using System.IO;
-    using System.Linq;
 
     [SuppressMessage("Major Code Smell", "S109:Magic numbers should not be used", Justification = "<Pending>")]
     public abstract class EPADetailReportServiceBase : IEPADetailReportService

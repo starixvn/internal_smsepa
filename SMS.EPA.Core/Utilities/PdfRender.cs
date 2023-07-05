@@ -1,10 +1,10 @@
 ﻿namespace SMS.EPA.Core.Utilities
 {
+    using System.IO;
+    using System.Text;
     using iTextSharp.text;
     using iTextSharp.text.pdf;
     using iTextSharp.tool.xml;
-    using System.IO;
-    using System.Text;
 
     public static class PdfRender
     {

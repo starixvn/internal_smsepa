@@ -1,13 +1,13 @@
 ﻿namespace SMS.EPA.ClientHrm.Services
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Threading.Tasks;
     using Core.Model;
     using Criteria;
     using EPA.Model.API;
     using Fanex.Data.Repository;
     using Model;
-    using System;
-    using System.Collections.Generic;
-    using System.Threading.Tasks;
     using ThirdPartyAPI;
 
     public class EmployeeService : IEmployeeService

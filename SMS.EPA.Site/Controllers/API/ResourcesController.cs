@@ -1,11 +1,11 @@
 ﻿namespace SMS.EPA.Site.Controllers.API
 {
-    using Resources;
     using System.Collections;
     using System.Globalization;
     using System.Linq;
     using System.Resources;
     using System.Web.Http;
+    using Resources;
 
     public class ResourcesController : ApiController
     {

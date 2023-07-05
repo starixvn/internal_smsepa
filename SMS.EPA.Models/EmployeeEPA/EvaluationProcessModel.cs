@@ -1,9 +1,9 @@
 ﻿namespace SMS.EPA.Model
 {
-    using Core.Constants;
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using Core.Constants;
 
     public class EvaluationProcessModel
     {

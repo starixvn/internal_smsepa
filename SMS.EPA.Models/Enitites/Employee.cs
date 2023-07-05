@@ -56,7 +56,7 @@
                 if (!string.IsNullOrWhiteSpace(DomainUsername))
                 {
                     var username = DomainUsername;
-                    if(DomainUsername.IndexOf("sms\\", StringComparison.OrdinalIgnoreCase) != -1)
+                    if (DomainUsername.IndexOf("sms\\", StringComparison.OrdinalIgnoreCase) != -1)
                     {
                         username = ReplaceString(DomainUsername, "sms\\", string.Empty, StringComparison.OrdinalIgnoreCase);
                     }

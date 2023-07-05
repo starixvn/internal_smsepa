@@ -5,7 +5,6 @@
     using Fanex.Data;
     using Fanex.Data.Repository;
     using SMS.EPA.Core.Constants;
-    using SMS.EPA.Model.JobLevelStandard;
     using SMS.EPA.Model.JobLevelStandard.Template;
 
     public class UpdateJobLevelStandardTemplateKPICriteria : CriteriaBase

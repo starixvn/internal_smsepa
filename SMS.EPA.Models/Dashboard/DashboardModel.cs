@@ -1,7 +1,7 @@
 ﻿namespace SMS.EPA.Model
 {
-    using Enitites;
     using System.Collections.Generic;
+    using Enitites;
 
     public class DashboardModel
     {

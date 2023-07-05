@@ -1,8 +1,8 @@
 ﻿namespace SMS.EPA.Core.Utilities.NPOIExtensions
 {
+    using System;
     using NPOI.SS.UserModel;
     using NPOI.SS.Util;
-    using System;
 
     public static class HSSFCellExtensions
     {
