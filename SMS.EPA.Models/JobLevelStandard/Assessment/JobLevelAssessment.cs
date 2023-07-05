@@ -17,6 +17,7 @@
         public string Nickname { get; set; }
         public string FullName { get; set; }
         public string Department { get; set; }
+        public string Template { get; set; }
 
         public int SectionId { get; set; }
         public string Section { get; set; }

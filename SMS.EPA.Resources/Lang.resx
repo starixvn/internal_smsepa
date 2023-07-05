@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
-    <!-- 
+	<!-- 
     Microsoft ResX Schema 
     
     Version 2.0
@@ -59,1520 +59,1523 @@
             : using a System.ComponentModel.TypeConverter
             : and then encoded with base64 encoding.
     -->
-    <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
-        <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
-        <xsd:element name="root" msdata:IsDataSet="true">
-            <xsd:complexType>
-                <xsd:choice maxOccurs="unbounded">
-                    <xsd:element name="metadata">
-                        <xsd:complexType>
-                            <xsd:sequence>
-                                <xsd:element name="value" type="xsd:string" minOccurs="0" />
-                            </xsd:sequence>
-                            <xsd:attribute name="name" use="required" type="xsd:string" />
-                            <xsd:attribute name="type" type="xsd:string" />
-                            <xsd:attribute name="mimetype" type="xsd:string" />
-                            <xsd:attribute ref="xml:space" />
-                        </xsd:complexType>
-                    </xsd:element>
-                    <xsd:element name="assembly">
-                        <xsd:complexType>
-                            <xsd:attribute name="alias" type="xsd:string" />
-                            <xsd:attribute name="name" type="xsd:string" />
-                        </xsd:complexType>
-                    </xsd:element>
-                    <xsd:element name="data">
-                        <xsd:complexType>
-                            <xsd:sequence>
-                                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
-                                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
-                            </xsd:sequence>
-                            <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
-                            <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
-                            <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
-                            <xsd:attribute ref="xml:space" />
-                        </xsd:complexType>
-                    </xsd:element>
-                    <xsd:element name="resheader">
-                        <xsd:complexType>
-                            <xsd:sequence>
-                                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
-                            </xsd:sequence>
-                            <xsd:attribute name="name" type="xsd:string" use="required" />
-                        </xsd:complexType>
-                    </xsd:element>
-                </xsd:choice>
-            </xsd:complexType>
-        </xsd:element>
-    </xsd:schema>
-    <resheader name="resmimetype">
-        <value>text/microsoft-resx</value>
-    </resheader>
-    <resheader name="version">
-        <value>2.0</value>
-    </resheader>
-    <resheader name="reader">
-        <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-    </resheader>
-    <resheader name="writer">
-        <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-    </resheader>
-    <data name="Action" xml:space="preserve">
+	<xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+		<xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+		<xsd:element name="root" msdata:IsDataSet="true">
+			<xsd:complexType>
+				<xsd:choice maxOccurs="unbounded">
+					<xsd:element name="metadata">
+						<xsd:complexType>
+							<xsd:sequence>
+								<xsd:element name="value" type="xsd:string" minOccurs="0" />
+							</xsd:sequence>
+							<xsd:attribute name="name" use="required" type="xsd:string" />
+							<xsd:attribute name="type" type="xsd:string" />
+							<xsd:attribute name="mimetype" type="xsd:string" />
+							<xsd:attribute ref="xml:space" />
+						</xsd:complexType>
+					</xsd:element>
+					<xsd:element name="assembly">
+						<xsd:complexType>
+							<xsd:attribute name="alias" type="xsd:string" />
+							<xsd:attribute name="name" type="xsd:string" />
+						</xsd:complexType>
+					</xsd:element>
+					<xsd:element name="data">
+						<xsd:complexType>
+							<xsd:sequence>
+								<xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+								<xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+							</xsd:sequence>
+							<xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+							<xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+							<xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+							<xsd:attribute ref="xml:space" />
+						</xsd:complexType>
+					</xsd:element>
+					<xsd:element name="resheader">
+						<xsd:complexType>
+							<xsd:sequence>
+								<xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+							</xsd:sequence>
+							<xsd:attribute name="name" type="xsd:string" use="required" />
+						</xsd:complexType>
+					</xsd:element>
+				</xsd:choice>
+			</xsd:complexType>
+		</xsd:element>
+	</xsd:schema>
+	<resheader name="resmimetype">
+		<value>text/microsoft-resx</value>
+	</resheader>
+	<resheader name="version">
+		<value>2.0</value>
+	</resheader>
+	<resheader name="reader">
+		<value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+	</resheader>
+	<resheader name="writer">
+		<value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+	</resheader>
+	<data name="Action" xml:space="preserve">
     <value>Action</value>
   </data>
-    <data name="Active" xml:space="preserve">
+	<data name="Active" xml:space="preserve">
     <value>Active</value>
   </data>
-    <data name="Admin" xml:space="preserve">
+	<data name="Admin" xml:space="preserve">
     <value>Admin</value>
   </data>
-    <data name="All" xml:space="preserve">
+	<data name="All" xml:space="preserve">
     <value>All</value>
   </data>
-    <data name="Code" xml:space="preserve">
+	<data name="Code" xml:space="preserve">
     <value>Code</value>
   </data>
-    <data name="CreateUser" xml:space="preserve">
+	<data name="CreateUser" xml:space="preserve">
     <value>Create New User</value>
   </data>
-    <data name="EmptyResult" xml:space="preserve">
+	<data name="EmptyResult" xml:space="preserve">
     <value>No information available!</value>
   </data>
-    <data name="Evaluator" xml:space="preserve">
+	<data name="Evaluator" xml:space="preserve">
     <value>Evaluator</value>
   </data>
-    <data name="FullName" xml:space="preserve">
+	<data name="FullName" xml:space="preserve">
     <value>Full Name</value>
   </data>
-    <data name="CreateKPI" xml:space="preserve">
+	<data name="CreateKPI" xml:space="preserve">
     <value>Create KPI</value>
   </data>
-    <data name="Description" xml:space="preserve">
+	<data name="Description" xml:space="preserve">
     <value>Description</value>
   </data>
-    <data name="Group" xml:space="preserve">
+	<data name="Group" xml:space="preserve">
     <value>Group</value>
   </data>
-    <data name="Home" xml:space="preserve">
+	<data name="Home" xml:space="preserve">
     <value>Home</value>
   </data>
-    <data name="HumanResource" xml:space="preserve">
+	<data name="HumanResource" xml:space="preserve">
     <value>Human Resource</value>
   </data>
-    <data name="InActive" xml:space="preserve">
+	<data name="InActive" xml:space="preserve">
     <value>Inactive</value>
   </data>
-    <data name="InvalidInputData" xml:space="preserve">
+	<data name="InvalidInputData" xml:space="preserve">
     <value>Invalid input.</value>
   </data>
-    <data name="InvalidUsernameOrPassword" xml:space="preserve">
+	<data name="InvalidUsernameOrPassword" xml:space="preserve">
     <value>Invalid user name or password. Please try again.</value>
   </data>
-    <data name="JobTitle" xml:space="preserve">
+	<data name="JobTitle" xml:space="preserve">
     <value>Job Title</value>
   </data>
-    <data name="Keyword" xml:space="preserve">
+	<data name="Keyword" xml:space="preserve">
     <value>Keyword</value>
   </data>
-    <data name="KPI" xml:space="preserve">
+	<data name="KPI" xml:space="preserve">
     <value>KPI</value>
   </data>
-    <data name="KPIGroup" xml:space="preserve">
+	<data name="KPIGroup" xml:space="preserve">
     <value>KPI Group</value>
   </data>
-    <data name="ManageKPI" xml:space="preserve">
+	<data name="ManageKPI" xml:space="preserve">
     <value>KPI Management</value>
   </data>
-    <data name="Management" xml:space="preserve">
+	<data name="Management" xml:space="preserve">
     <value>Management</value>
   </data>
-    <data name="NickName" xml:space="preserve">
+	<data name="NickName" xml:space="preserve">
     <value>Nickname</value>
   </data>
-    <data name="No" xml:space="preserve">
+	<data name="No" xml:space="preserve">
     <value>No</value>
   </data>
-    <data name="Report" xml:space="preserve">
+	<data name="Report" xml:space="preserve">
     <value>Report</value>
   </data>
-    <data name="Reviewer" xml:space="preserve">
+	<data name="Reviewer" xml:space="preserve">
     <value>Reviewer</value>
   </data>
-    <data name="Roles" xml:space="preserve">
+	<data name="Roles" xml:space="preserve">
     <value>Roles</value>
   </data>
-    <data name="SelfEvaluation" xml:space="preserve">
+	<data name="SelfEvaluation" xml:space="preserve">
     <value>Self-Evaluation</value>
   </data>
-    <data name="ShortSpecialUser" xml:space="preserve">
+	<data name="ShortSpecialUser" xml:space="preserve">
     <value>SPCL User</value>
   </data>
-    <data name="Support" xml:space="preserve">
+	<data name="Support" xml:space="preserve">
     <value>Support</value>
   </data>
-    <data name="SymbolCount" xml:space="preserve">
+	<data name="SymbolCount" xml:space="preserve">
     <value>#</value>
   </data>
-    <data name="TargetTemplate" xml:space="preserve">
+	<data name="TargetTemplate" xml:space="preserve">
     <value>Target Template</value>
   </data>
-    <data name="Status" xml:space="preserve">
+	<data name="Status" xml:space="preserve">
     <value>Status</value>
   </data>
-    <data name="Title" xml:space="preserve">
+	<data name="Title" xml:space="preserve">
     <value>Title</value>
   </data>
-    <data name="UserManagement" xml:space="preserve">
+	<data name="UserManagement" xml:space="preserve">
     <value>User Management</value>
   </data>
-    <data name="Yes" xml:space="preserve">
+	<data name="Yes" xml:space="preserve">
     <value>Yes</value>
   </data>
-    <data name="GroupRequired" xml:space="preserve">
+	<data name="GroupRequired" xml:space="preserve">
     <value>Group is required.</value>
   </data>
-    <data name="TitleRequire" xml:space="preserve">
+	<data name="TitleRequire" xml:space="preserve">
     <value>Title is required.</value>
   </data>
-    <data name="CreatedSuccessfully" xml:space="preserve">
+	<data name="CreatedSuccessfully" xml:space="preserve">
     <value>Created successfully!</value>
   </data>
-    <data name="Required" xml:space="preserve">
+	<data name="Required" xml:space="preserve">
     <value>Required</value>
   </data>
-    <data name="Comment" xml:space="preserve">
+	<data name="Comment" xml:space="preserve">
     <value>Comment</value>
   </data>
-    <data name="RequireComment" xml:space="preserve">
+	<data name="RequireComment" xml:space="preserve">
     <value>Required comment</value>
   </data>
-    <data name="RequireEvaluate" xml:space="preserve">
+	<data name="RequireEvaluate" xml:space="preserve">
     <value>Required evaluation</value>
   </data>
-    <data name="SubmitAndContinue" xml:space="preserve">
+	<data name="SubmitAndContinue" xml:space="preserve">
     <value>Submit and continue</value>
   </data>
-    <data name="EditKPI" xml:space="preserve">
+	<data name="EditKPI" xml:space="preserve">
     <value>Edit KPI</value>
   </data>
-    <data name="CreateUnsuccessfully" xml:space="preserve">
+	<data name="CreateUnsuccessfully" xml:space="preserve">
     <value>Created Unsuccessfully!</value>
   </data>
-    <data name="UserName" xml:space="preserve">
+	<data name="UserName" xml:space="preserve">
     <value>Username</value>
   </data>
-    <data name="Select" xml:space="preserve">
+	<data name="Select" xml:space="preserve">
     <value>Select</value>
   </data>
-    <data name="CodeRequried" xml:space="preserve">
+	<data name="CodeRequried" xml:space="preserve">
     <value>Code is required.</value>
   </data>
-    <data name="Enabled" xml:space="preserve">
+	<data name="Enabled" xml:space="preserve">
     <value>Enabled</value>
   </data>
-    <data name="FullNameRequried" xml:space="preserve">
+	<data name="FullNameRequried" xml:space="preserve">
     <value>Full Name is required.</value>
   </data>
-    <data name="NickNameRequried" xml:space="preserve">
+	<data name="NickNameRequried" xml:space="preserve">
     <value>Nickname is required.</value>
   </data>
-    <data name="PasswordRequried" xml:space="preserve">
+	<data name="PasswordRequried" xml:space="preserve">
     <value>Password field is required!</value>
   </data>
-    <data name="UsernameRequried" xml:space="preserve">
+	<data name="UsernameRequried" xml:space="preserve">
     <value>Username is required.</value>
   </data>
-    <data name="EditUser" xml:space="preserve">
+	<data name="EditUser" xml:space="preserve">
     <value>Edit User</value>
   </data>
-    <data name="ChangePassword" xml:space="preserve">
+	<data name="ChangePassword" xml:space="preserve">
     <value>Change Password</value>
   </data>
-    <data name="IsSpecialUser" xml:space="preserve">
+	<data name="IsSpecialUser" xml:space="preserve">
     <value>Is Special User</value>
   </data>
-    <data name="Logout" xml:space="preserve">
+	<data name="Logout" xml:space="preserve">
     <value>Logout</value>
   </data>
-    <data name="UpdatedSuccessfully" xml:space="preserve">
+	<data name="UpdatedSuccessfully" xml:space="preserve">
     <value>Updated successfully!</value>
   </data>
-    <data name="UpdatedUnsuccessfully" xml:space="preserve">
+	<data name="UpdatedUnsuccessfully" xml:space="preserve">
     <value>Updated unsuccessfully!</value>
   </data>
-    <data name="ConfirmPassword" xml:space="preserve">
+	<data name="ConfirmPassword" xml:space="preserve">
     <value>Confirm Password</value>
   </data>
-    <data name="NewPassword" xml:space="preserve">
+	<data name="NewPassword" xml:space="preserve">
     <value>New Password</value>
   </data>
-    <data name="OldPassword" xml:space="preserve">
+	<data name="OldPassword" xml:space="preserve">
     <value>Old Password</value>
   </data>
-    <data name="ConfirmPasswordRequired" xml:space="preserve">
+	<data name="ConfirmPasswordRequired" xml:space="preserve">
     <value>The Confirm Password field is required!</value>
   </data>
-    <data name="NewPasswordRequired" xml:space="preserve">
+	<data name="NewPasswordRequired" xml:space="preserve">
     <value>New Password is required.</value>
   </data>
-    <data name="WrongConfirmPassword" xml:space="preserve">
+	<data name="WrongConfirmPassword" xml:space="preserve">
     <value>New Password does not match Confirm Password.</value>
   </data>
-    <data name="ActivationFail" xml:space="preserve">
+	<data name="ActivationFail" xml:space="preserve">
     <value>Activated unsuccessfully!</value>
   </data>
-    <data name="ActivationSuccess" xml:space="preserve">
+	<data name="ActivationSuccess" xml:space="preserve">
     <value>Activated successfully!</value>
   </data>
-    <data name="DeactivationFail" xml:space="preserve">
+	<data name="DeactivationFail" xml:space="preserve">
     <value>Deactivated unsuccessfully!</value>
   </data>
-    <data name="DeactivationSuccess" xml:space="preserve">
+	<data name="DeactivationSuccess" xml:space="preserve">
     <value>Deactivated successfully!</value>
   </data>
-    <data name="DeletedSuccessfully" xml:space="preserve">
+	<data name="DeletedSuccessfully" xml:space="preserve">
     <value>Deleted successfully!</value>
   </data>
-    <data name="ManageKPIGroup" xml:space="preserve">
+	<data name="ManageKPIGroup" xml:space="preserve">
     <value>KPI Group Management</value>
   </data>
-    <data name="CreateKPIGroup" xml:space="preserve">
+	<data name="CreateKPIGroup" xml:space="preserve">
     <value>Create KPI Group</value>
   </data>
-    <data name="KPIs" xml:space="preserve">
+	<data name="KPIs" xml:space="preserve">
     <value>KPIs</value>
   </data>
-    <data name="AddKPI" xml:space="preserve">
+	<data name="AddKPI" xml:space="preserve">
     <value>Add KPI</value>
   </data>
-    <data name="NameRequired" xml:space="preserve">
+	<data name="NameRequired" xml:space="preserve">
     <value>Name is required.</value>
   </data>
-    <data name="RoleManagement" xml:space="preserve">
+	<data name="RoleManagement" xml:space="preserve">
     <value>Role Management</value>
   </data>
-    <data name="AssignRoleToUser" xml:space="preserve">
+	<data name="AssignRoleToUser" xml:space="preserve">
     <value>Assign Role To User</value>
   </data>
-    <data name="RolePermission" xml:space="preserve">
+	<data name="RolePermission" xml:space="preserve">
     <value>Role Permission</value>
   </data>
-    <data name="Save" xml:space="preserve">
+	<data name="Save" xml:space="preserve">
     <value>Save</value>
   </data>
-    <data name="EditKPIGroup" xml:space="preserve">
+	<data name="EditKPIGroup" xml:space="preserve">
     <value>Edit KPI Group</value>
   </data>
-    <data name="BackToList" xml:space="preserve">
+	<data name="BackToList" xml:space="preserve">
     <value>Back to list</value>
   </data>
-    <data name="CreateTargetTemplate" xml:space="preserve">
+	<data name="CreateTargetTemplate" xml:space="preserve">
     <value>Create Target Template</value>
   </data>
-    <data name="TargetTemplateManagement" xml:space="preserve">
+	<data name="TargetTemplateManagement" xml:space="preserve">
     <value>Target Template Management</value>
   </data>
-    <data name="TargetType" xml:space="preserve">
+	<data name="TargetType" xml:space="preserve">
     <value>Target Type</value>
   </data>
-    <data name="TargetTypeRequired" xml:space="preserve">
+	<data name="TargetTypeRequired" xml:space="preserve">
     <value>Target Type is required.</value>
   </data>
-    <data name="EditTargetTemplate" xml:space="preserve">
+	<data name="EditTargetTemplate" xml:space="preserve">
     <value>Edit Target Template</value>
   </data>
-    <data name="ReadLess" xml:space="preserve">
+	<data name="ReadLess" xml:space="preserve">
     <value>less</value>
   </data>
-    <data name="ReadMore" xml:space="preserve">
+	<data name="ReadMore" xml:space="preserve">
     <value>...more</value>
   </data>
-    <data name="Weight" xml:space="preserve">
+	<data name="Weight" xml:space="preserve">
     <value>Weight</value>
   </data>
-    <data name="ManageKPIGroupTargetTemplate" xml:space="preserve">
+	<data name="ManageKPIGroupTargetTemplate" xml:space="preserve">
     <value>Manage KPI Group</value>
   </data>
-    <data name="SpreadWeight" xml:space="preserve">
+	<data name="SpreadWeight" xml:space="preserve">
     <value>Spread KPIs Weight</value>
   </data>
-    <data name="Priority" xml:space="preserve">
+	<data name="Priority" xml:space="preserve">
     <value>Priority</value>
   </data>
-    <data name="UncheckKPIGroupWarning" xml:space="preserve">
+	<data name="UncheckKPIGroupWarning" xml:space="preserve">
     <value>* Note: All KPIs in KPI Group setting will be removed. Please check carefully before unchecking KPI Group !</value>
   </data>
-    <data name="TotalWeightWarning" xml:space="preserve">
+	<data name="TotalWeightWarning" xml:space="preserve">
     <value>Total Groups weight must be equal to {0}</value>
   </data>
-    <data name="WeightKPIGroupRequired" xml:space="preserve">
+	<data name="WeightKPIGroupRequired" xml:space="preserve">
     <value>All weights of selected KPI Groups required.</value>
   </data>
-    <data name="KPIName" xml:space="preserve">
+	<data name="KPIName" xml:space="preserve">
     <value>KPI Name</value>
   </data>
-    <data name="ValidateWrongPassword" xml:space="preserve">
+	<data name="ValidateWrongPassword" xml:space="preserve">
     <value>Old Password is incorrect.</value>
   </data>
-    <data name="OldPasswordRequired" xml:space="preserve">
+	<data name="OldPasswordRequired" xml:space="preserve">
     <value>Old Password is required.</value>
   </data>
-    <data name="KPIList" xml:space="preserve">
+	<data name="KPIList" xml:space="preserve">
     <value>KPI List</value>
   </data>
-    <data name="TargetTemplateDetail" xml:space="preserve">
+	<data name="TargetTemplateDetail" xml:space="preserve">
     <value>Target Template Detail</value>
   </data>
-    <data name="TargetTemplateInformation" xml:space="preserve">
+	<data name="TargetTemplateInformation" xml:space="preserve">
     <value>Target Template Information</value>
   </data>
-    <data name="LastModifiedBy" xml:space="preserve">
+	<data name="LastModifiedBy" xml:space="preserve">
     <value>Last Modified By</value>
   </data>
-    <data name="LastModifiedDate" xml:space="preserve">
+	<data name="LastModifiedDate" xml:space="preserve">
     <value>Last Modified Date</value>
   </data>
-    <data name="EPA" xml:space="preserve">
+	<data name="EPA" xml:space="preserve">
     <value>EPA</value>
   </data>
-    <data name="AdjustDiscipline" xml:space="preserve">
+	<data name="AdjustDiscipline" xml:space="preserve">
     <value>Adjust Discipline</value>
   </data>
-    <data name="DisciplineReport" xml:space="preserve">
+	<data name="DisciplineReport" xml:space="preserve">
     <value>Discipline Report</value>
   </data>
-    <data name="CheckAssignment" xml:space="preserve">
+	<data name="CheckAssignment" xml:space="preserve">
     <value>Check Assignment</value>
   </data>
-    <data name="EPASummaryReport" xml:space="preserve">
+	<data name="EPASummaryReport" xml:space="preserve">
     <value>EPA Summary Report</value>
   </data>
-    <data name="FlowManagement" xml:space="preserve">
+	<data name="FlowManagement" xml:space="preserve">
     <value>Flow Management</value>
   </data>
-    <data name="TargetEmployeeSetting" xml:space="preserve">
+	<data name="TargetEmployeeSetting" xml:space="preserve">
     <value>Target Employee Setting</value>
   </data>
-    <data name="NotRequired" xml:space="preserve">
+	<data name="NotRequired" xml:space="preserve">
     <value>Not Required</value>
   </data>
-    <data name="SelfEvaluator" xml:space="preserve">
+	<data name="SelfEvaluator" xml:space="preserve">
     <value>Self-Evaluator</value>
   </data>
-    <data name="EndDate" xml:space="preserve">
+	<data name="EndDate" xml:space="preserve">
     <value>End Date</value>
   </data>
-    <data name="StartDate" xml:space="preserve">
+	<data name="StartDate" xml:space="preserve">
     <value>Start Date</value>
   </data>
-    <data name="RequiredEvaluation" xml:space="preserve">
+	<data name="RequiredEvaluation" xml:space="preserve">
     <value>Evaluation is required.</value>
   </data>
-    <data name="IgnoreSelfEvaluation" xml:space="preserve">
+	<data name="IgnoreSelfEvaluation" xml:space="preserve">
     <value>Ignore Self-Evaluation</value>
   </data>
-    <data name="IncludeSelfEvaluation" xml:space="preserve">
+	<data name="IncludeSelfEvaluation" xml:space="preserve">
     <value>Include Self-Evaluation</value>
   </data>
-    <data name="TotalKPIWeightWarning" xml:space="preserve">
+	<data name="TotalKPIWeightWarning" xml:space="preserve">
     <value>Total Score of all KPI of the group must be equal to Score of the group!</value>
   </data>
-    <data name="TotalKPIWeightOfJLSWarning" xml:space="preserve">
+	<data name="TotalKPIWeightOfJLSWarning" xml:space="preserve">
     <value>Total Score of all KPI must be equal to 100</value>
   </data>
-    <data name="Assign" xml:space="preserve">
+	<data name="Assign" xml:space="preserve">
     <value>Assign</value>
   </data>
-    <data name="Search" xml:space="preserve">
+	<data name="Search" xml:space="preserve">
     <value>Search</value>
   </data>
-    <data name="SelectEmployeeBeforeAssignWarning" xml:space="preserve">
+	<data name="SelectEmployeeBeforeAssignWarning" xml:space="preserve">
     <value>Please select at least an employee to assign target template!</value>
   </data>
-    <data name="SelectSectionBeforeAssignWarning" xml:space="preserve">
+	<data name="SelectSectionBeforeAssignWarning" xml:space="preserve">
     <value>Please select at least an section to assign template!</value>
   </data>
-    <data name="None" xml:space="preserve">
+	<data name="None" xml:space="preserve">
     <value>None</value>
   </data>
-    <data name="WeightKPIRequired" xml:space="preserve">
+	<data name="WeightKPIRequired" xml:space="preserve">
     <value>All weights of selected KPIs is required.</value>
   </data>
-    <data name="ChangeTargetTypeWarning" xml:space="preserve">
+	<data name="ChangeTargetTypeWarning" xml:space="preserve">
     <value>All KPIs of this target template will be removed after changing Target Type. You have to go to Target KPI list and add KPIs again. Are you sure you want to proceed?</value>
   </data>
-    <data name="IsDisabledUser" xml:space="preserve">
+	<data name="IsDisabledUser" xml:space="preserve">
     <value>Is Disabled User</value>
   </data>
-    <data name="PasswordLengthWarning" xml:space="preserve">
+	<data name="PasswordLengthWarning" xml:space="preserve">
     <value>Password must be between 6-32 characters!</value>
   </data>
-    <data name="UsernameNotSpaceWarning" xml:space="preserve">
+	<data name="UsernameNotSpaceWarning" xml:space="preserve">
     <value>Username must not contain white space.</value>
   </data>
-    <data name="EPAProcessing" xml:space="preserve">
+	<data name="EPAProcessing" xml:space="preserve">
     <value>EPA Processing</value>
   </data>
-    <data name="PersonalFlow" xml:space="preserve">
+	<data name="PersonalFlow" xml:space="preserve">
     <value>Personal Flow</value>
   </data>
-    <data name="Department" xml:space="preserve">
+	<data name="Department" xml:space="preserve">
     <value>Department</value>
   </data>
-    <data name="CreatedDate" xml:space="preserve">
+	<data name="CreatedDate" xml:space="preserve">
     <value>Created Date</value>
   </data>
-    <data name="IsDisabled" xml:space="preserve">
+	<data name="IsDisabled" xml:space="preserve">
     <value>Is Disabled</value>
   </data>
-    <data name="ModifiedDate" xml:space="preserve">
+	<data name="ModifiedDate" xml:space="preserve">
     <value>Modified Date</value>
   </data>
-    <data name="SelectEmployeeBeforeAssingFlowSettingWarning" xml:space="preserve">
+	<data name="SelectEmployeeBeforeAssingFlowSettingWarning" xml:space="preserve">
     <value>Please select at least an employee before assign!</value>
   </data>
-    <data name="EditFlowSetting" xml:space="preserve">
+	<data name="EditFlowSetting" xml:space="preserve">
     <value>Edit Flow Setting</value>
   </data>
-    <data name="DepartmentNotSelectedWarning" xml:space="preserve">
+	<data name="DepartmentNotSelectedWarning" xml:space="preserve">
     <value>Please select a department!</value>
   </data>
-    <data name="EmployeeNotSelectedWarning" xml:space="preserve">
+	<data name="EmployeeNotSelectedWarning" xml:space="preserve">
     <value>Please select an employee!</value>
   </data>
-    <data name="SendEmail" xml:space="preserve">
+	<data name="SendEmail" xml:space="preserve">
     <value>Send Email</value>
   </data>
-    <data name="ManageFlowSetting" xml:space="preserve">
+	<data name="ManageFlowSetting" xml:space="preserve">
     <value>Manage Flow Setting</value>
   </data>
-    <data name="EvaluatorRangeDateGreaterThanReviewerRangeDateWarning" xml:space="preserve">
+	<data name="EvaluatorRangeDateGreaterThanReviewerRangeDateWarning" xml:space="preserve">
     <value>End Date of Evaluator must be less than Start Date of Reviewer.</value>
   </data>
-    <data name="ReviewerRangeDateGreaterThanManagementRangeDateWarning" xml:space="preserve">
+	<data name="ReviewerRangeDateGreaterThanManagementRangeDateWarning" xml:space="preserve">
     <value>End Date of Reviewer must be less than Start Date of Management.</value>
   </data>
-    <data name="StartDateGreaterThanEndDateWarning" xml:space="preserve">
+	<data name="StartDateGreaterThanEndDateWarning" xml:space="preserve">
     <value>Start Date must be less than or equal End Date.</value>
   </data>
-    <data name="EmployeeFlowSettingReportName" xml:space="preserve">
+	<data name="EmployeeFlowSettingReportName" xml:space="preserve">
     <value>{0}_EPA_Evaluator_Reviewer_List_of_Section</value>
   </data>
-    <data name="EmployeeFlowSettingReportSheet" xml:space="preserve">
+	<data name="EmployeeFlowSettingReportSheet" xml:space="preserve">
     <value>EPA_Evaluator_Reviewer_List_of_Section</value>
   </data>
-    <data name="EmployeeFlowSettingReportTitle" xml:space="preserve">
+	<data name="EmployeeFlowSettingReportTitle" xml:space="preserve">
     <value>{0} - EPA Evaluator/Reviewer List of Section</value>
   </data>
-    <data name="UserIsDisabled" xml:space="preserve">
+	<data name="UserIsDisabled" xml:space="preserve">
     <value>This user is disabled!</value>
   </data>
-    <data name="ResetPassword" xml:space="preserve">
+	<data name="ResetPassword" xml:space="preserve">
     <value>Reset Password</value>
   </data>
-    <data name="OrganizationChart" xml:space="preserve">
+	<data name="OrganizationChart" xml:space="preserve">
     <value>Organization Chart</value>
   </data>
-    <data name="ManageMyEPA" xml:space="preserve">
+	<data name="ManageMyEPA" xml:space="preserve">
     <value>Manage My EPA</value>
   </data>
-    <data name="EvaluateDate" xml:space="preserve">
+	<data name="EvaluateDate" xml:space="preserve">
     <value>Evaluate Date</value>
   </data>
-    <data name="CreateFlowTemplate" xml:space="preserve">
+	<data name="CreateFlowTemplate" xml:space="preserve">
     <value>Create Flow Template</value>
   </data>
-    <data name="EditFlowTemplate" xml:space="preserve">
+	<data name="EditFlowTemplate" xml:space="preserve">
     <value>Edit Flow Template</value>
   </data>
-    <data name="ScoreRatingType" xml:space="preserve">
+	<data name="ScoreRatingType" xml:space="preserve">
     <value>Score Rating Type</value>
   </data>
-    <data name="ScoreRatingTypeRequired" xml:space="preserve">
+	<data name="ScoreRatingTypeRequired" xml:space="preserve">
     <value>Score Rating Type is required.</value>
   </data>
-    <data name="ShowAll" xml:space="preserve">
+	<data name="ScoreRatingEqualGroupWeightRequired" xml:space="preserve">
+    <value>Score Rating must be equal to total group weight</value>
+  </data>
+	<data name="ShowAll" xml:space="preserve">
     <value>Show All</value>
   </data>
-    <data name="TargetEmployeeSettingTemplate" xml:space="preserve">
+	<data name="TargetEmployeeSettingTemplate" xml:space="preserve">
     <value>Target Employee Setting Template</value>
   </data>
-    <data name="ApplyToDepartment" xml:space="preserve">
+	<data name="ApplyToDepartment" xml:space="preserve">
     <value>Apply to Department / Section</value>
   </data>
-    <data name="SelectDepartmentBeforeAssignWarning" xml:space="preserve">
+	<data name="SelectDepartmentBeforeAssignWarning" xml:space="preserve">
     <value>Please select at least a department to assign target template!</value>
   </data>
-    <data name="CreateEvaluationPeriod" xml:space="preserve">
+	<data name="CreateEvaluationPeriod" xml:space="preserve">
     <value>Create Evaluation Period</value>
   </data>
-    <data name="EvaluationPeriod" xml:space="preserve">
+	<data name="EvaluationPeriod" xml:space="preserve">
     <value>Evaluation Period</value>
   </data>
-    <data name="UpdatePeriod" xml:space="preserve">
+	<data name="UpdatePeriod" xml:space="preserve">
     <value>Update Period</value>
   </data>
-    <data name="BelowAverage" xml:space="preserve">
+	<data name="BelowAverage" xml:space="preserve">
     <value>Below Average</value>
   </data>
-    <data name="BelowAverageDescription" xml:space="preserve">
+	<data name="BelowAverageDescription" xml:space="preserve">
     <value>Poor quality &amp; Mistake low.</value>
   </data>
-    <data name="Comments" xml:space="preserve">
+	<data name="Comments" xml:space="preserve">
     <value>COMMENTS</value>
   </data>
-    <data name="EPATilte" xml:space="preserve">
+	<data name="EPATilte" xml:space="preserve">
     <value>EMPLOYEE PERFORMANCE APPRAISAL (EPA)</value>
   </data>
-    <data name="Evaluated" xml:space="preserve">
+	<data name="Evaluated" xml:space="preserve">
     <value>Evaluated</value>
   </data>
-    <data name="Excellent" xml:space="preserve">
+	<data name="Excellent" xml:space="preserve">
     <value>Excellent</value>
   </data>
-    <data name="ExcellentDescription" xml:space="preserve">
+	<data name="ExcellentDescription" xml:space="preserve">
     <value>Task accomplished, NO mistake and have good idea.</value>
   </data>
-    <data name="FieldRequire" xml:space="preserve">
+	<data name="FieldRequire" xml:space="preserve">
     <value>This field is required!</value>
   </data>
-    <data name="GeneralInfo" xml:space="preserve">
+	<data name="GeneralInfo" xml:space="preserve">
     <value>GENERAL INFORMATION</value>
   </data>
-    <data name="Good" xml:space="preserve">
+	<data name="Good" xml:space="preserve">
     <value>Good</value>
   </data>
-    <data name="GoodDescription" xml:space="preserve">
+	<data name="GoodDescription" xml:space="preserve">
     <value>Task accomplished &amp; Mistake very low.</value>
   </data>
-    <data name="MessageRatingInstructions" xml:space="preserve">
+	<data name="MessageRatingInstructions" xml:space="preserve">
     <value>please evaluate by point as this scale</value>
   </data>
-    <data name="MyEPA" xml:space="preserve">
+	<data name="MyEPA" xml:space="preserve">
     <value>My EPA</value>
   </data>
-    <data name="NotAvailable" xml:space="preserve">
+	<data name="NotAvailable" xml:space="preserve">
     <value>N/A</value>
   </data>
-    <data name="Poor" xml:space="preserve">
+	<data name="Poor" xml:space="preserve">
     <value>Poor</value>
   </data>
-    <data name="PoorDescription" xml:space="preserve">
+	<data name="PoorDescription" xml:space="preserve">
     <value>Poor quality &amp; Mistake high.</value>
   </data>
-    <data name="RatingCriteria" xml:space="preserve">
+	<data name="RatingCriteria" xml:space="preserve">
     <value>Rating criteria</value>
   </data>
-    <data name="RatingInstruction" xml:space="preserve">
+	<data name="RatingInstruction" xml:space="preserve">
     <value>RATING INSTRUCTIONS</value>
   </data>
-    <data name="RequiredField" xml:space="preserve">
+	<data name="RequiredField" xml:space="preserve">
     <value>Required field</value>
   </data>
-    <data name="Satisfactory" xml:space="preserve">
+	<data name="Satisfactory" xml:space="preserve">
     <value>Satisfactory</value>
   </data>
-    <data name="SatisfactoryDescription" xml:space="preserve">
+	<data name="SatisfactoryDescription" xml:space="preserve">
     <value>Task accomplished  &amp; Mistake low.</value>
   </data>
-    <data name="ScoreInputValid" xml:space="preserve">
+	<data name="ScoreInputValid" xml:space="preserve">
     <value>Score must be larger or equal {0} and less or equal than {1}</value>
   </data>
-    <data name="FlowTemplate" xml:space="preserve">
+	<data name="FlowTemplate" xml:space="preserve">
     <value>Flow Template</value>
   </data>
-    <data name="Evaluation" xml:space="preserve">
+	<data name="Evaluation" xml:space="preserve">
     <value>Evaluation</value>
   </data>
-    <data name="RemindDay" xml:space="preserve">
+	<data name="RemindDay" xml:space="preserve">
     <value>Remind Day</value>
   </data>
-    <data name="ParameterInvalid" xml:space="preserve">
+	<data name="ParameterInvalid" xml:space="preserve">
     <value>Parameter invalid.</value>
   </data>
-    <data name="EvaluateNow" xml:space="preserve">
+	<data name="EvaluateNow" xml:space="preserve">
     <value>Evaluate Now</value>
   </data>
-    <data name="EvaluationDate" xml:space="preserve">
+	<data name="EvaluationDate" xml:space="preserve">
     <value>Evaluation Date</value>
   </data>
-    <data name="EvaluationScore" xml:space="preserve">
+	<data name="EvaluationScore" xml:space="preserve">
     <value>Evaluation Score</value>
   </data>
-    <data name="EvaluationStatus" xml:space="preserve">
+	<data name="EvaluationStatus" xml:space="preserve">
     <value>Evaluation Status</value>
   </data>
-    <data name="SelfScore" xml:space="preserve">
+	<data name="SelfScore" xml:space="preserve">
     <value>Self Score</value>
   </data>
-    <data name="EditEmployeeSetting" xml:space="preserve">
+	<data name="EditEmployeeSetting" xml:space="preserve">
     <value>Edit Employee Setting</value>
   </data>
-    <data name="ShowExcludedEmployee" xml:space="preserve">
+	<data name="ShowExcludedEmployee" xml:space="preserve">
     <value>Show Excluded Employee</value>
   </data>
-    <data name="NumberEmployees" xml:space="preserve">
+	<data name="NumberEmployees" xml:space="preserve">
     <value>Number Of Employees</value>
   </data>
-    <data name="DisciplineEndDate" xml:space="preserve">
+	<data name="DisciplineEndDate" xml:space="preserve">
     <value>Discipline End Date</value>
   </data>
-    <data name="DisciplineStartDate" xml:space="preserve">
+	<data name="DisciplineStartDate" xml:space="preserve">
     <value>Discipline Start Date</value>
   </data>
-    <data name="Include" xml:space="preserve">
+	<data name="Include" xml:space="preserve">
     <value> Include</value>
   </data>
-    <data name="MemberEPA" xml:space="preserve">
+	<data name="MemberEPA" xml:space="preserve">
     <value>Member EPA</value>
   </data>
-    <data name="DepartmentSection" xml:space="preserve">
+	<data name="DepartmentSection" xml:space="preserve">
     <value>Dept./Section</value>
   </data>
-    <data name="DisciplineScore" xml:space="preserve">
+	<data name="DisciplineScore" xml:space="preserve">
     <value>Discipline Score</value>
   </data>
-    <data name="FinalScore" xml:space="preserve">
+	<data name="FinalScore" xml:space="preserve">
     <value>Final Score</value>
   </data>
-    <data name="TotalRatingScore" xml:space="preserve">
+	<data name="TotalRatingScore" xml:space="preserve">
     <value>Total Rating Score</value>
   </data>
-    <data name="Section" xml:space="preserve">
+	<data name="Section" xml:space="preserve">
     <value>Section</value>
   </data>
-    <data name="ReviewAndUpdateScore" xml:space="preserve">
+	<data name="ReviewAndUpdateScore" xml:space="preserve">
     <value>Review And Update Score</value>
   </data>
-    <data name="ReviewDate" xml:space="preserve">
+	<data name="ReviewDate" xml:space="preserve">
     <value>Review Date</value>
   </data>
-    <data name="ReviewerScore" xml:space="preserve">
+	<data name="ReviewerScore" xml:space="preserve">
     <value>Reviewer Score</value>
   </data>
-    <data name="FromDateRequire" xml:space="preserve">
+	<data name="FromDateRequire" xml:space="preserve">
     <value>From Date is required.</value>
   </data>
-    <data name="ToDateRequire" xml:space="preserve">
+	<data name="ToDateRequire" xml:space="preserve">
     <value>To Date is required.</value>
   </data>
-    <data name="ValidateFromToDate" xml:space="preserve">
+	<data name="ValidateFromToDate" xml:space="preserve">
     <value>To Date must not be before than From Date.</value>
   </data>
-    <data name="ValidateMaximumOneYear" xml:space="preserve">
+	<data name="ValidateMaximumOneYear" xml:space="preserve">
     <value>Report period must not exceed 365 days.</value>
   </data>
-    <data name="AverageScoreByEvaluators" xml:space="preserve">
+	<data name="AverageScoreByEvaluators" xml:space="preserve">
     <value>Average Score By Evaluators</value>
   </data>
-    <data name="SelectEmployeeBeforeEditSettingWarning" xml:space="preserve">
+	<data name="SelectEmployeeBeforeEditSettingWarning" xml:space="preserve">
     <value>Please select at least an employee before editing setting!</value>
   </data>
-    <data name="HRRangeDateGreaterThanSelfRangeDateWarning" xml:space="preserve">
+	<data name="HRRangeDateGreaterThanSelfRangeDateWarning" xml:space="preserve">
     <value>End Date of Human Resources must be less than Start Date of Self Evaluator.</value>
   </data>
-    <data name="SelfRangeDateGreaterThanEvaluatorRangeDateWarning" xml:space="preserve">
+	<data name="SelfRangeDateGreaterThanEvaluatorRangeDateWarning" xml:space="preserve">
     <value>End Date of Self Evaluator must be less than Start Date of Evaluator!</value>
   </data>
-    <data name="TotalScore" xml:space="preserve">
+	<data name="TotalScore" xml:space="preserve">
     <value>Total Score</value>
   </data>
-    <data name="CommentRequire" xml:space="preserve">
+	<data name="CommentRequire" xml:space="preserve">
     <value>Comment is required.</value>
   </data>
-    <data name="ScoreRequire" xml:space="preserve">
+	<data name="ScoreRequire" xml:space="preserve">
     <value>Score is required.</value>
   </data>
-    <data name="RemindDateEmailToEvaluatorSubject" xml:space="preserve">
+	<data name="RemindDateEmailToEvaluatorSubject" xml:space="preserve">
     <value>Reminder - {0} for evaluation from {1} to {2}</value>
   </data>
-    <data name="RemindDateEmailToManagementSubject" xml:space="preserve">
+	<data name="RemindDateEmailToManagementSubject" xml:space="preserve">
     <value>Reminder - {0} for final review from {1} to {2}</value>
   </data>
-    <data name="RemindDateEmailToReviewerSubject" xml:space="preserve">
+	<data name="RemindDateEmailToReviewerSubject" xml:space="preserve">
     <value>Reminder - {0} for review from {1} to {2}</value>
   </data>
-    <data name="RemindDateEmailToSelfSubject" xml:space="preserve">
+	<data name="RemindDateEmailToSelfSubject" xml:space="preserve">
     <value>Reminder - {0} for self-evaluation from {1} to {2}</value>
   </data>
-    <data name="StartDateEmailToEvaluatorSubject" xml:space="preserve">
+	<data name="StartDateEmailToEvaluatorSubject" xml:space="preserve">
     <value>{0} for evaluation from {1} to {2}</value>
   </data>
-    <data name="StartDateEmailToHRSubject" xml:space="preserve">
+	<data name="StartDateEmailToHRSubject" xml:space="preserve">
     <value>{0} for confirmation from {1} to {2}</value>
   </data>
-    <data name="StartDateEmailToManagementSubject" xml:space="preserve">
+	<data name="StartDateEmailToManagementSubject" xml:space="preserve">
     <value>{0} for final review from {1} to {2}</value>
   </data>
-    <data name="StartDateEmailToReviewerSubject" xml:space="preserve">
+	<data name="StartDateEmailToReviewerSubject" xml:space="preserve">
     <value>{0} for review from {1} to {2}</value>
   </data>
-    <data name="StartDateEmailToSelfSubject" xml:space="preserve">
+	<data name="StartDateEmailToSelfSubject" xml:space="preserve">
     <value>{0} for self-evaluation from {1} to {2}</value>
   </data>
-    <data name="AverageScoreByReviewers" xml:space="preserve">
+	<data name="AverageScoreByReviewers" xml:space="preserve">
     <value>Average Score By Reviewers</value>
   </data>
-    <data name="Summary" xml:space="preserve">
+	<data name="Summary" xml:space="preserve">
     <value>SUMMARY</value>
   </data>
-    <data name="PeriodName" xml:space="preserve">
+	<data name="PeriodName" xml:space="preserve">
     <value>Period Name</value>
   </data>
-    <data name="PerformanceResult" xml:space="preserve">
+	<data name="PerformanceResult" xml:space="preserve">
     <value>Performance Result</value>
   </data>
-    <data name="EvaluationProcess" xml:space="preserve">
+	<data name="EvaluationProcess" xml:space="preserve">
     <value>Evaluation Process</value>
   </data>
-    <data name="SignBy" xml:space="preserve">
+	<data name="SignBy" xml:space="preserve">
     <value>SignBy</value>
   </data>
-    <data name="Step" xml:space="preserve">
+	<data name="Step" xml:space="preserve">
     <value>Step</value>
   </data>
-    <data name="Type" xml:space="preserve">
+	<data name="Type" xml:space="preserve">
     <value>Type</value>
   </data>
-    <data name="EmployeeRating" xml:space="preserve">
+	<data name="EmployeeRating" xml:space="preserve">
     <value>Employee Rating</value>
   </data>
-    <data name="EmployeeScore" xml:space="preserve">
+	<data name="EmployeeScore" xml:space="preserve">
     <value>Employee Score</value>
   </data>
-    <data name="PerformanceScore" xml:space="preserve">
+	<data name="PerformanceScore" xml:space="preserve">
     <value>Performance Score</value>
   </data>
-    <data name="EvaluatorRating" xml:space="preserve">
+	<data name="EvaluatorRating" xml:space="preserve">
     <value>Evaluator Rating</value>
   </data>
-    <data name="EvaluatorScore" xml:space="preserve">
+	<data name="EvaluatorScore" xml:space="preserve">
     <value>Evaluator Score</value>
   </data>
-    <data name="CommentByEmployee" xml:space="preserve">
+	<data name="CommentByEmployee" xml:space="preserve">
     <value>Comment by employee</value>
   </data>
-    <data name="CommentByEvaluator" xml:space="preserve">
+	<data name="CommentByEvaluator" xml:space="preserve">
     <value>Comment by evaluator</value>
   </data>
-    <data name="EmployeePerformanceScore" xml:space="preserve">
+	<data name="EmployeePerformanceScore" xml:space="preserve">
     <value>Employee Performance Score</value>
   </data>
-    <data name="EPAResult" xml:space="preserve">
+	<data name="EPAResult" xml:space="preserve">
     <value>EPA Result</value>
   </data>
-    <data name="GenerateEvaluation" xml:space="preserve">
+	<data name="GenerateEvaluation" xml:space="preserve">
     <value>Generate EPA</value>
   </data>
-    <data name="SelectEmployeeBeforeGenerateEvaluation" xml:space="preserve">
+	<data name="SelectEmployeeBeforeGenerateEvaluation" xml:space="preserve">
     <value>Please select at least an employee before generating EPA!</value>
   </data>
-    <data name="PersonalProfile" xml:space="preserve">
+	<data name="PersonalProfile" xml:space="preserve">
     <value>Personal Profile</value>
   </data>
-    <data name="EmployeeCode" xml:space="preserve">
+	<data name="EmployeeCode" xml:space="preserve">
     <value>Employee Code</value>
   </data>
-    <data name="MyEPAs" xml:space="preserve">
+	<data name="MyEPAs" xml:space="preserve">
     <value>My EPAs</value>
   </data>
-    <data name="DisciplineSummary" xml:space="preserve">
+	<data name="DisciplineSummary" xml:space="preserve">
     <value>Discipline Summary</value>
   </data>
-    <data name="Absent" xml:space="preserve">
+	<data name="Absent" xml:space="preserve">
     <value>Absent</value>
   </data>
-    <data name="ApproverSubtractScore" xml:space="preserve">
+	<data name="ApproverSubtractScore" xml:space="preserve">
     <value>Approver Subtract Score</value>
   </data>
-    <data name="CheckInOut" xml:space="preserve">
+	<data name="CheckInOut" xml:space="preserve">
     <value>Missing Check In/Out</value>
   </data>
-    <data name="EarlyOut" xml:space="preserve">
+	<data name="EarlyOut" xml:space="preserve">
     <value>Early Out</value>
   </data>
-    <data name="LateIn" xml:space="preserve">
+	<data name="LateIn" xml:space="preserve">
     <value>Late In</value>
   </data>
-    <data name="SystemSubtractScore" xml:space="preserve">
+	<data name="SystemSubtractScore" xml:space="preserve">
     <value>System Subtract Score</value>
   </data>
-    <data name="UnpaidLeave" xml:space="preserve">
+	<data name="UnpaidLeave" xml:space="preserve">
     <value>Unpaid Leave</value>
   </data>
-    <data name="ChangeShift" xml:space="preserve">
+	<data name="ChangeShift" xml:space="preserve">
     <value>Change Shift</value>
   </data>
-    <data name="KPIInformation" xml:space="preserve">
+	<data name="KPIInformation" xml:space="preserve">
     <value>KPI Information</value>
   </data>
-    <data name="RatingPerformanceByKPI" xml:space="preserve">
+	<data name="RatingPerformanceByKPI" xml:space="preserve">
     <value>Rating Performance By KPI</value>
   </data>
-    <data name="MaxPoints" xml:space="preserve">
+	<data name="MaxPoints" xml:space="preserve">
     <value>Max Points</value>
   </data>
-    <data name="AdjustScore" xml:space="preserve">
+	<data name="AdjustScore" xml:space="preserve">
     <value>Score Adjustment</value>
   </data>
-    <data name="CurrentScore" xml:space="preserve">
+	<data name="CurrentScore" xml:space="preserve">
     <value>Current Score</value>
   </data>
-    <data name="KPIRequired" xml:space="preserve">
+	<data name="KPIRequired" xml:space="preserve">
     <value>KPI is required.</value>
   </data>
-    <data name="TargetTemplateRequired" xml:space="preserve">
+	<data name="TargetTemplateRequired" xml:space="preserve">
     <value>Target Template is required.</value>
   </data>
-    <data name="UnpaidLeaveAbsent" xml:space="preserve">
+	<data name="UnpaidLeaveAbsent" xml:space="preserve">
     <value>Unpaid Leave Absent</value>
   </data>
-    <data name="From" xml:space="preserve">
+	<data name="From" xml:space="preserve">
     <value>From</value>
   </data>
-    <data name="To" xml:space="preserve">
+	<data name="To" xml:space="preserve">
     <value>To</value>
   </data>
-    <data name="OtherViolations" xml:space="preserve">
+	<data name="OtherViolations" xml:space="preserve">
     <value>Other Violations</value>
   </data>
-    <data name="WorkDate" xml:space="preserve">
+	<data name="WorkDate" xml:space="preserve">
     <value>Work Date</value>
   </data>
-    <data name="WorkDateRequried" xml:space="preserve">
+	<data name="WorkDateRequried" xml:space="preserve">
     <value>Work Date is required.</value>
   </data>
-    <data name="DisciplineSummaryDetail" xml:space="preserve">
+	<data name="DisciplineSummaryDetail" xml:space="preserve">
     <value>Discipline Detail Adjustment</value>
   </data>
-    <data name="ApproverComment" xml:space="preserve">
+	<data name="ApproverComment" xml:space="preserve">
     <value>Approver's Comment</value>
   </data>
-    <data name="CheckIn" xml:space="preserve">
+	<data name="CheckIn" xml:space="preserve">
     <value>Check In</value>
   </data>
-    <data name="CheckOut" xml:space="preserve">
+	<data name="CheckOut" xml:space="preserve">
     <value>Check Out</value>
   </data>
-    <data name="EmployeeComment" xml:space="preserve">
+	<data name="EmployeeComment" xml:space="preserve">
     <value>Employee's Comment</value>
   </data>
-    <data name="Shift" xml:space="preserve">
+	<data name="Shift" xml:space="preserve">
     <value>Shift</value>
   </data>
-    <data name="TotalHours" xml:space="preserve">
+	<data name="TotalHours" xml:space="preserve">
     <value>Total Hours</value>
   </data>
-    <data name="HideFinalScore" xml:space="preserve">
+	<data name="HideFinalScore" xml:space="preserve">
     <value>Hide Final Score</value>
   </data>
-    <data name="ShowFinalScore" xml:space="preserve">
+	<data name="ShowFinalScore" xml:space="preserve">
     <value>Show Final Score</value>
   </data>
-    <data name="EndProcess" xml:space="preserve">
+	<data name="EndProcess" xml:space="preserve">
     <value>End Process</value>
   </data>
-    <data name="InProgress" xml:space="preserve">
+	<data name="InProgress" xml:space="preserve">
     <value>In Progress</value>
   </data>
-    <data name="EvaluateEPAInvalid" xml:space="preserve">
+	<data name="EvaluateEPAInvalid" xml:space="preserve">
     <value>There are some empty rates or comments. Please fill them before submitting.</value>
   </data>
-    <data name="ViewComment" xml:space="preserve">
+	<data name="ViewComment" xml:space="preserve">
     <value>View Comment</value>
   </data>
-    <data name="SubtractScore" xml:space="preserve">
+	<data name="SubtractScore" xml:space="preserve">
     <value>Subtract Score</value>
   </data>
-    <data name="ViolationDate" xml:space="preserve">
+	<data name="ViolationDate" xml:space="preserve">
     <value>Violation Date</value>
   </data>
-    <data name="ViolationDateRequired" xml:space="preserve">
+	<data name="ViolationDateRequired" xml:space="preserve">
     <value>Violation Date is required.</value>
   </data>
-    <data name="ViolationType" xml:space="preserve">
+	<data name="ViolationType" xml:space="preserve">
     <value>Violation Type</value>
   </data>
-    <data name="ViolationTypeRequired" xml:space="preserve">
+	<data name="ViolationTypeRequired" xml:space="preserve">
     <value>Violation Type is required.</value>
   </data>
-    <data name="FlowTemplateManagement" xml:space="preserve">
+	<data name="FlowTemplateManagement" xml:space="preserve">
     <value>Flow Template Management</value>
   </data>
-    <data name="UnpaidLeaveAbsentShort" xml:space="preserve">
+	<data name="UnpaidLeaveAbsentShort" xml:space="preserve">
     <value>UPL Absent</value>
   </data>
-    <data name="UnpaidLeaveShort" xml:space="preserve">
+	<data name="UnpaidLeaveShort" xml:space="preserve">
     <value>UPL</value>
   </data>
-    <data name="AddOtherViolations" xml:space="preserve">
+	<data name="AddOtherViolations" xml:space="preserve">
     <value>Add Other Violations</value>
   </data>
-    <data name="EmployeeRequired" xml:space="preserve">
+	<data name="EmployeeRequired" xml:space="preserve">
     <value>Employee is required.</value>
   </data>
-    <data name="SelectEmployeeBeforeAdjustScoreWarning" xml:space="preserve">
+	<data name="SelectEmployeeBeforeAdjustScoreWarning" xml:space="preserve">
     <value>Please select at least an employee before adjusting score!</value>
   </data>
-    <data name="SelectEmployeeBeforeSaveWarning" xml:space="preserve">
+	<data name="SelectEmployeeBeforeSaveWarning" xml:space="preserve">
     <value>Please select employee before saving!</value>
   </data>
-    <data name="AdjustScoreInvalid" xml:space="preserve">
+	<data name="AdjustScoreInvalid" xml:space="preserve">
     <value>There are some empty score. Please fill them before submitting.</value>
   </data>
-    <data name="ViewEPAResult" xml:space="preserve">
+	<data name="ViewEPAResult" xml:space="preserve">
     <value>View EPA Result</value>
   </data>
-    <data name="EditComment" xml:space="preserve">
+	<data name="EditComment" xml:space="preserve">
     <value>Edit Comment</value>
   </data>
-    <data name="NoticeAtBegin" xml:space="preserve">
+	<data name="NoticeAtBegin" xml:space="preserve">
     <value>Notice At Begin</value>
   </data>
-    <data name="EvaluatorPhaseRequired" xml:space="preserve">
+	<data name="EvaluatorPhaseRequired" xml:space="preserve">
     <value>Please setting flow for Evaluator!</value>
   </data>
-    <data name="HumanResourcePhaseRequired" xml:space="preserve">
+	<data name="HumanResourcePhaseRequired" xml:space="preserve">
     <value>Please setting flow for Human Resource!</value>
   </data>
-    <data name="EvaluatorRangeDateGreaterThanManagementRangeDateWarning" xml:space="preserve">
+	<data name="EvaluatorRangeDateGreaterThanManagementRangeDateWarning" xml:space="preserve">
     <value>End Date of Evaluator must be less than Start Date of Management.</value>
   </data>
-    <data name="EPASummaryReportName" xml:space="preserve">
+	<data name="EPASummaryReportName" xml:space="preserve">
     <value>EPA_Summary_Report</value>
   </data>
-    <data name="EPASummaryReportSheet" xml:space="preserve">
+	<data name="EPASummaryReportSheet" xml:space="preserve">
     <value>EPA Summary Report</value>
   </data>
-    <data name="EPAGenerated" xml:space="preserve">
+	<data name="EPAGenerated" xml:space="preserve">
     <value>Is EPA Generated</value>
   </data>
-    <data name="SelectDepartmentSectionEmployeeBeforeAddToPeriodWarning" xml:space="preserve">
+	<data name="SelectDepartmentSectionEmployeeBeforeAddToPeriodWarning" xml:space="preserve">
     <value>Please select at least a department/section/employee to add to this evaluation period!</value>
   </data>
-    <data name="SelfEvaluationScore" xml:space="preserve">
+	<data name="SelfEvaluationScore" xml:space="preserve">
     <value>Self-Evaluation Score</value>
   </data>
-    <data name="EPADetailReport" xml:space="preserve">
+	<data name="EPADetailReport" xml:space="preserve">
     <value>EPA Detail Report</value>
   </data>
-    <data name="EPASummaryReportTitle" xml:space="preserve">
+	<data name="EPASummaryReportTitle" xml:space="preserve">
     <value>EPA Summary Report</value>
   </data>
-    <data name="NotifyEmailChangeSetting" xml:space="preserve">
+	<data name="NotifyEmailChangeSetting" xml:space="preserve">
     <value>{0} for notify change employee setting</value>
   </data>
-    <data name="StartDatePeriodRequired" xml:space="preserve">
+	<data name="StartDatePeriodRequired" xml:space="preserve">
     <value>Start Date is required for Semi-annual or Promotion.</value>
   </data>
-    <data name="ScoredBy" xml:space="preserve">
+	<data name="ScoredBy" xml:space="preserve">
     <value>Scored By</value>
   </data>
-    <data name="EndMailEvaluationToSelf" xml:space="preserve">
+	<data name="EndMailEvaluationToSelf" xml:space="preserve">
     <value>{0} completed</value>
   </data>
-    <data name="DisciplineEndDatePeriodRequired" xml:space="preserve">
+	<data name="DisciplineEndDatePeriodRequired" xml:space="preserve">
     <value>The Discipline End Date field is required!</value>
   </data>
-    <data name="DisciplineStartDatePeriodRequired" xml:space="preserve">
+	<data name="DisciplineStartDatePeriodRequired" xml:space="preserve">
     <value>The Discipline Start Date field is required!</value>
   </data>
-    <data name="EPADetailReportName" xml:space="preserve">
+	<data name="EPADetailReportName" xml:space="preserve">
     <value>EPA_Detail_Report</value>
   </data>
-    <data name="EPADetailReportSheet" xml:space="preserve">
+	<data name="EPADetailReportSheet" xml:space="preserve">
     <value>EPA Detail Report</value>
   </data>
-    <data name="LastRating" xml:space="preserve">
+	<data name="LastRating" xml:space="preserve">
     <value>Last Rating</value>
   </data>
-    <data name="CommentsIfAny" xml:space="preserve">
+	<data name="CommentsIfAny" xml:space="preserve">
     <value>Comments, if any:</value>
   </data>
-    <data name="AttendanceDetailReportName" xml:space="preserve">
+	<data name="AttendanceDetailReportName" xml:space="preserve">
     <value>Detail Discipline Report</value>
   </data>
-    <data name="AttendanceDetailReportSheet" xml:space="preserve">
+	<data name="AttendanceDetailReportSheet" xml:space="preserve">
     <value>Detail_Discipline_Report</value>
   </data>
-    <data name="AttendanceDetailReportTitle" xml:space="preserve">
+	<data name="AttendanceDetailReportTitle" xml:space="preserve">
     <value>{0} - Detail Discipline Report for EPA From {1}  to {2}</value>
   </data>
-    <data name="AttendanceDetailReportTitleNoPrefix" xml:space="preserve">
+	<data name="AttendanceDetailReportTitleNoPrefix" xml:space="preserve">
     <value>Detail Discipline Report for EPA From {0}  to {1}</value>
   </data>
-    <data name="AttendanceSummaryReportName" xml:space="preserve">
+	<data name="AttendanceSummaryReportName" xml:space="preserve">
     <value>Summary Discipline Report</value>
   </data>
-    <data name="AttendanceSummaryReportSheet" xml:space="preserve">
+	<data name="AttendanceSummaryReportSheet" xml:space="preserve">
     <value>Summary_Discipline_Report</value>
   </data>
-    <data name="AttendanceSummaryReportTitle" xml:space="preserve">
+	<data name="AttendanceSummaryReportTitle" xml:space="preserve">
     <value>{0} - Summary Discipline Report for EPA From {1}  to {2}</value>
   </data>
-    <data name="AttendanceSummaryReportTitleNoPrefix" xml:space="preserve">
+	<data name="AttendanceSummaryReportTitleNoPrefix" xml:space="preserve">
     <value>Summary Discipline Report for EPA From {0}  to {1}</value>
   </data>
-    <data name="GradingScale" xml:space="preserve">
+	<data name="GradingScale" xml:space="preserve">
     <value>Grading Scale</value>
   </data>
-    <data name="LastFinalScore" xml:space="preserve">
+	<data name="LastFinalScore" xml:space="preserve">
     <value>Last Final Score</value>
   </data>
-    <data name="GroupDate" xml:space="preserve">
+	<data name="GroupDate" xml:space="preserve">
     <value>Group Date</value>
   </data>
-    <data name="PeriodEditSettingWarning" xml:space="preserve">
+	<data name="PeriodEditSettingWarning" xml:space="preserve">
     <value>Please select at least a setting to edit!</value>
   </data>
-    <data name="RatingTypeRequired" xml:space="preserve">
+	<data name="RatingTypeRequired" xml:space="preserve">
     <value>Rating Type is required.</value>
   </data>
-    <data name="Grade" xml:space="preserve">
+	<data name="Grade" xml:space="preserve">
     <value>Grade</value>
   </data>
-    <data name="RatingType" xml:space="preserve">
+	<data name="RatingType" xml:space="preserve">
     <value>Rating Type</value>
   </data>
-    <data name="RequiredCommentForRatingMaxScore" xml:space="preserve">
+	<data name="RequiredCommentForRatingMaxScore" xml:space="preserve">
     <value>Comment is required for rating max score.</value>
   </data>
-    <data name="RequiredComment" xml:space="preserve">
+	<data name="RequiredComment" xml:space="preserve">
     <value>Comment is required.</value>
   </data>
-    <data name="ChangeScoreRatingTypeWarning" xml:space="preserve">
+	<data name="ChangeScoreRatingTypeWarning" xml:space="preserve">
     <value>Successfully updated. Total group weight must be adjusted properly!</value>
   </data>
-    <data name="SystemDisciplineScore" xml:space="preserve">
+	<data name="SystemDisciplineScore" xml:space="preserve">
     <value>System Discipline Score</value>
   </data>
-    <data name="NoneTargetTemplateSettingWarning" xml:space="preserve">
+	<data name="NoneTargetTemplateSettingWarning" xml:space="preserve">
     <value>Please setting target template before generating EPA!</value>
   </data>
-    <data name="NoneDateSettingWarning" xml:space="preserve">
+	<data name="NoneDateSettingWarning" xml:space="preserve">
     <value>Please setting start date/end date before generating EPA!</value>
   </data>
-    <data name="SectionRequired" xml:space="preserve">
+	<data name="SectionRequired" xml:space="preserve">
     <value>Section is required.</value>
   </data>
-    <data name="EPAHistory" xml:space="preserve">
+	<data name="EPAHistory" xml:space="preserve">
     <value>EPA History</value>
   </data>
-    <data name="DepartmentHasSetting" xml:space="preserve">
+	<data name="DepartmentHasSetting" xml:space="preserve">
     <value>Department / Section have setting</value>
   </data>
-    <data name="EPAGeneratedStatus" xml:space="preserve">
+	<data name="EPAGeneratedStatus" xml:space="preserve">
     <value>EPA Generated Status</value>
   </data>
-    <data name="GeneratedEPA" xml:space="preserve">
+	<data name="GeneratedEPA" xml:space="preserve">
     <value>Generated</value>
   </data>
-    <data name="NoneGeneratedEPA" xml:space="preserve">
+	<data name="NoneGeneratedEPA" xml:space="preserve">
     <value>Not Generated</value>
   </data>
-    <data name="SelectViolationType" xml:space="preserve">
+	<data name="SelectViolationType" xml:space="preserve">
     <value>Select Violation Type</value>
   </data>
-    <data name="TotalWeightLessThanMaxWeightWarning" xml:space="preserve">
+	<data name="TotalWeightLessThanMaxWeightWarning" xml:space="preserve">
     <value>Updated successfully! &lt;br/&gt;Total score of all KPIs is less than {0}!</value>
   </data>
-    <data name="EvaluatedStatus" xml:space="preserve">
+	<data name="EvaluatedStatus" xml:space="preserve">
     <value>Evaluated Status</value>
   </data>
-    <data name="NotEvaluated" xml:space="preserve">
+	<data name="NotEvaluated" xml:space="preserve">
     <value>Not Evaluated</value>
   </data>
-    <data name="EndDatePeriodRequired" xml:space="preserve">
+	<data name="EndDatePeriodRequired" xml:space="preserve">
     <value>End Date is required for Semi-annual.</value>
   </data>
-    <data name="Category" xml:space="preserve">
+	<data name="Category" xml:space="preserve">
     <value>Category</value>
   </data>
-    <data name="WorkingUndertime" xml:space="preserve">
+	<data name="WorkingUndertime" xml:space="preserve">
     <value>Working Undertime</value>
   </data>
-    <data name="EndPeriod" xml:space="preserve">
+	<data name="EndPeriod" xml:space="preserve">
     <value>End Period</value>
   </data>
-    <data name="DisciplineStartDateGreaterThanEndDateWarning" xml:space="preserve">
+	<data name="DisciplineStartDateGreaterThanEndDateWarning" xml:space="preserve">
     <value>The Discipline Start Date must be less than the Discipline End Date!</value>
   </data>
-    <data name="ViewOtherViolation" xml:space="preserve">
+	<data name="ViewOtherViolation" xml:space="preserve">
     <value>View other violation</value>
   </data>
-    <data name="ManagementReview" xml:space="preserve">
+	<data name="ManagementReview" xml:space="preserve">
     <value>Management Review</value>
   </data>
-    <data name="Ignored" xml:space="preserve">
+	<data name="Ignored" xml:space="preserve">
     <value>Ignored</value>
   </data>
-    <data name="NotIgnored" xml:space="preserve">
+	<data name="NotIgnored" xml:space="preserve">
     <value>Not Ignored</value>
   </data>
-    <data name="Pending" xml:space="preserve">
+	<data name="Pending" xml:space="preserve">
     <value>Pending</value>
   </data>
-    <data name="IgnoredStatus" xml:space="preserve">
+	<data name="IgnoredStatus" xml:space="preserve">
     <value>Ignored Status</value>
   </data>
-    <data name="EmailWrongPatternWarning" xml:space="preserve">
+	<data name="EmailWrongPatternWarning" xml:space="preserve">
     <value>The field Email has wrong format!</value>
   </data>
-    <data name="HasMonthlyEPA" xml:space="preserve">
+	<data name="HasMonthlyEPA" xml:space="preserve">
     <value>Has Monthly EPA</value>
   </data>
-    <data name="MonthlyEPA" xml:space="preserve">
+	<data name="MonthlyEPA" xml:space="preserve">
     <value>Monthly EPA</value>
   </data>
-    <data name="CreateMonthlyPeriod" xml:space="preserve">
+	<data name="CreateMonthlyPeriod" xml:space="preserve">
     <value>Create Monthly Period</value>
   </data>
-    <data name="MonthlyPeriod" xml:space="preserve">
+	<data name="MonthlyPeriod" xml:space="preserve">
     <value>Monthly Period</value>
   </data>
-    <data name="UpdateMonthlyPeriod" xml:space="preserve">
+	<data name="UpdateMonthlyPeriod" xml:space="preserve">
     <value>Update Monthly Period</value>
   </data>
-    <data name="EmployeeNotSetMonthlyEvaluation" xml:space="preserve">
+	<data name="EmployeeNotSetMonthlyEvaluation" xml:space="preserve">
     <value>Employee doesn't set monthly evaluation!</value>
   </data>
-    <data name="CanNotEditSettingOnDifferentTypeWarning" xml:space="preserve">
+	<data name="CanNotEditSettingOnDifferentTypeWarning" xml:space="preserve">
     <value>Can't edit setting on different type!</value>
   </data>
-    <data name="SettingFlowWarning" xml:space="preserve">
+	<data name="SettingFlowWarning" xml:space="preserve">
     <value>Please setting flow for Human Resource, Evaluator and Reviewer.</value>
   </data>
-    <data name="IsMonthly" xml:space="preserve">
+	<data name="IsMonthly" xml:space="preserve">
     <value>Is Monthly</value>
   </data>
-    <data name="ViewSemiEPAResult" xml:space="preserve">
+	<data name="ViewSemiEPAResult" xml:space="preserve">
     <value>View Semi EPA Result</value>
   </data>
-    <data name="monthlyEPAs" xml:space="preserve">
+	<data name="monthlyEPAs" xml:space="preserve">
     <value>Monthly EPA List</value>
   </data>
-    <data name="Average" xml:space="preserve">
+	<data name="Average" xml:space="preserve">
     <value>Average</value>
   </data>
-    <data name="SemiAverage" xml:space="preserve">
+	<data name="SemiAverage" xml:space="preserve">
     <value>Semi Average</value>
   </data>
-    <data name="MonthlyAverage" xml:space="preserve">
+	<data name="MonthlyAverage" xml:space="preserve">
     <value>Monthly Average</value>
   </data>
-    <data name="MinusScore" xml:space="preserve">
+	<data name="MinusScore" xml:space="preserve">
     <value>Minus Score</value>
   </data>
-    <data name="MinusScoringApprover" xml:space="preserve">
+	<data name="MinusScoringApprover" xml:space="preserve">
     <value>Minus Scoring Approver</value>
   </data>
-    <data name="MinusScoringSystem" xml:space="preserve">
+	<data name="MinusScoringSystem" xml:space="preserve">
     <value>Minus Scoring System</value>
   </data>
-    <data name="TotalEmployees" xml:space="preserve">
+	<data name="TotalEmployees" xml:space="preserve">
     <value>Total Employees</value>
   </data>
-    <data name="UnfinishedEPA" xml:space="preserve">
+	<data name="UnfinishedEPA" xml:space="preserve">
     <value>Unfinished EPA</value>
   </data>
-    <data name="EPAStatus" xml:space="preserve">
+	<data name="EPAStatus" xml:space="preserve">
     <value>EPA Status</value>
   </data>
-    <data name="ShowRatingScoreByStar" xml:space="preserve">
+	<data name="ShowRatingScoreByStar" xml:space="preserve">
     <value>Show Rating Score By Star</value>
   </data>
-    <data name="LastMonthScore" xml:space="preserve">
+	<data name="LastMonthScore" xml:space="preserve">
     <value>Last Month Score</value>
   </data>
-    <data name="MonthlyEPADetailReport" xml:space="preserve">
+	<data name="MonthlyEPADetailReport" xml:space="preserve">
     <value>Monthly EPA Detail Report</value>
   </data>
-    <data name="MonthlyEPADetailReportName" xml:space="preserve">
+	<data name="MonthlyEPADetailReportName" xml:space="preserve">
     <value>Monthly_EPA_Detail_Report</value>
   </data>
-    <data name="MonthlyEPADetailReportSheet" xml:space="preserve">
+	<data name="MonthlyEPADetailReportSheet" xml:space="preserve">
     <value>Monthly EPA Detail Report</value>
   </data>
-    <data name="MonthlyEPASummaryReport" xml:space="preserve">
+	<data name="MonthlyEPASummaryReport" xml:space="preserve">
     <value>Monthly EPA Summary Report</value>
   </data>
-    <data name="MonthlyEPASummaryReportName" xml:space="preserve">
+	<data name="MonthlyEPASummaryReportName" xml:space="preserve">
     <value>Monthly_EPA_Summary_Report</value>
   </data>
-    <data name="MonthlyEPASummaryReportSheet" xml:space="preserve">
+	<data name="MonthlyEPASummaryReportSheet" xml:space="preserve">
     <value>Monthly EPA Summary Report</value>
   </data>
-    <data name="MonthlyEPASummaryReportTitle" xml:space="preserve">
+	<data name="MonthlyEPASummaryReportTitle" xml:space="preserve">
     <value>Monthly EPA Summary Report</value>
   </data>
-    <data name="MonthlyEPAHistory" xml:space="preserve">
+	<data name="MonthlyEPAHistory" xml:space="preserve">
     <value>Monthly EPA History</value>
   </data>
-    <data name="ManagementScore" xml:space="preserve">
+	<data name="ManagementScore" xml:space="preserve">
     <value>Management Score</value>
   </data>
-    <data name="UpdateFinalScore" xml:space="preserve">
+	<data name="UpdateFinalScore" xml:space="preserve">
     <value>Update Final Score</value>
   </data>
-    <data name="NewFinalScore" xml:space="preserve">
+	<data name="NewFinalScore" xml:space="preserve">
     <value>New Final Score</value>
   </data>
-    <data name="OldFinalScore" xml:space="preserve">
+	<data name="OldFinalScore" xml:space="preserve">
     <value>Old Final Score</value>
   </data>
-    <data name="SelectEPABeforeEditSettingWarning" xml:space="preserve">
+	<data name="SelectEPABeforeEditSettingWarning" xml:space="preserve">
     <value>Please select at least an EPA before update final score!</value>
   </data>
-    <data name="CreatedBy" xml:space="preserve">
+	<data name="CreatedBy" xml:space="preserve">
     <value>Created By</value>
   </data>
-    <data name="ToDoList" xml:space="preserve">
+	<data name="ToDoList" xml:space="preserve">
     <value>To Do List</value>
   </data>
-    <data name="Finished" xml:space="preserve">
+	<data name="Finished" xml:space="preserve">
     <value>Finished</value>
   </data>
-    <data name="Unfinished" xml:space="preserve">
+	<data name="Unfinished" xml:space="preserve">
     <value>Unfinished</value>
   </data>
-    <data name="Employee" xml:space="preserve">
+	<data name="Employee" xml:space="preserve">
     <value>Employee</value>
   </data>
-    <data name="Score" xml:space="preserve">
+	<data name="Score" xml:space="preserve">
     <value>Score</value>
   </data>
-    <data name="Dashboard" xml:space="preserve">
+	<data name="Dashboard" xml:space="preserve">
     <value>Dashboard</value>
   </data>
-    <data name="SummaryComment" xml:space="preserve">
+	<data name="SummaryComment" xml:space="preserve">
     <value>Summary Comment</value>
   </data>
-    <data name="AnnualIncrement" xml:space="preserve">
+	<data name="AnnualIncrement" xml:space="preserve">
     <value>Annual Increment</value>
   </data>
-    <data name="ExtendProbation" xml:space="preserve">
+	<data name="ExtendProbation" xml:space="preserve">
     <value>Extend Probation</value>
   </data>
-    <data name="FailProbation" xml:space="preserve">
+	<data name="FailProbation" xml:space="preserve">
     <value>Fail Probation</value>
   </data>
-    <data name="JobLevel" xml:space="preserve">
+	<data name="JobLevel" xml:space="preserve">
     <value>Job Level</value>
   </data>
-    <data name="PassProbation" xml:space="preserve">
+	<data name="PassProbation" xml:space="preserve">
     <value>Pass Probation</value>
   </data>
-    <data name="Promotion" xml:space="preserve">
+	<data name="Promotion" xml:space="preserve">
     <value>Promotion</value>
   </data>
-    <data name="Recommendation" xml:space="preserve">
+	<data name="Recommendation" xml:space="preserve">
     <value>Recommendation</value>
   </data>
-    <data name="ExportPdf" xml:space="preserve">
+	<data name="ExportPdf" xml:space="preserve">
     <value>Export Pdf</value>
   </data>
-    <data name="ProbationRecommendationWarning" xml:space="preserve">
+	<data name="ProbationRecommendationWarning" xml:space="preserve">
     <value>You must select 1 in 3 options</value>
   </data>
-    <data name="JobLevelRequired" xml:space="preserve">
+	<data name="JobLevelRequired" xml:space="preserve">
     <value>Job Level is required.</value>
   </data>
-    <data name="ErrorMessage" xml:space="preserve">
+	<data name="ErrorMessage" xml:space="preserve">
     <value>Server cannot handle your request. Please try again later!</value>
   </data>
-    <data name="ReviewerPhaseRequired" xml:space="preserve">
+	<data name="ReviewerPhaseRequired" xml:space="preserve">
     <value>Please setting flow for Reviewer!</value>
   </data>
-    <data name="Domain" xml:space="preserve">
+	<data name="Domain" xml:space="preserve">
     <value>Domain</value>
   </data>
-    <data name="Source" xml:space="preserve">
+	<data name="Source" xml:space="preserve">
     <value>Source</value>
   </data>
-    <data name="StackTrace" xml:space="preserve">
+	<data name="StackTrace" xml:space="preserve">
     <value>StackTrace</value>
   </data>
-    <data name="TargetSite" xml:space="preserve">
+	<data name="TargetSite" xml:space="preserve">
     <value>TargetSite</value>
   </data>
-    <data name="BadIPRequest" xml:space="preserve">
+	<data name="BadIPRequest" xml:space="preserve">
     <value>Unauthorized IP request</value>
   </data>
-    <data name="HTTPSRequired" xml:space="preserve">
+	<data name="HTTPSRequired" xml:space="preserve">
     <value>HTTPS Required</value>
   </data>
-    <data name="InternalServerError" xml:space="preserve">
+	<data name="InternalServerError" xml:space="preserve">
     <value>Sorry for the inconvenience! Please contact Admin to supported!</value>
   </data>
-    <data name="DisciplinaryGuideline" xml:space="preserve">
+	<data name="DisciplinaryGuideline" xml:space="preserve">
     <value>Disciplinary guideline</value>
   </data>
-    <data name="EPAResultGuideline" xml:space="preserve">
+	<data name="EPAResultGuideline" xml:space="preserve">
     <value>EPA result guideline</value>
   </data>
-    <data name="PerformanceGuideline" xml:space="preserve">
+	<data name="PerformanceGuideline" xml:space="preserve">
     <value>Performance guideline</value>
   </data>
-    <data name="UnplannedLeave" xml:space="preserve">
+	<data name="UnplannedLeave" xml:space="preserve">
     <value>Not Following Leave Procedures</value>
   </data>
-    <data name="WeekendLeave" xml:space="preserve">
+	<data name="WeekendLeave" xml:space="preserve">
     <value>Weekend Leave</value>
   </data>
-    <data name="RemindDateEmailToHRSubject" xml:space="preserve">
+	<data name="RemindDateEmailToHRSubject" xml:space="preserve">
     <value>Reminder - {0} for confirmation from {1} to {2}</value>
   </data>
-    <data name="LastPerformanceScore" xml:space="preserve">
+	<data name="LastPerformanceScore" xml:space="preserve">
     <value>Last Performance Score</value>
   </data>
-    <data name="SevenDaysLeave" xml:space="preserve">
+	<data name="SevenDaysLeave" xml:space="preserve">
     <value>Seven Days Leave</value>
   </data>
-    <data name="OtherDiscipline" xml:space="preserve">
+	<data name="OtherDiscipline" xml:space="preserve">
     <value>Other Discipline</value>
   </data>
-    <data name="SoccerLeavePolicy" xml:space="preserve">
+	<data name="SoccerLeavePolicy" xml:space="preserve">
     <value>Soccer Leave Policy</value>
   </data>
-    <data name="SystemDeduction" xml:space="preserve">
+	<data name="SystemDeduction" xml:space="preserve">
     <value>System Deduction</value>
   </data>
-    <data name="IsZeroScore" xml:space="preserve">
+	<data name="IsZeroScore" xml:space="preserve">
     <value>Fail/ Unmeasurable/ Unavailable</value>
   </data>
-    <data name="Sections" xml:space="preserve">
+	<data name="Sections" xml:space="preserve">
     <value>Sections</value>
   </data>
-    <data name="LastPerformaceScore" xml:space="preserve">
+	<data name="LastPerformaceScore" xml:space="preserve">
     <value>Last Performance Score</value>
   </data>
-    <data name="Answer" xml:space="preserve">
+	<data name="Answer" xml:space="preserve">
     <value>Answer</value>
   </data>
-    <data name="Question" xml:space="preserve">
+	<data name="Question" xml:space="preserve">
     <value>Question</value>
   </data>
-    <data name="RequiredAnswer" xml:space="preserve">
+	<data name="RequiredAnswer" xml:space="preserve">
     <value>Answer is required.</value>
   </data>
-    <data name="FromDate" xml:space="preserve">
+	<data name="FromDate" xml:space="preserve">
     <value>From Date</value>
   </data>
-    <data name="JobLevel" xml:space="preserve">
+	<data name="JobLevel" xml:space="preserve">
     <value>Job Level</value>
   </data>
-    <data name="ToDate" xml:space="preserve">
+	<data name="ToDate" xml:space="preserve">
     <value>To Date</value>
   </data>
-    <data name="FromDateGreaterThanToDateWarning" xml:space="preserve">
+	<data name="FromDateGreaterThanToDateWarning" xml:space="preserve">
     <value>From Date must be less than or equal To Date.</value>
   </data>
-    <data name="FailPromotion" xml:space="preserve">
+	<data name="FailPromotion" xml:space="preserve">
     <value>Not to be promoted at this time</value>
   </data>
-    <data name="PassPromotion" xml:space="preserve">
+	<data name="PassPromotion" xml:space="preserve">
     <value>To be promoted to the proposed level</value>
   </data>
-    <data name="JobDescription" xml:space="preserve">
+	<data name="JobDescription" xml:space="preserve">
     <value>Job Description</value>
   </data>
-    <data name="CreateDesciptionGroup" xml:space="preserve">
+	<data name="CreateDesciptionGroup" xml:space="preserve">
     <value>Create Desciption Group</value>
   </data>
-    <data name="Details" xml:space="preserve">
+	<data name="Details" xml:space="preserve">
     <value>Details</value>
   </data>
-    <data name="ManageJobLevel" xml:space="preserve">
+	<data name="ManageJobLevel" xml:space="preserve">
     <value>Job Level Management</value>
   </data>
-    <data name="CreateJobLevel" xml:space="preserve">
+	<data name="CreateJobLevel" xml:space="preserve">
     <value>Create Job Level</value>
   </data>
-    <data name="LateLeaveRequest" xml:space="preserve">
+	<data name="LateLeaveRequest" xml:space="preserve">
     <value>Late Leave Request</value>
   </data>
-    <data name="JobLevelStandard" xml:space="preserve">
+	<data name="JobLevelStandard" xml:space="preserve">
     <value>Job Level Standard</value>
   </data>
-    <data name="MaxWeight" xml:space="preserve">
+	<data name="MaxWeight" xml:space="preserve">
     <value>Max Weight</value>
   </data>
-    <data name="MinWeight" xml:space="preserve">
+	<data name="MinWeight" xml:space="preserve">
     <value>Min Weight</value>
   </data>
-    <data name="JoblevelAssessmentReportName" xml:space="preserve">
+	<data name="JoblevelAssessmentReportName" xml:space="preserve">
     <value>Job_Level_Assessment_Report</value>
   </data>
-    <data name="ToSection" xml:space="preserve">
+	<data name="ToSection" xml:space="preserve">
     <value>To Section</value>
   </data>
-    <data name="TeamRequired" xml:space="preserve">
+	<data name="TeamRequired" xml:space="preserve">
     <value>Team is required.</value>
   </data>
-    <data name="JoblevelAssessmentReportTitle" xml:space="preserve">
+	<data name="JoblevelAssessmentReportTitle" xml:space="preserve">
     <value>Job Level Assessment Report</value>
   </data>
-    <data name="EmployeeInfo" xml:space="preserve">
+	<data name="EmployeeInfo" xml:space="preserve">
     <value>Employee Info</value>
   </data>
-    <data name="CurrentJobLevel" xml:space="preserve">
+	<data name="CurrentJobLevel" xml:space="preserve">
     <value>Current Job Level</value>
   </data>
-    <data name="DOC" xml:space="preserve">
+	<data name="DOC" xml:space="preserve">
     <value>DOC</value>
   </data>
-    <data name="RequirementMinScore" xml:space="preserve">
+	<data name="RequirementMinScore" xml:space="preserve">
     <value>Requirement min score</value>
   </data>
-    <data name="Template" xml:space="preserve">
+	<data name="Template" xml:space="preserve">
     <value>Template</value>
   </data>
-    <data name="SuperiorP" xml:space="preserve">
+	<data name="SuperiorP" xml:space="preserve">
     <value> Superior (P)</value>
   </data>
-    <data name="SuperiorM" xml:space="preserve">
+	<data name="SuperiorM" xml:space="preserve">
     <value> Superior (M)</value>
   </data>
-    <data name="Team" xml:space="preserve">
+	<data name="Team" xml:space="preserve">
     <value>Team</value>
   </data>
-    <data name="Level" xml:space="preserve">
+	<data name="Level" xml:space="preserve">
     <value>Level</value>
   </data>
-    <data name="NewJobLevel" xml:space="preserve">
+	<data name="NewJobLevel" xml:space="preserve">
     <value>New Job Level</value>
   </data>
-    <data name="SystemPropose" xml:space="preserve">
+	<data name="SystemPropose" xml:space="preserve">
     <value>System Propose</value>
   </data>
-    <data name="TotalWeight" xml:space="preserve">
+	<data name="TotalWeight" xml:space="preserve">
     <value>Total Weight</value>
   </data>
-    <data name="ReviewbyUnitHead" xml:space="preserve">
+	<data name="ReviewbyUnitHead" xml:space="preserve">
     <value>Review by Unit Head</value>
   </data>
-    <data name="Remark" xml:space="preserve">
+	<data name="Remark" xml:space="preserve">
     <value>Remark</value>
   </data>
-    <data name="LengthOfService" xml:space="preserve">
+	<data name="LengthOfService" xml:space="preserve">
     <value>Length of Service</value>
   </data>
-    <data name="Approved" xml:space="preserve">
+	<data name="Approved" xml:space="preserve">
     <value>Approved</value>
   </data>
-    <data name="ThereIsNoData" xml:space="preserve">
+	<data name="ThereIsNoData" xml:space="preserve">
     <value>There is no data!</value>
   </data>
-    <data name="Verified" xml:space="preserve">
+	<data name="Verified" xml:space="preserve">
     <value>Verified</value>
   </data>
-    <data name="Difference" xml:space="preserve">
+	<data name="Difference" xml:space="preserve">
     <value>Difference</value>
   </data>
-    <data name="Review" xml:space="preserve">
+	<data name="Review" xml:space="preserve">
     <value>Review</value>
   </data>
-    <data name="Reviewed" xml:space="preserve">
+	<data name="Reviewed" xml:space="preserve">
     <value>Reviewed</value>
   </data>
 </root>

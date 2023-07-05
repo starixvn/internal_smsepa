@@ -704,6 +704,7 @@
     <Content Include="SourceApp\Components\MonthlyPeriod\Templates\addEmployeeSetting.html" />
     <Content Include="SourceApp\Components\Period\add-employee-setting-controller.js" />
     <Content Include="SourceApp\Components\Period\Templates\addEmployeeSetting.html" />
+    <Content Include="SourceApp\Components\TargetTemplate\Directives\get-group-weight-directive.js" />
     <Content Include="SourceApp\Shared\Directives\epa-searchAutoComplete-directive.js" />
     <Content Include="SourceApp\Shared\Directives\floatThead-directive.js" />
     <Content Include="SourceApp\Shared\Directives\move-kpi-row-directive.js" />

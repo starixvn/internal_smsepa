@@ -3247,6 +3247,15 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Score Rating must be equal to total group weight.
+        /// </summary>
+        public static string ScoreRatingEqualGroupWeightRequired {
+            get {
+                return ResourceManager.GetString("ScoreRatingEqualGroupWeightRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Score Rating Type.
         /// </summary>
         public static string ScoreRatingType {

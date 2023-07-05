@@ -3,7 +3,7 @@
     /* jshint latedef:nofunc */
     /* jshint validthis:true */
 
-    angular.module('targetTemplateModule').controller('TargetTemplateGeneralInfoController', generalInfoController);
+    angular.module('jobLevelStandardModule').controller('JLSTemplateGeneralInfoController', generalInfoController);
     generalInfoController.$inject = ['JobLevelStandardTemplateModel'];
 
     function generalInfoController(TemplateModel) {

@@ -1,4 +1,4 @@
-﻿(function(angular) {
+﻿(function (angular) {
     'use strict';
     /* jshint latedef:nofunc */
 
@@ -47,13 +47,13 @@
         return model;
 
         function addKPIGroupWeight(kpiGroupWeightModel) {
-            return targetTemplateFactory.addKPIGroupWeight(kpiGroupWeightModel).success(function(response) {
+            return targetTemplateFactory.addKPIGroupWeight(kpiGroupWeightModel).success(function (response) {
                 if (response.IsSuccessful) {
                     notificationFactory.success('UpdatedSuccessfully');
                 } else {
                     notificationFactory.error('', response.Message);
                 }
-            }).error(function(response, status) {
+            }).error(function (response, status) {
                 errorFactory.errorHandle(status);
             });
         }
@@ -63,9 +63,9 @@
 
             if (kpiList && kpiList.length > 0) {
                 angular.forEach(kpiList,
-                    function(group) {
+                    function (group) {
                         angular.forEach(group.KPIs,
-                            function(kpi) {
+                            function (kpi) {
                                 if (!kpi.Selected) {
                                     vm.SelectedAll = false;
                                 }
@@ -81,7 +81,7 @@
 
             if (kpiGroups && kpiGroups.length > 0) {
                 angular.forEach(kpiGroups,
-                    function(group) {
+                    function (group) {
                         if (!group.Selected) {
                             vm.selectedAll = false;
                         }
@@ -92,72 +92,72 @@
         }
 
         function createTargetTemplate(targetTemplate, modalInstance) {
-            return targetTemplateFactory.createTargetTemplate(targetTemplate).success(function(response) {
+            return targetTemplateFactory.createTargetTemplate(targetTemplate).success(function (response) {
                 if (response.IsSuccessful) {
                     notificationFactory.success('CreatedSuccessfully');
                     modalInstance.close();
                 } else {
                     notificationFactory.error('', response.Message);
                 }
-            }).error(function() {
+            }).error(function () {
                 errorFactory.errorHandle(status);
             });
         }
 
         function getKPIGroupOfTargetTemplate(targetTemplateId) {
-            return targetTemplateFactory.getKPIGroupOfTargetTemplate(targetTemplateId).success(function(groups) {
+            return targetTemplateFactory.getKPIGroupOfTargetTemplate(targetTemplateId).success(function (groups) {
                 model.kpiGroups = groups;
-            }).error(function(response, status) {
+            }).error(function (response, status) {
                 errorFactory.errorHandle(status);
             });
         }
 
         function getKPIOfTargetTemplate(targetTemplateId, onlySelected) {
             return targetTemplateFactory.getKPIOfTargetTemplate(targetTemplateId, onlySelected).success(
-                function(kpiGroups) {
+                function (kpiGroups) {
                     model.kpiList = kpiGroups;
-                }).error(function(response, status) {
-                errorFactory.errorHandle(status);
-            });
+                }).error(function (response, status) {
+                    errorFactory.errorHandle(status);
+                });
         }
 
         function getPermissionOnTargetTemplate() {
-            return targetTemplateFactory.getPermissonOnTargetTemplate().success(function(permission) {
+            return targetTemplateFactory.getPermissonOnTargetTemplate().success(function (permission) {
                 model.permission = permission;
-            }).error(function(response, status) {
+            }).error(function (response, status) {
                 errorFactory.errorHandle(status);
             });
         }
 
         function getRatingType() {
-            return targetTemplateFactory.getRatingType().success(function(ratingTypes) {
+            return targetTemplateFactory.getRatingType().success(function (ratingTypes) {
                 model.ratingTypes = ratingTypes;
-            }).error(function(response, status) {
+            }).error(function (response, status) {
                 errorFactory.errorHandle(status);
             });
         }
 
         function getScoreRatingType(scoreRatingTypeId, isActive) {
             return targetTemplateFactory.getScoreRatingType(scoreRatingTypeId, isActive).success(
-                function(scoreRatingTypes) {
+                function (scoreRatingTypes) {
                     model.scoreRatingTypes = scoreRatingTypes;
-                }).error(function(response, status) {
-                errorFactory.errorHandle(status);
-            });
+                }).error(function (response, status) {
+                    errorFactory.errorHandle(status);
+                });
         }
 
         function getTargetTemplate(targetTypeId, isActive, departmentId, isGroup, scoreRatingTypeId) {
-            return targetTemplateFactory.getTargetTemplate(targetTypeId, isActive, departmentId, isGroup, scoreRatingTypeId).success(function(targetTemplates) {
+            return targetTemplateFactory.getTargetTemplate(targetTypeId, isActive, departmentId, isGroup, scoreRatingTypeId).success(function (targetTemplates) {
                 model.targetTemplates = targetTemplates;
-            }).error(function(response, status) {
+            }).error(function (response, status) {
                 errorFactory.errorHandle(status);
             });
         }
 
         function getTargetTemplateById(targetTemplateId) {
-            return targetTemplateFactory.getTargetTemplateById(targetTemplateId).success(function(targetTemplate) {
+            return targetTemplateFactory.getTargetTemplateById(targetTemplateId).success(function (targetTemplate) {
                 model.targetTemplate = targetTemplate;
-            }).error(function(response, status) {
+            }).error(function (response, status) {
                 errorFactory.errorHandle(status);
             });
         }
@@ -168,10 +168,10 @@
                 controller: 'AddedKPIGroupController as addKPIGroupCtrl',
                 backdrop: 'static',
                 resolve: {
-                    targetTemplateId: function() {
+                    targetTemplateId: function () {
                         return targetTemplateId;
                     },
-                    maxWeight: function() {
+                    maxWeight: function () {
                         return maxWeight;
                     }
                 },
@@ -198,28 +198,28 @@
                 controller: 'ModalConfirmController as modalConfirmCtrl',
                 backdrop: 'static',
                 resolve: {
-                    name: function() {
+                    name: function () {
                         return kpiGroup.Name;
                     },
-                    action: function() {
+                    action: function () {
                         return 'delete';
                     }
                 },
                 windowClass: 'modal-confirm-center'
             });
 
-            return modalInstance.result.then(function() {
+            return modalInstance.result.then(function () {
                 targetTemplateFactory.deleteKPIGroupOfTargetTemplate(targetTemplateId, kpiGroup.KPIGroupId).success(
-                    function(response) {
+                    function (response) {
                         if (response.IsSuccessful) {
                             notificationFactory.success('DeletedSuccessfully');
                         } else {
                             notificationFactory.error('', response.Message);
                         }
-                    }).error(function(response, status) {
-                    errorFactory.errorHandle(status);
-                });
-            })['finally'](function() {
+                    }).error(function (response, status) {
+                        errorFactory.errorHandle(status);
+                    });
+            })['finally'](function () {
                 modalInstance = '';
             });
         }
@@ -230,18 +230,18 @@
                 controller: 'ModalConfirmController as modalConfirmCtrl',
                 backdrop: 'static',
                 resolve: {
-                    name: function() {
+                    name: function () {
                         return targetTemplate.Name;
                     },
-                    action: function() {
+                    action: function () {
                         return 'delete';
                     }
                 },
                 windowClass: 'modal-confirm-center'
             });
 
-            modalInstance.result.then(function() {
-                targetTemplateFactory.deleteTargetTemplate(targetTemplate.TargetTemplateId).success(function(response) {
+            modalInstance.result.then(function () {
+                targetTemplateFactory.deleteTargetTemplate(targetTemplate.TargetTemplateId).success(function (response) {
                     if (response.IsSuccessful) {
                         var index = vm.targetTemplates.indexOf(targetTemplate);
                         vm.targetTemplates.splice(index, 1);
@@ -250,10 +250,10 @@
                     } else {
                         notificationFactory.error('', response.Message);
                     }
-                }).error(function(response, status) {
+                }).error(function (response, status) {
                     errorFactory.errorHandle(status);
                 });
-            })['finally'](function() {
+            })['finally'](function () {
                 modalInstance = '';
             });
         }
@@ -272,10 +272,10 @@
                 controller: 'ModalConfirmController as modalConfirmCtrl',
                 backdrop: 'static',
                 resolve: {
-                    name: function() {
+                    name: function () {
                         return targetTemplate.Name;
                     },
-                    action: function() {
+                    action: function () {
                         return action;
                     }
                 },
@@ -284,35 +284,35 @@
 
             var keyMessage = '';
 
-            modalInstance.result.then(function() {
-                    targetTemplateFactory.updateStatusTargetTemplate(newTargetTemplate).success(function(response) {
-                        if (response.IsSuccessful) {
-                            keyMessage = action === 'activate' ? 'ActivationSuccess' : 'DeactivationSuccess';
-                            notificationFactory.success(keyMessage);
-                        } else {
-                            keyMessage = action === 'activate' ? 'ActivationFail' : 'DeactivationFail';
-                            targetTemplate.IsActive = !newTargetTemplate.IsActive;
-                            notificationFactory.error(keyMessage);
-                        }
-                    }).error(function(response, status) {
-                        if (status === 405) {
-                            errorFactory.errorHandle(status);
-                        } else {
-                            keyMessage = action === 'activate' ? 'ActivationFail' : 'DeactivationFail';
-                            targetTemplate.IsActive = !newTargetTemplate.IsActive;
-                            notificationFactory.error(keyMessage);
-                        }
-                    });
-                },
-                function() {
+            modalInstance.result.then(function () {
+                targetTemplateFactory.updateStatusTargetTemplate(newTargetTemplate).success(function (response) {
+                    if (response.IsSuccessful) {
+                        keyMessage = action === 'activate' ? 'ActivationSuccess' : 'DeactivationSuccess';
+                        notificationFactory.success(keyMessage);
+                    } else {
+                        keyMessage = action === 'activate' ? 'ActivationFail' : 'DeactivationFail';
+                        targetTemplate.IsActive = !newTargetTemplate.IsActive;
+                        notificationFactory.error(keyMessage);
+                    }
+                }).error(function (response, status) {
+                    if (status === 405) {
+                        errorFactory.errorHandle(status);
+                    } else {
+                        keyMessage = action === 'activate' ? 'ActivationFail' : 'DeactivationFail';
+                        targetTemplate.IsActive = !newTargetTemplate.IsActive;
+                        notificationFactory.error(keyMessage);
+                    }
+                });
+            },
+                function () {
                     targetTemplate.IsActive = !newTargetTemplate.IsActive;
-                })['finally'](function() {
-                modalInstance = '';
-            });
+                })['finally'](function () {
+                    modalInstance = '';
+                });
         }
 
         function updateTargetTemplate(targetTemplate, totalWeight, vm) {
-            return targetTemplateFactory.updateTargetTemplate(targetTemplate).success(function(response) {
+            return targetTemplateFactory.updateTargetTemplate(targetTemplate).success(function (response) {
                 if (response.IsSuccessful) {
                     if (totalWeight !== vm.maxWeight) {
                         var message =
@@ -324,13 +324,13 @@
                 } else {
                     notificationFactory.error('', response.Message);
                 }
-            }).error(function(response, status) {
+            }).error(function (response, status) {
                 errorFactory.errorHandle(status);
             });
         }
 
         function updateTargetTemplateBasicInfo(targetTemplate, originalScoreTypeId) {
-            return targetTemplateFactory.updateTargetTemplateBasicInfo(targetTemplate).success(function(response) {
+            return targetTemplateFactory.updateTargetTemplateBasicInfo(targetTemplate).success(function (response) {
                 if (response.IsSuccessful) {
                     if (targetTemplate.ScoreRatingTypeId !== originalScoreTypeId) {
                         notificationFactory.success('ChangeScoreRatingTypeWarning');
@@ -340,7 +340,7 @@
                 } else {
                     notificationFactory.error('', response.Message);
                 }
-            }).error(function(response, status) {
+            }).error(function (response, status) {
                 errorFactory.errorHandle(status);
             });
         }
@@ -351,7 +351,7 @@
                 isValid = true;
 
             angular.forEach(kpiGroups,
-                function(group) {
+                function (group) {
                     if (!group.Weight) {
                         hasWeight = false;
                     }
@@ -371,7 +371,10 @@
             return isValid;
         }
 
-        function validateTargetTemplate(targetTemplate) {
+        function validateTargetTemplate(targetTemplate, vm, scoreRatingTypeId) {
+            var newScoreRatingType = vm.scoreRatingTypeOptions.find(element => element.ScoreRatingTypeId === scoreRatingTypeId);
+            var totalWeightAfterEdit = newScoreRatingType ? newScoreRatingType.SelfEvaluated : null;
+
             var isValid = true;
 
             if (!targetTemplate) {
@@ -387,6 +390,9 @@
                 isValid = false;
             } else if (!targetTemplate.RatingTypeId) {
                 notificationFactory.error('RatingTypeRequired');
+                isValid = false;
+            } else if (vm.totalWeight !== totalWeightAfterEdit) {
+                notificationFactory.error('ScoreRatingEqualGroupWeightRequired');
                 isValid = false;
             }
 

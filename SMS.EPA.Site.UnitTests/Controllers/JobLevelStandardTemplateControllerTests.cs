@@ -28,7 +28,7 @@
             baseService.GetData<JobLevelStandardTemplate>(Arg.Any<GetJobLevelStandardTemplateCriteria>()).Returns(templates);
 
             // Act
-            var actual = controller.GetJobLevelStandardTemplate(Arg.Any<GetJobLevelStandardTemplateCriteria>());
+            var actual = controller.GetTemplate(Arg.Any<GetJobLevelStandardTemplateCriteria>());
 
             // Assert
             Assert.IsInstanceOf(typeof(IEnumerable<JobLevelStandardTemplate>), actual);
@@ -48,7 +48,7 @@
             baseService.GetDataEntity<JobLevelStandardTemplate>(Arg.Any<GetJobLevelStandardTemplateByIdCriteria>()).Returns(template);
 
             // Act
-            var actual = controller.GetJobLevelStandardTemplateById(Arg.Any<int>());
+            var actual = controller.GetById(Arg.Any<int>());
 
             // Assert
             Assert.IsInstanceOf(typeof(IEnumerable<JobLevelStandardTemplate>), actual);
@@ -68,7 +68,7 @@
             baseService.GetData<JobLevelStandardTemplateKPI>(Arg.Any<GetKPIListCriteria>()).Returns(templates);
 
             // Act
-            var actual = controller.GetKPIListSelected(Arg.Any<GetKPIListCriteria>());
+            var actual = controller.GetKPI(Arg.Any<GetKPIListCriteria>());
 
             // Assert
             Assert.IsInstanceOf(typeof(IEnumerable<JobLevelStandardTemplateKPI>), actual);
@@ -88,7 +88,7 @@
             baseService.ExecuteNonQuery(Arg.Any<CreateJobLevelStandardTemplateCriteria>()).Returns(expected);
 
             // Act
-            var actual = controller.CreateJobLevelStandardTemplate(Arg.Any<CreateJobLevelStandardTemplateCriteria>());
+            var actual = controller.Create(Arg.Any<CreateJobLevelStandardTemplateCriteria>());
 
             // Assert
             Assert.IsInstanceOf(typeof(CommandResult), actual);
@@ -108,7 +108,7 @@
             baseService.ExecuteNonQuery(Arg.Any<UpdateStatusJobLevelStandardTemplateCriteria>()).Returns(expected);
 
             // Act
-            var actual = controller.UpdateStatusJobLevelStandardTemplate(Arg.Any<UpdateStatusJobLevelStandardTemplateCriteria>());
+            var actual = controller.UpdateStatus(Arg.Any<UpdateStatusJobLevelStandardTemplateCriteria>());
 
             // Assert
             Assert.IsInstanceOf(typeof(CommandResult), actual);
@@ -128,7 +128,7 @@
             baseService.ExecuteNonQuery(Arg.Any<UpdateJobLevelStandardTemplateCriteria>()).Returns(expected);
 
             // Act
-            var actual = controller.UpdateJobLevelStandardTemplate(Arg.Any<UpdateJobLevelStandardTemplateCriteria>());
+            var actual = controller.Update(Arg.Any<UpdateJobLevelStandardTemplateCriteria>());
 
             // Assert
             Assert.IsInstanceOf(typeof(CommandResult), actual);
@@ -168,7 +168,7 @@
             baseService.ExecuteNonQuery(Arg.Any<DeleteJobLevelStandardTemplateCriteria>()).Returns(expected);
 
             // Act
-            var actual = controller.DeleteJobLevelStandardTemplate(Arg.Any<int>());
+            var actual = controller.Delete(Arg.Any<int>());
 
             // Assert
             Assert.IsInstanceOf(typeof(CommandResult), actual);

@@ -29,7 +29,7 @@
             baseService.GetData<JobLevelStandardKPI>(Arg.Any<GetJobLevelStandardKPICriteria>()).Returns(kpis);
 
             // Act
-            var actual = controller.GetJobLevelStandardKPI(Arg.Any<GetJobLevelStandardKPICriteria>());
+            var actual = controller.GetKPI(Arg.Any<GetJobLevelStandardKPICriteria>());
 
             // Assert
             Assert.IsInstanceOf(typeof(IEnumerable<JobLevelStandardKPI>), actual);
@@ -49,7 +49,7 @@
             baseService.ExecuteNonQuery(Arg.Any<CreateJobLevelStandardKPICriteria>()).Returns(expected);
 
             // Act
-            var actual = controller.CreateJobLevelStandardKPI(Arg.Any<CreateJobLevelStandardKPICriteria>());
+            var actual = controller.Create(Arg.Any<CreateJobLevelStandardKPICriteria>());
 
             // Assert
             Assert.IsInstanceOf(typeof(CommandResult), actual);
@@ -69,7 +69,7 @@
             baseService.ExecuteNonQuery(Arg.Any<UpdateJobLevelStandardKPICriteria>()).Returns(expected);
 
             // Act
-            var actual = controller.UpdateJobLevelStandardKPI(Arg.Any<UpdateJobLevelStandardKPICriteria>());
+            var actual = controller.Update(Arg.Any<UpdateJobLevelStandardKPICriteria>());
 
             // Assert
             Assert.IsInstanceOf(typeof(CommandResult), actual);
@@ -89,7 +89,7 @@
             baseService.ExecuteNonQuery(Arg.Any<UpdateStatusJobLevelStandardKPICriteria>()).Returns(expected);
 
             // Act
-            var actual = controller.UpdateStatusJobLevelStandardKPI(Arg.Any<UpdateStatusJobLevelStandardKPICriteria>());
+            var actual = controller.UpdateStatus(Arg.Any<UpdateStatusJobLevelStandardKPICriteria>());
 
             // Assert
             Assert.IsInstanceOf(typeof(CommandResult), actual);
@@ -109,7 +109,7 @@
             baseService.ExecuteNonQuery(Arg.Any<DeleteJobLevelStandardKPICriteria>()).Returns(expected);
 
             // Act
-            var actual = controller.DeleteStatusJobLevelStandardKPI(Arg.Any<int>());
+            var actual = controller.Delete(Arg.Any<int>());
 
             // Assert
             Assert.IsInstanceOf(typeof(CommandResult), actual);
