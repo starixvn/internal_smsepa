@@ -13,17 +13,24 @@
         vm.scoreRatingTypeOptions = [];
         vm.targetTypes = [];
         vm.ratingTypes = [];
-        vm.totalWeight = 0;
 
         vm.save = function (targetTemplate) {
-            var scoreRatingTypeId = $scope.updateCtrl.targetTemplate.ScoreRatingTypeId;
-            if (TargetTemplateModel.validateTargetTemplate(targetTemplate, vm, scoreRatingTypeId)) {
-                TargetTemplateModel.updateTargetTemplateBasicInfo(targetTemplate, $scope.updateCtrl.originalScoreTypeId).then(function () {
-                    if (targetTemplate.ScoreRatingTypeId !== $scope.updateCtrl.originalScoreTypeId) {
-                        $scope.updateCtrl.getTargetTemplateById(targetTemplate.TargetTemplateId);
-                    }
-                });
-            }
+            var newScoreRatingType = vm.scoreRatingTypeOptions.find(element => element.ScoreRatingTypeId === targetTemplate.ScoreRatingTypeId);
+            var totalWeightAfterEdit = newScoreRatingType ? newScoreRatingType.SelfEvaluated : null;
+
+            TargetTemplateModel.getKPIOfTargetTemplate(vm.templateId, true).then(function () {
+                var totalWeight = 0;
+                TargetTemplateModel.kpiList.forEach(element => totalWeight += element.Weight);
+                if (totalWeight !== totalWeightAfterEdit) {
+                    TargetTemplateModel.openPopupConfirmEditTargetTemplate(targetTemplate, $scope);
+                } else if (TargetTemplateModel.validateTargetTemplate(targetTemplate)) {
+                    TargetTemplateModel.updateTargetTemplateBasicInfo(targetTemplate, $scope.updateCtrl.originalScoreTypeId).then(function () {
+                        if (targetTemplate.ScoreRatingTypeId !== $scope.updateCtrl.originalScoreTypeId) {
+                            $scope.updateCtrl.getTargetTemplateById(targetTemplate.TargetTemplateId);
+                        }
+                    });
+                }
+            });
         };
 
         function initialize() {
@@ -37,10 +44,6 @@
 
             TargetTemplateModel.getRatingType().then(function () {
                 vm.ratingTypes = TargetTemplateModel.ratingTypes;
-            });
-
-            TargetTemplateModel.getKPIOfTargetTemplate(vm.templateId, false).then(function () {
-                TargetTemplateModel.kpiList.forEach(element => vm.totalWeight += element.Weight);
             });
         }
 

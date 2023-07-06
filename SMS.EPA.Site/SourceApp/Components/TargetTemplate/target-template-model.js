@@ -32,6 +32,7 @@
             openPopupCreateTargetTemplate: openPopupCreateTargetTemplate,
             openPopupDeleteKPIGroup: openPopupDeleteKPIGroup,
             openPopupDeleteTargetTemplate: openPopupDeleteTargetTemplate,
+            openPopupConfirmEditTargetTemplate: openPopupConfirmEditTargetTemplate,
             openPopupUpdateStatusTargetTemplate: openPopupUpdateStatusTargetTemplate,
             permission: permission,
             ratingTypes: ratingTypes,
@@ -258,6 +259,35 @@
             });
         }
 
+        function openPopupConfirmEditTargetTemplate(targetTemplate, scope) {
+            var modalInstance = $uibModal.open({
+                templateUrl: '/SourceApp/Shared/Templates/ModalConfirmContent.html',
+                controller: 'ModalConfirmController as modalConfirmCtrl',
+                backdrop: 'static',
+                resolve: {
+                    name: function () {
+                        return targetTemplate.Name + ' (Make sure total group weight must be equal to weight of Score Rating Type)'
+                    },
+                    action: function () {
+                        return 'edit';
+                    }
+                },
+                windowClass: 'modal-confirm-center'
+            });
+
+            modalInstance.result.then(function () {
+                if (validateTargetTemplate(targetTemplate)) {
+                    updateTargetTemplateBasicInfo(targetTemplate, scope.updateCtrl.originalScoreTypeId).then(function () {
+                        if (targetTemplate.ScoreRatingTypeId !== scope.updateCtrl.originalScoreTypeId) {
+                            scope.updateCtrl.getTargetTemplateById(targetTemplate.TargetTemplateId);
+                        }
+                    });
+                }
+            })['finally'](function () {
+                modalInstance = '';
+            });
+        }
+
         function openPopupUpdateStatusTargetTemplate(targetTemplate) {
             targetTemplate.IsActive = !targetTemplate.IsActive;
 
@@ -371,10 +401,7 @@
             return isValid;
         }
 
-        function validateTargetTemplate(targetTemplate, vm, scoreRatingTypeId) {
-            var newScoreRatingType = vm.scoreRatingTypeOptions.find(element => element.ScoreRatingTypeId === scoreRatingTypeId);
-            var totalWeightAfterEdit = newScoreRatingType ? newScoreRatingType.SelfEvaluated : null;
-
+        function validateTargetTemplate(targetTemplate) {
             var isValid = true;
 
             if (!targetTemplate) {
@@ -390,9 +417,6 @@
                 isValid = false;
             } else if (!targetTemplate.RatingTypeId) {
                 notificationFactory.error('RatingTypeRequired');
-                isValid = false;
-            } else if (vm.totalWeight !== totalWeightAfterEdit) {
-                notificationFactory.error('ScoreRatingEqualGroupWeightRequired');
                 isValid = false;
             }
 
