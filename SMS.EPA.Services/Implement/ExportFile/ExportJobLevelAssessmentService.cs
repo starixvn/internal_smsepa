@@ -20,6 +20,12 @@
     public class ExportJobLevelAssessmentService : IExportJobLevelAssessmentService
     {
         private const int ExcelColumnWidth = 256;
+        private readonly IUtilityService utilityService;
+
+        public ExportJobLevelAssessmentService(IUtilityService utilityService = null)
+        {
+            this.utilityService = utilityService ?? new UtilityService();
+        }
 
         public MemoryStream ExportJoblevelAssessmentReport(List<JobLevelAssessmentKPI> kpis, IList<JobLevelAssessment> assessments, string title)
         {
@@ -205,7 +211,7 @@
             }
         }
 
-        private static void RenderContent(
+        private void RenderContent(
             List<JobLevelAssessmentKPI> kpis,
             IList<JobLevelAssessment> assessments,
             ref HSSFWorkbook workbook,
@@ -416,9 +422,8 @@
             sheet.SetColumnWidth(columnIndex, width * ExcelColumnWidth);
         }
 
-        private static string FormatWeight(decimal? weight)
+        private string FormatWeight(decimal? weight)
         {
-            IUtilityService utilityService = new UtilityService();
             return utilityService.SplitNumber((double)weight, Constants.NumberOfDecimalDefault).ToString(CultureInfo.InvariantCulture);
         }
     }
