@@ -276,13 +276,11 @@
             });
 
             modalInstance.result.then(function () {
-                if (validateTargetTemplate(targetTemplate)) {
-                    updateTargetTemplateBasicInfo(targetTemplate, scope.updateCtrl.originalScoreTypeId).then(function () {
-                        if (targetTemplate.ScoreRatingTypeId !== scope.updateCtrl.originalScoreTypeId) {
-                            scope.updateCtrl.getTargetTemplateById(targetTemplate.TargetTemplateId);
-                        }
-                    });
-                }
+                updateTargetTemplateBasicInfo(targetTemplate).then(function () {
+                    if (targetTemplate.ScoreRatingTypeId !== scope.updateCtrl.originalScoreTypeId) {
+                        scope.updateCtrl.getTargetTemplateById(targetTemplate.TargetTemplateId);
+                    }
+                });
             })['finally'](function () {
                 modalInstance = '';
             });
@@ -359,14 +357,10 @@
             });
         }
 
-        function updateTargetTemplateBasicInfo(targetTemplate, originalScoreTypeId) {
+        function updateTargetTemplateBasicInfo(targetTemplate) {
             return targetTemplateFactory.updateTargetTemplateBasicInfo(targetTemplate).success(function (response) {
                 if (response.IsSuccessful) {
-                    if (targetTemplate.ScoreRatingTypeId !== originalScoreTypeId) {
-                        notificationFactory.success('ChangeScoreRatingTypeWarning');
-                    } else {
-                        notificationFactory.success('UpdatedSuccessfully');
-                    }
+                    notificationFactory.success('UpdatedSuccessfully');
                 } else {
                     notificationFactory.error('', response.Message);
                 }
