@@ -35,20 +35,6 @@
             });
         };
 
-        model.openAnnouncementModal = function (announcements) {
-            $uibModal.open({
-                templateUrl: 'SourceApp/Components/Dashboard/Templates/announcement-modal.html',
-                controller: 'AnnouncementController as announcementCtrl',
-                backdrop: 'static',
-                resolve: {
-                    announcements: function () {
-                        return announcements;
-                    }
-                },
-                windowClass: 'modal-confirm-center announcement-modal'
-            });
-        }
-
         return model;
     }
 })(angular);

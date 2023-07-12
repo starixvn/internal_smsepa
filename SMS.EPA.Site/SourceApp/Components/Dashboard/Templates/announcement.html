@@ -1,8 +1,11 @@
 ﻿<div class="marquee-block" ng-show="dashboardCtrl.announcements.length > 0">
     <div ng-class="{false: 'btn-pause', true: 'btn-pause play'}[dashboardCtrl.runMarquee]" ng-click="dashboardCtrl.toggleRunMarquee()"></div>
-    <div class="marquee" ng-click="dashboardCtrl.openAnnouncementModal()">
+    <div class="marquee">
         <span class="annoucement" ng-style="dashboardCtrl.marqueeStyle">
-            <span ng-repeat="announcement in dashboardCtrl.announcements" class="announcement-item" ng-bind="announcement"></span>
+            <span ng-repeat="announcement in dashboardCtrl.announcements"
+                  class="announcement-item"
+                  ng-bind="announcement.Announcement"
+                  ng-click="dashboardCtrl.goToAssessment(announcement.PeriodId, $event)"></span>
         </span>
     </div>
 </div>

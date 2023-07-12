@@ -492,8 +492,6 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="SourceApp\app.js" />
-    <Content Include="SourceApp\Components\Dashboard\announcement-controller.js" />
-    <Content Include="SourceApp\Components\Dashboard\Templates\announcement-modal.html" />
     <Content Include="SourceApp\Components\Dashboard\Templates\announcement.html" />
     <Content Include="SourceApp\Components\Dashboard\Templates\JLSDashboard.html" />
     <Content Include="SourceApp\Components\Dashboard\Templates\todoList.html" />

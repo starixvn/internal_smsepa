@@ -62,9 +62,9 @@
 
         [HttpGet]
         [ApiAuthorize(FunctionKey = EPAFunctionKey.Home, Policy = Policy.Read)]
-        public IList<string> GetAnnouncement()
+        public IList<object> GetAnnouncement()
         {
-            var result = new List<string>();
+            var result = new List<object>();
             var criteria = new GetAnnouncementCriteria
             {
                 EmployeeId = CurrentEmployeeId
@@ -77,24 +77,36 @@
                 switch (setting.ProcessId)
                 {
                     case (byte)JobLevelAssessmentProcess.Evaluator:
-                        result.Add(string.Format("{0} Assessment is ready for key-in data. You are given a period from {1} until {2} to complete this Assessment.",
+                        result.Add(new
+                        {
+                            Announcement = string.Format("{0} Assessment is ready for key-in data. You are given a period from {1} until {2} to complete this Assessment.",
                             setting.PeriodName,
                             fromDate,
-                            toDate));
+                            toDate),
+                            PeriodId = setting.PeriodId,
+                        });
                         break;
 
                     case (byte)JobLevelAssessmentProcess.Employee:
-                        result.Add(string.Format("{0} Assessment is ready for your Verification. You are given a period from {1} until {2} to complete the Verification.",
+                        result.Add(new
+                        {
+                            Announcement = string.Format("{0} Assessment is ready for your Verification. You are given a period from {1} until {2} to complete the Verification.",
                             setting.PeriodName,
                             fromDate,
-                            toDate));
+                            toDate),
+                            PeriodId = setting.PeriodId,
+                        });
                         break;
 
                     case (byte)JobLevelAssessmentProcess.Management:
-                        result.Add(string.Format("{0} Assessment is ready for your Approval. You are given a period from {1} until {2} to complete the Approval.",
+                        result.Add(new
+                        {
+                            Announcement = string.Format("{0} Assessment is ready for your Approval. You are given a period from {1} until {2} to complete the Approval.",
                             setting.PeriodName,
                             fromDate,
-                            toDate));
+                            toDate),
+                            PeriodId = setting.PeriodId,
+                        });
                         break;
 
                     default:
