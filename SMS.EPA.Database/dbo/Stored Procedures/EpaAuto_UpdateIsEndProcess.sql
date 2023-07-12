@@ -43,6 +43,7 @@ BEGIN
 		INNER JOIN #tblEPAProcess AS tblpc ON pc.EPAId = tblpc.EPAId
 		AND pc.ProcessId = tblpc.ProcessId
 	WHERE pc.IsEndProcess = 0
+		AND pc.EndDate < @Today
 
 	UPDATE pc
 	SET pc.IsEndProcess = 1

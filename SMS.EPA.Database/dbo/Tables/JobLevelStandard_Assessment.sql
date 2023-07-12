@@ -2,7 +2,7 @@
     [AssessmentId]      INT            IDENTITY (1, 1) NOT NULL,
     [EmployeeId]        INT            NOT NULL,
     [PeriodId]          INT            NOT NULL,
-    [TotalWeight]       DECIMAL (5, 2) NULL,
+    [TotalWeight]       DECIMAL (7, 2) NULL,
     [CurrentJobLevelId] INT            NULL,
     [NewJobLevelId]     INT            NULL,
     [Remark]            NVARCHAR (200) NULL,
@@ -13,4 +13,6 @@
     [ModifiedDate]      DATETIME       NULL,
     CONSTRAINT [PK_JobLevelStandard_Assessment] PRIMARY KEY CLUSTERED ([AssessmentId] ASC)
 );
+
+
 

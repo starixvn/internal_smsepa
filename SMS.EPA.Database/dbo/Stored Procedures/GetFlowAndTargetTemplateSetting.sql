@@ -11,134 +11,180 @@ Param's Explanation:
 
 */
 BEGIN
-	CREATE TABLE #HierarchyDepartment (
-		ParentId INT
+	CREATE TABLE #tmpHierarchyDepartment (
+		DirectParentId INT
 		,DepartmentId INT
 		,[Level] INT
-		,ParentIds NVARCHAR(MAX)
+		,ParentId INT
 		)
 
-	CREATE TABLE #FlowAndTargetTemplate (
+	CREATE TABLE #tmpFlowTemplate (
 		DepartmentId INT
 		,[Level] INT
-		,ParentIds NVARCHAR(MAX)
+		,ParentId INT
+		,FlowTemplateId INT
+		)
+
+	CREATE TABLE #tmpTargetTemplate (
+		DepartmentId INT
+		,[Level] INT
+		,ParentId INT
+		,TargetTemplateId INT
+		)
+
+	CREATE TABLE #tmpFlowAndTargetTemplate (
+		EmployeeId INT
+		,DepartmentId INT
 		,FlowTemplateId INT
 		,TargetTemplateId INT
-		);
+		)
 
-	INSERT INTO #HierarchyDepartment (
-		ParentId
+	INSERT INTO #tmpHierarchyDepartment (
+		DirectParentId
 		,DepartmentId
 		,[Level]
-		,ParentIds
+		,ParentId
 		)
 	SELECT DISTINCT ParentId
 		,DepartmentId
 		,[Level]
-		,ParentIds
-	FROM dbo.HierarchyDepartment;
+		,CASE 
+			WHEN ISNUMERIC(tmp.val) = 1 THEN tmp.val
+			ELSE NULL
+			END
+	FROM dbo.HierarchyDepartment AS hd WITH (NOLOCK)
+		CROSS APPLY dbo.fnc_strSplit(ParentIds, ',') AS tmp;
 
-	WITH FlowAndTargetTemplate (
+	INSERT INTO #tmpFlowTemplate (
 		DepartmentId
 		,[Level]
-		,ParentIds
+		,ParentId
 		,FlowTemplateId
-		,TargetTemplateId
 		)
-	AS (
-		SELECT DISTINCT h.DepartmentId
-			,h.[Level]
-			,h.ParentIds
-			,deptFS.FlowTemplateId
-			,deptTS.TargetTemplateId
-		FROM #HierarchyDepartment AS h
-			LEFT JOIN (
-			SELECT DISTINCT dFS.DepartmentId
-				,dFS.FlowTemplateId
-			FROM dbo.SettingDepartmentFlow AS dFS WITH (NOLOCK)
-				INNER JOIN dbo.FlowTemplate AS ft WITH (NOLOCK) ON dFS.FlowTemplateId = ft.FlowTemplateId
-				AND ft.TargetTypeId = @TargetTypeId
-			WHERE dFS.IsGroup = 0
-			) AS deptFS ON h.DepartmentId = deptFS.DepartmentId
-			LEFT JOIN (
-			SELECT DISTINCT dTS.DepartmentId
-				,dTS.TargetTemplateId
-			FROM dbo.TargetTemplateDepartment AS dTS WITH (NOLOCK)
-				INNER JOIN dbo.TargetTemplate AS tt WITH (NOLOCK) ON dTS.TargetTemplateId = tt.TargetTemplateId
-				AND tt.TargetTypeId = @TargetTypeId
-			WHERE dTS.IsGroup = 0
-			) AS deptTS ON h.DepartmentId = deptTS.DepartmentId
-		)
-	INSERT INTO #FlowAndTargetTemplate (
-		DepartmentId
-		,ParentIds
-		,[Level]
-		,FlowTemplateId
-		,TargetTemplateId
-		)
-	SELECT ft.DepartmentId
-		,ft.ParentIds
-		,ft.[Level]
-		,CASE 
-			WHEN ft.FlowTemplateId IS NULL THEN (
-					SELECT TOP 1 ft1.FlowTemplateId
-					FROM FlowAndTargetTemplate AS ft1
-					WHERE ft1.FlowTemplateId IS NOT NULL
-						AND ft1.DepartmentId IN (
-							SELECT DISTINCT DepartmentId
-							FROM FlowAndTargetTemplate
-							WHERE FlowTemplateId IS NOT NULL
-								AND [Level] = (
-									SELECT MAX([Level])
-									FROM FlowAndTargetTemplate
-									WHERE DepartmentId IN (
-											SELECT DISTINCT val
-											FROM fnc_strSplit(ft.ParentIds, ',')
-											)
-										AND FlowTemplateId IS NOT NULL
-									)
-							)
-					)
-			ELSE ft.FlowTemplateId
-			END
-		,CASE 
-			WHEN ft.TargetTemplateId IS NULL THEN (
-					SELECT TOP 1 ft1.TargetTemplateId
-					FROM FlowAndTargetTemplate AS ft1
-					WHERE ft1.TargetTemplateId IS NOT NULL
-						AND ft1.DepartmentId IN (
-							SELECT DISTINCT DepartmentId
-							FROM FlowAndTargetTemplate
-							WHERE TargetTemplateId IS NOT NULL
-								AND [Level] = (
-									SELECT MAX([Level])
-									FROM FlowAndTargetTemplate
-									WHERE DepartmentId IN (
-											SELECT DISTINCT val
-											FROM dbo.fnc_strSplit(ft.ParentIds, ',')
-											)
-										AND TargetTemplateId IS NOT NULL
-									)
-							)
-					)
-			ELSE ft.TargetTemplateId
-			END
-	FROM FlowAndTargetTemplate AS ft
+	SELECT DISTINCT h.DepartmentId
+		,h.[Level]
+		,h.ParentId
+		,dfs.FlowTemplateId
+	FROM #tmpHierarchyDepartment AS h WITH (NOLOCK)
+		LEFT JOIN (
+		SELECT DISTINCT dfs.DepartmentId
+			,dfs.FlowTemplateId
+		FROM dbo.SettingDepartmentFlow AS dfs WITH (NOLOCK)
+			INNER JOIN dbo.FlowTemplate AS ft WITH (NOLOCK) ON dfs.FlowTemplateId = ft.FlowTemplateId
+		WHERE dFS.IsGroup = 0
+			AND ft.TargetTypeId = @TargetTypeId
+		) AS dfs ON h.DepartmentId = dfs.DepartmentId
 
-	SELECT ft.DepartmentId
-		,emp.EmployeeId
+	INSERT INTO #tmpTargetTemplate (
+		DepartmentId
+		,[Level]
+		,ParentId
+		,TargetTemplateId
+		)
+	SELECT DISTINCT h.DepartmentId
+		,h.[Level]
+		,h.ParentId
+		,dts.TargetTemplateId
+	FROM #tmpHierarchyDepartment AS h
+		LEFT JOIN (
+		SELECT DISTINCT dTS.DepartmentId
+			,dTS.TargetTemplateId
+		FROM dbo.TargetTemplateDepartment AS dts WITH (NOLOCK)
+			INNER JOIN dbo.TargetTemplate AS tt WITH (NOLOCK) ON dts.TargetTemplateId = tt.TargetTemplateId
+		WHERE dts.IsGroup = 0
+			AND tt.TargetTypeId = @TargetTypeId
+		) AS dts ON h.DepartmentId = dts.DepartmentId
+
+	INSERT INTO #tmpFlowAndTargetTemplate (
+		EmployeeId
+		,DepartmentId
+		,FlowTemplateId
+		)
+	SELECT DISTINCT emp.EmployeeId
+		,ft.DepartmentId
 		,ft.FlowTemplateId
-		,ft.TargetTemplateId
-	FROM #FlowAndTargetTemplate AS ft WITH (NOLOCK)
-		LEFT JOIN dbo.[Group] AS gr WITH (NOLOCK) ON ft.DepartmentId = gr.DepartmentId
-		AND gr.IsDeleted = 0
-		INNER JOIN dbo.Employee AS emp WITH (NOLOCK) ON gr.GroupId = emp.GroupId
-		AND emp.IsDeleted = 0
-		AND emp.[Enabled] = 1
+	FROM dbo.Employee AS emp WITH (NOLOCK)
+		INNER JOIN dbo.[Group] AS gr WITH (NOLOCK) ON emp.GroupId = gr.GroupId
+		INNER JOIN #tmpFlowTemplate AS ft WITH (NOLOCK) ON gr.DepartmentId = ft.DepartmentId
 	WHERE ft.FlowTemplateId IS NOT NULL
-		OR ft.TargetTemplateId IS NOT NULL
 
-	DROP TABLE #HierarchyDepartment
+	INSERT INTO #tmpFlowAndTargetTemplate (
+		EmployeeId
+		,DepartmentId
+		,FlowTemplateId
+		)
+	SELECT DISTINCT emp.EmployeeId
+		,ft.ParentId
+		,parent.FlowTemplateId
+	FROM dbo.Employee AS emp WITH (NOLOCK)
+		INNER JOIN dbo.[Group] AS gr WITH (NOLOCK) ON emp.GroupId = gr.GroupId
+		INNER JOIN #tmpFlowTemplate AS ft WITH (NOLOCK) ON gr.DepartmentId = ft.DepartmentId
+		INNER JOIN #tmpFlowTemplate AS parent WITH (NOLOCK) ON ft.ParentId = parent.DepartmentId
+	WHERE parent.FlowTemplateId IS NOT NULL
+		AND NOT EXISTS (
+			SELECT 1
+			FROM #tmpFlowAndTargetTemplate AS tmp WITH (NOLOCK)
+			WHERE emp.EmployeeId = tmp.EmployeeId
+				AND tmp.FlowTemplateId IS NOT NULL
+			)
+		AND parent.[Level] = (
+			SELECT MAX(tmp.[Level])
+			FROM #tmpFlowTemplate AS tmp WITH (NOLOCK)
+			WHERE parent.DepartmentId = tmp.DepartmentId
+				AND tmp.FlowTemplateId IS NOT NULL
+			GROUP BY tmp.DepartmentId
+			)
 
-	DROP TABLE #FlowAndTargetTemplate
+	INSERT INTO #tmpFlowAndTargetTemplate (
+		EmployeeId
+		,DepartmentId
+		,TargetTemplateId
+		)
+	SELECT DISTINCT emp.EmployeeId
+		,tt.DepartmentId
+		,tt.TargetTemplateId
+	FROM dbo.Employee AS emp WITH (NOLOCK)
+		INNER JOIN dbo.[Group] AS gr WITH (NOLOCK) ON emp.GroupId = gr.GroupId
+		INNER JOIN #tmpTargetTemplate AS tt WITH (NOLOCK) ON gr.DepartmentId = tt.DepartmentId
+	WHERE tt.TargetTemplateId IS NOT NULL
+
+	INSERT INTO #tmpFlowAndTargetTemplate (
+		EmployeeId
+		,DepartmentId
+		,TargetTemplateId
+		)
+	SELECT DISTINCT emp.EmployeeId
+		,tt.ParentId
+		,parent.TargetTemplateId
+	FROM dbo.Employee AS emp WITH (NOLOCK)
+		INNER JOIN dbo.[Group] AS gr WITH (NOLOCK) ON emp.GroupId = gr.GroupId
+		INNER JOIN #tmpTargetTemplate AS tt WITH (NOLOCK) ON gr.DepartmentId = tt.DepartmentId
+		INNER JOIN #tmpTargetTemplate AS parent WITH (NOLOCK) ON tt.ParentId = parent.DepartmentId
+	WHERE NOT EXISTS (
+			SELECT 1
+			FROM #tmpFlowAndTargetTemplate AS tmp WITH (NOLOCK)
+			WHERE emp.EmployeeId = tmp.EmployeeId
+				AND tmp.TargetTemplateId IS NOT NULL
+			)
+		AND parent.[Level] = (
+			SELECT MAX(tmp.[Level])
+			FROM #tmpTargetTemplate AS tmp WITH (NOLOCK)
+			WHERE parent.DepartmentId = tmp.DepartmentId
+				AND tmp.TargetTemplateId IS NOT NULL
+			GROUP BY tmp.DepartmentId
+			)
+
+	SELECT DepartmentId
+		,EmployeeId
+		,FlowTemplateId
+		,TargetTemplateId
+	FROM #tmpFlowAndTargetTemplate WITH (NOLOCK)
+
+	DROP TABLE #tmpHierarchyDepartment
+
+	DROP TABLE #tmpFlowTemplate
+
+	DROP TABLE #tmpTargetTemplate
+
+	DROP TABLE #tmpFlowAndTargetTemplate
 END

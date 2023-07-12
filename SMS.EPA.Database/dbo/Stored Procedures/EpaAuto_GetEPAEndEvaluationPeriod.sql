@@ -76,6 +76,7 @@ BEGIN
 	WHERE epa.[Status] = 1
 		AND ISNULL(epa.FinalScore, '') = ''
 		AND pe.EndDate < @Today
+		AND pe.EndDate > DATEADD(MONTH, 12, @Today)
 		AND pe.IsActive = 1
 
 	SELECT @EPAIds = COALESCE(@EPAIds + ',', '') + CAST(Id AS NVARCHAR(20))

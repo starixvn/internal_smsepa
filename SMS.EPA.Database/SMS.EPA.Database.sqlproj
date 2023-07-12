@@ -437,6 +437,25 @@
     <Build Include="dbo\Stored Procedures\Auto_JobLevelStandard_GetEmployeeSettingToSendMail.sql" />
     <Build Include="dbo\Stored Procedures\JobLevelStandard_Period_UpdateJobLevel.sql" />
     <Build Include="dbo\Stored Procedures\JobLevelStandard_GetDashboard.sql" />
+    <Build Include="dbo\Tables\JobLevelStandard_TemplateSetting.sql" />
+    <Build Include="dbo\Stored Procedures\Sync_UserMapping_GetLastModifiedDate.sql" />
+    <Build Include="dbo\Stored Procedures\JobLevelStandard_Template_GetKPI.sql" />
+    <Build Include="dbo\Stored Procedures\JobLevelStandard_KPI_Delete.sql" />
+    <Build Include="dbo\Stored Procedures\JobLevelStandard_Assessment_SyncPrevAssessment.sql" />
+    <Build Include="dbo\Stored Procedures\API_GO_GetTodolistJobLevelStandardByUserId.sql" />
+    <Build Include="dbo\Stored Procedures\API_GO_GetTodolistEPAByUserId.sql" />
+    <Build Include="dbo\Stored Procedures\Sync_UserMapping.sql" />
+    <Build Include="dbo\Stored Procedures\JobLevelStandard_KPI_Get.sql" />
+    <Build Include="dbo\Stored Procedures\JobLevelStandard_KPI_UpdateStatus.sql" />
+    <Build Include="dbo\Stored Procedures\JobLevelStandard_Template_UpdateKPI.sql" />
+    <Build Include="dbo\Stored Procedures\JobLevelStandard_Template_UpdateStatus.sql" />
+    <Build Include="dbo\Stored Procedures\JobLevelStandard_TemplateSetting_Assign.sql" />
+    <Build Include="dbo\Stored Procedures\JobLevelStandard_TemplateSetting_Delete.sql" />
+    <Build Include="dbo\Stored Procedures\JobLevelStandard_TemplateSetting_Get.sql" />
+    <Build Include="dbo\Stored Procedures\JobLevelStandardKPI_Delete.sql" />
+    <Build Include="dbo\Stored Procedures\JobLevelStandard_Template_Delete.sql" />
+    <Build Include="dbo\Stored Procedures\JobLevelStandard_Template_Get.sql" />
+    <Build Include="dbo\Stored Procedures\JobLevelStandard_Template_GetById.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="scripts\auto-add-staff-into-semi-period.sql" />

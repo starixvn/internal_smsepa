@@ -73,7 +73,7 @@ BEGIN
 			)
 		SELECT @PeriodId
 			,EmployeeId
-			,EvaluatorId
+			,CASE WHEN ProcessId = 2 THEN EmployeeId ELSE EvaluatorId END
 			,ProcessId
 			,CASE 
 				WHEN StartDate = '01 Jan, 1900' THEN NULL

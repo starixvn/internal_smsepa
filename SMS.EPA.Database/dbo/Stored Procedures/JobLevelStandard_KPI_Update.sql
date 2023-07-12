@@ -1,4 +1,5 @@
 ﻿
+
 CREATE PROCEDURE [dbo].[JobLevelStandard_KPI_Update] @KPIId INT
 	,@Name NVARCHAR(200)
 	,@IsActive BIT
@@ -26,7 +27,7 @@ BEGIN
 			)
 	BEGIN
 		SELECT @ErrCode = 1
-			,@ErrMsg = N'KPI ''' + @Name + ''' has already existed.'
+			,@ErrMsg = N'''' + @Name + ''' exists.'
 
 		RETURN
 	END
@@ -34,7 +35,7 @@ BEGIN
 	DECLARE @logData NVARCHAR(MAX)
 		,@logDataOld NVARCHAR(MAX)
 		,@xml XML
-	DECLARE @LogNo VARCHAR(20) = CONVERT(VARCHAR(8), GETDATE(), 112) + REPLACE(CONVERT(VARCHAR(12), GETDATE(), 114), ':', '')
+		,@LogNo VARCHAR(20) = CONVERT(VARCHAR(8), GETDATE(), 112) + REPLACE(CONVERT(VARCHAR(12), GETDATE(), 114), ':', '')
 		,@ModifiedDate DATETIME = GETDATE()
 
 	-- write log

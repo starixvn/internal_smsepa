@@ -1,5 +1,4 @@
-﻿
-CREATE PROCEDURE [dbo].[EpaAuto_SemiAnnual_AddEmployeeToPeriod] @PeriodId INT
+﻿CREATE PROCEDURE [dbo].[EpaAuto_SemiAnnual_AddEmployeeToPeriod] @PeriodId INT
 	,@ErrCode INT = 0 OUTPUT
 	,@ErrMsg NVARCHAR(MAX) = '' OUTPUT
 AS
@@ -80,11 +79,11 @@ BEGIN
 				AND (
 					(
 						MONTH(@StartDate) <= 6
-						AND CAST(emp.JoinedDate AS DATE) <= CAST(CAST(@CurrentYear AS NVARCHAR(5)) + '-03-15' AS DATE)
+						AND CAST(emp.JoinedDate AS DATE) <= CAST(CAST(@CurrentYear AS NVARCHAR(5)) + '-02-15' AS DATE)
 						)
 					OR (
 						MONTH(@StartDate) > 6
-						AND CAST(emp.JoinedDate AS DATE) <= CAST(CAST(@CurrentYear AS NVARCHAR(5)) + '-09-15' AS DATE)
+						AND CAST(emp.JoinedDate AS DATE) <= CAST(CAST(@CurrentYear AS NVARCHAR(5)) + '-08-15' AS DATE)
 						)
 					)
 				)

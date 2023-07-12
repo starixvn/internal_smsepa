@@ -52,10 +52,12 @@ BEGIN
 	CREATE TABLE #tmpChangedEmployee (
 		UserId INT
 		,EmployeeId INT
+		,DomainUsername NVARCHAR(50)
 		,Code VARCHAR(20)
 		,Nickname NVARCHAR(20)
 		,FullName NVARCHAR(150)
 		,[Password] VARCHAR(100)
+		,Email VARCHAR(50)
 		,IsEnabled BIT
 		,IsDeleted BIT
 		)
@@ -173,13 +175,15 @@ BEGIN
 		)
 	OUTPUT INSERTED.UserId
 		,INSERTED.EmployeeId
+		,INSERTED.DomainUsername
 		,INSERTED.Code
 		,INSERTED.NickName
 		,INSERTED.FullName
 		,INSERTED.[Password]
+		,INSERTED.Email
 		,INSERTED.[Enabled]
 		,INSERTED.IsDeleted
-	INTO #tmpChangedEmployee(UserId, EmployeeId, Code, Nickname, FullName, [Password], IsEnabled, IsDeleted)
+	INTO #tmpChangedEmployee(UserId, EmployeeId, DomainUsername, Code, Nickname, FullName, [Password], Email, IsEnabled, IsDeleted)
 	SELECT new.UserId
 		,new.EmployeeId
 		,new.DomainUsername
@@ -205,8 +209,36 @@ BEGIN
 		,new.MilitaryFromDate
 		,new.MilitaryToDate
 	FROM #tmpEmployee AS new WITH (NOLOCK)
-		LEFT JOIN dbo.Employee AS curr WITH (NOLOCK) ON new.EmployeeId = curr.EmployeeId
-	WHERE curr.EmployeeId IS NULL
+	WHERE NOT EXISTS (
+		SELECT 1
+		FROM dbo.Employee AS curr WITH (NOLOCK)
+		WHERE new.EmployeeId = curr.EmployeeId
+		)
+
+	INSERT INTO #tmpChangedEmployee(UserId, EmployeeId, DomainUsername, Code, Nickname, FullName, [Password], Email, IsEnabled, IsDeleted)
+	SELECT CASE 
+			WHEN ISNULL(new.UserId, 0) > 0 THEN new.UserId
+			ELSE curr.UserId
+			END
+		,new.EmployeeId
+		,new.DomainUsername
+		,new.Code
+		,new.NickName
+		,new.FullName
+		,new.[Password]
+		,new.Email
+		,new.[Enabled]
+		,new.IsDeleted
+	FROM dbo.Employee AS curr WITH (ROWLOCK, UPDLOCK)
+		INNER JOIN #tmpEmployee AS new WITH (NOLOCK) ON new.EmployeeId = curr.EmployeeId
+	WHERE ISNULL(curr.DomainUsername, '') != ISNULL(new.DomainUsername, '')
+		OR ISNULL(curr.Code, '') != ISNULL(new.Code, '')
+		OR ISNULL(curr.NickName, '') != ISNULL(new.NickName, '')
+		OR ISNULL(curr.FullName, '') != ISNULL(new.FullName, '')
+		OR ISNULL(curr.[Password], '') != ISNULL(new.[Password], '')
+		OR ISNULL(curr.Email, '') != ISNULL(new.Email, '')
+		OR curr.[Enabled] != new.[Enabled]
+		OR curr.IsDeleted != new.IsDeleted
 
 	UPDATE curr
 	SET curr.UserId = CASE 
@@ -234,15 +266,6 @@ BEGIN
 		,curr.JobLevelId = new.JobLevelId
 		,curr.MilitaryFromDate = new.MilitaryFromDate
 		,curr.MilitaryToDate = new.MilitaryToDate
-	OUTPUT INSERTED.UserId
-		,INSERTED.EmployeeId
-		,INSERTED.Code
-		,INSERTED.NickName
-		,INSERTED.FullName
-		,INSERTED.[Password]
-		,INSERTED.[Enabled]
-		,INSERTED.IsDeleted
-	INTO #tmpChangedEmployee(UserId, EmployeeId, Code, Nickname, FullName, [Password], IsEnabled, IsDeleted)
 	FROM dbo.Employee AS curr WITH (ROWLOCK, UPDLOCK)
 		INNER JOIN #tmpEmployee AS new WITH (NOLOCK) ON new.EmployeeId = curr.EmployeeId
 
@@ -259,10 +282,12 @@ BEGIN
 
 	SELECT UserId
 		,EmployeeId
+		,DomainUsername
 		,Code
 		,Nickname
 		,FullName
 		,[Password]
+		,Email
 		,IsEnabled
 		,IsDeleted
 	FROM #tmpChangedEmployee WITH (NOLOCK)

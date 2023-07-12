@@ -1,4 +1,5 @@
 ﻿
+
 CREATE PROCEDURE [dbo].[JobLevelStandard_KPI_Insert] @KPIId INT OUTPUT
 	,@Name NVARCHAR(200)
 	,@CreatedBy INT
@@ -24,7 +25,7 @@ BEGIN
 			)
 	BEGIN
 		SELECT @ErrCode = 1
-			,@ErrMsg = N'KPI ''' + @Name + ''' has already existed.'
+			,@ErrMsg = N'''' + @Name + ''' exists.'
 
 		RETURN
 	END

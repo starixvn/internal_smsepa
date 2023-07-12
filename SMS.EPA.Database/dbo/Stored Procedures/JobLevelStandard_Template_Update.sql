@@ -1,4 +1,5 @@
 ﻿
+
 CREATE PROCEDURE [dbo].[JobLevelStandard_Template_Update] @TemplateId INT
 	,@Name NVARCHAR(200)
 	,@IsActive BIT
@@ -26,7 +27,7 @@ BEGIN
 			)
 	BEGIN
 		SELECT @ErrCode = 1
-			,@ErrMsg = N'Template ''' + @Name + ''' has already existed.'
+			,@ErrMsg = N'''' + @Name + ''' exists.'
 
 		RETURN
 	END

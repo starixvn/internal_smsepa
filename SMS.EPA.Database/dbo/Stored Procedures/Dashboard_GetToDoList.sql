@@ -88,6 +88,11 @@ BEGIN
 		AND pc.EvaluatorId = @EmployeeId
 		AND pc.ProcessId >= @ProcessByEvaluator
 		AND @Today >= pc.StartDate
+		INNER JOIN dbo.Employee AS emp WITH (NOLOCK) ON epa.EmployeeId = emp.EmployeeId
+		AND emp.[Enabled] = 1
+		AND emp.IsDeleted = 0
+		INNER JOIN dbo.[Group] AS gr WITH (NOLOCK) ON emp.GroupId = gr.GroupId
+		AND gr.IsDeleted = 0
 	WHERE ISNULL(epa.[Status], 0) = @Inprogress
 	GROUP BY period.PeriodId
 		,period.[Name]
@@ -108,5 +113,5 @@ BEGIN
 			WHEN TargetTypeId = @SemiTargetType THEN 2
 			WHEN TargetTypeId = @PromotionTargetType THEN 3
 			ELSE 4
-			END ASC
+		END ASC
 END

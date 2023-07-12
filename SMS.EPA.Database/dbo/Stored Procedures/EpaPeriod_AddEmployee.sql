@@ -1,4 +1,5 @@
 ﻿
+
 CREATE PROCEDURE [dbo].[EpaPeriod_AddEmployee] @PeriodId INT
 	,@TeamIds VARCHAR(MAX) = NULL
 	,@EmployeeId INT = NULL
@@ -86,11 +87,11 @@ BEGIN
 						AND (
 							(
 								MONTH(@StartDate) <= 6
-								AND CAST(emp.JoinedDate AS DATE) <= CAST(CAST(@CurrentYear AS NVARCHAR(5)) + '-03-15' AS DATE)
+								AND CAST(emp.JoinedDate AS DATE) <= CAST(CAST(@CurrentYear AS NVARCHAR(5)) + '-02-15' AS DATE)
 								)
 							OR (
 								MONTH(@StartDate) > 6
-								AND CAST(emp.JoinedDate AS DATE) <= CAST(CAST(@CurrentYear AS NVARCHAR(5)) + '-09-15' AS DATE)
+								AND CAST(emp.JoinedDate AS DATE) <= CAST(CAST(@CurrentYear AS NVARCHAR(5)) + '-08-15' AS DATE)
 								)
 							)
 						)
@@ -138,18 +139,18 @@ BEGIN
 					AND (
 						(
 							MONTH(@StartDate) <= 6
-							AND CAST(JoinedDate AS DATE) > CAST(CAST(@CurrentYear AS NVARCHAR(5)) + '-03-15' AS DATE)
+							AND CAST(JoinedDate AS DATE) > CAST(CAST(@CurrentYear AS NVARCHAR(5)) + '-02-15' AS DATE)
 							)
 						OR (
 							MONTH(@StartDate) > 6
-							AND CAST(JoinedDate AS DATE) > CAST(CAST(@CurrentYear AS NVARCHAR(5)) + '-09-15' AS DATE)
+							AND CAST(JoinedDate AS DATE) > CAST(CAST(@CurrentYear AS NVARCHAR(5)) + '-08-15' AS DATE)
 							)
 						)
 				)
 			AND @EnableDisciplineRule = 1
 		BEGIN
 			SELECT @ErrCode = 1
-				,@ErrMsg = N'Employee Group Date must be <= 15-Mar(H1) or <= 15-Sep(H2)'
+				,@ErrMsg = N'Employee Group Date must be <= 15-Feb(H1) or <= 15-Aug(H2)'
 
 			RETURN
 		END

@@ -1,9 +1,8 @@
 ﻿
-
 CREATE PROCEDURE [dbo].[JobLevelStandard_Assessment_Update] @AssessmentId INT OUTPUT
 	,@PeriodId INT
 	,@EmployeeId INT
-	,@TotalWeight DECIMAL(5, 2) = NULL
+	,@TotalWeight DECIMAL(7, 2) = NULL
 	,@CurrentJobLevelId INT = NULL
 	,@NewJobLevelId INT = NULL
 	,@StatusId TINYINT = NULL
@@ -34,7 +33,7 @@ BEGIN
 	CREATE TABLE #tempAssessmentKPI (
 		KPIId INT
 		,[Level] SMALLINT NULL
-		,[Weight] DECIMAL(5, 2) NULL
+		,[Weight] DECIMAL(7, 4) NULL
 		)
 
 	EXEC sp_xml_preparedocument @DocHandler OUTPUT

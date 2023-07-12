@@ -24,7 +24,7 @@ BEGIN
 	FROM dbo.JobLevelStandard_Period AS period WITH (NOLOCK)
 		INNER JOIN dbo.JobLevelStandard_PeriodEmployeeSetting AS pes WITH (NOLOCK) ON period.PeriodId = pes.PeriodId
 		AND pes.IsExcluded = 0
-		INNER JOIN dbo.JobLevelStandard_PeriodProcessSetting AS pps WITH (NOLOCK) ON period.PeriodId = pes.PeriodId
+		INNER JOIN dbo.JobLevelStandard_PeriodProcessSetting AS pps WITH (NOLOCK) ON period.PeriodId = pps.PeriodId
 		AND pes.EmployeeId = pps.EmployeeId
 		INNER JOIN dbo.Employee AS emp WITH (NOLOCK) ON pes.EmployeeId = emp.EmployeeId
 		AND emp.[Enabled] = 1

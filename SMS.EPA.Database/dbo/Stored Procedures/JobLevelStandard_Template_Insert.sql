@@ -24,7 +24,7 @@ BEGIN
 			)
 	BEGIN
 		SELECT @ErrCode = 1
-			,@ErrMsg = N'Template ' + @Name + ' has already existed.'
+			,@ErrMsg = N'''' + @Name + ''' exists.'
 
 		RETURN
 	END
@@ -46,7 +46,6 @@ BEGIN
 		)
 
 	SET @TemplateId = SCOPE_IDENTITY()
-
 	-- write log
 	SET @xml = (
 			SELECT [Name] AS '@Name'
