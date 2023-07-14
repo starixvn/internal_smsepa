@@ -90,6 +90,14 @@
         {
             criteria.ModifiedBy = CurrentEmployeeId;
             CommandResult commandResult = baseService.ExecuteNonQuery(criteria);
+            if (commandResult.IsSuccessful)
+            {
+                Task.Factory.StartNew(() =>
+                {
+                    processService.UpdateTotalScoreOfProcess(criteria.PeriodId, null);
+                    epaService.GetDataAndUpdateFinalScore(criteria.ModifiedBy, criteria.PeriodId, null);
+                });
+            }
 
             return commandResult;
         }
