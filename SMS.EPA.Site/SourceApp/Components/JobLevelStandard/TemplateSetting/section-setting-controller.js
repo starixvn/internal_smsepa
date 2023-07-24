@@ -100,7 +100,7 @@
             initFilter();
 
             CommonModel.getDepartment(null, true).then(function () {
-                vm.treeDepartment = CommonModel.generateTreeSection(CommonModel.treeDepartment.Childrens[0].Childrens);
+                vm.treeDepartment = CommonModel.generateTreeSection(CommonModel.treeDepartment.Childrens);
             });
 
             TemplateSettingModel.getTemplates().then(function () {

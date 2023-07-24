@@ -13,7 +13,6 @@
         vm.treeDepartment = {};
 
         vm.cancel = cancel;
-        vm.viewDetails = viewDetails;
         vm.toggleCollapseExpand = toggleCollapseExpand;
 
         initialize();
@@ -56,20 +55,6 @@
 
                 vm.hasTreeEvent = true;
             }
-        }
-
-        function viewDetails(dept) {
-            lockScreenService.start();
-            vm.deptSelected = dept;
-
-            if (dept.Manager && dept.Manager.EmployeeId) {
-                vm.manager = vm.deptSelected.Manager.NickName + " (" + vm.deptSelected.Manager.FullName + ")";
-            } else {
-                vm.manager = null;
-            }
-
-            vm.viewMode = true;
-            lockScreenService.stop();
         }
     }
 })(angular);

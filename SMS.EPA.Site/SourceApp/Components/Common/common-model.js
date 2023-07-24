@@ -134,7 +134,8 @@
                 options.push({
                     Name: createLabel(item, level),
                     DepartmentId: item.DepartmentId,
-                    IsGroup: item.IsGroup
+                    IsGroup: item.IsGroup,
+                    Disable: !item.IsGroup
                 });
                 generateTreeDepartment(item.Childrens, options, level + 1);
             });

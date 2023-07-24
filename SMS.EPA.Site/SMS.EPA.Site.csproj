@@ -510,7 +510,6 @@
     <Content Include="SourceApp\Components\Department\department-directive.js" />
     <Content Include="SourceApp\Components\Department\department-factory.js" />
     <Content Include="SourceApp\Components\Department\department-model.js" />
-    <Content Include="SourceApp\Components\Department\Templates\view.html" />
     <Content Include="SourceApp\Components\Department\Templates\index.html" />
     <Content Include="SourceApp\Components\Department\Templates\tree.html" />
     <Content Include="SourceApp\Components\Discipline\discipline-summary-by-period-directive.js" />

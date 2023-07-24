@@ -96,7 +96,7 @@
             if (departments != null && departments.Any())
             {
                 treeList = new Department();
-                treeList.Childrens.Add(departments.SingleOrDefault(x => x.ParentId == null));
+                treeList.Childrens.AddRange(departments.Where(x => x.ParentId == null));
             }
 
             return treeList;
