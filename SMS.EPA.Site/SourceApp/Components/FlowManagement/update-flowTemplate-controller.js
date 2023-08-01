@@ -29,7 +29,7 @@
 
             CommonModel.getDepartment().then(function () {
                 vm.departments = CommonModel.departments;
-                vm.treeDepartment = CommonModel.generateTreeDepartment(CommonModel.treeDepartment.Childrens);
+                vm.treeDepartment = CommonModel.treeDepartment;
             });
 
             FlowTemplateModel.getFlowTemplateById(vm.flowTemplateId).then(function () {

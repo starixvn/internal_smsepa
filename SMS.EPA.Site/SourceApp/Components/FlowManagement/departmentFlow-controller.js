@@ -18,7 +18,6 @@
         vm.humanResources = DeptFlowModel.humanResources;
 
         vm.departmentSettings = DeptFlowModel.departmentSettings;
-        vm.departmentHasSettingName = '';
 
         vm.employees = [];
         vm.showDeleteButton = false;
@@ -33,19 +32,15 @@
         vm.selectedManagement = null;
         vm.selectedHumanResource = null;
         vm.isFirstLoad = true;
+        vm.departments = [];
 
-        function getNameDepartment(departmentSettings) {
-            var names = '';
+        vm.checkTeamHasSetting = function (teamId) {
+            return vm.departmentSettings.find(team => team.DepartmentId === -teamId) !== undefined
+        };
 
-            angular.forEach(departmentSettings, function (departmentSetting) {
-                names += names ? ', ' + departmentSetting.Name : departmentSetting.Name;
-            });
-
-            return names;
-        }
-
-        vm.getDepartmentFlowById = function () {
-            DeptFlowModel.getDepartmentFlowById(vm.department, vm.FlowTemplateId).then(function () {
+        vm.getDepartmentFlowById = function (team) {
+            vm.department = team;
+            DeptFlowModel.getDepartmentFlowById(team, vm.FlowTemplateId).then(function () {
                 vm.selfs = DeptFlowModel.selfs;
                 vm.evaluators = DeptFlowModel.evaluators;
                 vm.reviewers = DeptFlowModel.reviewers;
@@ -121,6 +116,10 @@
             }
         };
 
+        vm.changeCollapseAttribute = function (item) {
+            item.Collapse = !item.Collapse;
+        };
+
         function initialize() {
             lockScreenService.start();
             FlowSettingModel.resetCurrentFlow(vm);
@@ -130,10 +129,32 @@
             vm.departmentId = null;
             vm.isFirstLoad = false;
 
+            GetDepartmentHasSetting();
+            GetOnlyDepartment($scope.updateCtrl.treeDepartment)
+            AddCollapseAttribute(vm.departments)
+        }
+
+        function GetDepartmentHasSetting() {
             DeptFlowModel.getDepartmentHasSetting(vm.FlowTemplateId).then(function () {
                 vm.departmentSettings = DeptFlowModel.departmentSettings;
-                vm.departmentHasSettingName = getNameDepartment(vm.departmentSettings);
                 lockScreenService.stop();
+            });
+        }
+
+        function AddCollapseAttribute(departments) {
+            departments.forEach(dept => {
+                dept.Collapse = false;
+                dept.Childrens.forEach(sec => {
+                    sec.Collapse = false;
+                })
+            })
+        }
+
+        function GetOnlyDepartment(allDepartment) {
+            allDepartment.Childrens.forEach(unit => {
+                unit.Childrens.forEach(dept => {
+                    vm.departments.push(dept)
+                })
             });
         }
 
@@ -145,36 +166,11 @@
             }
         });
 
-        function getSelectedDepartment(departments, departmentId) {
-            var department = '',
-                departmentLength = departments.length;
-
-            for (var i = 0; i < departmentLength; i++) {
-                var departmentItem = departments[i];
-
-                if (departmentItem.DepartmentId === departmentId) {
-                    department = departmentItem;
-                    i = departmentLength;
-                }
-            }
-
-            return department;
-        }
-
         vm.saveDepartmentFlow = function () {
             if (DeptFlowModel.validateDepartmentFlow(vm)) {
                 DeptFlowModel.createDepartmentFlow(vm).then(function () {
                     vm.showDeleteButton = true;
-                    var department = getSelectedDepartment($scope.updateCtrl.departments, vm.department.DepartmentId);
-
-                    var index = vm.departmentSettings.map(function (e) {
-                        return e.IsGroup ? -e.DepartmentId : e.DepartmentId;
-                    }).indexOf(department.DepartmentId);
-
-                    if (index === -1) {
-                        vm.departmentSettings.push(department);
-                        vm.departmentHasSettingName = getNameDepartment(vm.departmentSettings);
-                    }
+                    GetDepartmentHasSetting();
                 });
             }
         };
@@ -182,13 +178,7 @@
         vm.deleteDepartmentFlow = function () {
             DeptFlowModel.openPopupDeleteDepartmentFlow(vm).then(function () {
                 vm.showDeleteButton = false;
-
-                var index = vm.departmentSettings.map(function (e) {
-                    return e.IsGroup ? -e.DepartmentId : e.DepartmentId;
-                }).indexOf(vm.department.DepartmentId);
-
-                vm.departmentSettings.splice(index, 1);
-                vm.departmentHasSettingName = getNameDepartment(vm.departmentSettings);
+                GetDepartmentHasSetting();
             });
         };
     }
