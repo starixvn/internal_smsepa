@@ -56,7 +56,7 @@
                             var message = await response.Content.ReadAsStringAsync();
                             logger.Error(string.Format("StatusCode: {0}\r\nMessage: {1}", response.StatusCode, message));
 
-                            return default;
+                            return null;
                         }
                     }
                 }
@@ -65,7 +65,7 @@
             {
                 logger.Error(ex.Message);
 
-                return default;
+                return null;
             }
         }
 
