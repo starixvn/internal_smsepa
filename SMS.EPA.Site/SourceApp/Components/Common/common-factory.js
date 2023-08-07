@@ -92,6 +92,9 @@
             },
             getOrgChart: function () {
                 return $http.get(baseUrl + 'api/Common/GetOrgChart');
+            },
+            getOrgChartFromUnit: function () {
+                return $http.get(baseUrl + 'api/Common/GetOrgChartFromUnit');
             }
         };
     }

@@ -2,10 +2,15 @@
     <form novalidate class="form-filter">
         <div class="form-group">
             <label class="label-form" data-translate="DepartmentSection"></label>
-            <select ng-model="sectionCtrl.filter.departmentId" ng-options="opt.DepartmentId as opt.Name disable when opt.Disable for opt in sectionCtrl.treeDepartment"
-                    class="form-control select-form">
-                <option value="">-- {{"All" | translate}} --</option>
-            </select>
+        <div class="select-form">
+            <multi-select-tree-view 
+                                    selected-items="sectionCtrl.filter.departmentId"
+                                    has-search-box="true"
+                                    single-selection="true"
+                                    options="sectionCtrl.orgChartFromUnit"
+                                    on-select="sectionCtrl.onSelectSection"
+                                   ></multi-select-tree-view>
+        </div>
         </div>
         <div class="form-group">
             <label class="label-form"></label>

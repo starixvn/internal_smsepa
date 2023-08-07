@@ -122,6 +122,7 @@
     <Compile Include="Enitites\MultiSelectItem.cs" />
     <Compile Include="Enitites\Section.cs" />
     <Compile Include="Enitites\Team.cs" />
+    <Compile Include="Enitites\Unit.cs" />
     <Compile Include="JobDescription\JobDescriptionEmployeeInfo.cs" />
     <Compile Include="JobDescription\JobDescriptionEmployeeSetting.cs" />
     <Compile Include="JobDescription\JobDescriptionGroupInfo.cs" />

@@ -230,6 +230,32 @@
             return GetOrgChart(departments, sections, teams);
         }
 
+        public IList<MultiSelectItem> GetOrgChartFromUnit()
+        {
+            var allDepartments = GetDepartment();
+            IList<Unit> units = new List<Unit>();
+            foreach (var item in allDepartments.Departments)
+            {
+                if (item.ParentId == null && item.Code != null)
+                {
+                    Unit unit = new Unit
+                    {
+                        UnitId = item.DepartmentId,
+                        Name = item.Name,
+                        Code = item.Code,
+                    };
+                    units.Add(unit);
+                }
+            }
+
+            var criteria = new GetOrgChartCriteria();
+            var tuple = baseService.FetchMultiple<Department, Section>(criteria);
+            var departments = tuple.Item1.ToList();
+            var sections = tuple.Item2.ToList();
+
+            return GetOrgChartFromUnit(units, departments, sections);
+        }
+
         private static IList<MenuItem> GroupMenuItem(IEnumerable<MenuItem> menuItems)
         {
             IList<MenuItem> parents = menuItems.Where(item => !item.ParentId.HasValue)

@@ -31,6 +31,7 @@
         vm.query = query;
         vm.syncSelected = syncSelected;
         vm.exportReport = exportReport;
+        vm.orgChartFromUnits = [];
 
         utilitiesFactory.numberEntryList(vm);
 
@@ -103,6 +104,10 @@
                 vm.treeDepartment = CommonModel.generateTreeSection(CommonModel.treeDepartment.Childrens);
             });
 
+            CommonModel.getOrgChartFromUnit().then(function () {
+                vm.orgChartFromUnit = CommonModel.orgChartFromUnit;
+            });
+
             TemplateSettingModel.getTemplates().then(function () {
                 vm.templates = TemplateSettingModel.templates;
 
@@ -154,5 +159,9 @@
 
             iframe.attr('src', downloadUrl);
         }
+
+        vm.onSelectSection = function (departmentId) {
+            vm.filter.departmentId = departmentId;
+        };
     }
 })(angular);

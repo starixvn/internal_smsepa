@@ -116,5 +116,57 @@
 
             return items;
         }
+
+        protected IList<MultiSelectItem> GetOrgChartFromUnit(IList<Unit> units, IList<Department> departments, IList<Section> sections)
+        {
+            IList<MultiSelectItem> items;
+            if (units.Any())
+            {
+                items = units.Select(unit => new MultiSelectItem
+                {
+                    Id = unit.UnitId,
+                    Text = unit.Name,
+                    Items = departments.Where(dept => dept.ParentId.HasValue && dept.ParentId.Value == unit.UnitId).Select(dept => new MultiSelectItem
+                    {
+                        Id = dept.DepartmentId,
+                        Text = dept.Name,
+                        ParentId = unit.UnitId,
+                        Items = sections.Where(s => s.DepartmentId.HasValue && s.DepartmentId.Value == dept.DepartmentId).Select(s => new MultiSelectItem
+                        {
+                            Id = s.SectionId,
+                            Text = s.Name,
+                            ParentId = dept.DepartmentId,
+                            IsLeaf = true
+                        }).ToList()
+                    }).ToList()
+                }).ToList();
+            }
+            else if (departments.Any())
+            {
+                items = departments.Select(dept => new MultiSelectItem
+                {
+                    Id = dept.DepartmentId,
+                    Text = dept.Name,
+                    Items = sections.Where(s => s.DepartmentId.HasValue && s.DepartmentId.Value == dept.DepartmentId).Select(s => new MultiSelectItem
+                    {
+                        Id = s.SectionId,
+                        Text = s.Name,
+                        ParentId = dept.DepartmentId,
+                        IsLeaf = true
+                    }).ToList()
+                }).ToList();
+            }
+            else
+            {
+                items = sections.Select(s => new MultiSelectItem
+                {
+                    Id = s.SectionId,
+                    Text = s.Name,
+                    IsLeaf = true
+                }).ToList();
+            }
+
+            return items;
+        }
     }
 }

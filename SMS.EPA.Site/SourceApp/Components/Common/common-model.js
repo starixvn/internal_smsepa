@@ -30,7 +30,8 @@
             jobTitles: [],
             jobLevels: [],
             permission: 0,
-            orgChart: []
+            orgChart: [],
+            orgChartFromUnit: [],
         };
 
         model.getTargetType = function (isActive, excludeTargetTypeIds) {
@@ -258,6 +259,14 @@
         model.getOrgChart = function () {
             return commonFactory.getOrgChart().success(function (orgChart) {
                 model.orgChart = orgChart;
+            }).error(function (response, status) {
+                errorFactory.errorHandle(status);
+            });
+        };
+
+        model.getOrgChartFromUnit = function () {
+            return commonFactory.getOrgChartFromUnit().success(function (orgChart) {
+                model.orgChartFromUnit = orgChart;
             }).error(function (response, status) {
                 errorFactory.errorHandle(status);
             });
