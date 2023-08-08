@@ -94,8 +94,8 @@
             {
                 Task.Factory.StartNew(() =>
                 {
-                    processService.UpdateTotalScoreOfProcess(criteria.PeriodId, null);
-                    epaService.GetDataAndUpdateFinalScore(criteria.ModifiedBy, criteria.PeriodId, null);
+                    processService.UpdateTotalScoreOfProcess(criteria.PeriodId);
+                    epaService.GetDataAndUpdateFinalScore(criteria.ModifiedBy, criteria.PeriodId);
                 });
             }
 

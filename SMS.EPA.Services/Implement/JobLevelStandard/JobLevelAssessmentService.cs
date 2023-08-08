@@ -68,7 +68,7 @@
             return assessments;
         }
 
-        private void SyncWeight(JobLevelAssessment assessment)
+        private static void SyncWeight(JobLevelAssessment assessment)
         {
             if (!assessment.AssessmentId.HasValue && assessment.KPIs.Count > 0)
             {

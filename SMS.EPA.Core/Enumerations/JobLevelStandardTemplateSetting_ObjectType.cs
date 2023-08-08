@@ -1,6 +1,6 @@
 ﻿namespace SMS.EPA.Core.Enumerations
 {
-    public enum JobLevelStandardTemplateSetting_ObjectType
+    public enum JobLevelStandardTemplateSettingObjectType
     {
         None = 0,
         Unit,

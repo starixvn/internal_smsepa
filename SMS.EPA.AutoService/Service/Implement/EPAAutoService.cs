@@ -43,7 +43,7 @@
             this.jobLevelStandardService = jobLevelStandardService ?? new JobLevelStandardService();
         }
 
-        public void Run()
+        public async Task Run()
         {
             try
             {
@@ -63,7 +63,7 @@
                     Task.Factory.StartNew(() => { evaluationPeriodService.CheckEndEvaluationPeriod(); }),
                     Task.Factory.StartNew(() => { jobLevelStandardService.SendReminderEmail(); })
                 };
-                Task.WhenAll(tasks).Wait();
+                await Task.WhenAll(tasks);
             }
             catch (Exception ex)
             {

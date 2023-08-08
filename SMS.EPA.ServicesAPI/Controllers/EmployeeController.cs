@@ -136,7 +136,7 @@
             {
                 using (var request = CreateRequest(endPoint, HttpMethod.Post, jwttoken))
                 {
-                    if (data != null)
+                    if (object.Equals(data, default(TInput)))
                     {
                         var encodedData = JsonConvert.SerializeObject(data);
                         var content = new StringContent(encodedData, Encoding.UTF8, "application/json");
