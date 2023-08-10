@@ -74,15 +74,13 @@
 
         [ApiAuthorize(FunctionKey = EPAFunctionKey.TargetEmployeeSetting, Policy = Policy.Read)]
         public IList<TargetDepartmentSetting> GetTargetDepartmentSetting(
-            int? departmentId = null,
-            bool? isGroup = null,
+            string departmentIds = null,
             int? targetTypeId = null,
             bool showAll = false)
         {
             var criteria = new GetTargetDepartmentSettingCriteria
             {
-                DepartmentId = departmentId,
-                IsGroup = isGroup,
+                DepartmentIds = departmentIds,
                 TargetTypeId = targetTypeId,
                 ShowAll = showAll
             };

@@ -61,8 +61,8 @@
             });
         }
 
-        function getTargetDepartmentSetting(departmentId, isGroup, targetTypeId, showAll) {
-            return targetEmployeeSettingFactory.getTargetDepartmentSetting(departmentId, isGroup, targetTypeId, showAll)
+        function getTargetDepartmentSetting(departmentIds, targetTypeId, showAll) {
+            return targetEmployeeSettingFactory.getTargetDepartmentSetting(departmentIds, targetTypeId, showAll)
             .success(function (targetDepartments) {
                 model.targetDepartmentSettings = targetDepartments;
             }).error(function (response, status) {

@@ -4,9 +4,7 @@
 
     public class GetTargetDepartmentSettingCriteria : CriteriaBase
     {
-        public int? DepartmentId { get; set; }
-
-        public bool? IsGroup { get; set; }
+        public string DepartmentIds { get; set; }
 
         public int? TargetTypeId { get; set; }
 

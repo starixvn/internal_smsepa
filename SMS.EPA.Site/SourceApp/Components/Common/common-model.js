@@ -32,6 +32,7 @@
             permission: 0,
             orgChart: [],
             orgChartFromUnit: [],
+            orgChartTemplateSetting: [],
         };
 
         model.getTargetType = function (isActive, excludeTargetTypeIds) {
@@ -264,9 +265,17 @@
             });
         };
 
-        model.getOrgChartFromUnit = function () {
-            return commonFactory.getOrgChartFromUnit().success(function (orgChart) {
+        model.GetOrgChartJLSTemplateSetting = function () {
+            return commonFactory.GetOrgChartJLSTemplateSetting().success(function (orgChart) {
                 model.orgChartFromUnit = orgChart;
+            }).error(function (response, status) {
+                errorFactory.errorHandle(status);
+            });
+        };
+
+        model.GetOrgChartTemplateSetting = function () {
+            return commonFactory.GetOrgChartTemplateSetting().success(function (orgChart) {
+                model.orgChartTemplateSetting = orgChart;
             }).error(function (response, status) {
                 errorFactory.errorHandle(status);
             });

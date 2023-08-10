@@ -230,7 +230,7 @@
             return GetOrgChart(departments, sections, teams);
         }
 
-        public IList<MultiSelectItem> GetOrgChartFromUnit()
+        public IList<MultiSelectItem> GetOrgChartJLSTemplateSetting()
         {
             var allDepartments = GetDepartment();
             IList<Unit> units = new List<Unit>();
@@ -253,7 +253,34 @@
             var departments = tuple.Item1.ToList();
             var sections = tuple.Item2.ToList();
 
-            return GetOrgChartFromUnit(units, departments, sections);
+            return GetOrgChartJLSTemplateSetting(units, departments, sections);
+        }
+
+        public IList<MultiSelectItem> GetOrgChartTemplateSetting()
+        {
+            var allDepartments = GetDepartment();
+            IList<Unit> units = new List<Unit>();
+            foreach (var item in allDepartments.Departments)
+            {
+                if (item.ParentId == null && item.Code != null)
+                {
+                    Unit unit = new Unit
+                    {
+                        UnitId = item.DepartmentId,
+                        Name = item.Name,
+                        Code = item.Code,
+                    };
+                    units.Add(unit);
+                }
+            }
+
+            var criteria = new GetOrgChartCriteria();
+            var tuple = baseService.FetchMultiple<Department, Section,Team>(criteria);
+            var departments = tuple.Item1.ToList();
+            var sections = tuple.Item2.ToList();
+            var teams = tuple.Item3.ToList();
+
+            return GetOrgChartTemplateSetting(units, departments, sections, teams);
         }
 
         private static IList<MenuItem> GroupMenuItem(IEnumerable<MenuItem> menuItems)

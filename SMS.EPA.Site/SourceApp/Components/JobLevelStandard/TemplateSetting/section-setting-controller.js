@@ -104,7 +104,7 @@
                 vm.treeDepartment = CommonModel.generateTreeSection(CommonModel.treeDepartment.Childrens);
             });
 
-            CommonModel.getOrgChartFromUnit().then(function () {
+            CommonModel.GetOrgChartJLSTemplateSetting().then(function () {
                 vm.orgChartFromUnit = CommonModel.orgChartFromUnit;
             });
 

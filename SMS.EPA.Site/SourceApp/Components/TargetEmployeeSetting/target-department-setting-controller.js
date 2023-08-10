@@ -31,7 +31,7 @@
         vm.getIndex = getIndex;
         vm.query = query;
         vm.syncSelectedDepartment = syncSelectedDepartment;
-        vm.updateIsGroup = updateIsGroup;
+        vm.orgChartTemplateSetting = [];
 
         utilitiesFactory.numberEntryList(vm);
         $scope.$watch(function () { return $scope.targetCtrl.dataTab === 1; },
@@ -85,9 +85,9 @@
             return departments;
         }
 
-        function getTargetDepartmentSetting(departmentId, isGroup, targetTypeId, showAll) {
+        function getTargetDepartmentSetting(departmentIds, targetTypeId, showAll) {
             lockScreenService.start();
-            TargetEmployeeSettingModel.getTargetDepartmentSetting(departmentId, isGroup, targetTypeId, showAll).then(function () {
+            TargetEmployeeSettingModel.getTargetDepartmentSetting(departmentIds, targetTypeId, showAll).then(function () {
                 vm.targetDepartmentSettings = TargetEmployeeSettingModel.targetDepartmentSettings;
                 utilitiesFactory.searchOnPage(vm, vm.targetDepartmentSettings);
                 vm.isFirstLoad = false;
@@ -97,7 +97,7 @@
 
         function initFilter() {
             vm.filter = {
-                departmentId: null,
+                departmentIds: null,
                 isGroup: null,
                 targetTypeId: null,
                 showAll: false
@@ -106,6 +106,10 @@
 
         function initialize() {
             initFilter();
+
+            CommonModel.GetOrgChartTemplateSetting().then(function () {
+                vm.orgChartTemplateSetting = CommonModel.orgChartTemplateSetting;
+            });
 
             CommonModel.getDepartment(null, true).then(function () {
                 vm.departments = CommonModel.departments;
@@ -124,19 +128,14 @@
                 }
             });
 
-            getTargetDepartmentSetting(vm.filter.departmentId, null, vm.filter.targetTypeId, vm.filter.showAll);
+            getTargetDepartmentSetting(vm.filter.departmentIds, vm.filter.targetTypeId, vm.filter.showAll);
         }
 
         function query(filter) {
-            var departmentId = null;
             vm.searchKey = '';
             vm.currentPage = 1;
 
-            if (filter.departmentId) {
-                departmentId = filter.departmentId < 0 ? -filter.departmentId : filter.departmentId;
-            }
-
-            getTargetDepartmentSetting(departmentId, filter.isGroup, filter.targetTypeId, filter.showAll);
+            getTargetDepartmentSetting(vm.filter.departmentIds, filter.targetTypeId, filter.showAll);
         }
 
         function syncSelectedDepartment(department, selected) {
@@ -152,12 +151,8 @@
             });
         }
 
-        function updateIsGroup(departmentId) {
-            if (departmentId) {
-                vm.filter.isGroup = departmentId < 0 ? true : false;
-            } else {
-                vm.filter.isGroup = null;
-            }
-        }
+        vm.onSelect = function (departmentIds) {
+            vm.filter.departmentIds = departmentIds;
+        };
     }
 })(angular);

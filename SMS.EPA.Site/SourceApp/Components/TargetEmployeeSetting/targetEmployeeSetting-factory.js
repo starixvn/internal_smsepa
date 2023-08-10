@@ -24,9 +24,9 @@
             return $http.put(baseUrl + 'api/TargetEmployeeSetting/AssignTargetTemplateToEmployee', params);
         }
 
-        function getTargetDepartmentSetting(departmentId, isGroup, targetTypeId, showAll) {
+        function getTargetDepartmentSetting(departmentIds, targetTypeId, showAll) {
             return $http.get(baseUrl + 'api/TargetEmployeeSetting/GetTargetDepartmentSetting', {
-                params: { departmentId, isGroup, targetTypeId, showAll }
+                params: { departmentIds, targetTypeId, showAll }
             });
         }
 
