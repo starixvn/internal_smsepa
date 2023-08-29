@@ -32,7 +32,7 @@
         }
 
         function deleteTargetTemplate(targetTemplateId) {
-            return $http['delete'](baseUrl + 'api/TargetTemplate/DeleteTargetTemplate', { params: { targetTemplateId: targetTemplateId } });
+            return $http['delete'](baseUrl + 'api/TargetTemplate/DeleteTargetTemplate', { params: { targetTemplateId } });
         }
 
         function deleteKPIGroupOfTargetTemplate(targetTemplateId, kpiGroupId) {
@@ -41,7 +41,7 @@
         }
 
         function getKPIGroupOfTargetTemplate(targetTemplateId) {
-            return $http.get(baseUrl + 'api/TargetTemplate/GetKPIGroupOfTargetTemplate', { params: { targetTemplateId: targetTemplateId } });
+            return $http.get(baseUrl + 'api/TargetTemplate/GetKPIGroupOfTargetTemplate', { params: { targetTemplateId } });
         }
 
         function getKPIOfTargetTemplate(targetTemplateId, onlySelected) {
@@ -61,26 +61,25 @@
             return $http.get(baseUrl + 'api/TargetTemplate/GetScoreRatingType',
                 {
                     params: {
-                        scoreRatingTypeId: scoreRatingTypeId,
-                        isActive: isActive
+                        scoreRatingTypeId,
+                        isActive
                     }
                 });
         }
 
-        function getTargetTemplate(targetTypeId, isActive, departmentId, isGroup, scoreRatingTypeId) {
+        function getTargetTemplate(targetTypeId, isActive, teamIds, scoreRatingTypeId) {
             return $http.get(baseUrl + 'api/TargetTemplate/GetAllTargetTemplate', {
                 params: {
-                    targetTypeId: targetTypeId,
-                    isActive: isActive,
-                    departmentId: departmentId,
-                    isGroup: isGroup,
+                    targetTypeId,
+                    isActive,
+                    teamIds,
                     scoreRatingTypeId
                 }
             });
         }
 
         function getTargetTemplateById(targetTemplateId) {
-            return $http.get(baseUrl + 'api/TargetTemplate/GetTargetTemplateById', { params: { targetTemplateId: targetTemplateId } });
+            return $http.get(baseUrl + 'api/TargetTemplate/GetTargetTemplateById', { params: { targetTemplateId } });
         }
 
         function updateTargetTemplate(targetTemplate) {

@@ -48,6 +48,6 @@
 
         public string ModifiedFullName { get; set; }
 
-        public string Departments { get; set; }
+        public string Teams { get; set; }
     }
 }

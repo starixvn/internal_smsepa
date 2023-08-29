@@ -8,7 +8,7 @@
         'CommonModel', 'TargetTemplateModel', 'utilitiesFactory', 'lockScreenService'];
 
     function targetPersonnelSettingController($scope, baseUrl, TargetEmployeeSettingModel, CommonModel, TargetTemplateModel, utilitiesFactory, lockScreenService) {
-        var vm = this;
+        let vm = this;
 
         vm.currentPage = 1;
         vm.filter = {};
@@ -127,7 +127,7 @@
         }
 
         function query(filter) {
-            var employeeId = null;
+            let employeeId = null;
             vm.searchKey = '';
             vm.currentPage = 1;
 

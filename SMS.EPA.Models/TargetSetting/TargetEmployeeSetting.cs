@@ -12,6 +12,7 @@
         public string FullName { get; set; }
         public string Department { get; set; }
         public string Section { get; set; }
+        public string Team { get; set; }
 
         public IList<TargetTemplateEmployee> TargetTemplates { get; set; } = new List<TargetTemplateEmployee>();
 
@@ -36,6 +37,7 @@
                 FullName,
                 Department,
                 Section,
+                Team,
                 TargetType = TargetTemplates.FirstOrDefault()?.TargetTypeName,
                 TargetTemplate = TargetTemplates.FirstOrDefault()?.Name
             };

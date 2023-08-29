@@ -4,24 +4,16 @@
 
     public class GetAllTargetTemplateCriteria : CriteriaBase
     {
-        public int? TargetTypeId { get; set; }
+        public byte? TargetTypeId { get; set; }
 
         public bool? IsActive { get; set; }
 
-        public int? DepartmentId { get; set; }
+        public string TeamIds { get; set; }
 
-        public bool? IsGroup { get; set; }
+        public byte? ScoreRatingTypeId { get; set; }
 
-        public int? ScoreRatingTypeId { get; set; }
+        public override bool IsValid() => true;
 
-        public override bool IsValid()
-        {
-            return true;
-        }
-
-        public override string GetSettingKey()
-        {
-            return "TargetTemplate_GetAll";
-        }
+        public override string GetSettingKey() => "TargetTemplate_GetAll";
     }
 }

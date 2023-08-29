@@ -21,11 +21,13 @@
             </select>
         </div>
         <div class="form-group">
-            <label class="label-form" data-translate="DepartmentSection"></label>
-            <select ng-model="targetTemplateCtrl.filter.departmentId" ng-options="opt.DepartmentId as opt.Name for opt in targetTemplateCtrl.treeDepartment"
-                    class="form-control select-form" ng-change="targetTemplateCtrl.updateIsGroup(targetTemplateCtrl.filter.departmentId)">
-                <option value="">-- {{"All" | translate}} --</option>
-            </select>
+            <label class="label-form" data-translate="Team"></label>
+            <div class="select-form">
+                <multi-select-tree-view selected-items="targetTemplateCtrl.filter.objectIds"
+                                        has-search-box="true" is-selected-all="true"
+                                        options="targetTemplateCtrl.orgChart"
+                                        on-select="targetTemplateCtrl.onSelectTeam"></multi-select-tree-view>
+            </div>
         </div>
         <div class="form-group"></div>
         <div class="form-group">
@@ -74,7 +76,7 @@
                 <td class="text-center" ng-bind="targetTemplate.TargetTypeName"></td>
                 <td class="text-center" ng-bind="targetTemplate.ScoreRatingTypeName"></td>
                 <td class="text-center" ng-bind="targetTemplate.RatingTypeName"></td>
-                <td class="text-left" ng-bind="targetTemplate.Departments"></td>
+                <td class="text-left" ng-bind="targetTemplate.Teams"></td>
                 <td class="col-description">
                     {{targetTemplate.Description | limitTo: targetTemplate.numLimit > 0 ? targetTemplate.numLimit: targetTemplateCtrl.maxLengthDescription}}
                     <a ng-show="!targetTemplate.showReadMore && (targetTemplate.Description.length >= targetTemplateCtrl.maxLengthDescription)"

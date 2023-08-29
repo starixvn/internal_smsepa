@@ -885,8 +885,8 @@
     <Content Include="SourceApp\Components\TargetEmployeeSetting\targetEmployeeSetting-controller.js" />
     <Content Include="SourceApp\Components\TargetEmployeeSetting\targetEmployeeSetting-factory.js" />
     <Content Include="SourceApp\Components\TargetEmployeeSetting\targetEmployeeSetting-model.js" />
-    <Content Include="SourceApp\Components\TargetEmployeeSetting\Templates\department.html" />
-    <Content Include="SourceApp\Components\TargetEmployeeSetting\Templates\personnel.html" />
+    <Content Include="SourceApp\Components\TargetEmployeeSetting\Templates\team.html" />
+    <Content Include="SourceApp\Components\TargetEmployeeSetting\Templates\personal.html" />
     <Content Include="SourceApp\Components\TargetEmployeeSetting\Templates\index.html" />
     <Content Include="SourceApp\routes.js">
       <ExcludeFromStyleCop>True</ExcludeFromStyleCop>

@@ -184,7 +184,7 @@
         }
 
         [HttpGet]
-        public IEnumerable<TargetTemplate> GetAllTargetTemplate(int? targetTypeId = null, bool? isActive = null)
+        public IEnumerable<TargetTemplate> GetAllTargetTemplate(byte? targetTypeId = null, bool? isActive = null)
         {
             var criteria = new GetAllTargetTemplateCriteria
             {
@@ -254,33 +254,6 @@
             var sections = tuple.Item2.ToList();
 
             return GetOrgChartJLSTemplateSetting(units, departments, sections);
-        }
-
-        public IList<MultiSelectItem> GetOrgChartTemplateSetting()
-        {
-            var allDepartments = GetDepartment();
-            IList<Unit> units = new List<Unit>();
-            foreach (var item in allDepartments.Departments)
-            {
-                if (item.ParentId == null && item.Code != null)
-                {
-                    Unit unit = new Unit
-                    {
-                        UnitId = item.DepartmentId,
-                        Name = item.Name,
-                        Code = item.Code,
-                    };
-                    units.Add(unit);
-                }
-            }
-
-            var criteria = new GetOrgChartCriteria();
-            var tuple = baseService.FetchMultiple<Department, Section,Team>(criteria);
-            var departments = tuple.Item1.ToList();
-            var sections = tuple.Item2.ToList();
-            var teams = tuple.Item3.ToList();
-
-            return GetOrgChartTemplateSetting(units, departments, sections, teams);
         }
 
         private static IList<MenuItem> GroupMenuItem(IEnumerable<MenuItem> menuItems)

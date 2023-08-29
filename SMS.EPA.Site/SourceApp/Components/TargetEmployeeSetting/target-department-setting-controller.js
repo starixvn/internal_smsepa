@@ -8,10 +8,9 @@
         'utilitiesFactory', 'lockScreenService'];
 
     function targetDepartmentSettingController($scope, TargetEmployeeSettingModel, CommonModel, TargetTemplateModel, utilitiesFactory, lockScreenService) {
-        var vm = this;
+        let vm = this;
 
         vm.currentPage = 1;
-        vm.departments = CommonModel.departments;
         vm.filter = {};
         vm.isFirstLoad = true;
         vm.pageSize = 20;
@@ -23,7 +22,6 @@
         vm.targetDepartmentSettings = [];
         vm.targetTemplates = [];
         vm.targetTypes = [];
-        vm.treeDepartment = CommonModel.treeDepartment;
 
         vm.assignTargetTemplate = assignTargetTemplate;
         vm.checkAll = checkAll;
@@ -31,7 +29,7 @@
         vm.getIndex = getIndex;
         vm.query = query;
         vm.syncSelectedDepartment = syncSelectedDepartment;
-        vm.orgChartTemplateSetting = [];
+        vm.orgChart = [];
 
         utilitiesFactory.numberEntryList(vm);
         $scope.$watch(function () { return $scope.targetCtrl.dataTab === 1; },
@@ -70,11 +68,11 @@
         }
 
         function getSelectedDepartments(targetDepartmentSettings) {
-            var departments = [];
+            const departments = [];
 
             angular.forEach(targetDepartmentSettings, function (targetDepartment) {
                 if (targetDepartment.Selected) {
-                    var department = {
+                    let department = {
                         DepartmentId: targetDepartment.DepartmentId,
                         IsGroup: targetDepartment.IsGroup
                     };
@@ -107,13 +105,8 @@
         function initialize() {
             initFilter();
 
-            CommonModel.GetOrgChartTemplateSetting().then(function () {
-                vm.orgChartTemplateSetting = CommonModel.orgChartTemplateSetting;
-            });
-
-            CommonModel.getDepartment(null, true).then(function () {
-                vm.departments = CommonModel.departments;
-                vm.treeDepartment = CommonModel.generateTreeDepartment(CommonModel.treeDepartment.Childrens);
+            CommonModel.getOrgChart().then(function () {
+                vm.orgChart = CommonModel.orgChart;
             });
 
             CommonModel.getTargetType().then(function () {

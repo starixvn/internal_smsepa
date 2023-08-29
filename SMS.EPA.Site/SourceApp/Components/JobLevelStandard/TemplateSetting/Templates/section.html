@@ -1,16 +1,13 @@
 ﻿<div ng-controller="SectionTemplateSettingController as sectionCtrl">
     <form novalidate class="form-filter">
         <div class="form-group">
-            <label class="label-form" data-translate="DepartmentSection"></label>
-        <div class="select-form">
-            <multi-select-tree-view 
-                                    selected-items="sectionCtrl.filter.departmentId"
-                                    has-search-box="true"
-                                    single-selection="true"
-                                    options="sectionCtrl.orgChartFromUnit"
-                                    on-select="sectionCtrl.onSelectSection"
-                                   ></multi-select-tree-view>
-        </div>
+            <label class="label-form" data-translate="Section"></label>
+            <div class="select-form">
+                <multi-select-tree-view selected-items="sectionCtrl.filter.objectIds"
+                                        has-search-box="true" is-selected-all="true"
+                                        options="sectionCtrl.orgCharts"
+                                        on-select="sectionCtrl.onSelectSection"></multi-select-tree-view>
+            </div>
         </div>
         <div class="form-group">
             <label class="label-form"></label>
@@ -30,9 +27,9 @@
         <thead>
             <tr class="header-table">
                 <th colspan="10">
-                    <div class="pull-left div-target-templatesetting" ng-show="targetCtrl.permission == targetCtrl.policyEnum.Host">
+                    <div class="pull-left target-template-container" ng-show="targetCtrl.permission == targetCtrl.policyEnum.Host">
                         <label class="control-label" data-translate="Template"></label>
-                        <select ng-model="sectionCtrl.templateSetting.templateId"
+                        <select chosen ng-model="sectionCtrl.templateSetting.templateId"
                                 ng-options="opt.TemplateId as opt.Name for opt in sectionCtrl.templates"
                                 class="target-template-setting-select lstBox-limit"></select>
                     </div>

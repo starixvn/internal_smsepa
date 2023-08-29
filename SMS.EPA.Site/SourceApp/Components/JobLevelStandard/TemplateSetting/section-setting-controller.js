@@ -23,7 +23,6 @@
         };
         vm.templateSettings = [];
         vm.templates = [];
-        vm.treeDepartment = CommonModel.treeDepartment;
         vm.assignTargetTemplate = assignTargetTemplate;
         vm.checkAll = checkAll;
         vm.deleteTemplateSetting = deleteTemplateSetting;
@@ -31,7 +30,7 @@
         vm.query = query;
         vm.syncSelected = syncSelected;
         vm.exportReport = exportReport;
-        vm.orgChartFromUnits = [];
+        vm.orgCharts = [];
 
         utilitiesFactory.numberEntryList(vm);
 
@@ -42,7 +41,7 @@
         });
 
         function assignTargetTemplate() {
-            vm.templateSetting.sectionIds = getSelectedEmployees(vm.templateSettings);
+            vm.templateSetting.sectionIds = getSelectedSections(vm.templateSettings);
 
             TemplateSettingModel.assignTemplate(vm.templateSetting, vm.objectType.section).then(function () {
                 vm.query();
@@ -68,7 +67,7 @@
             return CommonModel.getIndex(index, currentPage, pageSize);
         }
 
-        function getSelectedEmployees(arr) {
+        function getSelectedSections(arr) {
             let sectionIds = '';
             angular.forEach(arr, function (targetSection) {
                 if (targetSection.Selected) {
@@ -79,9 +78,9 @@
             return sectionIds;
         }
 
-        function getTemplateSetting(objectId, showAll) {
+        function getTemplateSetting(objectIds, showAll) {
             lockScreenService.start();
-            TemplateSettingModel.getTemplateSetting(objectId, vm.objectType.section, showAll)
+            TemplateSettingModel.getTemplateSetting(objectIds, vm.objectType.section, showAll)
                 .then(function () {
                     vm.templateSettings = TemplateSettingModel.templateSettings;
                     utilitiesFactory.searchOnPage(vm, vm.templateSettings);
@@ -92,7 +91,7 @@
 
         function initFilter() {
             vm.filter = {
-                departmentId: null,
+                objectIds: null,
                 showAll: false
             };
         }
@@ -100,12 +99,8 @@
         function initialize() {
             initFilter();
 
-            CommonModel.getDepartment(null, true).then(function () {
-                vm.treeDepartment = CommonModel.generateTreeSection(CommonModel.treeDepartment.Childrens);
-            });
-
-            CommonModel.GetOrgChartJLSTemplateSetting().then(function () {
-                vm.orgChartFromUnit = CommonModel.orgChartFromUnit;
+            CommonModel.getOrgChartJLSTemplateSetting().then(function () {
+                vm.orgCharts = CommonModel.orgChart;
             });
 
             TemplateSettingModel.getTemplates().then(function () {
@@ -116,14 +111,14 @@
                 }
             });
 
-            getTemplateSetting(vm.filter.departmentId, vm.filter.showAll);
+            getTemplateSetting(vm.filter.objectIds, vm.filter.showAll);
         }
 
         function query() {
             vm.searchKey = '';
             vm.currentPage = 1;
 
-            getTemplateSetting(vm.filter.departmentId, vm.filter.showAll);
+            getTemplateSetting(vm.filter.objectIds, vm.filter.showAll);
         }
 
         function syncSelected(id, selected) {
@@ -141,16 +136,16 @@
 
         function exportReport() {
             vm.exportCriteria = {
-                objectId: vm.filter.departmentId,
+                objectIds: vm.filter.objectIds,
                 objectTypeId: vm.objectType.section,
                 showAll: vm.filter.showAll,
             }
 
-            var url = baseUrl + 'ExportJLSTemplateSetting/ExportSectionTemplateSetting';
-            var data = $.param(vm.exportCriteria);
+            const url = baseUrl + 'ExportJLSTemplateSetting/ExportSectionTemplateSetting';
+            const data = $.param(vm.exportCriteria);
 
-            var downloadUrl = url + '?' + data;
-            var iframe = $('body iframe');
+            const downloadUrl = url + '?' + data;
+            let iframe = $('body iframe');
 
             if (iframe.length === 0) {
                 iframe = $('<iframe width="0" height="0" class="display-none"></iframe>');
@@ -160,8 +155,8 @@
             iframe.attr('src', downloadUrl);
         }
 
-        vm.onSelectSection = function (departmentId) {
-            vm.filter.departmentId = departmentId;
+        vm.onSelectSection = function (objectIds) {
+            vm.filter.objectIds = objectIds;
         };
     }
 })(angular);

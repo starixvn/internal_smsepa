@@ -1,10 +1,10 @@
 ﻿<div class="result-setting-flow" ng-controller="ResultFlowSettingController as resultFlowSettingCtrl">
     <uib-tabset id="ResultSettingTab" active="resultFlowSettingCtrl.dataTab">
-        <uib-tab heading="DEPARTMENT / SECTION" class="tab-cursor" index="1" select="resultFlowSettingCtrl.tabDepartmentSelected()">
+        <uib-tab heading="TEAM" class="tab-cursor" index="1" select="resultFlowSettingCtrl.tabDepartmentSelected()">
             <table class="row table table-bordered table-striped">
                 <thead>
                     <tr class="header-table">
-                        <th colspan="7">
+                        <th colspan="8">
                             <input class="btnExcel pull-right" export-department-flow-setting
                                    ng-click="resultFlowSettingCtrl.exportDepartmentFlowSetting()"
                                    type="button" title="Export to Excel">
@@ -13,7 +13,8 @@
                     <tr>
                         <th class="text-center" data-translate="SymbolCount"></th>
                         <th data-translate="Department"></th>
-                        <th>Section/Team</th>
+                        <th data-translate="Section"></th>
+                        <th data-translate="Team"></th>
                         <th data-translate="HumanResource"></th>
                         <th data-translate="Evaluator"></th>
                         <th data-translate="Reviewer"></th>
@@ -25,6 +26,7 @@
                         <td class="text-center" ng-bind="$index + 1"></td>
                         <td ng-bind="flow.Department"></td>
                         <td ng-bind="flow.Section"></td>
+                        <td ng-bind="flow.Team"></td>
                         <td>
                             <div ng-show="flow.HumanResources.length == 1">
                                 {{flow.HumanResources[0].FullName}} ({{flow.HumanResources[0].NickName}})
@@ -59,7 +61,7 @@
                         </td>
                     </tr>
                     <tr ng-show="resultFlowSettingCtrl.flowSettings.length == 0">
-                        <td class="empty-result" colspan="7" data-translate="EmptyResult"></td>
+                        <td class="empty-result" colspan="8" data-translate="EmptyResult"></td>
                     </tr>
                 </tbody>
             </table>
@@ -68,7 +70,7 @@
             <table table class="row table table-bordered table-striped">
                 <thead>
                     <tr class="header-table">
-                        <th colspan="10">
+                        <th colspan="11">
                             <input class="btnExcel pull-right" export-personal-flow-setting
                                    ng-click="resultFlowSettingCtrl.exportPersonalFlowSetting()"
                                    type="button" title="Export to Excel">
@@ -79,6 +81,7 @@
                         <th data-translate="Code"></th>
                         <th data-translate="NickName"></th>
                         <th data-translate="FullName"></th>
+                        <th data-translate="Department"></th>
                         <th data-translate="Section"></th>
                         <th data-translate="Team"></th>
                         <th data-translate="HumanResource"></th>
@@ -95,6 +98,7 @@
                         <td ng-bind="flow.FullName"></td>
                         <td ng-bind="flow.Department"></td>
                         <td ng-bind="flow.Section"></td>
+                        <td ng-bind="flow.Team"></td>
                         <td>
                             <div ng-show="flow.HumanResources.length == 1">
                                 {{flow.HumanResources[0].FullName}} ({{flow.HumanResources[0].NickName}})
@@ -129,7 +133,7 @@
                         </td>
                     </tr>
                     <tr ng-show="resultFlowSettingCtrl.flowSettings.length == 0">
-                        <td class="empty-result" colspan="10" data-translate="EmptyResult"></td>
+                        <td class="empty-result" colspan="11" data-translate="EmptyResult"></td>
                     </tr>
                 </tbody>
             </table>

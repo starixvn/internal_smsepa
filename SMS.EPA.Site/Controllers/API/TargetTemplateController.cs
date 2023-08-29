@@ -30,21 +30,11 @@
             this.baseService = baseService ?? new BaseService();
         }
 
+        [HttpGet]
         [ApiAuthorize(FunctionKey = EPAFunctionKey.TargetTemplate, Policy = Policy.Read)]
-        public IEnumerable<TargetTemplate> GetAllTargetTemplate(int? targetTypeId = null, bool? isActive = null, int? departmentId = null, bool? isGroup = null, int? scoreRatingTypeId = null)
+        public IEnumerable<TargetTemplate> GetAllTargetTemplate([FromUri] GetAllTargetTemplateCriteria criteria)
         {
-            var criteria = new GetAllTargetTemplateCriteria
-            {
-                TargetTypeId = targetTypeId,
-                IsActive = isActive,
-                DepartmentId = departmentId,
-                IsGroup = isGroup,
-                ScoreRatingTypeId = scoreRatingTypeId
-
-            };
-            var targetTemplates = baseService.GetData<TargetTemplate>(criteria);
-
-            return targetTemplates;
+            return baseService.GetData<TargetTemplate>(criteria);
         }
 
         [ApiAuthorize(FunctionKey = EPAFunctionKey.TargetTemplate, Policy = Policy.Read)]

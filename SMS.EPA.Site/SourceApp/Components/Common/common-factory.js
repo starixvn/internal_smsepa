@@ -93,11 +93,8 @@
             getOrgChart: function () {
                 return $http.get(baseUrl + 'api/Common/GetOrgChart');
             },
-            GetOrgChartJLSTemplateSetting: function () {
+            getOrgChartJLSTemplateSetting: function () {
                 return $http.get(baseUrl + 'api/Common/GetOrgChartJLSTemplateSetting');
-            },
-            GetOrgChartTemplateSetting: function () {
-                return $http.get(baseUrl + 'api/Common/GetOrgChartTemplateSetting');
             }
         };
     }

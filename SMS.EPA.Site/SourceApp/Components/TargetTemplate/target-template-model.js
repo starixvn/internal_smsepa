@@ -147,8 +147,8 @@
                 });
         }
 
-        function getTargetTemplate(targetTypeId, isActive, departmentId, isGroup, scoreRatingTypeId) {
-            return targetTemplateFactory.getTargetTemplate(targetTypeId, isActive, departmentId, isGroup, scoreRatingTypeId).success(function (targetTemplates) {
+        function getTargetTemplate(targetTypeId, isActive, teamIds, scoreRatingTypeId) {
+            return targetTemplateFactory.getTargetTemplate(targetTypeId, isActive, teamIds, scoreRatingTypeId).success(function (targetTemplates) {
                 model.targetTemplates = targetTemplates;
             }).error(function (response, status) {
                 errorFactory.errorHandle(status);

@@ -30,9 +30,7 @@
             jobTitles: [],
             jobLevels: [],
             permission: 0,
-            orgChart: [],
-            orgChartFromUnit: [],
-            orgChartTemplateSetting: [],
+            orgChart: []
         };
 
         model.getTargetType = function (isActive, excludeTargetTypeIds) {
@@ -111,44 +109,6 @@
             });
         };
 
-        function createLabel(item, level) {
-            var label = '',
-                space = '',
-                levelTemp = level;
-
-            if (level > 0) {
-                while (levelTemp > 0) {
-                    label = label + " " + space;
-                    space = String.fromCharCode(160) + String.fromCharCode(160) + String.fromCharCode(160);
-                    levelTemp--;
-                }
-
-                label = label + ' ├─○ ' + item.Name;
-            } else {
-                label = item.Name;
-            }
-
-            return label;
-        }
-
-        function generateTreeDepartment(departments, options, level) {
-            angular.forEach(departments, function (item) {
-                options.push({
-                    Name: createLabel(item, level),
-                    DepartmentId: item.DepartmentId,
-                    IsGroup: item.IsGroup,
-                    Disable: !item.IsGroup
-                });
-                generateTreeDepartment(item.Childrens, options, level + 1);
-            });
-
-            return options;
-        }
-
-        model.generateTreeDepartment = function (departments) {
-            return generateTreeDepartment(departments, [], 0);
-        };
-
         model.getDepartment = function (parentId, isActive) {
             return commonFactory.getDepartment(parentId, isActive).success(function (data) {
                 model.treeDepartment = data.TreeDepartment;
@@ -156,25 +116,6 @@
             }).error(function (response, status) {
                 errorFactory.errorHandle(status);
             });
-        };
-
-        function generateTreeSection(departments, options, level) {
-            angular.forEach(departments, function (item) {
-                if (item.DepartmentId > 0) {
-                    options.push({
-                        Name: createLabel(item, level),
-                        DepartmentId: item.DepartmentId,
-                        Disable: level !== 2
-                    });
-                    generateTreeSection(item.Childrens, options, level + 1);
-                }
-            });
-
-            return options;
-        }
-
-        model.generateTreeSection = function (departments) {
-            return generateTreeSection(departments, [], 0);
         };
 
         model.getAllStatus = function () {
@@ -265,17 +206,9 @@
             });
         };
 
-        model.GetOrgChartJLSTemplateSetting = function () {
-            return commonFactory.GetOrgChartJLSTemplateSetting().success(function (orgChart) {
-                model.orgChartFromUnit = orgChart;
-            }).error(function (response, status) {
-                errorFactory.errorHandle(status);
-            });
-        };
-
-        model.GetOrgChartTemplateSetting = function () {
-            return commonFactory.GetOrgChartTemplateSetting().success(function (orgChart) {
-                model.orgChartTemplateSetting = orgChart;
+        model.getOrgChartJLSTemplateSetting = function () {
+            return commonFactory.getOrgChartJLSTemplateSetting().success(function (orgChart) {
+                model.orgChart = orgChart;
             }).error(function (response, status) {
                 errorFactory.errorHandle(status);
             });

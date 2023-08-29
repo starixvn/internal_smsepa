@@ -3,7 +3,7 @@
     using Fanex.Data.Repository;
     public class GetJobLevelStandardTemplateSettingCriteria : CriteriaBase
     {
-        public int? ObjectId { get; set; }
+        public string ObjectIds { get; set; }
         public byte ObjectTypeId { get; set; }
         public bool ShowAll { get; set; }
 

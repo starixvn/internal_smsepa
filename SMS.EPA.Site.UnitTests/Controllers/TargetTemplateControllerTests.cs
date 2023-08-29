@@ -28,7 +28,7 @@
             baseService.GetData<TargetTemplate>(Arg.Any<GetAllTargetTemplateCriteria>()).Returns(new List<TargetTemplate>());
 
             // Act
-            var actual = controller.GetAllTargetTemplate(Arg.Any<int?>(), Arg.Any<bool?>());
+            var actual = controller.GetAllTargetTemplate(Arg.Any<GetAllTargetTemplateCriteria>());
 
             // Assert
             Assert.IsInstanceOf(typeof(IEnumerable<TargetTemplate>), actual);

@@ -99,13 +99,13 @@
         }
 
         function goToAssessment(periodId, event) {
-            var params = { periodId };
+            const params = { periodId };
 
             utilitiesFactory.handleOpenLinkWithParams(event, 'JobLevelStandard/Assessment/Index', params);
         }
 
         function goToReviewerListing(periodId, finished, isMonthly, event) {
-            var params = {
+            const params = {
                 periodId: periodId,
                 isMonthly: isMonthly,
                 statusProcess: finished

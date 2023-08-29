@@ -9,6 +9,7 @@
         public int DepartmentId { get; set; }
         public string Department { get; set; }
         public string Section { get; set; }
+        public string Team { get; set; }
 
         public IList<ProcessFlowModel> HumanResources { get; set; } = new List<ProcessFlowModel>();
         public IList<ProcessFlowModel> Evaluators { get; set; } = new List<ProcessFlowModel>();
@@ -22,6 +23,7 @@
                 Count = 0,
                 Department,
                 Section,
+                Team,
                 HumanResource = GetEvaluator(HumanResources),
                 Evaluator = GetEvaluator(Evaluators),
                 Reviewer = GetEvaluator(Reviewers),

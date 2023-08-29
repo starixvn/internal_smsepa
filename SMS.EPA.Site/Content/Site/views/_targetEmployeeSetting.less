@@ -2,34 +2,49 @@
     width: 180px !important;
 }
 
-.target-template-setting-select {
-    box-shadow: none !important;
-    color: #555555;
-    margin: 3px;
-}
-
 .btn-assign {
     margin: 4px 0 2px 5px;
 }
 
-.div-target-templatesetting {
-    margin-left: 10px;
-}
-
-.target-setting-template {
+.table.target-setting-template {
     .oddRow > tr {
-            background-color: #ececec;
+        background-color: #ececec;
 
-            td {
-                background-color: #ececec !important;
-            }
+        td {
+            background-color: #ececec !important;
         }
+    }
 
-     .evenRow {
+    .evenRow {
+        background-color: #fff;
+
+        td {
+            background-color: #fff !important;
+        }
+    }
+
+    .target-template-container {
+        margin: 5px;
+        display: flex;
+        align-items: center;
+
+        .control-label {
+            width: 120px;
+        }
+    }
+
+    .chosen-container {
+        text-align: left;
+        min-width: 250px;
+
+        .chosen-single {
+            background: none;
             background-color: #fff;
-
-            td {
-                background-color: #fff !important;
-            }
+            border-radius: unset;
         }
+
+        .chosen-search-input {
+            color: #333;
+        }
+    }
 }

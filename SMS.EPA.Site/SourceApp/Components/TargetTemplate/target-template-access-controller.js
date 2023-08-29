@@ -7,18 +7,15 @@
     targetTemplateController.$inject = ['$scope', '$location', 'TargetTemplateModel', 'CommonModel', 'utilitiesFactory', 'lockScreenService', 'baseUrl'];
 
     function targetTemplateController($scope, $location, TargetTemplateModel, CommonModel, utilitiesFactory, lockScreenService, baseUrl) {
-        var vm = this;
+        let vm = this;
 
         vm.targetTypes = [];
         vm.scoreRatingTypes = [];
         vm.targetTemplates = [];
         vm.permission = null;
         vm.policyEnum = utilitiesFactory.policy;
-        vm.departments = CommonModel.departments;
-        vm.treeDepartment = CommonModel.treeDepartment;
         vm.filter = {
-            departmentId: null,
-            isGroup: null,
+            teamIds: '',
             targetTypeId: '',
             isActive: 'true',
             scoreRatingTypeId: null
@@ -26,6 +23,7 @@
         vm.currentPage = 1;
         vm.pageSize = 20;
         vm.updateIsGroup = updateIsGroup;
+        vm.orgChart = [];
 
         utilitiesFactory.numberEntryList(vm);
         utilitiesFactory.maxLengthDescription(vm);
@@ -38,9 +36,9 @@
             utilitiesFactory.readLess(item);
         };
 
-        function getTargetTemplate(targetTypeId, isActive, departmentId, isGroup, scoreRatingTypeId) {
+        function getTargetTemplate(targetTypeId, isActive, teamIds, scoreRatingTypeId) {
             lockScreenService.start();
-            TargetTemplateModel.getTargetTemplate(targetTypeId, isActive, departmentId, isGroup, scoreRatingTypeId).then(function () {
+            TargetTemplateModel.getTargetTemplate(targetTypeId, isActive, teamIds, scoreRatingTypeId).then(function () {
                 vm.targetTemplates = TargetTemplateModel.targetTemplates;
                 utilitiesFactory.searchOnPage(vm, vm.targetTemplates);
                 lockScreenService.stop();
@@ -48,15 +46,10 @@
         }
 
         vm.query = function (filter) {
-            var departmentId = null;
             vm.searchKey = '';
             vm.currentPage = 1;
 
-            if (filter.departmentId) {
-                departmentId = filter.departmentId < 0 ? -filter.departmentId : filter.departmentId;
-            }
-
-            getTargetTemplate(filter.targetTypeId, filter.isActive, departmentId, filter.isGroup, filter.scoreRatingTypeId);
+            getTargetTemplate(filter.targetTypeId, filter.isActive, filter.teamIds, filter.scoreRatingTypeId);
         };
 
         vm.getIndex = function (index, currentPage, pageSize) {
@@ -66,7 +59,7 @@
         vm.create = function () {
             TargetTemplateModel.openPopupCreateTargetTemplate(vm).then(function () {
                 vm.modalInstance = null;
-                getTargetTemplate(vm.filter.targetTypeId, vm.filter.isActive, vm.filter.departmentId, vm.filter.isGroup);
+                getTargetTemplate(vm.filter.targetTypeId, vm.filter.isActive, vm.filter.teamIds);
             });
         };
 
@@ -88,7 +81,7 @@
         };
 
         vm.detail = function (targetTemplate, event) {
-            var url = baseUrl + 'TargetTemplate/Detail/' + targetTemplate.TargetTemplateId;
+            const url = baseUrl + 'TargetTemplate/Detail/' + targetTemplate.TargetTemplateId;
             utilitiesFactory.handleOpenLink(event, url);
         };
 
@@ -98,12 +91,15 @@
             };
 
             $scope.$broadcast('exportTargetTemplateManagement');
-        }
+        };
+
+        vm.onSelectTeam = function (teamIds) {
+            vm.filter.teamIds = teamIds;
+        };
 
         function initialize() {
-            CommonModel.getDepartment(null, true).then(function () {
-                vm.departments = CommonModel.departments;
-                vm.treeDepartment = CommonModel.generateTreeDepartment(CommonModel.treeDepartment.Childrens);
+            CommonModel.getOrgChart().then(function () {
+                vm.orgChart = CommonModel.orgChart;
             });
 
             TargetTemplateModel.getPermissionOnTargetTemplate().then(function () {
@@ -117,12 +113,12 @@
             TargetTemplateModel.getScoreRatingType().then(function () {
                 vm.scoreRatingTypes = TargetTemplateModel.scoreRatingTypes;
             });
-            getTargetTemplate(vm.filter.targetTypeId, vm.filter.isActive, vm.filter.departmentId, vm.filter.isGroup, vm.filter.scoreRatingTypeId);
+            getTargetTemplate(vm.filter.targetTypeId, vm.filter.isActive, vm.filter.teamIds, vm.filter.scoreRatingTypeId);
         }
 
         function updateIsGroup(departmentId) {
             if (departmentId) {
-                vm.filter.isGroup = departmentId < 0 ? true : false;
+                vm.filter.isGroup = departmentId < 0;
             } else {
                 vm.filter.isGroup = null;
             }

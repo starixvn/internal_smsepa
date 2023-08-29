@@ -28,8 +28,8 @@
                 });
         }
 
-        function getTemplateSetting(id, typeId, showAll) {
-            return TemplateSettingFactory.getTemplateSetting(id, typeId, showAll)
+        function getTemplateSetting(objectIds, typeId, showAll) {
+            return TemplateSettingFactory.getTemplateSetting(objectIds, typeId, showAll)
                 .success(function (templateSettings) {
                     model.templateSettings = templateSettings;
                 }).error(function (response, status) {

@@ -7,7 +7,7 @@
     departmentFlowController.$inject = ['$scope', '$routeParams', 'FlowSettingModel', 'DeptFlowModel', 'CommonModel', 'lockScreenService'];
 
     function departmentFlowController($scope, $routeParams, FlowSettingModel, DeptFlowModel, CommonModel, lockScreenService) {
-        var vm = this;
+        let vm = this;
 
         vm.FlowTemplateId = parseInt($routeParams.id);
 
@@ -21,8 +21,7 @@
 
         vm.employees = [];
         vm.showDeleteButton = false;
-        vm.department = null;
-        vm.departmentId = null;
+        vm.selectedTeam = null;
         vm.searchEvaluator = '';
         vm.searchReviewer = '';
         vm.searchManagement = '';
@@ -35,11 +34,11 @@
         vm.departments = [];
 
         vm.checkTeamHasSetting = function (teamId) {
-            return vm.departmentSettings.find(team => team.DepartmentId === -teamId) !== undefined
+            return vm.departmentSettings.find(team => team.DepartmentId === -teamId) !== undefined;
         };
 
         vm.getDepartmentFlowById = function (team) {
-            vm.department = team;
+            vm.selectedTeam = team;
             DeptFlowModel.getDepartmentFlowById(team, vm.FlowTemplateId).then(function () {
                 vm.selfs = DeptFlowModel.selfs;
                 vm.evaluators = DeptFlowModel.evaluators;
@@ -52,8 +51,7 @@
                     vm.managements.employees.length > 0 ||
                     vm.humanResources.employees.length > 0) {
                     vm.showDeleteButton = true;
-                }
-                else {
+                } else {
                     vm.showDeleteButton = false;
                 }
             });
@@ -79,8 +77,7 @@
 
         // Sort item in list.
         $scope.$on('list-sorted', function (ev, val) {
-            var sender = val.sender;
-            switch (sender) {
+            switch (val.sender) {
                 case "selfList":
                     vm.selfs.employees.splice(val.to, 0, vm.selfs.employees.splice(val.from, 1)[0]);
                     break;
@@ -103,16 +100,15 @@
             switch (identity) {
                 case "evaluatorList":
                     return CommonModel.searchEmployee(vm.searchEvaluator);
-                    break;
+
                 case "reviewerList":
                     return CommonModel.searchEmployee(vm.searchReviewer);
-                    break;
+
                 case "managementList":
                     return CommonModel.searchEmployee(vm.searchManagement);
-                    break;
+
                 case "humanResourceList":
                     return CommonModel.searchEmployee(vm.searchHumanResource);
-                    break;
             }
         };
 
@@ -125,23 +121,22 @@
             FlowSettingModel.resetCurrentFlow(vm);
             vm.flowTemplate = $scope.updateCtrl.flowTemplate;
             vm.showDeleteButton = false;
-            vm.department = null;
-            vm.departmentId = null;
+            vm.selectedTeam = null;
             vm.isFirstLoad = false;
 
-            GetDepartmentHasSetting();
-            GetOnlyDepartment($scope.updateCtrl.treeDepartment)
-            AddCollapseAttribute(vm.departments)
+            getDepartmentHasSetting();
+            getOnlyDepartment($scope.updateCtrl.treeDepartment)
+            addCollapseAttribute(vm.departments)
         }
 
-        function GetDepartmentHasSetting() {
+        function getDepartmentHasSetting() {
             DeptFlowModel.getDepartmentHasSetting(vm.FlowTemplateId).then(function () {
                 vm.departmentSettings = DeptFlowModel.departmentSettings;
                 lockScreenService.stop();
             });
         }
 
-        function AddCollapseAttribute(departments) {
+        function addCollapseAttribute(departments) {
             departments.forEach(dept => {
                 dept.Collapse = false;
                 dept.Childrens.forEach(sec => {
@@ -150,8 +145,8 @@
             })
         }
 
-        function GetOnlyDepartment(allDepartment) {
-            allDepartment.Childrens.forEach(unit => {
+        function getOnlyDepartment(departments) {
+            departments.Childrens.forEach(unit => {
                 unit.Childrens.forEach(dept => {
                     vm.departments.push(dept)
                 })
@@ -170,7 +165,7 @@
             if (DeptFlowModel.validateDepartmentFlow(vm)) {
                 DeptFlowModel.createDepartmentFlow(vm).then(function () {
                     vm.showDeleteButton = true;
-                    GetDepartmentHasSetting();
+                    getDepartmentHasSetting();
                 });
             }
         };
@@ -178,7 +173,7 @@
         vm.deleteDepartmentFlow = function () {
             DeptFlowModel.openPopupDeleteDepartmentFlow(vm).then(function () {
                 vm.showDeleteButton = false;
-                GetDepartmentHasSetting();
+                getDepartmentHasSetting();
             });
         };
     }

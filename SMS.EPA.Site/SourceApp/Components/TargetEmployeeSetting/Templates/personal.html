@@ -39,10 +39,10 @@
     <table class="row table table-bordered table-striped target-setting-template" id="data">
         <thead>
             <tr class="header-table">
-                <th colspan="10">
-                    <div class="pull-left div-target-templatesetting" ng-show="targetCtrl.permission == targetCtrl.policyEnum.Host">
+                <th colspan="11">
+                    <div class="pull-left target-template-container" ng-show="targetCtrl.permission == targetCtrl.policyEnum.Host">
                         <label class="control-label" data-translate="TargetTemplate"></label>
-                        <select ng-model="personnelCtrl.targetEmployeeSetting.targetTemplateId"
+                        <select chosen ng-model="personnelCtrl.targetEmployeeSetting.targetTemplateId"
                                 ng-options="opt.TargetTemplateId as opt.Name for opt in personnelCtrl.targetTemplates"
                                 class="target-template-setting-select lstBox-limit"></select>
                     </div>
@@ -63,6 +63,7 @@
                 <th data-translate="Code"></th>
                 <th data-translate="NickName"></th>
                 <th data-translate="FullName"></th>
+                <th data-translate="Department"></th>
                 <th data-translate="Section"></th>
                 <th data-translate="Team"></th>
                 <th data-translate="TargetType"></th>
@@ -84,6 +85,7 @@
                 <td ng-bind="employee.FullName" ng-show="$first" rowspan="{{employee.NumberTargetTemplates}}"></td>
                 <td ng-show="$first" rowspan="{{employee.NumberTargetTemplates}}" ng-bind="employee.Department"></td>
                 <td ng-show="$first" rowspan="{{employee.NumberTargetTemplates}}" ng-bind="employee.Section"></td>
+                <td ng-show="$first" rowspan="{{employee.NumberTargetTemplates}}" ng-bind="employee.Team"></td>
                 <td ng-bind="targetTemplate.TargetTypeName"></td>
                 <td ng-bind="targetTemplate.Name"></td>
                 <td class="text-center" ng-show="targetCtrl.permission === targetCtrl.policyEnum.Host">
@@ -101,6 +103,7 @@
                 <td ng-bind="employee.FullName"></td>
                 <td ng-bind="employee.Department"></td>
                 <td ng-bind="employee.Section"></td>
+                <td ng-bind="employee.Team"></td>
                 <td></td>
                 <td></td>
                 <td></td>
@@ -108,12 +111,12 @@
         </tbody>
         <tbody ng-show="personnelCtrl.filteredItems.length === 0">
             <tr>
-                <td class="empty-result" colspan="10" data-translate="EmptyResult"></td>
+                <td class="empty-result" colspan="11" data-translate="EmptyResult"></td>
             </tr>
         </tbody>
         <tfoot>
             <tr>
-                <td colspan="10" class="paging">
+                <td colspan="11" class="paging">
                     <span data-translate="Show"></span>
                     <select class="dropdown-entry form-control" ng-model="personnelCtrl.pageSize"
                             ng-options="entry for entry in personnelCtrl.entries" ng-change="personnelCtrl.currentPage = 1"></select>

@@ -32,9 +32,9 @@
             });
         }
 
-        function getTemplateSetting(objectId, objectTypeId, showAll) {
+        function getTemplateSetting(objectIds, objectTypeId, showAll) {
             return $http.get(baseUrl + 'api/JobLevelStandardTemplateSetting/GetTemplateSetting', {
-                params: { objectId, objectTypeId, showAll }
+                params: { objectIds, objectTypeId, showAll }
             });
         }
 
