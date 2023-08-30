@@ -10,8 +10,8 @@
             getDepartment: getDepartment
         };
 
-        function getDepartment(parentId, isActive) {
-            return $http.get(baseUrl + 'api/Department/GetDepartment', { params: { parentId: parentId, isActive: isActive } });
+        function getDepartment() {
+            return $http.get(baseUrl + 'api/Department/GetDepartment');
         }
     }
 })(angular);

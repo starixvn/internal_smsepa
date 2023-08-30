@@ -77,31 +77,6 @@
             return baseService.GetData<Group>(criteria);
         }
 
-        public DepartmentInfoModel GetDepartment(GetDepartmentCriteria criteria)
-        {
-            IList<Department> departments = departmentService.GetDepartment(criteria);
-            Department treeList = GetRootDepartment(departments);
-            var departmentInfo = new DepartmentInfoModel
-            {
-                TreeDepartment = treeList,
-                Departments = departments
-            };
-
-            return departmentInfo;
-        }
-
-        private static Department GetRootDepartment(IList<Department> departments)
-        {
-            Department treeList = null;
-            if (departments != null && departments.Any())
-            {
-                treeList = new Department();
-                treeList.Childrens.AddRange(departments.Where(x => x.ParentId == null));
-            }
-
-            return treeList;
-        }
-
         public IEnumerable<PeriodModel> GetPeriod(GetPeriodCriteria criteria)
         {
             return periodService.GetPeriod(criteria);

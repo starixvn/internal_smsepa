@@ -23,19 +23,25 @@
         private readonly IRoleService roleService;
         private readonly IBaseService baseService;
         private readonly ICommonService commonService;
+        private readonly IUnitService unitService;
+        private readonly IDepartmentService departmentService;
 
-        public CommonController() : this(null, null, null)
+        public CommonController() : this(null, null, null, null, null)
         {
         }
 
         public CommonController(
             IRoleService roleService,
             IBaseService baseService,
-            ICommonService commonService)
+            ICommonService commonService,
+            IUnitService unitService,
+            IDepartmentService departmentService)
         {
             this.roleService = roleService ?? new RoleService();
             this.baseService = baseService ?? new BaseService();
             this.commonService = commonService ?? new CommonService();
+            this.unitService = unitService ?? new UnitService();
+            this.departmentService = departmentService ?? new DepartmentService();
         }
 
         [HttpGet]
@@ -133,18 +139,6 @@
             return commonService.GetAllGroup(criteria);
         }
 
-        [HttpGet]
-        public DepartmentInfoModel GetDepartment(int? parentId = null, bool? isActive = null)
-        {
-            var criteria = new GetDepartmentCriteria
-            {
-                ParentId = parentId,
-                IsActive = isActive
-            };
-
-            return commonService.GetDepartment(criteria);
-        }
-
         public List<object> GetAllStatus()
         {
             List<object> statuses = ((EpaStatus[])System.Enum.GetValues(typeof(EpaStatus)))
@@ -220,40 +214,19 @@
 
         public IList<MultiSelectItem> GetOrgChart()
         {
-            var criteria = new GetOrgChartCriteria();
-            var tuple = baseService.FetchMultiple<Department, Section, Team>(criteria);
-
-            var departments = tuple.Item1.ToList();
-            var sections = tuple.Item2.ToList();
-            var teams = tuple.Item3.ToList();
-
-            return GetOrgChart(departments, sections, teams);
+            return departmentService.GetOrgChart();
         }
 
         public IList<MultiSelectItem> GetOrgChartJLSTemplateSetting()
         {
-            var allDepartments = GetDepartment();
-            IList<Unit> units = new List<Unit>();
-            foreach (var item in allDepartments.Departments)
-            {
-                if (item.ParentId == null && item.Code != null)
-                {
-                    Unit unit = new Unit
-                    {
-                        UnitId = item.DepartmentId,
-                        Name = item.Name,
-                        Code = item.Code,
-                    };
-                    units.Add(unit);
-                }
-            }
+            IList<Unit> units = unitService.Get();
 
             var criteria = new GetOrgChartCriteria();
             var tuple = baseService.FetchMultiple<Department, Section>(criteria);
             var departments = tuple.Item1.ToList();
             var sections = tuple.Item2.ToList();
 
-            return GetOrgChartJLSTemplateSetting(units, departments, sections);
+            return GetOrgChart(units, departments, sections);
         }
 
         private static IList<MenuItem> GroupMenuItem(IEnumerable<MenuItem> menuItems)
@@ -268,6 +241,58 @@
             }
 
             return parents;
+        }
+
+        private IList<MultiSelectItem> GetOrgChart(IList<Unit> units, IList<Department> departments, IList<Section> sections)
+        {
+            IList<MultiSelectItem> items;
+            if (units.Any())
+            {
+                items = units.Select(unit => new MultiSelectItem
+                {
+                    Id = unit.UnitId,
+                    Text = unit.Name,
+                    Items = departments.Where(dept => dept.ParentId.HasValue && dept.ParentId.Value == unit.UnitId).Select(dept => new MultiSelectItem
+                    {
+                        Id = dept.DepartmentId,
+                        Text = dept.Name,
+                        ParentId = unit.UnitId,
+                        Items = sections.Where(s => s.DepartmentId.HasValue && s.DepartmentId.Value == dept.DepartmentId).Select(s => new MultiSelectItem
+                        {
+                            Id = s.SectionId,
+                            Text = s.Name,
+                            ParentId = dept.DepartmentId,
+                            IsLeaf = true
+                        }).ToList()
+                    }).ToList()
+                }).ToList();
+            }
+            else if (departments.Any())
+            {
+                items = departments.Select(dept => new MultiSelectItem
+                {
+                    Id = dept.DepartmentId,
+                    Text = dept.Name,
+                    Items = sections.Where(s => s.DepartmentId.HasValue && s.DepartmentId.Value == dept.DepartmentId).Select(s => new MultiSelectItem
+                    {
+                        Id = s.SectionId,
+                        Text = s.Name,
+                        ParentId = dept.DepartmentId,
+                        IsLeaf = true
+                    }).ToList()
+                }).ToList();
+            }
+            else
+            {
+                items = sections.Select(s => new MultiSelectItem
+                {
+                    Id = s.SectionId,
+                    Text = s.Name,
+                    IsLeaf = true
+                }).ToList();
+            }
+
+            return items;
         }
     }
 }

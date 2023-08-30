@@ -26,8 +26,6 @@
 
         IEnumerable<Group> GetAllGroup(GetAllGroupCriteria criteria);
 
-        DepartmentInfoModel GetDepartment(GetDepartmentCriteria criteria);
-
         IEnumerable<PeriodModel> GetPeriod(GetPeriodCriteria criteria);
 
         IEnumerable<StandardGradeModel> GetStandardGrade();

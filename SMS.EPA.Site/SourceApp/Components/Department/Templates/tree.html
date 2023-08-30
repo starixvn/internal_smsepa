@@ -1,7 +1,7 @@
 ﻿<span><i class="glyphicon glyphicon-minus-sign" ng-click="deptCtrl.toggleCollapseExpand()"></i></span>
 <a href="javascript:;">
-    {{dept.Name}}
+    {{dept.Text}}
 </a>
 <ul>
-    <li ng-repeat="dept in dept.Childrens" ng-include src="'/SourceApp/Components/Department/Templates/tree.html'"></li>
+    <li ng-repeat="dept in dept.Items" ng-include src="'/SourceApp/Components/Department/Templates/tree.html'"></li>
 </ul>

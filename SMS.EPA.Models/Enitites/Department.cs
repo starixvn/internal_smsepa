@@ -18,8 +18,6 @@
 
         public bool IsGroup { get; set; }
 
-        public Employee Manager { get; set; }
-
         public List<Department> Childrens { get; set; } = new List<Department>();
     }
 }

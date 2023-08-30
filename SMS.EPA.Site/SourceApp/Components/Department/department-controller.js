@@ -7,10 +7,9 @@
     departmentController.$inject = ['DepartmentModel', 'utilitiesFactory', 'lockScreenService'];
 
     function departmentController(DepartmentModel, utilitiesFactory, lockScreenService) {
-        var vm = this;
+        let vm = this;
 
         vm.departments = [];
-        vm.treeDepartment = {};
 
         vm.cancel = cancel;
         vm.toggleCollapseExpand = toggleCollapseExpand;
@@ -28,7 +27,6 @@
 
             DepartmentModel.getDepartment().then(function () {
                 vm.departments = DepartmentModel.departments;
-                vm.treeDepartment = DepartmentModel.treeDepartment;
                 lockScreenService.stop();
             });
         }
@@ -41,7 +39,7 @@
         function toggleCollapseExpand() {
             if (!vm.hasTreeEvent) {
                 $('.tree li.parent_li > span').on('click', function (e) {
-                    var children = $(this).parent('li.parent_li').find(' > ul > li');
+                    let children = $(this).parent('li.parent_li').find(' > ul > li');
                     if (children.is(":visible")) {
                         children.hide('fast');
                         $(this).attr('title', 'Expand this branch').find(' > i').addClass('glyphicon-plus-sign').removeClass('glyphicon-minus-sign');

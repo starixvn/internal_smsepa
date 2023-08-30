@@ -161,12 +161,14 @@
     <Compile Include="Implement\JobLevelStandard\JobLevelStandardPeriodService.cs" />
     <Compile Include="Implement\ReportService\CommentReportService.cs" />
     <Compile Include="Implement\ReportService\RecomendationReportService.cs" />
+    <Compile Include="Implement\UnitService.cs" />
     <Compile Include="Interfaces\ExportFile\IExportCommentReportService.cs" />
     <Compile Include="Interfaces\ExportFile\IExportJobLevelAssessmentService.cs" />
     <Compile Include="Interfaces\ExportFile\IExportRecommendationReportService.cs" />
     <Compile Include="Interfaces\ExportFile\IExportTargetTemplateService.cs" />
     <Compile Include="Interfaces\IBaseMailService.cs" />
     <Compile Include="Interfaces\IJobDescriptionService.cs" />
+    <Compile Include="Interfaces\IUnitService.cs" />
     <Compile Include="Interfaces\JobLevelStandard\IJobLevelAssessmentService.cs" />
     <Compile Include="Interfaces\JobLevelStandard\IJobLevelStandardPeriodService.cs" />
     <Compile Include="Interfaces\ReportService\ICommentReportService.cs" />

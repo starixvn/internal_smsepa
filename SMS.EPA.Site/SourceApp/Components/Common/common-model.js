@@ -3,10 +3,10 @@
     /* jshint latedef:nofunc */
 
     angular.module('commonModule').factory('CommonModel', commonModel);
-    commonModel.$inject = ['$uibModal', 'commonFactory', 'errorFactory'];
+    commonModel.$inject = ['commonFactory', 'errorFactory'];
 
-    function commonModel($uibModal, commonFactory, errorFactory) {
-        var model = {
+    function commonModel(commonFactory, errorFactory) {
+        let model = {
             targetTypes: [],
             systemRoles: [],
             kpis: [],
@@ -16,8 +16,6 @@
             employeesInDepartment: [],
             employeesInGroup: [],
             employee: {},
-            departments: [],
-            treeDepartment: {},
             statusList: [],
             periods: [],
             monthlyPeriods: [],
@@ -104,15 +102,6 @@
         model.getEmployeeById = function (employeeId) {
             return commonFactory.getEmployeeById(employeeId).success(function (employee) {
                 model.employee = employee;
-            }).error(function (response, status) {
-                errorFactory.errorHandle(status);
-            });
-        };
-
-        model.getDepartment = function (parentId, isActive) {
-            return commonFactory.getDepartment(parentId, isActive).success(function (data) {
-                model.treeDepartment = data.TreeDepartment;
-                model.departments = data.Departments;
             }).error(function (response, status) {
                 errorFactory.errorHandle(status);
             });

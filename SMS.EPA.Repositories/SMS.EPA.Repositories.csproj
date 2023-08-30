@@ -125,7 +125,6 @@
       <!-- Exclude the file from analysis -->
       <SonarQubeExclude>true</SonarQubeExclude>
     </Compile>
-    <Compile Include="Implement\DepartmentRepository.cs" />
     <Compile Include="Implement\EmployeeRepository.cs" />
     <Compile Include="Implement\EPAHistoryRepository.cs" />
     <Compile Include="Implement\FlowTemplateRepository.cs" />
@@ -134,7 +133,6 @@
     <Compile Include="Implement\PeriodRepository.cs" />
     <Compile Include="Implement\ReportRepository.cs" />
     <Compile Include="Implement\TargetTemplateRepository.cs" />
-    <Compile Include="Interfaces\IDepartmentRepository.cs" />
     <Compile Include="Interfaces\IEmployeeRepository.cs" />
     <Compile Include="Implement\KPIRepository.cs" />
     <Compile Include="Interfaces\IEPAHistoryRepository.cs" />

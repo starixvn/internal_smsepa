@@ -1,39 +1,31 @@
 ﻿namespace SMS.EPA.Site.Controllers.API
 {
+    using System.Collections.Generic;
     using System.Web.Http;
     using HRM.UserControl.Client.Core.Enumerables;
     using SMS.EPA.Core.Attribute;
     using SMS.EPA.Core.Constants;
-    using SMS.EPA.Criteria;
-    using SMS.EPA.Model;
+    using SMS.EPA.Model.Enitites;
     using SMS.EPA.Services;
 
     public class DepartmentController : BaseController
     {
-        private readonly ICommonService commonService;
+        private readonly IUnitService unitService;
 
         public DepartmentController() : this(null)
         {
         }
 
-        public DepartmentController(ICommonService commonService)
+        public DepartmentController(IUnitService unitService)
         {
-            this.commonService = commonService ?? new CommonService();
+            this.unitService = unitService ?? new UnitService();
         }
 
         [HttpGet]
         [ApiAuthorize(FunctionKey = EPAFunctionKey.Department, Policy = Policy.Read)]
-        public DepartmentInfoModel GetDepartment(
-            int? parentId = null,
-            bool? isActive = null)
+        public IList<MultiSelectItem> GetDepartment()
         {
-            var criteria = new GetDepartmentCriteria
-            {
-                ParentId = parentId,
-                IsActive = isActive
-            };
-
-            return commonService.GetDepartment(criteria);
+            return unitService.GetOrgChart();
         }
     }
 }

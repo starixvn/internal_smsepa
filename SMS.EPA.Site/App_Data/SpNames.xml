@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <Functions>
-    <Function Name="Authentication">
+    <Function Name="Auth">
         <Setting Key="EpaEmployee_GetByCode" SpName="EpaEmployee_GetByCode" DbName="SMSEPA" Plain="0"></Setting>
         <Setting Key="EpaEmployee_GetByDomainUsername" SpName="EpaEmployee_GetByDomainUsername" DbName="SMSEPA" Plain="0"></Setting>
         <Setting Key="EpaEmployeeIpAddress_Insert" SpName="EpaEmployeeIpAddress_Insert" DbName="SMSEPA" Plain="0"></Setting>
@@ -86,9 +86,6 @@
         <Setting Key="EpaTargetTemplateDepartment_Delete" SpName="EpaTargetTemplateDepartment_Delete" DbName="SMSEPA" Plain="0"></Setting>
     </Function>
     <Function Name="Department">
-        <Setting Key="Department_Get" SpName="Department_Get" DbName="SMSEPA" Plain="0">
-            <Mapping DataField="ManagerId" ObjectProperty="EmployeeId" />
-        </Setting>
         <Setting Key="Department_GetOrgChart" SpName="Department_GetOrgChart" DbName="SMSEPA" Plain="0" />
     </Function>
     <Function Name="Score Rating Type">
@@ -317,5 +314,8 @@
         <Setting Key="JobLevelStandard_TemplateSetting_Get" SpName="JobLevelStandard_TemplateSetting_Get" DbName="SMSEPA" Plain="0" />
         <Setting Key="JobLevelStandard_TemplateSetting_Delete" SpName="JobLevelStandard_TemplateSetting_Delete" DbName="SMSEPA" Plain="0" />
         <Setting Key="JobLevelStandard_TemplateSetting_Assign" SpName="JobLevelStandard_TemplateSetting_Assign" DbName="SMSEPA" Plain="0" />
+    </Function>
+    <Function Name="Unit">
+        <Setting Key="Unit_Get" SpName="Unit_Get" DbName="SMSEPA" Plain="0" />
     </Function>
 </Functions>

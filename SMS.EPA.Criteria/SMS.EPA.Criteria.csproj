@@ -86,6 +86,7 @@
     <Compile Include="Employee\GetEmployeeCriteria.cs" />
     <Compile Include="Employee\UpdateJobLevelCriteria.cs" />
     <Compile Include="Employee\UpdateUserIdCommand.cs" />
+    <Compile Include="GetUnitCriteria.cs" />
     <Compile Include="JobDescription\CopyEmployeeSettingJobDescriptionCriteria.cs" />
     <Compile Include="JobDescription\CopyGroupSettingJobDescriptionCriteria.cs" />
     <Compile Include="JobDescription\CreateJobDescriptionItemCriteria.cs" />
@@ -200,7 +201,6 @@
     <Compile Include="Period\GetProcessSettingPeriodCriteria.cs" />
     <Compile Include="Period\UpdateProcessSettingPeriodCriteria.cs" />
     <Compile Include="Dashboard\GetDashboardCriteria.cs" />
-    <Compile Include="Department\GetDepartmentCriteria.cs" />
     <Compile Include="EmployeeEPA\GetEPAByManagementCriteria.cs" />
     <Compile Include="EmployeeEPA\GetEPAByReviewerCriteria.cs" />
     <Compile Include="EmployeeEPA\GetEPAInfoByEvaluatorCriteria.cs" />

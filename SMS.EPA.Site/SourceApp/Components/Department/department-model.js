@@ -6,21 +6,16 @@
     departmentModel.$inject = ['departmentFactory', 'errorFactory'];
 
     function departmentModel(departmentFactory, errorFactory) {
-        var departments = [],
-            treeDepartment = {};
-
-        var model = {
-            departments: departments,
-            getDepartment: getDepartment,
-            treeDepartment: treeDepartment
+        let model = {
+            departments: [],
+            getDepartment: getDepartment
         };
 
         return model;
 
-        function getDepartment(parentId, isActive) {
-            return departmentFactory.getDepartment(parentId, isActive).success(function (data) {
-                model.treeDepartment = data.TreeDepartment;
-                model.departments = data.Departments;
+        function getDepartment() {
+            return departmentFactory.getDepartment().success(function (data) {
+                model.departments = data;
             }).error(function (response, status) {
                 errorFactory.errorHandle(status);
             });

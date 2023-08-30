@@ -7,16 +7,14 @@
     updateFlowTemplateController.$inject = ['$routeParams', 'FlowTemplateModel', 'CommonModel', 'utilitiesFactory', 'historyFactory'];
 
     function updateFlowTemplateController($routeParams, FlowTemplateModel, CommonModel, utilitiesFactory, historyFactory) {
-        var vm = this;
+        let vm = this;
 
         vm.dataTab = 1;
-        vm.departments = CommonModel.departments;
         vm.flowTemplateId = parseInt($routeParams.id);
         vm.permission = 0;
         vm.policyEnum = utilitiesFactory.policy;
         vm.remindDay = CommonModel.remindDay;
         vm.targetTypeEnum = utilitiesFactory.targetType;
-        vm.treeDepartment = CommonModel.treeDepartment;
 
         vm.backToList = function () {
             historyFactory.back();
@@ -25,11 +23,6 @@
         function initialize() {
             CommonModel.getUserPermissionOnFlowManagement().then(function () {
                 vm.permission = CommonModel.permission;
-            });
-
-            CommonModel.getDepartment().then(function () {
-                vm.departments = CommonModel.departments;
-                vm.treeDepartment = CommonModel.treeDepartment;
             });
 
             FlowTemplateModel.getFlowTemplateById(vm.flowTemplateId).then(function () {
