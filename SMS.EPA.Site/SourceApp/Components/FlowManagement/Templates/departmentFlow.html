@@ -4,33 +4,33 @@
         <div class="team-list-content">
             <div class="panel panel-default panel-no-border" ng-repeat="dept in deptFlowCtrl.departments">
                 <div class="panel-heading level-1" data-toggle="collapse"
-                     data-target=".{{dept.DepartmentId}}"
+                     data-target=".dept-{{dept.Id}}"
                      ng-click="deptFlowCtrl.changeCollapseAttribute(dept)">
                     <h4 class="panel-title">
                         <span class="glyphicon glyphicon-chevron-right" ng-show="!dept.Collapse" />
                         <span class="glyphicon glyphicon-chevron-down" ng-show="dept.Collapse" />
-                        {{dept.Name}}
+                        {{dept.Text}}
                     </h4>
                 </div>
-                <div class="panel-collapse collapse {{dept.DepartmentId}}">
-                    <div class="panel panel-default panel-no-border" ng-repeat="sec in dept.Childrens">
+                <div class="panel-collapse collapse dept-{{dept.Id}}">
+                    <div class="panel panel-default panel-no-border" ng-repeat="sec in dept.Items">
                         <div class="panel-heading level-2" data-toggle="collapse"
-                             data-target=".{{sec.DepartmentId}}"
+                             data-target=".section-{{sec.Id}}"
                              ng-click="deptFlowCtrl.changeCollapseAttribute(sec)">
                             <h4 class="panel-title">
                                 <span class="glyphicon glyphicon-chevron-right" ng-show="!sec.Collapse" />
                                 <span class="glyphicon glyphicon-chevron-down" ng-show="sec.Collapse" />
-                                {{sec.Name}}
+                                {{sec.Text}}
                             </h4>
                         </div>
-                        <div class="panel-collapse collapse {{sec.DepartmentId}}">
+                        <div class="panel-collapse collapse section-{{sec.Id}}">
                             <div class="team-items">
                                 <div class="team-item"
-                                     ng-class="deptFlowCtrl.selectedTeam !== null && deptFlowCtrl.selectedTeam.DepartmentId === team.DepartmentId ? 'selected' : ''"
-                                     ng-repeat="team in sec.Childrens"
+                                     ng-class="deptFlowCtrl.selectedTeam !== null && deptFlowCtrl.selectedTeam.Id === team.Id ? 'selected' : ''"
+                                     ng-repeat="team in sec.Items"
                                      ng-click="deptFlowCtrl.getDepartmentFlowById(team)">
-                                    {{team.Name}}
-                                    <span class="glyphicon glyphicon-ok icon-has-setting" ng-show="deptFlowCtrl.checkTeamHasSetting(team.DepartmentId)" />
+                                    {{team.Text}}
+                                    <span class="glyphicon glyphicon-ok icon-has-setting" ng-show="deptFlowCtrl.checkTeamHasSetting(team.Id)" />
                                 </div>
                             </div>
                         </div>

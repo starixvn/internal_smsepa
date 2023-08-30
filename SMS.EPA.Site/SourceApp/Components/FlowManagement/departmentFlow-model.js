@@ -6,7 +6,7 @@
     deptFlowModel.$inject = ['$uibModal', 'FlowSettingModel', 'deptFlowFactory', 'notificationFactory', 'errorFactory', 'baseUrl'];
 
     function deptFlowModel($uibModal, FlowSettingModel, deptFlowFactory, notificationFactory, errorFactory, baseUrl) {
-        var flowModel = {};
+        let flowModel = {};
 
         flowModel.selfs = angular.copy(FlowSettingModel.selfs);
         flowModel.evaluators = angular.copy(FlowSettingModel.evaluators);
@@ -24,8 +24,8 @@
             });
         };
 
-        flowModel.getDepartmentFlowById = function (department, flowTemplateId) {
-            return deptFlowFactory.getDepartmentFlowById(department.DepartmentId, flowTemplateId).success(function (flows) {
+        flowModel.getDepartmentFlowById = function (departmentId, flowTemplateId) {
+            return deptFlowFactory.getDepartmentFlowById(departmentId, flowTemplateId).success(function (flows) {
                 FlowSettingModel.resetCurrentFlow(flowModel);
                 if (flows.length > 0) {
                     FlowSettingModel.successGetFlow(flows, flowModel);

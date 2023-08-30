@@ -34,12 +34,12 @@
         vm.departments = [];
 
         vm.checkTeamHasSetting = function (teamId) {
-            return vm.departmentSettings.find(team => team.DepartmentId === -teamId) !== undefined;
+            return vm.departmentSettings.find(team => team.DepartmentId === teamId) !== undefined;
         };
 
         vm.getDepartmentFlowById = function (team) {
             vm.selectedTeam = team;
-            DeptFlowModel.getDepartmentFlowById(team, vm.FlowTemplateId).then(function () {
+            DeptFlowModel.getDepartmentFlowById(-team.Id, vm.FlowTemplateId).then(function () {
                 vm.selfs = DeptFlowModel.selfs;
                 vm.evaluators = DeptFlowModel.evaluators;
                 vm.reviewers = DeptFlowModel.reviewers;
@@ -125,8 +125,10 @@
             vm.isFirstLoad = false;
 
             getDepartmentHasSetting();
-            getOnlyDepartment($scope.updateCtrl.treeDepartment)
-            addCollapseAttribute(vm.departments)
+            CommonModel.getOrgChart().then(function () {
+                vm.departments = CommonModel.orgChart;
+                addCollapseAttribute(vm.departments);
+            });
         }
 
         function getDepartmentHasSetting() {
@@ -139,18 +141,10 @@
         function addCollapseAttribute(departments) {
             departments.forEach(dept => {
                 dept.Collapse = false;
-                dept.Childrens.forEach(sec => {
+                dept.Items.forEach(sec => {
                     sec.Collapse = false;
                 })
             })
-        }
-
-        function getOnlyDepartment(departments) {
-            departments.Childrens.forEach(unit => {
-                unit.Childrens.forEach(dept => {
-                    vm.departments.push(dept)
-                })
-            });
         }
 
         $scope.$watch(function () {
