@@ -6,16 +6,16 @@
     gridMonthlyEpaDetailReport.$inject = ['$timeout', 'utilitiesFactory', 'baseUrl'];
 
     function gridMonthlyEpaDetailReport($timeout, utilitiesFactory, baseUrl) {
-        var status = {
+        const status = {
             NotAvailable: 'N/A',
             Pending: 'Pending'
         };
 
         function generateColumnHeaders(scope) {
-            var sortCode = scope.sortColumnName === 'Code' ? scope.sortDirection : '',
+            const sortCode = scope.sortColumnName === 'Code' ? scope.sortDirection : '',
                 sortTeam = scope.sortColumnName === 'Team' ? scope.sortDirection : '';
 
-            var columnHeaders = [
+            const columnHeaders = [
                 { HeaderText: '#', Width: 40, Name: 'No', HeaderAlign: 'center', CellAlign: 'center' },
                 {
                     HeaderText: 'Code', Width: 60, Name: 'Code', HeaderAlign: 'center', CellAlign: 'center', AllowTruncate: true,
@@ -23,9 +23,10 @@
                 },
                 { HeaderText: 'Nickname', Width: 120, Name: 'NickName', HeaderAlign: 'center', CellAlign: 'center', AllowTruncate: true },
                 { HeaderText: 'Full Name', Width: 160, Name: 'FullName', HeaderAlign: 'center', CellAlign: 'left' },
+                { HeaderText: 'Department', Width: 140, Name: 'Department', HeaderAlign: 'center', CellAlign: 'left' },
                 { HeaderText: 'Section', Width: 150, Name: 'Section', HeaderAlign: 'center', CellAlign: 'left' },
                 {
-                    HeaderText: 'Team', Width: 150, Name: 'Team', HeaderAlign: 'center', CellAlign: 'left',
+                    HeaderText: 'Team', Width: 140, Name: 'Team', HeaderAlign: 'center', CellAlign: 'left',
                     Sort: true, SortDirection: sortTeam, SortType: 'string'
                 },
                 { HeaderText: 'Job Title', Width: 120, Name: 'JobTitle', HeaderAlign: 'center', CellAlign: 'left' },
@@ -43,7 +44,7 @@
         }
 
         function calculateScore(epaInfo) {
-            var result = {
+            const result = {
                 SelfScore: '',
                 EvaluatorScore: '',
                 ReviewerScore: '',
@@ -103,24 +104,25 @@
         }
 
         function generateBodyRows(gridData, pageOption) {
-            var rows = [];
-            var rowIndex = pageOption.itemsPerPage * pageOption.pageIndex;
+            const rows = [];
+            const rowIndex = pageOption.itemsPerPage * pageOption.pageIndex;
 
             if (gridData.EpaInfos) {
                 angular.forEach(gridData.EpaInfos, function (epaInfo, index) {
-                    var score = calculateScore(epaInfo),
+                    const score = calculateScore(epaInfo),
                     viewIcon = '<a class="icon-view viewEPADetail" data-epaid="' + epaInfo.EPAId + '"></a>',
                     cssSelfScore = epaInfo.EPAId > 0 && epaInfo.Process.Self.IsEndProcess ? '' : 'red',
                     cssEvaluatorScore = epaInfo.EPAId > 0 && epaInfo.Process.Evaluators[0].IsEndProcess ? '' : 'red',
                     cssReviewerScore = epaInfo.EPAId > 0 && epaInfo.Process.Reviewers[0].IsEndProcess ? '' : 'red';
 
-                    var currentRow = {
+                    const currentRow = {
                         Columns: [
                             { Name: 'No', Value: rowIndex + index + 1 },
                             { Name: 'Code', Value: epaInfo.Employee.Code },
                             { Name: 'NickName', Value: epaInfo.Employee.NickName },
                             { Name: 'FullName', Value: epaInfo.Employee.FullName },
-                            { Name: 'Section', Value: epaInfo.Employee.DepartmentName },
+                            { Name: 'Department', Value: epaInfo.Employee.DepartmentName },
+                            { Name: 'Section', Value: epaInfo.Employee.Section },
                             { Name: 'Team', Value: epaInfo.Employee.GroupName },
                             { Name: 'JobTitle', Value: epaInfo.Employee.JobTitleName },
                             { Name: 'GroupDate', Value: epaInfo.Employee.JoinedDate },
@@ -145,8 +147,8 @@
             $('.freegrid').off('click', '.table-cell a.viewEPADetail');
 
             $('.freegrid').on('click', '.table-cell a.viewEPADetail', function (event) {
-                var epaId = parseInt($(this).data('epaid'));
-                var url = baseUrl + '#' + 'EPA/Detail/' + epaId;
+                const epaId = parseInt($(this).data('epaid'));
+                const url = baseUrl + '#' + 'EPA/Detail/' + epaId;
                 $(this).attr('href', url);
             });
         }
@@ -164,7 +166,7 @@
                 gridExpandHeight: '@'
             },
             link: function ($scope, iElement) {
-                var gridOptions = {
+                const gridOptions = {
                     gridExpandHeight: $scope.gridExpandHeight,
                     showPager: true,
                     customPager: true,
@@ -191,7 +193,7 @@
                 $scope.$watch('gridData', function (gridData) {
                     $timeout(function () {
                         if (gridData.EpaInfos) {
-                            var columHeaders = generateColumnHeaders($scope),
+                            const columHeaders = generateColumnHeaders($scope),
                                 bodyRows = generateBodyRows(gridData, $scope.pageOption);
 
                             gridOptions.columns = columHeaders;

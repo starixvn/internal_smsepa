@@ -13,8 +13,6 @@
             kpiGroups: [],
             groups: [],
             employees: [],
-            employeesInDepartment: [],
-            employeesInGroup: [],
             employee: {},
             statusList: [],
             periods: [],
@@ -78,22 +76,6 @@
         model.searchEmployee = function (query, teamIds, isSpecialUser, isDisabledUser, getByApprover, includeVerifier) {
             return commonFactory.searchEmployee(query, teamIds, isSpecialUser, isDisabledUser, getByApprover, includeVerifier).success(function (employees) {
                 model.employees = employees;
-            }).error(function (response, status) {
-                errorFactory.errorHandle(status);
-            });
-        };
-
-        model.getEmployeeByDepartmentId = function (departmentId) {
-            return commonFactory.getEmployeeByDepartmentId(departmentId).success(function (employees) {
-                model.employeesInDepartment = employees;
-            }).error(function (response, status) {
-                errorFactory.errorHandle(status);
-            });
-        };
-
-        model.getEmployeeByGroupId = function (groupId) {
-            return commonFactory.getEmployeeByGroupId(groupId).success(function (employees) {
-                model.employeesInGroup = employees;
             }).error(function (response, status) {
                 errorFactory.errorHandle(status);
             });

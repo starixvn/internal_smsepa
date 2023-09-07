@@ -33,21 +33,9 @@
 
         [HttpGet]
         [ApiAuthorize(FunctionKey = EPAFunctionKey.EPAHistory, Policy = Policy.Read)]
-        public IList<EPAHistoryModel> GetEPAHistory(
-            int? periodId = null,
-            string teamIds = null,
-            bool? isLocal = null,
-            int? employeeId = null)
+        public IList<EPAHistoryModel> GetEPAHistory([FromUri] GetEPAHistoryCriteria criteria)
         {
-            var criteria = new GetEPAHistoryCriteria
-            {
-                PeriodId = periodId,
-                EvaluatorId = CurrentEmployeeId,
-                TeamIds = teamIds,
-                IsLocal = isLocal,
-                EmployeeId = employeeId
-            };
-
+            criteria.EvaluatorId = CurrentEmployeeId;
             IList<EPAHistoryModel> epas = epaHistoryService.GetEPAHistory(criteria);
             return epas;
         }

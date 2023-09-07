@@ -29,7 +29,7 @@
     <table class="row table table-bordered table-striped">
         <thead>
             <tr class="header-table">
-                <th colspan="8">
+                <th colspan="9">
                     <input type="text" ng-model="personnelCtrl.searchKey" ng-change="personnelCtrl.search()"
                            class="search-inline-textbox search pull-right" />
                 </th>
@@ -39,6 +39,7 @@
                 <th data-translate="Code"></th>
                 <th data-translate="NickName"></th>
                 <th data-translate="FullName"></th>
+                <th data-translate="Department"></th>
                 <th data-translate="Section"></th>
                 <th data-translate="Team"></th>
                 <th data-translate="JobLevel"></th>
@@ -51,6 +52,7 @@
                 <td ng-bind="employee.Code"></td>
                 <td ng-bind="employee.Nickname"></td>
                 <td ng-bind="employee.FullName"></td>
+                <td ng-bind="employee.Department"></td>
                 <td ng-bind="employee.Section"></td>
                 <td ng-bind="employee.GroupName"></td>
                 <td ng-bind="employee.JobLevel"></td>
@@ -71,12 +73,12 @@
         </tbody>
         <tbody ng-if="personnelCtrl.filteredItems.length === 0">
             <tr>
-                <td class="empty-result" colspan="8" data-translate="EmptyResult"></td>
+                <td class="empty-result" colspan="9" data-translate="EmptyResult"></td>
             </tr>
         </tbody>
         <tfoot>
             <tr>
-                <td colspan="8" class="paging">
+                <td colspan="9" class="paging">
                     <span data-translate="Show"></span>
                     <select class="dropdown-entry form-control" ng-model="personnelCtrl.pageSize"
                             ng-options="entry for entry in personnelCtrl.entries" ng-change="personnelCtrl.currentPage = 1"></select>

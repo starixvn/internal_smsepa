@@ -159,7 +159,7 @@
 
         function openPopupCopyEmployeeSetting(vm, employee) {
             vm.modalInstance = $uibModal.open({
-                templateUrl: 'SourceApp/Components/JobDescription/Templates/copy-personnel-setting.html',
+                templateUrl: 'SourceApp/Components/JobDescription/Templates/copy-personal-setting.html',
                 controller: 'CopyEmployeeSettingController as copyEmployeeSettingCtrl',
                 backdrop: 'static',
                 windowClass: 'modal-confirm-center',

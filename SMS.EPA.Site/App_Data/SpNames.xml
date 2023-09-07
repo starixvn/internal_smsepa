@@ -18,8 +18,6 @@
         <Setting Key="EpaJobTitle_Get" SpName="EpaJobTitle_Get" DbName="SMSEPA" Plain="0"></Setting>
         <Setting Key="EpaEmployee_ChangePassword" SpName="EpaEmployee_ChangePassword" DbName="SMSEPA" Plain="0"></Setting>
         <Setting Key="EpaEmployee_AssignRoleToEmployee" SpName="EpaEmployee_AssignRoleToEmployee" DbName="SMSEPA" Plain="0"></Setting>
-        <Setting Key="EpaEmployee_GetByDepartmentId" SpName="EpaEmployee_GetByDepartmentId" DbName="SMSEPA" Plain="0"></Setting>
-        <Setting Key="EpaEmployee_GetByGroupId" SpName="EpaEmployee_GetByGroupId" DbName="SMSEPA" Plain="0" />
         <Setting Key="EpaEmployee_UpdateHasMonthlyEPA" SpName="EpaEmployee_UpdateHasMonthlyEPA" DbName="SMSEPA" Plain="0" />
         <Setting Key="EpaEmployee_GetPasswordByEmpId" SpName="EpaEmployee_GetPasswordByEmpId" DbName="SMSEPA" Plain="0" />
         <Setting Key="EpaEmployee_UpdateJobLevel" SpName="EpaEmployee_UpdateJobLevel" DbName="SMSEPA" Plain="0" />

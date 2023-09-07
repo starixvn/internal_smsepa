@@ -44,12 +44,6 @@
             getAllStatus: function () {
                 return $http.get(baseUrl + 'api/Common/GetAllStatus');
             },
-            getEmployeeByDepartmentId: function (departmentId) {
-                return $http.get(baseUrl + 'api/Common/GetEmployeeByDepartmentId', { params: { departmentId: departmentId } });
-            },
-            getEmployeeByGroupId: function (groupId) {
-                return $http.get(baseUrl + 'api/Common/GetEmployeeByGroupId', { params: { groupId: groupId } });
-            },
             getPeriod: function (targetTypeId, isActive) {
                 return $http.get(baseUrl + 'api/Common/GetPeriod', {
                     params: {

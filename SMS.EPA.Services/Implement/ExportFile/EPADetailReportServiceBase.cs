@@ -93,12 +93,12 @@
         {
             string evaluatorScore = Lang.NotAvailable;
 
-            if (epaInfo.Process.Evaluators.First().StatusId == (int)ProcessStatusType.InProgress)
+            if (epaInfo.Process.Evaluators[0].StatusId == (int)ProcessStatusType.InProgress)
             {
                 evaluatorScore = epaInfo.Process.AverageScoreByEvaluators?.ToString() ?? Lang.NotAvailable;
             }
 
-            if (epaInfo.Process.Evaluators.First().StatusId == (int)ProcessStatusType.Closed)
+            if (epaInfo.Process.Evaluators[0].StatusId == (int)ProcessStatusType.Closed)
             {
                 evaluatorScore = epaInfo.Process.AverageScoreByEvaluators?.ToString() ?? Lang.NotAvailable;
             }
@@ -110,12 +110,12 @@
         {
             string reviewerScore = Lang.NotAvailable;
 
-            if (epaInfo.Process.Reviewers.First().StatusId == (int)ProcessStatusType.InProgress)
+            if (epaInfo.Process.Reviewers[0].StatusId == (int)ProcessStatusType.InProgress)
             {
                 reviewerScore = epaInfo.Process.AverageScoreByReviewers?.ToString() ?? Lang.NotAvailable;
             }
 
-            if (epaInfo.Process.Reviewers.First().StatusId == (int)ProcessStatusType.Closed)
+            if (epaInfo.Process.Reviewers[0].StatusId == (int)ProcessStatusType.Closed)
             {
                 reviewerScore = epaInfo.Process.AverageScoreByReviewers?.ToString() ?? Lang.NotAvailable;
             }
@@ -327,7 +327,7 @@
                 score.SelfScore,
                 (byte)ProcessType.Self));
 
-            BodyStyle = epaInfo.Process.Evaluators.First().StatusId == (int)ProcessStatusType.InProgress
+            BodyStyle = epaInfo.Process.Evaluators[0].StatusId == (int)ProcessStatusType.InProgress
                 ? ApplyEvenOddBodyStyle(EvenRedStyle, OddRedStyle)
                 : ApplyEvenOddBodyStyle(EvenStyleCenter, OddStyleCenter);
 
@@ -338,7 +338,7 @@
                 score.EvaluatorScore,
                 (byte)ProcessType.Evaluator));
 
-            BodyStyle = epaInfo.Process.Reviewers.First().StatusId == (int)ProcessStatusType.InProgress
+            BodyStyle = epaInfo.Process.Reviewers[0].StatusId == (int)ProcessStatusType.InProgress
                 ? ApplyEvenOddBodyStyle(EvenRedStyle, OddRedStyle)
                 : ApplyEvenOddBodyStyle(EvenStyleCenter, OddStyleCenter);
 

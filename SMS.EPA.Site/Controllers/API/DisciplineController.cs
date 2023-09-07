@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Web.Http;
     using HRM.UserControl.Client.Core.Enumerables;
     using SMS.EPA.Core.Attribute;
     using SMS.EPA.Core.Constants;
@@ -23,53 +24,21 @@
             this.disciplineService = disciplineService ?? new DisciplineService();
         }
 
+        [HttpGet]
         [ApiAuthorize(FunctionKey = EPAFunctionKey.DisciplineSummary, Policy = Policy.Read)]
-        public IEnumerable<DisciplineSummaryModel> GetDisciplineSummary(
-            DateTime startDate,
-            DateTime endDate,
-            string teamIds = null,
-            bool? isLocal = null,
-            int? employeeId = null,
-            int? reasonId = null,
-            bool isShowAll = false)
+        public IEnumerable<DisciplineSummaryModel> GetDisciplineSummary([FromUri] GetDisciplineSummaryCriteria criteria)
         {
-            var criteria = new GetDisciplineSummaryCriteria
-            {
-                StartDate = startDate,
-                EndDate = endDate,
-                TeamIds = teamIds,
-                IsLocal = isLocal,
-                EmployeeId = employeeId,
-                ReasonId = reasonId,
-                ApproverId = CurrentEmployeeId,
-                IsShowAll = isShowAll
-            };
-            IEnumerable<DisciplineSummaryModel> employeeDisciplines = disciplineService.GetDisciplineSummary(criteria);
-
-            return employeeDisciplines;
+            criteria.ApproverId = CurrentEmployeeId;
+            IEnumerable<DisciplineSummaryModel> disciplines = disciplineService.GetDisciplineSummary(criteria);
+            return disciplines;
         }
 
+        [HttpGet]
         [ApiAuthorize(FunctionKey = EPAFunctionKey.DisciplineSummaryByPeriod, Policy = Policy.Read)]
-        public IEnumerable<DisciplineSummaryForOtherSystem> GetDisciplineSummaryForOtherSystem(
-            DateTime startDate,
-            DateTime endDate,
-            string teamIds = null,
-            bool? isLocal = null,
-            int? employeeId = null,
-            int? reasonId = null)
+        public IEnumerable<DisciplineSummaryForOtherSystem> GetDisciplineSummaryForOtherSystem([FromUri] GetDisciplineSummaryForOtherSystemCriteria criteria)
         {
-            var criteria = new GetDisciplineSummaryForOtherSystemCriteria
-            {
-                StartDate = startDate,
-                EndDate = endDate,
-                TeamIds = teamIds,
-                IsLocal = isLocal,
-                EmployeeId = employeeId,
-                ReasonId = reasonId
-            };
-            IEnumerable<DisciplineSummaryForOtherSystem> employeeDisciplines = disciplineService.GetDisciplineSummaryForOtherSystem(criteria);
-
-            return employeeDisciplines;
+            IEnumerable<DisciplineSummaryForOtherSystem> disciplines = disciplineService.GetDisciplineSummaryForOtherSystem(criteria);
+            return disciplines;
         }
     }
 }

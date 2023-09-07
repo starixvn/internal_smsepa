@@ -11,7 +11,7 @@
         public string TeamIds { get; set; }
         public bool? IsLocal { get; set; }
         public int? EmployeeId { get; set; }
-        public int? ReasonId { get; set; }
+        public short? ReasonId { get; set; }
         public bool IsShowAll { get; set; }
 
         public override bool IsValid() => EndDate >= StartDate && ApproverId > 0;

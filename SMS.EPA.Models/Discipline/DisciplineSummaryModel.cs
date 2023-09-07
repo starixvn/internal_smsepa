@@ -1,8 +1,8 @@
 ﻿namespace SMS.EPA.Model.Discipline
 {
     using System;
-    using Core.Constants;
-    using Report;
+    using SMS.EPA.Core.Constants;
+    using SMS.EPA.Model.Report;
 
     [Serializable]
     public class DisciplineSummaryModel : DisciplineSummaryBase, IExcelRecord
@@ -13,6 +13,7 @@
         public string FullName { get; set; }
         public string Category { get; set; }
         public DateTime JoinedDate { get; set; }
+        public string Department { get; set; }
         public string Section { get; set; }
         public string Team { get; set; }
         public string JobTitle { get; set; }
@@ -22,6 +23,7 @@
             var record = new
             {
                 Count = 0,
+                Department,
                 Section,
                 Team,
                 Code,

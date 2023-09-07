@@ -82,7 +82,7 @@
     <table class="row table table-bordered table-striped">
         <thead>
             <tr class="header-table">
-                <th colspan="20">
+                <th colspan="21">
                     <input class="btnExcel pull-right" export-discipline-summary-report
                            ng-click="disciplineCtrl.exportReport(disciplineCtrl.filter)" type="button" title="Export to Excel">
                     <input type="text" ng-model="disciplineCtrl.searchKey" ng-change="disciplineCtrl.search()" class="search-inline-textbox search pull-right">
@@ -93,6 +93,7 @@
                 <th data-translate="Code"></th>
                 <th data-translate="NickName"></th>
                 <th data-translate="FullName"></th>
+                <th data-translate="Department"></th>
                 <th data-translate="Section"></th>
                 <th data-translate="Team"></th>
                 <th data-translate="CheckInOut"></th>
@@ -117,6 +118,7 @@
                 <td class="text-left" ng-bind="discipline.Code"></td>
                 <td ng-bind="discipline.Nickname"></td>
                 <td ng-bind="discipline.FullName"></td>
+                <td class="text-left" ng-bind="discipline.Department"></td>
                 <td class="text-left" ng-bind="discipline.Section"></td>
                 <td class="text-left" ng-bind="discipline.Team"></td>
                 <td class="text-right">
@@ -177,12 +179,12 @@
                 </td>
             </tr>
             <tr ng-show="disciplineCtrl.filteredItems.length === 0">
-                <td class="empty-result" colspan="20" data-translate="EmptyResult"></td>
+                <td class="empty-result" colspan="21" data-translate="EmptyResult"></td>
             </tr>
         </tbody>
         <tfoot>
             <tr>
-                <td colspan="20" class="paging">
+                <td colspan="21" class="paging">
                     <span data-translate="Show"></span>
                     <select class="dropdown-entry form-control" ng-model="disciplineCtrl.pageSize"
                             ng-options="entry for entry in disciplineCtrl.entries" ng-change="disciplineCtrl.currentPage = 1"></select>

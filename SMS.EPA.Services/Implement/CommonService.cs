@@ -17,20 +17,17 @@
         private readonly IKPIService kpiService;
         private readonly IBaseService baseService;
         private readonly IEmployeeService employeeService;
-        private readonly IDepartmentService departmentService;
         private readonly IPeriodService periodService;
 
         public CommonService(
             IKPIService kpiService = null,
             IBaseService baseService = null,
             IEmployeeService employeeService = null,
-            IDepartmentService departmentService = null,
             IPeriodService periodService = null)
         {
             this.kpiService = kpiService ?? new KPIService();
             this.baseService = baseService ?? new BaseService();
             this.employeeService = employeeService ?? new EmployeeService();
-            this.departmentService = departmentService ?? new DepartmentService();
             this.periodService = periodService ?? new PeriodService();
         }
 
@@ -47,24 +44,6 @@
         public IEnumerable<KPIGroupModel> GetKPIGroup(GetKPIGroupCriteria criteria)
         {
             return baseService.GetData<KPIGroupModel>(criteria);
-        }
-
-        public IEnumerable<Employee> GetEmployeeByDepartmentId(int? departmentId)
-        {
-            var criteria = new GetEmployeeByDepartmentIdCriteria
-            {
-                DepartmentId = departmentId
-            };
-            return baseService.GetData<Employee>(criteria).OrderBy(i => i.NickName);
-        }
-
-        public IEnumerable<Employee> GetEmployeeByGroupId(int groupId)
-        {
-            var criteria = new GetEmployeeByGroupIdCriteria
-            {
-                GroupId = groupId
-            };
-            return baseService.GetData<Employee>(criteria);
         }
 
         public Employee GetEmployeeById(int employeeId, IList<Role> roles)

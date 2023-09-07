@@ -2,13 +2,14 @@
     <table class="row table table-bordered table-striped">
         <thead>
             <tr class="header-table">
-                <th colspan="6">
+                <th colspan="7">
                     <input type="text" ng-model="groupCtrl.searchKey" ng-change="groupCtrl.search()"
                            class="search-inline-textbox search pull-right" />
                 </th>
             </tr>
             <tr class="headerName">
                 <th data-translate="SymbolCount"></th>
+                <th data-translate="Department"></th>
                 <th data-translate="Section"></th>
                 <th data-translate="Team"></th>
                 <th data-translate="JobLevel"></th>
@@ -19,6 +20,7 @@
             <tr pagination-id="group" dir-paginate="group in groupCtrl.filteredItems | itemsPerPage: groupCtrl.pageSize" current-page="groupCtrl.currentPage">
                 <td class="text-center" ng-bind="groupCtrl.getIndex($index, groupCtrl.currentPage, groupCtrl.pageSize)"></td>
                 <td ng-bind="group.Department"></td>
+                <td ng-bind="group.Section"></td>
                 <td ng-bind="group.Name"></td>
                 <td ng-bind="group.JobLevels"></td>
                 <td class="text-center">
@@ -38,12 +40,12 @@
         </tbody>
         <tbody ng-if="groupCtrl.filteredItems.length === 0">
             <tr>
-                <td class="empty-result" colspan="6" data-translate="EmptyResult"></td>
+                <td class="empty-result" colspan="7" data-translate="EmptyResult"></td>
             </tr>
         </tbody>
         <tfoot>
             <tr>
-                <td colspan="6" class="paging">
+                <td colspan="7" class="paging">
                     <span data-translate="Show"></span>
                     <select class="dropdown-entry form-control" ng-model="groupCtrl.pageSize"
                             ng-options="entry for entry in groupCtrl.entries" ng-change="groupCtrl.currentPage = 1"></select>

@@ -6,12 +6,12 @@
     gridEpaSummaryReport.$inject = ['$timeout', 'utilitiesFactory'];
 
     function gridEpaSummaryReport($timeout, utilitiesFactory) {
-        var status = {
+        const status = {
             NotAvailable: 'N/A'
         };
 
         function generateGroupHeaders(periodSelecteds) {
-            var groupHeaders = [
+            const groupHeaders = [
                 {
                     Columns: [
                         { HeaderText: '#', Name: 'No', MergeRowNumber: 2 },
@@ -27,26 +27,25 @@
             ];
 
             if (periodSelecteds && periodSelecteds.length > 0) {
-                angular.forEach(periodSelecteds,
-                    function (period) {
-                        var column = {
-                            HeaderText: period.Name,
-                            Name: 'FinalScore' + period.PeriodId,
-                            MergeColNumber: 2,
-                            CssClass: 'column-truncate'
-                        };
-                        groupHeaders[0].Columns.push(column);
-                    });
+                angular.forEach(periodSelecteds, function (period) {
+                    const column = {
+                        HeaderText: period.Name,
+                        Name: 'FinalScore' + period.PeriodId,
+                        MergeColNumber: 2,
+                        CssClass: 'column-truncate'
+                    };
+                    groupHeaders[0].Columns.push(column);
+                });
             }
 
             return groupHeaders;
         }
 
         function generateColumnHeaders(scope, periodSelecteds) {
-            var sortCode = scope.sortColumnName === 'Code' ? scope.sortDirection : '',
+            const sortCode = scope.sortColumnName === 'Code' ? scope.sortDirection : '',
                 sortTeam = scope.sortColumnName === 'Team' ? scope.sortDirection : '';
 
-            var columnHeaders = [
+            const columnHeaders = [
                 { HeaderText: '#', Width: 40, Name: 'No', HeaderAlign: 'center', CellAlign: 'center' },
                 {
                     HeaderText: 'Code', Width: 80, Name: 'Code',
@@ -69,88 +68,85 @@
             ];
 
             if (periodSelecteds && periodSelecteds.length > 0) {
-                angular.forEach(periodSelecteds,
-                    function (period) {
-                        var colFinalScore = {
-                            HeaderText: 'Final Score',
-                            Width: 100,
-                            Name: 'FinalScore' + period.PeriodId,
+                angular.forEach(periodSelecteds, function (period) {
+                    const colFinalScore = {
+                        HeaderText: 'Final Score',
+                        Width: 100,
+                        Name: 'FinalScore' + period.PeriodId,
+                        HeaderAlign: 'center',
+                        CellAlign: 'center'
+                    },
+                        colGrade = {
+                            HeaderText: 'Grade',
+                            Width: 80,
+                            Name: 'Grade' + period.PeriodId,
                             HeaderAlign: 'center',
                             CellAlign: 'center'
-                        },
-                            colGrade = {
-                                HeaderText: 'Grade',
-                                Width: 80,
-                                Name: 'Grade' + period.PeriodId,
-                                HeaderAlign: 'center',
-                                CellAlign: 'center'
-                            };
-                        columnHeaders.push(colFinalScore);
-                        columnHeaders.push(colGrade);
-                    });
+                        };
+                    columnHeaders.push(colFinalScore);
+                    columnHeaders.push(colGrade);
+                });
             }
 
             return columnHeaders;
         }
 
         function generateBodyRows(gridData, pageOption) {
-            var rows = [];
-            var rowIndex = pageOption.itemsPerPage * pageOption.pageIndex;
+            const rows = [];
+            const rowIndex = pageOption.itemsPerPage * pageOption.pageIndex;
 
             if (gridData && gridData.EPAInfos) {
-                angular.forEach(gridData.EPAInfos,
-                    function (epaInfo, i) {
-                        var currentRow = {
-                            Columns: [
-                                { Name: 'No', Value: rowIndex + i + 1 },
-                                { Name: 'Code', Value: epaInfo.Code },
-                                { Name: 'NickName', Value: epaInfo.NickName },
-                                { Name: 'FullName', Value: epaInfo.FullName },
-                                { Name: 'Department', Value: epaInfo.Department },
-                                { Name: 'Section', Value: epaInfo.Section },
-                                { Name: 'Team', Value: epaInfo.Group !== null ? epaInfo.Group.GroupName : '' },
-                                { Name: 'JobTitle', Value: epaInfo.JobTitle.JobTitleName }
-                            ]
-                        };
+                angular.forEach(gridData.EPAInfos, function (epaInfo, i) {
+                    const currentRow = {
+                        Columns: [
+                            { Name: 'No', Value: rowIndex + i + 1 },
+                            { Name: 'Code', Value: epaInfo.Code },
+                            { Name: 'NickName', Value: epaInfo.NickName },
+                            { Name: 'FullName', Value: epaInfo.FullName },
+                            { Name: 'Department', Value: epaInfo.Department },
+                            { Name: 'Section', Value: epaInfo.Section },
+                            { Name: 'Team', Value: epaInfo.Group !== null ? epaInfo.Group.GroupName : '' },
+                            { Name: 'JobTitle', Value: epaInfo.JobTitle.JobTitleName }
+                        ]
+                    };
 
-                        angular.forEach(gridData.PeriodSelecteds,
-                            function (periodSelected) {
-                                var index = epaInfo.Periods.map(function (e) { return e.PeriodId; })
-                                    .indexOf(periodSelected.PeriodId);
+                    angular.forEach(gridData.PeriodSelecteds, function (periodSelected) {
+                        const index = epaInfo.Periods.map(function (e) { return e.PeriodId; })
+                            .indexOf(periodSelected.PeriodId);
 
-                                var finalScore,
-                                    grade,
-                                    cssClass = '';
+                        let finalScore,
+                            grade,
+                            cssClass = '';
 
-                                if (index !== -1) {
-                                    // Calculate Final Score and Grade
-                                    if (epaInfo.Periods[index].FinalScore.length > 0) {
-                                        finalScore = utilitiesFactory.parseFloat(epaInfo.Periods[index].FinalScore);
-                                        grade = epaInfo.Periods[index].Grade;
-                                    } else {
-                                        finalScore = status.NotAvailable;
-                                        grade = status.NotAvailable;
-                                    }
+                        if (index !== -1) {
+                            // Calculate Final Score and Grade
+                            if (epaInfo.Periods[index].FinalScore.length > 0) {
+                                finalScore = utilitiesFactory.parseFloat(epaInfo.Periods[index].FinalScore);
+                                grade = epaInfo.Periods[index].Grade;
+                            } else {
+                                finalScore = status.NotAvailable;
+                                grade = status.NotAvailable;
+                            }
 
-                                    if (!epaInfo.Periods[index].IsClosed) {
-                                        cssClass = 'red';
-                                    }
-                                } else {
-                                    finalScore = '-';
-                                    grade = '-';
-                                }
+                            if (!epaInfo.Periods[index].IsClosed) {
+                                cssClass = 'red';
+                            }
+                        } else {
+                            finalScore = '-';
+                            grade = '-';
+                        }
 
-                                // Set data for colFinalScore and colGrade
-                                var colFinalScore = { Name: 'FinalScore' + periodSelected.PeriodId, Value: finalScore, CssClass: cssClass };
-                                var colGrade = { Name: 'Grade' + periodSelected.PeriodId, Value: grade, CssClass: cssClass };
+                        // Set data for colFinalScore and colGrade
+                        const colFinalScore = { Name: 'FinalScore' + periodSelected.PeriodId, Value: finalScore, CssClass: cssClass };
+                        const colGrade = { Name: 'Grade' + periodSelected.PeriodId, Value: grade, CssClass: cssClass };
 
-                                // Display to user
-                                currentRow.Columns.push(colFinalScore);
-                                currentRow.Columns.push(colGrade);
-                            });
-
-                        rows.push(currentRow);
+                        // Display to user
+                        currentRow.Columns.push(colFinalScore);
+                        currentRow.Columns.push(colGrade);
                     });
+
+                    rows.push(currentRow);
+                });
             }
 
             return rows;
@@ -168,7 +164,7 @@
                 gridExpandHeight: '@'
             },
             link: function ($scope, iElement) {
-                var gridOptions = {
+                const gridOptions = {
                     customizeHeader: true,
                     gridExpandHeight: $scope.gridExpandHeight,
                     showPager: true,
@@ -189,37 +185,35 @@
                     }
                 };
 
-                $scope.$watch('gridData',
-                    function (gridData) {
-                        $timeout(function () {
-                            if (gridData.PeriodSelecteds && gridData.EPAInfos) {
-                                gridOptions.groupHeaderRows = generateGroupHeaders(gridData.PeriodSelecteds);
-                                gridOptions.columns = generateColumnHeaders($scope, gridData.PeriodSelecteds);
-                                gridOptions.bodyRows = generateBodyRows(gridData, $scope.pageOption);
+                $scope.$watch('gridData', function (gridData) {
+                    $timeout(function () {
+                        if (gridData.PeriodSelecteds && gridData.EPAInfos) {
+                            gridOptions.groupHeaderRows = generateGroupHeaders(gridData.PeriodSelecteds);
+                            gridOptions.columns = generateColumnHeaders($scope, gridData.PeriodSelecteds);
+                            gridOptions.bodyRows = generateBodyRows(gridData, $scope.pageOption);
 
-                                if (gridData.PeriodSelecteds.length > 0) {
-                                    gridOptions.numberOfFrozenColumn = 6;
-                                }
-
-                                gridOptions.pagerOption = {
-                                    startPerPage: utilitiesFactory.pageOption.itemsPerPage,
-                                    totalItem: gridData ? gridData.EPAInfos.length : 0,
-                                    itemsPerPageArray: utilitiesFactory.pageOption.itemsPerPageArray,
-                                    itemsPerPage: $scope.pageOption.itemsPerPage,
-                                    currentPage: $scope.pageOption.pageIndex
-                                };
-
-                                $(iElement).fanexGrid(gridOptions);
-
-                                $('.column-truncate').on('mouseover',
-                                    function () {
-                                        var periodname = $(this).text();
-
-                                        $(this).attr('title', periodname);
-                                    });
+                            if (gridData.PeriodSelecteds.length > 0) {
+                                gridOptions.numberOfFrozenColumn = 6;
                             }
-                        });
+
+                            gridOptions.pagerOption = {
+                                startPerPage: utilitiesFactory.pageOption.itemsPerPage,
+                                totalItem: gridData ? gridData.EPAInfos.length : 0,
+                                itemsPerPageArray: utilitiesFactory.pageOption.itemsPerPageArray,
+                                itemsPerPage: $scope.pageOption.itemsPerPage,
+                                currentPage: $scope.pageOption.pageIndex
+                            };
+
+                            $(iElement).fanexGrid(gridOptions);
+
+                            $('.column-truncate').on('mouseover', function () {
+                                const periodname = $(this).text();
+
+                                $(this).attr('title', periodname);
+                            });
+                        }
                     });
+                });
             }
         };
     }

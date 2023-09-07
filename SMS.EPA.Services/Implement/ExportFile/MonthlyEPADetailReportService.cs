@@ -1,12 +1,12 @@
-﻿namespace SMS.EPA.Services.Implement
+﻿namespace SMS.EPA.Services
 {
     using System.Collections.Generic;
     using System.Web;
-    using Core.Enumerations;
-    using ExportFile;
-    using Model;
     using NPOI.SS.UserModel;
-    using Resources;
+    using SMS.EPA.Core.Enumerations;
+    using SMS.EPA.Model;
+    using SMS.EPA.Resources;
+    using SMS.EPA.Services.Implement.ExportFile;
 
     public class MonthlyEPADetailReportService : EPADetailReportServiceBase
     {
@@ -22,6 +22,7 @@
             Lang.NickName,
             Lang.FullName,
             Lang.Category,
+            Lang.Department,
             Lang.Section,
             Lang.Team,
             Lang.JobTitle,
@@ -87,7 +88,6 @@
                 CurrentRow++;
             }
         }
-
 
         protected override dynamic CalculateScore(EPAModel epaInfo)
         {

@@ -113,17 +113,6 @@
             return baseService.GetData<Employee>(criteria).ToList();
         }
 
-        public IEnumerable<Employee> GetEmployeeByDepartmentId(int? departmentId = null)
-        {
-            return commonService.GetEmployeeByDepartmentId(departmentId);
-        }
-
-        [HttpGet]
-        public IEnumerable<Employee> GetEmployeeByGroupId(int groupId)
-        {
-            return commonService.GetEmployeeByGroupId(groupId);
-        }
-
         [HttpGet]
         public Employee GetEmployeeById(int employeeId)
         {

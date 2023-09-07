@@ -46,7 +46,7 @@
         <table class="row table table-bordered table-striped">
             <thead>
                 <tr class="header-table">
-                    <th colspan="9">
+                    <th colspan="10">
                         <button class="btn btn-primary pull-left" style="margin: 5px;"
                                 ng-show="updateFinalScoreCtrl.filteredItems.length > 0"
                                 ng-click="updateFinalScoreCtrl.updateFinalScore()" data-translate="Update"></button>
@@ -69,6 +69,7 @@
                     <th data-translate="Code"></th>
                     <th data-translate="NickName"></th>
                     <th data-translate="FullName"></th>
+                    <th data-translate="Department"></th>
                     <th data-translate="Section"></th>
                     <th data-translate="Team"></th>
                     <th data-translate="OldFinalScore"></th>
@@ -85,6 +86,7 @@
                     <td ng-bind="epaInfo.Employee.NickName"></td>
                     <td ng-bind="epaInfo.Employee.FullName"></td>
                     <td ng-bind="epaInfo.Employee.DepartmentName"></td>
+                    <td ng-bind="epaInfo.Employee.Section"></td>
                     <td ng-bind="epaInfo.Employee.GroupName"></td>
                     <td class="text-center">
                         <span ng-show="epaInfo.FinalScore.length > 0" ng-bind="epaInfo.FinalScore | customScore"></span>
@@ -95,12 +97,12 @@
                     </td>
                 </tr>
                 <tr ng-show="!updateFinalScoreCtrl.filteredItems || updateFinalScoreCtrl.filteredItems.length == 0">
-                    <td class="empty-result" colspan="9" data-translate="EmptyResult"></td>
+                    <td class="empty-result" colspan="10" data-translate="EmptyResult"></td>
                 </tr>
             </tbody>
             <tfoot ng-show="updateFinalScoreCtrl.filteredItems.length > 0">
                 <tr>
-                    <td colspan="9" class="paging">
+                    <td colspan="10" class="paging">
                         <span data-translate="Show"></span>
                         <select class="dropdown-entry form-control" ng-model="updateFinalScoreCtrl.pageSize"
                                 ng-options="entry for entry in updateFinalScoreCtrl.entries" ng-change="updateFinalScoreCtrl.currentPage = 1"></select>

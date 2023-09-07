@@ -3,7 +3,7 @@
 
 angular.module('employeeModule', ['ngRoute'])
     .config(['$routeProvider', function ($routeProvider) {
-        var baseUrl = $('base').first().attr('href');
+        const baseUrl = $('base').first().attr('href');
         $routeProvider.when('/Employee/Index',
             { templateUrl: baseUrl + 'SourceApp/Components/Employee/Templates/index.html', caseInsensitiveMatch: true });
     }]);
@@ -12,28 +12,28 @@ angular.module('commonModule', ['ngRoute']);
 
 angular.module('kpiModule', ['ngRoute'])
     .config(['$routeProvider', function ($routeProvider) {
-        var baseUrl = $('base').first().attr('href');
+        const baseUrl = $('base').first().attr('href');
         $routeProvider.when('/KPI/Index',
             { templateUrl: baseUrl + 'SourceApp/Components/KPI/Templates/index.html', caseInsensitiveMatch: true });
     }]);
 
 angular.module('kpiGroupModule', ['ngRoute'])
     .config(['$routeProvider', function ($routeProvider) {
-        var baseUrl = $('base').first().attr('href');
+        const baseUrl = $('base').first().attr('href');
         $routeProvider.when('/KPIGroup/Index',
             { templateUrl: baseUrl + 'SourceApp/Components/KPIGroup/Templates/index.html', caseInsensitiveMatch: true });
     }]);
 
 angular.module('roleModule', ['ngRoute'])
     .config(['$routeProvider', function ($routeProvider) {
-        var baseUrl = $('base').first().attr('href');
+        const baseUrl = $('base').first().attr('href');
         $routeProvider.when('/Role/Index',
             { templateUrl: baseUrl + 'SourceApp/Components/Role/Templates/index.html', caseInsensitiveMatch: true });
     }]);
 
 angular.module('targetTemplateModule', ['ngRoute'])
     .config(['$routeProvider', function ($routeProvider) {
-        var baseUrl = $('base').first().attr('href');
+        const baseUrl = $('base').first().attr('href');
         $routeProvider.when('/TargetTemplate/Index',
             { templateUrl: baseUrl + 'SourceApp/Components/TargetTemplate/Templates/index.html', caseInsensitiveMatch: true });
         $routeProvider.when('/TargetTemplate/Update/:id',
@@ -44,7 +44,7 @@ angular.module('targetTemplateModule', ['ngRoute'])
 
 angular.module('flowMngModule', ['ngRoute'])
     .config(['$routeProvider', function ($routeProvider) {
-        var baseUrl = $('base').first().attr('href');
+        const baseUrl = $('base').first().attr('href');
         $routeProvider.when('/Flow/Index',
             { templateUrl: baseUrl + 'SourceApp/Components/FlowManagement/Templates/index.html', caseInsensitiveMatch: true });
         $routeProvider.when('/Flow/Update/:id',
@@ -53,21 +53,21 @@ angular.module('flowMngModule', ['ngRoute'])
 
 angular.module('targetEmployeeSettingModule', ['ngRoute'])
     .config(['$routeProvider', function ($routeProvider) {
-        var baseUrl = $('base').first().attr('href');
+        const baseUrl = $('base').first().attr('href');
         $routeProvider.when('/TargetEmployeeSetting/Index',
             { templateUrl: baseUrl + 'SourceApp/Components/TargetEmployeeSetting/Templates/index.html', caseInsensitiveMatch: true });
     }]);
 
 angular.module('departmentModule', ['ngRoute'])
     .config(['$routeProvider', function ($routeProvider) {
-        var baseUrl = $('base').first().attr('href');
+        const baseUrl = $('base').first().attr('href');
         $routeProvider.when('/Department/Index',
             { templateUrl: baseUrl + 'SourceApp/Components/Department/Templates/index.html', caseInsensitiveMatch: true });
     }]);
 
-var epaModule = angular.module('epaModule', ['ngRoute'])
+let epaModule = angular.module('epaModule', ['ngRoute'])
     .config(['$routeProvider', function ($routeProvider) {
-        var baseUrl = $('base').first().attr('href');
+        const baseUrl = $('base').first().attr('href');
         $routeProvider.when('/SelfEvaluation/Index',
             { templateUrl: baseUrl + 'SourceApp/Components/EPA/Self/Templates/index.html', caseInsensitiveMatch: true });
         $routeProvider.when('/SelfEvaluation/Detail/:id',
@@ -100,7 +100,7 @@ var epaModule = angular.module('epaModule', ['ngRoute'])
 
 angular.module('periodModule', ['ngRoute'])
     .config(['$routeProvider', function ($routeProvider) {
-        var baseUrl = $('base').first().attr('href');
+        const baseUrl = $('base').first().attr('href');
         $routeProvider.when('/Period/Index',
             { templateUrl: baseUrl + 'SourceApp/Components/Period/Templates/index.html', caseInsensitiveMatch: true });
         $routeProvider.when('/Period/Update/:id',
@@ -109,14 +109,14 @@ angular.module('periodModule', ['ngRoute'])
 
 angular.module('dashboardModule', ['ngRoute'])
     .config(['$routeProvider', function ($routeProvider) {
-        var baseUrl = $('base').first().attr('href');
+        const baseUrl = $('base').first().attr('href');
         $routeProvider.when('/',
             { templateUrl: baseUrl + 'SourceApp/Components/Dashboard/Templates/index.html', caseInsensitiveMatch: true });
     }]);
 
 angular.module('reportModule', ['ngRoute'])
     .config(['$routeProvider', function ($routeProvider) {
-        var baseUrl = $('base').first().attr('href');
+        const baseUrl = $('base').first().attr('href');
         $routeProvider.when('/Report/EPASummaryReport',
             { templateUrl: baseUrl + 'SourceApp/Components/Report/Templates/EPASummaryReport.html', caseInsensitiveMatch: true });
         $routeProvider.when('/Report/EPADetailReport',
@@ -129,7 +129,7 @@ angular.module('reportModule', ['ngRoute'])
 
 angular.module('epaHistoryModule', ['ngRoute'])
     .config(['$routeProvider', function ($routeProvider) {
-        var baseUrl = $('base').first().attr('href');
+        const baseUrl = $('base').first().attr('href');
         $routeProvider.when('/EPAHistory/Index',
             { templateUrl: baseUrl + 'SourceApp/Components/EPAHistory/Templates/epaHistory.html', caseInsensitiveMatch: true });
         $routeProvider.when('/MonthlyEPAHistory/Index',
@@ -138,7 +138,7 @@ angular.module('epaHistoryModule', ['ngRoute'])
 
 angular.module('monthlyPeriodModule', ['ngRoute'])
     .config(['$routeProvider', function ($routeProvider) {
-        var baseUrl = $('base').first().attr('href');
+        const baseUrl = $('base').first().attr('href');
         $routeProvider.when('/MonthlyPeriod/Index',
             { templateUrl: baseUrl + 'SourceApp/Components/MonthlyPeriod/Templates/index.html', caseInsensitiveMatch: true });
         $routeProvider.when('/MonthlyPeriod/Update/:id',
@@ -147,7 +147,7 @@ angular.module('monthlyPeriodModule', ['ngRoute'])
 
 angular.module('disciplineModule', ['ngRoute'])
     .config(['$routeProvider', function ($routeProvider) {
-        var baseUrl = $('base').first().attr('href');
+        const baseUrl = $('base').first().attr('href');
         $routeProvider.when('/Discipline/Index',
             { templateUrl: baseUrl + 'SourceApp/Components/Discipline/Templates/index.html', caseInsensitiveMatch: true });
         $routeProvider.when('/DisciplineSummary/Index',
@@ -156,25 +156,25 @@ angular.module('disciplineModule', ['ngRoute'])
 
 angular.module('jobDescriptionModule', ['ngRoute'])
     .config(['$routeProvider', function ($routeProvider) {
-        var baseUrl = $('base').first().attr('href');
+        const baseUrl = $('base').first().attr('href');
         $routeProvider.when('/JobDescription/Index',
             { templateUrl: baseUrl + 'SourceApp/Components/JobDescription/Templates/index.html', caseInsensitiveMatch: true });
         $routeProvider.when('/JobDescription/EditGroup/:id',
             { templateUrl: baseUrl + 'SourceApp/Components/JobDescription/Templates/edit-group.html', caseInsensitiveMatch: true });
         $routeProvider.when('/JobDescription/EditEmployee/:id',
-            { templateUrl: baseUrl + 'SourceApp/Components/JobDescription/Templates/edit-personnel.html', caseInsensitiveMatch: true });
+            { templateUrl: baseUrl + 'SourceApp/Components/JobDescription/Templates/edit-personal.html', caseInsensitiveMatch: true });
     }]);
 
 angular.module('jobLevelModule', ['ngRoute'])
     .config(['$routeProvider', function ($routeProvider) {
-        var baseUrl = $('base').first().attr('href');
+        const baseUrl = $('base').first().attr('href');
         $routeProvider.when('/JobLevel/Index',
             { templateUrl: baseUrl + 'SourceApp/Components/JobLevel/Templates/index.html', caseInsensitiveMatch: true });
     }]);
 
 angular.module('jobLevelStandardModule', ['ngRoute'])
     .config(['$routeProvider', function ($routeProvider) {
-        var baseUrl = $('base').first().attr('href');
+        const baseUrl = $('base').first().attr('href');
         $routeProvider.when('/JobLevelStandard/JobLevelSetting/Index',
             { templateUrl: baseUrl + 'SourceApp/Components/JobLevelStandard/JobLevelSetting/Templates/index.html', caseInsensitiveMatch: true });
 

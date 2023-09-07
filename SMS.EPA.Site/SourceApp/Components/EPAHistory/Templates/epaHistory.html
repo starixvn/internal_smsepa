@@ -44,7 +44,7 @@
     <table class="row table table-bordered table-striped">
         <thead>
             <tr class="header-table">
-                <th colspan="11">
+                <th colspan="12">
                     <a class="pull-left button-icon back-button" ng-click="epaHistoryCtrl.backToList()" ng-show="epaHistoryCtrl.fromEPAListing">
                         <span class="glyphicon glyphicon-menu-left"></span>
                         <span data-translate="BackToList"></span>
@@ -57,6 +57,7 @@
                 <th data-translate="Code"></th>
                 <th data-translate="NickName"></th>
                 <th data-translate="FullName"></th>
+                <th data-translate="Department"></th>
                 <th data-translate="Section"></th>
                 <th data-translate="Team"></th>
                 <th data-translate="PeriodName"></th>
@@ -75,6 +76,7 @@
                 </td>
                 <td ng-bind="epa.Employee.FullName"></td>
                 <td ng-bind="epa.Employee.DepartmentName"></td>
+                <td ng-bind="epa.Employee.Section"></td>
                 <td ng-bind="epa.Employee.GroupName"></td>
                 <td ng-bind="epa.Period.Name"></td>
                 <td class="text-center" ng-bind="epa.Period.StartDate | date: epaHistoryCtrl.dateFormat"></td>
@@ -91,12 +93,12 @@
                 </td>
             </tr>
             <tr ng-show="epaHistoryCtrl.filteredItems.length === 0">
-                <td class="empty-result" colspan="11" data-translate="EmptyResult"></td>
+                <td class="empty-result" colspan="12" data-translate="EmptyResult"></td>
             </tr>
         </tbody>
         <tfoot>
             <tr>
-                <td colspan="11" class="paging">
+                <td colspan="12" class="paging">
                     <span data-translate="Show"></span>
                     <select class="dropdown-entry form-control" ng-model="epaHistoryCtrl.pageSize"
                             ng-options="entry for entry in epaHistoryCtrl.entries" ng-change="epaHistoryCtrl.currentPage = 1"></select>

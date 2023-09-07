@@ -600,7 +600,7 @@
     <Content Include="SourceApp\Components\JobDescription\create-job-description-item-controller.js" />
     <Content Include="SourceApp\Components\JobDescription\Directives\sortable-directive.js" />
     <Content Include="SourceApp\Components\JobDescription\copy-group-setting-controller.js" />
-    <Content Include="SourceApp\Components\JobDescription\Templates\copy-personnel-setting.html" />
+    <Content Include="SourceApp\Components\JobDescription\Templates\copy-personal-setting.html" />
     <Content Include="SourceApp\Components\JobDescription\Templates\create-job-description-item.html" />
     <Content Include="SourceApp\Components\JobDescription\Templates\edit-job-description-item.html" />
     <Content Include="SourceApp\Components\JobDescription\edit-job-description-item-controller.js" />
@@ -618,7 +618,7 @@
     <Content Include="SourceApp\Components\JobDescription\Templates\create-job-description-group-item.html" />
     <Content Include="SourceApp\Components\JobDescription\Templates\edit-group.html" />
     <Content Include="SourceApp\Components\JobDescription\Templates\index.html" />
-    <Content Include="SourceApp\Components\JobDescription\Templates\edit-personnel.html" />
+    <Content Include="SourceApp\Components\JobDescription\Templates\edit-personal.html" />
     <Content Include="SourceApp\Components\JobLevelStandard\Assessment\assessment-factory.js" />
     <Content Include="SourceApp\Components\JobLevelStandard\Assessment\assessment-model.js" />
     <Content Include="SourceApp\Components\JobLevelStandard\Assessment\assessment-controller.js" />
@@ -707,7 +707,7 @@
     <Content Include="SourceApp\Shared\Directives\move-kpi-row-directive.js" />
     <Content Include="SourceApp\Shared\Directives\popover-kpis-directive.js" />
     <Content Include="SourceApp\Shared\Templates\modal-confirm-refresh-data.html" />
-    <Content Include="SourceApp\Components\JobDescription\Templates\personnel.html" />
+    <Content Include="SourceApp\Components\JobDescription\Templates\personal.html" />
     <Content Include="SourceApp\Components\JobDescription\Templates\group.html" />
     <Content Include="SourceApp\Components\KPIGroup\create-kpiGroup-controller.js" />
     <Content Include="SourceApp\Components\KPIGroup\update-kpiGroup-controller.js" />

@@ -218,8 +218,6 @@
     <Compile Include="Employee\GetAllGroupCriteria.cs" />
     <Compile Include="Employee\GetAllJobTitleCriteria.cs" />
     <Compile Include="Employee\CreateSpecialEmployeeCriteria.cs" />
-    <Compile Include="Employee\GetEmployeeByDepartmentIdCriteria.cs" />
-    <Compile Include="Employee\GetEmployeeByGroupIdCriteria.cs" />
     <Compile Include="Employee\GetEmployeeByIdCriteria.cs" />
     <Compile Include="Employee\UpdateSpecialEmployeeCriteria.cs" />
     <Compile Include="FlowSetting\CreateDepartmentFlowCriteria.cs" />
