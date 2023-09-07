@@ -1,9 +1,8 @@
 ﻿
-CREATE PROCEDURE [dbo].[TargetTemplate_GetAll] @TargetTypeId INT = NULL
+CREATE PROCEDURE [dbo].[TargetTemplate_GetAll] @TargetTypeId TINYINT = NULL
 	,@IsActive TINYINT = NULL
-	,@DepartmentId INT = NULL
-	,@IsGroup BIT = NULL
-	,@ScoreRatingTypeId INT = NULL
+	,@TeamIds NVARCHAR(MAX) = NULL
+	,@ScoreRatingTypeId TINYINT = NULL
 AS
 /*
 Created: 2014004@Quinn.Vo
@@ -18,57 +17,72 @@ Param's Explanation:
 BEGIN
 	SET NOCOUNT ON;
 
+	CREATE TABLE #tmpTeamIds (TeamId INT PRIMARY KEY)
+
+	CREATE TABLE #tmpAssignedTeam (
+		TemplateId INT
+		,TeamId INT
+		,Code NVARCHAR(150)
+		,[Name] NVARCHAR(150)
+		)
+
+	IF ISNULL(@TeamIds, '') != ''
+	BEGIN
+		INSERT INTO #tmpTeamIds (TeamId)
+		SELECT DISTINCT val
+		FROM dbo.fnc_strSplit(@TeamIds, ',')
+		WHERE ISNUMERIC(val) = 1
+	END
+
+	INSERT INTO #tmpAssignedTeam (
+		TemplateId
+		,TeamId
+		,Code
+		,[Name]
+		)
+	SELECT ttdept.TargetTemplateId
+		,gr.GroupId
+		,gr.Code
+		,gr.[Name]
+	FROM dbo.TargetTemplateDepartment AS ttdept WITH (NOLOCK)
+		INNER JOIN dbo.[Group] AS gr WITH (NOLOCK) ON ttdept.DepartmentId = gr.GroupId
+	WHERE ttdept.IsGroup = 1
+		AND gr.IsDeleted = 0
+	
+	UNION
+	SELECT ttemp.TargetTemplateId
+		,gr.GroupId
+		,gr.Code
+		,gr.[Name]
+	FROM dbo.TargetTemplateEmployee AS ttemp WITH (NOLOCK)
+		INNER JOIN dbo.Employee AS emp WITH (NOLOCK) ON emp.EmployeeId = ttemp.EmployeeId
+		AND emp.IsDeleted = 0
+		AND emp.[Enabled] = 1
+		INNER JOIN dbo.[Group] AS gr WITH (NOLOCK) ON gr.GroupId = emp.GroupId
+		AND gr.IsDeleted = 0
+
 	SELECT DISTINCT tg.TargetTemplateId
 		,tg.[Name]
 		,tg.[Description]
-		,tg.[IsActive]
-		,tg.[TargetTypeId]
+		,tg.IsActive
+		,tg.TargetTypeId
 		,tgTy.[Name] AS TargetTypeName
-		,tg.[RatingTypeId]
+		,tg.RatingTypeId
 		,ref.Value AS RatingTypeName
-		,scT.[ScoreRatingTypeId]
+		,scT.ScoreRatingTypeId
 		,scT.[Name] AS ScoreRatingTypeName
 		,ISNULL(tk.KPIs, 0) AS KPIs
 		,STUFF((
-				SELECT ', ' + tttemp.Code
+				SELECT ', ' + tmp.[Name]
 				FROM dbo.TargetTemplate AS tg2 WITH (NOLOCK)
-					INNER JOIN (
-					SELECT ttdept.TargetTemplateId
-						,ttdept.IsGroup
-						,dept.Code
-					FROM dbo.TargetTemplateDepartment AS ttdept WITH (NOLOCK)
-						INNER JOIN dbo.Department AS dept WITH (NOLOCK) ON ttdept.DepartmentId = dept.DepartmentId
-						AND ttdept.IsGroup = 0
-						AND dept.IsActive = 1
-					
-					UNION
-					SELECT ttdept.TargetTemplateId
-						,ttdept.IsGroup
-						,gr.Code
-					FROM dbo.TargetTemplateDepartment AS ttdept WITH (NOLOCK)
-						INNER JOIN dbo.[Group] AS gr WITH (NOLOCK) ON ttdept.DepartmentId = gr.GroupId
-						AND ttdept.IsGroup = 1
-						AND gr.IsDeleted = 0
-					
-					UNION
-					SELECT ttemp.TargetTemplateId
-						,1 AS IsGroup
-						,gr.Code
-					FROM dbo.TargetTemplateEmployee AS ttemp WITH (NOLOCK)
-						INNER JOIN dbo.Employee AS emp WITH (NOLOCK) ON emp.EmployeeId = ttemp.EmployeeId
-						AND emp.IsDeleted = 0
-						AND emp.[Enabled] = 1
-						INNER JOIN dbo.[Group] AS gr WITH (NOLOCK) ON gr.GroupId = emp.GroupId
-						AND gr.IsDeleted = 0
-					) AS tttemp ON tg2.TargetTemplateId = tttemp.TargetTemplateId
+					INNER JOIN #tmpAssignedTeam AS tmp WITH (NOLOCK) ON tg2.TargetTemplateId = tmp.TemplateId
 				WHERE tg.TargetTemplateId = tg2.TargetTemplateId
 				GROUP BY tg2.TargetTemplateId
-					,tttemp.IsGroup
-					,tttemp.Code
-				ORDER BY tttemp.Code ASC
+					,tmp.[Name]
+				ORDER BY tmp.[Name] ASC
 				FOR XML PATH
 					,TYPE
-				).value(N'.[1]', N'NVARCHAR(MAX)'), 1, 2, N'') [Departments]
+				).value(N'.[1]', N'NVARCHAR(MAX)'), 1, 2, N'') [Teams]
 	FROM dbo.TargetTemplate AS tg WITH (NOLOCK)
 		LEFT JOIN (
 		SELECT TargetTemplateId
@@ -76,34 +90,26 @@ BEGIN
 		FROM dbo.TargetTemplateKPI WITH (NOLOCK)
 		GROUP BY TargetTemplateId
 		) AS tk ON tg.TargetTemplateId = tk.TargetTemplateId
-		INNER JOIN [dbo].[TargetType] AS tgTy WITH (NOLOCK) ON tg.[TargetTypeId] = tgTy.[TargetTypeId]
-		INNER JOIN [dbo].[ScoreRatingType] AS scT WITH (NOLOCK) ON tg.[ScoreRatingTypeId] = scT.[ScoreRatingTypeId]
+		INNER JOIN dbo.TargetType AS tgTy WITH (NOLOCK) ON tg.TargetTypeId = tgTy.TargetTypeId
+		INNER JOIN dbo.ScoreRatingType AS scT WITH (NOLOCK) ON tg.ScoreRatingTypeId = scT.ScoreRatingTypeId
 		INNER JOIN dbo.RefResource AS ref WITH (NOLOCK) ON tg.RatingTypeId = ref.ResourceId
 		AND ref.RefName = 'RatingType'
-	WHERE ISNULL(@TargetTypeId, tg.TargetTypeId) = tg.TargetTypeId
-		AND ISNULL(@IsActive, tg.[IsActive]) = tg.[IsActive]
+	WHERE (
+			@TargetTypeId IS NULL
+			OR tg.TargetTypeId = @TargetTypeId
+			)
 		AND (
-			@DepartmentId IS NULL
+			@IsActive IS NULL
+			OR tg.IsActive = @IsActive
+			)
+		AND (
+			ISNULL(@TeamIds, '') = ''
 			OR EXISTS (
 				SELECT 1
 				FROM dbo.TargetTemplateDepartment AS ttdept WITH (NOLOCK)
-					LEFT JOIN dbo.Department AS dept WITH (NOLOCK) ON ttdept.DepartmentId = dept.DepartmentId
-					AND dept.IsActive = 1
-					LEFT JOIN dbo.[Group] AS gr WITH (NOLOCK) ON ttdept.DepartmentId = gr.GroupId
-					AND gr.IsDeleted = 0
+					INNER JOIN #tmpTeamIds AS tmp WITH (NOLOCK) ON ttdept.DepartmentId = tmp.TeamId
 				WHERE tg.TargetTemplateId = ttdept.TargetTemplateId
-					AND (
-						(
-							@IsGroup = 0
-							AND ttdept.IsGroup = 0
-							AND dept.DepartmentId = @DepartmentId
-							)
-						OR (
-							@IsGroup = 1
-							AND ttdept.IsGroup = 1
-							AND gr.GroupId = @DepartmentId
-							)
-						)
+					AND ttdept.IsGroup = 1
 				)
 			OR EXISTS (
 				SELECT 1
@@ -111,29 +117,15 @@ BEGIN
 					INNER JOIN dbo.Employee AS emp WITH (NOLOCK) ON emp.EmployeeId = ttemp.EmployeeId
 					AND emp.[Enabled] = 1
 					AND emp.IsDeleted = 0
-					INNER JOIN dbo.[Group] AS gr WITH (NOLOCK) ON emp.GroupId = gr.GroupId
-					AND gr.IsDeleted = 0
-					INNER JOIN dbo.Department AS dept WITH (NOLOCK) ON dept.IsActive = 1
-					AND (
-						gr.DepartmentId = dept.DepartmentId
-						OR (
-							dept.lft < gr.lft
-							AND dept.rgt > gr.rgt
-							)
-						)
+					INNER JOIN #tmpTeamIds AS tmp WITH (NOLOCK) ON emp.GroupId = tmp.TeamId
 				WHERE tg.TargetTemplateId = ttemp.TargetTemplateId
-					AND (
-						(
-							@IsGroup = 1
-							AND gr.GroupId = @DepartmentId
-							)
-						OR (
-							@IsGroup = 0
-							AND dept.DepartmentId = @DepartmentId
-							)
-						)
 				)
 			)
-		AND  ISNULL(@ScoreRatingTypeId, scT.ScoreRatingTypeId) = scT.ScoreRatingTypeId
+		AND (
+			@ScoreRatingTypeId IS NULL
+			OR scT.ScoreRatingTypeId = @ScoreRatingTypeId
+			)
 	ORDER BY tg.[Name] ASC
+
+	DROP TABLE #tmpTeamIds
 END

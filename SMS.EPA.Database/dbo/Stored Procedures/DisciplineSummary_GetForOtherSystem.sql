@@ -43,6 +43,7 @@ BEGIN
 		INSERT INTO #tmpTeam (TeamId)
 		SELECT DISTINCT val
 		FROM dbo.fnc_strSplit(@TeamIds, ',')
+		WHERE ISNUMERIC(val) = 1
 	END
 
 	INSERT INTO #tblEmployeeDiscipline (
@@ -76,7 +77,9 @@ BEGIN
 		,SUM(ISNULL(d.SevenDaysLeave, 0))
 		,SUM(d.OtherDisciplines)
 		,SUM(d.SystemSubtractScore)
-		,SUM(d.ChangeShift) + SUM(d.MissingCheckInOut) + SUM(d.LateIn) + SUM(d.EarlyOut) + SUM(d.[Absent]) + SUM(d.UnpaidLeave) + SUM(d.WorkingUndertime) + SUM(d.UnpaidLeaveAbsent) + SUM(ISNULL(d.UnplannedLeave, 0)) + SUM(ISNULL(d.WeekendLeave, 0)) + SUM(ISNULL(d.SevenDaysLeave, 0))
+		,SUM(d.ChangeShift) + SUM(d.MissingCheckInOut) + SUM(d.LateIn) + SUM(d.EarlyOut) + SUM(d.[Absent])
+			+ SUM(d.UnpaidLeave) + SUM(d.WorkingUndertime) + SUM(d.UnpaidLeaveAbsent) + SUM(ISNULL(d.UnplannedLeave, 0))
+			+ SUM(ISNULL(d.WeekendLeave, 0)) + SUM(ISNULL(d.SevenDaysLeave, 0))
 	FROM dbo.Employee AS emp WITH (NOLOCK)
 		INNER JOIN dbo.DisciplineSummary AS d WITH (NOLOCK) ON emp.EmployeeId = d.EmployeeId
 		AND d.IsDeleted = 0
@@ -88,20 +91,20 @@ BEGIN
 		AND ISNULL(@IsLocal, emp.IsLocal) = emp.IsLocal
 	GROUP BY emp.EmployeeId
 
-	SELECT SUM(ISNULL(d.ChangeShift, 0)) AS ChangeShift
-		,SUM(ISNULL(d.MissingCheckInOut, 0)) AS MissingCheckInOut
-		,SUM(ISNULL(d.LateIn, 0)) AS LateIn
-		,SUM(ISNULL(d.EarlyOut, 0)) AS EarlyOut
-		,SUM(ISNULL(d.[Absent], 0)) AS [Absent]
-		,SUM(ISNULL(d.UnpaidLeave, 0)) AS UnpaidLeave
-		,SUM(ISNULL(d.WorkingUndertime, 0)) AS WorkingUndertime
-		,SUM(ISNULL(d.UnpaidLeaveAbsent, 0)) AS UnpaidLeaveAbsent
-		,SUM(ISNULL(d.UnplannedLeave, 0)) AS UnplannedLeave
-		,SUM(ISNULL(d.WeekendLeave, 0)) AS WeekendLeave
-		,SUM(ISNULL(d.SevenDaysLeave, 0)) AS SevenDaysLeave
-		,SUM(ISNULL(d.OtherViolationsScore, 0)) AS OtherDisciplines
-		,SUM(ISNULL(d.SystemSubtractScore, 0) + ISNULL(d.OtherViolationsScore, 0)) AS SystemSubtractScore
-		,SUM(ISNULL(d.ApproverSubtractScore, 0) + ISNULL(d.OtherViolationsScore, 0)) AS ApproverSubtractScore
+	SELECT d.ChangeShift
+		,d.MissingCheckInOut
+		,d.LateIn
+		,d.EarlyOut
+		,d.[Absent]
+		,d.UnpaidLeave
+		,d.WorkingUndertime
+		,d.UnpaidLeaveAbsent
+		,d.UnplannedLeave
+		,d.WeekendLeave
+		,d.SevenDaysLeave
+		,d.OtherViolationsScore AS OtherDisciplines
+		,ISNULL(d.SystemSubtractScore, 0) + ISNULL(d.OtherViolationsScore, 0) AS SystemSubtractScore
+		,ISNULL(d.ApproverSubtractScore, 0) + ISNULL(d.OtherViolationsScore, 0) AS ApproverSubtractScore
 		,emp.EmployeeId
 		,emp.Code
 		,emp.NickName
@@ -111,13 +114,16 @@ BEGIN
 			WHEN emp.IsLocal = 1 THEN 'Local'
 			ELSE 'Expat' END
 			) AS Category
-		,dept.[Name] AS Section
+		,dept.[Name] AS Department
+		,sec.[Name] AS Section
 		,gr.[Name] AS Team
 		,job.[Name] AS JobTitle
 	FROM dbo.Employee AS emp WITH (NOLOCK)
 		INNER JOIN #tblEmployeeDiscipline AS d WITH (NOLOCK) ON emp.EmployeeId = d.EmployeeId
 		INNER JOIN dbo.[Group] AS gr WITH (NOLOCK) ON emp.GroupId = gr.GroupId
-		LEFT JOIN dbo.Department AS dept WITH (NOLOCK) ON gr.DepartmentId = dept.DepartmentId
+		LEFT JOIN dbo.Section AS sec WITH (NOLOCK) ON gr.DepartmentId = sec.SectionId
+		AND sec.IsActive = 1
+		LEFT JOIN dbo.Department_New AS dept WITH (NOLOCK) ON sec.DepartmentId = dept.DepartmentId
 		AND dept.IsActive = 1
 		LEFT JOIN dbo.HRMJobTitle AS job WITH (NOLOCK) ON emp.JobTitle = job.Id
 	WHERE emp.[Enabled] = 1
@@ -203,17 +209,10 @@ BEGIN
 				AND d.OtherViolationsScore > 0
 				)
 			)
-	GROUP BY emp.EmployeeId
-		,emp.NickName
-		,emp.FullName
-		,emp.IsLocal
-		,emp.Code
-		,emp.JoinedDate
-		,dept.[Name]
+	ORDER BY dept.[Name]
+		,sec.[Name]
 		,gr.[Name]
-		,job.[Name]
-	ORDER BY gr.[Name] ASC
-		,emp.Code ASC
+		,emp.Code
 
 	DROP TABLE #tmpTeam
 	

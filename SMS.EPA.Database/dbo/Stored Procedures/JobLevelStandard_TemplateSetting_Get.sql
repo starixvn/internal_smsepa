@@ -1,5 +1,5 @@
 ﻿
-CREATE PROCEDURE [dbo].[JobLevelStandard_TemplateSetting_Get] @ObjectId INT = NULL
+CREATE PROCEDURE [dbo].[JobLevelStandard_TemplateSetting_Get] @ObjectIds NVARCHAR(MAX) = NULL
 	,@ObjectTypeId TINYINT = NULL
 	,@ShowAll BIT = 0
 AS
@@ -20,20 +20,30 @@ BEGIN
 		,@DepartmentTypeId INT = 2
 		,@UnitTypeId INT = 1
 
+	CREATE TABLE #tmpObjectIds (ObjectId INT PRIMARY KEY)
+
+	IF ISNULL(@ObjectIds, '') != ''
+	BEGIN
+		INSERT INTO #tmpObjectIds (ObjectId)
+		SELECT DISTINCT val
+		FROM dbo.fnc_strSplit(@ObjectIds, ',')
+		WHERE ISNUMERIC(val) = 1
+	END
+
 	SELECT @ObjectTypeId AS ObjectTypeId
-		,section.DepartmentId AS ObjectId
+		,section.SectionId AS ObjectId
 		,section.[Name] AS SectionName
 		,dept.DepartmentId
 		,dept.[Name] AS DepartmentName
-		,unit.DepartmentId AS UnitId
+		,unit.UnitId
 		,unit.[Name] AS UnitName
 	INTO #tmpTemplateSetting
 	FROM dbo.[Group] AS gr WITH (NOLOCK)
-		INNER JOIN dbo.Department AS section WITH (NOLOCK) ON gr.DepartmentId = section.DepartmentId
+		INNER JOIN dbo.Section AS section WITH (NOLOCK) ON gr.DepartmentId = section.SectionId
 		AND section.IsActive = 1
-		LEFT JOIN dbo.Department AS dept WITH (NOLOCK) ON section.ParentId = dept.DepartmentId
+		LEFT JOIN dbo.Department_New AS dept WITH (NOLOCK) ON section.DepartmentId = dept.DepartmentId
 		AND dept.IsActive = 1
-		LEFT JOIN dbo.Department AS unit WITH (NOLOCK) ON dept.ParentId = unit.DepartmentId
+		LEFT JOIN dbo.Unit AS unit WITH (NOLOCK) ON dept.UnitId = unit.UnitId
 		AND unit.IsActive = 1
 	WHERE gr.IsDeleted = 0
 
@@ -55,9 +65,15 @@ BEGIN
 				)
 			)
 		AND (
-			@ObjectId IS NULL
-			OR tmp.ObjectId = @ObjectId
+			ISNULL(@ObjectIds, '') = ''
+			OR EXISTS (
+				SELECT 1
+				FROM #tmpObjectIds AS tmpobj WITH (NOLOCK)
+				WHERE tmp.ObjectId = tmpobj.ObjectId
+				)
 			)
+
+	DROP TABLE #tmpObjectIds
 
 	DROP TABLE #tmpTemplateSetting
 END

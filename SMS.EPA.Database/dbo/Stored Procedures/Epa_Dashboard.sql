@@ -5,9 +5,9 @@ AS
 Created: 20150904@Tim.Trinh
 Task: Get data for Dashboard.
 DB: SMSEPA
-Original: 
+Original:
 
-Revisions:  
+Revisions:
 Param's Explanation:
 
 */
@@ -18,8 +18,8 @@ BEGIN
 		,@EPAIds NVARCHAR(MAX)
 		,@Today DATE = GETDATE()
 	-- target
-	DECLARE @MonthlyId INT = 2
-		,@SemiId INT = 3
+	DECLARE @MonthlyId TINYINT = 2
+		,@SemiId TINYINT = 3
 
 	CREATE TABLE #tblDisciplineScores (
 		EPAId INT
@@ -116,18 +116,11 @@ BEGIN
 				ELSE 0 END
 				) AS IsEndProcessBySelf
 			,tblstatus.StatusId
-			,emp.EmployeeId
-			,emp.Code
-			,emp.NickName
-			,emp.FullName
-			,emp.Email
-			,dept.DepartmentId
-			,dept.[Name] AS DepartmentName
-			,gr.GroupId
-			,gr.Code AS GroupCode
-			,gr.[Name] AS GroupName
-			,job.Id AS JobTitleId
-			,job.[Name] AS JobTitleName
+			--,emp.EmployeeId
+			--,emp.Code
+			--,emp.NickName
+			--,emp.FullName
+			--,emp.Email
 			,period.PeriodId
 			,period.[Name]
 			,pc.StartDate
@@ -152,15 +145,13 @@ BEGIN
 			) AS pc ON epa.EPAId = pc.EPAId
 			INNER JOIN dbo.Employee AS emp WITH (NOLOCK) ON epa.EmployeeId = emp.EmployeeId
 			LEFT JOIN dbo.[Group] AS gr WITH (NOLOCK) ON emp.GroupId = gr.GroupId
-			LEFT JOIN dbo.Department AS dept WITH (NOLOCK) ON gr.DepartmentId = dept.DepartmentId
-			LEFT JOIN dbo.HRMJobTitle AS job WITH (NOLOCK) ON emp.[JobTitle] = job.[Id]
 			INNER JOIN dbo.Period AS period WITH (NOLOCK) ON epa.PeriodId = period.PeriodId
 			AND period.IsActive = 1
 			INNER JOIN dbo.TargetType AS tt WITH (NOLOCK) ON period.TargetTypeId = tt.TargetTypeId
 			INNER JOIN dbo.EPAProcess AS selfpc WITH (NOLOCK) ON epa.EPAId = selfpc.EPAId
 			AND selfpc.ProcessId = 2 -- self
 			INNER JOIN dbo.ScoreRatingType AS srt WITH (NOLOCK) ON epa.ScoreRatingTypeId = srt.ScoreRatingTypeId
-			INNER JOIN dbo.#tblEPAStatus AS tblstatus WITH (NOLOCK) ON epa.EPAId = tblstatus.EPAId
+			INNER JOIN #tblEPAStatus AS tblstatus WITH (NOLOCK) ON epa.EPAId = tblstatus.EPAId
 			LEFT JOIN #tblDisciplineScores AS ds WITH (NOLOCK) ON epa.EPAId = ds.EPAId
 		
 		UNION ALL
@@ -172,18 +163,11 @@ BEGIN
 			,0 AS MaxDisciplineScore
 			,1 AS IsEndProcessBySelf
 			,1 AS StatusId
-			,emp.EmployeeId
-			,emp.Code
-			,emp.NickName
-			,emp.FullName
-			,emp.Email
-			,dept.DepartmentId
-			,dept.[Name] AS DepartmentName
-			,gr.GroupId
-			,gr.Code AS GroupCode
-			,gr.[Name] AS GroupName
-			,job.Id AS JobTitleId
-			,job.[Name] AS JobTitleName
+			--,emp.EmployeeId
+			--,emp.Code
+			--,emp.NickName
+			--,emp.FullName
+			--,emp.Email
 			,epa.PeriodId AS PeriodId
 			,epa.PeriodName AS [Name]
 			,epa.PeriodDate AS StartDate
@@ -192,10 +176,7 @@ BEGIN
 			,NULL AS TargetTypeName
 		FROM dbo.EPASummaryImport AS epa WITH (NOLOCK)
 			INNER JOIN dbo.Employee AS emp WITH (NOLOCK) ON epa.Code = emp.Code
-			AND emp.EmployeeId = @EmployeeId
-			LEFT JOIN dbo.[Group] AS gr WITH (NOLOCK) ON emp.GroupId = gr.GroupId
-			LEFT JOIN dbo.Department AS dept WITH (NOLOCK) ON gr.DepartmentId = dept.DepartmentId
-			LEFT JOIN dbo.HRMJobTitle AS job WITH (NOLOCK) ON emp.[JobTitle] = job.[Id]
+		WHERE emp.EmployeeId = @EmployeeId
 		) AS tblData
 	ORDER BY tblData.StartDate DESC
 

@@ -23,6 +23,7 @@ BEGIN
 		,pc.EvaluatorId
 		,pc.ProcessId
 		,pc.TotalScore
+		,pc.AdjustScore
 		,(CASE 
 			WHEN period.TargetTypeId = 3 --semi
 				AND epa.HasMonthlyEPA = 1 THEN 1
@@ -30,6 +31,7 @@ BEGIN
 			) AS HasMonthlyEPA
 	FROM dbo.EPA AS epa WITH (NOLOCK)
 		INNER JOIN dbo.Period AS period WITH (NOLOCK) ON epa.PeriodId = period.PeriodId
+		AND period.IsActive = 1
 		INNER JOIN dbo.EPAProcess AS pc WITH (NOLOCK) ON epa.EPAId = pc.EPAId
 		AND pc.ProcessId > 1
 	WHERE epa.[Status] = 0
@@ -39,4 +41,6 @@ BEGIN
 			WHERE epa.EPAId = pc1.EPAId
 				AND pc1.EndDate = @Yesterday
 			)
+	ORDER BY epa.EPAId
+		,pc.ProcessId
 END

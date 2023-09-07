@@ -1,4 +1,5 @@
 ﻿
+
 CREATE PROCEDURE [dbo].[FlowTemplate_GetDepartmentHasSetting] @FlowTemplateId INT
 AS
 /*
@@ -29,7 +30,29 @@ BEGIN
 		,dept.[Name]
 		,deptF.IsGroup
 	FROM dbo.SettingDepartmentFlow AS deptF WITH (NOLOCK)
-		INNER JOIN dbo.Department AS dept WITH (NOLOCK) ON deptF.DepartmentId = dept.DepartmentId
+		INNER JOIN dbo.Department_New AS dept WITH (NOLOCK) ON deptF.DepartmentId = dept.DepartmentId
+		AND deptF.IsGroup = 0
+		AND dept.IsActive = 1
+		INNER JOIN dbo.FlowTemplate AS ft WITH (NOLOCK) ON deptF.[FlowTemplateId] = ft.FlowTemplateId
+	WHERE ft.FlowTemplateId = @FlowTemplateId
+
+	UNION
+	SELECT deptF.DepartmentId
+		,dept.[Name]
+		,deptF.IsGroup
+	FROM dbo.SettingDepartmentFlow AS deptF WITH (NOLOCK)
+		INNER JOIN dbo.Unit AS dept WITH (NOLOCK) ON deptF.DepartmentId = dept.UnitId
+		AND deptF.IsGroup = 0
+		AND dept.IsActive = 1
+		INNER JOIN dbo.FlowTemplate AS ft WITH (NOLOCK) ON deptF.[FlowTemplateId] = ft.FlowTemplateId
+	WHERE ft.FlowTemplateId = @FlowTemplateId
+
+	UNION
+	SELECT deptF.DepartmentId
+		,dept.[Name]
+		,deptF.IsGroup
+	FROM dbo.SettingDepartmentFlow AS deptF WITH (NOLOCK)
+		INNER JOIN dbo.Section AS dept WITH (NOLOCK) ON deptF.DepartmentId = dept.SectionId
 		AND deptF.IsGroup = 0
 		AND dept.IsActive = 1
 		INNER JOIN dbo.FlowTemplate AS ft WITH (NOLOCK) ON deptF.[FlowTemplateId] = ft.FlowTemplateId

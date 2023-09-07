@@ -27,6 +27,7 @@ BEGIN
 	SET NOCOUNT ON;
 
 	DECLARE @ModifiedDate DATETIME = GETDATE()
+		,@Today DATE = GETDATE()
 	DECLARE @tblSubQuestions TABLE (
 		SubQuestionId TINYINT
 		,IsAgree BIT
@@ -51,7 +52,7 @@ BEGIN
 				INNER JOIN dbo.EPAProcess AS pc WITH (NOLOCK) ON epa.EPAId = pc.EPAId
 			WHERE epa.EPAId = @EPAId
 				AND epa.EmployeeId = @EmployeeId
-				AND pc.IsEndProcess = 1
+				AND pc.EndDate < @Today
 				AND pc.[ProcessId] = 2 -- Self Evaluatation
 			)
 	BEGIN

@@ -1,4 +1,5 @@
 ﻿
+
 CREATE PROCEDURE [dbo].[EPA_GetEPAToUpdateFinalScore] @PeriodId INT
 	,@TeamIds VARCHAR(MAX) = NULL
 	,@IsLocal BIT = NULL
@@ -72,6 +73,7 @@ BEGIN
 			AND emp.IsDeleted = 0
 			AND emp.[Enabled] = 1
 			INNER JOIN dbo.[Group] AS gr WITH (NOLOCK) ON emp.GroupId = gr.GroupId
+			AND gr.IsDeleted = 0
 		WHERE pe.EndDate <= @Today
 			AND pc.EndDate < pe.EndDate
 			AND pe.TargetTypeId IN (@MonthlyId, @SemiId)
@@ -103,6 +105,7 @@ BEGIN
 			AND emp.IsDeleted = 0
 			AND emp.[Enabled] = 1
 			INNER JOIN dbo.[Group] AS gr WITH (NOLOCK) ON emp.GroupId = gr.GroupId
+			AND gr.IsDeleted = 0
 		WHERE pc.EndDate <= @Yesterday
 			AND pc.EndDate >= pe.EndDate
 			AND pe.TargetTypeId IN (@MonthlyId, @SemiId)
@@ -136,6 +139,7 @@ BEGIN
 			AND emp.IsDeleted = 0
 			AND emp.[Enabled] = 1
 			INNER JOIN dbo.[Group] AS gr WITH (NOLOCK) ON emp.GroupId = gr.GroupId
+			AND gr.IsDeleted = 0
 		WHERE pc.EndDate <= @Yesterday
 			AND pe.TargetTypeId IN (@ProbationId, @PromotionId)
 			AND ISNULL(epa.[Status], 0) IN (0, 1)
@@ -218,6 +222,7 @@ BEGIN
 		,emp.FullName
 		,emp.Email
 		,emp.JoinedDate
+		,sec.[Name] AS Section
 		,dept.DepartmentId
 		,dept.[Name] AS DepartmentName
 		,gr.GroupId
@@ -239,7 +244,11 @@ BEGIN
 		INNER JOIN dbo.TargetType AS tt WITH (NOLOCK) ON period.TargetTypeId = tt.TargetTypeId
 		LEFT JOIN #tblDisciplineScores AS ds WITH (NOLOCK) ON epa.EPAId = ds.EPAId
 		LEFT JOIN dbo.[Group] AS gr WITH (NOLOCK) ON emp.GroupId = gr.GroupId
-		LEFT JOIN dbo.Department AS dept WITH (NOLOCK) ON gr.DepartmentId = dept.DepartmentId
+		AND gr.IsDeleted = 0
+		LEFT JOIN dbo.Section AS sec WITH (NOLOCK) ON gr.DepartmentId = sec.SectionId
+		AND sec.IsActive = 0
+		LEFT JOIN dbo.Department_New AS dept WITH (NOLOCK) ON sec.DepartmentId = dept.DepartmentId
+		AND dept.IsActive = 1
 		LEFT JOIN dbo.HRMJobTitle AS job WITH (NOLOCK) ON emp.JobTitle = job.Id
 	ORDER BY gr.[Name]
 		,emp.NickName

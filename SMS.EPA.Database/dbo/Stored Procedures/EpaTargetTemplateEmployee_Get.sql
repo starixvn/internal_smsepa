@@ -29,11 +29,16 @@ BEGIN
 		,emp.Code
 		,emp.NickName
 		,emp.FullName
-		,gr.[Name] AS Section
+		,gr.[Name] AS Team
+		,sec.[Name] AS Section
 		,dept.[Name] AS Department
 	FROM dbo.Employee AS emp WITH (NOLOCK)
 		INNER JOIN dbo.[Group] AS gr WITH (NOLOCK) ON emp.GroupId = gr.GroupId
-		LEFT JOIN dbo.Department AS dept WITH (NOLOCK) ON gr.DepartmentId = dept.DepartmentId
+		AND gr.IsDeleted = 0
+		LEFT JOIN dbo.Section AS sec WITH (NOLOCK) ON gr.DepartmentId = sec.SectionId
+		AND sec.IsActive = 1
+		LEFT JOIN dbo.Department_New AS dept WITH (NOLOCK) ON sec.DepartmentId = dept.DepartmentId
+		AND dept.IsActive = 1
 	WHERE emp.[Enabled] = 1
 		AND emp.IsDeleted = 0
 		AND (

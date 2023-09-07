@@ -1,4 +1,5 @@
-﻿CREATE PROCEDURE [dbo].[EPA_RatingByKPI_GetEmployeeToView] @PeriodId INT
+﻿
+CREATE PROCEDURE [dbo].[EPA_RatingByKPI_GetEmployeeToView] @PeriodId INT
 	,@TargetTemplateId INT
 	,@KPIId INT
 	,@EvaluatorId INT
@@ -20,24 +21,24 @@ BEGIN
 		,@Today DATE = GETDATE()
 		,@EvaluatorProcessId TINYINT = 3
 
-	CREATE TABLE #tblEPA (
+	CREATE TABLE #tmpEPA (
 		EPAId INT
 		,KPIGroupId INT
 		)
 
-	CREATE TABLE #KPIGroup (
+	CREATE TABLE #tmpKPIGroup (
 		TargetTemplateId INT
 		,KPIGroupId INT
 		,NumberKPI INT
 		)
 
-	CREATE TABLE #TblKPIGroup (
+	CREATE TABLE #tmpKPIOptional (
 		TargetTemplateId INT
 		,KPIGroupId INT
 		,NumberKPIOptional INT
 		)
 
-	INSERT INTO #KPIGroup (
+	INSERT INTO #tmpKPIGroup (
 		TargetTemplateId
 		,KPIGroupId
 		,NumberKPI
@@ -61,7 +62,7 @@ BEGIN
 		,dt.TargetTemplateId
 		,dt.KPIGroupId
 
-	INSERT INTO #TblKPIGroup (
+	INSERT INTO #tmpKPIOptional (
 		TargetTemplateId
 		,KPIGroupId
 		,NumberKPIOptional
@@ -94,7 +95,7 @@ BEGIN
 	FROM dbo.RefResource WITH (NOLOCK)
 	WHERE RefName = 'RequiredCommentOnMaxScoreForEvaluator'
 
-	INSERT INTO #tblEPA (
+	INSERT INTO #tmpEPA (
 		EPAId
 		,KPIGroupId
 		)
@@ -111,7 +112,10 @@ BEGIN
 		INNER JOIN dbo.PeriodTargetSetting AS pts WITH (NOLOCK) ON period.PeriodId = pts.PeriodId
 		INNER JOIN dbo.TargetTemplate AS tt WITH (NOLOCK) ON pts.TargetTemplateId = tt.TargetTemplateId
 		INNER JOIN dbo.Employee AS emp WITH (NOLOCK) ON epa.EmployeeId = emp.EmployeeId
-		LEFT JOIN dbo.[Group] AS gr WITH (NOLOCK) ON emp.GroupId = gr.GroupId
+		AND emp.IsDeleted = 0
+		AND emp.[Enabled] = 0
+		INNER JOIN dbo.[Group] AS gr WITH (NOLOCK) ON emp.GroupId = gr.GroupId
+		AND gr.IsDeleted = 0
 	WHERE epa.[Status] = 0 -- open
 		AND epa.HasMonthlyEPA = 0
 		AND pc.EvaluatorId = @EvaluatorId
@@ -129,6 +133,7 @@ BEGIN
 		,emp.Code
 		,emp.NickName
 		,emp.FullName
+		,sec.[Name] AS Section
 		,dept.DepartmentId
 		,dept.[Name] AS DepartmentName
 		,gr.GroupId
@@ -148,12 +153,16 @@ BEGIN
 			WHEN tbl2.NumberKPIOptional > 0 THEN 1
 			ELSE 0 END
 			) AS HasKPIOptional
-	FROM #tblEPA AS tbl WITH (NOLOCK)
+	FROM #tmpEPA AS tbl WITH (NOLOCK)
 		INNER JOIN dbo.EPA AS epa WITH (NOLOCK) ON tbl.EPAId = epa.EPAId
 		INNER JOIN dbo.Period AS period WITH (NOLOCK) ON epa.PeriodId = period.PeriodId
 		INNER JOIN dbo.Employee AS emp WITH (NOLOCK) ON epa.EmployeeId = emp.EmployeeId
-		LEFT JOIN dbo.[Group] AS gr WITH (NOLOCK) ON emp.GroupId = gr.GroupId
-		LEFT JOIN dbo.Department AS dept WITH (NOLOCK) ON gr.DepartmentId = dept.DepartmentId
+		INNER JOIN dbo.[Group] AS gr WITH (NOLOCK) ON emp.GroupId = gr.GroupId
+		AND gr.IsDeleted = 0
+		LEFT JOIN dbo.Section AS sec WITH (NOLOCK) ON gr.DepartmentId = sec.SectionId
+		AND sec.IsActive = 1
+		LEFT JOIN dbo.Department_New AS dept WITH (NOLOCK) ON sec.DepartmentId = dept.DepartmentId
+		AND dept.IsActive = 1
 		LEFT JOIN dbo.HRMJobTitle AS job WITH (NOLOCK) ON emp.JobTitle = job.Id
 		INNER JOIN dbo.RefResource AS ref WITH (NOLOCK) ON epa.RatingTypeId = ref.ResourceId
 		AND ref.RefName = 'RatingType'
@@ -164,9 +173,9 @@ BEGIN
 		AND pc.ProcessId = @EvaluatorProcessId
 		INNER JOIN dbo.KPIGroupHistory AS kghis WITH (NOLOCK) ON dt.KPIGroupId = kghis.KPIGroupId
 		AND dt.KPIGroupLogNo = kghis.LogNo
-		INNER JOIN #KPIGroup AS tbl1 WITH (NOLOCK) ON dt.TargetTemplateId = tbl1.TargetTemplateId
+		INNER JOIN #tmpKPIGroup AS tbl1 WITH (NOLOCK) ON dt.TargetTemplateId = tbl1.TargetTemplateId
 		AND dt.KPIGroupId = tbl1.KPIGroupId
-		LEFT JOIN #TblKPIGroup AS tbl2 WITH (NOLOCK) ON dt.TargetTemplateId = tbl2.TargetTemplateId
+		LEFT JOIN #tmpKPIOptional AS tbl2 WITH (NOLOCK) ON dt.TargetTemplateId = tbl2.TargetTemplateId
 		AND dt.KPIGroupId = tbl2.KPIGroupId
 	WHERE pc.EvaluatorId = @EvaluatorId
 		AND dt.EvaluatorId = @EvaluatorId
@@ -189,7 +198,7 @@ BEGIN
 		,dt.Comment
 		,dt.KPIGroupId
 		,dt.EvaluatorId
-	FROM #tblEPA AS tbl WITH (NOLOCK)
+	FROM #tmpEPA AS tbl WITH (NOLOCK)
 		INNER JOIN dbo.EPA AS epa WITH (NOLOCK) ON tbl.EPAId = epa.EPAId
 		INNER JOIN dbo.Period AS period WITH (NOLOCK) ON epa.PeriodId = period.PeriodId
 		INNER JOIN dbo.EPAProcess AS pc WITH (NOLOCK) ON tbl.EPAId = pc.EPAId
@@ -220,7 +229,7 @@ BEGIN
 		,dt.Comment
 		,dt.KPIGroupId
 		,dt.EvaluatorId
-	FROM #tblEPA AS tbl WITH (NOLOCK)
+	FROM #tmpEPA AS tbl WITH (NOLOCK)
 		INNER JOIN dbo.EPA AS epa WITH (NOLOCK) ON tbl.EPAId = epa.EPAId
 		INNER JOIN dbo.Period AS period WITH (NOLOCK) ON epa.PeriodId = period.PeriodId
 		INNER JOIN dbo.EPAProcess AS pc WITH (NOLOCK) ON tbl.EPAId = pc.EPAId
@@ -235,9 +244,9 @@ BEGIN
 	ORDER BY epa.EPAId ASC
 		,dt.KPIDisplayOrder ASC
 
-	DROP TABLE #tblEPA
+	DROP TABLE #tmpEPA
 
-	DROP TABLE #KPIGroup
+	DROP TABLE #tmpKPIGroup
 
-	DROP TABLE #TblKPIGroup
+	DROP TABLE #tmpKPIOptional
 END

@@ -1,4 +1,5 @@
-﻿CREATE PROCEDURE [dbo].[Epa_GetMonthlyEPAHistory] @PeriodId INT = 0
+﻿
+CREATE PROCEDURE [dbo].[Epa_GetMonthlyEPAHistory] @PeriodId INT = 0
 	,@EvaluatorId INT
 	,@EmployeeId INT = NULL
 AS
@@ -61,6 +62,7 @@ BEGIN
 		,emp.NickName
 		,emp.FullName
 		,emp.Code
+		,sec.[Name] AS Section
 		,dept.DepartmentId
 		,dept.[Name] AS DepartmentName
 		,gr.GroupId
@@ -70,7 +72,11 @@ BEGIN
 		AND pe.TargetTypeId = @MonthlyTargetId
 		INNER JOIN dbo.Employee AS emp WITH (NOLOCK) ON epa.EmployeeId = emp.EmployeeId
 		INNER JOIN dbo.[Group] AS gr WITH (NOLOCK) ON emp.GroupId = gr.GroupId
-		LEFT JOIN dbo.Department AS dept WITH (NOLOCK) ON gr.DepartmentId = dept.DepartmentId
+		AND gr.IsDeleted = 0
+		LEFT JOIN dbo.Section AS sec WITH (NOLOCK) ON gr.DepartmentId = sec.SectionId
+		AND sec.IsActive = 1
+		LEFT JOIN dbo.Department_New AS dept WITH (NOLOCK) ON sec.DepartmentId = dept.DepartmentId
+		AND dept.IsActive = 1
 	WHERE epa.PeriodId = @PeriodId
 		AND epa.[Status] = 1 -- Closed
 		AND (

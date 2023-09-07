@@ -5,9 +5,9 @@ AS
 Created: 2015-06-12@Josh.Phan
 Task: Get user by domain user name.
 DB: SMSEPA
-Original: 
+Original:
 
-Revisions:  
+Revisions:
 Param's Explanation:
 */
 BEGIN
@@ -33,17 +33,22 @@ BEGIN
 		,emp.IsLocal
 		,emp.JoinedDate
 		,emp.HasMonthlyEPA
+		,sec.[Name] AS Section
 		,emp.JobTitle AS JobTitleId
 		,job.[Name] AS JobTitleName
 		,dept.DepartmentId
 		,dept.Code
 		,dept.[Name]
-		,empGr.GroupId
-		,empGr.[Name] AS GroupName
-		,empGr.Code AS GroupCode
+		,gr.GroupId
+		,gr.[Name] AS GroupName
+		,gr.Code AS GroupCode
 	FROM dbo.Employee AS emp WITH (NOLOCK)
-		LEFT JOIN dbo.[Group] AS empGr WITH (NOLOCK) ON emp.GroupId = empGr.GroupId
-		LEFT JOIN dbo.Department AS dept WITH (NOLOCK) ON empGr.DepartmentId = dept.DepartmentId
+		INNER JOIN dbo.[Group] AS gr WITH (NOLOCK) ON emp.GroupId = gr.GroupId
+		AND gr.IsDeleted = 0
+		LEFT JOIN dbo.Section AS sec WITH (NOLOCK) ON gr.DepartmentId = sec.SectionId
+		AND sec.IsActive = 1
+		LEFT JOIN dbo.Department_New AS dept WITH (NOLOCK) ON sec.DepartmentId = dept.DepartmentId
+		AND dept.IsActive = 1
 		LEFT JOIN dbo.HRMJobTitle AS job WITH (NOLOCK) ON emp.JobTitle = job.Id
 	WHERE emp.DomainUsername = @DomainUsername
 		AND emp.Enabled = 1

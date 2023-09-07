@@ -1,4 +1,5 @@
 ﻿
+
 CREATE PROCEDURE [dbo].[Report_EPARecommendation] @PeriodId INT
 AS
 /*
@@ -57,7 +58,7 @@ BEGIN
 		AND emp.[Enabled] = 1
 		AND emp.IsDeleted = 0
 		INNER JOIN dbo.[Group] AS gr WITH (NOLOCK) ON emp.GroupId = gr.GroupId
-		LEFT JOIN dbo.Department AS section WITH (NOLOCK) ON gr.DepartmentId = section.DepartmentId
+		LEFT JOIN dbo.Section AS section WITH (NOLOCK) ON gr.DepartmentId = section.SectionId
 		AND section.IsActive = 1
 		INNER JOIN dbo.EPARecommendation AS rc WITH (NOLOCK) ON epa.EPAId = rc.EPAId
 		AND rc.ProcessId = 4

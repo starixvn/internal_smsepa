@@ -1,4 +1,5 @@
 ﻿
+
 CREATE PROCEDURE [dbo].[JobLevelStandard_Report_GetOrgChartByActorId] @ActorId INT
 	,@PeriodId INT = NULL
 AS
@@ -79,16 +80,16 @@ BEGIN
 		,[Name]
 		,DepartmentId
 		)
-	SELECT s.DepartmentId
+	SELECT s.SectionId
 		,s.Code
 		,s.[Name]
-		,s.ParentId
-	FROM dbo.Department AS s WITH (NOLOCK)
+		,s.DepartmentId
+	FROM dbo.Section AS s WITH (NOLOCK)
 	WHERE s.IsActive = 1
 		AND EXISTS (
 			SELECT 1
 			FROM #tmpTeam AS t WITH (NOLOCK)
-			WHERE s.DepartmentId = t.SectionId
+			WHERE s.SectionId = t.SectionId
 			)
 
 	INSERT INTO #tmpDepartment (
@@ -99,7 +100,7 @@ BEGIN
 	SELECT dept.DepartmentId
 		,dept.Code
 		,dept.[Name]
-	FROM dbo.Department AS dept WITH (NOLOCK)
+	FROM dbo.Department_New AS dept WITH (NOLOCK)
 	WHERE dept.IsActive = 1
 		AND EXISTS (
 			SELECT 1

@@ -1,5 +1,4 @@
 ﻿
-
 CREATE PROCEDURE [dbo].[Report_EPASummary] @ActorId INT
 	,@PeriodIds NVARCHAR(MAX) = NULL
 	,@TeamIds VARCHAR(MAX) = NULL
@@ -14,7 +13,7 @@ Task: EPA Summary Report.
 DB: SMSEPA
 Original: @SortDirection = 'asc'/'desc'
 
-Revisions:  
+Revisions:
 Param's Explanation:
 
 */
@@ -63,7 +62,7 @@ BEGIN
 		EPAId INT
 		,StatusId TINYINT
 		)
-	
+
 	CREATE TABLE #tblLastedEPA (
 		EmployeeId INT
 		,TargetTypeId TINYINT
@@ -96,7 +95,7 @@ BEGIN
 			SELECT DISTINCT val
 			FROM fnc_strSplit(@PeriodIds, ',')
 			)
-	
+
 	INSERT INTO #tblLastedEPA (
 		EmployeeId
 		,TargetTypeId
@@ -142,7 +141,8 @@ BEGIN
 			AND emp.[Enabled] = 1
 			AND emp.IsDeleted = 0
 			AND emp.ResignedDate IS NULL
-			LEFT JOIN dbo.[Group] AS gr WITH (NOLOCK) ON emp.GroupId = gr.GroupId
+			INNER JOIN dbo.[Group] AS gr WITH (NOLOCK) ON emp.GroupId = gr.GroupId
+			AND gr.IsDeleted = 0
 			INNER JOIN dbo.Period AS period1 WITH (NOLOCK) ON epa.PeriodId = period1.PeriodId
 		WHERE ISNULL(epa.[Status], 0) IN (0, 1)
 		
@@ -302,8 +302,8 @@ BEGIN
 			WHEN emp.IsLocal = 1 THEN 'Local'
 			ELSE 'Expat' END
 			) AS Category
-		,section.[Name] AS Section
 		,dept.[Name] AS Department
+		,section.[Name] AS Section
 		,gr.GroupId
 		,gr.Code AS GroupCode
 		,gr.[Name] AS GroupName
@@ -311,11 +311,12 @@ BEGIN
 		,job.[Name] AS JobTitleName
 	FROM dbo.Employee AS emp WITH (NOLOCK)
 		INNER JOIN #tblEmployee AS tblemp WITH (NOLOCK) ON emp.EmployeeId = tblemp.EmployeeId
-		LEFT JOIN dbo.[Group] AS gr WITH (NOLOCK) ON emp.GroupId = gr.GroupId
-		LEFT JOIN dbo.Department AS section WITH (NOLOCK) ON gr.DepartmentId = section.DepartmentId
-			AND section.IsActive = 1
-		LEFT JOIN dbo.Department AS dept WITH (NOLOCK) ON section.ParentId = dept.DepartmentId
-			AND dept.IsActive = 1
+		INNER JOIN dbo.[Group] AS gr WITH (NOLOCK) ON emp.GroupId = gr.GroupId
+		AND gr.IsDeleted = 0
+		LEFT JOIN dbo.Section AS section WITH (NOLOCK) ON gr.DepartmentId = section.SectionId
+		AND section.IsActive = 1
+		LEFT JOIN dbo.Department_New AS dept WITH (NOLOCK) ON section.DepartmentId = dept.DepartmentId
+		AND dept.IsActive = 1
 		LEFT JOIN dbo.HRMJobTitle AS job WITH (NOLOCK) ON emp.JobTitle = job.Id
 	ORDER BY CASE 
 			WHEN ISNULL(@SortColumnName, '') <> ''
@@ -419,7 +420,7 @@ BEGIN
 	WHERE pc.ProcessId > 1
 
 	DROP TABLE #tmpTeam
-	
+
 	DROP TABLE #tblEPA
 
 	DROP TABLE #tblEmployee
@@ -431,6 +432,6 @@ BEGIN
 	DROP TABLE #tblPeriodTemp
 
 	DROP TABLE #tblEPAStatus
-	
+
 	DROP TABLE #tblLastedEPA
 END

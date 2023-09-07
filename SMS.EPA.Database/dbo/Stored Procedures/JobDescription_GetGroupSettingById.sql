@@ -19,8 +19,12 @@ BEGIN
 		,gr.Code
 		,gr.[Name]
 		,dept.[Name] AS Department
+		,sec.[Name] AS Section
 	FROM dbo.[Group] AS gr WITH (NOLOCK)
-		LEFT JOIN dbo.Department AS dept WITH (NOLOCK) ON gr.DepartmentId = dept.DepartmentId
+		LEFT JOIN dbo.Section AS sec WITH (NOLOCK) ON gr.DepartmentId = sec.SectionId
+		AND sec.IsActive = 1
+		LEFT JOIN dbo.Department_New AS dept WITH (NOLOCK) ON sec.DepartmentId = dept.DepartmentId
+		AND dept.IsActive = 1
 	WHERE gr.GroupId = @GroupId
 
 	SELECT gitem.JobDescription_GroupItemId AS GroupItemId
@@ -32,7 +36,11 @@ BEGIN
 	SELECT item.JobDescription_GroupItemId AS GroupItemId
 		,item.JobDescription_ItemId AS ItemId
 		,item.[Name]
-		,CASE WHEN setting.GroupId IS NOT NULL AND gr.GroupId IS NOT NULL THEN 1 ELSE 0 END AS IsSelected
+		,CASE 
+			WHEN setting.GroupId IS NOT NULL
+				AND gr.GroupId IS NOT NULL THEN 1
+			ELSE 0
+			END AS IsSelected
 		,ISNULL(setting.DisplayOrder, 999) AS DisplayOrder
 	FROM dbo.JobDescription_Item AS item WITH (NOLOCK)
 		INNER JOIN dbo.JobDescription_GroupItem AS gitem WITH (NOLOCK) ON item.JobDescription_GroupItemId = gitem.JobDescription_GroupItemId

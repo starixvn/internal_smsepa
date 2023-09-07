@@ -1,5 +1,4 @@
 ﻿
-
 CREATE PROCEDURE [dbo].[JobDescription_GetGroupSetting]
 AS
 /*
@@ -28,8 +27,12 @@ BEGIN
 					,TYPE
 				).value(N'.[1]', N'NVARCHAR(MAX)'), 1, 2, N'') JobLevels
 		,dept.[Name] AS Department
+		,sec.[Name] AS Section
 	FROM dbo.[Group] AS gr WITH (NOLOCK)
-		LEFT JOIN dbo.Department AS dept WITH (NOLOCK) ON gr.DepartmentId = dept.DepartmentId
+		LEFT JOIN dbo.Section AS sec WITH (NOLOCK) ON gr.DepartmentId = sec.SectionId
+		AND sec.IsActive = 1
+		LEFT JOIN dbo.Department_New AS dept WITH (NOLOCK) ON sec.DepartmentId = dept.DepartmentId
+		AND dept.IsActive = 1
 	WHERE gr.IsDeleted = 0
 	ORDER BY gr.[Name]
 END

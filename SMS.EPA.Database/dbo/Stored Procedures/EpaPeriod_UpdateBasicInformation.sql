@@ -26,23 +26,17 @@ BEGIN
 
 	DECLARE @Today DATE = GETDATE()
 		,@MonthlyId INT = 2
-
-	IF NOT EXISTS (
-			SELECT 1
-			FROM dbo.Period WITH (NOLOCK)
-			WHERE PeriodId = @PeriodId
-			)
-	BEGIN
-		SELECT @ErrCode = 1
-			,@ErrMsg = N'Period ''' + @Name + ''' does not exists.'
-
-		RETURN
-	END
+		,@MonthlyTarget TINYINT = 2
+		,@SemiTarget TINYINT = 3
+		,@PromotionTarget TINYINT = 5
+		,@OpenStatus TINYINT = 0
+		,@ClosedStatus TINYINT = 1
+		,@RejectedStatus TINYINT = 2
 
 	IF EXISTS (
 			SELECT 1
 			FROM dbo.Period WITH (NOLOCK)
-			WHERE PeriodId <> @PeriodId
+			WHERE PeriodId != @PeriodId
 				AND [Name] = @Name
 			)
 	BEGIN
@@ -56,37 +50,54 @@ BEGIN
 		AND EXISTS (
 			SELECT 1
 			FROM dbo.Period WITH (NOLOCK)
-			WHERE PeriodId <> @PeriodId
+			WHERE PeriodId != @PeriodId
 				AND TargetTypeId = @MonthlyId
 				AND (
-					CAST(@StartDate AS DATE) BETWEEN CAST(StartDate AS DATE)
-						AND CAST(EndDate AS DATE)
-					OR CAST(@EndDate AS DATE) BETWEEN CAST(StartDate AS DATE)
-						AND CAST(EndDate AS DATE)
-					OR CAST(StartDate AS DATE) BETWEEN CAST(@StartDate AS DATE)
-						AND CAST(@EndDate AS DATE)
-					OR CAST(EndDate AS DATE) BETWEEN CAST(@StartDate AS DATE)
-						AND CAST(@EndDate AS DATE)
+					@StartDate BETWEEN StartDate
+						AND EndDate
+					OR @EndDate BETWEEN StartDate
+						AND EndDate
+					OR StartDate BETWEEN @StartDate
+						AND @EndDate
+					OR EndDate BETWEEN @StartDate
+						AND @EndDate
 					)
 			)
 	BEGIN
 		SELECT @ErrCode = 1
-			,@ErrMsg = N'The Start Date/End Date overlap on another period.'
+			,@ErrMsg = N'Start Date/End Date overlap with another period.'
 
 		RETURN
 	END
 
-	DECLARE @Data NVARCHAR(MAX)
-		,@OldData NVARCHAR(MAX)
+	DECLARE @data NVARCHAR(MAX)
+		,@oldData NVARCHAR(MAX)
+		,@xml XML
+		,@OldStartDate DATE
 		,@OldEndDate DATE
 
-	EXEC @OldData = [dbo].[fncGetDataForWriteLog] @ObjectId = @PeriodId
-		,@ObjectType = 8
+	SET @xml = (
+			SELECT [Name] AS '@Name'
+				,TargetTypeId AS '@TargetTypeId'
+				,StartDate AS '@StartDate'
+				,EndDate AS '@EndDate'
+				,AttendanceStartDate AS '@AttendanceStartDate'
+				,AttendanceEndDate AS '@AttendanceEndDate'
+				,IsActive AS '@IsActive'
+				,[Description] AS '@Description'
+				,ModifiedBy AS '@ModifiedBy'
+			FROM dbo.Period WITH (NOLOCK)
+			WHERE PeriodId = @PeriodId
+			FOR XML PATH('r')
+				,TYPE
+			)
+	SET @oldData = REPLACE(CONVERT(NVARCHAR(MAX), @xml), '" />', '"/"')
 
 	BEGIN TRY
 		BEGIN TRANSACTION
 
-		SELECT @OldEndDate = EndDate
+		SELECT @OldStartDate = StartDate
+			,@OldEndDate = EndDate
 		FROM dbo.Period WITH (NOLOCK)
 		WHERE PeriodId = @PeriodId
 
@@ -103,26 +114,78 @@ BEGIN
 			,ModifiedDate = GETDATE()
 		WHERE PeriodId = @PeriodId
 
-		IF @TargetTypeId IN (2, 3)
-			AND (
-				(
-					ISNULL(@OldEndDate, '') <> ''
-					AND ISNULL(@EndDate, '') <> ''
-					AND @OldEndDate <> @EndDate
-					)
-				OR (
-					ISNULL(@OldEndDate, '') = ''
-					AND ISNULL(@EndDate, '') <> ''
-					)
-				)
+		IF @TargetTypeId IN (@MonthlyTarget, @SemiTarget, @PromotionTarget)
+		BEGIN
+			IF ISNULL(@OldStartDate, '') != ISNULL(@StartDate, '')
+			BEGIN
+				UPDATE pe
+				SET pe.StartDate = DATEADD(DAY, ISNULL(aa.Duration - peP.Duration, 0), @StartDate)
+					,pe.EndDate = DATEADD(DAY, (CASE 
+							WHEN ISNULL(aa.Duration, 0) - 1 < 0 THEN 0
+							ELSE ISNULL(aa.Duration, 0) - 1 END
+							), @StartDate)
+				FROM dbo.PeriodFlowSetting AS pe WITH (NOLOCK)
+					INNER JOIN dbo.PeriodProcessSetting AS peP WITH (NOLOCK) ON pe.PeriodId = peP.PeriodId
+					AND pe.ProcessId = peP.ProcessId
+					INNER JOIN (
+					SELECT set1.PeriodId
+						,set1.ProcessId
+						,SUM(CASE 
+								WHEN set2.ProcessId <= set1.ProcessId THEN set2.Duration
+								ELSE 0
+								END) AS Duration
+					FROM dbo.PeriodProcessSetting AS set1 WITH (NOLOCK)
+						INNER JOIN dbo.PeriodProcessSetting AS set2 WITH (NOLOCK) ON set1.PeriodId = set2.PeriodId
+					WHERE set1.PeriodId = @PeriodId
+					GROUP BY set1.PeriodId
+						,set1.ProcessId
+					) AS aa ON pe.PeriodId = aa.PeriodId
+					AND pe.ProcessId = aa.ProcessId
+				WHERE pe.PeriodId = @PeriodId
+
+				UPDATE epaP WITH (ROWLOCK, UPDLOCK)
+				SET epaP.StartDate = empP.StartDate
+					,epaP.RemindDate = DATEADD(DAY, DATEDIFF(DAY, epaP.EndDate, empP.EndDate), epaP.RemindDate)
+					,epaP.EndDate = empP.EndDate
+					,epaP.[Priority] = empP.[Priority]
+					,epaP.IsEndProcess = CASE 
+						WHEN @TargetTypeId = @SemiTarget
+							AND epaP.ProcessId IN (2, 3) -- self
+							AND epa.HasMonthlyEPA = 1 THEN 1 -- end progress
+						ELSE CASE 
+								WHEN empP.EndDate < @Today THEN 1 -- end progress
+								ELSE 0 -- in progress
+								END
+						END
+				FROM dbo.EPAProcess AS epaP
+					INNER JOIN dbo.EPA AS epa ON epaP.EPAId = epa.EPAId
+					INNER JOIN [dbo].[PeriodFlowSetting] AS empP WITH (NOLOCK) ON epaP.ProcessId = empP.ProcessId
+					AND epaP.EvaluatorId = empP.EvaluatorId
+					AND empP.PeriodId = epa.PeriodId
+					AND empP.EmployeeId = epa.EmployeeId
+			END
+		END
+
+		IF ISNULL(@OldStartDate, '') != ISNULL(@StartDate, '')
+			OR ISNULL(@OldEndDate, '') != ISNULL(@EndDate, '')
 		BEGIN
 			UPDATE epa
 			SET epa.[Status] = (CASE 
-					WHEN CAST(pc.EndDate AS DATE) > @Today THEN 0
-					WHEN CAST(period.EndDate AS DATE) > CAST(pc.EndDate AS DATE)
-						AND CAST(period.EndDate AS DATE) > @Today THEN 0
-					WHEN CAST(period.EndDate AS DATE) < @Today
-						AND CAST(pc.EndDate AS DATE) < @Today THEN 1 END
+					WHEN period.TargetTypeId IN (@MonthlyTarget, @SemiTarget)
+						AND (
+							period.EndDate > pc.EndDate
+							AND period.EndDate < @Today
+							) THEN @ClosedStatus
+					WHEN period.TargetTypeId IN (@MonthlyTarget, @SemiTarget)
+						AND (
+							period.EndDate < pc.EndDate
+							AND pc.EndDate < @Today
+							) THEN @ClosedStatus
+					WHEN period.TargetTypeId NOT IN (@MonthlyTarget, @SemiTarget)
+						AND pc.EndDate < @Today THEN @ClosedStatus
+					WHEN period.EndDate IS NOT NULL
+						AND period.EndDate > @Today THEN @OpenStatus
+					WHEN pc.EndDate >= @Today THEN @OpenStatus END
 					)
 			FROM dbo.EPA AS epa WITH (NOLOCK)
 				INNER JOIN (
@@ -133,18 +196,32 @@ BEGIN
 				) AS pc ON epa.EPAId = pc.EPAId
 				INNER JOIN dbo.Period AS period WITH (NOLOCK) ON epa.PeriodId = period.PeriodId
 			WHERE period.PeriodId = @PeriodId
-				AND ISNULL(epa.[Status], 0) IN (0, 1)
+				AND ISNULL(epa.[Status], 0) IN (@OpenStatus, @ClosedStatus)
 		END
 
-		EXEC @Data = [dbo].[fncGetDataForWriteLog] @ObjectId = @PeriodId
-			,@ObjectType = 8
+		SET @xml = (
+				SELECT [Name] AS '@Name'
+					,TargetTypeId AS '@TargetTypeId'
+					,StartDate AS '@StartDate'
+					,EndDate AS '@EndDate'
+					,AttendanceStartDate AS '@AttendanceStartDate'
+					,AttendanceEndDate AS '@AttendanceEndDate'
+					,IsActive AS '@IsActive'
+					,[Description] AS '@Description'
+					,ModifiedBy AS '@ModifiedBy'
+				FROM dbo.Period WITH (NOLOCK)
+				WHERE PeriodId = @PeriodId
+				FOR XML PATH('r')
+					,TYPE
+				)
+		SET @data = REPLACE(CONVERT(NVARCHAR(MAX), @xml), '" />', '"/"')
 
 		EXEC [dbo].[LogDetail_Insert] @ActorId = @ModifiedBy
 			,@SpName = 'EpaPeriod_UpdateBasicInformation'
 			,@ObjectId = @PeriodId
 			,@ObjectTypeId = 8
-			,@Data = @Data
-			,@OldData = @OldData
+			,@Data = @data
+			,@OldData = @oldData
 			,@ObjectIds = NULL
 
 		COMMIT TRANSACTION

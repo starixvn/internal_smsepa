@@ -106,9 +106,9 @@ BEGIN
 	FROM dbo.Employee AS emp WITH (NOLOCK)
 		INNER JOIN #tmpEmployee AS tbl WITH (NOLOCK) ON emp.EmployeeId = tbl.EmployeeId
 		LEFT JOIN dbo.[Group] AS gr WITH (NOLOCK) ON emp.GroupId = gr.GroupId
-		LEFT JOIN dbo.Department AS section WITH (NOLOCK) ON gr.DepartmentId = section.DepartmentId
+		LEFT JOIN dbo.Section AS section WITH (NOLOCK) ON gr.DepartmentId = section.SectionId
 		AND section.IsActive = 1
-		LEFT JOIN dbo.Department AS dept WITH (NOLOCK) ON section.ParentId = dept.DepartmentId
+		LEFT JOIN dbo.Department_New AS dept WITH (NOLOCK) ON section.DepartmentId = dept.DepartmentId
 		AND dept.IsActive = 1
 		LEFT JOIN dbo.HRMJobTitle AS job WITH (NOLOCK) ON emp.JobTitle = job.Id
 		LEFT JOIN dbo.JobLevel AS jl WITH (NOLOCK) ON emp.JobLevelId = jl.JobLevelId

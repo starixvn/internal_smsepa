@@ -17,7 +17,7 @@
     <ModelCollation>1033,CI</ModelCollation>
     <DefaultFileStructure>BySchemaAndSchemaType</DefaultFileStructure>
     <DeployToDatabase>True</DeployToDatabase>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <TargetLanguage>CS</TargetLanguage>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <SqlServerVerification>False</SqlServerVerification>
@@ -25,6 +25,7 @@
     <TargetDatabaseSet>True</TargetDatabaseSet>
     <DefaultCollation>SQL_Latin1_General_CP1_CI_AS</DefaultCollation>
     <DefaultFilegroup>PRIMARY</DefaultFilegroup>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <OutputPath>bin\Release\</OutputPath>
@@ -117,13 +118,11 @@
     <Build Include="dbo\Tables\TargetType.sql" />
     <Build Include="dbo\Tables\StandardGrade.sql" />
     <Build Include="dbo\Views\HierarchyDepartment.sql" />
-    <Build Include="dbo\Functions\fncGetDataForWriteLog.sql" />
     <Build Include="dbo\Functions\fncGetDataForWriteLog_Employee_ChangePassWord.sql" />
     <Build Include="dbo\Functions\fncGetDataForWriteLog_EPA_AdjustScore.sql" />
     <Build Include="dbo\Functions\fncGetDataForWriteLog_EPA_UpdateScore.sql" />
     <Build Include="dbo\Functions\fncGetDataForWriteLog_EPA_UpdateScoreByKPI.sql" />
     <Build Include="dbo\Functions\fncGetDataForWriteLog_Flow_DepartmentSetting.sql" />
-    <Build Include="dbo\Functions\fncGetDataForWriteLog_UpdateStatus.sql" />
     <Build Include="dbo\Functions\fncGetDataForWriteLog_Flow_EmployeeSetting.sql" />
     <Build Include="dbo\Functions\fncGetDataForWriteLog_Period_AddEmployee.sql" />
     <Build Include="dbo\Functions\fncGetDataForWriteLog_Period_EmployeeSetting.sql" />
@@ -136,7 +135,6 @@
     <Build Include="dbo\Functions\fncGetDataForWriteLog_TargetTemplateSetting_Department.sql" />
     <Build Include="dbo\Functions\fncGetDataForWriteLog_TargetTemplateSetting_Employee.sql" />
     <Build Include="dbo\Functions\fncGetDataForWriteLog_UpdateKPIRequiredEvaluate.sql" />
-    <Build Include="dbo\Functions\RelatedDepartment.sql" />
     <Build Include="dbo\User Defined Types\IntId.sql" />
     <Build Include="dbo\User Defined Types\ProcessTable.sql" />
     <Build Include="dbo\Tables\TeamDisciplinePermission.sql" />
@@ -252,9 +250,7 @@
     <Build Include="dbo\Stored Procedures\EpaEmployee_Insert.sql" />
     <Build Include="dbo\Stored Procedures\EpaEmployee_GetPasswordByEmpId.sql" />
     <Build Include="dbo\Stored Procedures\EpaEmployee_GetById.sql" />
-    <Build Include="dbo\Stored Procedures\EpaEmployee_GetByGroupId.sql" />
     <Build Include="dbo\Stored Procedures\EpaEmployee_GetByDomainUsername.sql" />
-    <Build Include="dbo\Stored Procedures\EpaEmployee_GetByDepartmentId.sql" />
     <Build Include="dbo\Stored Procedures\EpaEmployee_GetByCode.sql" />
     <Build Include="dbo\Stored Procedures\EpaEmployee_Get.sql" />
     <Build Include="dbo\Stored Procedures\EpaEmployee_ChangePassword.sql" />
@@ -456,6 +452,12 @@
     <Build Include="dbo\Stored Procedures\JobLevelStandard_Template_Delete.sql" />
     <Build Include="dbo\Stored Procedures\JobLevelStandard_Template_Get.sql" />
     <Build Include="dbo\Stored Procedures\JobLevelStandard_Template_GetById.sql" />
+    <Build Include="dbo\Tables\Unit.sql" />
+    <Build Include="dbo\Tables\Section.sql" />
+    <Build Include="dbo\Tables\Department_New.sql" />
+    <Build Include="dbo\Stored Procedures\Unit_Get.sql" />
+    <Build Include="dbo\Functions\fncGetDataForWriteLog_UpdateStatus.sql" />
+    <Build Include="dbo\Functions\fncGetDataForWriteLog.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="scripts\auto-add-staff-into-semi-period.sql" />

@@ -65,9 +65,9 @@ BEGIN
 		INNER JOIN dbo.[Group] AS team WITH (NOLOCK) ON emp.GroupId = team.GroupId
 			AND team.IsDeleted = 0
 		LEFT JOIN dbo.JobLevel AS joblevel WITH (NOLOCK) ON emp.JobLevelId = joblevel.JobLevelId
-		LEFT JOIN dbo.Department AS section WITH (NOLOCK) ON team.DepartmentId = section.DepartmentId
+		LEFT JOIN dbo.Section AS section WITH (NOLOCK) ON team.DepartmentId = section.SectionId
 			AND section.IsActive = 1
-		LEFT JOIN dbo.Department AS dept WITH (NOLOCK) ON section.ParentId = dept.DepartmentId
+		LEFT JOIN dbo.Department_New AS dept WITH (NOLOCK) ON section.DepartmentId = dept.DepartmentId
 			AND dept.IsActive = 1
 		LEFT JOIN dbo.JobLevelStandard_Assessment AS assessment WITH (NOLOCK) ON pes.PeriodId = assessment.PeriodId
 			AND pes.EmployeeId = assessment.EmployeeId

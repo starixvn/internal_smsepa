@@ -1,5 +1,4 @@
 ﻿
-
 CREATE PROCEDURE [dbo].[JobDescription_GetEmployeeSetting] @TeamIds VARCHAR(MAX) = NULL
 	,@EmployeeId INT = NULL
 	,@ShowAll BIT = 0
@@ -31,14 +30,17 @@ BEGIN
 		,emp.Nickname
 		,emp.FullName
 		,emp.[Enabled]
-		,dept.[Name] AS Section
+		,dept.[Name] AS Department
+		,sec.[Name] AS Section
 		,gr.[Name] AS GroupName
 		,gr.Code AS GroupCode
 		,job.[Name] AS JobLevel
 	FROM dbo.Employee AS emp WITH (NOLOCK)
 		INNER JOIN dbo.[Group] AS gr WITH (NOLOCK) ON emp.GroupId = gr.GroupId
 		INNER JOIN dbo.JobLevel AS job WITH (NOLOCK) ON emp.JobLevelId = job.JobLevelId
-		LEFT JOIN dbo.Department AS dept WITH (NOLOCK) ON gr.DepartmentId = dept.DepartmentId
+		LEFT JOIN dbo.Section AS sec WITH (NOLOCK) ON gr.DepartmentId = sec.SectionId
+		AND sec.IsActive = 1
+		LEFT JOIN dbo.Department_New AS dept WITH (NOLOCK) ON sec.DepartmentId = dept.DepartmentId
 		AND dept.IsActive = 1
 	WHERE emp.[Enabled] = 1
 		AND emp.IsDeleted = 0

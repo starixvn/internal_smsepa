@@ -156,11 +156,11 @@ BEGIN
 
 	SELECT gr.GroupId TeamId
 		,gr.[Name] AS TeamName
-		,section.DepartmentId AS SectionId
+		,section.SectionId
 		,section.[Name] AS SectionName
 	INTO #tmpSection
 	FROM dbo.[Group] AS gr WITH (NOLOCK)
-		INNER JOIN dbo.Department AS section WITH (NOLOCK) ON gr.DepartmentId = section.DepartmentId
+		INNER JOIN dbo.Section AS section WITH (NOLOCK) ON gr.DepartmentId = section.SectionId
 		AND section.IsActive = 1
 	WHERE gr.IsDeleted = 0
 

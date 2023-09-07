@@ -13,7 +13,7 @@ Task: Monthly EPA Detail Report.
 DB: SMSEPA
 Original: @SortDirection = 'asc'/'desc'
 
-Revisions:  
+Revisions:
 Param's Explanation:
 
 */
@@ -155,7 +155,8 @@ BEGIN
 			AND emp.[Enabled] = 1
 			AND emp.IsDeleted = 0
 			AND emp.ResignedDate IS NULL
-			LEFT JOIN dbo.[Group] AS gr WITH (NOLOCK) ON emp.GroupId = gr.GroupId
+			INNER JOIN dbo.[Group] AS gr WITH (NOLOCK) ON emp.GroupId = gr.GroupId
+			AND gr.IsDeleted = 0
 		WHERE ISNULL(epa.[Status], 0) IN (0, 1)
 		) AS tblData
 	WHERE (
@@ -326,12 +327,13 @@ BEGIN
 			,emp.Code
 			,emp.NickName
 			,emp.FullName
-			,emp.Email
+			--,emp.Email
 			,emp.JoinedDate
 			,(CASE 
 				WHEN emp.IsLocal = 1 THEN 'Local'
 				ELSE 'Expat' END
 				) AS Category
+			,sec.[Name] AS Section
 			,dept.DepartmentId
 			,dept.[Name] AS DepartmentName
 			,gr.GroupId
@@ -343,7 +345,7 @@ BEGIN
 			,period.[Name]
 			,ttype.TargetTypeId
 			,ttype.[Name] AS TargetTypeName
-			,ttem.NAME AS TargetTemplate
+			,ttem.[Name] AS TargetTemplate
 		FROM #tblEPAs AS tbl WITH (NOLOCK)
 			INNER JOIN dbo.EPA AS epa WITH (NOLOCK) ON tbl.EPAId = epa.EPAId
 			INNER JOIN dbo.Employee AS emp WITH (NOLOCK) ON epa.EmployeeId = emp.EmployeeId
@@ -354,8 +356,12 @@ BEGIN
 			INNER JOIN dbo.PeriodTargetSetting AS pertar WITH (NOLOCK) ON epa.PeriodId = pertar.PeriodId
 			AND epa.EmployeeId = pertar.EmployeeId
 			INNER JOIN dbo.TargetTemplate AS ttem WITH (NOLOCK) ON ttem.TargetTemplateId = pertar.TargetTemplateId
-			LEFT JOIN dbo.[Group] AS gr WITH (NOLOCK) ON emp.GroupId = gr.GroupId
-			LEFT JOIN dbo.Department AS dept WITH (NOLOCK) ON gr.DepartmentId = dept.DepartmentId
+			INNER JOIN dbo.[Group] AS gr WITH (NOLOCK) ON emp.GroupId = gr.GroupId
+			AND gr.IsDeleted = 0
+			LEFT JOIN dbo.Section AS sec WITH (NOLOCK) ON gr.DepartmentId = sec.SectionId
+			AND sec.IsActive = 1
+			INNER JOIN dbo.Department_New AS dept WITH (NOLOCK) ON sec.DepartmentId = dept.DepartmentId
+			AND dept.IsActive = 1
 			LEFT JOIN dbo.HRMJobTitle AS job WITH (NOLOCK) ON emp.[JobTitle] = job.[Id]
 			LEFT JOIN #tblDisciplineScores AS ds WITH (NOLOCK) ON epa.EPAId = ds.EPAId
 		) AS tblData

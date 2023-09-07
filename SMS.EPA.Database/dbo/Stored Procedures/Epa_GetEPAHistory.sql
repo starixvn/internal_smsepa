@@ -81,6 +81,7 @@ BEGIN
 		,data.FullName
 		,data.Code
 		,data.IsLocal
+		,data.Section
 		,data.GroupId
 		,data.GroupName
 		,data.DepartmentId
@@ -102,6 +103,7 @@ BEGIN
 			,emp.FullName
 			,emp.Code
 			,emp.IsLocal
+			,sec.[Name] AS Section
 			,dept.DepartmentId
 			,dept.[Name] AS DepartmentName
 			,gr.GroupId
@@ -114,7 +116,11 @@ BEGIN
 			AND emp.IsDeleted = 0
 			AND emp.ResignedDate IS NULL
 			INNER JOIN dbo.[Group] AS gr WITH (NOLOCK) ON emp.GroupId = gr.GroupId
-			LEFT JOIN dbo.Department AS dept WITH (NOLOCK) ON gr.DepartmentId = dept.DepartmentId
+			AND gr.IsDeleted = 0
+			LEFT JOIN dbo.Section AS sec WITH (NOLOCK) ON gr.DepartmentId = sec.SectionId
+			AND sec.IsActive = 1
+			LEFT JOIN dbo.Department_New AS dept WITH (NOLOCK) ON sec.DepartmentId = dept.DepartmentId
+			AND dept.IsActive = 1
 		
 		UNION ALL
 		SELECT FinalScore AS EncodeFinalScore
@@ -133,6 +139,7 @@ BEGIN
 			,emp.FullName
 			,emp.Code
 			,emp.IsLocal
+			,sec.[Name] AS Section
 			,dept.DepartmentId
 			,dept.[Name] AS DepartmentName
 			,gr.GroupId
@@ -144,7 +151,11 @@ BEGIN
 			AND emp.IsDeleted = 0
 			AND emp.ResignedDate IS NULL
 			INNER JOIN dbo.[Group] AS gr WITH (NOLOCK) ON emp.GroupId = gr.GroupId
-			LEFT JOIN dbo.Department AS dept WITH (NOLOCK) ON gr.DepartmentId = dept.DepartmentId
+			AND gr.IsDeleted = 0
+			LEFT JOIN dbo.Section AS sec WITH (NOLOCK) ON gr.DepartmentId = sec.SectionId
+			AND sec.IsActive = 1
+			LEFT JOIN dbo.Department_New AS dept WITH (NOLOCK) ON sec.DepartmentId = dept.DepartmentId
+			AND dept.IsActive = 1
 		) AS data
 	WHERE data.PeriodId = @PeriodId
 		AND (

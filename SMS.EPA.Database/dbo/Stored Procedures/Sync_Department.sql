@@ -96,8 +96,11 @@ BEGIN
 		,new.ModifiedDate
 		,@SyncDate
 	FROM #tblDepartment AS new WITH (NOLOCK)
-		LEFT JOIN dbo.Department AS curr WITH (NOLOCK) ON new.DepartmentId = curr.DepartmentId
-	WHERE curr.DepartmentId IS NULL
+	WHERE NOT EXISTS (
+			SELECT 1
+			FROM dbo.Department AS curr WITH (NOLOCK)
+			WHERE new.DepartmentId = curr.DepartmentId
+			)
 
 	UPDATE curr
 	SET curr.Code = new.Code
@@ -113,6 +116,111 @@ BEGIN
 
 	-- update left, right for team/department
 	EXEC dbo.Sync_CalculateLeftRightGroupDepartment
+
+	-- section
+	INSERT INTO dbo.Section (
+		SectionId
+		,Code
+		,[Name]
+		,DepartmentId
+		,IsActive
+		,ModifiedDate
+		,SyncDate
+		)
+	SELECT new.DepartmentId
+		,new.Code
+		,new.[Name]
+		,new.ParentId
+		,new.IsActive
+		,new.ModifiedDate
+		,@SyncDate
+	FROM dbo.Department AS new WITH (NOLOCK)
+		INNER JOIN dbo.[Group] AS team WITH (NOLOCK) ON team.DepartmentId = new.DepartmentId
+	WHERE NOT EXISTS (
+			SELECT 1
+			FROM dbo.Section AS curr WITH (NOLOCK)
+			WHERE new.DepartmentId = curr.SectionId
+			)
+
+	UPDATE curr
+	SET curr.Code = new.Code
+		,curr.[Name] = new.[Name]
+		,curr.DepartmentId = new.ParentId
+		,curr.IsActive = ISNULL(new.IsActive, 0)
+		,curr.ModifiedDate = new.ModifiedDate
+		,curr.SyncDate = @SyncDate
+	FROM dbo.Section AS curr WITH (ROWLOCK, UPDLOCK)
+		INNER JOIN dbo.[Group] AS team WITH (NOLOCK) ON team.DepartmentId = curr.SectionId
+		INNER JOIN dbo.Department AS new WITH (NOLOCK) ON curr.SectionId = new.DepartmentId
+
+	-- department
+	INSERT INTO dbo.Department_New (
+		DepartmentId
+		,Code
+		,[Name]
+		,UnitId
+		,IsActive
+		,ModifiedDate
+		,SyncDate
+		)
+	SELECT new.DepartmentId
+		,new.Code
+		,new.[Name]
+		,new.ParentId
+		,new.IsActive
+		,new.ModifiedDate
+		,@SyncDate
+	FROM dbo.Department AS new WITH (NOLOCK)
+		INNER JOIN dbo.Section AS sec WITH (NOLOCK) ON new.DepartmentId = sec.DepartmentId
+	WHERE NOT EXISTS (
+			SELECT 1
+			FROM dbo.Department_New AS curr WITH (NOLOCK)
+			WHERE new.DepartmentId = curr.DepartmentId
+			)
+
+	UPDATE curr
+	SET curr.Code = new.Code
+		,curr.[Name] = new.[Name]
+		,curr.UnitId = new.ParentId
+		,curr.IsActive = ISNULL(new.IsActive, 0)
+		,curr.ModifiedDate = new.ModifiedDate
+		,curr.SyncDate = @SyncDate
+	FROM dbo.Department_New AS curr WITH (ROWLOCK, UPDLOCK)
+		INNER JOIN dbo.Section AS sec WITH (NOLOCK) ON curr.DepartmentId = sec.DepartmentId
+		INNER JOIN dbo.Department AS new WITH (NOLOCK) ON curr.DepartmentId = new.DepartmentId
+
+	-- unit
+	INSERT INTO dbo.Unit (
+		UnitId
+		,Code
+		,[Name]
+		,IsActive
+		,ModifiedDate
+		,SyncDate
+		)
+	SELECT new.DepartmentId
+		,new.Code
+		,new.[Name]
+		,new.IsActive
+		,new.ModifiedDate
+		,@SyncDate
+	FROM dbo.Department AS new WITH (NOLOCK)
+		INNER JOIN dbo.Department_New AS dept WITH (NOLOCK) ON new.DepartmentId = dept.UnitId
+	WHERE NOT EXISTS (
+			SELECT 1
+			FROM dbo.Unit AS curr WITH (NOLOCK)
+			WHERE new.DepartmentId = curr.UnitId
+			)
+
+	UPDATE curr
+	SET curr.Code = new.Code
+		,curr.[Name] = new.[Name]
+		,curr.IsActive = ISNULL(new.IsActive, 0)
+		,curr.ModifiedDate = new.ModifiedDate
+		,curr.SyncDate = @SyncDate
+	FROM dbo.Unit AS curr WITH (ROWLOCK, UPDLOCK)
+		INNER JOIN dbo.Department_New AS dept WITH (NOLOCK) ON curr.UnitId = dept.UnitId
+		INNER JOIN dbo.Department AS new WITH (NOLOCK) ON curr.UnitId = new.DepartmentId
 
 	DROP TABLE #tblDepartment
 END

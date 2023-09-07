@@ -40,7 +40,7 @@ BEGIN
 		,emp.Nickname
 		,emp.FullName
 		,team.[Name] AS Team
-		,section.DepartmentId AS SectionId
+		,section.SectionId
 		,section.[Name] AS Section
 		,dept.[Name] AS Department
 		,emp.JoinedDate
@@ -65,9 +65,9 @@ BEGIN
 		AND emp.IsDeleted = 0
 		INNER JOIN dbo.[Group] AS team WITH (NOLOCK) ON emp.GroupId = team.GroupId
 		AND team.IsDeleted = 0
-		INNER JOIN dbo.Department AS section WITH (NOLOCK) ON team.DepartmentId = section.DepartmentId
+		INNER JOIN dbo.Section AS section WITH (NOLOCK) ON team.DepartmentId = section.SectionId
 		AND section.IsActive = 1
-		LEFT JOIN dbo.Department AS dept WITH (NOLOCK) ON section.ParentId = dept.DepartmentId
+		LEFT JOIN dbo.Department_New AS dept WITH (NOLOCK) ON section.DepartmentId = dept.DepartmentId
 		AND dept.IsActive = 1
 	WHERE pes.PeriodId = @PeriodId
 		AND pes.IsExcluded = 0
@@ -86,7 +86,7 @@ BEGIN
 				WHERE actor.EmployeeId = @ActorId
 					AND (
 						ateam.GroupId = team.GroupId
-						OR ateam.DepartmentId = section.DepartmentId
+						OR ateam.DepartmentId = section.SectionId
 						)
 				)
 			)
@@ -95,7 +95,7 @@ BEGIN
 			OR EXISTS (
 				SELECT 1
 				FROM #tmpSection AS tmp WITH (NOLOCK)
-				WHERE section.DepartmentId = tmp.SectionId
+				WHERE section.SectionId = tmp.SectionId
 				)
 			)
 		AND (

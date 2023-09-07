@@ -1,5 +1,4 @@
 ﻿
-
 CREATE PROCEDURE [dbo].[Report_EPADetail] @ActorId INT
 	,@PeriodId INT = NULL
 	,@PhaseIds NVARCHAR(10) = NULL
@@ -15,7 +14,7 @@ Task: EPA Detail Report.
 DB: SMSEPA
 Original: @SortDirection = 'asc'/'desc'
 
-Revisions:  
+Revisions:
 Param's Explanation:
 
 */
@@ -151,7 +150,8 @@ BEGIN
 			AND emp.[Enabled] = 1
 			AND emp.IsDeleted = 0
 			AND emp.ResignedDate IS NULL
-			LEFT JOIN dbo.[Group] AS gr WITH (NOLOCK) ON emp.GroupId = gr.GroupId
+			INNER JOIN dbo.[Group] AS gr WITH (NOLOCK) ON emp.GroupId = gr.GroupId
+			AND gr.IsDeleted = 0
 		WHERE ISNULL(epa.[Status], 0) IN (0, 1)
 		
 		UNION ALL
@@ -168,7 +168,8 @@ BEGIN
 			AND emp.[Enabled] = 1
 			AND emp.IsDeleted = 0
 			AND emp.ResignedDate IS NULL
-			LEFT JOIN dbo.[Group] AS gr WITH (NOLOCK) ON emp.GroupId = gr.GroupId
+			INNER JOIN dbo.[Group] AS gr WITH (NOLOCK) ON emp.GroupId = gr.GroupId
+			AND gr.IsDeleted = 0
 		) AS tblData
 	WHERE (
 			@TeamIds IS NULL
@@ -366,9 +367,9 @@ BEGIN
 				WHEN emp.IsLocal = 1 THEN 'Local'
 				ELSE 'Expat' END
 				) AS Category
+			,section.[Name] AS Section
 			,dept.DepartmentId
 			,dept.[Name] AS DepartmentName
-			,section.[Name] AS Section
 			,gr.GroupId
 			,gr.Code AS GroupCode
 			,gr.[Name] AS GroupName
@@ -394,10 +395,12 @@ BEGIN
 			INNER JOIN dbo.PeriodTargetSetting AS pertar WITH (NOLOCK) ON epa.PeriodId = pertar.PeriodId and epa.EmployeeId = pertar.EmployeeId
 			INNER JOIN dbo.TargetTemplate AS ttem WITH (NOLOCK) ON ttem.TargetTemplateId = pertar.TargetTemplateId
 			INNER JOIN #tblEPAStatus AS tblstatus WITH (NOLOCK) ON epa.EPAId = tblstatus.EPAId
-			LEFT JOIN dbo.[Group] AS gr WITH (NOLOCK) ON emp.GroupId = gr.GroupId
-			LEFT JOIN dbo.Department AS section WITH (NOLOCK) ON gr.DepartmentId = section.DepartmentId
+			INNER JOIN dbo.[Group] AS gr WITH (NOLOCK) ON emp.GroupId = gr.GroupId
+			AND gr.IsDeleted = 0
+			LEFT JOIN dbo.Section AS section WITH (NOLOCK) ON gr.DepartmentId = section.SectionId
 			AND section.IsActive = 1
-			LEFT JOIN dbo.Department AS dept WITH (NOLOCK) ON section.ParentId = dept.DepartmentId
+			LEFT JOIN dbo.Department_New AS dept WITH (NOLOCK) ON section.DepartmentId = dept.DepartmentId
+			AND dept.IsActive = 1
 			LEFT JOIN dbo.HRMJobTitle AS job WITH (NOLOCK) ON emp.[JobTitle] = job.[Id]
 			LEFT JOIN #tblDisciplineScores AS ds WITH (NOLOCK) ON epa.EPAId = ds.EPAId
 		
@@ -420,9 +423,9 @@ BEGIN
 				WHEN emp.IsLocal = 1 THEN 'Local'
 				ELSE 'Expat' END
 				) AS Category
+			,section.[Name] AS Section
 			,dept.DepartmentId
 			,dept.[Name] AS DepartmentName
-			,section.[Name] AS Section
 			,gr.GroupId
 			,gr.Code AS GroupCode
 			,gr.[Name] AS GroupName
@@ -442,10 +445,12 @@ BEGIN
 		FROM #tblEPAs AS tbl WITH (NOLOCK)
 			INNER JOIN dbo.EPASummaryImport AS epa WITH (NOLOCK) ON tbl.EPAId = - epa.Id
 			INNER JOIN dbo.Employee AS emp WITH (NOLOCK) ON epa.Code = emp.Code
-			LEFT JOIN dbo.[Group] AS gr WITH (NOLOCK) ON emp.GroupId = gr.GroupId
-			LEFT JOIN dbo.Department AS section WITH (NOLOCK) ON gr.DepartmentId = section.DepartmentId
+			INNER JOIN dbo.[Group] AS gr WITH (NOLOCK) ON emp.GroupId = gr.GroupId
+			AND gr.IsDeleted = 0
+			LEFT JOIN dbo.Section AS section WITH (NOLOCK) ON gr.DepartmentId = section.SectionId
 			AND section.IsActive = 1
-			LEFT JOIN dbo.Department AS dept WITH (NOLOCK) ON section.ParentId = dept.DepartmentId
+			LEFT JOIN dbo.Department_New AS dept WITH (NOLOCK) ON section.DepartmentId = dept.DepartmentId
+			AND dept.IsActive = 1
 			LEFT JOIN dbo.HRMJobTitle AS job WITH (NOLOCK) ON emp.[JobTitle] = job.[Id]
 		) AS tblData
 	ORDER BY CASE 

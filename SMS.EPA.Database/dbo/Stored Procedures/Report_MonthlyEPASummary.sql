@@ -12,7 +12,7 @@ Task: Monthly EPA Summary Report.
 DB: SMSEPA
 Original: @SortDirection = 'asc'/'desc'
 
-Revisions:  
+Revisions:
 Param's Explanation:
 
 */
@@ -148,7 +148,8 @@ BEGIN
 			AND emp.[Enabled] = 1
 			AND emp.IsDeleted = 0
 			AND emp.ResignedDate IS NULL
-			LEFT JOIN dbo.[Group] AS gr WITH (NOLOCK) ON emp.GroupId = gr.GroupId
+			INNER JOIN dbo.[Group] AS gr WITH (NOLOCK) ON emp.GroupId = gr.GroupId
+			AND gr.IsDeleted = 0
 		WHERE ISNULL(epa.[Status], 0) IN (0, 1)
 		) AS tblData
 	WHERE (
@@ -281,7 +282,8 @@ BEGIN
 			WHEN emp.IsLocal = 1 THEN 'Local'
 			ELSE 'Expat' END
 			) AS Category
-		,dept.[Name] AS Section
+		,dept.[Name] AS Department
+		,sec.[Name] AS Section
 		,gr.GroupId
 		,gr.Code AS GroupCode
 		,gr.[Name] AS GroupName
@@ -289,8 +291,12 @@ BEGIN
 		,job.[Name] AS JobTitleName
 	FROM dbo.Employee AS emp WITH (NOLOCK)
 		INNER JOIN #tblEmployee AS tblEmp WITH (NOLOCK) ON emp.EmployeeId = tblEmp.EmployeeId
-		LEFT JOIN dbo.[Group] AS gr WITH (NOLOCK) ON emp.GroupId = gr.GroupId
-		LEFT JOIN dbo.Department AS dept WITH (NOLOCK) ON gr.DepartmentId = dept.DepartmentId
+		INNER JOIN dbo.[Group] AS gr WITH (NOLOCK) ON emp.GroupId = gr.GroupId
+		AND gr.IsDeleted = 0
+		LEFT JOIN dbo.Section AS sec WITH (NOLOCK) ON gr.DepartmentId = sec.SectionId
+		AND sec.IsActive = 1
+		LEFT JOIN dbo.Department_New AS dept WITH (NOLOCK) ON sec.DepartmentId = dept.DepartmentId
+		AND dept.IsActive = 1
 		LEFT JOIN dbo.HRMJobTitle AS job WITH (NOLOCK) ON emp.JobTitle = job.Id
 	ORDER BY CASE 
 			WHEN ISNULL(@SortColumnName, '') <> ''

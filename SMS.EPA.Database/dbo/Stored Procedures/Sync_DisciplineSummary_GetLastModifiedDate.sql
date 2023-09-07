@@ -1,4 +1,5 @@
 ﻿
+
 CREATE PROCEDURE [dbo].[Sync_DisciplineSummary_GetLastModifiedDate]
 AS
 /*
@@ -16,8 +17,8 @@ BEGIN
 
 	DECLARE @ModifiedDate DATETIME
 
-	SELECT @ModifiedDate = ISNULL(MAX(ModifiedDate), '2015-01-01')
+	SELECT @ModifiedDate = ISNULL(MAX(ModifiedDate), '2017-01-01')
 	FROM dbo.DisciplineSummary WITH (NOLOCK)
 
-	SELECT ISNULL(@ModifiedDate, '2015-01-01') AS ModifiedDate
+	SELECT ISNULL(@ModifiedDate, '2017-01-01') AS ModifiedDate
 END
