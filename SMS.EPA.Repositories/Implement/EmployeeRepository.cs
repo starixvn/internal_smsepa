@@ -5,8 +5,8 @@
     using Fanex.Data;
     using Fanex.Data.Repository;
     using HRM.UserControl.Client.Core.Models.Role;
-    using Model;
-    using Model.Enitites;
+    using SMS.EPA.Model;
+    using SMS.EPA.Model.Enitites;
 
     public class EmployeeRepository : IEmployeeRepository
     {
@@ -16,17 +16,16 @@
             {
                 using (IMultiResultReader multi = db.QueryMultiple(criteria))
                 {
-                    var employees = multi.Read<Employee, JobTitle, JobLevel, Group, Department, Employee>(
-                           (emp, jb, jl, gr, dept) =>
+                    var employees = multi.Read<Employee, JobTitle, JobLevel, Group, Employee>(
+                           (emp, jb, jl, gr) =>
                            {
                                emp.JobTitle = jb;
                                emp.JobLevel = jl;
                                emp.Group = gr;
-                               emp.Department = dept;
 
                                return emp;
                            },
-                           "JobTitleId, JobLevelId, GroupId, DepartmentId");
+                           "JobTitleId, JobLevelId, GroupId");
 
                     var roles = multi.Read<EmployeeRoleModel>();
 
@@ -53,15 +52,14 @@
             {
                 using (IMultiResultReader multi = db.QueryMultiple(criteria))
                 {
-                    var employee = multi.Read<Employee, JobTitle, Department, Group, Employee>(
-                           (emp, jb, dept, gr) =>
+                    var employee = multi.Read<Employee, JobTitle, Group, Employee>(
+                           (emp, jb, gr) =>
                            {
                                emp.JobTitle = jb;
-                               emp.Department = dept;
                                emp.Group = gr;
                                return emp;
                            },
-                           "JobTitleId, DepartmentId, GroupId").FirstOrDefault();
+                           "JobTitleId, GroupId").FirstOrDefault();
 
                     if (employee != null)
                     {

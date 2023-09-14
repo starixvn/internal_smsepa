@@ -1,7 +1,7 @@
-﻿var multiselectTreeViewId = 1;
+﻿let multiselectTreeViewId = 1;
 (function ($) {
     // Method expose for user use
-    var methods = {
+    let methods = {
         init: function (opts) {
             opts = $.extend({}, $.fn.multiSelectTreeView.defaults, opts);
             return this.each(function () {
@@ -9,11 +9,11 @@
             });
         },
         getSelectedItems: function () {
-            var $me = $(this);
-            var items = $me.find('input[data-is-leaf=true]:checked'),
+            let $me = $(this);
+            let items = $me.find('input[data-is-leaf=true]:checked'),
                 totalItems = items.length,
                 values = [];
-            for (var i = 0; i < totalItems; i++) {
+            for (let i = 0; i < totalItems; i++) {
                 values.push(items[i].value);
             }
 
@@ -49,8 +49,8 @@
         onSelectAll: function () { }
     };
 
-    var multiSelectTreeView = function (multiSelect, options) {
-        var me = this;
+    let multiSelectTreeView = function (multiSelect, options) {
+        let me = this;
         me.options = options;
         me.id = 'multiselect-treeview-' + (multiSelect.id ? multiSelect.id : multiselectTreeViewId++);
         me.$multiSelect = $(multiSelect);
@@ -62,8 +62,8 @@
 
     multiSelectTreeView.prototype = {
         initialize: function () {
-            var me = this;
-            var html = me.render();
+            let me = this;
+            const html = me.render();
 
             //add global variable
             me.$multiSelect = me.$multiSelect.html(html);
@@ -85,7 +85,7 @@
             me.updateSelectedItems();
         },
         render: function () {
-            var me = this,
+            let me = this,
                 options = me.options;
             return '<div id="' + me.id + '" class="multiselect-treeview">'
                 + '<div class="multiselect-treeview-dropdown-button ' + (options.disabled ? 'disabled' : '') + '">'
@@ -100,7 +100,7 @@
                 '</div>';
         },
         renderSearchBox: function () {
-            var me = this,
+            let me = this,
                 options = me.options,
                 html = '';
             if (options.hasSearchBox) {
@@ -118,7 +118,7 @@
             return html;
         },
         renderCheckAll: function () {
-            var me = this,
+            let me = this,
                 options = me.options,
                 html = '';
             if (!options.singleSelection) {
@@ -133,13 +133,13 @@
             return html;
         },
         renderItems: function () {
-            var me = this,
+            let me = this,
                 options = me.options,
                 html = [],
                 totalItems = options.data.length;
             html.push('<div class="multiselect-treeview-items">');
-            for (var i = 0; i < totalItems; i++) {
-                var data = options.data[i],
+            for (let i = 0; i < totalItems; i++) {
+                const data = options.data[i],
                     itemId = 'item-' + i,
                     disabled = options.disabled || (options.singleSelection && !data.IsLeaf);
 
@@ -165,13 +165,13 @@
             return html.join('');
         },
         renderChilds: function (item) {
-            var me = this,
+            let me = this,
                 options = me.options,
                 html = [],
                 totalItems = item.data.length;
             html.push('<ul class="multiselect-treeview-group-items">');
-            for (var i = 0; i < totalItems; i++) {
-                var data = item.data[i],
+            for (let i = 0; i < totalItems; i++) {
+                const data = item.data[i],
                     itemId = item.parentId + '-' + i,
                     disabled = options.disabled || (options.singleSelection && !data.IsLeaf);
                 html.push('<li class="multiselect-treeview-item is-child">'
@@ -196,7 +196,7 @@
             return html.join('');
         },
         updateSelectedText: function () {
-            var me = this,
+            let me = this,
                 options = me.options,
                 $checkboxes = me.$checkboxes.filter('[data-is-leaf=true]'),
                 $checked = $checkboxes.filter(':checked');
@@ -209,7 +209,7 @@
                 me.$selectAll.prop('checked', true);
             } else {
                 if (options.singleSelection) {
-                    var text = $($checked[0]).closest('.checkbox-wrapper').find('label').html();
+                    const text = $($checked[0]).closest('.checkbox-wrapper').find('label').html();
                     me.$selectedtext.text(text);
                 } else {
                     me.$selectedtext.text(options.selectedText.replace('#', $checked.length));
@@ -218,16 +218,16 @@
             }
         },
         updateSelectedItems: function () {
-            var me = this,
+            let me = this,
                 options = me.options,
                 checkboxes = me.$checkboxes.filter('[data-is-leaf=true]'),
                 totalItems = checkboxes.length;
 
             if (options.selectedItems && options.selectedItems.length > 0) {
-                var selectedItems = options.selectedItems.split(',');
-                for (var i = 0; i < totalItems; i++) {
-                    var $checkbox = $(checkboxes[i]);
-                    var index = selectedItems.findIndex(x => x === $checkbox.val());
+                const selectedItems = options.selectedItems.split(',');
+                for (let i = 0; i < totalItems; i++) {
+                    let $checkbox = $(checkboxes[i]);
+                    const index = selectedItems.findIndex(x => x === $checkbox.val());
                     if (index >= 0) {
                         $checkbox.prop('checked', true).change();
                     }
@@ -241,15 +241,15 @@
             }
         },
         registerEvents: function () {
-            var me = this,
+            let me = this,
                 options = me.options;
 
-            var updateParent = function () {
-                var $this = $(this),
+            let updateParent = function () {
+                let $this = $(this),
                     parentId = $this.data('parentid');
 
                 if (parentId) {
-                    var checked = $this.prop('checked'),
+                    let checked = $this.prop('checked'),
                         $parent = me.$multiSelect.find('#' + parentId),
                         $siblings = me.$checkboxes.filter('[data-parentid=' + parentId + ']'),
                         $siblingschecked = $siblings.filter(':checked');
@@ -265,7 +265,7 @@
                 }
             });
             me.$selectAll.on('change', function () {
-                var $this = $(this);
+                let $this = $(this);
                 if ($this.prop('checked')) {
                     me.$checkboxes.not('.hide').prop('checked', true);
                 } else {
@@ -279,7 +279,7 @@
                 me.updateSelectedText();
             });
             me.$checkboxes.on('change', function () {
-                var $this = $(this),
+                let $this = $(this),
                     isChecked = $this.prop('checked');
 
                 if (options.singleSelection) {
@@ -298,14 +298,14 @@
 
             if (me.options.hasSearchBox) {
                 me.$searchInput.off('keyup').on('keyup', function () {
-                    var $this = $(this);
-                    var filterVal = $this.val().toLowerCase();
+                    let $this = $(this);
+                    let filterVal = $this.val().toLowerCase();
                     if (filterVal !== '') {
-                        var matcher = new RegExp(filterVal, 'gi');
+                        let matcher = new RegExp(filterVal, 'gi');
 
                         me.$groupitems.find('li.multiselect-treeview-item').removeClass('show')
                             .find('input').removeClass('show');
-                        var showElements = me.$groupitems.find('li.multiselect-treeview-item').filter(function () {
+                        let showElements = me.$groupitems.find('li.multiselect-treeview-item').filter(function () {
                             if (matcher.test($(this).find('> .checkbox-wrapper label').text())) {
                                 return $(this);
                             };
@@ -315,9 +315,9 @@
                             me.$header.show();
 
                             showElements.each(function () {
-                                var showElement = $(this);
-                                var prevParent = showElement.parent().prev();
-                                var grandParent = showElement.parent().parent();
+                                let showElement = $(this);
+                                let prevParent = showElement.parent().prev();
+                                let grandParent = showElement.parent().parent();
 
                                 while (grandParent.hasClass('multiselect-treeview-item')) {
                                     prevParent.find('input').addClass('show');
@@ -359,7 +359,7 @@
 
             // hide dropdown
             $(document).delegate('html', 'click', function (e) {
-                var $wrapper = $('#' + me.id);
+                let $wrapper = $('#' + me.id);
                 if (!$wrapper.is(e.target) && $wrapper.has(e.target).length === 0 && $wrapper.is(':visible') && me.$updownicon.find('span').hasClass('up')) {
                     me.$updownicon.find('span').removeClass('up').addClass('down');
                     me.$dropdownlist.addClass('hidden');

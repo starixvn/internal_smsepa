@@ -47,10 +47,9 @@
                 using (IMultiResultReader multi = db.QueryMultiple(criteria))
                 {
                     var employeeSettings =
-                        multi.Read<PeriodEmployeeSettingModel, EmployeeViewModel, DepartmentViewModel, Group, JobTitle, TargetTemplate, PeriodEmployeeSettingModel>(
-                            (pe, emp, dep, gr, job, tar) =>
+                        multi.Read<PeriodEmployeeSettingModel, EmployeeViewModel, Group, JobTitle, TargetTemplate, PeriodEmployeeSettingModel>(
+                            (pe, emp, gr, job, tar) =>
                             {
-                                emp.Department = dep;
                                 emp.Group = gr;
                                 emp.JobTitle = job;
                                 pe.Employee = emp;
@@ -58,7 +57,7 @@
 
                                 return pe;
                             },
-                            "EmployeeId, DepartmentId, GroupId, JobTitleId, TargetTemplateId");
+                            "EmployeeId, GroupId, JobTitleId, TargetTemplateId");
 
                     var flowSettings = multi.Read<PeriodFlowSettingModel, EvaluatorInfoViewModel, PeriodFlowSettingModel>(
                             (fl, eva) =>

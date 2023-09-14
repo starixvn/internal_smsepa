@@ -14,12 +14,12 @@
         vm.pageOption = utilitiesFactory.pageOption;
         vm.periods = [];
         vm.scoredBy = [
-            { ColumnId: 7, PhaseId: 2, Name: 'Self' },
-            { ColumnId: 8, PhaseId: 3, Name: 'Evaluator' },
-            { ColumnId: 9, PhaseId: 4, Name: 'Reviewer' },
+            { Id: 2, ColumnId: 10, PhaseId: 2, Text: 'Self', Enabled: true, Checked: false, IsLeaf: true },
+            { Id: 3, ColumnId: 11, PhaseId: 3, Text: 'Evaluator', Enabled: true, Checked: false, IsLeaf: true },
+            { Id: 4, ColumnId: 12, PhaseId: 4, Text: 'Reviewer', Enabled: true, Checked: false, IsLeaf: true },
         ];
-        vm.showColumns = [7, 8, 9];
-        vm.showColumnsOriginal = [7, 8, 9];
+        vm.showColumns = [10, 11, 12];
+        vm.showColumnsOriginal = [10, 11, 12];
         vm.orgChart = [];
 
         initialize();
@@ -72,10 +72,13 @@
         }
 
         function getShowHideColumns() {
-            vm.hideColumns = [], vm.showColumns = [];
+            vm.hideColumns = [];
+            vm.showColumns = [];
+            const phaseIds = vm.filter.phaseIds.split(',');
 
             angular.forEach(vm.scoredBy, function (item) {
-                if (item.ticked) {
+                const index = phaseIds.findIndex(x => x === item.PhaseId.toString());
+                if (index >= 0) {
                     vm.showColumns.push(item.ColumnId);
                 } else {
                     vm.hideColumns.push(item.ColumnId);
@@ -104,7 +107,6 @@
         vm.query = function (filter) {
             getShowHideColumns();
             filter.pageIndex = utilitiesFactory.pageOption.pageIndex;
-            filter.phaseIds = utilitiesFactory.getSelectedData(vm.scoredBy, 'PhaseId');
             filter.sortColumnName = '';
             filter.sortDirection = '';
 
@@ -120,6 +122,10 @@
 
         vm.onSelectTeam = function (teamIds) {
             vm.filter.teamIds = teamIds;
+        };
+
+        vm.onSelectPhase = function (phaseIds) {
+            vm.filter.phaseIds = phaseIds;
         };
     }
 })(angular);

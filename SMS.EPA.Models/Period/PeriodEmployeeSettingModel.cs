@@ -54,14 +54,13 @@
 
         public object ConvertToExcelRecord()
         {
-            var department = Employee.Department != null ? Employee.Department.Name : string.Empty;
             var group = Employee.Group != null ? Employee.Group.GroupName : string.Empty;
             var form = TargetTemplate != null ? TargetTemplate.TargetTypeName : string.Empty;
 
             var record = new
             {
                 Count = 0,
-                Department = department,
+                Employee.Department,
                 Employee.Section,
                 Team = group,
                 Employee.Code,

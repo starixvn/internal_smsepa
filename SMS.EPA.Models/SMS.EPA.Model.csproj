@@ -155,7 +155,6 @@
     <Compile Include="API\Team.cs" />
     <Compile Include="API\TeamDisciplinePermission.cs" />
     <Compile Include="API\UserMapping.cs" />
-    <Compile Include="Department\DepartmentViewModel.cs" />
     <Compile Include="Discipline\DisciplineSummaryBase.cs" />
     <Compile Include="Discipline\DisciplineSummaryModel.cs" />
     <Compile Include="Authentication\LoginModel.cs" />
@@ -181,7 +180,6 @@
     <Compile Include="FlowSetting\PersonalFlowModel.cs" />
     <Compile Include="FlowSetting\ProcessFlowModel.cs" />
     <Compile Include="Dashboard\DashboardModel.cs" />
-    <Compile Include="Department\DepartmentInfoModel.cs" />
     <Compile Include="Enitites\Department.cs" />
     <Compile Include="EmployeeEPA\EPAModel.cs" />
     <Compile Include="EmployeeEPA\EPAProcessModel.cs" />

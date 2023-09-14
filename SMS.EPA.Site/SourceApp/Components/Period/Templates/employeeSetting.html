@@ -118,7 +118,7 @@
                 </td>
                 <td class="text-center" ng-bind="empSettingCtrl.getIndex($index, empSettingCtrl.currentPage, empSettingCtrl.pageSize)"
                     rowspan="{{employee.NumberEvaluators}}"></td>
-                <td rowspan="{{employee.NumberEvaluators}}" ng-bind="employee.Employee.Department.Name"></td>
+                <td rowspan="{{employee.NumberEvaluators}}" ng-bind="employee.Employee.Department"></td>
                 <td rowspan="{{employee.NumberEvaluators}}" ng-bind="employee.Employee.Section"></td>
                 <td rowspan="{{employee.NumberEvaluators}}" ng-bind="employee.Employee.Group.GroupName"></td>
                 <td class="text-center" rowspan="{{employee.NumberEvaluators}}">
@@ -204,7 +204,7 @@
                 <td class="text-center" ng-bind="empSettingCtrl.getIndex($parent.$index, empSettingCtrl.currentPage, empSettingCtrl.pageSize)"
                     rowspan="{{employee.NumberEvaluators}}" ng-show="employee.IsSemiHasMonthly && $first"></td>
                 <td rowspan="{{employee.NumberEvaluators}}" ng-show="employee.IsSemiHasMonthly && $first"
-                    ng-bind="employee.Employee.Department.Name"></td>
+                    ng-bind="employee.Employee.Department"></td>
                 <td rowspan="{{employee.NumberEvaluators}}" ng-show="employee.IsSemiHasMonthly && $first"
                     ng-bind="employee.Employee.Section"></td>
                 <td rowspan="{{employee.NumberEvaluators}}" ng-show="employee.IsSemiHasMonthly && $first"

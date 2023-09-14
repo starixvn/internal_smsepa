@@ -100,7 +100,7 @@
                 </td>
                 <td class="text-center" ng-bind="empSettingCtrl.getIndex($index, empSettingCtrl.currentPage, empSettingCtrl.pageSize)"
                     rowspan="{{employee.NumberEvaluators}}"></td>
-                <td class="text-center" rowspan="{{employee.NumberEvaluators}}" ng-bind="employee.Employee.Department.Name"></td>
+                <td class="text-center" rowspan="{{employee.NumberEvaluators}}" ng-bind="employee.Employee.Department"></td>
                 <td class="text-center" rowspan="{{employee.NumberEvaluators}}" ng-bind="employee.Employee.Group.GroupName"></td>
                 <td class="text-center" rowspan="{{employee.NumberEvaluators}}">
                     <div ng-bind="employee.Employee.FullName"></div>

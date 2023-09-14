@@ -1,7 +1,6 @@
 ﻿namespace SMS.EPA.Model.Enitites
 {
     using System;
-    using System.Collections.Generic;
 
     [Serializable]
     public class Department
@@ -17,7 +16,5 @@
         public bool IsActive { get; set; }
 
         public bool IsGroup { get; set; }
-
-        public List<Department> Childrens { get; set; } = new List<Department>();
     }
 }

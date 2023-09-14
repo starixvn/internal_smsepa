@@ -3,11 +3,11 @@
     using System.Collections.Generic;
     using System.Diagnostics.CodeAnalysis;
     using System.Linq;
-    using Core.Enumerations;
-    using Core.Services;
     using Fanex.Data;
     using Fanex.Data.Repository;
-    using Model;
+    using SMS.EPA.Core.Enumerations;
+    using SMS.EPA.Core.Services;
+    using SMS.EPA.Model;
 
     [SuppressMessage("Minor Code Smell", "S1192:String literals should not be duplicated", Justification = "<Pending>")]
     public class EmployeeEPARepository : IEmployeeEPARepository

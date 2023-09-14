@@ -1,8 +1,8 @@
 ﻿namespace SMS.EPA.Model
 {
     using System;
-    using Core.Services;
-    using Enitites;
+    using SMS.EPA.Core.Services;
+    using SMS.EPA.Model.Enitites;
 
     [Serializable]
     public class EmployeeViewModel
@@ -38,7 +38,7 @@
 
         public JobTitle JobTitle { get; set; }
 
-        public DepartmentViewModel Department { get; set; }
+        public string Department { get; set; }
 
         public Group Group { get; set; }
     }

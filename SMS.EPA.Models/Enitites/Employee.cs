@@ -76,7 +76,7 @@
 
         public JobLevel JobLevel { get; set; }
 
-        public Department Department { get; set; }
+        public string Department { get; set; }
 
         public Group Group { get; set; }
 
@@ -91,7 +91,7 @@
                 Username,
                 NickName,
                 FullName,
-                Department = Department?.Name,
+                Department,
                 Section,
                 Team = Group?.GroupName,
                 JobTitle = JobTitle?.JobTitleName,

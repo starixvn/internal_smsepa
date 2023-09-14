@@ -16,9 +16,9 @@
             <div class="form-group">
                 <label class="label-form" data-translate="ScoredBy"></label>
                 <div class="select-form">
-                    <epa-add-class-to-role-filter class="multi-select" multi-select input-model="monthlyDetailReportCtrl.scoredBy" button-label="Name"
-                                                  helper-elements="all reset" item-label="Name" tick-property="ticked" max-labels="0">
-                    </epa-add-class-to-role-filter>
+                    <multi-select-tree-view selected-items="monthlyDetailReportCtrl.filter.phaseIds"
+                                            is-selected-all="true" has-search-box="true"
+                                            options="monthlyDetailReportCtrl.scoredBy" on-select="monthlyDetailReportCtrl.onSelectPhase"></multi-select-tree-view>
                 </div>
             </div>
             <div class="form-group">

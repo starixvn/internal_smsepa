@@ -14,13 +14,13 @@
         vm.pageOption = utilitiesFactory.pageOption;
         vm.periods = [];
         vm.scoredBy = [
-            { ColumnId: 8, PhaseId: 2, Name: 'Self' },
-            { ColumnId: 9, PhaseId: 3, Name: 'Evaluator' },
-            { ColumnId: 10, PhaseId: 4, Name: 'Reviewer' },
-            { ColumnId: 11, PhaseId: 5, Name: 'Management' }
+            { Id: 2, ColumnId: 11, PhaseId: 2, Text: 'Self', Enabled: true, Checked: false, IsLeaf: true },
+            { Id: 3, ColumnId: 12, PhaseId: 3, Text: 'Evaluator', Enabled: true, Checked: false, IsLeaf: true },
+            { Id: 4, ColumnId: 13, PhaseId: 4, Text: 'Reviewer', Enabled: true, Checked: false, IsLeaf: true },
+            { Id: 5, ColumnId: 14, PhaseId: 5, Text: 'Management', Enabled: true, Checked: false, IsLeaf: true }
         ];
-        vm.showColumns = [8, 9, 10, 11];
-        vm.showColumnsOriginal = [8, 9, 10, 11];
+        vm.showColumns = [11, 12, 13, 14];
+        vm.showColumnsOriginal = [12, 12, 13, 14];
         vm.orgChart = [];
 
         initialize();
@@ -45,9 +45,11 @@
         function getShowHideColumns() {
             vm.hideColumns = [];
             vm.showColumns = [];
+            const phaseIds = vm.filter.phaseIds.split(',');
 
             angular.forEach(vm.scoredBy, function (item) {
-                if (item.ticked) {
+                const index = phaseIds.findIndex(x => x === item.PhaseId.toString());
+                if (index >= 0) {
                     vm.showColumns.push(item.ColumnId);
                 } else {
                     vm.hideColumns.push(item.ColumnId);
@@ -61,7 +63,7 @@
         }
 
         function initFilter() {
-            var filter = {
+            const filter = {
                 periodId: $routeParams.periodId ? parseInt($routeParams.periodId) : '',
                 teamIds: $routeParams.teamIds,
                 isLocal: $routeParams.isLocal ? $routeParams.isLocal : '',
@@ -86,7 +88,6 @@
 
         function initialize() {
             vm.filter = initFilter();
-            utilitiesFactory.setSelectedItem(vm.scoredBy, 'PhaseId', vm.filter.phaseIds);
             getShowHideColumns();
 
             CommonModel.getOrgChart().then(function () {
@@ -131,7 +132,7 @@
         };
 
         vm.exportCommentReport = function () {
-            var periodName = vm.periods.filter(period => period.PeriodId == vm.filter.periodId)[0].Name;
+            const periodName = vm.periods.filter(period => period.PeriodId == vm.filter.periodId)[0].Name;
             vm.exportCommentCriteria = {
                 periodId: vm.filter.periodId,
                 periodName: periodName
@@ -143,7 +144,6 @@
         vm.query = function (filter) {
             getShowHideColumns();
             filter.pageIndex = utilitiesFactory.pageOption.pageIndex;
-            filter.phaseIds = utilitiesFactory.getSelectedData(vm.scoredBy, 'PhaseId');
             filter.sortColumnName = '';
             filter.sortDirection = '';
 
@@ -170,6 +170,10 @@
 
         vm.onSelectTeam = function (teamIds) {
             vm.filter.teamIds = teamIds;
+        };
+
+        vm.onSelectPhase = function (phaseIds) {
+            vm.filter.phaseIds = phaseIds;
         };
     }
 })(angular);
