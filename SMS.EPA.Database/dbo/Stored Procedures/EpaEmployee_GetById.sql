@@ -25,18 +25,16 @@ BEGIN
 		,emp.[Enabled]
 		,emp.JoinedDate
 		,emp.HasMonthlyEPA
+		,dept.[Name] AS Department
 		,sec.[Name] AS Section
 		,emp.[JobTitle] AS JobTitleId
 		,job.[Name] AS JobTitleName
-		,dept.DepartmentId
-		,dept.Code
-		,dept.[Name]
 		,gr.GroupId
 		,gr.[Name] AS GroupName
 		,gr.[Code] AS GroupCode
 	FROM dbo.Employee AS emp WITH (NOLOCK)
 		INNER JOIN dbo.[Group] AS gr WITH (NOLOCK) ON emp.GroupId = gr.GroupId
-		AND gr.IsDeleted = 0
+		--AND gr.IsDeleted = 0
 		LEFT JOIN dbo.[Section] AS sec WITH (NOLOCK) ON gr.DepartmentId = sec.SectionId
 		AND sec.IsActive = 1
 		LEFT JOIN dbo.Department_New AS dept WITH (NOLOCK) ON sec.DepartmentId = dept.DepartmentId

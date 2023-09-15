@@ -93,6 +93,7 @@ BEGIN
 		,emp.[Email]
 		,emp.HasMonthlyEPA
 		,emp.JoinedDate
+		,dept.[Name] AS Department
 		,emp.JobTitle AS JobTitleId
 		,job.[Name] AS JobTitleName
 		,emp.JobLevelId AS JobLevelId
@@ -100,12 +101,10 @@ BEGIN
 		,gr.GroupId
 		,gr.[Name] AS GroupName
 		,gr.Code AS GroupCode
-		,dept.DepartmentId
-		,dept.Code
-		,dept.[Name]
 	FROM dbo.Employee AS emp WITH (NOLOCK)
 		INNER JOIN #tmpEmployee AS tbl WITH (NOLOCK) ON emp.EmployeeId = tbl.EmployeeId
-		LEFT JOIN dbo.[Group] AS gr WITH (NOLOCK) ON emp.GroupId = gr.GroupId
+		INNER JOIN dbo.[Group] AS gr WITH (NOLOCK) ON emp.GroupId = gr.GroupId
+		AND gr.IsDeleted = 0
 		LEFT JOIN dbo.Section AS section WITH (NOLOCK) ON gr.DepartmentId = section.SectionId
 		AND section.IsActive = 1
 		LEFT JOIN dbo.Department_New AS dept WITH (NOLOCK) ON section.DepartmentId = dept.DepartmentId

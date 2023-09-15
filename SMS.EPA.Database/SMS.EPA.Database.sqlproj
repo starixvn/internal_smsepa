@@ -448,7 +448,6 @@
     <Build Include="dbo\Stored Procedures\JobLevelStandard_TemplateSetting_Assign.sql" />
     <Build Include="dbo\Stored Procedures\JobLevelStandard_TemplateSetting_Delete.sql" />
     <Build Include="dbo\Stored Procedures\JobLevelStandard_TemplateSetting_Get.sql" />
-    <Build Include="dbo\Stored Procedures\JobLevelStandardKPI_Delete.sql" />
     <Build Include="dbo\Stored Procedures\JobLevelStandard_Template_Delete.sql" />
     <Build Include="dbo\Stored Procedures\JobLevelStandard_Template_Get.sql" />
     <Build Include="dbo\Stored Procedures\JobLevelStandard_Template_GetById.sql" />

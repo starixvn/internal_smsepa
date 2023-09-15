@@ -56,8 +56,7 @@ BEGIN
 			WHEN emp.IsLocal = 1 THEN 'Local'
 			ELSE 'Expat' END
 			) AS Category
-		,dept.DepartmentId
-		,dept.[Name]
+		,dept.[Name] AS Department
 		,team.GroupId
 		,team.[Name] AS GroupName
 		,team.Code AS GroupCode
