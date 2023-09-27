@@ -16,7 +16,7 @@
                     {{evaluatorDetailCtrl.epaInfo.IsProbation ? "PassProbation" : "PassPromotion" | translate}}
                 </label>
             </div>
-            <div class="radio" ng-if="evaluatorDetailCtrl.epaInfo.IsProbation"
+            <div class="radio" ng-if="evaluatorDetailCtrl.enableExtendProbation && evaluatorDetailCtrl.epaInfo.IsProbation"
                  ng-class="{'disabled': !evaluatorDetailCtrl.epaInfo.IsAllowedToEdit}">
                 <label>
                     <input type="radio" name="optionsRadios"

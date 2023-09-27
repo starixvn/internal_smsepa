@@ -1,10 +1,14 @@
-﻿@using SMS.EPA.Core.Enumerations
+﻿@using System.Configuration;
+@using SMS.EPA.Core.Enumerations
 @using SMS.EPA.Resources
 @using SMS.EPA.Model
 @model EPAModel
 @{
     var evaluator = Model.Recommendations.FirstOrDefault(x => x.ProcessId == (byte)ProcessType.Evaluator);
     var reviewer = Model.Recommendations.FirstOrDefault(x => x.ProcessId == (byte)ProcessType.Reviewer);
+
+    bool enableExtendProbation = false;
+    bool.TryParse(ConfigurationManager.AppSettings["EnableExtendProbation"], out enableExtendProbation);
 }
 
 @helper GetRadioButton(bool value)
@@ -66,7 +70,7 @@
                     }
                 </td>
             </tr>
-            if (Model.IsProbation)
+            if (enableExtendProbation && Model.IsProbation)
             {
                 <tr>
                     <td class="border-r-b-l">@Lang.ExtendProbation</td>

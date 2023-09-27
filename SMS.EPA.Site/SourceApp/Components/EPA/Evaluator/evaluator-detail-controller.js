@@ -4,35 +4,13 @@
     /* jshint validthis:true */
 
     angular.module('epaModule').controller('EvaluatorDetailController', evaluatorDetailController);
-    evaluatorDetailController.$inject = [
-        '$timeout',
-        '$translate',
-        '$routeParams',
-        '$location',
-        'EvaluationModel',
-        'EvaluatorEPAModel',
-        'SelfEvalutorModel',
-        'CommonModel',
-        'utilitiesFactory',
-        'historyFactory',
-        'lockScreenService',
-        'baseUrl'
+    evaluatorDetailController.$inject = ['$window', '$timeout', '$translate', '$routeParams', '$location', 'EvaluationModel', 'EvaluatorEPAModel',
+        'SelfEvalutorModel', 'CommonModel', 'utilitiesFactory', 'historyFactory', 'lockScreenService', 'baseUrl'
     ];
 
-    function evaluatorDetailController(
-        $timeout,
-        $translate,
-        $routeParams,
-        $location,
-        EvaluationModel,
-        EvaluatorEPAModel,
-        SelfEvalutorModel,
-        CommonModel,
-        utilitiesFactory,
-        historyFactory,
-        lockScreenService,
-        baseUrl) {
-        var vm = this;
+    function evaluatorDetailController($window, $timeout, $translate, $routeParams, $location, EvaluationModel, EvaluatorEPAModel,
+        SelfEvalutorModel, CommonModel, utilitiesFactory, historyFactory, lockScreenService, baseUrl) {
+        let vm = this;
 
         vm.permission = 0;
         vm.epaId = parseInt($routeParams.id);
@@ -47,6 +25,7 @@
         vm.probationStatusTypes = utilitiesFactory.probationStatusTypes;
         vm.hasRatingByStar = false;
         vm.showRatingScoreByStar = true;
+        vm.enableExtendProbation = $window.enableExtendProbation;
         vm.jobLevels = [];
 
         vm.hoveringLeave = null;

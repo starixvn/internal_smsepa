@@ -105,7 +105,7 @@
                                        ng-checked="recommendationCtrl.recommendation.PassedProbation" />
                             </td>
                         </tr>
-                        <tr ng-if="recommendationCtrl.epaInfo.IsProbation">
+                        <tr ng-if="recommendationCtrl.enableExtendProbation && recommendationCtrl.epaInfo.IsProbation">
                             <td>{{"ExtendProbation" | translate}}</td>
                             <td class="text-center">
                                 <div ng-if="recommendationCtrl.evaluatorRecommendation.ExtendedProbation"
@@ -127,7 +127,7 @@
                             </td>
                         </tr>
                         <tr>
-                            <td>{{ recommendationCtrl.epaInfo.IsProbation ? "FailProbation" : "FailPromotion" | translate}}</td>
+                            <td>{{recommendationCtrl.epaInfo.IsProbation ? "FailProbation" : "FailPromotion" | translate}}</td>
                             <td class="text-center">
                                 <div ng-if="recommendationCtrl.evaluatorRecommendation.FailedProbation"
                                      uib-tooltip="{{recommendationCtrl.evaluatorRecommendation.ModifiedBy}}" tooltip-placement="top">

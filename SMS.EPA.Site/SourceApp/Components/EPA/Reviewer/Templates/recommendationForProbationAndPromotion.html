@@ -34,7 +34,7 @@
                                    ng-click="reviewerDetailCtrl.epaInfo.Recommendation.ProbationStatus = reviewerDetailCtrl.probationStatusTypes.Passed" />
                         </td>
                     </tr>
-                    <tr ng-if="reviewerDetailCtrl.epaInfo.IsProbation">
+                    <tr ng-if="reviewerDetailCtrl.enableExtendProbation && reviewerDetailCtrl.epaInfo.IsProbation">
                         <td>{{"ExtendProbation" | translate}}</td>
                         <td class="text-center">
                             <div ng-if="reviewerDetailCtrl.epaInfo.EvaluatorRecommendation.ExtendedProbation"

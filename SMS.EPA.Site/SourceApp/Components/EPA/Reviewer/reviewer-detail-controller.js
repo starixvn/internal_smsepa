@@ -4,12 +4,12 @@
     /* jshint validthis:true */
 
     angular.module('epaModule').controller('ReviewerDetailController', reviewerDetailController);
-    reviewerDetailController.$inject = ['$timeout', '$translate', '$routeParams', 'EvaluationModel', 'ReviewerEPAModel', 'ReviewerManagementModel',
+    reviewerDetailController.$inject = ['$window', '$timeout', '$translate', '$routeParams', 'EvaluationModel', 'ReviewerEPAModel', 'ReviewerManagementModel',
         'CommonModel', 'utilitiesFactory', 'historyFactory', 'lockScreenService', 'baseUrl'];
 
-    function reviewerDetailController($timeout, $translate, $routeParams, EvaluationModel, ReviewerEPAModel, ReviewerManagementModel, CommonModel,
+    function reviewerDetailController($window, $timeout, $translate, $routeParams, EvaluationModel, ReviewerEPAModel, ReviewerManagementModel, CommonModel,
         utilitiesFactory, historyFactory, lockScreenService, baseUrl) {
-        var vm = this;
+        let vm = this;
 
         vm.permission = 0;
         vm.epaId = parseInt($routeParams.id);
@@ -25,6 +25,7 @@
         vm.finalScore = null;
         vm.hasRatingByStar = false;
         vm.showRatingScoreByStar = true;
+        vm.enableExtendProbation = $window.enableExtendProbation;
 
         vm.range = function (n) {
             return new Array(n);

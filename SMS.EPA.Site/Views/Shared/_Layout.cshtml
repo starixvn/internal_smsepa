@@ -11,6 +11,9 @@
         var title = string.Empty;
         byte siteId = 0;
         byte.TryParse(ConfigurationManager.AppSettings["SiteId"], out siteId);
+
+        bool enableExtendProbation = false;
+        bool.TryParse(ConfigurationManager.AppSettings["EnableExtendProbation"], out enableExtendProbation);
     }
 
     @switch (siteId)
@@ -68,5 +71,14 @@
     @Scripts.Render("~/bundles/vendor",
         "~/bundles/app",
         "~/bundles/common/js")
+
+    @if (enableExtendProbation)
+    {
+        <script>window.enableExtendProbation = true;</script>
+    }
+    else
+    {
+        <script>window.enableExtendProbation = false;</script>
+    }
 </body>
 </html>
