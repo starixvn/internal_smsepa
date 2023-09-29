@@ -42,8 +42,8 @@
         };
 
         flowModel.validateDepartmentFlow = function (vm) {
-            if (!vm.department || !vm.department.DepartmentId) {
-                notificationFactory.error('DepartmentNotSelectedWarning');
+            if (vm.selectedTeam === null || !vm.selectedTeam.Id) {
+                notificationFactory.error('', 'Please select a team!');
                 return false;
             } else if (vm.humanResources.employees.length === 0 || vm.evaluators.employees.length === 0 || vm.reviewers.employees.length === 0) {
                 notificationFactory.error('SettingFlowWarning');
@@ -54,10 +54,10 @@
         };
 
         flowModel.createDepartmentFlow = function (vm) {
-            var model = {
-                departmentId: vm.department.DepartmentId,
+            const model = {
+                departmentId: -vm.selectedTeam.Id,
                 flowTemplateId: vm.FlowTemplateId,
-                isGroup: vm.department.DepartmentId <= 0,
+                isGroup: true,
                 selfs: vm.selfs,
                 evaluators: vm.evaluators,
                 reviewers: vm.reviewers,
@@ -77,10 +77,10 @@
         };
 
         flowModel.openPopupDeleteDepartmentFlow = function (vm) {
-            if (!vm.department || !vm.department.DepartmentId) {
-                notificationFactory.error('', 'Please select a department!');
+            if (vm.selectedTeam === null || !vm.selectedTeam.Id) {
+                notificationFactory.error('', 'Please select a team!');
             } else {
-                var modalInstance = $uibModal.open({
+                let modalInstance = $uibModal.open({
                     templateUrl: 'SourceApp/Shared/Templates/ModalConfirmContent.html',
                     controller: 'ModalConfirmController as modalConfirmCtrl',
                     backdrop: 'static',
@@ -96,7 +96,7 @@
                 });
 
                 return modalInstance.result.then(function () {
-                    deptFlowFactory.deleteDepartmentFlow(vm.department.DepartmentId, vm.FlowTemplateId).success(function (response) {
+                    deptFlowFactory.deleteDepartmentFlow(-vm.selectedTeam.Id, vm.FlowTemplateId).success(function (response) {
                         if (response.IsSuccessful) {
                             notificationFactory.success('DeletedSuccessfully');
 
