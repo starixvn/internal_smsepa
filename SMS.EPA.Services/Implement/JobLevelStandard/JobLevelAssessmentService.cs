@@ -131,9 +131,9 @@
                 IList<JobLevelSetting> settings = jobLevelSettings.Where(x => x.SectionId == assessment.SectionId
                         && x.JobLevelId != currentJobLevelId && x.MinWeight >= requirementMinScore && x.MinWeight <= assessment.TotalWeight)
                     .OrderBy(x => x.MinWeight).ToList();
-                if (settings.Any() && settings.First().JobLevelId != currentJobLevelId)
+                if (settings.Any() && assessment.RequirementMinScore.HasValue && settings[0].JobLevelId != currentJobLevelId)
                 {
-                    JobLevelSetting jobLevel = settings.First();
+                    var jobLevel = settings[0];
 
                     assessment.NewJobLevelId = jobLevel.JobLevelId;
                     assessment.NewJobLevel = jobLevel.Name;

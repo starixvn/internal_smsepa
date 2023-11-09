@@ -60,25 +60,25 @@
         };
 
         vm.getDisplayKpiWeight = function (number) {
-            return !number ? '' : utilitiesFactory.splitNumber(number, 2);
+            return number === null ? '' : utilitiesFactory.splitNumber(number, 2);
         }
 
         function exportReport() {
             vm.filter.periodName = vm.periods.filter(x => x.PeriodId === vm.filter.periodId)[0].Name;
             vm.exportCriteria = angular.copy(vm.filter);
 
-            var url = baseUrl + "ExportAssessment/ExportJoblevelAssessment";
-            var data = $.param(vm.exportCriteria);
+            let url = baseUrl + 'ExportAssessment/ExportJoblevelAssessment';
+            let data = $.param(vm.exportCriteria);
 
-            var downloadUrl = url + "?" + data;
-            var iframe = $('body iframe');
+            let downloadUrl = url + '?' + data;
+            let iframe = $('body iframe');
 
             if (iframe.length === 0) {
                 iframe = $('<iframe width="0" height="0" class="display-none"></iframe>');
                 iframe.appendTo('body');
             }
 
-            iframe.attr("src", downloadUrl);
+            iframe.attr('src', downloadUrl);
         }
 
         vm.getIndex = function (index, currentPage, pageSize) {

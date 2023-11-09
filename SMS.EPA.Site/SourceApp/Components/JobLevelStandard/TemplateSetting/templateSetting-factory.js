@@ -19,10 +19,8 @@
         }
 
         function getTemplate() {
-            return $http.get(baseUrl + 'api/JobLevelStandardTemplate/GetTemplate', {
-                params: {
-                    isActive: true
-                }
+            return $http.get(baseUrl + 'api/Common/GetJobLevelStandardTemplate', {
+                params: { isActive: true }
             });
         }
 

@@ -42,7 +42,7 @@
                 </th>
             </tr>
             <tr class="headerName">
-                <th>
+                <th ng-show="targetCtrl.permission == targetCtrl.policyEnum.Host">
                     <input type="checkbox" ng-click="sectionCtrl.checkAll(sectionCtrl.selectedAll)"
                            ng-model="sectionCtrl.selectedAll" />
                 </th>
@@ -57,7 +57,7 @@
         <tbody class="table-body" current-page="sectionCtrl.currentPage" ng-class="{oddRow: $index % 2 === 0, evenRow: $index % 2 !== 0}"
                dir-paginate="employee in sectionCtrl.filteredItems | itemsPerPage: sectionCtrl.pageSize" pagination-id="personnel">
             <tr>
-                <td class="text-center">
+                <td class="text-center" ng-show="targetCtrl.permission == targetCtrl.policyEnum.Host">
                     <input type="checkbox" ng-model="employee.Selected"
                            ng-click="sectionCtrl.syncSelected(employee.ObjectId, employee.Selected)" />
                 </td>

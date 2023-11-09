@@ -13,9 +13,11 @@
     using SMS.EPA.Core.Utilities;
     using SMS.EPA.Criteria;
     using SMS.EPA.Criteria.EPAHistory;
+    using SMS.EPA.Criteria.JobLevelStandard.Template;
     using SMS.EPA.Criteria.TargetType;
     using SMS.EPA.Model;
     using SMS.EPA.Model.Enitites;
+    using SMS.EPA.Model.JobLevelStandard.Template;
     using SMS.EPA.Services;
 
     public class CommonController : BaseController
@@ -204,6 +206,12 @@
         public IList<MultiSelectItem> GetOrgChart()
         {
             return departmentService.GetOrgChart();
+        }
+
+        [HttpGet]
+        public IEnumerable<JobLevelStandardTemplate> GetJobLevelStandardTemplate([FromUri] GetJobLevelStandardTemplateCriteria criteria)
+        {
+            return baseService.GetData<JobLevelStandardTemplate>(criteria);
         }
 
         public IList<MultiSelectItem> GetOrgChartJLSTemplateSetting()

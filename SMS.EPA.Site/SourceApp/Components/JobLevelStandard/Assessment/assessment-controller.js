@@ -61,8 +61,8 @@
         }
 
         vm.inputLevel = function (akpi, assessment) {
-            if (!akpi.Level) {
-                akpi.Weight = 0;
+            if (akpi.Level === '' || akpi.Level === null) {
+                akpi.Weight = null;
             } else {
                 const weight = akpi.TemplateWeight / 5 * akpi.Level;
                 akpi.Weight = utilitiesFactory.splitNumber(weight, 4);
@@ -72,7 +72,7 @@
         };
 
         vm.getDisplayKpiWeight = function (number) {
-            return !number ? '' : utilitiesFactory.splitNumber(number, 2);
+            return number === null ? '' : utilitiesFactory.splitNumber(number, 2);
         }
 
         vm.query = function () {
@@ -161,7 +161,7 @@
                             return a.MinWeight - b.MinWeight;
                         });
 
-                    if (settings && settings.length > 0 && settings[0].JobLevelId !== currentJobLevelId) {
+                    if (settings && settings.length > 0 && assessment.RequirementMinScore !== null && settings[0].JobLevelId !== currentJobLevelId) {
                         assessment.NewJobLevelId = settings[0].JobLevelId;
                         assessment.NewJobLevel = settings[0].Name;
                     }
