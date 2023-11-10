@@ -34,7 +34,7 @@
             {
                 var modifiedDate = lastModifiedDate.HasValue ? lastModifiedDate.Value.ToString("yyyy-MM-dd HH:mm:ss.fff") : null;
                 var requestUrl = string.Format("api/UserMapping/GetBySiteId?lastModifiedDate={0}", modifiedDate);
-                return await GetAsync<IEnumerable<UserMapping>>(requestUrl);
+                return await GetAsync<IEnumerable<UserMapping>>(requestUrl, _jwttoken.Token);
             }
 
             return new List<UserMapping>();

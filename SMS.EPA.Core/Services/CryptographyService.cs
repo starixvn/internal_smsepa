@@ -1,7 +1,7 @@
 ﻿namespace SMS.EPA.Core.Services
 {
     using Constants;
-    using Fanex.Common;
+    using Fanex.Data;
 
     public class CryptographyService : ICryptographyService
     {
@@ -11,7 +11,7 @@
 
             if (!string.IsNullOrWhiteSpace(plainText))
             {
-                cipherText = Cryptography.CfsEnCrypt(Constants.KeyCryptography + Cryptography.CfsEnCrypt(plainText));
+                cipherText = Cryptography.EncryptPassword(Constants.KeyCryptography + Cryptography.EncryptPassword(plainText));
             }
 
             return cipherText;
@@ -23,7 +23,7 @@
 
             if (!string.IsNullOrWhiteSpace(cipherText))
             {
-                plainText = Cryptography.CfsDeCrypt(Cryptography.CfsDeCrypt(cipherText).Replace(Constants.KeyCryptography, string.Empty));
+                plainText = Cryptography.DecryptPassword(Cryptography.DecryptPassword(cipherText).Replace(Constants.KeyCryptography, string.Empty));
             }
 
             return plainText;

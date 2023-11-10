@@ -1,18 +1,13 @@
 ﻿namespace SMS.EPA.ClientHrm
 {
     using System.Configuration;
-    using Model;
+    using SMS.EPA.ClientHrm.Model;
 
     public static class ApplicationConfig
     {
-        public static int Interval
-        {
-            get
-            {
-                var interval = ConfigurationManager.AppSettings["Interval"];
-                return int.Parse(interval);
-            }
-        }
+        public static short Interval => short.Parse(ConfigurationManager.AppSettings["Interval"]);
+        public static short IntervalSyncUnitHead => short.Parse(ConfigurationManager.AppSettings["IntervalSyncUnitHead"]);
+        public static short IntervalSyncUserMapping => short.Parse(ConfigurationManager.AppSettings["IntervalSyncUserMapping"]);
 
         public static string ServiceAPI => ConfigurationManager.AppSettings["ServiceAPI"];
 
@@ -26,15 +21,7 @@
             }
         }
 
-        public static string PhotoPath
-        {
-            get
-            {
-                string photoPath = ConfigurationManager.AppSettings["PhotoPath"];
-
-                return photoPath;
-            }
-        }
+        public static string PhotoPath => ConfigurationManager.AppSettings["PhotoPath"];
 
         public static bool IsEnableSyncUserMapping => bool.Parse(ConfigurationManager.AppSettings["IsEnableSyncUserMapping"]);
         public static bool IsEnableSyncUnitHead => bool.Parse(ConfigurationManager.AppSettings["IsEnableSyncUnitHead"]);

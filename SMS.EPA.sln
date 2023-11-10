@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 17
-VisualStudioVersion = 17.3.32929.385
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.32106.194
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Business", "Business", "{829FE15F-60A7-40AF-B3C8-03D0760BC522}"
 EndProject
@@ -39,23 +39,13 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SMS.EPA.Site.UnitTests", "S
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UnitTests", "UnitTests", "{14B58E2B-4A04-421B-ADE5-3E222C3B8706}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SonarQube", "SonarQube", "{CD341181-C40C-4E09-89B3-099226E7BB9C}"
-	ProjectSection(SolutionItems) = preProject
-		SonarQube\sms-epa_css_settings.json = SonarQube\sms-epa_css_settings.json
-		SonarQube\sms-epa_js_settings.json = SonarQube\sms-epa_js_settings.json
-		SonarQube\sms-epa_ts_settings.json = SonarQube\sms-epa_ts_settings.json
-		SonarQube\SMS-EPACSharp.ruleset = SonarQube\SMS-EPACSharp.ruleset
-		SonarQube\SolutionBinding.sqconfig = SonarQube\SolutionBinding.sqconfig
-		SonarQube\sms-epa\CSharp\SonarLint.xml = SonarQube\sms-epa\CSharp\SonarLint.xml
-	EndProjectSection
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "API", "API", "{32FD6659-4EE4-4B2B-856F-06DE6B88E466}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SMS.EPA.AutoService", "SMS.EPA.AutoService\SMS.EPA.AutoService.csproj", "{3072A671-2F7E-43F5-8FF3-FB1C14FE76C5}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "AutoJob", "AutoJob", "{3521E5AB-BEB1-449B-87C8-FF07343053F5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SMS.EPA.AutoJob", "SMS.EPA.AutoJob\SMS.EPA.AutoJob.csproj", "{E5243DA6-87DF-4834-A282-B205A1615082}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SMS.EPA.AutoJob", "SMS.EPA.AutoJob\SMS.EPA.AutoJob.csproj", "{E5243DA6-87DF-4834-A282-B205A1615082}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -140,7 +130,7 @@ Global
 		{E5243DA6-87DF-4834-A282-B205A1615082} = {3521E5AB-BEB1-449B-87C8-FF07343053F5}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {97007D09-2FF5-4296-91B4-D3F93E463D5C}
 		EnterpriseLibraryConfigurationToolBinariesPathV6 = packages\EnterpriseLibrary.Common.6.0.1304.0\lib\NET45;packages\EnterpriseLibrary.Logging.6.0.1304.0\lib\NET45
+		SolutionGuid = {97007D09-2FF5-4296-91B4-D3F93E463D5C}
 	EndGlobalSection
 EndGlobal

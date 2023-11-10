@@ -7,7 +7,6 @@
     using HRM.UserControl.Client.AspNetMvc.Session;
     using HRM.UserControl.Client.Core.Session;
     using SMS.EPA.Core.Constants;
-    using SMS.EPA.Core.Services;
     using SMS.EPA.Criteria.JobLevelStandard.Report;
     using SMS.EPA.Model.JobLevelStandard;
     using SMS.EPA.Resources;
@@ -17,23 +16,20 @@
 
     public class ExportAssessmentController : Controller
     {
-        private readonly IBaseService baseService;
         private readonly IUserControlSession userControlSession;
         private readonly IJobLevelAssessmentService jobLevelAssessmentService;
         private readonly IExportJobLevelAssessmentService exportService;
 
         public ExportAssessmentController()
-            : this(null, null, null, null)
+            : this(null, null, null)
         {
         }
 
         public ExportAssessmentController(
-            IBaseService baseService,
             IUserControlSession userControlSession,
             IJobLevelAssessmentService jobLevelAssessmentService,
             IExportJobLevelAssessmentService exportService)
         {
-            this.baseService = baseService ?? new BaseService();
             this.userControlSession = userControlSession ?? new UserControlSession();
             this.jobLevelAssessmentService = jobLevelAssessmentService ?? new JobLevelAssessmentService();
             this.exportService = exportService ?? new ExportJobLevelAssessmentService();

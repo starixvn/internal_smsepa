@@ -311,7 +311,7 @@
             {
                 const byte numOfFragtionalDigits = 2;
                 float averageScore;
-                ScoreRatingTypeModel monthlyScoreRatingType = monthlyEPA.MonthlyEPAs.First().ScoreRatingType;
+                ScoreRatingTypeModel monthlyScoreRatingType = monthlyEPA.MonthlyEPAs[0].ScoreRatingType;
 
                 if (monthlyEPA.AverageSelfScore.HasValue)
                 {

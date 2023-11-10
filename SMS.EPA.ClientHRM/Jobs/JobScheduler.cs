@@ -8,13 +8,10 @@
 
     public class JobScheduler
     {
-        private readonly int interval;
         private readonly IScheduler scheduler;
 
         public JobScheduler()
         {
-            interval = ApplicationConfig.Interval;
-
             var factory = new StdSchedulerFactory();
 
             scheduler = factory.GetScheduler().Result;
@@ -31,7 +28,7 @@
                 .Build();
 
             var epaTrigger = TriggerBuilder.Create()
-                   .WithSimpleSchedule(a => a.WithIntervalInMinutes(interval)
+                   .WithSimpleSchedule(a => a.WithIntervalInMinutes(ApplicationConfig.Interval)
                    .RepeatForever())
                    .Build();
 
@@ -47,7 +44,7 @@
                     .Build();
 
                 var userMappingTrigger = TriggerBuilder.Create()
-                       .WithSimpleSchedule(a => a.WithIntervalInMinutes(interval)
+                       .WithSimpleSchedule(a => a.WithIntervalInMinutes(ApplicationConfig.IntervalSyncUserMapping)
                        .RepeatForever())
                        .Build();
 
@@ -65,7 +62,7 @@
                     .Build();
 
                 var unitHeadInfoTrigger = TriggerBuilder.Create()
-                       .WithSimpleSchedule(a => a.WithIntervalInMinutes(interval)
+                       .WithSimpleSchedule(a => a.WithIntervalInMinutes(ApplicationConfig.IntervalSyncUnitHead)
                        .RepeatForever())
                        .Build();
 
@@ -78,7 +75,7 @@
                     .Build();
 
                 var unitHeadScheduleTrigger = TriggerBuilder.Create()
-                       .WithSimpleSchedule(a => a.WithIntervalInMinutes(interval)
+                       .WithSimpleSchedule(a => a.WithIntervalInMinutes(ApplicationConfig.IntervalSyncUnitHead)
                        .RepeatForever())
                        .Build();
 
