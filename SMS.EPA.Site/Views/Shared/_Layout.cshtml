@@ -12,8 +12,7 @@
         byte siteId = 0;
         byte.TryParse(ConfigurationManager.AppSettings["SiteId"], out siteId);
 
-        bool enableExtendProbation = false;
-        bool.TryParse(ConfigurationManager.AppSettings["EnableExtendProbation"], out enableExtendProbation);
+        string jobLevelExtendProbations = ConfigurationManager.AppSettings["JobLevelExtendProbations"];
     }
 
     @switch (siteId)
@@ -72,13 +71,6 @@
         "~/bundles/app",
         "~/bundles/common/js")
 
-    @if (enableExtendProbation)
-    {
-        <script>window.enableExtendProbation = true;</script>
-    }
-    else
-    {
-        <script>window.enableExtendProbation = false;</script>
-    }
+    <script>window.jobLevelExtendProbations = '@jobLevelExtendProbations';</script>
 </body>
 </html>

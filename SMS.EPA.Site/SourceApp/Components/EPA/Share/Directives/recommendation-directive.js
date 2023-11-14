@@ -14,12 +14,18 @@
             },
             controller: function () {
                 let vm = this;
+
+                vm.enableExtendProbation = false;
+
                 if (vm.epaInfo) {
                     vm.evaluatorRecommendation = vm.epaInfo.Recommendations.filter(item => item.ProcessId == utilitiesFactory.processType.Evaluator)[0];
                     vm.recommendation = vm.epaInfo.Recommendations.filter(item => item.ProcessId == utilitiesFactory.processType.Reviewer)[0];
-                }
 
-                vm.enableExtendProbation = $window.enableExtendProbation;
+                    if ($window.jobLevelExtendProbations === 'All'
+                        || $window.jobLevelExtendProbations.split(',').includes(vm.epaInfo.Employee.JobLevel)) {
+                        vm.enableExtendProbation = true;
+                    }
+                }
             },
             controllerAs: 'recommendationCtrl',
             bindToController: true,

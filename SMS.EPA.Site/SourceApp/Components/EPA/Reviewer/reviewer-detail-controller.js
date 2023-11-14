@@ -25,7 +25,7 @@
         vm.finalScore = null;
         vm.hasRatingByStar = false;
         vm.showRatingScoreByStar = true;
-        vm.enableExtendProbation = $window.enableExtendProbation;
+        vm.enableExtendProbation = false;
 
         vm.range = function (n) {
             return new Array(n);
@@ -126,6 +126,11 @@
                             Name: vm.epaInfo.Recommendation.JobLevel
                         });
                     }
+                }
+
+                if ($window.jobLevelExtendProbations === 'All'
+                    || $window.jobLevelExtendProbations.split(',').includes(vm.epaInfo.Employee.JobLevel)) {
+                    vm.enableExtendProbation = true;
                 }
 
                 ReviewerEPAModel.getUserPermissionOnReviewer().then(function () {

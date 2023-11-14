@@ -25,7 +25,7 @@
         vm.probationStatusTypes = utilitiesFactory.probationStatusTypes;
         vm.hasRatingByStar = false;
         vm.showRatingScoreByStar = true;
-        vm.enableExtendProbation = $window.enableExtendProbation;
+        vm.enableExtendProbation = false;
         vm.jobLevels = [];
 
         vm.hoveringLeave = null;
@@ -174,6 +174,11 @@
                     vm.epaInfo.Process.CurrentProcess.MaxPerformanceScore,
                     vm.standardGrades);
                 vm.evaluatedDate = vm.epaInfo.Process.CurrentProcess.EvaluateDate ? vm.epaInfo.Process.CurrentProcess.EvaluateDate : null;
+
+                if ($window.jobLevelExtendProbations === 'All'
+                    || $window.jobLevelExtendProbations.split(',').includes(vm.epaInfo.Employee.JobLevel)) {
+                    vm.enableExtendProbation = true;
+                }
 
                 EvaluatorEPAModel.getUserPermissionOnEvaluator().then(function () {
                     vm.permission = EvaluatorEPAModel.permission;

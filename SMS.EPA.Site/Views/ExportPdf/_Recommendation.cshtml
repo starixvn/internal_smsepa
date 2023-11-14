@@ -8,7 +8,11 @@
     var reviewer = Model.Recommendations.FirstOrDefault(x => x.ProcessId == (byte)ProcessType.Reviewer);
 
     bool enableExtendProbation = false;
-    bool.TryParse(ConfigurationManager.AppSettings["EnableExtendProbation"], out enableExtendProbation);
+    var jobLevelExtendProbations = ConfigurationManager.AppSettings["JobLevelExtendProbations"];
+    if (jobLevelExtendProbations.Equals("All") || jobLevelExtendProbations.Split(',').ToList().Contains(Model.Employee.JobLevel))
+    {
+        enableExtendProbation = true;
+    }
 }
 
 @helper GetRadioButton(bool value)
