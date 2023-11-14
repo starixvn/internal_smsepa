@@ -1,5 +1,6 @@
 ﻿namespace SMS.EPA.Site.Controllers.API
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
@@ -47,10 +48,22 @@
         [ApiAuthorize(FunctionKey = EPAFunctionKey.JobLevelAssessment, Policy = Policy.Read)]
         public object GetAssessments(GetJobLevelAssessmentByActorIdCriteria criteria)
         {
+            var today = DateTimeOffset.Now.Date;
             IList<JobLevelSetting> jobLevelSettings = jobLevelAssessmentService.GetJobLevelSettingByPeriod(criteria.PeriodId);
 
             criteria.ActorId = CurrentEmployeeId;
             IList<JobLevelAssessment> assessments = jobLevelAssessmentService.GetJobLevelAssessmentByActor(criteria);
+
+            foreach (var assessment in assessments)
+            {
+                var currentProcess = assessment.Processes
+                      .FirstOrDefault(x => x.EvaluatorId == CurrentEmployeeId && x.FromDate <= today && x.ToDate >= today);
+                if (currentProcess != null)
+                {
+                    assessment.IsHost = GetPermissionOnFunction(EPAFunctionKey.JobLevelAssessment) == (byte)Policy.Host;
+                    assessment.CurrentProcessId = currentProcess.ProcessId;
+                }
+            }
 
             IList<JobLevelAssessmentKPI> kpis = assessments
                 .SelectMany(ass => ass.KPIs)

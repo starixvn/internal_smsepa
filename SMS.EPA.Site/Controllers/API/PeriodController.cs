@@ -142,7 +142,7 @@
                 {
                     case (byte)TargetType.Probation:
                     case (byte)TargetType.Promotion:
-                        employeeSettings = employeeSettings.OrderByDescending(x => x.SelfEvaluators.FirstOrDefault()?.StartDate ?? DateTime.MaxValue);
+                        employeeSettings = employeeSettings.OrderByDescending(x => x.SelfEvaluators.FirstOrDefault()?.StartDate ?? DateTimeOffset.MaxValue);
                         break;
 
                     case (byte)TargetType.Monthly:

@@ -1,6 +1,5 @@
 ﻿namespace SMS.EPA.Services
 {
-    using System;
     using System.Collections.Generic;
     using System.Linq;
     using SMS.EPA.Core.Enumerations;
@@ -32,7 +31,6 @@
 
         public IList<JobLevelAssessment> GetJobLevelAssessmentByActor(GetJobLevelAssessmentByActorIdCriteria criteria)
         {
-            var today = DateTime.Today;
             IList<JobLevelSetting> jobLevelSettings = GetJobLevelSettingByPeriod(criteria.PeriodId);
 
             var tuple = baseService.FetchMultiple<JobLevelAssessment, PeriodProcessSetting, JobLevelAssessmentKPI>(criteria);
@@ -43,14 +41,6 @@
                 assessment.RequirementMinScore = GetRequirementMinScore(jobLevelSettings, assessment);
                 assessment.Processes = tuple.Item2.Where(x => x.EmployeeId == assessment.EmployeeId).ToList();
                 assessment.KPIs = tuple.Item3.Where(x => x.EmployeeId == assessment.EmployeeId).ToList();
-
-                var currentProcess = assessment.Processes
-                    .FirstOrDefault(x => x.EvaluatorId == criteria.ActorId && x.FromDate <= today && x.ToDate >= today);
-                if (currentProcess != null)
-                {
-                    assessment.IsHost = true;
-                    assessment.CurrentProcessId = currentProcess.ProcessId;
-                }
 
                 SyncWeight(assessment);
 

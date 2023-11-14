@@ -84,7 +84,7 @@
                 if (epaInfo.IsSemiHasMonthly)
                 {
                     if (epaInfo.Process.Reviewers.Any()
-                        && epaInfo.Process.Reviewers.First().StartDate.Date <= DateTime.Now.Date)
+                        && epaInfo.Process.Reviewers[0].StartDate.Date <= DateTimeOffset.Now.Date)
                     {
                         criteria.EPAInfo = epaInfo;
 
