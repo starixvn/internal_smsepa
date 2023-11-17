@@ -129,10 +129,8 @@
                 </span>
                 <span ng-show="performanceResultCtrl.epaInfo.FinalScore.length === 0" data-translate="NotAvailable"></span>
             </strong>
-            <!--<strong ng-show="!performanceResultCtrl.epaInfo.IsClosed" data-translate="Pending"></strong>-->
             <strong ng-show="!performanceResultCtrl.epaInfo.IsClosed">
-                <span ng-show="performanceResultCtrl.epaInfo.FinalScore.length > 0" class="red">{{performanceResultCtrl.epaInfo.FinalScore | customScore}} / {{performanceResultCtrl.epaInfo.MaxFinalScore | customScore}}</span>
-                <span ng-show="performanceResultCtrl.epaInfo.FinalScore.length === 0" class="red" data-translate="NotAvailable"></span>
+                <span class="red" data-translate="NotAvailable"></span>
             </strong>
         </td>
 
@@ -142,10 +140,8 @@
                 <span ng-show="performanceResultCtrl.epaInfo.Grade" ng-bind="performanceResultCtrl.epaInfo.Grade"></span>
                 <span ng-show="!performanceResultCtrl.epaInfo.Grade" data-translate="NotAvailable"></span>
             </strong>
-            <!--<strong ng-show="!performanceResultCtrl.epaInfo.IsClosed" data-translate="Pending"></strong>-->
             <strong ng-show="!performanceResultCtrl.epaInfo.IsClosed">
-                <span ng-show="performanceResultCtrl.epaInfo.Grade" ng-bind="performanceResultCtrl.epaInfo.Grade" class="red"></span>
-                <span ng-show="!performanceResultCtrl.epaInfo.Grade" class="red" data-translate="NotAvailable"></span>
+                <span class="red" data-translate="NotAvailable"></span>
             </strong>
         </td>
     </tr>

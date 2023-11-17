@@ -3,7 +3,7 @@
     /* jshint latedef:nofunc */
 
     angular.module('epaModule').directive('epaPerformanceResult', performanceResult);
-    performanceResult.$inject = ["$filter", "EvaluationModel"];
+    performanceResult.$inject = ['$filter', 'EvaluationModel'];
 
     function performanceResult($filter, EvaluationModel) {
         return {
@@ -38,8 +38,8 @@
                         vm.process.Managements,
                         vm.epaInfo.ScoreRatingType.Management);
 
-                    if (vm.epaInfo.FinalScore === "N/A") {
-                        vm.epaInfo.FinalScore = "";
+                    if (vm.epaInfo.FinalScore === 'N/A') {
+                        vm.epaInfo.FinalScore = '';
                     }
                 }
             },

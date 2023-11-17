@@ -31,15 +31,20 @@
             break;
     }
 
-    string cssClass = "";
-
-    if (process.StatusId == (int)ProcessStatusType.InProgress)
+    var cssClass = "";
+    if (process.StatusId == (byte)ProcessStatusType.InProgress)
     {
         cssClass = "red";
     }
 
+    var score = Lang.NotAvailable;
+    if (process.StatusId == (byte)ProcessStatusType.Closed && !string.IsNullOrWhiteSpace(process.TotalScore))
+    {
+        score = process.TotalScore + " / " + maxScore;
+    }
+
     <span class="@cssClass">
-        @(string.IsNullOrEmpty(process.TotalScore) ? Lang.NotAvailable : process.TotalScore + " / " + maxScore)
+        @score
     </span>
 }
 
@@ -152,7 +157,7 @@
                               : (Model.DisciplineScore != 0 ? Model.DisciplineScore.ToString() : "-"))
                     </td>
                     <td rowspan="@rowspan" class="border-r-b align-center">
-                        @if (Model.StatusId == (int)EpaStatus.Closed)
+                        @if (Model.StatusId == (byte)EpaStatus.Closed)
                         {
                             if (!string.IsNullOrEmpty(Model.FinalScore))
                             {
@@ -165,17 +170,17 @@
                         }
                         else
                         {
-                            <span class="red">@Model.FinalScoreToExport</span>
+                            <span class="red">@Lang.NotAvailable</span>
                         }
                     </td>
                     <td rowspan="@rowspan" class="border-r-b align-center">
-                        @if (Model.StatusId == (int)EpaStatus.Closed)
+                        @if (Model.StatusId == (byte)EpaStatus.Closed)
                         {
                             @Model.Grade
                         }
                         else
                         {
-                            <span class="red">@Model.Grade</span>
+                            <span class="red">@Lang.NotAvailable</span>
                         }
                     </td>
                 }

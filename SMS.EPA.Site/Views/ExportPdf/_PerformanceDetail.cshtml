@@ -108,8 +108,10 @@ else
                     for (int i = 0; i < rowspan; i++)
                     {
                         EvaluationModel evaluator = kpi.EvaluationByEvaluators[i];
-                        string selfClass = "";
-                        string evaluatorClass = "";
+                        var selfClass = "";
+                        var selfScore = Lang.NotAvailable;
+                        var evaluatorClass = "";
+                        var evaluatorScore = Lang.NotAvailable;
 
                         <tr>
                             @if (i == 0)
@@ -128,27 +130,38 @@ else
                                     }
                                 </td>
 
-                                if (Model.Process.Self.StatusId == (int)ProcessStatusType.InProgress)
+                                if (!Model.Process.Self.IsEndProcess)
                                 {
                                     selfClass = "red";
                                 }
 
+                                if (Model.Process.Self.IsEndProcess && !string.IsNullOrWhiteSpace(kpi.EvaluationBySelf.Score))
+                                {
+                                    selfScore = kpi.EvaluationBySelf.ScoreToDisplay + " pts";
+                                }
+
                                 <td rowspan="@rowspan" class="border-r-b @selfClass align-center">
-                                    @(!string.IsNullOrWhiteSpace(kpi.EvaluationBySelf.Score) ? kpi.EvaluationBySelf.ScoreToDisplay + " pts" : Lang.NotAvailable)
+                                    @selfScore
                                 </td>
-                                <td rowspan="@rowspan" class="border-r-b @selfClass">@kpi.EvaluationBySelf.Comment</td>
+                                <td rowspan="@rowspan" class="border-r-b">@(Model.Process.Self.IsEndProcess ? kpi.EvaluationBySelf.Comment : string.Empty)</td>
                             }
 
                             <td class="border-r-b align-center">@evaluator.NickName</td>
 
-                            @if (Model.Process.Evaluators[i].StatusId == (int)ProcessStatusType.InProgress)
+                            @if (!Model.Process.Evaluators[i].IsEndProcess)
                             {
                                 evaluatorClass = "red";
                             }
+
+                            @if (Model.Process.Evaluators[i].IsEndProcess && !string.IsNullOrWhiteSpace(evaluator.Score))
+                            {
+                                evaluatorScore = evaluator.ScoreToDisplay + " pts";
+                            }
+
                             <td class="border-r-b @evaluatorClass align-center">
-                                @(!string.IsNullOrWhiteSpace(evaluator.Score) ? evaluator.ScoreToDisplay + " pts" : Lang.NotAvailable)
+                                @evaluatorScore
                             </td>
-                            <td class="border-r-b @evaluatorClass">@evaluator.Comment</td>
+                            <td class="border-r-b">@(Model.Process.Evaluators[i].IsEndProcess ? evaluator.Comment : string.Empty)</td>
                         </tr>
                     }
                 }

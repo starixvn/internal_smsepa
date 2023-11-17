@@ -4,7 +4,7 @@
 
     angular.module('epaModule').factory('EvaluationModel', evaluationModel);
     evaluationModel.$inject = [
-        'evaluationFactory', 'utilitiesFactory', 'notificationFactory', 'errorFactory', "CommonModel"
+        'evaluationFactory', 'utilitiesFactory', 'notificationFactory', 'errorFactory', 'CommonModel'
     ];
 
     function evaluationModel(evaluationFactory, utilitiesFactory, notificationFactory, errorFactory, CommonModel) {
@@ -15,16 +15,16 @@
         var standardGrades = CommonModel.standardGrades;
 
         var model = {
-            epaInfo: epaInfo,
-            checkScore: checkScore,
-            convertScoreToGrade: convertScoreToGrade,
-            getEPAInfoById: getEPAInfoById,
-            getNotificationInputScore: getNotificationInputScore,
-            scoreSpread: scoreSpread,
-            validateScoreInput: validateScoreInput,
-            calculateScoreAndGradeToDisplay: calculateScoreAndGradeToDisplay,
-            getMultiScoreDatas: getMultiScoreDatas,
-            getScoreData: getScoreData
+            epaInfo,
+            checkScore,
+            convertScoreToGrade,
+            getEPAInfoById,
+            getNotificationInputScore,
+            scoreSpread,
+            validateScoreInput,
+            calculateScoreAndGradeToDisplay,
+            getMultiScoreDatas,
+            getScoreData
         };
 
         return model;
@@ -46,8 +46,8 @@
             hasDisciplineScore,
             maxPerformanceScore,
             standardGrades) {
-            if (isNaN(performanceScore) || performanceScore === "N/A") {
-                return "N/A";
+            if (isNaN(performanceScore) || performanceScore === 'N/A') {
+                return 'N/A';
             }
 
             performanceScore = utilitiesFactory.parseFloat(performanceScore);
@@ -161,7 +161,7 @@
                 if (epaInfo.DisciplineScore !== 0) {
                     result.DisciplineScore = epaInfo.DisciplineScore;
                 } else {
-                    result.DisciplineScore = "-";
+                    result.DisciplineScore = '-';
                 }
             }
 
@@ -216,7 +216,7 @@
             }
 
             var tempDisciplineScore = 0;
-            if (result.DisciplineScore !== "-") {
+            if (result.DisciplineScore !== '-') {
                 tempDisciplineScore = result.DisciplineScore;
             }
 
@@ -228,7 +228,7 @@
 
             result.FinalScore = epaInfo.FinalScoreToExport;
 
-            if (result.FinalScore !== "") {
+            if (result.FinalScore !== '') {
                 if (epaInfo.StatusId === utilitiesFactory.epaStatus.Closed) {
                     // Final Score and Grade are already saved in database
                     result.Grade = epaInfo.Grade;
@@ -266,47 +266,35 @@
 
         function getScoreData($filter, statusId, score, maxScore, comment) {
             return {
-                IsShowed: isScoreShowed(statusId),
+                IsShowed: true,
                 IsCommentShowed: isCommentShowed(statusId, comment),
                 Class: getScoreClass(statusId),
                 Score: getScoreValue($filter, score, maxScore, statusId)
             };
         }
 
-        function isScoreShowed(statusId) {
-            //if (statusId !== utilitiesFactory.processStatus.Open) {
-            //    return true;
-            //} else {
-            //    return false;
-            //}
-            return true;
-        }
+        //function isScoreShowed(statusId) {
+        //    return statusId !== utilitiesFactory.processStatus.Open;
+        //}
 
         function isCommentShowed(statusId, comment) {
             if (comment !== undefined && comment !== null) {
-                if ((statusId === utilitiesFactory.processStatus.Closed ||
-                    statusId === utilitiesFactory.processStatus.InProgress) &&
-                    comment.length > 0) {
-                    return true;
-                }
+                return statusId === utilitiesFactory.processStatus.Closed && comment.length > 0;
             }
 
             return false;
         }
 
         function getScoreClass(statusId) {
-            if (statusId === utilitiesFactory.processStatus.InProgress) {
-                return "red";
-            }
-            return "";
+            return statusId === utilitiesFactory.processStatus.InProgress ? 'red' : '';
         }
 
         function getScoreValue($filter, score, maxScore, statusId) {
-            if (score === "" || score === null || statusId === utilitiesFactory.processStatus.Open) {
-                return "N/A";
+            if (score === '' || score === null || statusId !== utilitiesFactory.processStatus.Closed) {
+                return 'N/A';
             }
 
-            return $filter("customScore")(score) + " / " + $filter("customScore")(maxScore);
+            return $filter('customScore')(score) + ' / ' + $filter('customScore')(maxScore);
         }
     }
 })(angular);

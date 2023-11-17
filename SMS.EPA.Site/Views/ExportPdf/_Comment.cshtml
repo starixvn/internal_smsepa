@@ -18,7 +18,7 @@
         {
             <tr>
                 <td class="border-r-b-l">@Model.Process.Self.EvaluatorInfo.FullName (@Model.Process.Self.EvaluatorInfo.NickName)</td>
-                <td class="border-r-b">@Model.Process.Self.Comment</td>
+                <td class="border-r-b">@(Model.Process.Self.IsEndProcess ? Model.Process.Self.Comment : string.Empty)</td>
             </tr>
 
             <tr>
@@ -29,7 +29,7 @@
             {
                 <tr>
                     <td class="border-r-b-l">@evaluator.EvaluatorInfo.FullName (@evaluator.EvaluatorInfo.NickName)</td>
-                    <td class="border-r-b">@evaluator.Comment</td>
+                    <td class="border-r-b">@(evaluator.IsEndProcess ? evaluator.Comment : string.Empty)</td>
                 </tr>
             }
         }
@@ -42,7 +42,7 @@
         {
             <tr>
                 <td class="border-r-b-l">@reviewer.EvaluatorInfo.FullName (@reviewer.EvaluatorInfo.NickName)</td>
-                <td class="border-r-b">@reviewer.Comment</td>
+                <td class="border-r-b">@(reviewer.IsEndProcess ? reviewer.Comment : string.Empty)</td>
             </tr>
         }
 
@@ -56,7 +56,7 @@
             {
                 <tr>
                     <td class="border-r-b-l">@management.EvaluatorInfo.FullName (@management.EvaluatorInfo.NickName)</td>
-                    <td class="border-r-b">@management.Comment</td>
+                    <td class="border-r-b">@(management.IsEndProcess ? management.Comment : string.Empty)</td>
                 </tr>
             }
         }
