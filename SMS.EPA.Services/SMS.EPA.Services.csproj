@@ -202,12 +202,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
-    <None Include="Implement\CommonService.cs.orig" />
-    <None Include="Implement\EmployeeEPAService.cs.orig" />
-    <None Include="Implement\EmployeeService.cs.orig" />
-    <None Include="Implement\ExportFile\ExportJobLevelAssessmentService.cs.orig" />
-    <None Include="Implement\ReportService.cs.orig" />
-    <None Include="Interfaces\ICommonService.cs.orig" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>

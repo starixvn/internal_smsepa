@@ -18,7 +18,7 @@
         {
             string userIP = actionContext.Request.GetOwinContext().Request.RemoteIpAddress;
             var supportedIps = AppConfig.SupportedIPs;
-            var isExist = supportedIps.Any(i => i == userIP);
+            var isExist = supportedIps.Contains(userIP);
             if (supportedIps.Any() && !isExist)
             {
                 using (var response = new HttpResponseMessage())

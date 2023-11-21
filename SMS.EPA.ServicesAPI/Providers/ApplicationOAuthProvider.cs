@@ -2,7 +2,6 @@
 {
     using System;
     using System.Collections.Generic;
-    using System.Linq;
     using System.Security.Claims;
     using System.Threading.Tasks;
     using Microsoft.Owin.Security.OAuth;
@@ -24,7 +23,7 @@
 
         public override Task GrantResourceOwnerCredentials(OAuthGrantResourceOwnerCredentialsContext context)
         {
-            var isValidAppId = AppConfig.PartnerIds.Any(i => i == context.UserName);
+            var isValidAppId = AppConfig.PartnerIds.Exists(i => i == context.UserName);
             if (isValidAppId)
             {
                 context.OwinContext.Response.Headers.Add("Access-Control-Allow-Origin", new[] { "*" });
