@@ -55,14 +55,6 @@
             return View();
         }
 
-        [HttpGet]
-        public ActionResult Logout()
-        {
-            userControlSession.ClearAll();
-            FormsAuthentication.SignOut();
-            return RedirectToAction("Login");
-        }
-
         [HttpPost]
         public ActionResult Login(LoginModel model)
         {
@@ -162,6 +154,14 @@
                 }
             }
 
+            return RedirectToAction("Login");
+        }
+
+        [HttpGet]
+        public ActionResult Logout()
+        {
+            userControlSession.ClearAll();
+            FormsAuthentication.SignOut();
             return RedirectToAction("Login");
         }
 

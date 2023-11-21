@@ -1,5 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props" Condition="Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -7,27 +8,23 @@
     <ProductVersion>
     </ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{CA0ABDFC-9F6E-4823-BBA3-35AE18139237}</ProjectGuid>
+    <ProjectGuid>{C614DF9B-47F7-43E2-BAD7-5BC4E21497CD}</ProjectGuid>
     <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>SMS.EPA.Site</RootNamespace>
     <AssemblyName>SMS.EPA.Site</AssemblyName>
-    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <MvcBuildViews>false</MvcBuildViews>
     <UseIISExpress>true</UseIISExpress>
-    <JSLintSkip>\Libs\</JSLintSkip>
+    <Use64BitIISExpress />
     <IISExpressSSLPort>44300</IISExpressSSLPort>
-    <IISExpressAnonymousAuthentication>enabled</IISExpressAnonymousAuthentication>
-    <IISExpressWindowsAuthentication>disabled</IISExpressWindowsAuthentication>
-    <IISExpressUseClassicPipelineMode>false</IISExpressUseClassicPipelineMode>
-    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
-    <RestorePackages>true</RestorePackages>
+    <IISExpressAnonymousAuthentication />
+    <IISExpressWindowsAuthentication />
+    <IISExpressUseClassicPipelineMode />
+    <UseGlobalApplicationHostFile />
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
-    <TargetFrameworkProfile />
-    <UseGlobalApplicationHostFile />
-    <Use64BitIISExpress />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -37,24 +34,17 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Antlr3.Runtime, Version=3.5.0.2, Culture=neutral, PublicKeyToken=eb42632606e9261f, processorArchitecture=MSIL">
-      <HintPath>..\packages\Antlr.3.5.0.2\lib\Antlr3.Runtime.dll</HintPath>
-    </Reference>
-    <Reference Include="BouncyCastle.Crypto, Version=1.8.1.0, Culture=neutral, PublicKeyToken=0e99375e54769942">
-      <HintPath>..\packages\BouncyCastle.1.8.1\lib\BouncyCastle.Crypto.dll</HintPath>
-    </Reference>
     <Reference Include="BundleTransformer.Core, Version=1.7.20.0, Culture=neutral, PublicKeyToken=973c344c93aac60d, processorArchitecture=MSIL">
       <HintPath>..\packages\BundleTransformer.Core.1.7.20\lib\net40\BundleTransformer.Core.dll</HintPath>
     </Reference>
@@ -86,7 +76,7 @@
       <HintPath>..\packages\Fanex.Logging.Extensions.Web.1.0.8\lib\net461\Fanex.Logging.Extensions.Web.dll</HintPath>
     </Reference>
     <Reference Include="Fanex.Logging.Sentry.RavenClient, Version=1.0.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Fanex.Logging.Sentry.RavenClient.1.0.1.2\lib\netstandard2.0\Fanex.Logging.Sentry.RavenClient.dll</HintPath>
+      <HintPath>..\packages\Fanex.Logging.Sentry.RavenClient.1.0.1.2\lib\net471\Fanex.Logging.Sentry.RavenClient.dll</HintPath>
     </Reference>
     <Reference Include="HRM.UserControl.Client.AspNetMvc, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\HRM.UserControl.Client.AspNetMvc.1.0.4\lib\net461\HRM.UserControl.Client.AspNetMvc.dll</HintPath>
@@ -103,8 +93,8 @@
     <Reference Include="itextsharp.xmlworker, Version=5.5.11.0, Culture=neutral, PublicKeyToken=8354ae6d2174ddca, processorArchitecture=MSIL">
       <HintPath>..\packages\itextsharp.xmlworker.5.5.11\lib\itextsharp.xmlworker.dll</HintPath>
     </Reference>
-    <Reference Include="jose-jwt, Version=4.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\jose-jwt.4.0.0\lib\net461\jose-jwt.dll</HintPath>
+    <Reference Include="jose-jwt, Version=3.1.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\jose-jwt.3.1.1\lib\net461\jose-jwt.dll</HintPath>
     </Reference>
     <Reference Include="log4net, Version=2.0.15.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
       <HintPath>..\packages\log4net.2.0.15\lib\net45\log4net.dll</HintPath>
@@ -128,17 +118,17 @@
     <Reference Include="Microsoft.Extensions.Primitives, Version=5.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Extensions.Primitives.5.0.0\lib\net461\Microsoft.Extensions.Primitives.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.Net.Http.Headers, Version=2.2.8.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Net.Http.Headers.2.2.8\lib\netstandard2.0\Microsoft.Net.Http.Headers.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.Web.Infrastructure, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Web.Infrastructure.2.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
+    <Reference Include="Microsoft.Net.Http.Headers, Version=2.2.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Net.Http.Headers.2.2.0\lib\netstandard2.0\Microsoft.Net.Http.Headers.dll</HintPath>
     </Reference>
     <Reference Include="MsieJavaScriptEngine, Version=1.1.2.0, Culture=neutral, PublicKeyToken=a3a2846a37ac0d3e, processorArchitecture=MSIL">
       <HintPath>..\packages\MsieJavaScriptEngine.1.1.2\lib\net40\MsieJavaScriptEngine.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.13.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <HintPath>..\packages\Newtonsoft.Json.13.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json.Bson, Version=1.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.Bson.1.0.2\lib\net45\Newtonsoft.Json.Bson.dll</HintPath>
     </Reference>
     <Reference Include="NPOI, Version=2.3.0.0, Culture=neutral, PublicKeyToken=0df73ec7942b34e1, processorArchitecture=MSIL">
       <HintPath>..\packages\NPOI.2.3.0\lib\net40\NPOI.dll</HintPath>
@@ -153,29 +143,20 @@
       <HintPath>..\packages\NPOI.2.3.0\lib\net40\NPOI.OpenXmlFormats.dll</HintPath>
     </Reference>
     <Reference Include="SharpRaven, Version=2.4.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\SharpRaven.2.4.0\lib\net45\SharpRaven.dll</HintPath>
+      <HintPath>..\packages\SharpRaven.2.4.0\lib\net471\SharpRaven.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Buffers, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Buffers.4.5.1\lib\net461\System.Buffers.dll</HintPath>
     </Reference>
     <Reference Include="System.Data" />
-    <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Memory, Version=4.0.1.2, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Memory.4.5.5\lib\net461\System.Memory.dll</HintPath>
     </Reference>
-    <Reference Include="System.Net.Http" />
-    <Reference Include="System.Net.Http.Extensions, Version=2.2.29.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Net.Http.2.2.29\lib\net45\System.Net.Http.Extensions.dll</HintPath>
+    <Reference Include="System.Net.Http.Formatting, Version=6.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.6.0.0\lib\net45\System.Net.Http.Formatting.dll</HintPath>
     </Reference>
-    <Reference Include="System.Net.Http.Formatting, Version=5.2.9.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.2.9\lib\net45\System.Net.Http.Formatting.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Net.Http.Primitives, Version=4.2.29.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Net.Http.2.2.29\lib\net45\System.Net.Http.Primitives.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Net.Http.WebRequest" />
     <Reference Include="System.Numerics" />
     <Reference Include="System.Numerics.Vectors, Version=4.1.4.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Numerics.Vectors.4.5.0\lib\net46\System.Numerics.Vectors.dll</HintPath>
@@ -183,127 +164,137 @@
     <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.6.0.0\lib\net461\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
     </Reference>
-    <Reference Include="System.Runtime.InteropServices.RuntimeInformation, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Runtime.InteropServices.RuntimeInformation.4.3.0\lib\net45\System.Runtime.InteropServices.RuntimeInformation.dll</HintPath>
-      <Private>True</Private>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="System.Security" />
-    <Reference Include="System.Text.Encodings.Web, Version=7.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Text.Encodings.Web.7.0.0\lib\netstandard2.0\System.Text.Encodings.Web.dll</HintPath>
+    <Reference Include="System.Text.Encodings.Web, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Text.Encodings.Web.4.5.0\lib\netstandard2.0\System.Text.Encodings.Web.dll</HintPath>
     </Reference>
-    <Reference Include="System.Threading.Tasks.Extensions, Version=4.2.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Threading.Tasks.Extensions.4.5.2\lib\netstandard2.0\System.Threading.Tasks.Extensions.dll</HintPath>
+    <Reference Include="System.Threading.Tasks.Extensions, Version=4.2.0.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Threading.Tasks.Extensions.4.5.4\lib\net461\System.Threading.Tasks.Extensions.dll</HintPath>
     </Reference>
     <Reference Include="System.Transactions" />
     <Reference Include="System.ValueTuple, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.ValueTuple.4.5.0\lib\net461\System.ValueTuple.dll</HintPath>
+      <HintPath>..\packages\System.ValueTuple.4.5.0\lib\net47\System.ValueTuple.dll</HintPath>
     </Reference>
-    <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
-    <Reference Include="System.Web" />
-    <Reference Include="System.Web.Abstractions" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.9\lib\net45\System.Web.Helpers.dll</HintPath>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.3.0\lib\net45\System.Web.Helpers.dll</HintPath>
     </Reference>
-    <Reference Include="System.Web.Http, Version=5.2.9.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.AspNet.WebApi.Core.5.2.9\lib\net45\System.Web.Http.dll</HintPath>
+    <Reference Include="System.Web.Http, Version=5.3.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Core.5.3.0\lib\net45\System.Web.Http.dll</HintPath>
     </Reference>
-    <Reference Include="System.Web.Http.WebHost, Version=5.2.9.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.AspNet.WebApi.WebHost.5.2.9\lib\net45\System.Web.Http.WebHost.dll</HintPath>
+    <Reference Include="System.Web.Http.WebHost, Version=5.3.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.WebHost.5.3.0\lib\net45\System.Web.Http.WebHost.dll</HintPath>
     </Reference>
-    <Reference Include="System.Web.Mvc, Version=5.2.9.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.AspNet.Mvc.5.2.9\lib\net45\System.Web.Mvc.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Web.Optimization, Version=1.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.AspNet.Web.Optimization.1.1.3\lib\net40\System.Web.Optimization.dll</HintPath>
+    <Reference Include="System.Web.Mvc, Version=5.3.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Mvc.5.3.0\lib\net45\System.Web.Mvc.dll</HintPath>
     </Reference>
     <Reference Include="System.Web.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.AspNet.Razor.3.2.9\lib\net45\System.Web.Razor.dll</HintPath>
+      <HintPath>..\packages\Microsoft.AspNet.Razor.3.3.0\lib\net45\System.Web.Razor.dll</HintPath>
     </Reference>
-    <Reference Include="System.Web.Routing" />
     <Reference Include="System.Web.WebPages, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.9\lib\net45\System.Web.WebPages.dll</HintPath>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.3.0\lib\net45\System.Web.WebPages.dll</HintPath>
     </Reference>
     <Reference Include="System.Web.WebPages.Deployment, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.9\lib\net45\System.Web.WebPages.Deployment.dll</HintPath>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.3.0\lib\net45\System.Web.WebPages.Deployment.dll</HintPath>
     </Reference>
     <Reference Include="System.Web.WebPages.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.9\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.3.0\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
     </Reference>
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Abstractions" />
+    <Reference Include="System.Web.Routing" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Configuration" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="WebGrease, Version=1.6.5135.21930, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http">
+    </Reference>
+    <Reference Include="System.Net.Http.WebRequest">
+    </Reference>
+    <Reference Include="System.Web.Optimization">
+      <HintPath>..\packages\Microsoft.AspNet.Web.Optimization.1.1.3\lib\net40\System.Web.Optimization.dll</HintPath>
+    </Reference>
+    <Reference Include="WebGrease">
+      <Private>True</Private>
       <HintPath>..\packages\WebGrease.1.6.0\lib\WebGrease.dll</HintPath>
+    </Reference>
+    <Reference Include="Antlr3.Runtime">
+      <Private>True</Private>
+      <HintPath>..\packages\Antlr.3.5.0.2\lib\Antlr3.Runtime.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Controllers\API\JobDescriptionController.cs" />
-    <Compile Include="Controllers\API\JobLevelController.cs" />
-    <Compile Include="Controllers\API\JobLevelStandard\JobLevelStandardKPIController.cs" />
-    <Compile Include="Controllers\API\JobLevelStandard\JobLevelAssessmentController.cs" />
-    <Compile Include="Controllers\API\JobLevelStandard\JobLevelAssessmentReportController.cs" />
-    <Compile Include="Controllers\API\JobLevelStandard\JobLevelSettingController.cs" />
-    <Compile Include="Controllers\API\JobLevelStandard\JobLevelStandardPeriodController.cs" />
-    <Compile Include="Controllers\API\JobLevelStandard\JobLevelStandardTemplateController.cs" />
-    <Compile Include="Controllers\API\JobLevelStandard\JobLevelStandardTemplateSettingController.cs" />
-    <Compile Include="Controllers\Export\ExportCommentReportController.cs" />
-    <Compile Include="Controllers\Export\ExportAssessmentController.cs" />
-    <Compile Include="Controllers\Export\ExportJLSPeriodEmployeeSettingController.cs" />
-    <Compile Include="Controllers\Export\ExportJLSTemplateSettingController.cs" />
-    <Compile Include="Controllers\Export\ExportRecommendationReportController.cs" />
-    <Compile Include="Controllers\Export\ExportTargetTemplateController.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs">
-      <!-- Exclude the file from analysis -->
-      <SonarQubeExclude>true</SonarQubeExclude>
-    </Compile>
+    <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform">
+      <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\BundleEntensions.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
-    <Compile Include="Controllers\API\DisciplineController.cs" />
     <Compile Include="Controllers\API\BaseController.cs" />
     <Compile Include="Controllers\API\CommonController.cs" />
     <Compile Include="Controllers\API\DashboardController.cs" />
     <Compile Include="Controllers\API\DepartmentController.cs" />
-    <Compile Include="Controllers\API\UpdateFinalScoreController.cs" />
-    <Compile Include="Controllers\API\ManagementEPAController.cs" />
-    <Compile Include="Controllers\API\ReviewerEPAController.cs" />
+    <Compile Include="Controllers\API\DepartmentFlowController.cs" />
+    <Compile Include="Controllers\API\DisciplineController.cs" />
+    <Compile Include="Controllers\API\EmployeeController.cs" />
+    <Compile Include="Controllers\API\EPAHistoryController.cs" />
+    <Compile Include="Controllers\API\EvaluationController.cs" />
     <Compile Include="Controllers\API\EvaluatorByKPIController.cs" />
     <Compile Include="Controllers\API\EvaluatorEPAController.cs" />
-    <Compile Include="Controllers\API\EvaluationController.cs" />
-    <Compile Include="Controllers\API\EPAHistoryController.cs" />
-    <Compile Include="Controllers\API\DepartmentFlowController.cs" />
     <Compile Include="Controllers\API\FlowTemplateController.cs" />
-    <Compile Include="Controllers\API\PersonalFlowController.cs" />
+    <Compile Include="Controllers\API\JobDescriptionController.cs" />
+    <Compile Include="Controllers\API\JobLevelController.cs" />
+    <Compile Include="Controllers\API\JobLevelStandard\JobLevelAssessmentController.cs" />
+    <Compile Include="Controllers\API\JobLevelStandard\JobLevelAssessmentReportController.cs" />
+    <Compile Include="Controllers\API\JobLevelStandard\JobLevelSettingController.cs" />
+    <Compile Include="Controllers\API\JobLevelStandard\JobLevelStandardKPIController.cs" />
+    <Compile Include="Controllers\API\JobLevelStandard\JobLevelStandardPeriodController.cs" />
+    <Compile Include="Controllers\API\JobLevelStandard\JobLevelStandardTemplateController.cs" />
+    <Compile Include="Controllers\API\JobLevelStandard\JobLevelStandardTemplateSettingController.cs" />
     <Compile Include="Controllers\API\KPIController.cs" />
-    <Compile Include="Controllers\API\EmployeeController.cs" />
     <Compile Include="Controllers\API\KPIGroupController.cs" />
+    <Compile Include="Controllers\API\ManagementEPAController.cs" />
     <Compile Include="Controllers\API\MonthlyPeriodController.cs" />
     <Compile Include="Controllers\API\PeriodController.cs" />
+    <Compile Include="Controllers\API\PersonalFlowController.cs" />
     <Compile Include="Controllers\API\ReportController.cs" />
     <Compile Include="Controllers\API\ResourcesController.cs" />
+    <Compile Include="Controllers\API\ReviewerEPAController.cs" />
+    <Compile Include="Controllers\API\RoleController.cs" />
     <Compile Include="Controllers\API\SelfEvaluationController.cs" />
     <Compile Include="Controllers\API\TargetEmployeeSettingController.cs" />
     <Compile Include="Controllers\API\TargetTemplateController.cs" />
-    <Compile Include="Controllers\API\RoleController.cs" />
-    <Compile Include="Controllers\Export\ExportPdfController.cs" />
-    <Compile Include="Controllers\Export\ExportReportController.cs" />
-    <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\API\UpdateFinalScoreController.cs" />
     <Compile Include="Controllers\AuthController.cs" />
+    <Compile Include="Controllers\Export\ExportAssessmentController.cs" />
+    <Compile Include="Controllers\Export\ExportCommentReportController.cs" />
+    <Compile Include="Controllers\Export\ExportJLSPeriodEmployeeSettingController.cs" />
+    <Compile Include="Controllers\Export\ExportJLSTemplateSettingController.cs" />
+    <Compile Include="Controllers\Export\ExportPdfController.cs" />
+    <Compile Include="Controllers\Export\ExportRecommendationReportController.cs" />
+    <Compile Include="Controllers\Export\ExportReportController.cs" />
+    <Compile Include="Controllers\Export\ExportTargetTemplateController.cs" />
+    <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="App_Data\SpNames.xml">
-      <SubType>Designer</SubType>
-    </Content>
+    <Content Include="App_Data\SpNames.xml" />
     <Content Include="Avatars\avatar.jpg" />
     <Content Include="Content\Common\angular-multi-select.css" />
     <Content Include="Content\Common\chosen-sprite.png" />
@@ -349,6 +340,7 @@
     <Content Include="Content\Site\auth\images\icon-error.png" />
     <Content Include="Content\Site\auth\images\icon-pass.png" />
     <Content Include="Content\Site\auth\images\icon-user.png" />
+    <Content Include="Content\Site\auth\images\lock-icon.png" />
     <Content Include="Content\Site\auth\images\signin_icon.png" />
     <Content Include="Content\Site\auth\images\titlebg.png" />
     <Content Include="Content\Site\images\bg-login.png" />
@@ -357,6 +349,7 @@
     <Content Include="Content\Site\images\checkbox_yes.png" />
     <Content Include="Content\Site\images\CTI-logo.png" />
     <Content Include="Content\Site\images\CTS-logo.png" />
+    <Content Include="Content\Site\images\epa_logo.png" />
     <Content Include="Content\Site\images\excel-icon.png" />
     <Content Include="Content\Site\images\GROUP-logo.png" />
     <Content Include="Content\Site\images\GWI-logo.png" />
@@ -366,20 +359,19 @@
     <Content Include="Content\Site\images\icon_sprite.png" />
     <Content Include="Content\Site\images\Lexfin-logo.png" />
     <Content Include="Content\Site\images\line-menu.png" />
-    <Content Include="Content\Site\auth\images\lock-icon.png" />
+    <Content Include="Content\Site\images\minus-icon.gif" />
     <Content Include="Content\Site\images\pdf-icon-inactive.png" />
     <Content Include="Content\Site\images\pdf-icon.png" />
+    <Content Include="Content\Site\images\plus-icon.gif" />
     <Content Include="Content\Site\images\radiobutton_no.png" />
     <Content Include="Content\Site\images\radiobutton_yes.png" />
-    <Content Include="Content\Site\images\epa_logo.png" />
-    <Content Include="Content\Site\images\minus-icon.gif" />
-    <Content Include="Content\Site\images\plus-icon.gif" />
     <Content Include="Content\Site\images\save_submit.png" />
     <Content Include="Content\Site\images\sort-icon.png" />
     <Content Include="Content\Site\images\sprite_ico_2012-05-15.png" />
     <Content Include="Content\Site\images\sprite_process.png" />
     <Content Include="Content\Site\images\success.png" />
     <Content Include="Content\Site\images\user.png" />
+    <Content Include="Content\Site\pdf.css" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Libs\angular-chosen.js" />
@@ -482,147 +474,214 @@
     <Content Include="Libs\ui-bootstrap-contextMenu.js" />
     <Content Include="Libs\ui-bootstrap-tpls-2.5.0.js" />
     <Content Include="Libs\ui-bootstrap-tpls-2.5.0.min.js" />
-    <Content Include="Libs\_references.js" />
-    <Content Include="logs\log.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
+    <Content Include="Dockerfile" />
+    <Content Include="WhoAmI.aspx" />
+    <None Include="BundleTransformer.Configuration.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Libs\_references.js" />
+    <Content Include="logs\log.txt" />
     <Content Include="SourceApp\app.js" />
-    <Content Include="SourceApp\Components\Dashboard\Templates\announcement.html" />
-    <Content Include="SourceApp\Components\Dashboard\Templates\JLSDashboard.html" />
-    <Content Include="SourceApp\Components\Dashboard\Templates\todoList.html" />
-    <Content Include="SourceApp\Components\Discipline\discipline-summary-controller.js" />
-    <Content Include="SourceApp\Components\Discipline\discipline-summary-directive.js" />
-    <Content Include="SourceApp\Components\Discipline\Templates\index.html" />
-    <Content Include="SourceApp\Components\Dashboard\dashboard-controller.js" />
+    <Content Include="SourceApp\Components\Common\common-factory.js" />
+    <Content Include="SourceApp\Components\Common\common-model.js" />
+    <Content Include="SourceApp\Components\Dashboard\dashBoard-controller.js" />
     <Content Include="SourceApp\Components\Dashboard\dashboard-factory.js" />
     <Content Include="SourceApp\Components\Dashboard\dashboard-model.js" />
+    <Content Include="SourceApp\Components\Dashboard\Templates\announcement.html" />
     <Content Include="SourceApp\Components\Dashboard\Templates\evaluationProcess.html" />
     <Content Include="SourceApp\Components\Dashboard\Templates\index.html" />
+    <Content Include="SourceApp\Components\Dashboard\Templates\JLSDashboard.html" />
     <Content Include="SourceApp\Components\Dashboard\Templates\monthlyEPA.html" />
     <Content Include="SourceApp\Components\Dashboard\Templates\myEPA.html" />
     <Content Include="SourceApp\Components\Dashboard\Templates\personalProfile.html" />
+    <Content Include="SourceApp\Components\Dashboard\Templates\todoList.html" />
     <Content Include="SourceApp\Components\Department\department-controller.js" />
     <Content Include="SourceApp\Components\Department\department-directive.js" />
     <Content Include="SourceApp\Components\Department\department-factory.js" />
     <Content Include="SourceApp\Components\Department\department-model.js" />
     <Content Include="SourceApp\Components\Department\Templates\index.html" />
     <Content Include="SourceApp\Components\Department\Templates\tree.html" />
+    <Content Include="SourceApp\Components\Discipline\discipline-summary-by-period-controller.js" />
     <Content Include="SourceApp\Components\Discipline\discipline-summary-by-period-directive.js" />
+    <Content Include="SourceApp\Components\Discipline\discipline-summary-controller.js" />
+    <Content Include="SourceApp\Components\Discipline\discipline-summary-directive.js" />
     <Content Include="SourceApp\Components\Discipline\discipline-summary-factory.js" />
     <Content Include="SourceApp\Components\Discipline\discipline-summary-model.js" />
-    <Content Include="SourceApp\Components\Discipline\discipline-summary-by-period-controller.js" />
     <Content Include="SourceApp\Components\Discipline\Templates\disciplineSummary.html" />
+    <Content Include="SourceApp\Components\Discipline\Templates\index.html" />
     <Content Include="SourceApp\Components\Employee\assign-role-controller.js" />
-    <Content Include="SourceApp\Components\Employee\edit-job-level-controller.js" />
-    <Content Include="SourceApp\Components\Employee\export-employee-info-directive.js" />
-    <Content Include="SourceApp\Components\Employee\set-monthly-evaluation-controller.js" />
-    <Content Include="SourceApp\Components\Employee\employee-profile-controller.js" />
-    <Content Include="SourceApp\Components\Employee\reset-password-controller.js" />
     <Content Include="SourceApp\Components\Employee\change-password-controller.js" />
-    <Content Include="SourceApp\Components\Employee\Templates\edit-job-level.html" />
-    <Content Include="SourceApp\Components\Employee\update-employee-controller.js" />
-    <Content Include="SourceApp\Components\Employee\employee-access-controller.js" />
-    <Content Include="SourceApp\Components\Employee\get-employee-permission-directive.js" />
-    <Content Include="SourceApp\Components\Employee\Templates\assignRole.html" />
-    <Content Include="SourceApp\Components\Employee\Templates\changePassword.html" />
-    <Content Include="SourceApp\Components\Common\common-factory.js" />
-    <Content Include="SourceApp\Components\Common\common-model.js" />
     <Content Include="SourceApp\Components\Employee\create-employee-controller.js" />
+    <Content Include="SourceApp\Components\Employee\edit-job-level-controller.js" />
+    <Content Include="SourceApp\Components\Employee\employee-access-controller.js" />
     <Content Include="SourceApp\Components\Employee\employee-factory.js" />
     <Content Include="SourceApp\Components\Employee\employee-model.js" />
+    <Content Include="SourceApp\Components\Employee\employee-profile-controller.js" />
+    <Content Include="SourceApp\Components\Employee\export-employee-info-directive.js" />
+    <Content Include="SourceApp\Components\Employee\get-employee-permission-directive.js" />
+    <Content Include="SourceApp\Components\Employee\reset-password-controller.js" />
+    <Content Include="SourceApp\Components\Employee\set-monthly-evaluation-controller.js" />
+    <Content Include="SourceApp\Components\Employee\Templates\assignRole.html" />
+    <Content Include="SourceApp\Components\Employee\Templates\changePassword.html" />
     <Content Include="SourceApp\Components\Employee\Templates\create.html" />
+    <Content Include="SourceApp\Components\Employee\Templates\edit-job-level.html" />
     <Content Include="SourceApp\Components\Employee\Templates\edit.html" />
     <Content Include="SourceApp\Components\Employee\Templates\index.html" />
     <Content Include="SourceApp\Components\Employee\Templates\modalConfirmSetUnsetMonthlyEvaluation.html" />
     <Content Include="SourceApp\Components\Employee\Templates\resetPassword.html" />
+    <Content Include="SourceApp\Components\Employee\update-employee-controller.js" />
+    <Content Include="SourceApp\Components\EPAHistory\epaHistory-controller.js" />
+    <Content Include="SourceApp\Components\EPAHistory\epaHistory-factory.js" />
+    <Content Include="SourceApp\Components\EPAHistory\epaHistory-model.js" />
+    <Content Include="SourceApp\Components\EPAHistory\monthlyEPAHistory-controller.js" />
+    <Content Include="SourceApp\Components\EPAHistory\Templates\epaHistory.html" />
     <Content Include="SourceApp\Components\EPAHistory\Templates\monthlyEPAHistory.html" />
-    <Content Include="SourceApp\Components\EPA\Evaluator\Templates\recommendationForProbationAndPromotion.html" />
-    <Content Include="SourceApp\Components\EPA\Evaluator\Templates\recommendationForSemi.html" />
-    <Content Include="SourceApp\Components\EPA\Share\Controllers\epa-detail-controller.js" />
-    <Content Include="SourceApp\Components\EPA\Share\Directives\job-description-directive.js" />
-    <Content Include="SourceApp\Components\EPA\Share\Directives\repeat-end-directive.js" />
-    <Content Include="SourceApp\Components\EPA\Share\Directives\auto-collapse-directive.js" />
-    <Content Include="SourceApp\Components\EPA\Share\Directives\performance-grade-directive.js" />
-    <Content Include="SourceApp\Components\EPA\Share\Directives\monthly-epa-result-directive.js" />
-    <Content Include="SourceApp\Components\EPA\Share\Directives\performance-detail-directive.js" />
-    <Content Include="SourceApp\Components\EPA\Share\Directives\recommendation-directive.js" />
-    <Content Include="SourceApp\Components\EPA\Share\Directives\semi-performance-result-directive.js" />
-    <Content Include="SourceApp\Components\EPA\Share\Directives\Templates\performanceDetails.tmpl.html" />
-    <Content Include="SourceApp\Components\EPA\Share\Directives\Templates\performanceGrade.tmpl.html" />
-    <Content Include="SourceApp\Components\EPA\Share\Directives\performance-result-directive.js" />
-    <Content Include="SourceApp\Components\EPA\Share\Directives\rating-instruction-directive.js" />
-    <Content Include="SourceApp\Components\EPA\Share\Directives\evaluation-process-directive.js" />
-    <Content Include="SourceApp\Components\EPA\Share\Directives\general-info-directive.js" />
-    <Content Include="SourceApp\Components\EPA\Share\Directives\Templates\job-description.tmpl.html" />
-    <Content Include="SourceApp\Components\EPA\Share\Directives\Templates\recommendation.tmpl.html" />
-    <Content Include="SourceApp\Components\EPA\Share\Directives\Templates\semiPerformanceResult.tmpl.html" />
+    <Content Include="SourceApp\Components\EPA\Convert\convertEPA-controller.js" />
+    <Content Include="SourceApp\Components\EPA\Convert\Templates\detail.html" />
+    <Content Include="SourceApp\Components\EPA\EPAByKPI\EPAByKPI-controller.js" />
+    <Content Include="SourceApp\Components\EPA\EPAByKPI\EPAByKPI-factory.js" />
+    <Content Include="SourceApp\Components\EPA\EPAByKPI\EPAByKPI-model.js" />
+    <Content Include="SourceApp\Components\EPA\EPAByKPI\Templates\index.html" />
+    <Content Include="SourceApp\Components\EPA\evaluation-controller.js" />
+    <Content Include="SourceApp\Components\EPA\evaluation-factory.js" />
+    <Content Include="SourceApp\Components\EPA\evaluation-model.js" />
     <Content Include="SourceApp\Components\EPA\Evaluator\evaluator-access-controller.js" />
+    <Content Include="SourceApp\Components\EPA\Evaluator\evaluator-detail-controller.js" />
     <Content Include="SourceApp\Components\EPA\Evaluator\evaluator-epa-factory.js" />
     <Content Include="SourceApp\Components\EPA\Evaluator\evaluator-epa-model.js" />
+    <Content Include="SourceApp\Components\EPA\Evaluator\Templates\detail.html" />
+    <Content Include="SourceApp\Components\EPA\Evaluator\Templates\index.html" />
+    <Content Include="SourceApp\Components\EPA\Evaluator\Templates\listKPI.html" />
+    <Content Include="SourceApp\Components\EPA\Evaluator\Templates\recommendationForProbationAndPromotion.html" />
+    <Content Include="SourceApp\Components\EPA\Evaluator\Templates\recommendationForSemi.html" />
+    <Content Include="SourceApp\Components\EPA\Evaluator\Templates\summary.html" />
     <Content Include="SourceApp\Components\EPA\Management\management-access-controller.js" />
+    <Content Include="SourceApp\Components\EPA\Management\management-detail-controller.js" />
     <Content Include="SourceApp\Components\EPA\Management\management-epa-factory.js" />
     <Content Include="SourceApp\Components\EPA\Management\management-epa-model.js" />
-    <Content Include="SourceApp\Components\EPA\Reviewer\reviewer-epa-model.js" />
-    <Content Include="SourceApp\Components\EPA\Reviewer\reviewer-epa-factory.js" />
+    <Content Include="SourceApp\Components\EPA\Management\Templates\detail.html" />
+    <Content Include="SourceApp\Components\EPA\Management\Templates\index.html" />
+    <Content Include="SourceApp\Components\EPA\Management\Templates\performanceResult.html" />
+    <Content Include="SourceApp\Components\EPA\Management\Templates\semiPerformanceResult.html" />
+    <Content Include="SourceApp\Components\EPA\RatingByKPI\rating-by-kpi-controller.js" />
+    <Content Include="SourceApp\Components\EPA\RatingByKPI\rating-by-kpi-factory.js" />
+    <Content Include="SourceApp\Components\EPA\RatingByKPI\rating-by-kpi-model.js" />
+    <Content Include="SourceApp\Components\EPA\RatingByKPI\Templates\index.html" />
+    <Content Include="SourceApp\Components\EPA\RatingByKPI\Templates\modalConfirmSaveChanges.html" />
+    <Content Include="SourceApp\Components\EPA\ResetScore\resetScore-controller.js" />
+    <Content Include="SourceApp\Components\EPA\ResetScore\Templates\detail.html" />
+    <Content Include="SourceApp\Components\EPA\reviewer-management-model.js" />
     <Content Include="SourceApp\Components\EPA\Reviewer\reviewer-access-controller.js" />
-    <Content Include="SourceApp\Components\EPA\Reviewer\Templates\recommendationForSemi.html" />
+    <Content Include="SourceApp\Components\EPA\Reviewer\reviewer-detail-controller.js" />
+    <Content Include="SourceApp\Components\EPA\Reviewer\reviewer-epa-factory.js" />
+    <Content Include="SourceApp\Components\EPA\Reviewer\reviewer-epa-model.js" />
+    <Content Include="SourceApp\Components\EPA\Reviewer\Templates\detail.html" />
+    <Content Include="SourceApp\Components\EPA\Reviewer\Templates\index.html" />
+    <Content Include="SourceApp\Components\EPA\Reviewer\Templates\performanceResult.html" />
     <Content Include="SourceApp\Components\EPA\Reviewer\Templates\recommendationForProbationAndPromotion.html" />
-    <Content Include="SourceApp\Components\EPA\Self\self-evaluation-factory.js" />
+    <Content Include="SourceApp\Components\EPA\Reviewer\Templates\recommendationForSemi.html" />
+    <Content Include="SourceApp\Components\EPA\Reviewer\Templates\semiPerformanceResult.html" />
+    <Content Include="SourceApp\Components\EPA\self-evaluator-model.js" />
+    <Content Include="SourceApp\Components\EPA\Self\self-evaluation-access-controller.js" />
     <Content Include="SourceApp\Components\EPA\Self\self-evaluation-detail-controller.js" />
+    <Content Include="SourceApp\Components\EPA\Self\self-evaluation-factory.js" />
     <Content Include="SourceApp\Components\EPA\Self\self-evaluation-model.js" />
+    <Content Include="SourceApp\Components\EPA\Self\Templates\detail.html" />
+    <Content Include="SourceApp\Components\EPA\Self\Templates\index.html" />
+    <Content Include="SourceApp\Components\EPA\Self\Templates\listKPI.html" />
+    <Content Include="SourceApp\Components\EPA\Self\Templates\summary.html" />
+    <Content Include="SourceApp\Components\EPA\Share\Controllers\epa-detail-controller.js" />
+    <Content Include="SourceApp\Components\EPA\Share\Directives\auto-collapse-directive.js" />
+    <Content Include="SourceApp\Components\EPA\Share\Directives\evaluation-process-directive.js" />
+    <Content Include="SourceApp\Components\EPA\Share\Directives\general-info-directive.js" />
+    <Content Include="SourceApp\Components\EPA\Share\Directives\job-description-directive.js" />
+    <Content Include="SourceApp\Components\EPA\Share\Directives\monthly-epa-result-directive.js" />
+    <Content Include="SourceApp\Components\EPA\Share\Directives\performance-detail-directive.js" />
+    <Content Include="SourceApp\Components\EPA\Share\Directives\performance-grade-directive.js" />
+    <Content Include="SourceApp\Components\EPA\Share\Directives\performance-result-directive.js" />
+    <Content Include="SourceApp\Components\EPA\Share\Directives\rating-instruction-directive.js" />
+    <Content Include="SourceApp\Components\EPA\Share\Directives\recommendation-directive.js" />
+    <Content Include="SourceApp\Components\EPA\Share\Directives\repeat-end-directive.js" />
+    <Content Include="SourceApp\Components\EPA\Share\Directives\semi-performance-result-directive.js" />
     <Content Include="SourceApp\Components\EPA\Share\Directives\Templates\evaluationProcess.tmpl.html" />
     <Content Include="SourceApp\Components\EPA\Share\Directives\Templates\generalInfo.tmpl.html" />
+    <Content Include="SourceApp\Components\EPA\Share\Directives\Templates\job-description.tmpl.html" />
+    <Content Include="SourceApp\Components\EPA\Share\Directives\Templates\monthlyEPAs.tmpl.html" />
+    <Content Include="SourceApp\Components\EPA\Share\Directives\Templates\performanceDetails.tmpl.html" />
+    <Content Include="SourceApp\Components\EPA\Share\Directives\Templates\performanceGrade.tmpl.html" />
     <Content Include="SourceApp\Components\EPA\Share\Directives\Templates\performanceResult.tmpl.html" />
+    <Content Include="SourceApp\Components\EPA\Share\Directives\Templates\ratingInstruction.tmpl.html" />
+    <Content Include="SourceApp\Components\EPA\Share\Directives\Templates\recommendation.tmpl.html" />
+    <Content Include="SourceApp\Components\EPA\Share\Directives\Templates\semiPerformanceResult.tmpl.html" />
     <Content Include="SourceApp\Components\EPA\Share\Filters\custom-score-filter.js" />
     <Content Include="SourceApp\Components\EPA\Share\Filters\split-score-filter.js" />
-    <Content Include="SourceApp\Components\EPA\UpdateFinalScore\update-final-score-model.js" />
-    <Content Include="SourceApp\Components\EPA\UpdateFinalScore\update-final-score-factory.js" />
+    <Content Include="SourceApp\Components\EPA\Templates\modalAdjustScore.html" />
+    <Content Include="SourceApp\Components\EPA\Templates\modalNotification.html" />
+    <Content Include="SourceApp\Components\EPA\Templates\modalRemindSaveChange.html" />
+    <Content Include="SourceApp\Components\EPA\Templates\modalUpdateComment.html" />
+    <Content Include="SourceApp\Components\EPA\Templates\viewDetail.html" />
     <Content Include="SourceApp\Components\EPA\UpdateFinalScore\export-excel-directive.js" />
-    <Content Include="SourceApp\Components\FlowManagement\export-department-flow-setting-directive.js" />
-    <Content Include="SourceApp\Components\FlowManagement\export-personal-flow-setting-directive.js" />
-    <Content Include="SourceApp\Components\FlowManagement\update-flowTemplate-basic-info-controller.js" />
-    <Content Include="SourceApp\Components\FlowManagement\update-flowTemplate-controller.js" />
+    <Content Include="SourceApp\Components\EPA\UpdateFinalScore\Templates\index.html" />
+    <Content Include="SourceApp\Components\EPA\UpdateFinalScore\update-final-score-controller.js" />
+    <Content Include="SourceApp\Components\EPA\UpdateFinalScore\update-final-score-factory.js" />
+    <Content Include="SourceApp\Components\EPA\UpdateFinalScore\update-final-score-model.js" />
     <Content Include="SourceApp\Components\FlowManagement\create-flowTemplate-controller.js" />
-    <Content Include="SourceApp\Components\FlowManagement\personalFlow-model.js" />
-    <Content Include="SourceApp\Components\FlowManagement\personalFlow-factory.js" />
+    <Content Include="SourceApp\Components\FlowManagement\departmentFlow-controller.js" />
     <Content Include="SourceApp\Components\FlowManagement\departmentFlow-factory.js" />
     <Content Include="SourceApp\Components\FlowManagement\departmentFlow-model.js" />
+    <Content Include="SourceApp\Components\FlowManagement\export-department-flow-setting-directive.js" />
+    <Content Include="SourceApp\Components\FlowManagement\export-personal-flow-setting-directive.js" />
     <Content Include="SourceApp\Components\FlowManagement\flowSetting-model.js" />
-    <Content Include="SourceApp\Components\FlowManagement\flowTemplate-model.js" />
+    <Content Include="SourceApp\Components\FlowManagement\flowTemplate-access-controller.js" />
     <Content Include="SourceApp\Components\FlowManagement\flowTemplate-factory.js" />
+    <Content Include="SourceApp\Components\FlowManagement\flowTemplate-model.js" />
+    <Content Include="SourceApp\Components\FlowManagement\personalFlow-controller.js" />
+    <Content Include="SourceApp\Components\FlowManagement\personalFlow-factory.js" />
+    <Content Include="SourceApp\Components\FlowManagement\personalFlow-model.js" />
+    <Content Include="SourceApp\Components\FlowManagement\resultSettingFlow-controller.js" />
+    <Content Include="SourceApp\Components\FlowManagement\Templates\departmentFlow.html" />
+    <Content Include="SourceApp\Components\FlowManagement\Templates\generalInformation.html" />
+    <Content Include="SourceApp\Components\FlowManagement\Templates\index.html" />
     <Content Include="SourceApp\Components\FlowManagement\Templates\modalCreateFlowTemplate.html" />
+    <Content Include="SourceApp\Components\FlowManagement\Templates\personalFlow.html" />
+    <Content Include="SourceApp\Components\FlowManagement\Templates\resultSetting.html" />
+    <Content Include="SourceApp\Components\FlowManagement\Templates\update.html" />
+    <Content Include="SourceApp\Components\FlowManagement\update-flowTemplate-basic-info-controller.js" />
+    <Content Include="SourceApp\Components\FlowManagement\update-flowTemplate-controller.js" />
+    <Content Include="SourceApp\Components\JobDescription\copy-group-setting-controller.js" />
     <Content Include="SourceApp\Components\JobDescription\copy-personnel-setting-controller.js" />
+    <Content Include="SourceApp\Components\JobDescription\create-job-description-group-item-controller.js" />
     <Content Include="SourceApp\Components\JobDescription\create-job-description-item-controller.js" />
     <Content Include="SourceApp\Components\JobDescription\Directives\sortable-directive.js" />
-    <Content Include="SourceApp\Components\JobDescription\copy-group-setting-controller.js" />
-    <Content Include="SourceApp\Components\JobDescription\Templates\copy-personal-setting.html" />
-    <Content Include="SourceApp\Components\JobDescription\Templates\create-job-description-item.html" />
-    <Content Include="SourceApp\Components\JobDescription\Templates\edit-job-description-item.html" />
-    <Content Include="SourceApp\Components\JobDescription\edit-job-description-item-controller.js" />
-    <Content Include="SourceApp\Components\JobDescription\edit-job-description-group-item-controller.js" />
-    <Content Include="SourceApp\Components\JobDescription\create-job-description-group-item-controller.js" />
     <Content Include="SourceApp\Components\JobDescription\edit-group-setting-controller.js" />
+    <Content Include="SourceApp\Components\JobDescription\edit-job-description-group-item-controller.js" />
+    <Content Include="SourceApp\Components\JobDescription\edit-job-description-item-controller.js" />
+    <Content Include="SourceApp\Components\JobDescription\edit-personnel-setting-controller.js" />
+    <Content Include="SourceApp\Components\JobDescription\group-setting-controller.js" />
     <Content Include="SourceApp\Components\JobDescription\job-description-controller.js" />
     <Content Include="SourceApp\Components\JobDescription\job-description-factory.js" />
     <Content Include="SourceApp\Components\JobDescription\job-description-model.js" />
-    <Content Include="SourceApp\Components\JobDescription\edit-personnel-setting-controller.js" />
     <Content Include="SourceApp\Components\JobDescription\personnel-setting-controller.js" />
-    <Content Include="SourceApp\Components\JobDescription\group-setting-controller.js" />
-    <Content Include="SourceApp\Components\JobDescription\Templates\edit-job-description-group-item.html" />
     <Content Include="SourceApp\Components\JobDescription\Templates\copy-group-setting.html" />
+    <Content Include="SourceApp\Components\JobDescription\Templates\copy-personal-setting.html" />
     <Content Include="SourceApp\Components\JobDescription\Templates\create-job-description-group-item.html" />
+    <Content Include="SourceApp\Components\JobDescription\Templates\create-job-description-item.html" />
     <Content Include="SourceApp\Components\JobDescription\Templates\edit-group.html" />
-    <Content Include="SourceApp\Components\JobDescription\Templates\index.html" />
+    <Content Include="SourceApp\Components\JobDescription\Templates\edit-job-description-group-item.html" />
+    <Content Include="SourceApp\Components\JobDescription\Templates\edit-job-description-item.html" />
     <Content Include="SourceApp\Components\JobDescription\Templates\edit-personal.html" />
+    <Content Include="SourceApp\Components\JobDescription\Templates\group.html" />
+    <Content Include="SourceApp\Components\JobDescription\Templates\index.html" />
+    <Content Include="SourceApp\Components\JobDescription\Templates\personal.html" />
+    <Content Include="SourceApp\Components\JobLevelStandard\Assessment\assessment-controller.js" />
     <Content Include="SourceApp\Components\JobLevelStandard\Assessment\assessment-factory.js" />
     <Content Include="SourceApp\Components\JobLevelStandard\Assessment\assessment-model.js" />
-    <Content Include="SourceApp\Components\JobLevelStandard\Assessment\assessment-controller.js" />
     <Content Include="SourceApp\Components\JobLevelStandard\Assessment\Templates\index.html" />
     <Content Include="SourceApp\Components\JobLevelStandard\JobLevelSetting\copy-job-level-setting-controller.js" />
     <Content Include="SourceApp\Components\JobLevelStandard\JobLevelSetting\edit-job-level-setting-controller.js" />
+    <Content Include="SourceApp\Components\JobLevelStandard\JobLevelSetting\job-level-setting-controller.js" />
     <Content Include="SourceApp\Components\JobLevelStandard\JobLevelSetting\job-level-setting-factory.js" />
     <Content Include="SourceApp\Components\JobLevelStandard\JobLevelSetting\job-level-setting-model.js" />
-    <Content Include="SourceApp\Components\JobLevelStandard\JobLevelSetting\job-level-setting-controller.js" />
     <Content Include="SourceApp\Components\JobLevelStandard\JobLevelSetting\Templates\copy.html" />
     <Content Include="SourceApp\Components\JobLevelStandard\JobLevelSetting\Templates\edit.html" />
     <Content Include="SourceApp\Components\JobLevelStandard\JobLevelSetting\Templates\index.html" />
@@ -634,17 +693,19 @@
     <Content Include="SourceApp\Components\JobLevelStandard\KPI\Templates\edit.html" />
     <Content Include="SourceApp\Components\JobLevelStandard\KPI\Templates\index.html" />
     <Content Include="SourceApp\Components\JobLevelStandard\KPI\update-kpi-controller.js" />
-    <Content Include="SourceApp\Components\JobLevelStandard\Period\update-job-level-controller.js" />
-    <Content Include="SourceApp\Components\JobLevelStandard\Period\copy-job-level-setting-controller.js" />
     <Content Include="SourceApp\Components\JobLevelStandard\Period\add-employee-setting-controller.js" />
+    <Content Include="SourceApp\Components\JobLevelStandard\Period\copy-job-level-setting-controller.js" />
     <Content Include="SourceApp\Components\JobLevelStandard\Period\create-period-controller.js" />
+    <Content Include="SourceApp\Components\JobLevelStandard\Period\edit-basic-info-controller.js" />
+    <Content Include="SourceApp\Components\JobLevelStandard\Period\edit-employee-setting-controller.js" />
     <Content Include="SourceApp\Components\JobLevelStandard\Period\edit-job-level-setting-controller.js" />
+    <Content Include="SourceApp\Components\JobLevelStandard\Period\edit-period-controller.js" />
     <Content Include="SourceApp\Components\JobLevelStandard\Period\employee-setting-controller.js" />
     <Content Include="SourceApp\Components\JobLevelStandard\Period\job-level-setting-controller.js" />
     <Content Include="SourceApp\Components\JobLevelStandard\Period\period-controller.js" />
     <Content Include="SourceApp\Components\JobLevelStandard\Period\period-factory.js" />
     <Content Include="SourceApp\Components\JobLevelStandard\Period\period-model.js" />
-    <Content Include="SourceApp\Components\JobLevelStandard\Period\Templates\updateJobLevel.html" />
+    <Content Include="SourceApp\Components\JobLevelStandard\Period\Templates\addEmployeeSetting.html" />
     <Content Include="SourceApp\Components\JobLevelStandard\Period\Templates\basicInfo.html" />
     <Content Include="SourceApp\Components\JobLevelStandard\Period\Templates\copyJobLevelSetting.html" />
     <Content Include="SourceApp\Components\JobLevelStandard\Period\Templates\create.html" />
@@ -652,28 +713,21 @@
     <Content Include="SourceApp\Components\JobLevelStandard\Period\Templates\editEmployeeSetting.html" />
     <Content Include="SourceApp\Components\JobLevelStandard\Period\Templates\editJobLevelSetting.html" />
     <Content Include="SourceApp\Components\JobLevelStandard\Period\Templates\employeeSetting.html" />
-    <Content Include="SourceApp\Components\JobLevelStandard\Period\Templates\jobLevelSetting.html" />
     <Content Include="SourceApp\Components\JobLevelStandard\Period\Templates\index.html" />
-    <Content Include="SourceApp\Components\JobLevelStandard\Period\edit-period-controller.js" />
-    <Content Include="SourceApp\Components\JobLevelStandard\Period\edit-basic-info-controller.js" />
-    <Content Include="SourceApp\Components\JobLevelStandard\Period\edit-employee-setting-controller.js" />
+    <Content Include="SourceApp\Components\JobLevelStandard\Period\Templates\jobLevelSetting.html" />
+    <Content Include="SourceApp\Components\JobLevelStandard\Period\Templates\updateJobLevel.html" />
+    <Content Include="SourceApp\Components\JobLevelStandard\Period\update-job-level-controller.js" />
     <Content Include="SourceApp\Components\JobLevelStandard\Report\assessment-report-controller.js" />
     <Content Include="SourceApp\Components\JobLevelStandard\Report\assessment-report-factory.js" />
     <Content Include="SourceApp\Components\JobLevelStandard\Report\assessment-report-model.js" />
     <Content Include="SourceApp\Components\JobLevelStandard\Report\Templates\index.html" />
-    <Content Include="SourceApp\Components\JobLevelStandard\TemplateSetting\section-setting-controller.js" />
-    <Content Include="SourceApp\Components\JobLevelStandard\TemplateSetting\templateSetting-controller.js" />
-    <Content Include="SourceApp\Components\JobLevelStandard\TemplateSetting\templateSetting-factory.js" />
-    <Content Include="SourceApp\Components\JobLevelStandard\TemplateSetting\templateSetting-model.js" />
-    <Content Include="SourceApp\Components\JobLevelStandard\TemplateSetting\Templates\index.html" />
-    <Content Include="SourceApp\Components\JobLevelStandard\TemplateSetting\Templates\section.html" />
     <Content Include="SourceApp\Components\JobLevelStandard\TargetTemplate\create-template-controller.js" />
     <Content Include="SourceApp\Components\JobLevelStandard\TargetTemplate\Directives\get-weight-directive.js" />
     <Content Include="SourceApp\Components\JobLevelStandard\TargetTemplate\Directives\sortable-directive.js" />
     <Content Include="SourceApp\Components\JobLevelStandard\TargetTemplate\general-info-controller.js" />
     <Content Include="SourceApp\Components\JobLevelStandard\TargetTemplate\kpi-list-controller.js" />
-    <Content Include="SourceApp\Components\JobLevelStandard\TargetTemplate\template-detail-controller.js" />
     <Content Include="SourceApp\Components\JobLevelStandard\TargetTemplate\template-access-controller.js" />
+    <Content Include="SourceApp\Components\JobLevelStandard\TargetTemplate\template-detail-controller.js" />
     <Content Include="SourceApp\Components\JobLevelStandard\TargetTemplate\template-factory.js" />
     <Content Include="SourceApp\Components\JobLevelStandard\TargetTemplate\template-model.js" />
     <Content Include="SourceApp\Components\JobLevelStandard\TargetTemplate\Templates\create.html" />
@@ -683,82 +737,127 @@
     <Content Include="SourceApp\Components\JobLevelStandard\TargetTemplate\Templates\KPIList.html" />
     <Content Include="SourceApp\Components\JobLevelStandard\TargetTemplate\Templates\update.html" />
     <Content Include="SourceApp\Components\JobLevelStandard\TargetTemplate\update-template-controller.js" />
+    <Content Include="SourceApp\Components\JobLevelStandard\TemplateSetting\section-setting-controller.js" />
+    <Content Include="SourceApp\Components\JobLevelStandard\TemplateSetting\templateSetting-controller.js" />
+    <Content Include="SourceApp\Components\JobLevelStandard\TemplateSetting\templateSetting-factory.js" />
+    <Content Include="SourceApp\Components\JobLevelStandard\TemplateSetting\templateSetting-model.js" />
+    <Content Include="SourceApp\Components\JobLevelStandard\TemplateSetting\Templates\index.html" />
+    <Content Include="SourceApp\Components\JobLevelStandard\TemplateSetting\Templates\section.html" />
     <Content Include="SourceApp\Components\JobLevel\create-job-level-controller.js" />
+    <Content Include="SourceApp\Components\JobLevel\edit-job-level-controller.js" />
     <Content Include="SourceApp\Components\JobLevel\job-level-controller.js" />
     <Content Include="SourceApp\Components\JobLevel\job-level-factory.js" />
     <Content Include="SourceApp\Components\JobLevel\job-level-model.js" />
     <Content Include="SourceApp\Components\JobLevel\Templates\create.html" />
     <Content Include="SourceApp\Components\JobLevel\Templates\edit.html" />
     <Content Include="SourceApp\Components\JobLevel\Templates\index.html" />
-    <Content Include="SourceApp\Components\JobLevel\edit-job-level-controller.js" />
-    <Content Include="SourceApp\Components\JobLevelStandard\Period\Templates\addEmployeeSetting.html" />
-    <Content Include="SourceApp\Components\MonthlyPeriod\add-employee-setting-controller.js" />
-    <Content Include="SourceApp\Components\MonthlyPeriod\Templates\addEmployeeSetting.html" />
-    <Content Include="SourceApp\Components\Period\add-employee-setting-controller.js" />
-    <Content Include="SourceApp\Components\Period\Templates\addEmployeeSetting.html" />
-    <Content Include="SourceApp\Components\TargetTemplate\Directives\get-group-weight-directive.js" />
-    <Content Include="SourceApp\Shared\Directives\epa-searchAutoComplete-directive.js" />
-    <Content Include="SourceApp\Shared\Directives\floatThead-directive.js" />
-    <Content Include="SourceApp\Shared\Directives\move-kpi-row-directive.js" />
-    <Content Include="SourceApp\Shared\Directives\popover-kpis-directive.js" />
-    <Content Include="SourceApp\Shared\Templates\modal-confirm-refresh-data.html" />
-    <Content Include="SourceApp\Components\JobDescription\Templates\personal.html" />
-    <Content Include="SourceApp\Components\JobDescription\Templates\group.html" />
     <Content Include="SourceApp\Components\KPIGroup\create-kpiGroup-controller.js" />
+    <Content Include="SourceApp\Components\KPIGroup\kpiGroup-access-controller.js" />
+    <Content Include="SourceApp\Components\KPIGroup\kpiGroup-factory.js" />
+    <Content Include="SourceApp\Components\KPIGroup\kpiGroup-model.js" />
+    <Content Include="SourceApp\Components\KPIGroup\Templates\create.html" />
+    <Content Include="SourceApp\Components\KPIGroup\Templates\edit.html" />
+    <Content Include="SourceApp\Components\KPIGroup\Templates\index.html" />
     <Content Include="SourceApp\Components\KPIGroup\update-kpiGroup-controller.js" />
     <Content Include="SourceApp\Components\KPI\create-kpi-controller.js" />
-    <Content Include="SourceApp\Components\KPI\update-kpi-controller.js" />
+    <Content Include="SourceApp\Components\KPI\kpi-access-controller.js" />
     <Content Include="SourceApp\Components\KPI\kpi-directive.js" />
-    <Content Include="SourceApp\Components\EPAHistory\monthlyEPAHistory-controller.js" />
-    <Content Include="SourceApp\Components\EPAHistory\epaHistory-controller.js" />
-    <Content Include="SourceApp\Components\EPAHistory\epaHistory-factory.js" />
-    <Content Include="SourceApp\Components\EPAHistory\epaHistory-model.js" />
-    <Content Include="SourceApp\Components\EPAHistory\Templates\epaHistory.html" />
-    <Content Include="SourceApp\Components\EPA\Convert\convertEPA-controller.js" />
-    <Content Include="SourceApp\Components\EPA\Convert\Templates\detail.html" />
-    <Content Include="SourceApp\Components\EPA\evaluation-controller.js" />
-    <Content Include="SourceApp\Components\EPA\evaluation-factory.js" />
-    <Content Include="SourceApp\Components\EPA\evaluation-model.js" />
-    <Content Include="SourceApp\Components\EPA\UpdateFinalScore\Templates\index.html" />
-    <Content Include="SourceApp\Components\EPA\UpdateFinalScore\update-final-score-controller.js" />
+    <Content Include="SourceApp\Components\KPI\kpi-factory.js" />
+    <Content Include="SourceApp\Components\KPI\kpi-model.js" />
+    <Content Include="SourceApp\Components\KPI\Templates\create.html" />
+    <Content Include="SourceApp\Components\KPI\Templates\edit.html" />
+    <Content Include="SourceApp\Components\KPI\Templates\index.html" />
+    <Content Include="SourceApp\Components\KPI\Templates\modalConfirmRequired.html" />
+    <Content Include="SourceApp\Components\KPI\update-kpi-controller.js" />
     <Content Include="SourceApp\Components\Menu\menu-controller.js" />
     <Content Include="SourceApp\Components\Menu\menu-tab-directive.js" />
     <Content Include="SourceApp\Components\Menu\Templates\index.html" />
-    <Content Include="SourceApp\Components\MonthlyPeriod\update-employee-setting-controller.js" />
-    <Content Include="SourceApp\Components\MonthlyPeriod\employee-setting-controller.js" />
-    <Content Include="SourceApp\Components\MonthlyPeriod\update-process-setting-controller.js" />
-    <Content Include="SourceApp\Components\MonthlyPeriod\update-basic-info-controller.js" />
-    <Content Include="SourceApp\Components\MonthlyPeriod\update-monthly-period-controller.js" />
+    <Content Include="SourceApp\Components\MonthlyPeriod\add-employee-setting-controller.js" />
     <Content Include="SourceApp\Components\MonthlyPeriod\create-monthly-period-controller.js" />
-    <Content Include="SourceApp\Components\Period\update-employee-setting-controller.js" />
-    <Content Include="SourceApp\Components\Period\update-process-setting-controller.js" />
-    <Content Include="SourceApp\Components\Period\update-basic-info-controller.js" />
-    <Content Include="SourceApp\Components\Period\update-period-controller.js" />
+    <Content Include="SourceApp\Components\MonthlyPeriod\employee-setting-controller.js" />
+    <Content Include="SourceApp\Components\MonthlyPeriod\monthly-period-controller.js" />
+    <Content Include="SourceApp\Components\MonthlyPeriod\monthly-period-directive.js" />
+    <Content Include="SourceApp\Components\MonthlyPeriod\monthly-period-factory.js" />
+    <Content Include="SourceApp\Components\MonthlyPeriod\monthly-period-model.js" />
+    <Content Include="SourceApp\Components\MonthlyPeriod\Templates\addEmployeeSetting.html" />
+    <Content Include="SourceApp\Components\MonthlyPeriod\Templates\basicInformation.html" />
+    <Content Include="SourceApp\Components\MonthlyPeriod\Templates\create.html" />
+    <Content Include="SourceApp\Components\MonthlyPeriod\Templates\edit.html" />
+    <Content Include="SourceApp\Components\MonthlyPeriod\Templates\editEmployeeSetting.html" />
+    <Content Include="SourceApp\Components\MonthlyPeriod\Templates\employeeSetting.html" />
+    <Content Include="SourceApp\Components\MonthlyPeriod\Templates\index.html" />
+    <Content Include="SourceApp\Components\MonthlyPeriod\Templates\processSetting.html" />
+    <Content Include="SourceApp\Components\MonthlyPeriod\update-basic-info-controller.js" />
+    <Content Include="SourceApp\Components\MonthlyPeriod\update-employee-setting-controller.js" />
+    <Content Include="SourceApp\Components\MonthlyPeriod\update-monthly-period-controller.js" />
+    <Content Include="SourceApp\Components\MonthlyPeriod\update-process-setting-controller.js" />
+    <Content Include="SourceApp\Components\Period\add-employee-setting-controller.js" />
     <Content Include="SourceApp\Components\Period\create-period-controller.js" />
-    <Content Include="SourceApp\Components\Report\export-comment-report-directive.js" />
-    <Content Include="SourceApp\Components\Report\export-monthly-epa-detail-report-directive.js" />
-    <Content Include="SourceApp\Components\Report\export-epa-detail-report-directive.js" />
-    <Content Include="SourceApp\Components\Report\export-monthly-epa-summary-report-directive.js" />
-    <Content Include="SourceApp\Components\Report\export-epa-summary-report-directive.js" />
-    <Content Include="SourceApp\Components\Report\export-recommendation-report-directive.js" />
-    <Content Include="SourceApp\Components\Report\monthly-epa-summary-report-controller.js" />
-    <Content Include="SourceApp\Components\Report\monthly-epa-detail-report-controller.js" />
-    <Content Include="SourceApp\Components\Report\epa-summary-report-directive.js" />
+    <Content Include="SourceApp\Components\Period\employee-setting-controller.js" />
+    <Content Include="SourceApp\Components\Period\period-controller.js" />
+    <Content Include="SourceApp\Components\Period\period-directive.js" />
+    <Content Include="SourceApp\Components\Period\period-factory.js" />
+    <Content Include="SourceApp\Components\Period\period-model.js" />
+    <Content Include="SourceApp\Components\Period\Templates\addEmployeeSetting.html" />
+    <Content Include="SourceApp\Components\Period\Templates\basicInformation.html" />
+    <Content Include="SourceApp\Components\Period\Templates\create.html" />
+    <Content Include="SourceApp\Components\Period\Templates\edit.html" />
+    <Content Include="SourceApp\Components\Period\Templates\editEmployeeSetting.html" />
+    <Content Include="SourceApp\Components\Period\Templates\employeeSetting.html" />
+    <Content Include="SourceApp\Components\Period\Templates\index.html" />
+    <Content Include="SourceApp\Components\Period\Templates\processSetting.html" />
+    <Content Include="SourceApp\Components\Period\update-basic-info-controller.js" />
+    <Content Include="SourceApp\Components\Period\update-employee-setting-controller.js" />
+    <Content Include="SourceApp\Components\Period\update-period-controller.js" />
+    <Content Include="SourceApp\Components\Period\update-process-setting-controller.js" />
+    <Content Include="SourceApp\Components\Report\epa-detail-report-controller.js" />
     <Content Include="SourceApp\Components\Report\epa-detail-report-directive.js" />
-    <Content Include="SourceApp\Components\Report\Templates\MonthlyEPASummaryReport.html" />
+    <Content Include="SourceApp\Components\Report\epa-summary-report-controller.js" />
+    <Content Include="SourceApp\Components\Report\epa-summary-report-directive.js" />
+    <Content Include="SourceApp\Components\Report\export-comment-report-directive.js" />
+    <Content Include="SourceApp\Components\Report\export-epa-detail-report-directive.js" />
+    <Content Include="SourceApp\Components\Report\export-epa-summary-report-directive.js" />
+    <Content Include="SourceApp\Components\Report\export-monthly-epa-detail-report-directive.js" />
+    <Content Include="SourceApp\Components\Report\export-monthly-epa-summary-report-directive.js" />
+    <Content Include="SourceApp\Components\Report\export-recommendation-report-directive.js" />
+    <Content Include="SourceApp\Components\Report\monthly-epa-detail-report-controller.js" />
+    <Content Include="SourceApp\Components\Report\monthly-epa-detail-report-directive.js" />
+    <Content Include="SourceApp\Components\Report\monthly-epa-summary-report-controller.js" />
+    <Content Include="SourceApp\Components\Report\report-factory.js" />
+    <Content Include="SourceApp\Components\Report\report-model.js" />
+    <Content Include="SourceApp\Components\Report\Templates\EPADetailReport.html" />
+    <Content Include="SourceApp\Components\Report\Templates\EPASummaryReport.html" />
     <Content Include="SourceApp\Components\Report\Templates\MonthlyEPADetailReport.html" />
+    <Content Include="SourceApp\Components\Report\Templates\MonthlyEPASummaryReport.html" />
+    <Content Include="SourceApp\Components\Resources\resources-controller.js" />
+    <Content Include="SourceApp\Components\Resources\resources-factory.js" />
+    <Content Include="SourceApp\Components\Role\role-controller.js" />
+    <Content Include="SourceApp\Components\Role\role-directive.js" />
+    <Content Include="SourceApp\Components\Role\role-factory.js" />
+    <Content Include="SourceApp\Components\Role\role-model.js" />
+    <Content Include="SourceApp\Components\Role\Templates\index.html" />
+    <Content Include="SourceApp\Components\Role\Templates\treeHostCheckbox.html" />
+    <Content Include="SourceApp\Components\Role\Templates\treeItem.html" />
+    <Content Include="SourceApp\Components\Role\Templates\treeReadCheckbox.html" />
     <Content Include="SourceApp\Components\TargetEmployeeSetting\target-department-setting-controller.js" />
     <Content Include="SourceApp\Components\TargetEmployeeSetting\target-personnel-setting-controller.js" />
+    <Content Include="SourceApp\Components\TargetEmployeeSetting\targetEmployeeSetting-controller.js" />
+    <Content Include="SourceApp\Components\TargetEmployeeSetting\targetEmployeeSetting-factory.js" />
+    <Content Include="SourceApp\Components\TargetEmployeeSetting\targetEmployeeSetting-model.js" />
+    <Content Include="SourceApp\Components\TargetEmployeeSetting\Templates\index.html" />
+    <Content Include="SourceApp\Components\TargetEmployeeSetting\Templates\personal.html" />
+    <Content Include="SourceApp\Components\TargetEmployeeSetting\Templates\team.html" />
     <Content Include="SourceApp\Components\TargetTemplate\add-kpi-group-controller.js" />
     <Content Include="SourceApp\Components\TargetTemplate\create-target-template-controller.js" />
+    <Content Include="SourceApp\Components\TargetTemplate\Directives\draggable-directive.js" />
+    <Content Include="SourceApp\Components\TargetTemplate\Directives\get-group-weight-directive.js" />
+    <Content Include="SourceApp\Components\TargetTemplate\Directives\get-weight-directive.js" />
+    <Content Include="SourceApp\Components\TargetTemplate\Directives\sortable-directive.js" />
     <Content Include="SourceApp\Components\TargetTemplate\export-target-template-directive.js" />
     <Content Include="SourceApp\Components\TargetTemplate\general-info-controller.js" />
     <Content Include="SourceApp\Components\TargetTemplate\kpi-list-controller.js" />
     <Content Include="SourceApp\Components\TargetTemplate\tagert-template-detail-controller.js" />
     <Content Include="SourceApp\Components\TargetTemplate\target-template-access-controller.js" />
-    <Content Include="SourceApp\Components\TargetTemplate\Directives\sortable-directive.js" />
-    <Content Include="SourceApp\Components\TargetTemplate\Directives\draggable-directive.js" />
-    <Content Include="SourceApp\Components\TargetTemplate\Directives\get-weight-directive.js" />
     <Content Include="SourceApp\Components\TargetTemplate\target-template-factory.js" />
     <Content Include="SourceApp\Components\TargetTemplate\target-template-model.js" />
     <Content Include="SourceApp\Components\TargetTemplate\Templates\addKPIGroup.html" />
@@ -769,139 +868,31 @@
     <Content Include="SourceApp\Components\TargetTemplate\Templates\KPIList.html" />
     <Content Include="SourceApp\Components\TargetTemplate\Templates\update.html" />
     <Content Include="SourceApp\Components\TargetTemplate\update-target-template-controller.js" />
-    <Content Include="SourceApp\Shared\Directives\popover-avatar-directive.js" />
-    <Content Include="SourceApp\Shared\Directives\epa-numberDot-directive.js" />
+    <Content Include="SourceApp\routes.js" />
     <Content Include="SourceApp\Shared\Directives\epa-addClassToRoleFilter-directive.js" />
+    <Content Include="SourceApp\Shared\Directives\epa-numberDot-directive.js" />
+    <Content Include="SourceApp\Shared\Directives\epa-numberOnly-directives.js" />
+    <Content Include="SourceApp\Shared\Directives\epa-searchAutoComplete-directive.js" />
+    <Content Include="SourceApp\Shared\Directives\floatThead-directive.js" />
+    <Content Include="SourceApp\Shared\Directives\move-kpi-row-directive.js" />
     <Content Include="SourceApp\Shared\Directives\multiselect-treeview-directive.js" />
+    <Content Include="SourceApp\Shared\Directives\popover-avatar-directive.js" />
+    <Content Include="SourceApp\Shared\Directives\popover-kpis-directive.js" />
     <Content Include="SourceApp\Shared\Factories\error-factory.js" />
-    <Content Include="SourceApp\Components\EPA\Management\Templates\semiPerformanceResult.html" />
-    <Content Include="SourceApp\Components\EPA\EPAByKPI\EPAByKPI-controller.js" />
-    <Content Include="SourceApp\Components\EPA\EPAByKPI\EPAByKPI-factory.js" />
-    <Content Include="SourceApp\Components\EPA\EPAByKPI\EPAByKPI-model.js" />
-    <Content Include="SourceApp\Components\EPA\EPAByKPI\Templates\index.html" />
-    <Content Include="SourceApp\Components\EPA\ResetScore\resetScore-controller.js" />
-    <Content Include="SourceApp\Components\EPA\ResetScore\Templates\detail.html" />
-    <Content Include="SourceApp\Components\EPA\Reviewer\Templates\semiPerformanceResult.html" />
-    <Content Include="SourceApp\Components\EPA\Share\Directives\Templates\monthlyEPAs.tmpl.html" />
-    <Content Include="SourceApp\Components\EPA\Evaluator\evaluator-detail-controller.js" />
-    <Content Include="SourceApp\Components\EPA\RatingByKPI\rating-by-kpi-controller.js" />
-    <Content Include="SourceApp\Components\EPA\RatingByKPI\rating-by-kpi-factory.js" />
-    <Content Include="SourceApp\Components\EPA\RatingByKPI\rating-by-kpi-model.js" />
-    <Content Include="SourceApp\Components\EPA\Evaluator\Templates\detail.html" />
-    <Content Include="SourceApp\Components\EPA\Evaluator\Templates\index.html" />
-    <Content Include="SourceApp\Components\EPA\Evaluator\Templates\listKPI.html" />
-    <Content Include="SourceApp\Components\EPA\RatingByKPI\Templates\modalConfirmSaveChanges.html" />
-    <Content Include="SourceApp\Components\EPA\RatingByKPI\Templates\index.html" />
-    <Content Include="SourceApp\Components\EPA\Evaluator\Templates\summary.html" />
-    <Content Include="SourceApp\Components\EPA\Management\management-detail-controller.js" />
-    <Content Include="SourceApp\Components\EPA\Management\Templates\detail.html" />
-    <Content Include="SourceApp\Components\EPA\Management\Templates\index.html" />
-    <Content Include="SourceApp\Components\EPA\Management\Templates\performanceResult.html" />
-    <Content Include="SourceApp\Components\EPA\Self\self-evaluation-access-controller.js" />
-    <Content Include="SourceApp\Components\EPA\Self\Templates\detail.html" />
-    <Content Include="SourceApp\Components\EPA\Self\Templates\summary.html" />
-    <Content Include="SourceApp\Components\EPA\reviewer-management-model.js" />
-    <Content Include="SourceApp\Components\EPA\Reviewer\Templates\detail.html" />
-    <Content Include="SourceApp\Components\EPA\Reviewer\Templates\index.html" />
-    <Content Include="SourceApp\Components\EPA\Reviewer\reviewer-detail-controller.js" />
-    <Content Include="SourceApp\Components\EPA\Reviewer\Templates\performanceResult.html" />
-    <Content Include="SourceApp\Components\EPA\self-evaluator-model.js" />
-    <Content Include="SourceApp\Components\EPA\Self\Templates\index.html" />
-    <Content Include="SourceApp\Components\EPA\Self\Templates\listKPI.html" />
-    <Content Include="SourceApp\Components\EPA\Templates\modalAdjustScore.html" />
-    <Content Include="SourceApp\Components\EPA\Templates\modalNotification.html" />
-    <Content Include="SourceApp\Components\EPA\Templates\modalRemindSaveChange.html" />
-    <Content Include="SourceApp\Components\EPA\Templates\modalUpdateComment.html" />
-    <Content Include="SourceApp\Components\EPA\Share\Directives\Templates\ratingInstruction.tmpl.html" />
-    <Content Include="SourceApp\Components\EPA\Templates\viewDetail.html" />
-    <Content Include="SourceApp\Components\FlowManagement\departmentFlow-controller.js" />
-    <Content Include="SourceApp\Components\FlowManagement\flowTemplate-access-controller.js" />
-    <Content Include="SourceApp\Components\FlowManagement\personalFlow-controller.js" />
-    <Content Include="SourceApp\Components\FlowManagement\resultSettingFlow-controller.js" />
-    <Content Include="SourceApp\Components\FlowManagement\Templates\departmentFlow.html" />
-    <Content Include="SourceApp\Components\FlowManagement\Templates\generalInformation.html" />
-    <Content Include="SourceApp\Components\FlowManagement\Templates\index.html" />
-    <Content Include="SourceApp\Components\FlowManagement\Templates\personalFlow.html" />
-    <Content Include="SourceApp\Components\FlowManagement\Templates\resultSetting.html" />
-    <Content Include="SourceApp\Components\FlowManagement\Templates\update.html" />
-    <Content Include="SourceApp\Components\KPIGroup\kpiGroup-access-controller.js" />
-    <Content Include="SourceApp\Components\KPIGroup\kpiGroup-factory.js" />
-    <Content Include="SourceApp\Components\KPIGroup\kpiGroup-model.js" />
-    <Content Include="SourceApp\Components\KPIGroup\Templates\edit.html" />
-    <Content Include="SourceApp\Components\KPIGroup\Templates\create.html" />
-    <Content Include="SourceApp\Components\KPIGroup\Templates\index.html" />
-    <Content Include="SourceApp\Components\KPI\Templates\edit.html" />
-    <Content Include="SourceApp\Components\KPI\Templates\create.html" />
-    <Content Include="SourceApp\Components\KPI\Templates\modalConfirmRequired.html" />
-    <Content Include="SourceApp\Components\MonthlyPeriod\monthly-period-controller.js" />
-    <Content Include="SourceApp\Components\MonthlyPeriod\monthly-period-directive.js" />
-    <Content Include="SourceApp\Components\MonthlyPeriod\monthly-period-factory.js" />
-    <Content Include="SourceApp\Components\MonthlyPeriod\monthly-period-model.js" />
-    <Content Include="SourceApp\Components\MonthlyPeriod\Templates\basicInformation.html" />
-    <Content Include="SourceApp\Components\MonthlyPeriod\Templates\create.html" />
-    <Content Include="SourceApp\Components\MonthlyPeriod\Templates\edit.html" />
-    <Content Include="SourceApp\Components\MonthlyPeriod\Templates\editEmployeeSetting.html" />
-    <Content Include="SourceApp\Components\MonthlyPeriod\Templates\employeeSetting.html" />
-    <Content Include="SourceApp\Components\MonthlyPeriod\Templates\index.html" />
-    <Content Include="SourceApp\Components\MonthlyPeriod\Templates\processSetting.html" />
-    <Content Include="SourceApp\Components\Period\employee-setting-controller.js" />
-    <Content Include="SourceApp\Components\Period\period-controller.js" />
-    <Content Include="SourceApp\Components\Period\period-directive.js" />
-    <Content Include="SourceApp\Components\Period\period-factory.js" />
-    <Content Include="SourceApp\Components\Period\period-model.js" />
-    <Content Include="SourceApp\Components\Period\Templates\basicInformation.html" />
-    <Content Include="SourceApp\Components\Period\Templates\create.html" />
-    <Content Include="SourceApp\Components\Period\Templates\edit.html" />
-    <Content Include="SourceApp\Components\Period\Templates\editEmployeeSetting.html" />
-    <Content Include="SourceApp\Components\Period\Templates\employeeSetting.html" />
-    <Content Include="SourceApp\Components\Period\Templates\index.html" />
-    <Content Include="SourceApp\Components\Period\Templates\processSetting.html" />
-    <Content Include="SourceApp\Components\Report\epa-detail-report-controller.js" />
-    <Content Include="SourceApp\Components\Report\epa-summary-report-controller.js" />
-    <Content Include="SourceApp\Components\Report\monthly-epa-detail-report-directive.js" />
-    <Content Include="SourceApp\Components\Report\report-factory.js" />
-    <Content Include="SourceApp\Components\Report\report-model.js" />
-    <Content Include="SourceApp\Components\Report\Templates\EPADetailReport.html" />
-    <Content Include="SourceApp\Components\Report\Templates\EPASummaryReport.html" />
-    <Content Include="SourceApp\Components\Resources\resources-controller.js" />
-    <Content Include="SourceApp\Components\Resources\resources-factory.js" />
-    <Content Include="SourceApp\Components\KPI\kpi-access-controller.js" />
-    <Content Include="SourceApp\Components\KPI\kpi-factory.js" />
-    <Content Include="SourceApp\Components\KPI\kpi-model.js" />
-    <Content Include="SourceApp\Components\KPI\Templates\index.html" />
-    <Content Include="SourceApp\Components\Role\role-controller.js" />
-    <Content Include="SourceApp\Components\Role\role-directive.js" />
-    <Content Include="SourceApp\Components\Role\role-factory.js" />
-    <Content Include="SourceApp\Components\Role\role-model.js" />
-    <Content Include="SourceApp\Components\Role\Templates\index.html" />
-    <Content Include="SourceApp\Components\Role\Templates\treeHostCheckbox.html" />
-    <Content Include="SourceApp\Components\Role\Templates\treeItem.html" />
-    <Content Include="SourceApp\Components\Role\Templates\treeReadCheckbox.html" />
-    <Content Include="SourceApp\Components\TargetEmployeeSetting\targetEmployeeSetting-controller.js" />
-    <Content Include="SourceApp\Components\TargetEmployeeSetting\targetEmployeeSetting-factory.js" />
-    <Content Include="SourceApp\Components\TargetEmployeeSetting\targetEmployeeSetting-model.js" />
-    <Content Include="SourceApp\Components\TargetEmployeeSetting\Templates\team.html" />
-    <Content Include="SourceApp\Components\TargetEmployeeSetting\Templates\personal.html" />
-    <Content Include="SourceApp\Components\TargetEmployeeSetting\Templates\index.html" />
-    <Content Include="SourceApp\routes.js">
-      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
-    </Content>
     <Content Include="SourceApp\Shared\Factories\history-factory.js" />
     <Content Include="SourceApp\Shared\Factories\lockScreen-factory.js" />
+    <Content Include="SourceApp\Shared\Factories\notification-factory.js" />
+    <Content Include="SourceApp\Shared\Factories\utilities-factory.js" />
     <Content Include="SourceApp\Shared\Filters\customDate-filter.js" />
     <Content Include="SourceApp\Shared\Filters\customNumber-filter.js" />
     <Content Include="SourceApp\Shared\Filters\range-filter.js" />
     <Content Include="SourceApp\Shared\modalconfirm-controller.js" />
-    <Content Include="SourceApp\Shared\Directives\epa-numberOnly-directives.js" />
-    <Content Include="SourceApp\Shared\Factories\notification-factory.js" />
     <Content Include="SourceApp\Shared\Templates\AccessDenied.html" />
     <Content Include="SourceApp\Shared\Templates\InternalError.html" />
+    <Content Include="SourceApp\Shared\Templates\modal-confirm-refresh-data.html" />
     <Content Include="SourceApp\Shared\Templates\ModalConfirmContent.html" />
     <Content Include="SourceApp\Shared\Templates\PageNotFound.html" />
-    <Content Include="SourceApp\Shared\Factories\utilities-factory.js" />
-    <Content Include="Web.config">
-      <SubType>Designer</SubType>
-    </Content>
+    <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
@@ -913,65 +904,113 @@
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="WhoAmI.aspx" />
+    <Content Include="Views\Auth\Login.cshtml" />
+    <Content Include="Views\Emails\EmailNotifyChangeSetting.cshtml" />
+    <Content Include="Views\Emails\EndEvaluationEmailToHRByEmployee.cshtml" />
+    <Content Include="Views\Emails\EndEvaluationEmailToHRByPeriod.cshtml" />
+    <Content Include="Views\Emails\EndEvaluationEmailToSelf.cshtml" />
+    <Content Include="Views\Emails\RemindDateEmailToEvaluator.cshtml" />
+    <Content Include="Views\Emails\RemindDateEmailToHR.cshtml" />
+    <Content Include="Views\Emails\RemindDateEmailToManagement.cshtml" />
+    <Content Include="Views\Emails\RemindDateEmailToReviewer.cshtml" />
+    <Content Include="Views\Emails\RemindDateEmailToSelf.cshtml" />
+    <Content Include="Views\ExportPdf\EpaDetail.cshtml" />
+    <Content Include="Views\ExportPdf\_Comment.cshtml" />
+    <Content Include="Views\ExportPdf\_GeneralInfo.cshtml" />
+    <Content Include="Views\ExportPdf\_JobDescription.cshtml" />
+    <Content Include="Views\ExportPdf\_PerformanceDetail.cshtml" />
+    <Content Include="Views\ExportPdf\_PerformanceResult.cshtml" />
+    <Content Include="Views\ExportPdf\_ProbationExtendedQuestion.cshtml" />
+    <Content Include="Views\ExportPdf\_Recommendation.cshtml" />
+    <None Include="WebConfigs\Web.Local.config" />
+    <None Include="WebConfigs\Web.PRO.cti.config" />
+    <None Include="WebConfigs\Web.PRO.ghr.config" />
+    <None Include="WebConfigs\Web.PRO.hm.config" />
+    <None Include="WebConfigs\Web.PRO.lexfin.config" />
+    <None Include="WebConfigs\Web.PRO.sms.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\SMS.EPA.Core\SMS.EPA.Core.csproj">
+      <Project>{04c78e8e-915c-4690-bbaf-32f3dbaab88a}</Project>
+      <Name>SMS.EPA.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SMS.EPA.Criteria\SMS.EPA.Criteria.csproj">
+      <Project>{f272161b-f087-4bd5-be5d-63610e12e5b1}</Project>
+      <Name>SMS.EPA.Criteria</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SMS.EPA.Models\SMS.EPA.Models.csproj">
+      <Project>{359687e7-fb0b-4454-bc52-efc13fd2fc57}</Project>
+      <Name>SMS.EPA.Models</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SMS.EPA.Resources\SMS.EPA.Resources.csproj">
+      <Project>{f855c077-310d-43dc-a8f6-ade400bc74ef}</Project>
+      <Name>SMS.EPA.Resources</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SMS.EPA.Services\SMS.EPA.Services.csproj">
+      <Project>{3398ca77-0699-4379-98b5-6a4e77c98030}</Project>
+      <Name>SMS.EPA.Services</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Content\Common\toastr.js.map" />
+    <Content Include="Content\Fonts\ARIALUNI.TTF" />
     <Content Include="Content\Fonts\big_noodle_titling.ttf" />
+    <Content Include="Content\Site\auth\style.less" />
+    <Content Include="Content\Site\components\_base.less" />
+    <Content Include="Content\Site\components\_buttons.less" />
+    <Content Include="Content\Site\components\_canlendar.less" />
+    <Content Include="Content\Site\components\_dropdowns.less" />
+    <Content Include="Content\Site\components\_form-filter.less" />
+    <Content Include="Content\Site\components\_forms.less" />
+    <Content Include="Content\Site\components\_header.less" />
+    <Content Include="Content\Site\components\_icons.less" />
+    <Content Include="Content\Site\components\_modal.less" />
+    <Content Include="Content\Site\components\_multiselect-treeview.less" />
+    <Content Include="Content\Site\components\_multiSelect.less" />
+    <Content Include="Content\Site\components\_page.less" />
+    <Content Include="Content\Site\components\_panel.less" />
+    <Content Include="Content\Site\components\_table.less" />
+    <Content Include="Content\Site\components\_tabs.less" />
+    <Content Include="Content\Site\components\_toasts.less" />
+    <Content Include="Content\Site\components\_tooltip.less" />
+    <Content Include="Content\Site\components\_widthSystem.less" />
     <Content Include="Content\Site\layout.less" />
     <Content Include="Content\Site\mixins.less" />
     <Content Include="Content\Site\variables.less" />
-    <Content Include="Content\Site\auth\style.less" />
+    <Content Include="Content\Site\views\_dashboard.less" />
+    <Content Include="Content\Site\views\_disciplineSummary.less" />
+    <Content Include="Content\Site\views\_employee.less" />
+    <Content Include="Content\Site\views\_epa.less" />
     <Content Include="Content\Site\views\_evaluationProcess.less" />
+    <Content Include="Content\Site\views\_flowManagement.less" />
+    <Content Include="Content\Site\views\_job-description.less" />
+    <Content Include="Content\Site\views\_joblevel-standard.less" />
+    <Content Include="Content\Site\views\_kpi.less" />
+    <Content Include="Content\Site\views\_period.less" />
+    <Content Include="Content\Site\views\_ratingByStar.less" />
+    <Content Include="Content\Site\views\_report.less" />
+    <Content Include="Content\Site\views\_role.less" />
+    <Content Include="Content\Site\views\_targetEmployeeSetting.less" />
+    <Content Include="Content\Site\views\_targetTemplate.less" />
+    <Content Include="ExcelTemplates\CommentReportTemplate.xls" />
+    <Content Include="ExcelTemplates\DepartmentFlowSettingTemplate.xls" />
     <Content Include="ExcelTemplates\DisciplineSummaryByPeriodReport.xls" />
-    <Content Include="Content\Site\components\_panel.less" />
-    <Content Include="Content\Site\components\_header.less" />
-    <Content Include="Content\Site\components\_modal.less" />
-    <Content Include="Content\Site\components\_table.less" />
-    <Content Include="Content\Site\components\_buttons.less" />
-    <Content Include="Content\Site\components\_forms.less" />
-    <Content Include="ExcelTemplates\UpdateFinalScore.xls" />
-    <Content Include="Content\Site\components\_tooltip.less" />
-    <Content Include="Content\Fonts\ARIALUNI.TTF" />
-    <Content Include="Content\Site\components\_icons.less" />
-    <Content Include="Content\Site\components\_tabs.less" />
-    <Content Include="Content\Site\components\_dropdowns.less" />
-    <Content Include="Content\Site\components\_toasts.less" />
-    <Content Include="Content\Site\components\_canlendar.less" />
-    <Content Include="Content\Site\components\_multiSelect.less" />
-    <Content Include="Content\Site\components\_widthSystem.less" />
-    <Content Include="Content\Site\components\_base.less" />
-    <Content Include="Content\Site\components\_page.less" />
+    <Content Include="ExcelTemplates\DisciplineSummaryReport.xls" />
     <Content Include="ExcelTemplates\EmployeeBasicInfoTemplate.xls" />
     <Content Include="ExcelTemplates\EmployeeFlowSettingTemplate.xls" />
-    <Content Include="ExcelTemplates\PersonalFlowSettingTemplate.xls" />
-    <Content Include="ExcelTemplates\TargetPersonnelSettingTemplate.xls" />
-    <Content Include="Content\Site\pdf.css" />
-    <None Include="BundleTransformer.Configuration.xsd">
-      <SubType>Designer</SubType>
-    </None>
-    <Content Include="Libs\angularjs\angular-animate.min.js.map" />
-    <Content Include="Content\Common\toastr.js.map" />
-    <Content Include="ExcelTemplates\TargetTemplateKPIsTemplate.xls" />
-    <Content Include="ExcelTemplates\RecommendationReportTemplate.xls" />
-    <Content Include="ExcelTemplates\CommentReportTemplate.xls" />
-    <Content Include="ExcelTemplates\FeedbackReport.xlsx" />
-    <Content Include="Content\Site\components\_form-filter.less" />
-    <Content Include="Content\Site\views\_job-description.less" />
-    <Content Include="ExcelTemplates\DepartmentFlowSettingTemplate.xls" />
-    <Content Include="Content\Site\views\_joblevel-standard.less" />
-    <Content Include="Content\Site\components\_multiselect-treeview.less" />
     <Content Include="ExcelTemplates\EmployeeSettingJLSPeriodTemplate.xls" />
+    <Content Include="ExcelTemplates\FeedbackReport.xlsx" />
     <Content Include="ExcelTemplates\JLSSectionTemplateSetting.xls" />
-    <None Include="Libs\angularjs\angular-resource.min.js.map" />
-    <None Include="Libs\angularjs\angular-route.min.js.map" />
+    <Content Include="ExcelTemplates\PersonalFlowSettingTemplate.xls" />
+    <Content Include="ExcelTemplates\RecommendationReportTemplate.xls" />
+    <Content Include="ExcelTemplates\TargetPersonnelSettingTemplate.xls" />
+    <Content Include="ExcelTemplates\TargetTemplateKPIsTemplate.xls" />
+    <Content Include="ExcelTemplates\UpdateFinalScore.xls" />
+    <Content Include="Libs\angularjs\angular-animate.min.js.map" />
+    <Content Include="Libs\angularjs\angular-resource.min.js.map" />
+    <Content Include="Libs\angularjs\angular-route.min.js.map" />
     <Content Include="Libs\angularjs\angular-touch.min.js.map" />
-    <None Include="Libs\angularjs\angular.min.js.map" />
-    <Content Include="Libs\BootstrapStarRating\.bower.json" />
-    <Content Include="Libs\BootstrapStarRating\bower.json" />
-    <Content Include="Libs\BootstrapStarRating\CHANGE.md" />
-    <Content Include="Libs\BootstrapStarRating\LICENSE.md" />
-    <Content Include="Libs\BootstrapStarRating\package.json" />
-    <Content Include="Libs\BootstrapStarRating\README.md" />
+    <Content Include="Libs\angularjs\angular.min.js.map" />
     <Content Include="Libs\bootstrap-3.3.7\css\bootstrap-theme.css.map" />
     <Content Include="Libs\bootstrap-3.3.7\css\bootstrap-theme.min.css.map" />
     <Content Include="Libs\bootstrap-3.3.7\css\bootstrap.css.map" />
@@ -980,97 +1019,14 @@
     <Content Include="Libs\bootstrap-3.3.7\fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="Libs\bootstrap-3.3.7\fonts\glyphicons-halflings-regular.woff" />
     <Content Include="Libs\bootstrap-3.3.7\fonts\glyphicons-halflings-regular.woff2" />
-    <Content Include="Views\Auth\Login.cshtml" />
-    <Content Include="Content\Site\views\_kpi.less" />
-    <Content Include="Content\Site\views\_employee.less" />
-    <Content Include="Content\Site\views\_role.less" />
-    <Content Include="Content\Site\views\_flowManagement.less" />
-    <Content Include="Content\Site\views\_targetTemplate.less" />
-    <Content Include="WebConfigs\Web.Local.config">
-      <SubType>Designer</SubType>
-    </Content>
-    <Content Include="Content\Site\views\_targetEmployeeSetting.less" />
-    <Content Include="Content\Site\views\_period.less" />
-    <Content Include="Content\Site\views\_dashboard.less" />
-    <Content Include="Content\Site\views\_disciplineSummary.less" />
-    <Content Include="Content\Site\views\_report.less" />
-    <Content Include="ExcelTemplates\DisciplineSummaryReport.xls" />
-    <Content Include="Content\Site\views\_ratingByStar.less" />
-    <Content Include="Content\Site\views\_epa.less" />
-    <Content Include="Views\ExportPdf\EpaDetail.cshtml" />
-    <Content Include="Views\ExportPdf\_GeneralInfo.cshtml" />
-    <Content Include="Views\ExportPdf\_Comment.cshtml" />
-    <Content Include="Views\ExportPdf\_Recommendation.cshtml" />
-    <Content Include="Views\ExportPdf\_PerformanceResult.cshtml" />
-    <Content Include="Views\ExportPdf\_PerformanceDetail.cshtml" />
-    <Content Include="Views\Emails\EmailNotifyChangeSetting.cshtml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Views\Emails\RemindDateEmailToEvaluator.cshtml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Views\Emails\RemindDateEmailToHR.cshtml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Views\Emails\RemindDateEmailToManagement.cshtml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Views\Emails\RemindDateEmailToReviewer.cshtml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Views\Emails\RemindDateEmailToSelf.cshtml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Views\Emails\EndEvaluationEmailToHRByEmployee.cshtml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Views\Emails\EndEvaluationEmailToHRByPeriod.cshtml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Views\Emails\EndEvaluationEmailToSelf.cshtml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="WebConfigs\Web.PRO.lexfin.config">
-      <SubType>Designer</SubType>
-    </Content>
-    <Content Include="WebConfigs\Web.PRO.hm.config">
-      <SubType>Designer</SubType>
-    </Content>
-    <Content Include="WebConfigs\Web.PRO.ghr.config">
-      <SubType>Designer</SubType>
-    </Content>
-    <Content Include="WebConfigs\Web.PRO.sms.config">
-      <SubType>Designer</SubType>
-    </Content>
-    <Content Include="packages.config" />
+    <Content Include="Libs\BootstrapStarRating\.bower.json" />
+    <Content Include="Libs\BootstrapStarRating\bower.json" />
+    <Content Include="Libs\BootstrapStarRating\CHANGE.md" />
+    <Content Include="Libs\BootstrapStarRating\LICENSE.md" />
+    <Content Include="Libs\BootstrapStarRating\package.json" />
+    <Content Include="Libs\BootstrapStarRating\README.md" />
     <Content Include="Libs\jquery-3.2.1.min.map" />
-    <Content Include="Views\ExportPdf\_ProbationExtendedQuestion.cshtml" />
-    <Content Include="Views\ExportPdf\_JobDescription.cshtml" />
-    <None Include="WebConfigs\Web.PRO.cti.config">
-      <SubType>Designer</SubType>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\SMS.EPA.Core\SMS.EPA.Core.csproj">
-      <Project>{76EE2DA4-7127-4C21-B218-ADFF51B2B74E}</Project>
-      <Name>SMS.EPA.Core</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\SMS.EPA.Criteria\SMS.EPA.Criteria.csproj">
-      <Project>{23BD1141-64A1-4684-8A1E-83E8CC0D46AA}</Project>
-      <Name>SMS.EPA.Criteria</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\SMS.EPA.Models\SMS.EPA.Model.csproj">
-      <Project>{235C8D9E-97EC-4183-BAF2-3783F2F816CC}</Project>
-      <Name>SMS.EPA.Model</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\SMS.EPA.Resources\SMS.EPA.Resources.csproj">
-      <Project>{F855C077-310D-43DC-A8F6-ADE400BC74EF}</Project>
-      <Name>SMS.EPA.Resources</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\SMS.EPA.Services\SMS.EPA.Services.csproj">
-      <Project>{8EB3D578-B2A0-4B11-9386-50F394DE396C}</Project>
-      <Name>SMS.EPA.Services</Name>
-    </ProjectReference>
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <Analyzer Include="..\packages\SonarAnalyzer.CSharp.9.12.0.78982\analyzers\Google.Protobuf.dll" />
@@ -1094,9 +1050,9 @@
         <WebProjectProperties>
           <UseIIS>True</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
-          <DevelopmentServerPort>0</DevelopmentServerPort>
+          <DevelopmentServerPort>53059</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:52103/</IISUrl>
+          <IISUrl>https://localhost:44300/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>
@@ -1106,8 +1062,13 @@
       </FlavorProperties>
     </VisualStudio>
   </ProjectExtensions>
-  <Import Project="..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets" Condition="Exists('..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props'))" />
+  </Target>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
   </Target>

@@ -17,7 +17,6 @@
         private IKPIService kpiService;
         private IBaseService baseService;
         private IEmployeeService employeeService;
-        private IDepartmentService departmentService;
         private IPeriodService periodService;
         private ICommonService commonService;
 
@@ -117,68 +116,6 @@
 
         #endregion GetKPIGroup
 
-        #region GetEmployeeByDepartmentId
-
-        [Test]
-        public void GetEmployeeByDepartmentId_AnyArg_ReturnInstanceOfListOfEmployeeModel()
-        {
-            // Arrange
-            commonService = Substitute.For<ICommonService>();
-
-            // Act
-            var actual = commonService.GetEmployeeByDepartmentId(Arg.Any<int>());
-
-            // Assert
-            Assert.IsInstanceOf(typeof(IEnumerable<Employee>), actual);
-        }
-
-        [Test]
-        public void GetEmployeeByDepartmentId_VaidArg_ReturnExpectedEmployees()
-        {
-            // Arrange
-            var expectedEmployees = new List<Employee> { new Employee() };
-            ArrangeGetEmployeeByDepartmentId(expectedEmployees);
-
-            // Act
-            var actual = commonService.GetEmployeeByDepartmentId(Arg.Any<int>());
-
-            // Assert
-            Assert.AreEqual(expectedEmployees, actual);
-        }
-
-        #endregion GetEmployeeByDepartmentId
-
-        #region GetEmployeeByGroupId
-
-        [Test]
-        public void GetEmployeeByGroupId_AnyArg_ReturnInstanceOfListOfEmployeeModel()
-        {
-            // Arrange
-            commonService = Substitute.For<ICommonService>();
-
-            // Act
-            var actual = commonService.GetEmployeeByGroupId(Arg.Any<int>());
-
-            // Assert
-            Assert.IsInstanceOf(typeof(IEnumerable<Employee>), actual);
-        }
-
-        [Test]
-        public void GetEmployeeByGroupId_VaidArg_ReturnExpectedEmployees()
-        {
-            // Arrange
-            var expectedEmployees = new List<Employee> { new Employee() };
-            ArrangeGetEmployeeByGroupId(expectedEmployees);
-
-            // Act
-            var actual = commonService.GetEmployeeByGroupId(Arg.Any<int>());
-
-            // Assert
-            Assert.AreEqual(expectedEmployees, actual);
-        }
-
-        #endregion GetEmployeeByGroupId
-
         #region GetEmployeeById
 
         [Test]
@@ -229,71 +166,6 @@
         }
 
         #endregion GetAllGroup
-
-        #region GetDepartment
-
-        [Test]
-        public void GetDepartment_AnyArg_ReturnInstanceOfDepartmentInfoModel()
-        {
-            // Arrange
-            ArrangeGetDepartment();
-
-            // Act
-            var actual = commonService.GetDepartment(Arg.Any<GetDepartmentCriteria>());
-
-            // Assert
-            Assert.IsInstanceOf(typeof(DepartmentInfoModel), actual);
-        }
-
-        [Test]
-        public void GetDepartment_NotEmptyListDepartment_ReturnExpectedDepartment()
-        {
-            // Arrange
-            var departments = new List<Department>();
-            var department1 = new Department { ParentId = 1 };
-            var department2 = new Department { ParentId = null };
-            departments.Add(department1);
-            departments.Add(department2);
-
-            var expectedDepartment = new DepartmentInfoModel
-            {
-                Departments = departments,
-                TreeDepartment = department2
-            };
-
-            ArrangeGetDepartment(departments);
-
-            // Act
-            commonService.GetDepartment(Arg.Any<GetDepartmentCriteria>());
-
-            // Assert
-            Assert.AreEqual(expectedDepartment.Departments, departments);
-            Assert.AreEqual(expectedDepartment.TreeDepartment, department2);
-        }
-
-        [Test]
-        public void GetDepartment_EmptyListDepartment_ReturnDefaultDepartment()
-        {
-            // Arrange
-            var departments = new List<Department>();
-
-            var expectedDepartment = new DepartmentInfoModel
-            {
-                Departments = departments,
-                TreeDepartment = null
-            };
-
-            ArrangeGetDepartment(departments);
-
-            // Act
-            commonService.GetDepartment(Arg.Any<GetDepartmentCriteria>());
-
-            // Assert
-            Assert.AreEqual(expectedDepartment.Departments, departments);
-            Assert.IsNull(expectedDepartment.TreeDepartment);
-        }
-
-        #endregion GetDepartment
 
         #region GetPeriod
 
@@ -471,14 +343,12 @@
             kpiService = Substitute.For<IKPIService>();
             baseService = Substitute.For<IBaseService>();
             employeeService = Substitute.For<IEmployeeService>();
-            departmentService = Substitute.For<IDepartmentService>();
             periodService = Substitute.For<IPeriodService>();
 
             commonService = new CommonService(
                 kpiService,
                 baseService,
                 employeeService,
-                departmentService,
                 periodService);
         }
 
@@ -500,28 +370,10 @@
             baseService.GetData<KPIGroupModel>(Arg.Any<GetKPIGroupCriteria>()).Returns(kpiGroups ?? new List<KPIGroupModel>());
         }
 
-        private void ArrangeGetEmployeeByDepartmentId(IEnumerable<Employee> employees = null)
-        {
-            ArrangeCommon();
-            baseService.GetData<Employee>(Arg.Any<GetEmployeeByDepartmentIdCriteria>()).Returns(employees ?? new List<Employee>());
-        }
-
-        private void ArrangeGetEmployeeByGroupId(IEnumerable<Employee> employees = null)
-        {
-            ArrangeCommon();
-            baseService.GetData<Employee>(Arg.Any<GetEmployeeByGroupIdCriteria>()).Returns(employees ?? new List<Employee>());
-        }
-
         private void ArrangeGetAllGroup(IEnumerable<Group> groups = null)
         {
             ArrangeCommon();
             baseService.GetData<Group>(Arg.Any<GetAllGroupCriteria>()).Returns(groups ?? new List<Group>());
-        }
-
-        private void ArrangeGetDepartment(IList<Department> departments = null)
-        {
-            ArrangeCommon();
-            departmentService.GetDepartment(Arg.Any<GetDepartmentCriteria>()).Returns(departments ?? new List<Department>());
         }
 
         private void ArrangeGetPeriod(IEnumerable<PeriodModel> periods = null)

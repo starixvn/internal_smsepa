@@ -1,22 +1,17 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{3072A671-2F7E-43F5-8FF3-FB1C14FE76C5}</ProjectGuid>
+    <ProjectGuid>{AF3AED74-44D4-4636-AF6B-810CF3083CA0}</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>SMS.EPA.AutoService</RootNamespace>
     <AssemblyName>SMS.EPA.AutoService</AssemblyName>
-    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
-    <TargetFrameworkProfile />
-    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
-    <RestorePackages>true</RestorePackages>
-    <NuGetPackageImportStamp>
-    </NuGetPackageImportStamp>
+    <Deterministic>true</Deterministic>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -54,34 +49,24 @@
       <HintPath>..\packages\Fanex.Logging.2.0.1.1\lib\net461\Fanex.Logging.dll</HintPath>
     </Reference>
     <Reference Include="Fanex.Logging.Sentry.RavenClient, Version=1.0.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Fanex.Logging.Sentry.RavenClient.1.0.1.2\lib\netstandard2.0\Fanex.Logging.Sentry.RavenClient.dll</HintPath>
+      <HintPath>..\packages\Fanex.Logging.Sentry.RavenClient.1.0.1.2\lib\net471\Fanex.Logging.Sentry.RavenClient.dll</HintPath>
     </Reference>
     <Reference Include="log4net, Version=2.0.15.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
       <HintPath>..\packages\log4net.2.0.15\lib\net45\log4net.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.13.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <HintPath>..\packages\Newtonsoft.Json.13.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="SharpRaven, Version=2.4.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\SharpRaven.2.4.0\lib\net45\SharpRaven.dll</HintPath>
+      <HintPath>..\packages\SharpRaven.2.4.0\lib\net471\SharpRaven.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Net.Http.Extensions, Version=2.2.29.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Net.Http.2.2.29\lib\net45\System.Net.Http.Extensions.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Net.Http.Primitives, Version=4.2.29.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Net.Http.2.2.29\lib\net45\System.Net.Http.Primitives.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Net.Http.WebRequest" />
-    <Reference Include="System.Runtime.InteropServices.RuntimeInformation, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Runtime.InteropServices.RuntimeInformation.4.3.0\lib\net45\System.Runtime.InteropServices.RuntimeInformation.dll</HintPath>
-    </Reference>
     <Reference Include="System.Security" />
     <Reference Include="System.Transactions" />
     <Reference Include="System.ValueTuple, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.ValueTuple.4.5.0\lib\net461\System.ValueTuple.dll</HintPath>
+      <HintPath>..\packages\System.ValueTuple.4.5.0\lib\net47\System.ValueTuple.dll</HintPath>
     </Reference>
     <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
@@ -103,8 +88,8 @@
     <Compile Include="Criteria\JobLevelStandard\GetJobLevelStandardPeriodEmployeeSettingToSendMailCriteria.cs" />
     <Compile Include="Criteria\Monthly\GetMonthlyPeriodStartedCriteria.cs" />
     <Compile Include="Criteria\Monthly\InsertEmployeeToMonthlyPeriodCriteria.cs" />
-    <Compile Include="Criteria\UpdateFinalScoreEndEvaluationCriteria.cs" />
     <Compile Include="Criteria\UpdateEndProcessCriteria.cs" />
+    <Compile Include="Criteria\UpdateFinalScoreEndEvaluationCriteria.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Service\Implement\AutoMailService.cs" />
@@ -128,91 +113,47 @@
     <Compile Include="Service\Interfaces\ISemiAnnualService.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config">
-      <SubType>Designer</SubType>
-    </None>
+    <None Include="App.config" />
     <None Include="AppConfigs\App.PRO.cti.config" />
     <None Include="AppConfigs\App.PRO.ghr.config" />
     <None Include="AppConfigs\App.PRO.hm.config" />
     <None Include="AppConfigs\App.PRO.lexfin.config" />
     <None Include="AppConfigs\App.PRO.sms.config" />
     <None Include="packages.config" />
-    <Content Include="logs\log.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Views\Emails\EmailNotifyChangeSetting.cshtml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Views\Emails\EndEvaluationEmailToHRByEmployee.cshtml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Views\Emails\EndEvaluationEmailToHRByPeriod.cshtml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Views\Emails\EndEvaluationEmailToSelf.cshtml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Views\Emails\RemindDateEmailToEvaluator.cshtml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Views\Emails\RemindDateEmailToHR.cshtml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Views\Emails\RemindDateEmailToManagement.cshtml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Views\Emails\RemindDateEmailToReviewer.cshtml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Views\Emails\RemindDateEmailToSelf.cshtml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Views\Emails\JobLevelStandard\StartToEvaluator.cshtml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Views\Emails\JobLevelStandard\StartToManagement.cshtml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Views\Emails\JobLevelStandard\StartToEmployee.cshtml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
+    <Content Include="Views\Emails\EmailNotifyChangeSetting.cshtml" />
+    <Content Include="Views\Emails\EndEvaluationEmailToHRByEmployee.cshtml" />
+    <Content Include="Views\Emails\EndEvaluationEmailToHRByPeriod.cshtml" />
+    <Content Include="Views\Emails\EndEvaluationEmailToSelf.cshtml" />
+    <Content Include="Views\Emails\JobLevelStandard\StartToEmployee.cshtml" />
+    <Content Include="Views\Emails\JobLevelStandard\StartToEvaluator.cshtml" />
+    <Content Include="Views\Emails\JobLevelStandard\StartToManagement.cshtml" />
+    <Content Include="Views\Emails\RemindDateEmailToEvaluator.cshtml" />
+    <Content Include="Views\Emails\RemindDateEmailToHR.cshtml" />
+    <Content Include="Views\Emails\RemindDateEmailToManagement.cshtml" />
+    <Content Include="Views\Emails\RemindDateEmailToReviewer.cshtml" />
+    <Content Include="Views\Emails\RemindDateEmailToSelf.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="logs\log.txt" />
+    <Content Include="SpNames.xml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SMS.EPA.Core\SMS.EPA.Core.csproj">
-      <Project>{76ee2da4-7127-4c21-b218-adff51b2b74e}</Project>
+      <Project>{04c78e8e-915c-4690-bbaf-32f3dbaab88a}</Project>
       <Name>SMS.EPA.Core</Name>
     </ProjectReference>
     <ProjectReference Include="..\SMS.EPA.Criteria\SMS.EPA.Criteria.csproj">
-      <Project>{23bd1141-64a1-4684-8a1e-83e8cc0d46aa}</Project>
+      <Project>{f272161b-f087-4bd5-be5d-63610e12e5b1}</Project>
       <Name>SMS.EPA.Criteria</Name>
     </ProjectReference>
-    <ProjectReference Include="..\SMS.EPA.Models\SMS.EPA.Model.csproj">
-      <Project>{235c8d9e-97ec-4183-baf2-3783f2f816cc}</Project>
-      <Name>SMS.EPA.Model</Name>
+    <ProjectReference Include="..\SMS.EPA.Models\SMS.EPA.Models.csproj">
+      <Project>{359687e7-fb0b-4454-bc52-efc13fd2fc57}</Project>
+      <Name>SMS.EPA.Models</Name>
     </ProjectReference>
     <ProjectReference Include="..\SMS.EPA.Services\SMS.EPA.Services.csproj">
-      <Project>{8eb3d578-b2a0-4b11-9386-50f394de396c}</Project>
+      <Project>{3398ca77-0699-4379-98b5-6a4e77c98030}</Project>
       <Name>SMS.EPA.Services</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Content Include="SpNames.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-  </ItemGroup>
-  <ItemGroup>
-    <Analyzer Include="..\packages\SonarAnalyzer.CSharp.9.12.0.78982\analyzers\Google.Protobuf.dll" />
-    <Analyzer Include="..\packages\SonarAnalyzer.CSharp.9.12.0.78982\analyzers\SonarAnalyzer.CFG.dll" />
-    <Analyzer Include="..\packages\SonarAnalyzer.CSharp.9.12.0.78982\analyzers\SonarAnalyzer.CSharp.dll" />
-    <Analyzer Include="..\packages\SonarAnalyzer.CSharp.9.12.0.78982\analyzers\SonarAnalyzer.dll" />
-  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <Import Project="..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets" Condition="Exists('..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
 </Project>

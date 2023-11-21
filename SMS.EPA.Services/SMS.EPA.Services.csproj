@@ -1,22 +1,17 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>8.0.30703</ProductVersion>
-    <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{8EB3D578-B2A0-4B11-9386-50F394DE396C}</ProjectGuid>
+    <ProjectGuid>{3398CA77-0699-4379-98B5-6A4E77C98030}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>SMS.EPA.Services</RootNamespace>
     <AssemblyName>SMS.EPA.Services</AssemblyName>
-    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
-    <RestorePackages>true</RestorePackages>
-    <NuGetPackageImportStamp>
-    </NuGetPackageImportStamp>
-    <TargetFrameworkProfile />
+    <Deterministic>true</Deterministic>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -26,7 +21,6 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -35,14 +29,10 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Dapper, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Dapper.2.0.30\lib\net461\Dapper.dll</HintPath>
-    </Reference>
-    <Reference Include="EPPlus, Version=4.5.3.3, Culture=neutral, PublicKeyToken=ea159fdaa78159a1, processorArchitecture=MSIL">
-      <HintPath>..\packages\EPPlus.4.5.3.3\lib\net40\EPPlus.dll</HintPath>
     </Reference>
     <Reference Include="Fanex.Data, Version=4.2.2.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Fanex.Data.4.2.2\lib\net461\Fanex.Data.dll</HintPath>
@@ -59,8 +49,8 @@
     <Reference Include="ICSharpCode.SharpZipLib, Version=1.4.2.13, Culture=neutral, PublicKeyToken=1b03e6acf1164f73, processorArchitecture=MSIL">
       <HintPath>..\packages\SharpZipLib.1.4.2\lib\netstandard2.0\ICSharpCode.SharpZipLib.dll</HintPath>
     </Reference>
-    <Reference Include="jose-jwt, Version=4.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\jose-jwt.4.0.0\lib\net461\jose-jwt.dll</HintPath>
+    <Reference Include="jose-jwt, Version=3.1.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\jose-jwt.3.1.1\lib\net461\jose-jwt.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.AspNetCore.Http.Abstractions, Version=2.2.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNetCore.Http.Abstractions.2.2.0\lib\netstandard2.0\Microsoft.AspNetCore.Http.Abstractions.dll</HintPath>
@@ -80,11 +70,11 @@
     <Reference Include="Microsoft.Extensions.Primitives, Version=5.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Extensions.Primitives.5.0.0\lib\net461\Microsoft.Extensions.Primitives.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.Net.Http.Headers, Version=2.2.8.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Net.Http.Headers.2.2.8\lib\netstandard2.0\Microsoft.Net.Http.Headers.dll</HintPath>
+    <Reference Include="Microsoft.Net.Http.Headers, Version=2.2.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Net.Http.Headers.2.2.0\lib\netstandard2.0\Microsoft.Net.Http.Headers.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.13.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <HintPath>..\packages\Newtonsoft.Json.13.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="NPOI, Version=2.3.0.0, Culture=neutral, PublicKeyToken=0df73ec7942b34e1, processorArchitecture=MSIL">
       <HintPath>..\packages\NPOI.2.3.0\lib\net40\NPOI.dll</HintPath>
@@ -98,28 +88,15 @@
     <Reference Include="NPOI.OpenXmlFormats, Version=2.3.0.0, Culture=neutral, PublicKeyToken=0df73ec7942b34e1, processorArchitecture=MSIL">
       <HintPath>..\packages\NPOI.2.3.0\lib\net40\NPOI.OpenXmlFormats.dll</HintPath>
     </Reference>
-    <Reference Include="PresentationCore" />
     <Reference Include="System" />
     <Reference Include="System.Buffers, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Buffers.4.5.1\lib\net461\System.Buffers.dll</HintPath>
     </Reference>
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Data.SqlClient, Version=4.6.1.5, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Data.SqlClient.4.8.5\lib\net461\System.Data.SqlClient.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Drawing" />
     <Reference Include="System.Memory, Version=4.0.1.2, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Memory.4.5.5\lib\net461\System.Memory.dll</HintPath>
     </Reference>
-    <Reference Include="System.Net.Http" />
-    <Reference Include="System.Net.Http.Extensions, Version=2.2.29.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Net.Http.2.2.29\lib\net45\System.Net.Http.Extensions.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Net.Http.Primitives, Version=4.2.29.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Net.Http.2.2.29\lib\net45\System.Net.Http.Primitives.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Net.Http.WebRequest" />
     <Reference Include="System.Numerics" />
     <Reference Include="System.Numerics.Vectors, Version=4.1.4.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Numerics.Vectors.4.5.0\lib\net46\System.Numerics.Vectors.dll</HintPath>
@@ -128,16 +105,15 @@
       <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.6.0.0\lib\net461\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
     </Reference>
     <Reference Include="System.Security" />
-    <Reference Include="System.Text.Encodings.Web, Version=7.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Text.Encodings.Web.7.0.0\lib\netstandard2.0\System.Text.Encodings.Web.dll</HintPath>
+    <Reference Include="System.Text.Encodings.Web, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Text.Encodings.Web.4.5.0\lib\netstandard2.0\System.Text.Encodings.Web.dll</HintPath>
     </Reference>
-    <Reference Include="System.Threading.Tasks" />
-    <Reference Include="System.Threading.Tasks.Extensions, Version=4.2.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Threading.Tasks.Extensions.4.5.2\lib\netstandard2.0\System.Threading.Tasks.Extensions.dll</HintPath>
+    <Reference Include="System.Threading.Tasks.Extensions, Version=4.2.0.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Threading.Tasks.Extensions.4.5.4\lib\net461\System.Threading.Tasks.Extensions.dll</HintPath>
     </Reference>
     <Reference Include="System.Transactions" />
     <Reference Include="System.ValueTuple, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.ValueTuple.4.5.0\lib\net461\System.ValueTuple.dll</HintPath>
+      <HintPath>..\packages\System.ValueTuple.4.5.0\lib\net47\System.ValueTuple.dll</HintPath>
     </Reference>
     <Reference Include="System.Web" />
     <Reference Include="System.Web.Extensions" />
@@ -145,106 +121,110 @@
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Implement\BaseActorEPAService.cs" />
     <Compile Include="Implement\BaseMailService.cs" />
+    <Compile Include="Implement\CommonService.cs" />
+    <Compile Include="Implement\DepartmentFlowService.cs" />
+    <Compile Include="Implement\DepartmentService.cs" />
+    <Compile Include="Implement\DisciplineService.cs" />
+    <Compile Include="Implement\EmployeeEPAService.cs" />
+    <Compile Include="Implement\EmployeeService.cs" />
+    <Compile Include="Implement\EPAHistoryService.cs" />
     <Compile Include="Implement\EPAProcessService.cs" />
+    <Compile Include="Implement\EvaluatorByKPIService.cs" />
+    <Compile Include="Implement\EvaluatorEPAService.cs" />
+    <Compile Include="Implement\ExportFile\EPADetailReportService.cs" />
+    <Compile Include="Implement\ExportFile\EPADetailReportServiceBase.cs" />
     <Compile Include="Implement\ExportFile\ExportCommentReportService.cs" />
+    <Compile Include="Implement\ExportFile\ExportExcelService.cs" />
     <Compile Include="Implement\ExportFile\ExportJobLevelAssessmentService.cs" />
     <Compile Include="Implement\ExportFile\ExportRecommendationReportService.cs" />
     <Compile Include="Implement\ExportFile\ExportTargetTemplateService.cs" />
+    <Compile Include="Implement\ExportFile\MonthlyEPADetailReportService.cs" />
+    <Compile Include="Implement\FlowTemplateService.cs" />
     <Compile Include="Implement\JobDescriptionService.cs" />
     <Compile Include="Implement\JobLevelStandard\JobLevelAssessmentService.cs" />
     <Compile Include="Implement\JobLevelStandard\JobLevelStandardPeriodService.cs" />
+    <Compile Include="Implement\KPIService.cs" />
+    <Compile Include="Implement\MailService.cs" />
+    <Compile Include="Implement\ManagementEPAService.cs" />
+    <Compile Include="Implement\PeriodMailService.cs" />
+    <Compile Include="Implement\PeriodService.cs" />
+    <Compile Include="Implement\PersonalFlowService.cs" />
+    <Compile Include="Implement\ReportService.cs" />
     <Compile Include="Implement\ReportService\CommentReportService.cs" />
     <Compile Include="Implement\ReportService\RecomendationReportService.cs" />
+    <Compile Include="Implement\ReviewerEPAService.cs" />
+    <Compile Include="Implement\SelfEvaluationService.cs" />
+    <Compile Include="Implement\TargetEmployeeSettingService.cs" />
+    <Compile Include="Implement\TargetTemplateService.cs" />
     <Compile Include="Implement\UnitService.cs" />
+    <Compile Include="Interfaces\ExportFile\IEPADetailReportService.cs" />
     <Compile Include="Interfaces\ExportFile\IExportCommentReportService.cs" />
+    <Compile Include="Interfaces\ExportFile\IExportExcelService.cs" />
     <Compile Include="Interfaces\ExportFile\IExportJobLevelAssessmentService.cs" />
     <Compile Include="Interfaces\ExportFile\IExportRecommendationReportService.cs" />
     <Compile Include="Interfaces\ExportFile\IExportTargetTemplateService.cs" />
+    <Compile Include="Interfaces\ExportFile\IMonthlyEPADetailReportService.cs" />
     <Compile Include="Interfaces\IBaseMailService.cs" />
+    <Compile Include="Interfaces\ICommonService.cs" />
+    <Compile Include="Interfaces\IDepartmentFlowService.cs" />
+    <Compile Include="Interfaces\IDepartmentService.cs" />
+    <Compile Include="Interfaces\IDisciplineService.cs" />
+    <Compile Include="Interfaces\IEmployeeEPAService.cs" />
+    <Compile Include="Interfaces\IEmployeeService.cs" />
+    <Compile Include="Interfaces\IEPAHistoryService.cs" />
+    <Compile Include="Interfaces\IEvaluatorByKPIService.cs" />
+    <Compile Include="Interfaces\IEvaluatorEPAService.cs" />
+    <Compile Include="Interfaces\IFlowTemplateService.cs" />
     <Compile Include="Interfaces\IJobDescriptionService.cs" />
+    <Compile Include="Interfaces\IKPIService.cs" />
+    <Compile Include="Interfaces\IMailService.cs" />
+    <Compile Include="Interfaces\IManagementEPAService.cs" />
+    <Compile Include="Interfaces\IPeriodMailService.cs" />
+    <Compile Include="Interfaces\IPeriodService.cs" />
+    <Compile Include="Interfaces\IPersonalFlowService.cs" />
+    <Compile Include="Interfaces\IReportService.cs" />
+    <Compile Include="Interfaces\IReviewerEPAService.cs" />
+    <Compile Include="Interfaces\ISelfEvaluationService.cs" />
+    <Compile Include="Interfaces\ITargetEmployeeSettingService.cs" />
+    <Compile Include="Interfaces\ITargetTemplateService.cs" />
     <Compile Include="Interfaces\IUnitService.cs" />
     <Compile Include="Interfaces\JobLevelStandard\IJobLevelAssessmentService.cs" />
     <Compile Include="Interfaces\JobLevelStandard\IJobLevelStandardPeriodService.cs" />
     <Compile Include="Interfaces\ReportService\ICommentReportService.cs" />
     <Compile Include="Interfaces\ReportService\IRecomendationReportService.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs">
-      <!-- Exclude the file from analysis -->
-      <SonarQubeExclude>true</SonarQubeExclude>
-    </Compile>
-    <Compile Include="Implement\BaseActorEPAService.cs" />
-    <Compile Include="Implement\DisciplineService.cs" />
-    <Compile Include="Implement\CommonService.cs" />
-    <Compile Include="Implement\DepartmentService.cs" />
-    <Compile Include="Implement\ExportFile\EPADetailReportServiceBase.cs" />
-    <Compile Include="Implement\ExportFile\ExportExcelService.cs" />
-    <Compile Include="Implement\ManagementEPAService.cs" />
-    <Compile Include="Implement\ReviewerEPAService.cs" />
-    <Compile Include="Implement\EvaluatorByKPIService.cs" />
-    <Compile Include="Implement\EvaluatorEPAService.cs" />
-    <Compile Include="Implement\SelfEvaluationService.cs" />
-    <Compile Include="Implement\EmployeeService.cs" />
-    <Compile Include="Implement\EPAHistoryService.cs" />
-    <Compile Include="Implement\DepartmentFlowService.cs" />
-    <Compile Include="Implement\FlowTemplateService.cs" />
-    <Compile Include="Implement\ExportFile\MonthlyEPADetailReportService.cs" />
-    <Compile Include="Implement\ExportFile\EPADetailReportService.cs" />
-    <Compile Include="Implement\PersonalFlowService.cs" />
-    <Compile Include="Implement\KPIService.cs" />
-    <Compile Include="Implement\EmployeeEPAService.cs" />
-    <Compile Include="Implement\PeriodMailService.cs" />
-    <Compile Include="Implement\PeriodService.cs" />
-    <Compile Include="Implement\ReportService.cs" />
-    <Compile Include="Implement\TargetEmployeeSettingService.cs" />
-    <Compile Include="Implement\TargetTemplateService.cs" />
-    <Compile Include="Interfaces\ExportFile\IExportExcelService.cs" />
-    <Compile Include="Interfaces\IDisciplineService.cs" />
-    <Compile Include="Interfaces\ICommonService.cs" />
-    <Compile Include="Interfaces\IDepartmentService.cs" />
-    <Compile Include="Interfaces\IManagementEPAService.cs" />
-    <Compile Include="Interfaces\IReviewerEPAService.cs" />
-    <Compile Include="Interfaces\IEvaluatorByKPIService.cs" />
-    <Compile Include="Interfaces\IEvaluatorEPAService.cs" />
-    <Compile Include="Interfaces\ISelfEvaluationService.cs" />
-    <Compile Include="Interfaces\IEmployeeService.cs" />
-    <Compile Include="Interfaces\ExportFile\IMonthlyEPADetailReportService.cs" />
-    <Compile Include="Interfaces\ExportFile\IEPADetailReportService.cs" />
-    <Compile Include="Interfaces\IEPAHistoryService.cs" />
-    <Compile Include="Interfaces\IDepartmentFlowService.cs" />
-    <Compile Include="Interfaces\IFlowTemplateService.cs" />
-    <Compile Include="Interfaces\IPersonalFlowService.cs" />
-    <Compile Include="Interfaces\IKPIService.cs" />
-    <Compile Include="Interfaces\IEmployeeEPAService.cs" />
-    <Compile Include="Interfaces\IMailService.cs" />
-    <Compile Include="Interfaces\IPeriodMailService.cs" />
-    <Compile Include="Interfaces\IPeriodService.cs" />
-    <Compile Include="Interfaces\IReportService.cs" />
-    <Compile Include="Interfaces\ITargetEmployeeSettingService.cs" />
-    <Compile Include="Interfaces\ITargetTemplateService.cs" />
-    <Compile Include="Implement\MailService.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
+    <None Include="Implement\CommonService.cs.orig" />
+    <None Include="Implement\EmployeeEPAService.cs.orig" />
+    <None Include="Implement\EmployeeService.cs.orig" />
+    <None Include="Implement\ExportFile\ExportJobLevelAssessmentService.cs.orig" />
+    <None Include="Implement\ReportService.cs.orig" />
+    <None Include="Interfaces\ICommonService.cs.orig" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SMS.EPA.Core\SMS.EPA.Core.csproj">
-      <Project>{76EE2DA4-7127-4C21-B218-ADFF51B2B74E}</Project>
+      <Project>{04c78e8e-915c-4690-bbaf-32f3dbaab88a}</Project>
       <Name>SMS.EPA.Core</Name>
     </ProjectReference>
     <ProjectReference Include="..\SMS.EPA.Criteria\SMS.EPA.Criteria.csproj">
-      <Project>{23bd1141-64a1-4684-8a1e-83e8cc0d46aa}</Project>
+      <Project>{f272161b-f087-4bd5-be5d-63610e12e5b1}</Project>
       <Name>SMS.EPA.Criteria</Name>
     </ProjectReference>
-    <ProjectReference Include="..\SMS.EPA.Models\SMS.EPA.Model.csproj">
-      <Project>{235C8D9E-97EC-4183-BAF2-3783F2F816CC}</Project>
-      <Name>SMS.EPA.Model</Name>
+    <ProjectReference Include="..\SMS.EPA.Models\SMS.EPA.Models.csproj">
+      <Project>{359687e7-fb0b-4454-bc52-efc13fd2fc57}</Project>
+      <Name>SMS.EPA.Models</Name>
     </ProjectReference>
     <ProjectReference Include="..\SMS.EPA.Repositories\SMS.EPA.Repositories.csproj">
-      <Project>{45a93eb3-8d1e-41fd-92cd-0875399fbf42}</Project>
+      <Project>{7c155524-1daa-409b-9b85-43c9d07f7f75}</Project>
       <Name>SMS.EPA.Repositories</Name>
     </ProjectReference>
     <ProjectReference Include="..\SMS.EPA.Resources\SMS.EPA.Resources.csproj">
@@ -259,12 +239,4 @@
     <Analyzer Include="..\packages\SonarAnalyzer.CSharp.9.12.0.78982\analyzers\SonarAnalyzer.dll" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <Import Project="..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets" Condition="Exists('..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
 </Project>
