@@ -1,16 +1,11 @@
-﻿namespace SMS.EPA.AutoService
+﻿namespace SMS.EPA.ClientHrm
 {
-    using System.Diagnostics.CodeAnalysis;
-
-    public partial class ProjectInstaller
+    partial class ProjectInstaller
     {
         /// <summary>
         /// Required designer variable.
         /// </summary>
-        private System.ComponentModel.IContainer _components = null;
-
-        private System.ServiceProcess.ServiceProcessInstaller _serviceProcessInstaller1;
-        private System.ServiceProcess.ServiceInstaller _serviceInstaller1;
+        private System.ComponentModel.IContainer components = null;
 
         /// <summary> 
         /// Clean up any resources being used.
@@ -18,11 +13,10 @@
         /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
         protected override void Dispose(bool disposing)
         {
-            if (disposing && (_components != null))
+            if (disposing && (components != null))
             {
-                _components.Dispose();
+                components.Dispose();
             }
-
             base.Dispose(disposing);
         }
 
@@ -34,28 +28,30 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this._serviceProcessInstaller1 = new System.ServiceProcess.ServiceProcessInstaller();
-            this._serviceInstaller1 = new System.ServiceProcess.ServiceInstaller();
+            this.serviceProcessInstaller1 = new System.ServiceProcess.ServiceProcessInstaller();
+            this.serviceInstaller1 = new System.ServiceProcess.ServiceInstaller();
             // 
-            // _serviceProcessInstaller1
+            // serviceProcessInstaller1
             // 
-            this._serviceProcessInstaller1.Account = System.ServiceProcess.ServiceAccount.LocalSystem;
-            this._serviceProcessInstaller1.Password = null;
-            this._serviceProcessInstaller1.Username = null;
+            this.serviceProcessInstaller1.Password = null;
+            this.serviceProcessInstaller1.Username = null;
             // 
-            // _serviceInstaller1
+            // serviceInstaller1
             // 
-            this._serviceInstaller1.ServiceName = "_SMS.EPA.ClientHRM";
-            this._serviceInstaller1.StartType = System.ServiceProcess.ServiceStartMode.Automatic;
+            this.serviceInstaller1.ServiceName = "_SMS.EPA.ClientHRM";
+            this.serviceInstaller1.StartType = System.ServiceProcess.ServiceStartMode.Automatic;
             // 
             // ProjectInstaller
             // 
             this.Installers.AddRange(new System.Configuration.Install.Installer[] {
-            this._serviceProcessInstaller1,
-            this._serviceInstaller1});
+            this.serviceProcessInstaller1,
+            this.serviceInstaller1});
 
         }
 
         #endregion
+
+        private System.ServiceProcess.ServiceProcessInstaller serviceProcessInstaller1;
+        private System.ServiceProcess.ServiceInstaller serviceInstaller1;
     }
 }

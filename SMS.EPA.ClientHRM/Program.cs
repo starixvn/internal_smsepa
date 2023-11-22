@@ -6,7 +6,7 @@
     using System.ServiceProcess;
     using Fanex.Data;
     using Fanex.Data.SqlServer;
-    using Services;
+    using SMS.EPA.ClientHrm.Services;
 
     public static class Program
     {

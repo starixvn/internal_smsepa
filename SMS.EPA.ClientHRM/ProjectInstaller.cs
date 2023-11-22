@@ -1,4 +1,4 @@
-﻿namespace SMS.EPA.AutoService
+﻿namespace SMS.EPA.ClientHrm
 {
     using System.ComponentModel;
 
