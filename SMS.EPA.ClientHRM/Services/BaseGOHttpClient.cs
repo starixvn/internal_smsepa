@@ -12,7 +12,6 @@
     using HRM.UserControl.Client.Core.Services;
     using Jose;
     using Newtonsoft.Json;
-    using SMS.EPA.ClientHrm;
 
     public class BaseGOHttpClient
     {
@@ -65,7 +64,7 @@
                         return result;
                     }
 
-                    return default;
+                    return default(T);
                 }
             }
         }
@@ -90,7 +89,7 @@
                         return result;
                     }
 
-                    return default;
+                    return default(TOutput);
                 }
             }
         }
