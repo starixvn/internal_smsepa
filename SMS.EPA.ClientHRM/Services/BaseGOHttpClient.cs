@@ -15,7 +15,7 @@
 
     public class BaseGOHttpClient
     {
-        protected JwtToken _jwttoken = new JwtToken { ValidTo = DateTime.UtcNow.AddDays(-1) };
+        protected JwtToken _jwttoken = new JwtToken { ValidTo = DateTimeOffset.UtcNow.AddDays(-1).DateTime };
         private readonly ICryptoService cryptoService;
         private static readonly HttpClient httpClient = new HttpClient();
 

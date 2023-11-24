@@ -15,7 +15,7 @@
 
         public byte StatusId { get; set; }
 
-        public bool IsEndProcess => DateTime.Compare(EndDate.Date, DateTime.Now.Date) < 0;
+        public bool IsEndProcess => DateTime.Compare(EndDate.Date, DateTimeOffset.Now.Date) < 0;
 
         public EPAEmployeeInfo EvaluatorInfo { get; set; } = new EPAEmployeeInfo();
 

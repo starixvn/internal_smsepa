@@ -34,7 +34,7 @@
 
         public bool IsValid()
         {
-            return !string.IsNullOrEmpty(Value) && ExpireDate > DateTime.UtcNow;
+            return !string.IsNullOrEmpty(Value) && ExpireDate > DateTimeOffset.UtcNow;
         }
     }
 }

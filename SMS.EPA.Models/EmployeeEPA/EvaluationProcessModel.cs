@@ -7,14 +7,6 @@
 
     public class EvaluationProcessModel
     {
-        public EvaluationProcessModel()
-        {
-            HumanResources = new List<EPAProcessModel>();
-            Evaluators = new List<EPAProcessModel>();
-            Reviewers = new List<EPAProcessModel>();
-            Managements = new List<EPAProcessModel>();
-        }
-
         public float? AverageScoreByEvaluators => CalculateAverageScore(Evaluators);
 
         public float? AverageScoreByReviewers => CalculateAverageScore(Reviewers);
@@ -27,17 +19,17 @@
             {
                 if (Managements.Any())
                 {
-                    return Managements.First().MaxTotalScore;
+                    return Managements[0].MaxTotalScore;
                 }
 
                 if (Reviewers.Any())
                 {
-                    return Reviewers.First().MaxTotalScore;
+                    return Reviewers[0].MaxTotalScore;
                 }
 
                 if (Evaluators.Any())
                 {
-                    return Evaluators.First().MaxTotalScore;
+                    return Evaluators[0].MaxTotalScore;
                 }
 
                 return 0;
@@ -64,15 +56,15 @@
 
         public EPAProcessModel CurrentProcess { get; set; }
 
-        public IList<EPAProcessModel> HumanResources { get; set; }
+        public IList<EPAProcessModel> HumanResources { get; set; } = new List<EPAProcessModel>();
 
         public EPAProcessModel Self { get; set; }
 
-        public IList<EPAProcessModel> Evaluators { get; set; }
+        public IList<EPAProcessModel> Evaluators { get; set; } = new List<EPAProcessModel>();
 
-        public IList<EPAProcessModel> Reviewers { get; set; }
+        public IList<EPAProcessModel> Reviewers { get; set; } = new List<EPAProcessModel>();
 
-        public IList<EPAProcessModel> Managements { get; set; }
+        public IList<EPAProcessModel> Managements { get; set; } = new List<EPAProcessModel>();
 
         public static float? CalculateAverageScore(IList<EPAProcessModel> processes)
         {

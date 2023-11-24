@@ -1,7 +1,7 @@
 ﻿namespace SMS.EPA.Core.Attribute
 {
     using System;
-    using System.Collections.ObjectModel;
+    using System.Linq;
     using System.Net;
     using System.Net.Http;
     using System.Web;
@@ -65,17 +65,8 @@
 
         private void CheckUserPermission(HttpActionContext actionContext)
         {
-            Collection<ApiAuthorizeAttribute> attributes = actionContext.ActionDescriptor.GetCustomAttributes<ApiAuthorizeAttribute>();
-            bool hasPermission = false;
-
-            foreach (ApiAuthorizeAttribute item in attributes)
-            {
-                if (userControlSession.HasPermissionOnFunction(item.FunctionKey, item.Policy))
-                {
-                    hasPermission = true;
-                }
-            }
-
+            var hasPermission = actionContext.ActionDescriptor.GetCustomAttributes<ApiAuthorizeAttribute>().ToList()
+                .Exists(x => userControlSession.HasPermissionOnFunction(x.FunctionKey, x.Policy));
             if (!hasPermission)
             {
                 HandlePermissionRequest(actionContext);

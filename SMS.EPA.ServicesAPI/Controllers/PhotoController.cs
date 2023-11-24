@@ -13,7 +13,7 @@
     {
         public IHttpActionResult GetLastModifiedDate()
         {
-            var lastModifiedDate = new DateTime(2016, 01, 01);
+            var lastModifiedDate = new DateTimeOffset(2016, 1, 1, 0, 0, 0, TimeSpan.Zero).Date;
 
             DirectoryInfo directory = new DirectoryInfo(AppConfig.PhotoPath);
             FileInfo lastModifiedFile = directory.GetFiles().OrderByDescending(f => f.LastWriteTime).FirstOrDefault();

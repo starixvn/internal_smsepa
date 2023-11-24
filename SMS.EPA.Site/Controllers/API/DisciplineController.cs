@@ -1,6 +1,5 @@
 ﻿namespace SMS.EPA.Site.Controllers.API
 {
-    using System;
     using System.Collections.Generic;
     using System.Web.Http;
     using HRM.UserControl.Client.Core.Enumerables;

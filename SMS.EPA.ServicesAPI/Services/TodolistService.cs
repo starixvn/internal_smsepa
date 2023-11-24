@@ -175,13 +175,13 @@
 
         private static string FormatStartDate(DateTime startDate)
         {
-            var result = new DateTime(startDate.Year, startDate.Month, startDate.Day, 0, 0, 0, 0, startDate.Kind);
+            var result = new DateTimeOffset(startDate.Year, startDate.Month, startDate.Day, 0, 0, 0, 0, TimeSpan.Zero);
             return result.ToString(Constants.FormatDateTimeEmail);
         }
 
         private static string FormatEndDate(DateTime endDate)
         {
-            var result = new DateTime(endDate.Year, endDate.Month, endDate.Day, 23, 59, 0, 0, endDate.Kind);
+            var result = new DateTimeOffset(endDate.Year, endDate.Month, endDate.Day, 23, 59, 0, 0, TimeSpan.Zero);
             return result.ToString(Constants.FormatDateTimeEmail);
         }
     }

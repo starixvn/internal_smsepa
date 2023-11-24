@@ -54,12 +54,12 @@
 
         private static IEnumerable<TargetTemplateKPIGroupModel> GroupKPI(IEnumerable<KPIModel> kpiList)
         {
-            return kpiList.GroupBy(x => x.KPIGroups.First().KPIGroupId).Select(x => new TargetTemplateKPIGroupModel
+            return kpiList.GroupBy(x => x.KPIGroups[0].KPIGroupId).Select(x => new TargetTemplateKPIGroupModel
             {
                 KPIGroupId = x.Key,
-                Name = x.First().KPIGroups.First().Name,
-                IsSpreadKPI = x.First().KPIGroups.First().IsSpreadKPI,
-                Weight = x.First().KPIGroups.First().Weight,
+                Name = x.First().KPIGroups[0].Name,
+                IsSpreadKPI = x.First().KPIGroups[0].IsSpreadKPI,
+                Weight = x.First().KPIGroups[0].Weight,
                 Selected = CheckGroupSelected(x.ToList()),
                 KPIs = CheckKPISelected(x.ToList())
             });

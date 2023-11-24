@@ -93,7 +93,7 @@
 
                 currentColumn = WriteScoreCells(epaInfo, currentColumn, row, score);
 
-                BodyStyle = epaInfo.Process.Managements.Any() && epaInfo.Process.Managements.First().StatusId ==
+                BodyStyle = epaInfo.Process.Managements.Any() && epaInfo.Process.Managements[0].StatusId ==
                             (int)ProcessStatusType.InProgress
                     ? ApplyEvenOddBodyStyle(EvenRedStyle, OddRedStyle)
                     : ApplyEvenOddBodyStyle(EvenStyleCenter, OddStyleCenter);
@@ -175,12 +175,12 @@
 
             if (epaInfo.Process.Managements.Any())
             {
-                if (epaInfo.Process.Managements.First().StatusId == (int)ProcessStatusType.InProgress)
+                if (epaInfo.Process.Managements[0].StatusId == (byte)ProcessStatusType.InProgress)
                 {
                     managementScore = epaInfo.Process.AverageScoreByManagements?.ToString() ?? Lang.NotAvailable;
                 }
 
-                if (epaInfo.Process.Managements.First().StatusId == (int)ProcessStatusType.Closed)
+                if (epaInfo.Process.Managements[0].StatusId == (byte)ProcessStatusType.Closed)
                 {
                     managementScore = epaInfo.Process.AverageScoreByManagements?.ToString() ?? Lang.NotAvailable;
                 }

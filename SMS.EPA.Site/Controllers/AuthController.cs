@@ -1,6 +1,7 @@
 ﻿namespace SMS.EPA.Site.Controllers
 {
     using System;
+    using System.Globalization;
     using System.Web.Mvc;
     using System.Web.Security;
     using Fanex.Data;
@@ -116,7 +117,7 @@
             var onUserIdValue = Cryptography.DecryptPassword(onUserId.Replace(" ", "+"));
             var timeValue = Cryptography.DecryptPassword(time.Replace(" ", "+"));
             var currentTime = authService.SSOGetTime();
-            TimeSpan expiration = DateTime.ParseExact(currentTime, DateTimeFormat, null) - DateTime.ParseExact(timeValue, DateTimeFormat, null);
+            TimeSpan expiration = DateTime.ParseExact(currentTime, DateTimeFormat, new CultureInfo("en-US")) - DateTime.ParseExact(timeValue, DateTimeFormat, new CultureInfo("en-US"));
             const byte TimeExpiration = 30;
             if (expiration.TotalSeconds <= TimeExpiration)
             {

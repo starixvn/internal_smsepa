@@ -189,11 +189,11 @@
                 return;
             }
 
-            TotalColumns = dataList.First().ConvertToExcelRecord().GetType().GetProperties().Length;
+            TotalColumns = dataList[0].ConvertToExcelRecord().GetType().GetProperties().Length;
 
             WriteTitle();
 
-            WriteHeaders(dataList.First().ConvertToExcelRecord());
+            WriteHeaders(dataList[0].ConvertToExcelRecord());
 
             WriteData(dataList, firstColumnAutoIncrement);
 
@@ -214,7 +214,7 @@
                 return;
             }
 
-            TotalColumns = dataList.First().ConvertToExcelRecord().GetType().GetProperties().Length;
+            TotalColumns = dataList[0].ConvertToExcelRecord().GetType().GetProperties().Length;
 
             if (rewriteTitle)
             {

@@ -105,20 +105,6 @@
             row.WriteCells(0, values);
         }
 
-        public void WriteRows(int rowIndex, List<object[]> arrayList)
-        {
-            if (arrayList != null && arrayList.Count > 0)
-            {
-                int total = arrayList.Count;
-                IRow row = CreateRows(rowIndex, total);
-                for (int i = 0; i < total; i++)
-                {
-                    row.WriteCells(0, arrayList[i]);
-                    row = _sheet.GetRow(row.RowNum + 1);
-                }
-            }
-        }
-
         public void WriteRow(int rowIndex, object value)
         {
             if (value != null)
@@ -131,6 +117,20 @@
                 }
 
                 WriteRow(rowIndex, list.ToArray());
+            }
+        }
+
+        public void WriteRows(int rowIndex, List<object[]> arrayList)
+        {
+            if (arrayList != null && arrayList.Count > 0)
+            {
+                int total = arrayList.Count;
+                IRow row = CreateRows(rowIndex, total);
+                for (int i = 0; i < total; i++)
+                {
+                    row.WriteCells(0, arrayList[i]);
+                    row = _sheet.GetRow(row.RowNum + 1);
+                }
             }
         }
 

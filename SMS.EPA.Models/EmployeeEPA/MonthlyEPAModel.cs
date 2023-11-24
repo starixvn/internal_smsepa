@@ -8,12 +8,7 @@
 
     public class MonthlyEPAModel
     {
-        public MonthlyEPAModel()
-        {
-            MonthlyEPAs = new List<EPAModel>();
-        }
-
-        public IList<EPAModel> MonthlyEPAs { get; set; }
+        public IList<EPAModel> MonthlyEPAs { get; set; } = new List<EPAModel>();
 
         public float? AverageSelfScore => CalculateAverageScore((byte)ProcessType.Self);
 
@@ -33,34 +28,34 @@
             int count = 0;
             float? result = null;
 
-            var finishedMonthlyEPAs = MonthlyEPAs.Where(x => x.IsClosed).ToList();
-            foreach (EPAModel monthlyEPA in finishedMonthlyEPAs)
+            var processes = MonthlyEPAs.Where(x => x.IsClosed).Select(x => x.Process).ToList();
+            foreach (var process in processes)
             {
                 switch (processType)
                 {
                     case (byte)ProcessType.Self:
-                        if (!string.IsNullOrEmpty(monthlyEPA.Process.Self.TotalScore))
+                        if (!string.IsNullOrEmpty(process.Self.TotalScore))
                         {
                             count++;
-                            average += float.Parse(monthlyEPA.Process.Self.TotalScore);
+                            average += float.Parse(process.Self.TotalScore);
                         }
 
                         break;
 
                     case (byte)ProcessType.Evaluator:
-                        if (monthlyEPA.Process.AverageScoreByEvaluators.HasValue)
+                        if (process.AverageScoreByEvaluators.HasValue)
                         {
                             count++;
-                            average += monthlyEPA.Process.AverageScoreByEvaluators.Value;
+                            average += process.AverageScoreByEvaluators.Value;
                         }
 
                         break;
 
                     case (byte)ProcessType.Reviewer:
-                        if (monthlyEPA.Process.AverageScoreByReviewers.HasValue)
+                        if (process.AverageScoreByReviewers.HasValue)
                         {
                             count++;
-                            average += monthlyEPA.Process.AverageScoreByReviewers.Value;
+                            average += process.AverageScoreByReviewers.Value;
                         }
 
                         break;

@@ -96,7 +96,7 @@
             foreach (var process in processes)
             {
                 EPAModel epaInfo;
-                if (epaInfos.Any(x => x.EPAId == process.EPAId))
+                if (epaInfos.Exists(x => x.EPAId == process.EPAId))
                 {
                     epaInfo = epaInfos.First(x => x.EPAId == process.EPAId);
                 }

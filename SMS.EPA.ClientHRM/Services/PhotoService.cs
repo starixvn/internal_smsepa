@@ -22,8 +22,8 @@
         public IEnumerable<Photo> GetPhotos(DateTime? fromDate)
         {
             var photos = new List<Photo>();
-            DirectoryInfo directory = new DirectoryInfo(ApplicationConfig.PhotoPath);
-            DateTime modifiedDate = fromDate ?? new DateTime(2010, 1, 1);
+            var directory = new DirectoryInfo(ApplicationConfig.PhotoPath);
+            var modifiedDate = fromDate ?? new DateTimeOffset(2010, 1, 1, 0, 0, 0, TimeSpan.Zero).DateTime;
             IEnumerable<FileInfo> files = directory.GetFiles().Where(file => file.LastWriteTime >= modifiedDate
                 && file.Extension.Equals(".jpg", StringComparison.OrdinalIgnoreCase));
 

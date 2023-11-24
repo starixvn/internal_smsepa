@@ -1,7 +1,5 @@
 ﻿namespace SMS.EPA.Model.EPAHistory
 {
-    using Model;
-
     public class EPAHistoryModel
     {
         public EPAEmployeeInfo Employee { get; set; }

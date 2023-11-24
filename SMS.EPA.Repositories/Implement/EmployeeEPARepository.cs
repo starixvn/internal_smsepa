@@ -530,9 +530,6 @@
             }
         }
 
-        private static string GetKPIScore(string score)
-        {
-            return !string.IsNullOrWhiteSpace(score) ? score.Split('_').First() : score;
-        }
+        private static string GetKPIScore(string score) => !string.IsNullOrWhiteSpace(score) ? score.Split('_')[0] : score;
     }
 }

@@ -164,8 +164,8 @@
 
             var command = new EditPeriodEmployeeSettingCommand
             {
-                PeriodId = employeeSettings.First().PeriodId,
-                TemplateId = employeeSettings.First().TemplateId,
+                PeriodId = employeeSettings[0].PeriodId,
+                TemplateId = employeeSettings[0].TemplateId,
                 SettingXml = settings.ToXML().ToString(),
                 ModifiedBy = CurrentEmployeeId
             };
