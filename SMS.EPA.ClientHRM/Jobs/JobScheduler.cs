@@ -6,6 +6,7 @@
     using SMS.EPA.ClientHrm;
     using SMS.EPA.ClientHrm.Services;
 
+#pragma warning disable S4462 // Calls to "async" methods should not be blocking
     public class JobScheduler
     {
         private readonly IScheduler scheduler;
@@ -91,4 +92,5 @@
             scheduler.Shutdown().Wait();
         }
     }
+#pragma warning restore S4462 // Calls to "async" methods should not be blocking
 }

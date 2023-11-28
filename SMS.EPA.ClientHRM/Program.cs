@@ -21,7 +21,9 @@
                     .WithSqlServer("~/App_Data/SpNames.xml")
                     .Run();
 
+#pragma warning disable S4830 // Server certificates should be verified during SSL/TLS connections
                 ServicePointManager.ServerCertificateValidationCallback = (obj, certificate, chain, errors) => true;
+#pragma warning restore S4830 // Server certificates should be verified during SSL/TLS connections
 
                 Bootstrap.Start();
 

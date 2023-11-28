@@ -141,7 +141,9 @@
                     throw new UnauthorizedAccessException();
                 }
 
+#pragma warning disable S4462 // Calls to "async" methods should not be blocking
                 var message = response.Content.ReadAsStringAsync().Result;
+#pragma warning restore S4462 // Calls to "async" methods should not be blocking
                 var exception = new Exception(message);
                 throw exception;
             }

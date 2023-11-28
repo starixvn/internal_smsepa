@@ -405,13 +405,15 @@
 
         public EPAProcessModel CloneEPAProcess(EPAProcessModel process)
         {
-            using (MemoryStream ms = new MemoryStream())
+            using (var ms = new MemoryStream())
             {
                 var formatter = new BinaryFormatter();
                 formatter.Serialize(ms, process);
                 ms.Position = 0;
 
+#pragma warning disable S5773 // Types allowed to be deserialized should be restricted
                 return (EPAProcessModel)formatter.Deserialize(ms);
+#pragma warning restore S5773 // Types allowed to be deserialized should be restricted
             }
         }
 

@@ -66,7 +66,8 @@
             var titleCell = Sheet.GetRow(0).GetCell(0);
             titleCell.SetCellValue(Title);
 
-            var staffFields = SummaryComments.GroupBy(comment => new { comment.Code, comment.Nickname, comment.Section, comment.Team, comment.StaffComment });
+            var staffFields = SummaryComments.GroupBy(comment => new { comment.Code, comment.Nickname, comment.Section, comment.Team, comment.StaffComment })
+                .Select(x => x.Key).ToList();
             int rowIndex = TableContentFirstRowIndex;
 
             foreach (var staffField in staffFields)
@@ -80,15 +81,14 @@
                 };
 
                 var curRow = Sheet.CreateRow(rowIndex);
-                var fieldData = staffField.Key;
 
-                curRow.CreateCell(colIndex++).SetCellValue(fieldData.Code);
-                curRow.CreateCell(colIndex++).SetCellValue(fieldData.Nickname);
-                curRow.CreateCell(colIndex++).SetCellValue(fieldData.Section);
-                curRow.CreateCell(colIndex++).SetCellValue(fieldData.Team);
-                curRow.CreateCell(colIndex).SetCellValue(fieldData.StaffComment);
+                curRow.CreateCell(colIndex++).SetCellValue(staffField.Code);
+                curRow.CreateCell(colIndex++).SetCellValue(staffField.Nickname);
+                curRow.CreateCell(colIndex++).SetCellValue(staffField.Section);
+                curRow.CreateCell(colIndex++).SetCellValue(staffField.Team);
+                curRow.CreateCell(colIndex).SetCellValue(staffField.StaffComment);
 
-                FillEvaluatorFields(evaluatorRow, fieldData.Code);
+                FillEvaluatorFields(evaluatorRow, staffField.Code);
 
                 int nextStaffRowIndex = evaluatorRow.Values.Max();
                 MergeStaffFields(rowIndex, nextStaffRowIndex - 1);

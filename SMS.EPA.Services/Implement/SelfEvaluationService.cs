@@ -26,14 +26,13 @@
         public IEnumerable<EPAModel> GetEPAByEmployee(GetEPAByEmployeeCriteria criteria)
         {
             IEnumerable<EPAModel> epas = new List<EPAModel>();
-
             if (criteria != null && criteria.IsValid())
             {
                 epas = employeeEPARepository.GetEPA(criteria);
-
-                foreach (EPAModel epa in epas)
+                var processes = epas.Select(x => x.Process);
+                foreach (var process in processes)
                 {
-                    epa.Process.CurrentProcess = evaluationService.CloneEPAProcess(epa.Process.Self);
+                    process.CurrentProcess = evaluationService.CloneEPAProcess(process.Self);
                 }
             }
 
