@@ -22,14 +22,14 @@
         public async Task<JobDescriptionGroupSetting> GetGroupSettingByIdAsync(int groupId, int jobLevelId)
         {
             var criteria = new GetGroupSettingJobDescriptionByIdCriteria { GroupId = groupId, JobLevelId = jobLevelId };
-            var tuple = await baseService.FetchMultipleAsync<JobDescriptionGroupSetting, JobDescriptionGroupItem, JobDescriptionItem>(criteria);
-            var groupInfo = tuple.Item1.FirstOrDefault();
+            (var groupInfos, var groupItems, var items) = await baseService.FetchMultipleAsync<JobDescriptionGroupSetting, JobDescriptionGroupItem, JobDescriptionItem>(criteria);
+            var groupInfo = groupInfos.FirstOrDefault();
             if (groupInfo != null)
             {
-                groupInfo.GroupItems = tuple.Item2;
+                groupInfo.GroupItems = groupItems;
                 foreach (var groupitem in groupInfo.GroupItems)
                 {
-                    groupitem.Items = tuple.Item3.Where(x => x.GroupItemId == groupitem.GroupItemId).ToList();
+                    groupitem.Items = items.Where(x => x.GroupItemId == groupitem.GroupItemId).ToList();
                 }
 
                 groupInfo.GroupItems = groupInfo.GroupItems.OrderBy(x => x.DisplayOrder).ToList();
@@ -41,14 +41,14 @@
         public async Task<JobDescriptionEmployeeSetting> GetEmployeeSettingByIdAsync(int employeeId)
         {
             var criteria = new GetEmployeeSettingJobDescriptionByIdCriteria { EmployeeId = employeeId };
-            var tuple = await baseService.FetchMultipleAsync<JobDescriptionEmployeeSetting, JobDescriptionGroupItem, JobDescriptionItem>(criteria);
-            var employeeInfo = tuple.Item1.FirstOrDefault();
+            (var employeeInfos, var groupItems, var items) = await baseService.FetchMultipleAsync<JobDescriptionEmployeeSetting, JobDescriptionGroupItem, JobDescriptionItem>(criteria);
+            var employeeInfo = employeeInfos.FirstOrDefault();
             if (employeeInfo != null)
             {
-                employeeInfo.GroupItems = tuple.Item2;
+                employeeInfo.GroupItems = groupItems;
                 foreach (var groupitem in employeeInfo.GroupItems)
                 {
-                    groupitem.Items = tuple.Item3.Where(x => x.GroupItemId == groupitem.GroupItemId).ToList();
+                    groupitem.Items = items.Where(x => x.GroupItemId == groupitem.GroupItemId).ToList();
                 }
 
                 employeeInfo.GroupItems = employeeInfo.GroupItems.OrderBy(x => x.DisplayOrder).ToList();

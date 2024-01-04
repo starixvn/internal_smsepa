@@ -22,24 +22,24 @@
 
         public IList<TargetEmployeeSetting> GetTargetEmployeeSetting(GetAllTargetEmployeeSettingCriteria criteria)
         {
-            var tuple = baseService.FetchMultiple<TargetEmployeeSetting, TargetTemplateEmployee>(criteria);
-            foreach (TargetEmployeeSetting employee in tuple.Item1)
+            (var employees, var templates) = baseService.FetchMultiple<TargetEmployeeSetting, TargetTemplateEmployee>(criteria);
+            foreach (var employee in employees)
             {
-                employee.TargetTemplates = tuple.Item2.Where(t => t.EmployeeId == employee.EmployeeId).ToList();
+                employee.TargetTemplates = templates.Where(t => t.EmployeeId == employee.EmployeeId).ToList();
             }
 
-            return tuple.Item1.ToList();
+            return employees.ToList();
         }
 
         public IList<TargetDepartmentSetting> GetTargetDepartmentSetting(GetTargetDepartmentSettingCriteria criteria)
         {
-            var tuple = baseService.FetchMultiple<TargetDepartmentSetting, TargetTemplateDepartment>(criteria);
-            foreach (TargetDepartmentSetting department in tuple.Item1)
+            (var departments, var templates) = baseService.FetchMultiple<TargetDepartmentSetting, TargetTemplateDepartment>(criteria);
+            foreach (var department in departments)
             {
-                department.TargetTemplates = tuple.Item2.Where(t => t.DepartmentId == department.DepartmentId && t.IsGroup == department.IsGroup).ToList();
+                department.TargetTemplates = templates.Where(t => t.DepartmentId == department.DepartmentId && t.IsGroup == department.IsGroup).ToList();
             }
 
-            return tuple.Item1.ToList();
+            return departments.ToList();
         }
     }
 }

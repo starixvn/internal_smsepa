@@ -18,16 +18,12 @@
         public IList<MultiSelectItem> GetOrgChart()
         {
             var criteria = new GetOrgChartCriteria();
-            var tuple = baseService.FetchMultiple<Department, Section, Team>(criteria);
-
-            var departments = tuple.Item1.ToList();
-            var sections = tuple.Item2.ToList();
-            var teams = tuple.Item3.ToList();
+            (var departments, var sections, var teams) = baseService.FetchMultiple<Department, Section, Team>(criteria);
 
             return GetOrgChart(departments, sections, teams);
         }
 
-        private IList<MultiSelectItem> GetOrgChart(IList<Department> departments, IList<Section> sections, IList<Team> teams)
+        private IList<MultiSelectItem> GetOrgChart(IEnumerable<Department> departments, IEnumerable<Section> sections, IEnumerable<Team> teams)
         {
             return departments.Select(dept => new MultiSelectItem
             {

@@ -118,10 +118,7 @@
         public IList<MultiSelectItem> GetOrgChart(int? periodId = null)
         {
             var criteria = new GetOrgChartByActorIdCriteria { ActorId = CurrentEmployeeId, PeriodId = periodId };
-            var tuple = baseService.FetchMultiple<Department, Section, Team>(criteria);
-
-            var departments = tuple.Item1.ToList();
-            var sections = tuple.Item2.ToList();
+            (var departments, var sections, _) = baseService.FetchMultiple<Department, Section, Team>(criteria);
 
             var items = departments.Any()
                 ? departments.Select(dept => new MultiSelectItem

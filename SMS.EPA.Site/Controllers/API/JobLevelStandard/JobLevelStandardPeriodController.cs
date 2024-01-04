@@ -37,23 +37,22 @@
         [ApiAuthorize(FunctionKey = EPAFunctionKey.JobLevelStandardPeriod, Policy = Policy.Read)]
         public async Task<IList<JobLevelStandardPeriod>> GetPeriods(GetJobLevelStandardPeriodCriteria criteria)
         {
-            var tuple = await baseService.FetchMultipleAsync<JobLevelStandardPeriod, JobLevelStandardPeriodSetting>(criteria);
-            IList<JobLevelStandardPeriod> periods = tuple.Item1.ToList();
+            (var periods, var settings) = await baseService.FetchMultipleAsync<JobLevelStandardPeriod, JobLevelStandardPeriodSetting>(criteria);
             foreach (var period in periods)
             {
-                period.Settings = tuple.Item2.Where(x => x.PeriodId == period.PeriodId).ToList();
+                period.Settings = settings.Where(x => x.PeriodId == period.PeriodId).ToList();
             }
 
-            return periods;
+            return periods.ToList();
         }
 
         [ApiAuthorize(FunctionKey = EPAFunctionKey.JobLevelStandardPeriod, Policy = Policy.Read)]
         public async Task<JobLevelStandardPeriod> GetById(int periodId)
         {
             var criteria = new GetJobLevelStandardPeriodByIdCriteria { PeriodId = periodId };
-            var tuple = await baseService.FetchMultipleAsync<JobLevelStandardPeriod, JobLevelStandardPeriodSetting>(criteria);
-            JobLevelStandardPeriod period = tuple.Item1.First();
-            period.Settings = tuple.Item2.ToList();
+            (var periods, var settings) = await baseService.FetchMultipleAsync<JobLevelStandardPeriod, JobLevelStandardPeriodSetting>(criteria);
+            var period = periods.First();
+            period.Settings = settings.ToList();
 
             return period;
         }

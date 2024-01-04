@@ -33,14 +33,13 @@
         {
             IList<JobLevelSetting> jobLevelSettings = GetJobLevelSettingByPeriod(criteria.PeriodId);
 
-            var tuple = baseService.FetchMultiple<JobLevelAssessment, PeriodProcessSetting, JobLevelAssessmentKPI>(criteria);
-            IList<JobLevelAssessment> assessments = tuple.Item1.ToList();
+            (var assessments, var processes, var kpis) = baseService.FetchMultiple<JobLevelAssessment, PeriodProcessSetting, JobLevelAssessmentKPI>(criteria);
             foreach (var assessment in assessments)
             {
                 assessment.LengthOfService = commonService.CalculateLengthOfService(assessment.JoinedDate, assessment.PeriodStartDate, assessment.MilitaryFromDate, assessment.MilitaryToDate);
                 assessment.RequirementMinScore = GetRequirementMinScore(jobLevelSettings, assessment);
-                assessment.Processes = tuple.Item2.Where(x => x.EmployeeId == assessment.EmployeeId).ToList();
-                assessment.KPIs = tuple.Item3.Where(x => x.EmployeeId == assessment.EmployeeId).ToList();
+                assessment.Processes = processes.Where(x => x.EmployeeId == assessment.EmployeeId).ToList();
+                assessment.KPIs = kpis.Where(x => x.EmployeeId == assessment.EmployeeId).ToList();
 
                 SyncWeight(assessment);
 
@@ -49,13 +48,47 @@
                     assessment.SystemPropose = assessment.TotalWeight.Value - (assessment.RequirementMinScore ?? 0);
                 }
 
-                GetNewJobLevel(jobLevelSettings, assessment);
+                if (assessment.SystemPropose > 0)
+                {
+                    GetNewJobLevel(jobLevelSettings, assessment);
+                }
             }
 
             assessments = assessments.OrderBy(x => x.Processes.Any(y => y.EvaluatorId == criteria.ActorId) ? 0 : 1)
-                .ThenBy(x => x.StatusId.HasValue ? 0 : 1).ToList();
+                .ThenBy(x => x.StatusId.HasValue ? 0 : 1);
 
-            return assessments;
+            return assessments.ToList();
+        }
+
+        public IList<JobLevelAssessment> GetJobLevelAssessmentReport(GetJobLevelAssessmentReportCriteria criteria)
+        {
+            IList<JobLevelSetting> jobLevelSettings = GetJobLevelSettingByPeriod(criteria.PeriodId);
+
+            (var assessments, var kpis, var processes) = baseService.FetchMultiple<JobLevelAssessment, JobLevelAssessmentKPI, PeriodProcessSetting>(criteria);
+            foreach (var assessment in assessments)
+            {
+                assessment.Evaluators = processes.Where(x => x.EmployeeId == assessment.EmployeeId).ToList();
+                assessment.LengthOfService = commonService.CalculateLengthOfService(assessment.JoinedDate, assessment.PeriodStartDate, assessment.MilitaryFromDate, assessment.MilitaryToDate);
+                assessment.RequirementMinScore = jobLevelSettings
+                    .FirstOrDefault(x => x.SectionId == assessment.SectionId && x.JobLevelId == assessment.CurrentJobLevelId)?.MinWeight;
+                assessment.KPIs = kpis.Where(x => x.EmployeeId == assessment.EmployeeId).ToList();
+
+                SyncWeight(assessment);
+
+                if (assessment.TotalWeight.HasValue)
+                {
+                    assessment.SystemPropose = assessment.TotalWeight.Value - (assessment.RequirementMinScore ?? 0);
+                }
+
+                if (assessment.SystemPropose > 0)
+                {
+                    GetNewJobLevel(jobLevelSettings, assessment);
+                }
+            }
+
+            assessments = assessments.OrderBy(x => x.StatusId.HasValue ? 0 : 1);
+
+            return assessments.ToList();
         }
 
         private static void SyncWeight(JobLevelAssessment assessment)
@@ -78,35 +111,6 @@
             }
         }
 
-        public IList<JobLevelAssessment> GetJobLevelAssessmentReport(GetJobLevelAssessmentReportCriteria criteria)
-        {
-            IList<JobLevelSetting> jobLevelSettings = GetJobLevelSettingByPeriod(criteria.PeriodId);
-
-            var tuple = baseService.FetchMultiple<JobLevelAssessment, JobLevelAssessmentKPI, PeriodProcessSetting>(criteria);
-            IList<JobLevelAssessment> assessments = tuple.Item1.ToList();
-            foreach (var assessment in assessments)
-            {
-                assessment.Evaluators = tuple.Item3.Where(x => x.EmployeeId == assessment.EmployeeId).ToList();
-                assessment.LengthOfService = commonService.CalculateLengthOfService(assessment.JoinedDate, assessment.PeriodStartDate, assessment.MilitaryFromDate, assessment.MilitaryToDate);
-                assessment.RequirementMinScore = jobLevelSettings
-                    .FirstOrDefault(x => x.SectionId == assessment.SectionId && x.JobLevelId == assessment.CurrentJobLevelId)?.MinWeight;
-                assessment.KPIs = tuple.Item2.Where(x => x.EmployeeId == assessment.EmployeeId).ToList();
-
-                SyncWeight(assessment);
-
-                if (assessment.TotalWeight.HasValue)
-                {
-                    assessment.SystemPropose = assessment.TotalWeight.Value - (assessment.RequirementMinScore ?? 0);
-                }
-
-                GetNewJobLevel(jobLevelSettings, assessment);
-            }
-
-            assessments = assessments.OrderBy(x => x.StatusId.HasValue ? 0 : 1).ToList();
-
-            return assessments;
-        }
-
         private static decimal? GetRequirementMinScore(IList<JobLevelSetting> jobLevelSettings, JobLevelAssessment assessment)
         {
             return jobLevelSettings.FirstOrDefault(x => x.SectionId == assessment.SectionId && x.JobLevelId == assessment.CurrentJobLevelId)?.MinWeight;
@@ -115,18 +119,20 @@
         private static void GetNewJobLevel(IList<JobLevelSetting> jobLevelSettings, JobLevelAssessment assessment)
         {
             int currentJobLevelId = assessment.CurrentJobLevelId ?? 0;
-            if (assessment.SystemPropose > 0)
+            decimal requirementMinScore = assessment.RequirementMinScore ?? 0;
+            IList<JobLevelSetting> settings = jobLevelSettings.Where(x => x.SectionId == assessment.SectionId
+                    && x.JobLevelId != currentJobLevelId && x.MinWeight >= requirementMinScore && x.MinWeight <= assessment.TotalWeight)
+                .OrderBy(x => x.MinWeight).ToList();
+            if (settings.Any() && assessment.RequirementMinScore.HasValue && settings[0].JobLevelId != currentJobLevelId)
             {
-                decimal requirementMinScore = assessment.RequirementMinScore ?? 0;
-                IList<JobLevelSetting> settings = jobLevelSettings.Where(x => x.SectionId == assessment.SectionId
-                        && x.JobLevelId != currentJobLevelId && x.MinWeight >= requirementMinScore && x.MinWeight <= assessment.TotalWeight)
-                    .OrderBy(x => x.MinWeight).ToList();
-                if (settings.Any() && assessment.RequirementMinScore.HasValue && settings[0].JobLevelId != currentJobLevelId)
-                {
-                    var jobLevel = settings[0];
+                var jobLevel = settings[0];
 
-                    assessment.NewJobLevelId = jobLevel.JobLevelId;
-                    assessment.NewJobLevel = jobLevel.Name;
+                assessment.NewJobLevelId = jobLevel.JobLevelId;
+                assessment.NewJobLevel = jobLevel.Name;
+
+                if (settings.Count > 1)
+                {
+                    assessment.NewJobLevel += " > " + settings[settings.Count - 1].Name;
                 }
             }
         }

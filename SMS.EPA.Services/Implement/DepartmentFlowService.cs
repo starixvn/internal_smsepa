@@ -31,9 +31,9 @@
             {
                 FlowTemplateId = flowTemplateId
             };
-            var tuple = baseService.FetchMultiple<DepartmentFlowModel, ProcessFlowModel>(criteria);
-            MappingFlow(tuple.Item1, tuple.Item2);
-            return tuple.Item1.OrderBy(i => i.Department).ThenBy(x => x.Section);
+            (var flows, var processes) = baseService.FetchMultiple<DepartmentFlowModel, ProcessFlowModel>(criteria);
+            MappingFlow(flows, processes);
+            return flows.OrderBy(i => i.Department).ThenBy(x => x.Section);
         }
 
         public IEnumerable<FlowModel> GetById(GetDepartmentFlowByIdCriteria criteria)

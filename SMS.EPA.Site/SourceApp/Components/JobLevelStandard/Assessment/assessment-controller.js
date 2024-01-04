@@ -164,6 +164,10 @@
                     if (settings && settings.length > 0 && assessment.RequirementMinScore !== null && settings[0].JobLevelId !== currentJobLevelId) {
                         assessment.NewJobLevelId = settings[0].JobLevelId;
                         assessment.NewJobLevel = settings[0].Name;
+
+                        if (settings.length > 1) {
+                            assessment.NewJobLevel = assessment.NewJobLevel + ' > ' + settings[settings.length - 1].Name;
+                        }
                     }
                 }
             }

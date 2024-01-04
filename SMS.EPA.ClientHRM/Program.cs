@@ -2,7 +2,9 @@
 {
     using System;
     using System.Net;
+    using System.Net.Security;
     using System.Reflection;
+    using System.Security.Cryptography.X509Certificates;
     using System.ServiceProcess;
     using Fanex.Data;
     using Fanex.Data.SqlServer;
@@ -21,9 +23,7 @@
                     .WithSqlServer("~/App_Data/SpNames.xml")
                     .Run();
 
-#pragma warning disable S4830 // Server certificates should be verified during SSL/TLS connections
-                ServicePointManager.ServerCertificateValidationCallback = (obj, certificate, chain, errors) => true;
-#pragma warning restore S4830 // Server certificates should be verified during SSL/TLS connections
+                ServicePointManager.ServerCertificateValidationCallback = RemoteCertificateValidationCallback;
 
                 Bootstrap.Start();
 
@@ -63,5 +63,8 @@
                 logger.Error(ex.Message, ex);
             }
         }
+
+        private static bool RemoteCertificateValidationCallback(object sender, X509Certificate certificate, X509Chain chain, SslPolicyErrors sslPolicyErrors)
+            => sslPolicyErrors == SslPolicyErrors.None;
     }
 }

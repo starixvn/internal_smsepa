@@ -90,9 +90,7 @@
         public IEnumerable<JobDescriptionGroupItem> GetJobDescriptionByEPAId(int epaId)
         {
             var criteria = new GetJobDescriptionByEPAIdCriteria { EPAId = epaId };
-            var tuple = baseService.FetchMultiple<JobDescriptionGroupItem, JobDescriptionItem>(criteria);
-            IEnumerable<JobDescriptionGroupItem> groupItems = tuple.Item1;
-            IEnumerable<JobDescriptionItem> items = tuple.Item2;
+            (var groupItems, var items) = baseService.FetchMultiple<JobDescriptionGroupItem, JobDescriptionItem>(criteria);
             foreach (var groupitem in groupItems)
             {
                 groupitem.Items = items.Where(x => x.GroupItemId == groupitem.GroupItemId).ToList();

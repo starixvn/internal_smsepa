@@ -219,11 +219,9 @@
             IList<Unit> units = unitService.Get();
 
             var criteria = new GetOrgChartCriteria();
-            var tuple = baseService.FetchMultiple<Department, Section>(criteria);
-            var departments = tuple.Item1.ToList();
-            var sections = tuple.Item2.ToList();
+            (var departments, var sections) = baseService.FetchMultiple<Department, Section>(criteria);
 
-            return GetOrgChart(units, departments, sections);
+            return GetOrgChart(units, departments.ToList(), sections.ToList());
         }
 
         private static IList<MenuItem> GroupMenuItem(IEnumerable<MenuItem> menuItems)

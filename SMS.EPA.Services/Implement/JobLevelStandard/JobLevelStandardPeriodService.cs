@@ -22,16 +22,15 @@
 
         public IList<PeriodEmployeeSetting> GetEmployeeSettings(GetPeriodEmployeeSettingCriteria criteria)
         {
-            var tuple = baseService.FetchMultiple<PeriodEmployeeSetting, PeriodProcessSetting>(criteria);
-            IList<PeriodEmployeeSetting> employees = tuple.Item1.ToList();
+            (var employees, var processes) = baseService.FetchMultiple<PeriodEmployeeSetting, PeriodProcessSetting>(criteria);
             foreach (var employee in employees)
             {
-                employee.Employee = tuple.Item2.FirstOrDefault(x => x.EmployeeId == employee.EmployeeId && x.ProcessId == (byte)JobLevelAssessmentProcess.Employee);
-                employee.Evaluators = tuple.Item2.Where(x => x.EmployeeId == employee.EmployeeId && x.ProcessId == (byte)JobLevelAssessmentProcess.Evaluator).ToList();
-                employee.Managements = tuple.Item2.Where(x => x.EmployeeId == employee.EmployeeId && x.ProcessId == (byte)JobLevelAssessmentProcess.Management).ToList();
+                employee.Employee = processes.FirstOrDefault(x => x.EmployeeId == employee.EmployeeId && x.ProcessId == (byte)JobLevelAssessmentProcess.Employee);
+                employee.Evaluators = processes.Where(x => x.EmployeeId == employee.EmployeeId && x.ProcessId == (byte)JobLevelAssessmentProcess.Evaluator).ToList();
+                employee.Managements = processes.Where(x => x.EmployeeId == employee.EmployeeId && x.ProcessId == (byte)JobLevelAssessmentProcess.Management).ToList();
             }
 
-            return employees;
+            return employees.ToList();
         }
     }
 }
