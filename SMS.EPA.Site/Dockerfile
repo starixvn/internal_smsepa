@@ -39,7 +39,6 @@ COPY SMS.EPA.Criteria\ SMS.EPA.Criteria\
 COPY SMS.EPA.Repositories\ SMS.EPA.Repositories\
 COPY SMS.EPA.Services\ SMS.EPA.Services\
 COPY SMS.EPA.Site\ SMS.EPA.Site\
-COPY SonarQube SonarQube\
 
 RUN MSBuild.exe "SMS.EPA.Site\SMS.EPA.Site.csproj" `
     /t:Build;WebPublish /m `
