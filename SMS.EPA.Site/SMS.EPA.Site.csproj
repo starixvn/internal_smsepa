@@ -901,12 +901,12 @@
     <Content Include="Views\ExportPdf\_PerformanceResult.cshtml" />
     <Content Include="Views\ExportPdf\_ProbationExtendedQuestion.cshtml" />
     <Content Include="Views\ExportPdf\_Recommendation.cshtml" />
-    <None Include="WebConfigs\Web.Local.config" />
-    <None Include="WebConfigs\Web.PRO.cti.config" />
-    <None Include="WebConfigs\Web.PRO.ghr.config" />
-    <None Include="WebConfigs\Web.PRO.hm.config" />
-    <None Include="WebConfigs\Web.PRO.lexfin.config" />
-    <None Include="WebConfigs\Web.PRO.sms.config" />
+    <Content Include="WebConfigs\Web.Local.config" />
+    <Content Include="WebConfigs\Web.PRO.cti.config" />
+    <Content Include="WebConfigs\Web.PRO.ghr.config" />
+    <Content Include="WebConfigs\Web.PRO.hm.config" />
+    <Content Include="WebConfigs\Web.PRO.lexfin.config" />
+    <Content Include="WebConfigs\Web.PRO.sms.config" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SMS.EPA.Core\SMS.EPA.Core.csproj">
