@@ -187,7 +187,7 @@
                         evaluators: [],
                         managements: []
                     };
-                    if (vm.singleMode || vm.fieldEdit.evaluator || vm.fieldEdit.template) {
+                    if (vm.singleMode || vm.fieldEdit.evaluator) {
                         angular.forEach(vm.employeeSettings.evaluator.ids, function (id) {
                             employeeSetting.evaluators.push({
                                 processId: vm.process.Evaluator,
