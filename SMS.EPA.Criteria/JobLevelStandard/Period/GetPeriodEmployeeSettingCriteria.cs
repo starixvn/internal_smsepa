@@ -9,6 +9,7 @@
         [SpParam(Ignored = true)]
         public string PeriodName { get; set; }
         public string TeamIds { get; set; }
+        public int? JobLevelId { get; set; }
         public bool? IsLocal { get; set; }
         public byte? StatusId { get; set; }
         public bool? IsExcluded { get; set; }

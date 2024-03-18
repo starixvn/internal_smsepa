@@ -14,6 +14,7 @@
         vm.isFirstLoad = true;
         vm.selectedAll = false;
         vm.orgChart = [];
+        vm.jobLevelOptions = [];
 
         vm.currentPage = 1;
         vm.pageSize = 20;
@@ -29,7 +30,8 @@
             teamIds: null,
             isLocal: '',
             isExcluded: false,
-            statusId: ''
+            statusId: '',
+            jobLevelId: ''
         };
 
         function getEmployeeSettings(filter) {
@@ -53,6 +55,10 @@
 
                     CommonModel.getOrgChart().then(function () {
                         vm.orgChart = CommonModel.orgChart;
+                    });
+
+                    CommonModel.getJobLevel(false).then(function () {
+                        vm.jobLevelOptions = CommonModel.jobLevels;
                     });
 
                     getEmployeeSettings(vm.filter);
