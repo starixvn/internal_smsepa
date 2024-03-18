@@ -37,6 +37,7 @@
                 { HeaderText: 'Reviewer Score', Width: 80, Name: 'ReviewerScore', HeaderAlign: 'center', CellAlign: 'center' },
                 { HeaderText: 'Final Score', Width: 80, Name: 'FinalScore', HeaderAlign: 'center', CellAlign: 'center' },
                 { HeaderText: 'Grade', Width: 80, Name: 'Grade', HeaderAlign: 'center', CellAlign: 'center' },
+                { HeaderText: 'Export PDF', Width: 80, Name: 'ExportPdf', HeaderAlign: 'center', CellAlign: 'center' },
                 { HeaderText: 'View Detail', Width: 80, Name: 'ViewDetail', HeaderAlign: 'center', CellAlign: 'center' }
             ];
 
@@ -110,10 +111,11 @@
             if (gridData.EpaInfos) {
                 angular.forEach(gridData.EpaInfos, function (epaInfo, index) {
                     const score = calculateScore(epaInfo),
-                    viewIcon = '<a class="icon-view viewEPADetail" data-epaid="' + epaInfo.EPAId + '"></a>',
-                    cssSelfScore = epaInfo.EPAId > 0 && epaInfo.Process.Self.IsEndProcess ? '' : 'red',
-                    cssEvaluatorScore = epaInfo.EPAId > 0 && epaInfo.Process.Evaluators[0].IsEndProcess ? '' : 'red',
-                    cssReviewerScore = epaInfo.EPAId > 0 && epaInfo.Process.Reviewers[0].IsEndProcess ? '' : 'red';
+                        viewIcon = '<a class="icon-view viewEPADetail" data-epaid="' + epaInfo.EPAId + '"></a>',
+                        cssSelfScore = epaInfo.EPAId > 0 && epaInfo.Process.Self.IsEndProcess ? '' : 'red',
+                        cssEvaluatorScore = epaInfo.EPAId > 0 && epaInfo.Process.Evaluators[0].IsEndProcess ? '' : 'red',
+                        cssReviewerScore = epaInfo.EPAId > 0 && epaInfo.Process.Reviewers[0].IsEndProcess ? '' : 'red',
+                        pdfIcon = '<a class="icon-pdf exportPDF" data-epaid="' + epaInfo.EPAId + '"></a>';
 
                     const currentRow = {
                         Columns: [
@@ -132,6 +134,7 @@
                             { Name: 'ReviewerScore', Value: "<span class='" + cssReviewerScore + "'>" + score.ReviewerScore + "</span>" },
                             { Name: 'FinalScore', Value: score.FinalScore },
                             { Name: 'Grade', Value: score.Grade },
+                            { Name: 'ExportPdf', Value: epaInfo.EPAId > 0 ? pdfIcon : '' },
                             { Name: 'ViewDetail', Value: epaInfo.EPAId > 0 ? viewIcon : '' }
                         ]
                     };
@@ -148,9 +151,29 @@
 
             $('.freegrid').on('click', '.table-cell a.viewEPADetail', function (event) {
                 const epaId = parseInt($(this).data('epaid'));
-                const url = baseUrl + '#' + 'EPA/Detail/' + epaId;
+                const url = baseUrl + '#' + 'EPA/Detail/' + epaId + '?exportPdf';
                 $(this).attr('href', url);
             });
+        }
+
+        function registerExportPdfEvent() {
+            $('.freegrid').off('click', '.table-cell a.exportPDF');
+
+            $('.freegrid').on('click', '.table-cell a.exportPDF', function (event) {
+                    event.preventDefault();
+
+                    var epaId = parseInt($(this).data('epaid'));
+
+                    var url = baseUrl + 'ExportPdf/ExportPdf/' + epaId;
+                    var iframe = $('body iframe');
+
+                    if (iframe.length === 0) {
+                        iframe = $('<iframe width="0" height="0" class="display-none"></iframe>');
+                        iframe.appendTo('body');
+                    }
+
+                    iframe.attr('src', url);
+                });
         }
 
         return {
@@ -211,6 +234,7 @@
                             $(iElement).fanexGrid('hideColumns', gridOptions, $scope.hideColumns);
 
                             registerViewEPADetailEvent();
+                            registerExportPdfEvent();
                         }
                     });
                 });
