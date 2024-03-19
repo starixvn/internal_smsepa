@@ -4,8 +4,14 @@
     </div>
     <div class="panel-collapse collapse in recommendation">
         <div class="panel-body recommendation-section">
-            <div class="error-message" ng-show="reviewerDetailCtrl.epaInfo.Recommendation.Invalid"
-                 data-translate="ProbationRecommendationWarning"></div>
+            <div class="error-message"
+                 ng-show="reviewerDetailCtrl.epaInfo.Recommendation.Invalid && reviewerDetailCtrl.enableExtendProbation">
+                You must select 1 in 3 options
+            </div>
+            <div class="error-message"
+                 ng-show="reviewerDetailCtrl.epaInfo.Recommendation.Invalid && !reviewerDetailCtrl.enableExtendProbation">
+                You must select 1 in 2 options
+            </div>
             <div>Based on the evaluation above, I recommend the employee:</div>
             <table class="table table-bordered table-recommendation table-custom">
                 <thead>

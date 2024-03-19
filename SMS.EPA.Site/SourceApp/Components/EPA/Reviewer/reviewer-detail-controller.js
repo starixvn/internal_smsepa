@@ -60,8 +60,10 @@
 
         vm.save = function (epaInfo) {
             var totalcore = epaInfo.Process.CurrentProcess.TotalScore;
+            var isValidEvaluation = ReviewerManagementModel.validateEvaluation(totalcore);
+            var isValidRecommendation = ReviewerEPAModel.validateRecommendation(epaInfo);
 
-            if (ReviewerManagementModel.validateEvaluation(totalcore) && ReviewerEPAModel.validateRecommendation(epaInfo)) {
+            if (isValidEvaluation && isValidRecommendation) {
                 var model = new Array(epaInfo);
 
                 ReviewerEPAModel.adjustScoreByReviewer(vm, model);

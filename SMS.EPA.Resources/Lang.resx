@@ -981,6 +981,9 @@
   <data name="EvaluateEPAInvalid" xml:space="preserve">
     <value>There are some empty rates or comments. Please fill them before submitting.</value>
   </data>
+    <data name="ProbationFormInvalid" xml:space="preserve">
+    <value>Please fill all required field before submitting.</value>
+  </data>
   <data name="ViewComment" xml:space="preserve">
     <value>View Comment</value>
   </data>

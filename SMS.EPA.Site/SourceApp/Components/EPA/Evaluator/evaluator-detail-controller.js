@@ -97,7 +97,9 @@
         };
 
         vm.save = function (epaInfo) {
-            if (EvaluatorEPAModel.validateEPA(epaInfo) && EvaluatorEPAModel.validateRecommendation(epaInfo)) {
+            var isValidEPA = EvaluatorEPAModel.validateEPA(epaInfo);
+            var isValidRecommendation = EvaluatorEPAModel.validateRecommendation(epaInfo);
+            if (isValidEPA && isValidRecommendation) {
                 EvaluatorEPAModel.updateEPAScoreByEvaluator(vm);
             } else {
                 SelfEvalutorModel.openPopupNotificationInvalidComment(vm, vm.evaluateEPAInvalidMessage);
@@ -200,7 +202,7 @@
                 vm.scoreInputValidMessage = message;
             });
 
-            $translate('EvaluateEPAInvalid').then(function (message) {
+            $translate('ProbationFormInvalid').then(function (message) {
                 vm.evaluateEPAInvalidMessage = message;
             });
 
