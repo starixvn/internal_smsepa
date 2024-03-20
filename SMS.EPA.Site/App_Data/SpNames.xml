@@ -11,6 +11,7 @@
             <Mapping DataField="JobLevelName" ObjectProperty="Name" />
         </Setting>
         <Setting Key="Employee_Search" SpName="Employee_Search" DbName="SMSEPA" Plain="0"></Setting>
+        <Setting Key="Employee_SearchByRoleId" SpName="Employee_SearchByRoleId" DbName="SMSEPA" Plain="0"></Setting>
         <Setting Key="EpaEmployee_GetById" SpName="EpaEmployee_GetById" DbName="SMSEPA" Plain="0"></Setting>
         <Setting Key="EpaGroup_Get" SpName="EpaGroup_Get" DbName="SMSEPA" Plain="0"></Setting>
         <Setting Key="EpaEmployee_Insert" SpName="EpaEmployee_Insert" DbName="SMSEPA" Plain="0"></Setting>

@@ -32,6 +32,12 @@
         vm.selectedHumanResource = null;
         vm.isFirstLoad = true;
         vm.departments = [];
+        vm.systemRole = {
+            hr: 2,
+            mgt: 3,
+            reviewer: 4,
+            evaluator: 5
+        };
 
         vm.checkTeamHasSetting = function (teamId) {
             return vm.departmentSettings.find(team => team.DepartmentId === teamId) !== undefined;
@@ -99,16 +105,16 @@
         vm.getEmployee = function (identity) {
             switch (identity) {
                 case "evaluatorList":
-                    return CommonModel.searchEmployee(vm.searchEvaluator);
+                    return CommonModel.searchEmployeeByRoleId(vm.searchEvaluator, vm.systemRole.evaluator);
 
                 case "reviewerList":
-                    return CommonModel.searchEmployee(vm.searchReviewer);
+                    return CommonModel.searchEmployeeByRoleId(vm.searchReviewer, vm.systemRole.reviewer);
 
                 case "managementList":
-                    return CommonModel.searchEmployee(vm.searchManagement);
+                    return CommonModel.searchEmployeeByRoleId(vm.searchManagement, vm.systemRole.mgt);
 
                 case "humanResourceList":
-                    return CommonModel.searchEmployee(vm.searchHumanResource);
+                    return CommonModel.searchEmployeeByRoleId(vm.searchHumanResource, vm.systemRole.hr);
             }
         };
 

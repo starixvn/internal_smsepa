@@ -13,6 +13,7 @@
             kpiGroups: [],
             groups: [],
             employees: [],
+            employeesByRole: [],
             employee: {},
             statusList: [],
             periods: [],
@@ -76,6 +77,14 @@
         model.searchEmployee = function (query, teamIds, isSpecialUser, isDisabledUser, getByApprover, includeVerifier) {
             return commonFactory.searchEmployee(query, teamIds, isSpecialUser, isDisabledUser, getByApprover, includeVerifier).success(function (employees) {
                 model.employees = employees;
+            }).error(function (response, status) {
+                errorFactory.errorHandle(status);
+            });
+        };
+
+        model.searchEmployeeByRoleId = function (query, roleId) {
+            return commonFactory.searchEmployeeByRoleId(query, roleId).success(function (employees) {
+                model.employeesByRole = employees;
             }).error(function (response, status) {
                 errorFactory.errorHandle(status);
             });

@@ -115,6 +115,18 @@
         }
 
         [HttpGet]
+        public IList<Employee> SearchEmployeeByRoleId(string query = "", short roleId = 0)
+        {
+            var criteria = new SearchEmployeeByRoleIdCriteria
+            {
+                Query = query,
+                RoleId = roleId
+            };
+
+            return baseService.GetData<Employee>(criteria).ToList();
+        }
+
+        [HttpGet]
         public Employee GetEmployeeById(int employeeId)
         {
             IList<Role> roles = roleService.GetBySiteId(UserControlSession.SiteId);

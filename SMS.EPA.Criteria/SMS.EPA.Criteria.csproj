@@ -115,6 +115,7 @@
     <Compile Include="Employee\GetEmployeeCriteria.cs" />
     <Compile Include="Employee\GetPasswordByEmpIdCriteria.cs" />
     <Compile Include="Employee\ResetPasswordCriteria.cs" />
+    <Compile Include="Employee\SearchEmployeeByRoleIdCriteria.cs" />
     <Compile Include="Employee\SearchEmployeeCriteria.cs" />
     <Compile Include="Employee\UpdateHasMonthlyEPACriteria.cs" />
     <Compile Include="Employee\UpdateJobLevelCriteria.cs" />

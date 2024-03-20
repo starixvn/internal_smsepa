@@ -12,6 +12,11 @@
                     params: { query, teamIds, isSpecialUser, isDisabledUser, getByApprover, includeVerifier }
                 });
             },
+            searchEmployeeByRoleId: function (query, roleId) {
+                return $http.get(baseUrl + 'api/Common/SearchEmployeeByRoleId', {
+                    params: { query, roleId}
+                });
+            },
             getTargetType: function (isActive, excludeTargetTypeIds) {
                 return $http.get(baseUrl + 'api/Common/GetTargetType', {
                     params: {
