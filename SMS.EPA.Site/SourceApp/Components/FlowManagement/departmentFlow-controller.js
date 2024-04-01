@@ -4,9 +4,9 @@
     /* jshint validthis:true */
 
     angular.module('flowMngModule').controller('DepartmentFlowController', departmentFlowController);
-    departmentFlowController.$inject = ['$scope', '$routeParams', 'FlowSettingModel', 'DeptFlowModel', 'CommonModel', 'lockScreenService'];
+    departmentFlowController.$inject = ['$scope', '$routeParams', 'FlowSettingModel', 'DeptFlowModel', 'CommonModel', 'lockScreenService', 'utilitiesFactory',];
 
-    function departmentFlowController($scope, $routeParams, FlowSettingModel, DeptFlowModel, CommonModel, lockScreenService) {
+    function departmentFlowController($scope, $routeParams, FlowSettingModel, DeptFlowModel, CommonModel, lockScreenService, utilitiesFactory) {
         let vm = this;
 
         vm.FlowTemplateId = parseInt($routeParams.id);
@@ -32,12 +32,6 @@
         vm.selectedHumanResource = null;
         vm.isFirstLoad = true;
         vm.departments = [];
-        vm.systemRole = {
-            hr: 2,
-            mgt: 3,
-            reviewer: 4,
-            evaluator: 5
-        };
 
         vm.checkTeamHasSetting = function (teamId) {
             return vm.departmentSettings.find(team => team.DepartmentId === teamId) !== undefined;
@@ -105,16 +99,16 @@
         vm.getEmployee = function (identity) {
             switch (identity) {
                 case "evaluatorList":
-                    return CommonModel.searchEmployeeByRoleId(vm.searchEvaluator, vm.systemRole.evaluator);
+                    return CommonModel.searchEmployeeByRoleId(vm.searchEvaluator, utilitiesFactory.systemRole.Evaluator);
 
                 case "reviewerList":
-                    return CommonModel.searchEmployeeByRoleId(vm.searchReviewer, vm.systemRole.reviewer);
+                    return CommonModel.searchEmployeeByRoleId(vm.searchReviewer, utilitiesFactory.systemRole.Reviewer);
 
                 case "managementList":
-                    return CommonModel.searchEmployeeByRoleId(vm.searchManagement, vm.systemRole.mgt);
+                    return CommonModel.searchEmployeeByRoleId(vm.searchManagement, utilitiesFactory.systemRole.MGT);
 
                 case "humanResourceList":
-                    return CommonModel.searchEmployeeByRoleId(vm.searchHumanResource, vm.systemRole.hr);
+                    return CommonModel.searchEmployeeByRoleId(vm.searchHumanResource, utilitiesFactory.systemRole.HR);
             }
         };
 

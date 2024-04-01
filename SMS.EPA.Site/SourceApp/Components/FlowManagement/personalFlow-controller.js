@@ -35,13 +35,6 @@
         vm.selectedReviewer = null;
         vm.selectedManagement = null;
         vm.selectedHumanResource = null;
-        vm.systemRole = {
-            hr: 2,
-            mgt: 3,
-            reviewer: 4,
-            evaluator: 5,
-            employee: 6
-        };
 
         vm.targetTypeEnum = utilitiesFactory.targetType;
 
@@ -80,19 +73,19 @@
         vm.getEmployee = function (identity) {
             switch (identity) {
                 case 'employee':
-                    return CommonModel.searchEmployeeByRoleId(vm.searchEmployee, vm.systemRole.employee);
+                    return CommonModel.searchEmployeeByRoleId(vm.searchEmployee, utilitiesFactory.systemRole.Employee);
                     break;
                 case 'evaluatorList':
-                    return CommonModel.searchEmployeeByRoleId(vm.searchEvaluator, vm.systemRole.evaluator);
+                    return CommonModel.searchEmployeeByRoleId(vm.searchEvaluator, utilitiesFactory.systemRole.Evaluator);
                     break;
                 case 'reviewerList':
-                    return CommonModel.searchEmployeeByRoleId(vm.searchReviewer, vm.systemRole.reviewer);
+                    return CommonModel.searchEmployeeByRoleId(vm.searchReviewer, utilitiesFactory.systemRole.Reviewer);
                     break;
                 case 'managementList':
-                    return CommonModel.searchEmployeeByRoleId(vm.searchManagement, vm.systemRole.mgt);
+                    return CommonModel.searchEmployeeByRoleId(vm.searchManagement, utilitiesFactory.systemRole.MGT);
                     break;
                 case 'humanResourceList':
-                    return CommonModel.searchEmployeeByRoleId(vm.searchHumanResource, vm.systemRole.hr);
+                    return CommonModel.searchEmployeeByRoleId(vm.searchHumanResource, utilitiesFactory.systemRole.HR);
                     break;
             }
         };

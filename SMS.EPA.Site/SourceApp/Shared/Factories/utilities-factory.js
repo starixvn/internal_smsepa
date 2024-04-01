@@ -52,6 +52,13 @@
                 Discipline: 1,
                 NonDiscipline: 2,
                 Full100: 3
+            },
+            systemRole = {
+                HR: 2,
+                MGT: 3,
+                Reviewer: 4,
+                Evaluator: 5,
+                Employee: 6
             };
 
         var utilities = {
@@ -84,6 +91,7 @@
             handleOpenLinkWithParams: handleOpenLinkWithParams,
             isOpenNewTabEvent: isOpenNewTabEvent,
             scoreRatingType: scoreRatingType,
+            systemRole: systemRole,
             probationStatusTypes: {
                 Failed: 0,
                 Passed: 1,
