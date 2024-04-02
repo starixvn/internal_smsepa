@@ -43,5 +43,7 @@
 
     <Function Name="Job Level Standard">
         <Setting Key="Auto_JobLevelStandard_GetEmployeeSettingToSendMail" SpName="Auto_JobLevelStandard_GetEmployeeSettingToSendMail" DbName="SMSEPA" Plain="0" />
+        <Setting Key="Auto_JobLevelStandard_GetPeriodStartingToday" SpName="Auto_JobLevelStandard_GetPeriodStartingToday" DbName="SMSEPA" Plain="0" />
+        <Setting Key="Auto_JobLevelStandard_AddEmployeeSetting" SpName="Auto_JobLevelStandard_AddEmployeeSetting" DbName="SMSEPA" Plain="0" />
     </Function>
 </Functions>

@@ -3,5 +3,6 @@
     public interface IJobLevelStandardService
     {
         void SendReminderEmail();
+        void AddEmployeeSetting();
     }
 }

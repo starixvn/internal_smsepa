@@ -57,6 +57,7 @@
                 probationService.CheckProbationPeriod();
                 promotionService.CheckPromotionPeriod();
                 processService.UpdateInfomationOfProcess();
+                jobLevelStandardService.AddEmployeeSetting();
 
                 var tasks = new[] {
                     Task.Factory.StartNew(() => { autoMailService.CheckAndSendMail(); }),

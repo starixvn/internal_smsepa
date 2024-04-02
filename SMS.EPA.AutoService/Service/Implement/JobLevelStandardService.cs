@@ -2,12 +2,15 @@
 {
     using System;
     using System.IO;
+    using Fanex.Logging;
     using SMS.EPA.AutoService.Criteria.JobLevelStandard;
     using SMS.EPA.Core.Constants;
     using SMS.EPA.Core.Enumerations;
+    using SMS.EPA.Core.Model;
     using SMS.EPA.Core.Services;
     using SMS.EPA.Model.AutoService;
     using SMS.EPA.Model.Email;
+    using SMS.EPA.Model.JobLevelStandard.Period;
     using SMS.EPA.Services;
 
     public class JobLevelStandardService : IJobLevelStandardService
@@ -57,6 +60,32 @@
 
                 mailService.SendEmail(model);
             }
+        }
+
+        public void AddEmployeeSetting()
+        {
+            var criteria = new GetPeriodStartingTodayCriteria();
+            var periods = baseService.GetData<JobLevelStandardPeriod>(criteria);
+            foreach (var period in periods)
+            {
+                AddEmployeeSettingToPeriod(period.PeriodId);
+            }
+        }
+
+        private void AddEmployeeSettingToPeriod(int periodId)
+        {
+            var criteria = new InsertEmployeeSettingToPeriod
+            {
+                PeriodId = periodId
+            };
+
+            CommandResult commandResult = baseService.ExecuteNonQuery(criteria);
+
+            if (!commandResult.IsSuccessful)
+            {
+                LogService.Error("Auto add employee setting to period " + periodId + ": " + commandResult.Message);
+            }
+
         }
 
         private static string GetEmailtemplatePath(byte processId)

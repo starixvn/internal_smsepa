@@ -85,6 +85,8 @@
     <Compile Include="Criteria\GetSemiAnnualPeriodStartedCriteria.cs" />
     <Compile Include="Criteria\InsertEmployeeToProbationPeriodCriteria.cs" />
     <Compile Include="Criteria\InsertEmployeeToSemiAnnualPeriodCriteria.cs" />
+    <Compile Include="Criteria\JobLevelStandard\InsertEmployeeSettingToPeriod.cs" />
+    <Compile Include="Criteria\JobLevelStandard\GetPeriodStartingTodayCriteria.cs" />
     <Compile Include="Criteria\JobLevelStandard\GetJobLevelStandardPeriodEmployeeSettingToSendMailCriteria.cs" />
     <Compile Include="Criteria\Monthly\GetMonthlyPeriodStartedCriteria.cs" />
     <Compile Include="Criteria\Monthly\InsertEmployeeToMonthlyPeriodCriteria.cs" />
