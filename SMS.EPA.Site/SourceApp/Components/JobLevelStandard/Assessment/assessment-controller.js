@@ -88,6 +88,14 @@
             return CommonModel.getIndex(index, currentPage, pageSize);
         };
 
+        vm.editComment = function (assessment) {
+            AssessmentModel.openPopupAddComment(vm, assessment).then(function () {
+                vm.modalInstance = null;
+                assessment.Comment = AssessmentModel.comment;
+            });
+        };
+
+
         vm.edit = function (assessment) {
             vm.isEditing = true;
             vm.selectedAssessment = angular.copy(assessment);

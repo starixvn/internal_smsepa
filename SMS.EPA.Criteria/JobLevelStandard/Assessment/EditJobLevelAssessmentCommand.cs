@@ -13,6 +13,7 @@
         public int? NewJobLevelId { get; set; }
         public JobLevelAssessmentStatus? StatusId { get; set; }
         public string Remark { get; set; }
+        public string Comment { get; set; }
         public string AssessmentKPIXml { get; set; }
         public int ModifiedBy { get; set; }
 

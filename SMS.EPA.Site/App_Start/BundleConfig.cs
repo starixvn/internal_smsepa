@@ -1,6 +1,7 @@
 ﻿namespace SMS.EPA.Site
 {
     using System.Diagnostics.CodeAnalysis;
+    using System.Web.Mvc;
     using System.Web.Optimization;
 
     public static class BundleConfig
@@ -275,6 +276,7 @@
                             "~/SourceApp/Components/JobLevelStandard/Assessment/assessment-factory.js",
                             "~/SourceApp/Components/JobLevelStandard/Assessment/assessment-model.js",
                             "~/SourceApp/Components/JobLevelStandard/Assessment/assessment-controller.js",
+                            "~/SourceApp/Components/JobLevelStandard/Assessment/comment-assessment-controller.js",
                             "~/SourceApp/Components/JobLevelStandard/Report/assessment-report-factory.js",
                             "~/SourceApp/Components/JobLevelStandard/Report/assessment-report-model.js",
                             "~/SourceApp/Components/JobLevelStandard/Report/assessment-report-controller.js",
@@ -305,6 +307,7 @@
                             "~/SourceApp/Shared/Directives/epa-searchAutoComplete-directive.js",
                             "~/SourceApp/Shared/Directives/popover-avatar-directive.js",
                             "~/SourceApp/Shared/Directives/popover-kpis-directive.js",
+                            "~/SourceApp/Shared/Directives/popover-comment-directive.js",
                             "~/SourceApp/Shared/Directives/multiselect-treeview-directive.js",
                             "~/SourceApp/Shared/Directives/move-kpi-row-directive.js",
                             "~/SourceApp/Shared/Directives/floatThead-directive.js",

@@ -19,9 +19,9 @@
     <UseIISExpress>true</UseIISExpress>
     <Use64BitIISExpress />
     <IISExpressSSLPort>44300</IISExpressSSLPort>
-    <IISExpressAnonymousAuthentication />
-    <IISExpressWindowsAuthentication />
-    <IISExpressUseClassicPipelineMode />
+    <IISExpressAnonymousAuthentication>enabled</IISExpressAnonymousAuthentication>
+    <IISExpressWindowsAuthentication>disabled</IISExpressWindowsAuthentication>
+    <IISExpressUseClassicPipelineMode>false</IISExpressUseClassicPipelineMode>
     <UseGlobalApplicationHostFile />
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
@@ -454,6 +454,9 @@
     <Content Include="Libs\ui-bootstrap-tpls-2.5.0.js" />
     <Content Include="Libs\ui-bootstrap-tpls-2.5.0.min.js" />
     <Content Include="Dockerfile" />
+    <Content Include="SourceApp\Components\JobLevelStandard\Assessment\comment-assessment-controller.js" />
+    <Content Include="SourceApp\Components\JobLevelStandard\Assessment\Templates\comment.html" />
+    <Content Include="SourceApp\Shared\Directives\popover-comment-directive.js" />
     <Content Include="WhoAmI.aspx" />
     <None Include="BundleTransformer.Configuration.xsd">
       <SubType>Designer</SubType>

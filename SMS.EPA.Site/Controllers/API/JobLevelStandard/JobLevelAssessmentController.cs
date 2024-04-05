@@ -91,6 +91,7 @@
                     StatusId = assessment.StatusId,
                     AssessmentKPIXml = assessment.KPIs.ToXML().ToString(),
                     Remark = assessment.Remark,
+                    Comment = assessment.Comment,
                     ModifiedBy = CurrentEmployeeId
                 };
                 commandResult = baseService.ExecuteNonQuery(command);

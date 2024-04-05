@@ -3,16 +3,33 @@
     /* jshint latedef:nofunc */
 
     angular.module('jobLevelStandardModule').factory('AssessmentModel', assessmentModel);
-    assessmentModel.$inject = ['assessmentFactory', 'errorFactory', 'notificationFactory'];
+    assessmentModel.$inject = ['$uibModal', 'assessmentFactory', 'errorFactory', 'notificationFactory'];
 
-    function assessmentModel(assessmentFactory, errorFactory, notificationFactory) {
+    function assessmentModel($uibModal, assessmentFactory, errorFactory, notificationFactory) {
         let model = {};
 
         model.periods = [];
         model.orgChart = [];
         model.kpis = [];
+        model.comment = "";
         model.jobLevelSettings = [];
         model.assessments = [];
+
+        model.openPopupAddComment = function (vm, assessment) {
+            vm.modalInstance = $uibModal.open({
+                templateUrl: 'SourceApp/Components/JobLevelStandard/Assessment/Templates/comment.html',
+                controller: 'CommentAssessmentController as commentCtrl',
+                backdrop: 'static',
+                resolve: {
+                    comment: function () {
+                        return assessment.Comment;
+                    }
+                },
+                windowClass: 'modal-confirm-center job-level-standard-period-modal'
+            });
+
+            return vm.modalInstance.result;
+        };
 
         model.getPeriods = function () {
             return assessmentFactory.getPeriods().success(function (periods) {
