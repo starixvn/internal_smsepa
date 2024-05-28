@@ -1,9 +1,6 @@
 ﻿namespace SMS.EPA.Core.Attribute
 {
     using System;
-    using System.Net;
-    using System.Net.Http;
-    using System.Web.Http;
     using System.Web.Http.Filters;
     using Fanex.Logging;
     using Fanex.Logging.Extensions;

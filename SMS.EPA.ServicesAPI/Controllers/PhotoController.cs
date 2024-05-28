@@ -15,8 +15,8 @@
         {
             var lastModifiedDate = new DateTimeOffset(2016, 1, 1, 0, 0, 0, TimeSpan.Zero).Date;
 
-            DirectoryInfo directory = new DirectoryInfo(AppConfig.PhotoPath);
-            FileInfo lastModifiedFile = directory.GetFiles().OrderByDescending(f => f.LastWriteTime).FirstOrDefault();
+            var directory = new DirectoryInfo(AppConfig.PhotoPath);
+            var lastModifiedFile = directory.GetFiles().OrderByDescending(f => f.LastWriteTime).FirstOrDefault();
 
             if (lastModifiedFile != null)
             {
@@ -31,9 +31,9 @@
         [HttpPost]
         public IHttpActionResult Update(Photo[] photos)
         {
-            foreach (Photo photo in photos)
+            foreach (var photo in photos)
             {
-                var fullPath = AppConfig.PhotoPath + "\\" + photo.Code;
+                var fullPath = string.Format("{0}\\{1}", AppConfig.PhotoPath, photo.Code);
                 File.WriteAllBytes(fullPath, photo.PhotoData);
             }
 

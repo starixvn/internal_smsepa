@@ -6,9 +6,11 @@
     using System.Threading.Tasks;
     using EPA.Model.API;
     using Model;
+    using SMS.EPA.Core.Constants;
 
     public class SyncEPADataService : ISyncEPADataService
     {
+        private readonly log4net.ILog logger = log4net.LogManager.GetLogger(typeof(SyncEPADataService));
         private readonly ITokenService _tokenService;
         private readonly IDepartmentService _departmentService;
         private readonly IEmployeeService _employeeService;
@@ -64,7 +66,9 @@
             if (_token.IsValid())
             {
                 DateTime fromDate = await _departmentService.GetLastModifiedDateAsync(_token);
+                logger.Info(string.Format("sync department - last modified date: {0}", fromDate.ToString(Constants.ModifiedDateTimeFormat)));
                 IEnumerable<Department> departments = _departmentService.GetDepartments(fromDate);
+                logger.Info(string.Format("sync department - total: {0}", departments.Count()));
                 if (departments.Any())
                 {
                     await _departmentService.Update(departments, _token);
@@ -78,7 +82,9 @@
             if (_token.IsValid())
             {
                 DateTime fromDate = await _teamService.GetLastModifiedDateAsync(_token);
+                logger.Info(string.Format("sync team - last modified date: {0}", fromDate.ToString(Constants.ModifiedDateTimeFormat)));
                 IEnumerable<Team> teams = _teamService.GetTeams(fromDate);
+                logger.Info(string.Format("sync team - total: {0}", teams.Count()));
                 if (teams.Any())
                 {
                     await _teamService.UpdateAsync(teams, _token);
@@ -92,7 +98,9 @@
             if (_token.IsValid())
             {
                 DateTime fromDate = await _employeeService.GetLastModifiedDateAsync(_token);
+                logger.Info(string.Format("sync employee - last modified date: {0}", fromDate.ToString(Constants.ModifiedDateTimeFormat)));
                 IEnumerable<Employee> employees = _employeeService.GetEmployees(fromDate);
+                logger.Info(string.Format("sync employee - total: {0}", employees.Count()));
                 if (employees.Any())
                 {
                     await _employeeService.UpdateAsync(employees, _token);
@@ -161,7 +169,9 @@
             if (_token.IsValid())
             {
                 DateTime lastModifiedDate = await _photoService.GetLastModifiedDate(_token);
+                logger.Info(string.Format("sync photo - last modified date: {0}", lastModifiedDate.ToString(Constants.ModifiedDateTimeFormat)));
                 IEnumerable<Photo> photos = _photoService.GetPhotos(lastModifiedDate);
+                logger.Info(string.Format("sync photo: {0}", string.Join(",", photos.Select(x => x.Code))));
                 if (photos.Any())
                 {
                     await _photoService.UpdateAsync(photos, _token);
