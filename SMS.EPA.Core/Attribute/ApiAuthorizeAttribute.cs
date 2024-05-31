@@ -57,12 +57,6 @@
             }
         }
 
-        private static void HandlePermissionRequest(HttpActionContext actionContext)
-        {
-            var responseMessage = new HttpResponseMessage(HttpStatusCode.MethodNotAllowed);
-            actionContext.Response = responseMessage;
-        }
-
         private void CheckUserPermission(HttpActionContext actionContext)
         {
             var hasPermission = actionContext.ActionDescriptor.GetCustomAttributes<ApiAuthorizeAttribute>().ToList()
@@ -71,6 +65,12 @@
             {
                 HandlePermissionRequest(actionContext);
             }
+        }
+
+        private static void HandlePermissionRequest(HttpActionContext actionContext)
+        {
+            var responseMessage = new HttpResponseMessage(HttpStatusCode.Forbidden);
+            actionContext.Response = responseMessage;
         }
     }
 }

@@ -83,10 +83,13 @@
             return epaInfo;
         }
 
-#pragma warning disable S1541 // Methods and properties should not be too complex
         public void RemoveSensitiveDataOnEmployeeRole(EPAModel epaInfo, int currentEmployeeId, IList<Role> roles)
-#pragma warning restore S1541 // Methods and properties should not be too complex
         {
+            if (epaInfo == null)
+            {
+                return;
+            }
+
             // Remove all data for open Process (process that not evaluated / already evaluated but are extended
             var processOfOtherActors = epaInfo.Process.Managements.Where(x => x.StatusId == (byte)ProcessStatusType.Open);
             processOfOtherActors = processOfOtherActors.Concat(epaInfo.Process.Reviewers.Where(x => x.StatusId == (byte)ProcessStatusType.Open));
@@ -94,7 +97,7 @@
 
             RemoveSensitiveTotalScoreAndComment(processOfOtherActors);
 
-            if (roles.Any(x => x.RoleId == (byte)SystemRole.HumanResource || x.RoleId == (byte)SystemRole.SystemAdmin))
+            if (IsSA_HRRole(roles))
             {
                 if (epaInfo.IsSemiHasMonthly)
                 {
@@ -109,29 +112,24 @@
             }
 
             // Remove if user is not the one who evalutate that EPA
-            processOfOtherActors = epaInfo.Process.Managements
-                .Where(x => x.EvaluatorInfo.EmployeeId != currentEmployeeId && x.StatusId != (byte)ProcessStatusType.Closed);
-
+            processOfOtherActors = RemoveProcessOfOtherActor(epaInfo.Process.Managements, currentEmployeeId);
             RemoveSensitiveTotalScoreAndComment(processOfOtherActors);
 
-            processOfOtherActors = epaInfo.Process.Reviewers
-                .Where(x => x.EvaluatorInfo.EmployeeId != currentEmployeeId && x.StatusId != (byte)ProcessStatusType.Closed);
-
+            processOfOtherActors = RemoveProcessOfOtherActor(epaInfo.Process.Reviewers, currentEmployeeId);
             RemoveSensitiveTotalScoreAndComment(processOfOtherActors);
 
-            processOfOtherActors = epaInfo.Process.Evaluators
-                .Where(x => x.EvaluatorInfo.EmployeeId != currentEmployeeId && x.StatusId != (byte)ProcessStatusType.Closed);
+            processOfOtherActors = RemoveProcessOfOtherActor(epaInfo.Process.Evaluators, currentEmployeeId);
 
             if (processOfOtherActors.Any())
             {
-                foreach (EPAProcessModel process in processOfOtherActors)
+                foreach (var process in processOfOtherActors)
                 {
                     process.TotalScore = string.Empty;
                     process.Comment = string.Empty;
                 }
 
                 var evaluationModels = epaInfo.KPIGroups.SelectMany(x => x.KPIs).SelectMany(x => x.EvaluationByEvaluators);
-                foreach (EvaluationModel evaluationModel in evaluationModels)
+                foreach (var evaluationModel in evaluationModels)
                 {
                     evaluationModel.Score = string.Empty;
                     evaluationModel.Rate = 0;
@@ -194,7 +192,7 @@
             bool hasDisciplineScore,
             IEnumerable<StandardGradeModel> standardGrades)
         {
-            string grade = Lang.NotAvailable;
+            var grade = Lang.NotAvailable;
 
             if (performanceScore == null)
             {
@@ -203,7 +201,7 @@
 
             float finalScore = performanceScore.Value + disciplineScore;
 
-            StandardGradeModel finalGrade = standardGrades
+            var finalGrade = standardGrades
                 .FirstOrDefault(x => x.Type == (int)GradeType.Final && x.LeftScore <= finalScore && x.RightScore >= finalScore);
 
             if (finalGrade != null)
@@ -213,10 +211,10 @@
 
             if (hasDisciplineScore)
             {
-                StandardGradeModel performanceGrade = standardGrades
+                var performanceGrade = standardGrades
                     .FirstOrDefault(x => x.Type == (int)GradeType.Performance && x.LeftScore <= performanceScore && x.RightScore >= performanceScore);
 
-                StandardGradeModel disciplineGrade = standardGrades
+                var disciplineGrade = standardGrades
                     .FirstOrDefault(x => x.Type == (int)GradeType.Discipline && x.LeftScore <= disciplineScore && x.RightScore >= disciplineScore);
 
                 if (performanceGrade == null || disciplineGrade == null)
@@ -451,6 +449,12 @@
                     return;
             }
         }
+
+        private static bool IsSA_HRRole(IList<Role> roles)
+            => roles.Any(x => x.RoleId == (byte)SystemRole.HumanResource || x.RoleId == (byte)SystemRole.SystemAdmin);
+
+        private static IList<EPAProcessModel> RemoveProcessOfOtherActor(IList<EPAProcessModel> processes, int currentEmployeeId)
+            => processes.Where(x => x.EvaluatorInfo.EmployeeId != currentEmployeeId && x.StatusId != (byte)ProcessStatusType.Closed).ToList();
 
         private static void CalculateFinalScore(EPAModel epaInfo)
         {
