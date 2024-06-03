@@ -2,7 +2,6 @@
 {
     using System.Collections.Generic;
     using System.Linq;
-    using System.Threading.Tasks;
     using System.Web.Http;
     using HRM.UserControl.Client.Core.Enumerables;
     using SMS.EPA.Core.Attribute;
@@ -28,31 +27,31 @@
 
         [HttpPost]
         [ApiAuthorize(FunctionKey = EPAFunctionKey.JobLevelSetting, Policy = Policy.Read)]
-        public async Task<IList<JobLevelSettingSummary>> GetSettings(GetJobLevelSettingSummaryCriteria criteria)
+        public IList<JobLevelSettingSummary> GetSettings(GetJobLevelSettingSummaryCriteria criteria)
         {
-            var settings = await baseService.GetDataAsync<JobLevelSettingSummary>(criteria);
+            var settings = baseService.GetData<JobLevelSettingSummary>(criteria);
             return settings.ToList();
         }
 
         [HttpGet]
         [ApiAuthorize(FunctionKey = EPAFunctionKey.JobLevelSetting, Policy = Policy.Read)]
-        public async Task<IList<JobLevelSetting>> GetBySectionId(int sectionId)
+        public IList<JobLevelSetting> GetBySectionId(int sectionId)
         {
             var criteria = new GetJobLevelSettingBySectionIdCriteria { SectionId = sectionId };
-            var settings = await baseService.GetDataAsync<JobLevelSetting>(criteria);
+            var settings = baseService.GetData<JobLevelSetting>(criteria);
             return settings.ToList();
         }
 
         [HttpPut]
         [ApiAuthorize(FunctionKey = EPAFunctionKey.JobLevelSetting, Policy = Policy.Host)]
-        public async Task<CommandResult> Edit(EditJobLevelSettingCommand command)
+        public CommandResult Edit(EditJobLevelSettingCommand command)
         {
             var commandResult = new CommandResult();
             if (command != null)
             {
                 command.SettingXml = command.Settings.ToXML().ToString();
                 command.ModifiedBy = CurrentEmployeeId;
-                commandResult = await baseService.ExecuteNonQueryAsync(command);
+                commandResult = baseService.ExecuteNonQuery(command);
             }
 
             return commandResult;

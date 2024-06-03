@@ -3,7 +3,6 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using System.Threading.Tasks;
     using System.Web.Http;
     using HRM.UserControl.Client.Core.Enumerables;
     using SMS.EPA.Core.Attribute;
@@ -34,13 +33,13 @@
             this.jobLevelAssessmentService = jobLevelAssessmentService ?? new JobLevelAssessmentService();
         }
 
-        public async Task<IList<JobLevelStandardPeriod>> GetPeriods()
+        public IList<JobLevelStandardPeriod> GetPeriods()
         {
             var criteria = new GetPeriodByActorCriteria
             {
                 ActorId = CurrentEmployeeId
             };
-            var periods = await baseService.GetDataAsync<JobLevelStandardPeriod>(criteria);
+            var periods = baseService.GetData<JobLevelStandardPeriod>(criteria);
             return periods.ToList();
         }
 
@@ -77,7 +76,7 @@
 
         [HttpPut]
         [ApiAuthorize(FunctionKey = EPAFunctionKey.JobLevelAssessment, Policy = Policy.Host)]
-        public async Task<CommandResult> Edit(JobLevelAssessment assessment)
+        public CommandResult Edit(JobLevelAssessment assessment)
         {
             var commandResult = new CommandResult();
             if (assessment != null)
@@ -94,7 +93,7 @@
                     Remark = assessment.Remark,
                     ModifiedBy = CurrentEmployeeId
                 };
-                commandResult = await baseService.ExecuteNonQueryAsync(command);
+                commandResult = baseService.ExecuteNonQuery(command);
                 commandResult.ObjectId = command.AssessmentId;
             }
 
@@ -103,13 +102,13 @@
 
         [HttpPut]
         [ApiAuthorize(FunctionKey = EPAFunctionKey.JobLevelAssessment, Policy = Policy.Host)]
-        public async Task<CommandResult> EditStatus(EditStatusJobLevelAssessmentCommand command)
+        public CommandResult EditStatus(EditStatusJobLevelAssessmentCommand command)
         {
             var commandResult = new CommandResult();
             if (command != null)
             {
                 command.ModifiedBy = CurrentEmployeeId;
-                commandResult = await baseService.ExecuteNonQueryAsync(command);
+                commandResult = baseService.ExecuteNonQuery(command);
             }
 
             return commandResult;

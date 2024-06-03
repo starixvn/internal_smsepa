@@ -24,10 +24,11 @@
         private readonly ICryptoService cryptoService;
         private readonly IAuthService authService;
         private readonly IUserService userService;
+        private readonly IRoleService roleService;
         private readonly IBaseService baseService;
 
         public AuthController()
-            : this(null, null, null, null, null, null)
+            : this(null, null, null, null, null, null, null)
         {
         }
 
@@ -37,6 +38,7 @@
             ICryptoService cryptoService,
             IAuthService authService,
             IUserService userService,
+            IRoleService roleService,
             IBaseService baseService)
         {
             this.userControlSettings = userControlSettings ?? new UserControlSettings();
@@ -44,6 +46,7 @@
             this.cryptoService = cryptoService ?? new CryptoService();
             this.authService = authService ?? new AuthService();
             this.userService = userService ?? new UserService();
+            this.roleService = roleService ?? new RoleService();
             this.baseService = baseService ?? new BaseService();
         }
 
@@ -99,6 +102,10 @@
 
                 userControlSession.Set(Constants.CurrentEmployeeKey, employee);
                 userControlSession.Set(Constants.CurrentEmployeeIdKey, employee.EmployeeId);
+
+                var roles = roleService.GetByUserId(loginResult.UserId);
+                userControlSession.Set(Constants.CurrentEmployeeRoleKey, roles);
+
                 FormsAuthentication.SetAuthCookie(employee.EmployeeId.ToString(), false);
                 Response.Redirect(Url.IsLocalUrl(model.ReturnPath) ? model.ReturnPath : FormsAuthentication.DefaultUrl);
             }

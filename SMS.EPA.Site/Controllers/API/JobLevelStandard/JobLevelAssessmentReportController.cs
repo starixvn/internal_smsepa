@@ -2,7 +2,6 @@
 {
     using System.Collections.Generic;
     using System.Linq;
-    using System.Threading.Tasks;
     using System.Web.Http;
     using HRM.UserControl.Client.Core.Enumerables;
     using SMS.EPA.Core.Attribute;
@@ -31,10 +30,10 @@
             this.jobLevelAssessmentService = jobLevelAssessmentService ?? new JobLevelAssessmentService();
         }
 
-        public async Task<IList<JobLevelStandardPeriod>> GetPeriods()
+        public IList<JobLevelStandardPeriod> GetPeriods()
         {
             var criteria = new GetPeriodCriteria();
-            var periods = await baseService.GetDataAsync<JobLevelStandardPeriod>(criteria);
+            var periods = baseService.GetData<JobLevelStandardPeriod>(criteria);
             return periods.ToList();
         }
 
@@ -45,7 +44,7 @@
                 ActorId = CurrentEmployeeId,
                 PeriodId = periodId
             };
-            (var departments, var sections, _) =  baseService.FetchMultiple<Department, Section, Team>(criteria);
+            (var departments, var sections, _) = baseService.FetchMultiple<Department, Section, Team>(criteria);
 
             var items = departments.Any()
                 ? departments.Select(dept => new MultiSelectItem

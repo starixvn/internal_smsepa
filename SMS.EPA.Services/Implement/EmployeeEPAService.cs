@@ -85,11 +85,6 @@
 
         public void RemoveSensitiveDataOnEmployeeRole(EPAModel epaInfo, int currentEmployeeId, IList<Role> roles)
         {
-            if (epaInfo == null)
-            {
-                return;
-            }
-
             // Remove all data for open Process (process that not evaluated / already evaluated but are extended
             var processOfOtherActors = epaInfo.Process.Managements.Where(x => x.StatusId == (byte)ProcessStatusType.Open);
             processOfOtherActors = processOfOtherActors.Concat(epaInfo.Process.Reviewers.Where(x => x.StatusId == (byte)ProcessStatusType.Open));

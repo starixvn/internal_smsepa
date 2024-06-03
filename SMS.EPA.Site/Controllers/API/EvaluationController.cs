@@ -8,7 +8,7 @@
     using System.Web.Http;
     using HRM.UserControl.Client.Core.Enumerables;
     using HRM.UserControl.Client.Core.Models.Role;
-    using HRM.UserControl.Client.Core.Services;
+    using SMS.EPA.Core.Constants;
     using SMS.EPA.Core.Enumerations;
     using SMS.EPA.Core.Model;
     using SMS.EPA.Core.Services;
@@ -18,21 +18,18 @@
 
     public class EvaluationController : BaseController
     {
-        private readonly IRoleService roleService;
         private readonly IEmployeeEPAService evaluationService;
         private readonly IBaseService baseService;
 
         public EvaluationController()
-            : this(null, null, null)
+            : this(null, null)
         {
         }
 
         public EvaluationController(
-            IRoleService roleService,
             IEmployeeEPAService evaluationService,
             IBaseService baseService)
         {
-            this.roleService = roleService ?? new RoleService();
             this.evaluationService = evaluationService ?? new EmployeeEPAService();
             this.baseService = baseService ?? new BaseService();
         }
@@ -45,12 +42,17 @@
 
             if (permission == (byte)Policy.None)
             {
-                return Request.CreateResponse(HttpStatusCode.MethodNotAllowed, epaInfo);
+                return Request.CreateResponse(HttpStatusCode.Forbidden, epaInfo);
             }
 
             epaInfo = evaluationService.GetEPAInfoById(epaId);
 
-            IList<Role> roles = roleService.GetBySiteId(UserControlSession.SiteId);
+            if (epaInfo == null)
+            {
+                return Request.CreateResponse(HttpStatusCode.NotFound);
+            }
+
+            var roles = UserControlSession.Get<IList<Role>>(Constants.CurrentEmployeeRoleKey);
             evaluationService.RemoveSensitiveDataOnEmployeeRole(epaInfo, CurrentEmployeeId, roles);
 
             return Request.CreateResponse(HttpStatusCode.OK, epaInfo);
@@ -74,7 +76,8 @@
         {
             HttpResponseMessage response = null;
 
-            if (roleService.GetByUserId(UserControlSession.UserId).Select(x => x.RoleId).Contains((byte)SystemRole.SystemAdmin))
+            var roles = UserControlSession.Get<IList<Role>>(Constants.CurrentEmployeeRoleKey);
+            if (roles.Select(x => x.RoleId).Contains((byte)SystemRole.SystemAdmin))
             {
                 EPAModel epaInfo = evaluationService.GetEPAInfoById(criteria.EPAId);
 
@@ -102,7 +105,7 @@
             }
             else
             {
-                response = Request.CreateResponse(HttpStatusCode.MethodNotAllowed);
+                response = Request.CreateResponse(HttpStatusCode.Forbidden);
             }
 
             return response;

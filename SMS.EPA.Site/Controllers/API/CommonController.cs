@@ -2,7 +2,6 @@
 {
     using System.Collections.Generic;
     using System.Linq;
-    using System.Threading.Tasks;
     using System.Web.Http;
     using HRM.UserControl.Client.Core.Models;
     using HRM.UserControl.Client.Core.Models.Role;
@@ -197,10 +196,10 @@
             return GetPermissionOnFunction(EPAFunctionKey.FlowManagement);
         }
 
-        public async Task<IEnumerable<JobLevel>> GetJobLevel(bool? isDeleted = null)
+        public IEnumerable<JobLevel> GetJobLevel(bool? isDeleted = null)
         {
             var criteria = new GetJobLevelCriteria { IsDeleted = isDeleted };
-            return await baseService.GetDataAsync<JobLevel>(criteria);
+            return baseService.GetData<JobLevel>(criteria);
         }
 
         public IList<MultiSelectItem> GetOrgChart()

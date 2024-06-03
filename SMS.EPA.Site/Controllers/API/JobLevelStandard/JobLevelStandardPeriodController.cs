@@ -2,7 +2,6 @@
 {
     using System.Collections.Generic;
     using System.Linq;
-    using System.Threading.Tasks;
     using System.Web.Http;
     using HRM.UserControl.Client.Core.Enumerables;
     using SMS.EPA.Core.Attribute;
@@ -35,9 +34,9 @@
 
         [HttpPost]
         [ApiAuthorize(FunctionKey = EPAFunctionKey.JobLevelStandardPeriod, Policy = Policy.Read)]
-        public async Task<IList<JobLevelStandardPeriod>> GetPeriods(GetJobLevelStandardPeriodCriteria criteria)
+        public IList<JobLevelStandardPeriod> GetPeriods(GetJobLevelStandardPeriodCriteria criteria)
         {
-            (var periods, var settings) = await baseService.FetchMultipleAsync<JobLevelStandardPeriod, JobLevelStandardPeriodSetting>(criteria);
+            (var periods, var settings) = baseService.FetchMultiple<JobLevelStandardPeriod, JobLevelStandardPeriodSetting>(criteria);
             foreach (var period in periods)
             {
                 period.Settings = settings.Where(x => x.PeriodId == period.PeriodId).ToList();
@@ -47,10 +46,10 @@
         }
 
         [ApiAuthorize(FunctionKey = EPAFunctionKey.JobLevelStandardPeriod, Policy = Policy.Read)]
-        public async Task<JobLevelStandardPeriod> GetById(int periodId)
+        public JobLevelStandardPeriod GetById(int periodId)
         {
             var criteria = new GetJobLevelStandardPeriodByIdCriteria { PeriodId = periodId };
-            (var periods, var settings) = await baseService.FetchMultipleAsync<JobLevelStandardPeriod, JobLevelStandardPeriodSetting>(criteria);
+            (var periods, var settings) = baseService.FetchMultiple<JobLevelStandardPeriod, JobLevelStandardPeriodSetting>(criteria);
             var period = periods.First();
             period.Settings = settings.ToList();
 
@@ -59,7 +58,7 @@
 
         [HttpPost]
         [ApiAuthorize(FunctionKey = EPAFunctionKey.JobLevelStandardPeriod, Policy = Policy.Host)]
-        public async Task<CommandResult> Create(CreateJobLevelStandardPeriodCommand command)
+        public CommandResult Create(CreateJobLevelStandardPeriodCommand command)
         {
             var commandResult = new CommandResult();
             if (command != null)
@@ -67,7 +66,7 @@
                 command.SettingXml = command.Settings.ToXML().ToString();
                 command.IsActive = true;
                 command.CreatedBy = CurrentEmployeeId;
-                commandResult = await baseService.ExecuteNonQueryAsync(command);
+                commandResult = baseService.ExecuteNonQuery(command);
             }
 
             return commandResult;
@@ -75,14 +74,14 @@
 
         [HttpPut]
         [ApiAuthorize(FunctionKey = EPAFunctionKey.JobLevelStandardPeriod, Policy = Policy.Host)]
-        public async Task<CommandResult> Edit(EditJobLevelStandardPeriodCommand command)
+        public CommandResult Edit(EditJobLevelStandardPeriodCommand command)
         {
             var commandResult = new CommandResult();
             if (command != null)
             {
                 command.SettingXml = command.Settings.ToXML().ToString();
                 command.ModifiedBy = CurrentEmployeeId;
-                commandResult = await baseService.ExecuteNonQueryAsync(command);
+                commandResult = baseService.ExecuteNonQuery(command);
             }
 
             return commandResult;
@@ -90,13 +89,13 @@
 
         [HttpPut]
         [ApiAuthorize(FunctionKey = EPAFunctionKey.JobLevelStandardPeriod, Policy = Policy.Host)]
-        public async Task<CommandResult> EditStatus(EditStatusJobLevelStandardPeriodCommand command)
+        public CommandResult EditStatus(EditStatusJobLevelStandardPeriodCommand command)
         {
             var commandResult = new CommandResult();
             if (command != null)
             {
                 command.ModifiedBy = CurrentEmployeeId;
-                commandResult = await baseService.ExecuteNonQueryAsync(command);
+                commandResult = baseService.ExecuteNonQuery(command);
             }
 
             return commandResult;
@@ -104,14 +103,14 @@
 
         [HttpDelete]
         [ApiAuthorize(FunctionKey = EPAFunctionKey.JobLevelStandardPeriod, Policy = Policy.Host)]
-        public async Task<CommandResult> Delete(int periodId)
+        public CommandResult Delete(int periodId)
         {
             var criteria = new DeleteJobLevelStandardPeriodCommand
             {
                 PeriodId = periodId,
                 ModifiedBy = CurrentEmployeeId
             };
-            return await baseService.ExecuteNonQueryAsync(criteria);
+            return baseService.ExecuteNonQuery(criteria);
         }
 
         [HttpPost]
@@ -123,13 +122,13 @@
 
         [HttpPut]
         [ApiAuthorize(FunctionKey = EPAFunctionKey.JobLevelStandardPeriod, Policy = Policy.Host)]
-        public async Task<CommandResult> AddEmployeeSetting(AddPeriodEmployeeSettingCommand command)
+        public CommandResult AddEmployeeSetting(AddPeriodEmployeeSettingCommand command)
         {
             var commandResult = new CommandResult();
             if (command != null)
             {
                 command.ModifiedBy = CurrentEmployeeId;
-                commandResult = await baseService.ExecuteNonQueryAsync(command);
+                commandResult = baseService.ExecuteNonQuery(command);
             }
 
             return commandResult;
@@ -137,13 +136,13 @@
 
         [HttpPut]
         [ApiAuthorize(FunctionKey = EPAFunctionKey.JobLevelStandardPeriod, Policy = Policy.Host)]
-        public async Task<CommandResult> UpdateJobLevel(UpdateJobLevelEmployeeSettingCommand command)
+        public CommandResult UpdateJobLevel(UpdateJobLevelEmployeeSettingCommand command)
         {
             var commandResult = new CommandResult();
             if (command != null)
             {
                 command.ModifiedBy = CurrentEmployeeId;
-                commandResult = await baseService.ExecuteNonQueryAsync(command);
+                commandResult = baseService.ExecuteNonQuery(command);
             }
 
             return commandResult;
@@ -151,7 +150,7 @@
 
         [HttpPut]
         [ApiAuthorize(FunctionKey = EPAFunctionKey.JobLevelStandardPeriod, Policy = Policy.Host)]
-        public async Task<CommandResult> EditEmployeeSetting(IList<PeriodEmployeeSetting> employeeSettings)
+        public CommandResult EditEmployeeSetting(IList<PeriodEmployeeSetting> employeeSettings)
         {
             var settings = new List<PeriodProcessSetting>();
             foreach (var setting in employeeSettings)
@@ -168,20 +167,20 @@
                 SettingXml = settings.ToXML().ToString(),
                 ModifiedBy = CurrentEmployeeId
             };
-            CommandResult commandResult = await baseService.ExecuteNonQueryAsync(command);
+            CommandResult commandResult = baseService.ExecuteNonQuery(command);
 
             return commandResult;
         }
 
         [HttpPut]
         [ApiAuthorize(FunctionKey = EPAFunctionKey.JobLevelStandardPeriod, Policy = Policy.Host)]
-        public async Task<CommandResult> EditStatusEmployeeSetting(EditStatusPeriodEmployeeSettingCommand command)
+        public CommandResult EditStatusEmployeeSetting(EditStatusPeriodEmployeeSettingCommand command)
         {
             var commandResult = new CommandResult();
             if (command != null)
             {
                 command.ModifiedBy = CurrentEmployeeId;
-                commandResult = await baseService.ExecuteNonQueryAsync(command);
+                commandResult = baseService.ExecuteNonQuery(command);
             }
 
             return commandResult;
@@ -189,30 +188,30 @@
 
         [HttpPost]
         [ApiAuthorize(FunctionKey = EPAFunctionKey.JobLevelStandardPeriod, Policy = Policy.Read)]
-        public async Task<IList<JobLevelSettingSummary>> GetJobLevelSettings(GetPeriodJobLevelSettingSummaryCriteria criteria)
+        public IList<JobLevelSettingSummary> GetJobLevelSettings(GetPeriodJobLevelSettingSummaryCriteria criteria)
         {
-            var settings = await baseService.GetDataAsync<JobLevelSettingSummary>(criteria);
+            var settings = baseService.GetData<JobLevelSettingSummary>(criteria);
             return settings.ToList();
         }
 
         [HttpPost]
         [ApiAuthorize(FunctionKey = EPAFunctionKey.JobLevelStandardPeriod, Policy = Policy.Read)]
-        public async Task<IList<JobLevelSetting>> GetJobLevelSettingBySectionId(GetPeriodJobLevelSettingBySectionIdCriteria criteria)
+        public IList<JobLevelSetting> GetJobLevelSettingBySectionId(GetPeriodJobLevelSettingBySectionIdCriteria criteria)
         {
-            var settings = await baseService.GetDataAsync<JobLevelSetting>(criteria);
+            var settings = baseService.GetData<JobLevelSetting>(criteria);
             return settings.ToList();
         }
 
         [HttpPut]
         [ApiAuthorize(FunctionKey = EPAFunctionKey.JobLevelStandardPeriod, Policy = Policy.Host)]
-        public async Task<CommandResult> EditJobLevelSetting(EditPeriodJobLevelSettingCommand command)
+        public CommandResult EditJobLevelSetting(EditPeriodJobLevelSettingCommand command)
         {
             var commandResult = new CommandResult();
             if (command != null)
             {
                 command.SettingXml = command.Settings.ToXML().ToString();
                 command.ModifiedBy = CurrentEmployeeId;
-                commandResult = await baseService.ExecuteNonQueryAsync(command);
+                commandResult = baseService.ExecuteNonQuery(command);
             }
 
             return commandResult;
@@ -220,13 +219,13 @@
 
         [HttpPost]
         [ApiAuthorize(FunctionKey = EPAFunctionKey.JobLevelStandardPeriod, Policy = Policy.Host)]
-        public async Task<CommandResult> CopyDefaultJobLevelSetting(CopyDefaultJobLevelSettingCommand command)
+        public CommandResult CopyDefaultJobLevelSetting(CopyDefaultJobLevelSettingCommand command)
         {
             var commandResult = new CommandResult();
             if (command != null)
             {
                 command.ModifiedBy = CurrentEmployeeId;
-                commandResult = await baseService.ExecuteNonQueryAsync(command);
+                commandResult = baseService.ExecuteNonQuery(command);
             }
 
             return commandResult;

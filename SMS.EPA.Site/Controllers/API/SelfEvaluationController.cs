@@ -55,7 +55,7 @@
 
             if (permission == (byte)Policy.None)
             {
-                return Request.CreateResponse(HttpStatusCode.MethodNotAllowed, epaInfo);
+                return Request.CreateResponse(HttpStatusCode.Forbidden, epaInfo);
             }
 
             var criteria = new GetEPAInfoByEmployeeCriteria

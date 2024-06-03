@@ -155,7 +155,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Attribute\ApiAuthorizeAttribute.cs" />
-    <Compile Include="Attribute\CustomActionFilterAttribute.cs" />
+    <Compile Include="Attribute\CompressedContent.cs" />
+    <Compile Include="Attribute\CompressContentAttribute.cs" />
     <Compile Include="Attribute\ExceptionHandlingAttribute.cs" />
     <Compile Include="Attribute\WebApiValidateAntiForgeryTokenAttribute.cs" />
     <Compile Include="Constants\Constants.cs" />

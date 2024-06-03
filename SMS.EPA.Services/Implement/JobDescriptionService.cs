@@ -1,7 +1,6 @@
 ﻿namespace SMS.EPA.Services
 {
     using System.Linq;
-    using System.Threading.Tasks;
     using SMS.EPA.Core.Services;
     using SMS.EPA.Criteria.JobDescription;
     using SMS.EPA.Model.JobDescription;
@@ -19,10 +18,10 @@
             this.baseService = baseService ?? new BaseService();
         }
 
-        public async Task<JobDescriptionGroupSetting> GetGroupSettingByIdAsync(int groupId, int jobLevelId)
+        public JobDescriptionGroupSetting GetGroupSettingById(int groupId, int jobLevelId)
         {
             var criteria = new GetGroupSettingJobDescriptionByIdCriteria { GroupId = groupId, JobLevelId = jobLevelId };
-            (var groupInfos, var groupItems, var items) = await baseService.FetchMultipleAsync<JobDescriptionGroupSetting, JobDescriptionGroupItem, JobDescriptionItem>(criteria);
+            (var groupInfos, var groupItems, var items) = baseService.FetchMultiple<JobDescriptionGroupSetting, JobDescriptionGroupItem, JobDescriptionItem>(criteria);
             var groupInfo = groupInfos.FirstOrDefault();
             if (groupInfo != null)
             {
@@ -38,10 +37,10 @@
             return groupInfo;
         }
 
-        public async Task<JobDescriptionEmployeeSetting> GetEmployeeSettingByIdAsync(int employeeId)
+        public JobDescriptionEmployeeSetting GetEmployeeSettingById(int employeeId)
         {
             var criteria = new GetEmployeeSettingJobDescriptionByIdCriteria { EmployeeId = employeeId };
-            (var employeeInfos, var groupItems, var items) = await baseService.FetchMultipleAsync<JobDescriptionEmployeeSetting, JobDescriptionGroupItem, JobDescriptionItem>(criteria);
+            (var employeeInfos, var groupItems, var items) = baseService.FetchMultiple<JobDescriptionEmployeeSetting, JobDescriptionGroupItem, JobDescriptionItem>(criteria);
             var employeeInfo = employeeInfos.FirstOrDefault();
             if (employeeInfo != null)
             {

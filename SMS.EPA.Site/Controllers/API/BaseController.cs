@@ -9,7 +9,7 @@
     using SMS.EPA.Core.Constants;
 
     [WebApiValidateAntiForgeryToken]
-    [CustomActionFilter]
+    [CompressContent]
     public class BaseController : ApiController
     {
         private IUserControlSession userControlSession;

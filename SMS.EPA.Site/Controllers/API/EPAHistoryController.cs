@@ -4,7 +4,7 @@
     using System.Linq;
     using System.Web.Http;
     using HRM.UserControl.Client.Core.Enumerables;
-    using HRM.UserControl.Client.Core.Services;
+    using HRM.UserControl.Client.Core.Models.Role;
     using SMS.EPA.Core.Attribute;
     using SMS.EPA.Core.Constants;
     using SMS.EPA.Core.Enumerations;
@@ -16,19 +16,15 @@
     public class EPAHistoryController : BaseController
     {
         private readonly IEPAHistoryService epaHistoryService;
-        private readonly IRoleService roleService;
 
         public EPAHistoryController()
-            : this(null, null)
+            : this(null)
         {
         }
 
-        public EPAHistoryController(
-            IEPAHistoryService epaHistoryService,
-            IRoleService roleService)
+        public EPAHistoryController(IEPAHistoryService epaHistoryService)
         {
             this.epaHistoryService = epaHistoryService ?? new EPAHistoryService();
-            this.roleService = roleService ?? new RoleService();
         }
 
         [HttpGet]
@@ -57,8 +53,8 @@
         [HttpGet]
         public bool HasOnlyEmployeeRole()
         {
-            return roleService.GetByUserId(UserControlSession.UserId)
-                .All(x => x.RoleId == (byte)SystemRole.Employee);
+            var roles = UserControlSession.Get<IList<Role>>(Constants.CurrentEmployeeRoleKey);
+            return roles.All(x => x.RoleId == (byte)SystemRole.Employee);
         }
     }
 }
