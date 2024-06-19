@@ -54,7 +54,7 @@
         public bool HasOnlyEmployeeRole()
         {
             var roles = UserControlSession.Get<IList<Role>>(Constants.CurrentEmployeeRoleKey);
-            return roles.All(x => x.RoleId == (byte)SystemRole.Employee);
+            return roles != null && roles.All(x => x.RoleId == (byte)SystemRole.Employee);
         }
     }
 }

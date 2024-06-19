@@ -11,7 +11,7 @@
     using HRM.UserControl.Client.Core.Enumerables;
     using HRM.UserControl.Client.Core.Session;
 
-    [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method, AllowMultiple = true)]
+    [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method)]
     public sealed class ApiAuthorizeAttribute : AuthorizeAttribute
     {
         private readonly IUserControlSession userControlSession;
@@ -59,18 +59,17 @@
 
         private void CheckUserPermission(HttpActionContext actionContext)
         {
-            var hasPermission = actionContext.ActionDescriptor.GetCustomAttributes<ApiAuthorizeAttribute>().ToList()
-                .Exists(x => userControlSession.HasPermissionOnFunction(x.FunctionKey, x.Policy));
+            bool hasPermission = false;
+            if (!string.IsNullOrWhiteSpace(FunctionKey))
+            {
+                var functionKeys = FunctionKey.Split(',').ToList();
+                hasPermission = functionKeys.Exists(x => userControlSession.HasPermissionOnFunction(x, Policy));
+            }
+
             if (!hasPermission)
             {
-                HandlePermissionRequest(actionContext);
+                actionContext.Response = new HttpResponseMessage(HttpStatusCode.Forbidden);
             }
-        }
-
-        private static void HandlePermissionRequest(HttpActionContext actionContext)
-        {
-            var responseMessage = new HttpResponseMessage(HttpStatusCode.Forbidden);
-            actionContext.Response = responseMessage;
         }
     }
 }

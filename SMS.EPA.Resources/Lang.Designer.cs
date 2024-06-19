@@ -3409,7 +3409,7 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Please select at least an section to assign template!.
+        ///   Looks up a localized string similar to Please select at least a section to assign template!.
         /// </summary>
         public static string SelectSectionBeforeAssignWarning {
             get {

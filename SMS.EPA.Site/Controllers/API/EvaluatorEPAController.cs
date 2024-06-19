@@ -106,9 +106,7 @@
         }
 
         [HttpGet]
-        [ApiAuthorize(FunctionKey = EPAFunctionKey.Evaluator, Policy = Policy.Read)]
-        [ApiAuthorize(FunctionKey = EPAFunctionKey.Reviewer, Policy = Policy.Read)]
-        [ApiAuthorize(FunctionKey = EPAFunctionKey.Management, Policy = Policy.Read)]
+        [ApiAuthorize(FunctionKey = EPAFunctionKey.Evaluator + "," + EPAFunctionKey.Reviewer + "," + EPAFunctionKey.Management, Policy = Policy.Read)]
         public HttpResponseMessage GetEPAInfoByEvaluator(int epaId, int? evaluatorId = null)
         {
             var epaInfo = new EPAModel();
