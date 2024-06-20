@@ -5,12 +5,12 @@
     using System.Web.Mvc;
     using System.Web.Security;
     using Fanex.Data;
-    using HRM.UserControl.Client.AspNetMvc.Configurations;
-    using HRM.UserControl.Client.AspNetMvc.Session;
-    using HRM.UserControl.Client.Core.Configurations;
-    using HRM.UserControl.Client.Core.Models.Auth;
-    using HRM.UserControl.Client.Core.Services;
-    using HRM.UserControl.Client.Core.Session;
+    using GO.UserControl.Client.AspNetMvc;
+    using GO.UserControl.Client.AspNetMvc.Session;
+    using GO.UserControl.Client.Core;
+    using GO.UserControl.Client.Core.Models.Auth;
+    using GO.UserControl.Client.Core.Services;
+    using GO.UserControl.Client.Core.Session;
     using SMS.EPA.Core.Constants;
     using SMS.EPA.Core.Model;
     using SMS.EPA.Core.Services;

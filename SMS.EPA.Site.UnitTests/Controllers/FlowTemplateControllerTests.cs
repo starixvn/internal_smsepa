@@ -5,7 +5,7 @@
     using Core.Model;
     using Core.Services;
     using Criteria;
-    using HRM.UserControl.Client.Core.Session;
+    using GO.UserControl.Client.Core.Session;
     using Model;
     using NSubstitute;
     using NUnit.Framework;

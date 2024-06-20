@@ -2,7 +2,7 @@
 {
     using System.Collections.Generic;
     using System.Threading.Tasks;
-    using HRM.UserControl.Client.Core.Models;
+    using GO.UserControl.Client.Core.Models;
     using SMS.EPA.ClientHRM.Model.UnitHead;
 
     public interface IUnitHeadService

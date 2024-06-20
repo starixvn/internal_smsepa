@@ -2,9 +2,9 @@
 {
     using System.Web.Http;
     using System.Web.Security;
-    using HRM.UserControl.Client.AspNetMvc.Session;
-    using HRM.UserControl.Client.Core.Enumerables;
-    using HRM.UserControl.Client.Core.Session;
+    using GO.UserControl.Client.AspNetMvc.Session;
+    using GO.UserControl.Client.Core.Enumerables;
+    using GO.UserControl.Client.Core.Session;
     using SMS.EPA.Core.Attribute;
     using SMS.EPA.Core.Constants;
 

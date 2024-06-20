@@ -1,7 +1,7 @@
 ﻿namespace SMS.EPA.Services
 {
     using System.Collections.Generic;
-    using HRM.UserControl.Client.Core.Models.Role;
+    using GO.UserControl.Client.Core.Models.Role;
     using SMS.EPA.Core.Model;
     using SMS.EPA.Criteria;
     using SMS.EPA.Model.Enitites;

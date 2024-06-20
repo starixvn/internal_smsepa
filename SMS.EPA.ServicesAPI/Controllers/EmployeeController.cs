@@ -9,8 +9,8 @@
     using System.Threading;
     using System.Threading.Tasks;
     using System.Web.Http;
-    using HRM.UserControl.Client.Core.Models.Auth;
-    using HRM.UserControl.Client.Core.Services;
+    using GO.UserControl.Client.Core.Models.Auth;
+    using GO.UserControl.Client.Core.Services;
     using Jose;
     using Newtonsoft.Json;
     using SMS.EPA.Core.Model;

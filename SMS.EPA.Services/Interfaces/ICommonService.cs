@@ -2,7 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
-    using HRM.UserControl.Client.Core.Models.Role;
+    using GO.UserControl.Client.Core.Models.Role;
     using SMS.EPA.Criteria;
     using SMS.EPA.Criteria.EPAHistory;
     using SMS.EPA.Criteria.TargetType;

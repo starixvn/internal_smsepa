@@ -4,8 +4,8 @@
     using System.IO;
     using System.Linq;
     using System.Web.Mvc;
-    using HRM.UserControl.Client.AspNetMvc.Session;
-    using HRM.UserControl.Client.Core.Session;
+    using GO.UserControl.Client.AspNetMvc.Session;
+    using GO.UserControl.Client.Core.Session;
     using SMS.EPA.Core.Constants;
     using SMS.EPA.Criteria.JobLevelStandard.Report;
     using SMS.EPA.Model.JobLevelStandard;

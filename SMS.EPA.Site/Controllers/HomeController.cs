@@ -1,8 +1,8 @@
 ﻿namespace SMS.EPA.Site.Controllers
 {
     using System.Web.Mvc;
-    using HRM.UserControl.Client.AspNetMvc.Session;
-    using HRM.UserControl.Client.Core.Session;
+    using GO.UserControl.Client.AspNetMvc.Session;
+    using GO.UserControl.Client.Core.Session;
     using SMS.EPA.Core.Constants;
     using SMS.EPA.Core.Model;
     using SMS.EPA.Core.Services;

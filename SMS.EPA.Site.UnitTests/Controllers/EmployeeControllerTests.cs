@@ -5,9 +5,9 @@
     using Core.Services;
     using Criteria;
     using Fanex.Data.Repository;
-    using HRM.UserControl.Client.Core.Models.Role;
-    using HRM.UserControl.Client.Core.Services;
-    using HRM.UserControl.Client.Core.Session;
+    using GO.UserControl.Client.Core.Models.Role;
+    using GO.UserControl.Client.Core.Services;
+    using GO.UserControl.Client.Core.Session;
     using Model.Enitites;
     using NSubstitute;
     using NUnit.Framework;

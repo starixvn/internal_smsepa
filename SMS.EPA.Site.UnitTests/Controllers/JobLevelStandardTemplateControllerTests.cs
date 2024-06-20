@@ -1,7 +1,7 @@
 ﻿namespace SMS.EPA.Site.UnitTests.Controllers
 {
     using System.Collections.Generic;
-    using HRM.UserControl.Client.Core.Session;
+    using GO.UserControl.Client.Core.Session;
     using NSubstitute;
     using NUnit.Framework;
     using SMS.EPA.Core.Constants;

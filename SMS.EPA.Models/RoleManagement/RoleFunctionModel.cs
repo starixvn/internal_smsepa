@@ -1,7 +1,7 @@
 ﻿namespace SMS.EPA.Model
 {
     using System.Collections.Generic;
-    using HRM.UserControl.Client.Core.Models;
+    using GO.UserControl.Client.Core.Models;
 
     public class RoleFunctionModel : Function
     {

@@ -4,10 +4,10 @@
     using System.Net;
     using System.Net.Http;
     using System.Web.Http;
-    using HRM.UserControl.Client.Core.Enumerables;
-    using HRM.UserControl.Client.Core.Models.Role;
-    using HRM.UserControl.Client.Core.Models.User;
-    using HRM.UserControl.Client.Core.Services;
+    using GO.UserControl.Client.Core.Enumerables;
+    using GO.UserControl.Client.Core.Models.Role;
+    using GO.UserControl.Client.Core.Models.User;
+    using GO.UserControl.Client.Core.Services;
     using SMS.EPA.Core.Attribute;
     using SMS.EPA.Core.Constants;
     using SMS.EPA.Core.Model;

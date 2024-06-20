@@ -4,7 +4,7 @@
     using System.Net;
     using System.Net.Http;
     using System.Web.Http;
-    using HRM.UserControl.Client.Core.Enumerables;
+    using GO.UserControl.Client.Core.Enumerables;
     using SMS.EPA.Core.Attribute;
     using SMS.EPA.Core.Constants;
     using SMS.EPA.Core.Model;
@@ -21,13 +21,12 @@
         private readonly IEPAProcessService processService;
         private readonly IEmployeeEPAService epaService;
 
-        public UpdateFinalScoreController() : this(null, null, null, null, null)
+        public UpdateFinalScoreController() : this(null, null, null, null)
         {
         }
 
         public UpdateFinalScoreController(
             IEmployeeEPAService evaluationService,
-            ICryptographyService cryptographyService,
             IBaseService baseService,
             IEPAProcessService processService,
             IEmployeeEPAService epaService)

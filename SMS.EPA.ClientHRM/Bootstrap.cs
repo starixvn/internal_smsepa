@@ -1,7 +1,7 @@
 ﻿namespace SMS.EPA.ClientHrm
 {
     using Fanex.Data.Repository;
-    using HRM.UserControl.Client.Core.Services;
+    using GO.UserControl.Client.Core.Services;
     using SimpleInjector;
     using SMS.EPA.ClientHrm.Services;
     using SMS.EPA.Core.Repositories;

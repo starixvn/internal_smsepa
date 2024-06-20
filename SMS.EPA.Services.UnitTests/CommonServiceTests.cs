@@ -5,11 +5,11 @@
     using Criteria;
     using Criteria.EPAHistory;
     using Criteria.TargetType;
-    using HRM.UserControl.Client.Core.Models.Role;
-    using Model;
-    using Model.Enitites;
+    using GO.UserControl.Client.Core.Models.Role;
     using NSubstitute;
     using NUnit.Framework;
+    using SMS.EPA.Model;
+    using SMS.EPA.Model.Enitites;
 
     [TestFixture]
     public class CommonServiceTests

@@ -17,9 +17,9 @@
     using Fanex.Logging.Extensions.Database;
     using Fanex.Logging.Extensions.Web;
     using Fanex.Logging.Sentry.RavenClient;
-    using HRM.UserControl.Client.AspNetMvc.Configurations;
-    using HRM.UserControl.Client.AspNetMvc.Session;
-    using HRM.UserControl.Client.Core;
+    using GO.UserControl.Client.AspNetMvc;
+    using GO.UserControl.Client.AspNetMvc.Session;
+    using GO.UserControl.Client.Core;
     using SharpRaven;
 
     public class WebApiApplication : HttpApplication

@@ -3,9 +3,9 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Web.Http;
-    using HRM.UserControl.Client.Core.Models;
-    using HRM.UserControl.Client.Core.Models.Role;
-    using HRM.UserControl.Client.Core.Services;
+    using GO.UserControl.Client.Core.Models;
+    using GO.UserControl.Client.Core.Models.Role;
+    using GO.UserControl.Client.Core.Services;
     using SMS.EPA.Core.Constants;
     using SMS.EPA.Core.Enumerations;
     using SMS.EPA.Core.Services;

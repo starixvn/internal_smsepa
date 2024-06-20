@@ -4,7 +4,7 @@
     using System.Linq;
     using Fanex.Data;
     using Fanex.Data.Repository;
-    using HRM.UserControl.Client.Core.Models.Role;
+    using GO.UserControl.Client.Core.Models.Role;
     using SMS.EPA.Model;
     using SMS.EPA.Model.Enitites;
 

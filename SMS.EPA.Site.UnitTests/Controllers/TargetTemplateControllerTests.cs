@@ -1,16 +1,16 @@
 ﻿namespace SMS.EPA.Site.UnitTests
 {
     using System.Collections.Generic;
-    using Core.Model;
-    using Core.Services;
-    using Criteria;
-    using HRM.UserControl.Client.Core.Session;
-    using Model;
-    using Model.Enitites;
+    using GO.UserControl.Client.Core.Session;
     using NSubstitute;
     using NUnit.Framework;
-    using Services.Interfaces;
-    using Site.Controllers.API;
+    using SMS.EPA.Core.Model;
+    using SMS.EPA.Core.Services;
+    using SMS.EPA.Criteria;
+    using SMS.EPA.Model;
+    using SMS.EPA.Model.Enitites;
+    using SMS.EPA.Services.Interfaces;
+    using SMS.EPA.Site.Controllers.API;
     using SMS.EPA.Core.Constants;
 
     [TestFixture]

@@ -7,9 +7,9 @@
     using System.Web;
     using System.Web.Http;
     using System.Web.Http.Controllers;
-    using HRM.UserControl.Client.AspNetMvc.Session;
-    using HRM.UserControl.Client.Core.Enumerables;
-    using HRM.UserControl.Client.Core.Session;
+    using GO.UserControl.Client.AspNetMvc.Session;
+    using GO.UserControl.Client.Core.Enumerables;
+    using GO.UserControl.Client.Core.Session;
 
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method)]
     public sealed class ApiAuthorizeAttribute : AuthorizeAttribute

@@ -6,7 +6,7 @@
     using Core.Security;
     using Core.Services;
     using Criteria;
-    using HRM.UserControl.Client.Core.Models.Role;
+    using GO.UserControl.Client.Core.Models.Role;
     using Model.Enitites;
     using NSubstitute;
     using NUnit.Framework;

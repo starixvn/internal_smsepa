@@ -3,7 +3,7 @@
     using System;
     using System.Collections.Generic;
     using System.Threading.Tasks;
-    using HRM.UserControl.Client.Core.Services;
+    using GO.UserControl.Client.Core.Services;
     using SMS.EPA.ClientHrm.Criteria;
     using SMS.EPA.ClientHRM.Criteria;
     using SMS.EPA.Core.Model;
