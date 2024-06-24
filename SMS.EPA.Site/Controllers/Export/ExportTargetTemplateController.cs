@@ -45,7 +45,7 @@
                 TargetTemplateId = targetTemplateId
             };
 
-            TargetTemplate targetTemplate = _baseService.GetDataEntity<TargetTemplate>(criteria);
+            var targetTemplate = _baseService.GetDataEntity<TargetTemplate>(criteria);
             IEnumerable<TargetTemplateKPIGroupModel> kpis = _targetTemplateService.GetKPIOfTargetTemplate(kpisCriteria, false);
 
             _exportTargetTemplateService.Export(targetTemplate, kpis, Server.MapPath(TargetTemplateKPIsTemplate));

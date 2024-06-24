@@ -225,10 +225,8 @@
         {
             var standardGrades = commonService.GetStandardGrade().ToList();
 
-            float score;
-
             float? performanceScore = null;
-            if (float.TryParse(finalScore, out score) && Math.Abs(score) > Constants.Tolerance)
+            if (float.TryParse(finalScore, out float score) && Math.Abs(score) > Constants.Tolerance)
             {
                 performanceScore = score - epaInfo.DisciplineScore;
             }

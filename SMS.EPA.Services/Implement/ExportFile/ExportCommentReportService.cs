@@ -1,7 +1,6 @@
 ﻿namespace SMS.EPA.Services.Implement
 {
     using System.Collections.Generic;
-    using System.Diagnostics;
     using System.IO;
     using System.Linq;
     using NPOI.HSSF.UserModel;
@@ -40,17 +39,10 @@
 
         private void InitializeWithTemplate(string templatePath)
         {
-            try
+            using (var fireStream = new FileStream(templatePath, FileMode.Open, FileAccess.Read))
             {
-                using (var fireStream = new FileStream(templatePath, FileMode.Open, FileAccess.Read))
-                {
-                    Workbook = new HSSFWorkbook(fireStream, true);
-                    Sheet = Workbook.GetSheetAt(0);
-                }
-            }
-            catch (IOException exception)
-            {
-                Debug.WriteLine(exception.Message);
+                Workbook = new HSSFWorkbook(fireStream, true);
+                Sheet = Workbook.GetSheetAt(0);
             }
         }
 

@@ -91,10 +91,10 @@
 
         protected override dynamic CalculateScore(EPAModel epaInfo)
         {
-            string disciplineScore = Lang.NotAvailable;
-            string selfScore = Lang.NotAvailable;
-            string evaluatorScore = Lang.NotAvailable;
-            string reviewerScore = Lang.NotAvailable;
+            var disciplineScore = Lang.NotAvailable;
+            var selfScore = Lang.NotAvailable;
+            var evaluatorScore = Lang.NotAvailable;
+            var reviewerScore = Lang.NotAvailable;
 
             if (epaInfo.EPAId > 0)
             {

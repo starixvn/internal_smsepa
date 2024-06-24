@@ -1,7 +1,6 @@
 ﻿namespace SMS.EPA.Services.Implement
 {
     using System.Collections.Generic;
-    using System.Diagnostics;
     using System.IO;
     using System.Linq;
     using NPOI.HSSF.UserModel;
@@ -45,8 +44,8 @@
             KPIIds = kpis;
             TargetType = targetTemplate.TargetTypeName;
             TargetName = targetTemplate.Name;
-            FileName = "KPI List - " + TargetName;
-            SheetName = TargetName;
+            FileName = "Target Template";
+            SheetName = "Target Template";
         }
 
         private void GetTemplateStyle()
@@ -59,24 +58,17 @@
 
         public void InitializeWithTemplate(string templatePath)
         {
-            try
+            using (var fireStream = new FileStream(templatePath, FileMode.Open, FileAccess.Read))
             {
-                using (FileStream fireStream = new FileStream(templatePath, FileMode.Open, FileAccess.Read))
-                {
-                    Workbook = new HSSFWorkbook(fireStream, true);
-                    Sheet = Workbook.GetSheetAt(0);
-                }
-            }
-            catch (IOException exception)
-            {
-                Debug.WriteLine(exception.Message);
+                Workbook = new HSSFWorkbook(fireStream, true);
+                Sheet = Workbook.GetSheetAt(0);
             }
         }
 
         private void WriteTitle()
         {
-            string title = "Name : " + TargetName;
-            string subTitle = "Target Type : " + TargetType;
+            var title = "Name : " + TargetName;
+            var subTitle = "Target Type : " + TargetType;
 
             Sheet.GetRow(0).GetCell(0).SetCellValue(title);
             Sheet.GetRow(1).GetCell(0).SetCellValue(subTitle);

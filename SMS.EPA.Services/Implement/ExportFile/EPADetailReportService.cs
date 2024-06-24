@@ -127,10 +127,10 @@
 
         protected override dynamic CalculateScore(EPAModel epaInfo)
         {
-            string selfScore = Lang.NotAvailable;
-            string evaluatorScore = Lang.NotAvailable;
-            string reviewerScore = Lang.NotAvailable;
-            string managementScore = Lang.NotAvailable;
+            var selfScore = Lang.NotAvailable;
+            var evaluatorScore = Lang.NotAvailable;
+            var reviewerScore = Lang.NotAvailable;
+            var managementScore = Lang.NotAvailable;
 
             var disciplineScore = Math.Abs(epaInfo.DisciplineScore) > Constants.Tolerance ? epaInfo.DisciplineScore.ToString(CultureInfo.InvariantCulture) : "-";
 

@@ -2,7 +2,6 @@
 {
     using System;
     using System.Collections.Generic;
-    using System.Diagnostics;
     using System.IO;
     using System.Linq;
     using System.Reflection;
@@ -67,20 +66,13 @@
 
         public void InitializeWithTemplate(string templatePath)
         {
-            try
+            using (var fireStream = new FileStream(templatePath, FileMode.Open, FileAccess.Read))
             {
-                using (FileStream fireStream = new FileStream(templatePath, FileMode.Open, FileAccess.Read))
-                {
-                    Workbook = new HSSFWorkbook(fireStream, true);
-                    Sheet = Workbook.GetSheetAt(0);
+                Workbook = new HSSFWorkbook(fireStream, true);
+                Sheet = Workbook.GetSheetAt(0);
 
-                    ConditionalCellStyles = new List<ConditionalCellStyle>();
-                    ColumnsStyles = new List<ICellStyle>();
-                }
-            }
-            catch (IOException exception)
-            {
-                Debug.WriteLine(exception.Message);
+                ConditionalCellStyles = new List<ConditionalCellStyle>();
+                ColumnsStyles = new List<ICellStyle>();
             }
         }
 

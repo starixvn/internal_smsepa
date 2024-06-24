@@ -222,8 +222,6 @@
             {
                 ICellStyle bodyStyle = CreateBodyStyle(assessment, workbook);
                 ICellStyle bodyColorStyle = CreateBodyStyle(assessment, workbook, true);
-                IRow row;
-                ICell cellBody;
                 const byte StartAssessmentColumnIndex = 14;
                 const byte CellNormalWidth = 12;
                 sheet = CreateEmployeeInfoCells(
@@ -231,8 +229,8 @@
                     rowIndex,
                     assessment,
                     bodyStyle,
-                    out row,
-                    out cellBody);
+                    out IRow row,
+                    out ICell cellBody);
 
                 int cellIndex = StartAssessmentColumnIndex;
 
@@ -251,7 +249,8 @@
                         cellBody.SetCellValue(kpiCell.Weight == null ? "" : FormatWeight(kpiCell.Weight));
                         SetColumnWidth(ref sheet, cellIndex + 1, CellNormalWidth);
                     }
-                    cellIndex = cellIndex + 2;
+
+                    cellIndex += 2;
                 }
 
                 cellIndex = StartAssessmentColumnIndex + kpis.Count * 2;
