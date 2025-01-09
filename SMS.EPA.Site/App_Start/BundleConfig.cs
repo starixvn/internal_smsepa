@@ -1,7 +1,6 @@
 ﻿namespace SMS.EPA.Site
 {
     using System.Diagnostics.CodeAnalysis;
-    using System.Web.Mvc;
     using System.Web.Optimization;
 
     public static class BundleConfig

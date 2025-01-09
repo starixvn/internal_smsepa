@@ -34,7 +34,9 @@
 
         public bool IsValid()
         {
+#pragma warning disable S6566 // Use "DateTimeOffset" instead of "DateTime"
             return !string.IsNullOrEmpty(Value) && ExpireDate > DateTime.UtcNow;
+#pragma warning restore S6566 // Use "DateTimeOffset" instead of "DateTime"
         }
     }
 }
